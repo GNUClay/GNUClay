@@ -46,6 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasking\ActiveContext.cs" />
+    <Compile Include="Tasking\ActiveObject.cs" />
+    <Compile Include="TypeHelpers\IToStringData.cs" />
+    <Compile Include="TypeHelpers\_ListHelper.cs" />
+    <Compile Include="TypeHelpers\_ObjectHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
