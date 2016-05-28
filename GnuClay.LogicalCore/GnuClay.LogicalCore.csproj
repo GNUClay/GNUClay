@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C674CE77-7093-4A24-BA5E-25092603D507}</ProjectGuid>
+    <ProjectGuid>{1D30B393-CC1C-4C59-8FB9-014199C5EB92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GnuClay.ECG</RootNamespace>
-    <AssemblyName>GnuClay.ECG</AssemblyName>
+    <RootNamespace>GnuClay.LogicalCore</RootNamespace>
+    <AssemblyName>GnuClay.LogicalCore</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\GnuClay.ECG.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\GnuClay.LogicalCore.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

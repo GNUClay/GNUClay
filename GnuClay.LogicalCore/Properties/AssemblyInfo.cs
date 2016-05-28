@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GnuClay.ECG")]
+[assembly: AssemblyTitle("GnuClay.LogicalCore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GnuClay.ECG")]
+[assembly: AssemblyProduct("GnuClay.LogicalCore")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c674ce77-7093-4a24-ba5e-25092603d507")]
+[assembly: Guid("1d30b393-cc1c-4c59-8fb9-014199c5eb92")]
 
 // Version information for an assembly consists of the following four values:
 //
