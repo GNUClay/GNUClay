@@ -7,6 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.ECG", "GnuClay.ECG\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.LogicalCore", "GnuClay.LogicalCore\GnuClay.LogicalCore.csproj", "{1D30B393-CC1C-4C59-8FB9-014199C5EB92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.CommonEngine", "SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj", "{63258204-C529-4F4A-872B-CABB772DEC85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonUtils", "GnuClay.CommonUtils\GnuClay.CommonUtils.csproj", "{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalVisualComponents", "SquaresWorkBench.TypicalVisualComponents\SquaresWorkBench.TypicalVisualComponents.csproj", "{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalCases", "SquaresWorkBench.TypicalCases\SquaresWorkBench.TypicalCases.csproj", "{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.SimpleGUI", "SquaresWorkBench.SimpleGUI\SquaresWorkBench.SimpleGUI.csproj", "{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +31,26 @@ Global
 		{1D30B393-CC1C-4C59-8FB9-014199C5EB92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D30B393-CC1C-4C59-8FB9-014199C5EB92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D30B393-CC1C-4C59-8FB9-014199C5EB92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
