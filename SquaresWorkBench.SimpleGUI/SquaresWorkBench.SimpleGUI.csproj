@@ -104,6 +104,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj">
+      <Project>{63258204-c529-4f4a-872b-cabb772dec85}</Project>
+      <Name>SquaresWorkBench.CommonEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquaresWorkBench.TypicalCases\SquaresWorkBench.TypicalCases.csproj">
+      <Project>{e08d4cee-f8a2-4482-9963-3cb1c208a2d2}</Project>
+      <Name>SquaresWorkBench.TypicalCases</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquaresWorkBench.TypicalVisualComponents\SquaresWorkBench.TypicalVisualComponents.csproj">
+      <Project>{554d51f3-0a82-4fee-b2cf-7d85b85b8fe8}</Project>
+      <Name>SquaresWorkBench.TypicalVisualComponents</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
