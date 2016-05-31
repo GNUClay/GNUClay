@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaresWorkBench.CommonEngine;
+using SquaresWorkBench.TypicalCases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,28 +12,31 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SquaresWorkBench.SimpleGUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TSTWindow1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TSTWindow1 : Window
     {
-        public MainWindow()
+        public TSTWindow1()
         {
             InitializeComponent();
 
-            mTSTWindow1 = new TSTWindow1();
+            mScene = new Scene(mSW);
+
+            CreateMainScene();
         }
 
-        private TSTWindow1 mTSTWindow1 = null;
+        private Scene mScene = null;
 
-        private void button_1_Click(object sender, RoutedEventArgs e)
+        private void CreateMainScene()
         {
-            mTSTWindow1.Show();
+            var tmpSceneCreator = new TSTSoftCreator();
+
+            tmpSceneCreator.Run(mScene);
         }
     }
 }
