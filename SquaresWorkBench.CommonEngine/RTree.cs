@@ -293,14 +293,14 @@ namespace SquaresWorkBench.CommonEngine
         public RTreeNode_4(Rect baseRect, Canvas canvas)
             : base(baseRect, canvas)
         {
-            DERW();
+            //DERW();
         }
 
         private object mLocker = new object();
 
         private void DERW()
         {
-            var tmpRectG = new System.Windows.Media.RectangleGeometry(BaseRect);
+            var tmpRectG = new RectangleGeometry(BaseRect);
 
             var tmpPen = new Pen();
 

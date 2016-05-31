@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BadHuman.cs" />
     <Compile Include="BaseHuman.cs" />
+    <Compile Include="BaseRoom.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Door.cs" />

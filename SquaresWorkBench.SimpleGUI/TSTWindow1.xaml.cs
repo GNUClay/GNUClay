@@ -27,7 +27,8 @@ namespace SquaresWorkBench.SimpleGUI
 
             mScene = new Scene(mSW);
 
-            CreateMainScene();
+            //CreateMainScene();
+            CreateRoomScene();
         }
 
         private Scene mScene = null;
@@ -35,6 +36,13 @@ namespace SquaresWorkBench.SimpleGUI
         private void CreateMainScene()
         {
             var tmpSceneCreator = new TSTSoftCreator();
+
+            tmpSceneCreator.Run(mScene);
+        }
+
+        private void CreateRoomScene()
+        {
+            var tmpSceneCreator = new Room_1_SoftCreator();
 
             tmpSceneCreator.Run(mScene);
         }
