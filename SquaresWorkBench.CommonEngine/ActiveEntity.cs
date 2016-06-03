@@ -79,18 +79,8 @@ namespace SquaresWorkBench.CommonEngine
             return tmpT;
         }
 
-        private bool mIsStop = true;
-
         private void NRun()
         {
-            lock (LockObj)
-            {
-                if (mIsStop)
-                {
-                    return;
-                }
-            }
-
             if (mSimpleCamera == null)
             {
                 return;
@@ -131,13 +121,13 @@ namespace SquaresWorkBench.CommonEngine
 
         protected override void CollideWith(BaseEntity entity)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CollideWith => {0}", entity.Id);
+            //NLog.LogManager.GetCurrentClassLogger().Info("CollideWith => {0}", entity.Id);
 
             Hit(entity.Damage);
 
-            NLog.LogManager.GetCurrentClassLogger().Info("Durability = {0}", Durability);
-            NLog.LogManager.GetCurrentClassLogger().Info("Threshold = {0}", Threshold);
-            NLog.LogManager.GetCurrentClassLogger().Info("IsBroken = {0}", IsBroken);
+            //NLog.LogManager.GetCurrentClassLogger().Info("Durability = {0}", Durability);
+            //NLog.LogManager.GetCurrentClassLogger().Info("Threshold = {0}", Threshold);
+            //NLog.LogManager.GetCurrentClassLogger().Info("IsBroken = {0}", IsBroken);
 
             if (IsBroken)
             {

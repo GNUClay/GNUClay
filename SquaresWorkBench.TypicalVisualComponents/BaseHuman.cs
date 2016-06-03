@@ -55,6 +55,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             foreach (var scanItem in items)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("-----");
+                NLog.LogManager.GetCurrentClassLogger().Info(scanItem.VisibleEntity.Id);
 
                 foreach (var tmpPoint in scanItem.VisiblePoints)
                 {

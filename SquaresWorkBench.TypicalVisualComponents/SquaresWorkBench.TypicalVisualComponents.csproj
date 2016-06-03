@@ -56,6 +56,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Glass.cs" />
+    <Compile Include="GnuClayHuman.cs" />
     <Compile Include="GoodHuman.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="PlaceEntity.cs" />

@@ -1006,7 +1006,7 @@ namespace SquaresWorkBench.CommonEngine
 
         protected virtual void CollideWith(BaseEntity entity)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CollideWith {0} => {1}", Id, entity.Id);
+            //NLog.LogManager.GetCurrentClassLogger().Info("CollideWith {0} => {1}", Id, entity.Id);
         }
 
         public async void CollideWithAsync(BaseEntity entity)
