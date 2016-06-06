@@ -1086,7 +1086,7 @@ namespace SquaresWorkBench.CommonEngine
                     continue;
                 }
 
-                IntersectionDetail tmpIntersectRez = IntersectionDetail.NotCalculated;
+                var tmpIntersectRez = IntersectionDetail.NotCalculated;
 
                 try
                 {
@@ -1100,7 +1100,7 @@ namespace SquaresWorkBench.CommonEngine
                     return;
                 }
 
-                if (tmpIntersectRez == System.Windows.Media.IntersectionDetail.Empty)
+                if (tmpIntersectRez == IntersectionDetail.Empty)
                 {
                     continue;
                 }
