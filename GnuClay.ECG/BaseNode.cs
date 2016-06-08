@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace GnuClay.ECG
     /// This class implements the connection to the base node-concept. 
     /// </summary>
     [Serializable]
-    public abstract class BaseNode
+    public abstract class BaseNode: INode
     {
         public virtual bool IsConcept
         {
@@ -76,6 +77,14 @@ namespace GnuClay.ECG
             }
         }
 
+        IConceptualNode INode.Parent
+        {
+            get
+            {
+                return mParent;
+            }
+        }
+
         private List<ConceptualNode> mAnnotations = new List<ConceptualNode>();
 
         public IList<ConceptualNode> Annotations
@@ -83,6 +92,14 @@ namespace GnuClay.ECG
             get
             {
                 return mAnnotations;
+            }
+        }
+
+        IList<IConceptualNode> INode.Annotations
+        {
+            get
+            {
+                return mAnnotations.Cast<IConceptualNode>().ToList();
             }
         }
 
@@ -123,6 +140,14 @@ namespace GnuClay.ECG
             get
             {
                 return mInputNodes;
+            }
+        }
+
+        IList<INode> INode.InputNodes
+        {
+            get
+            {
+                return mInputNodes.Cast<INode>().ToList();
             }
         }
 
@@ -167,6 +192,14 @@ namespace GnuClay.ECG
             get
             {
                 return mOutputNodes;
+            }
+        }
+
+        IList<INode> INode.OutputNodes
+        {
+            get
+            {
+                return mOutputNodes.Cast<INode>().ToList();
             }
         }
 

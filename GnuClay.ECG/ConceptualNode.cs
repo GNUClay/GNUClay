@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace GnuClay.ECG
     /// Conceptual node of conceptual graph.
     /// </summary>
     [Serializable]
-    public class ConceptualNode: BaseNode
+    public class ConceptualNode: BaseNode, IConceptualNode
     {
         public override bool IsConcept
         {
@@ -50,6 +51,14 @@ namespace GnuClay.ECG
             get
             {
                 return mChildren;
+            }
+        }
+
+        IList<INode> IConceptualNode.Children
+        {
+            get
+            {
+                return mChildren.Cast<INode>().ToList();
             }
         }
 

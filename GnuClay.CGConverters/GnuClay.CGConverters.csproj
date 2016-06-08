@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C7089760-14FF-4768-A3FB-E7E3DD220343}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TSTConsoleWorkBench</RootNamespace>
-    <AssemblyName>TSTConsoleWorkBench</AssemblyName>
+    <RootNamespace>GnuClay.CGConverters</RootNamespace>
+    <AssemblyName>GnuClay.CGConverters</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,28 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GnuClay.CGConverters\GnuClay.CGConverters.csproj">
-      <Project>{c7089760-14ff-4768-a3fb-e7e3dd220343}</Project>
-      <Name>GnuClay.CGConverters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GnuClay.CG\GnuClay.CG.csproj">
       <Project>{a2c63c14-f083-43a2-af66-50ec2f3d0ee2}</Project>
       <Name>GnuClay.CG</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GnuClay.ECG\GnuClay.ECG.csproj">
-      <Project>{c674ce77-7093-4a24-ba5e-25092603d507}</Project>
-      <Name>GnuClay.ECG</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

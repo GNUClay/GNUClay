@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSTConsoleWorkBench", "TSTC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CG", "GnuClay.CG\GnuClay.CG.csproj", "{A2C63C14-F083-43A2-AF66-50EC2F3D0EE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CGConverters", "GnuClay.CGConverters\GnuClay.CGConverters.csproj", "{C7089760-14FF-4768-A3FB-E7E3DD220343}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{A2C63C14-F083-43A2-AF66-50EC2F3D0EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C63C14-F083-43A2-AF66-50EC2F3D0EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2C63C14-F083-43A2-AF66-50EC2F3D0EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7089760-14FF-4768-A3FB-E7E3DD220343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7089760-14FF-4768-A3FB-E7E3DD220343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7089760-14FF-4768-A3FB-E7E3DD220343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7089760-14FF-4768-A3FB-E7E3DD220343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
