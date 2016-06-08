@@ -1,4 +1,5 @@
-﻿using GnuClay.ECG;
+﻿using GnuClay.CGConverters.DOT;
+using GnuClay.ECG;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,9 @@ namespace TSTConsoleWorkBench
 
         private static string CreateDotContent(ConceptualNode node)
         {
-            var tmpSb = new StringBuilder();
+            var tmpConverter = new DotConverter();
 
-
-
-            return tmpSb.ToString();
+            return tmpConverter.ConvertToString(node);
         }
 
         private static void CreateDotFileByCG()
