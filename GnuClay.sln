@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalCas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalVisualComponents.Test", "SquaresWorkBench.TypicalVisualComponents.Test\SquaresWorkBench.TypicalVisualComponents.Test.csproj", "{F6155119-6D13-4060-91CC-BEA528F10747}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSTConsoleWorkBench", "TSTConsoleWorkBench\TSTConsoleWorkBench.csproj", "{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{F6155119-6D13-4060-91CC-BEA528F10747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6155119-6D13-4060-91CC-BEA528F10747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6155119-6D13-4060-91CC-BEA528F10747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
