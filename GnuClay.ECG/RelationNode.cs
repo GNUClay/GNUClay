@@ -12,5 +12,12 @@ namespace GnuClay.ECG
     [Serializable]
     public class RelationNode: BaseNode
     {
+        public override bool IsRelation
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

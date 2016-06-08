@@ -12,6 +12,37 @@ namespace GnuClay.ECG
     [Serializable]
     public class ConceptualNode: BaseNode
     {
+        public override bool IsConcept
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public string ClassName { get; set; } = string.Empty;
+
+        public override string FullName
+        {
+            get
+            {
+                var tmpSb = new StringBuilder();
+
+                if(!string.IsNullOrWhiteSpace(ClassName))
+                {
+                    tmpSb.Append(ClassName);
+                    tmpSb.Append(":");
+                }
+
+                if(!string.IsNullOrWhiteSpace(Name))
+                {
+                    tmpSb.Append(Name);
+                }
+                
+                return tmpSb.ToString();
+            }
+        }
+
         private List<BaseNode> mChildren = new List<BaseNode>();
 
         public IList<BaseNode> Children
@@ -24,6 +55,11 @@ namespace GnuClay.ECG
 
         public void AddChild(BaseNode node)
         {
+            if(node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
             if(mChildren.Contains(node))
             {
                 return;
@@ -39,6 +75,11 @@ namespace GnuClay.ECG
 
         public void RemoveChild(BaseNode node)
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
             if (!mChildren.Contains(node))
             {
                 return;
@@ -50,6 +91,30 @@ namespace GnuClay.ECG
             {
                 node.Parent = null;
             }
+        }
+
+        private const string ErrorMessageTwoConceptsJoinedDirectly = "Two concepts do not join directly. Use relations for joining these concepts."; 
+
+        private void CheckArgument(BaseNode node)
+        {
+            if (node != null && node.IsConcept)
+            {
+                throw new ArgumentException(ErrorMessageTwoConceptsJoinedDirectly, nameof(node));
+            }
+        }
+
+        public override void AddInputNode(BaseNode node)
+        {
+            CheckArgument(node);
+
+            base.AddInputNode(node);
+        }
+
+        public override void AddOutputNode(BaseNode node)
+        {
+            CheckArgument(node);
+
+            base.AddOutputNode(node);
         }
     }
 }

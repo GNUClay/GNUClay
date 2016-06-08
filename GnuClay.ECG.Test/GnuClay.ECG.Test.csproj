@@ -82,7 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseNodeTests.cs" />
+    <Compile Include="ConceptualNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelationNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
