@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,17 @@ namespace GnuClay.ECG
     /// Relation node of conceptual graph.
     /// </summary>
     [Serializable]
-    public class RelationNode: BaseNode
+    public class RelationNode: BaseNode, IRelationNode
     {
+        public RelationNode()
+        {
+        }
+
+        public RelationNode(ConceptualNode parent)
+            : base(parent)
+        {
+        }
+
         public override bool IsRelation
         {
             get

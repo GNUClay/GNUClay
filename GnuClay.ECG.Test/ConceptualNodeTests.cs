@@ -225,7 +225,7 @@ namespace GnuClay.ECG.Test
         [Test]
         public void FullName_Contains_Name_And_ClassName()
         {
-            var tmpName = "#Otto";
+            var tmpName = "#Spike";
             var tmpClassName = "dog";
 
             StringAssert.AreNotEqualIgnoringCase(tmpName, tmpClassName);

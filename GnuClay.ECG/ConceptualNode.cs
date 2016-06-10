@@ -13,6 +13,15 @@ namespace GnuClay.ECG
     [Serializable]
     public class ConceptualNode: BaseNode, IConceptualNode
     {
+        public ConceptualNode()
+        {
+        }
+
+        public ConceptualNode(ConceptualNode parent)
+            : base(parent)
+        {
+        }
+
         public override bool IsConcept
         {
             get

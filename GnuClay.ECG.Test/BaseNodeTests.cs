@@ -23,6 +23,16 @@ namespace GnuClay.ECG.Test
         }
 
         [Test]
+        public void ConstructorWithParent_SetSomeNode_ThisNodeWillBeInHisChildrenOfThisParent()
+        {
+            var tmpParent = new ConceptualNode();
+
+            var tmpChild = new RelationNode(tmpParent);
+
+            Assert.AreEqual(true, tmpParent.Children.Contains(tmpChild));
+        }
+
+        [Test]
         public void AddChild_SetSomeNode_TheParentNodeWillBeInParentProperty()
         {
             var tmpParent = new ConceptualNode();

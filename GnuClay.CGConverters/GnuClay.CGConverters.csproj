@@ -45,7 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DOT\BaseContainerDotLeaf.cs" />
+    <Compile Include="DOT\ConceptualDotLeaf.cs" />
+    <Compile Include="DOT\DotContext.cs" />
     <Compile Include="DOT\DotConverter.cs" />
+    <Compile Include="DOT\DotBaseLeaf.cs" />
+    <Compile Include="DOT\DotLeafFactory.cs" />
+    <Compile Include="DOT\IDotLeafFactory.cs" />
+    <Compile Include="DOT\RelationDotLeaf.cs" />
+    <Compile Include="DOT\RootGraphDotLeaf.cs" />
+    <Compile Include="DOT\SubGraphDotLeaf.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

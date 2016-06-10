@@ -14,6 +14,15 @@ namespace GnuClay.ECG
     [Serializable]
     public abstract class BaseNode: INode
     {
+        protected BaseNode()
+        {
+        }
+
+        protected BaseNode(ConceptualNode parent)
+        {
+            Parent = parent;
+        }
+
         public virtual bool IsConcept
         {
             get

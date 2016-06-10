@@ -9,11 +9,16 @@ namespace GnuClay.CGConverters.DOT
 {
     public class DotConverter: IConverter
     {
+        
         public string ConvertToString(IConceptualNode node)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ConvertToString");
+            var tmpContext = new DotContext();
 
-            throw new NotImplementedException();
+            var tmpMainLeaf = new RootGraphDotLeaf(tmpContext, node);
+
+            tmpMainLeaf.Run();
+
+            return tmpMainLeaf.Text;
         }
     }
 }
