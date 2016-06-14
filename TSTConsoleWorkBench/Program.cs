@@ -1,5 +1,6 @@
 ﻿using GnuClay.CGConverters.DOT;
 using GnuClay.ECG;
+using GnuClay.Engine.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,15 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            CreateDotFileByCG();
+            CreateGnuClayEngine();
+            //CreateDotFileByCG();
+        }
+
+        private static void CreateGnuClayEngine()
+        {
+            var tmpFactory = new GnuClayEngineFactory();
+
+            var tmpEngine = tmpFactory.Create();
         }
 
         private static ConceptualNode CreateTstGraph_1()

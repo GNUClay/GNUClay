@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GnuClay.Engine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,11 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeExecutionSystem\Implementations\CESystem.cs" />
+    <Compile Include="CodeExecutionSystem\Interfaces\ICESystem.cs" />
+    <Compile Include="Implementations\GnuClayEngine.cs" />
+    <Compile Include="Implementations\GnuClayEngineComponent.cs" />
+    <Compile Include="Implementations\GnuClayEngineContext.cs" />
+    <Compile Include="Implementations\GnuClayEngineFactory.cs" />
+    <Compile Include="Interfaces\IGnuClayEngine.cs" />
+    <Compile Include="Interfaces\IGnuClayEngineComponent.cs" />
+    <Compile Include="Interfaces\IGnuClayEngineContext.cs" />
+    <Compile Include="Interfaces\IGnuClayEngineFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageOfKnowledges\Implementations\GraphsStorage.cs" />
+    <Compile Include="StorageOfKnowledges\Implementations\ObjectsRegistry.cs" />
+    <Compile Include="StorageOfKnowledges\Implementations\Storage.cs" />
+    <Compile Include="StorageOfKnowledges\Interfaces\IGraphsStorage.cs" />
+    <Compile Include="StorageOfKnowledges\Interfaces\IObjectsRegistry.cs" />
+    <Compile Include="StorageOfKnowledges\Interfaces\IStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -70,6 +70,10 @@
       <Project>{c674ce77-7093-4a24-ba5e-25092603d507}</Project>
       <Name>GnuClay.ECG</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GnuClay.Engine\GnuClay.Engine.csproj">
+      <Project>{06fda9c5-43c7-49d0-98ad-5b02a96d08c3}</Project>
+      <Name>GnuClay.Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
