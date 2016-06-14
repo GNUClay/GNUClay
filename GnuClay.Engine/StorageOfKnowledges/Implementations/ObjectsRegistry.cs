@@ -16,5 +16,36 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
+
+        private object mLockObj = new object();
+
+        private ulong mCurrIndex = 0;
+
+        private Dictionary<string, ulong> mIdByWordsDict = new Dictionary<string, ulong>();
+        private Dictionary<ulong, List<string>> mWordsByIdDict = new Dictionary<ulong, List<string>>();
+
+        public ulong AddWord(string word)
+        {
+            lock(mLockObj)
+            {
+                if (string.IsNullOrWhiteSpace(word))
+                {
+                    throw new ArgumentNullException(nameof(word));
+                }
+
+                if (mIdByWordsDict.ContainsKey(word))
+                {
+                    return mIdByWordsDict[word];
+                }
+
+                mCurrIndex++;
+
+                mIdByWordsDict.Add(word, mCurrIndex);
+
+                mWordsByIdDict.Add(mCurrIndex, new List<string>() { word });
+
+                return mCurrIndex;
+            }
+        }
     }
 }

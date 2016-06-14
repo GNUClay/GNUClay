@@ -8,5 +8,6 @@ namespace GnuClay.Engine.StorageOfKnowledges.Interfaces
 {
     public interface IObjectsRegistry
     {
+        ulong AddWord(string word);
     }
 }
