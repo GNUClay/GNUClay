@@ -47,5 +47,76 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
                 return mCurrIndex;
             }
         }
+
+        public bool ContainsKey(ulong key)
+        {
+            lock (mLockObj)
+            {
+                return mWordsByIdDict.ContainsKey(key);
+            }
+        }
+
+        public bool ContainsWord(string word)
+        {
+            lock (mLockObj)
+            {
+                if (string.IsNullOrWhiteSpace(word))
+                {
+                    throw new ArgumentNullException(nameof(word));
+                }
+
+                return mIdByWordsDict.ContainsKey(word);
+            }
+        }
+
+        public ulong GetKey(string word)
+        {
+            lock (mLockObj)
+            {
+                if (string.IsNullOrWhiteSpace(word))
+                {
+                    throw new ArgumentNullException(nameof(word));
+                }
+
+                if (mIdByWordsDict.ContainsKey(word))
+                {
+                    return mIdByWordsDict[word];
+                }
+
+                return 0;
+            }
+        }
+
+        public void AddWordToKey(string word, ulong key)
+        {
+            lock (mLockObj)
+            {
+                if (string.IsNullOrWhiteSpace(word))
+                {
+                    throw new ArgumentNullException(nameof(word));
+                }
+
+                if(key == 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(key), "The param key can not be 0.");
+                }
+
+                if(!ContainsKey(key))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(key), $"Key `{key}` not exists.");
+                }
+
+                if(ContainsWord(word))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(word), $"This word `{word}` is already registered.");
+                }
+
+                mIdByWordsDict.Add(word, key);
+
+                var tmpWordsList = mWordsByIdDict[key];
+
+                tmpWordsList.Add(word);
+            }       
+        }
     }
 }

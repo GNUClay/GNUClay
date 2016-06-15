@@ -9,5 +9,11 @@ namespace GnuClay.Engine.StorageOfKnowledges.Interfaces
     public interface IObjectsRegistry
     {
         ulong AddWord(string word);
+
+        bool ContainsKey(ulong key);
+
+        ulong GetKey(string word);
+
+        void AddWordToKey(string word, ulong key);
     }
 }
