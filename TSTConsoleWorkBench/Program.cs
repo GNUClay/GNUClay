@@ -1,4 +1,5 @@
 ﻿using GnuClay.CGConverters.DOT;
+using GnuClay.CGConverters.SGF;
 using GnuClay.ECG;
 using GnuClay.Engine.Implementations;
 using System;
@@ -15,6 +16,7 @@ namespace TSTConsoleWorkBench
         {
             //CreateGnuClayEngine();
             CreateDotFileByCG();
+            CreateSGFContentByCG();
         }
 
         private static void CreateGnuClayEngine()
@@ -105,6 +107,17 @@ namespace TSTConsoleWorkBench
             var tmpRootNode = CreateTstGraph_1();
 
             var tmpTargetStr = CreateDotContent(tmpRootNode);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
+        }
+
+        private static void CreateSGFContentByCG()
+        {
+            var tmpRootNode = CreateTstGraph_1();
+
+            var tmpConverter = new SGFConverter();
+
+            var tmpTargetStr = tmpConverter.ConvertToString(tmpRootNode);
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
         }

@@ -1,4 +1,5 @@
 ﻿using GnuClay.CG;
+using GnuClay.CGConverters.Helpers.ToStringHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +8,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CGConverters.DOT
 {
-    public class DotConverter: IConverter
+    public class DotConverter: BaseConverter<DotContext>
     {
-        public string ConvertToString(IConceptualNode node)
-        {
-            var tmpContext = new DotContext();
-
-            var tmpMainLeaf = new RootGraphDotLeaf(tmpContext, node);
-
-            tmpMainLeaf.Run();
-
-            return tmpMainLeaf.Text;
-        }
-
-        public IConceptualNode ConvertFromString(string source)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

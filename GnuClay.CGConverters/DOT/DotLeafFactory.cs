@@ -10,6 +10,11 @@ namespace GnuClay.CGConverters.DOT
 {
     public class DotLeafFactory : ILeafFactory
     {
+        public IBaseLeaf CreateRootLeaf(ILeafContext context, IConceptualNode node)
+        {
+            return new RootGraphDotLeaf(context, node);
+        }
+
         public IBaseLeaf CreateConceptualLeaf(ILeafContext context, IConceptualNode node)
         {
             return new ConceptualDotLeaf(context, node);

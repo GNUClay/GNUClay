@@ -41,7 +41,6 @@ namespace GnuClay.CGConverters.Helpers.ToStringHelpers
 
         protected virtual void PrintEnd()
         {
-            Sb.AppendLine("}");
         }
 
         protected override void OnRun()

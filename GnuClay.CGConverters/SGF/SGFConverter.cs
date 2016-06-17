@@ -4,19 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GnuClay.CG;
+using GnuClay.CGConverters.Helpers.ToStringHelpers;
 
 namespace GnuClay.CGConverters.SGF
 {
-    public class SGFConverter : IConverter
+    public class SGFConverter : BaseConverter<SGFContext>
     {
-        public IConceptualNode ConvertFromString(string source)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ConvertToString(IConceptualNode node)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

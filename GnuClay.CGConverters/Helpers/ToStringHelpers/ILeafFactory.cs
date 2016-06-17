@@ -9,6 +9,8 @@ namespace GnuClay.CGConverters.Helpers.ToStringHelpers
 {
     public interface ILeafFactory
     {
+        IBaseLeaf CreateRootLeaf(ILeafContext context, IConceptualNode node);
+
         IBaseLeaf CreateConceptualLeaf(ILeafContext context, IConceptualNode node);
 
         IBaseLeaf CreateSubGraphLeaf(ILeafContext context, IConceptualNode node);

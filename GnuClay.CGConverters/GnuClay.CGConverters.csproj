@@ -54,6 +54,7 @@
     <Compile Include="DOT\RootGraphDotLeaf.cs" />
     <Compile Include="DOT\SubGraphDotLeaf.cs" />
     <Compile Include="Helpers\ToStringHelpers\BaseContainerLeaf.cs" />
+    <Compile Include="Helpers\ToStringHelpers\BaseConverter.cs" />
     <Compile Include="Helpers\ToStringHelpers\BaseLeaf.cs" />
     <Compile Include="Helpers\ToStringHelpers\BaseLeafContext.cs" />
     <Compile Include="Helpers\ToStringHelpers\ConceptualLeaf.cs" />
@@ -66,7 +67,14 @@
     <Compile Include="Helpers\ToStringHelpers\RelationLeaf.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SGF\SGFBaseContainerLeaf.cs" />
+    <Compile Include="SGF\SGFConceptualLeaf.cs" />
+    <Compile Include="SGF\SGFContext.cs" />
     <Compile Include="SGF\SGFConverter.cs" />
+    <Compile Include="SGF\SGFLeafFactory.cs" />
+    <Compile Include="SGF\SGFRelationLeaf.cs" />
+    <Compile Include="SGF\SGFRootLeaf.cs" />
+    <Compile Include="SGF\SGFSubGraphLeaf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

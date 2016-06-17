@@ -11,10 +11,18 @@ namespace GnuClay.CGConverters.Helpers.ToStringHelpers
     {
         protected BaseLeafContext(ILeafFactory leafFactory)
         {
-            mDotLeafFactory = leafFactory;
+            mLeafFactory = leafFactory;
         }
 
-        private ILeafFactory mDotLeafFactory = null;
+        private ILeafFactory mLeafFactory = null;
+
+        public ILeafFactory LeafFactory
+        {
+            get
+            {
+                return mLeafFactory;
+            }
+        }
 
         public IBaseLeaf CreateLeaf(INode node)
         {
@@ -24,17 +32,17 @@ namespace GnuClay.CGConverters.Helpers.ToStringHelpers
 
                 if (tmpConceptualNode.Children.Count == 0)
                 {
-                    return mDotLeafFactory.CreateConceptualLeaf(this, tmpConceptualNode);
+                    return mLeafFactory.CreateConceptualLeaf(this, tmpConceptualNode);
                 }
 
-                return mDotLeafFactory.CreateSubGraphLeaf(this, tmpConceptualNode);
+                return mLeafFactory.CreateSubGraphLeaf(this, tmpConceptualNode);
             }
 
             if (node is IRelationNode)
             {
                 var tmpRelationNode = node as IRelationNode;
 
-                return mDotLeafFactory.CreateRelationLeaf(this, tmpRelationNode);
+                return mLeafFactory.CreateRelationLeaf(this, tmpRelationNode);
             }
 
             throw new NotImplementedException();

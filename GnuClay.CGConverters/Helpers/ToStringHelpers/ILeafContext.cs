@@ -19,5 +19,7 @@ namespace GnuClay.CGConverters.Helpers.ToStringHelpers
         void RegLeaf(INode node, IBaseLeaf leaf);
 
         IBaseLeaf GetLeaf(INode node);
+
+        ILeafFactory LeafFactory { get; }
     }
 }
