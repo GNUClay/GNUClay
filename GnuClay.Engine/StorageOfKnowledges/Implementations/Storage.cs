@@ -18,11 +18,9 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
 
             mGraphsStorage = new GraphsStorage(context);
             mObjectsRegistry = new ObjectsRegistry(context);
-            mECGResolver = new ECGResolver(context);
         }
 
         private IGraphsStorage mGraphsStorage = null;
         private IObjectsRegistry mObjectsRegistry = null;
-        private IECGResolver mECGResolver = null;
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CGConverters.DOT
+namespace GnuClay.CGConverters.Helpers.ToStringHelpers
 {
-    public abstract class DotBaseLeaf
+    public abstract class BaseLeaf: IBaseLeaf
     {
-        protected DotBaseLeaf(DotContext context)
+        protected BaseLeaf(ILeafContext context)
         {
             mContext = context;
         }
@@ -21,7 +21,7 @@ namespace GnuClay.CGConverters.DOT
             }
         }
 
-        public virtual DotBaseLeaf SomeChildLeaf
+        public virtual IBaseLeaf SomeChildLeaf
         {
             get
             {
@@ -29,9 +29,9 @@ namespace GnuClay.CGConverters.DOT
             }
         }
 
-        private DotContext mContext = null;
+        private ILeafContext mContext = null;
 
-        protected DotContext Context
+        protected ILeafContext Context
         {
             get
             {
@@ -53,7 +53,7 @@ namespace GnuClay.CGConverters.DOT
         {
             get
             {
-                if(mSb == null)
+                if (mSb == null)
                 {
                     return string.Empty;
                 }
@@ -86,6 +86,6 @@ namespace GnuClay.CGConverters.DOT
 
         protected virtual void OnRun()
         {
-        } 
+        }
     }
 }

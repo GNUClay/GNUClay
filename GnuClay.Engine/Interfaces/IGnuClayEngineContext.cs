@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CodeExecutionSystem.Interfaces;
+﻿using GnuClay.Engine.CGResolver.Interfaces;
+using GnuClay.Engine.CodeExecutionSystem.Interfaces;
 using GnuClay.Engine.StorageOfKnowledges.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace GnuClay.Engine.Interfaces
         ICESystem CE { get;}
 
         IStorage KS { get; }
+
+        IECGResolver ECGResolver { get; }
 
         void RegComponent(IGnuClayEngineComponent component);
 

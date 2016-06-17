@@ -1,4 +1,5 @@
 ﻿using GnuClay.CG;
+using GnuClay.CGConverters.Helpers.ToStringHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace GnuClay.CGConverters.DOT
 {
     public class RootGraphDotLeaf : BaseContainerDotLeaf
     {
-        public RootGraphDotLeaf(DotContext context, IConceptualNode node)
+        public RootGraphDotLeaf(ILeafContext context, IConceptualNode node)
             :base(context, node)
         {
         }

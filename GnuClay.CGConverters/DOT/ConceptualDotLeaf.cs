@@ -1,4 +1,5 @@
 ﻿using GnuClay.CG;
+using GnuClay.CGConverters.Helpers.ToStringHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +8,18 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CGConverters.DOT
 {
-    public class ConceptualDotLeaf: DotBaseLeaf
+    public class ConceptualDotLeaf: ConceptualLeaf
     {
-        public ConceptualDotLeaf(DotContext context, IConceptualNode node)
-            : base(context)
+        public ConceptualDotLeaf(ILeafContext context, IConceptualNode node)
+            : base(context, node)
         {
-            mNode = node;
-            Name = Context.GetNodeName();
-            Context.RegLeaf(mNode, this);
         }
-
-        private IConceptualNode mNode = null;
 
         protected override void OnRun()
         {
             Sb.Append(Name);
             Sb.Append("[shape=box,label=\"");
-            Sb.Append(mNode.FullName);
+            Sb.Append(Node.FullName);
             Sb.Append("\"];");
         }
     }

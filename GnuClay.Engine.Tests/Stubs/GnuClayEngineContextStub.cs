@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GnuClay.Engine.CodeExecutionSystem.Interfaces;
 using GnuClay.Engine.StorageOfKnowledges.Interfaces;
+using GnuClay.Engine.CGResolver.Interfaces;
 
 namespace GnuClay.Engine.Tests.Stubs
 {
@@ -14,6 +15,8 @@ namespace GnuClay.Engine.Tests.Stubs
         public ICESystem CE { get; set; }
 
         public IStorage KS { get; set; }
+
+        public IECGResolver ECGResolver { get; set; }
 
         public void InitComponents()
         {

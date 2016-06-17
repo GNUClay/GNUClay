@@ -4,33 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GnuClay.CG;
+using GnuClay.CGConverters.Helpers.ToStringHelpers;
 
 namespace GnuClay.CGConverters.DOT
 {
-    public class DotLeafFactory : IDotLeafFactory
+    public class DotLeafFactory : ILeafFactory
     {
-        public DotBaseLeaf CreateLeaf(DotContext context, INode node)
+        public IBaseLeaf CreateConceptualLeaf(ILeafContext context, IConceptualNode node)
         {
-            if(node is IConceptualNode)
-            {
-                var tmpConceptualNode = node as IConceptualNode;
+            return new ConceptualDotLeaf(context, node);
+        }
 
-                if (tmpConceptualNode.Children.Count == 0)
-                {
-                    return new ConceptualDotLeaf(context, tmpConceptualNode);
-                }
+        public IBaseLeaf CreateSubGraphLeaf(ILeafContext context, IConceptualNode node)
+        {
+            return new SubGraphDotLeaf(context, node);
+        }
 
-                return new SubGraphDotLeaf(context, tmpConceptualNode);
-            }
-
-            if(node is IRelationNode)
-            {
-                var tmpRelationNode = node as IRelationNode;
-
-                return new RelationDotLeaf(context, tmpRelationNode);
-            }
-
-            throw new NotImplementedException();
+        public IBaseLeaf CreateRelationLeaf(ILeafContext context, IRelationNode node)
+        {
+            return new RelationDotLeaf(context, node);
         }
     }
 }

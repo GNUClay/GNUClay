@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CodeExecutionSystem.Implementations;
+﻿using GnuClay.Engine.CGResolver.Implementations;
+using GnuClay.Engine.CodeExecutionSystem.Implementations;
 using GnuClay.Engine.Interfaces;
 using GnuClay.Engine.StorageOfKnowledges.Implementations;
 using System;
@@ -18,6 +19,8 @@ namespace GnuClay.Engine.Implementations
             tmpContext.CE = new CESystem(tmpContext);
 
             tmpContext.KS = new Storage(tmpContext);
+
+            tmpContext.ECGResolver = new ECGResolver(tmpContext);
 
             var tmpEngine = new GnuClayEngine(tmpContext);
 

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CGConverters.DOT
+namespace GnuClay.CGConverters.Helpers.ToStringHelpers
 {
-    public interface IDotLeafFactory
+    public interface IRelationLeaf: IBaseLeaf
     {
-        DotBaseLeaf CreateLeaf(DotContext context, INode node);
+        IRelationNode Node { get; }
     }
 }

@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CGResolver\Implementations\ECGResolver.cs" />
+    <Compile Include="CGResolver\Interfaces\IECGResolver.cs" />
     <Compile Include="CodeExecutionSystem\Implementations\CESystem.cs" />
     <Compile Include="CodeExecutionSystem\Interfaces\ICESystem.cs" />
     <Compile Include="Implementations\GnuClayEngine.cs" />
@@ -56,11 +58,9 @@
     <Compile Include="Interfaces\IGnuClayEngineContext.cs" />
     <Compile Include="Interfaces\IGnuClayEngineFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageOfKnowledges\Implementations\ECGResolver.cs" />
     <Compile Include="StorageOfKnowledges\Implementations\GraphsStorage.cs" />
     <Compile Include="StorageOfKnowledges\Implementations\ObjectsRegistry.cs" />
     <Compile Include="StorageOfKnowledges\Implementations\Storage.cs" />
-    <Compile Include="StorageOfKnowledges\Interfaces\IECGResolver.cs" />
     <Compile Include="StorageOfKnowledges\Interfaces\IGraphsStorage.cs" />
     <Compile Include="StorageOfKnowledges\Interfaces\IObjectsRegistry.cs" />
     <Compile Include="StorageOfKnowledges\Interfaces\IStorage.cs" />

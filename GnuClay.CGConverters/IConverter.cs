@@ -10,5 +10,7 @@ namespace GnuClay.CGConverters
     public interface IConverter
     {
         string ConvertToString(IConceptualNode node);
+
+        IConceptualNode ConvertFromString(string source);
     }
 }

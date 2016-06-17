@@ -13,8 +13,8 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            CreateGnuClayEngine();
-            //CreateDotFileByCG();
+            //CreateGnuClayEngine();
+            CreateDotFileByCG();
         }
 
         private static void CreateGnuClayEngine()

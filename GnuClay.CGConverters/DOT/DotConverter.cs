@@ -9,7 +9,6 @@ namespace GnuClay.CGConverters.DOT
 {
     public class DotConverter: IConverter
     {
-        
         public string ConvertToString(IConceptualNode node)
         {
             var tmpContext = new DotContext();
@@ -19,6 +18,11 @@ namespace GnuClay.CGConverters.DOT
             tmpMainLeaf.Run();
 
             return tmpMainLeaf.Text;
+        }
+
+        public IConceptualNode ConvertFromString(string source)
+        {
+            throw new NotImplementedException();
         }
     }
 }

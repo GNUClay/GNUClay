@@ -1,15 +1,15 @@
-﻿using GnuClay.Engine.Implementations;
+﻿using GnuClay.Engine.CGResolver.Interfaces;
+using GnuClay.Engine.Implementations;
 using GnuClay.Engine.Interfaces;
-using GnuClay.Engine.StorageOfKnowledges.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.StorageOfKnowledges.Implementations
+namespace GnuClay.Engine.CGResolver.Implementations
 {
-    public class ECGResolver: GnuClayEngineComponent, IECGResolver
+    public class ECGResolver : GnuClayEngineComponent, IECGResolver
     {
         public ECGResolver(IGnuClayEngineContext context)
             : base(context)
