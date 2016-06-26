@@ -32,6 +32,7 @@ namespace GnuClay.ECG
 
         public string ClassName { get; set; } = string.Empty;
 
+        [Obsolete("Не реализован set. Нужно распарсить ClassName и Name")]
         public override string FullName
         {
             get
@@ -49,7 +50,7 @@ namespace GnuClay.ECG
                     tmpSb.Append(Name);
                 }
                 
-                return tmpSb.ToString();
+                return tmpSb.ToString();///TODO: implement parsing class name in setFullName
             }
         }
 

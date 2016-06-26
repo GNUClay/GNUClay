@@ -43,6 +43,8 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Lexer
                     ProcessChar_InPrePreNewLine(ch);
                     return;
             }
+
+            throw CreateUndefinedTokenException(ch);
         }
 
         private void ProcessChar_InBase(char ch)

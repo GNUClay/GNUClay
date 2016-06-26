@@ -25,16 +25,6 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Lexer
             return mBuffer.Dequeue();
         }
 
-        public char Peek()
-        {
-            if (mBuffer.Count == 0)
-            {
-                return char.MinValue;
-            }
-
-            return mBuffer.Peek();
-        }
-
         public void Recovery(char ch)
         {
             var tmpNewList = new List<char>() { ch };

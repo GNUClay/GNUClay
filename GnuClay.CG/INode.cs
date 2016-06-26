@@ -14,7 +14,7 @@ namespace GnuClay.CG
 
         string Name { get; set; }
 
-        string FullName { get; }
+        string FullName { get; set; }
 
         IConceptualNode Parent { get; }
 
@@ -22,6 +22,14 @@ namespace GnuClay.CG
 
         IList<INode> InputNodes { get; }
 
+        void AddInputNode(INode node);
+
+        void RemoveInputNode(INode node);
+
         IList<INode> OutputNodes { get; }
+
+        void AddOutputNode(INode node);
+
+        void RemoveOutputNode(INode node);
     }
 }

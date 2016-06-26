@@ -127,13 +127,14 @@ namespace TSTConsoleWorkBench
         {
             //NLog.LogManager.GetCurrentClassLogger().Info("{0} {1} {2}", default(char), (int)default(char), default(char) == char.MinValue);
 
-            var tmpConverter = new SGFConverter();
+            var tmpConverter = new SGFConverter(new SGFECGNodeFactory());
 
 
 
-            /*var tmpRootNode = CreateTstGraph_1();
+            var tmpRootNode = CreateTstGraph_1();
 
-            var tmpTargetStr = tmpConverter.ConvertToString(tmpRootNode);//*/
+            /*var tmpTargetStr = */
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpConverter.ConvertToString(tmpRootNode));//*/
 
 
             var tmpSb = new StringBuilder();
@@ -153,22 +154,23 @@ namespace TSTConsoleWorkBench
             tmpSb.AppendLine("n_13:[\"dog:Spike\"];");
             tmpSb.AppendLine("n_15:[\"black\"];");
             tmpSb.AppendLine("n_14:(\"color\");");
+            //tmpSb.AppendLine("n_13 -> n_14 -> n_15;");
             tmpSb.AppendLine("n_13 -> n_14;");
             tmpSb.AppendLine("n_14 -> n_15;");
-            tmpSb.AppendLine("}]");
+            tmpSb.AppendLine("}];");
             tmpSb.AppendLine("");
             tmpSb.AppendLine("n_9 -> n_8;");
             tmpSb.AppendLine("n_10 -> n_9;");
             tmpSb.AppendLine("n_10 -> n_11;");
             tmpSb.AppendLine("n_11 -> n_12;");
-            tmpSb.AppendLine("}]");
+            tmpSb.AppendLine("}];");
             tmpSb.AppendLine("");
             tmpSb.AppendLine("n_3 -> n_2;");
             tmpSb.AppendLine("n_4 -> n_3;");
             tmpSb.AppendLine("n_4 -> n_5;");
-            tmpSb.AppendLine("n_5 -> n_6;←");
-            tmpSb.AppendLine("n_6 <- n_7;→");
-            tmpSb.AppendLine("}]");
+            tmpSb.AppendLine("n_5 -> n_6;");
+            tmpSb.AppendLine("n_6 -> n_7;");
+            tmpSb.AppendLine("}];");
 
             var tmpTargetStr = tmpSb.ToString();
 
@@ -176,8 +178,13 @@ namespace TSTConsoleWorkBench
 
             try
             {
-                tmpConverter.ConvertFromString(tmpTargetStr);
-            }catch(Exception e)
+                var tmpGraph = tmpConverter.ConvertFromString(tmpTargetStr);
+
+                var tmpGraphStr = tmpConverter.ConvertToString(tmpGraph);
+
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpGraphStr);
+            }
+            catch(Exception e)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
             }

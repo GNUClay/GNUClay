@@ -17,7 +17,7 @@ namespace GnuClay.CGConverters.SGF
 
         protected override void PrintEnd()
         {
-            Sb.AppendLine("}]");
+            Sb.AppendLine("}];");
         }
 
         protected override void ProcessLink(IBaseLeaf begin, IBaseLeaf end)

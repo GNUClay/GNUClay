@@ -47,6 +47,11 @@ namespace GnuClay.ECG
             {
                 return Name;
             }
+
+            set
+            {
+                Name = value;
+            }
         }
 
         private ConceptualNode mParent = null;
@@ -177,6 +182,11 @@ namespace GnuClay.ECG
             node.AddOutputNode(this);
         }
 
+        void INode.AddInputNode(INode node)
+        {
+            AddInputNode((BaseNode)node);
+        }
+
         public virtual void RemoveInputNode(BaseNode node)
         {
             if (node == null)
@@ -192,6 +202,11 @@ namespace GnuClay.ECG
             mInputNodes.Remove(node);
 
             node.RemoveOutputNode(this);
+        }
+
+        void INode.RemoveInputNode(INode node)
+        {
+            RemoveInputNode((BaseNode)node);
         }
 
         private List<BaseNode> mOutputNodes = new List<BaseNode>();
@@ -229,6 +244,11 @@ namespace GnuClay.ECG
             node.AddInputNode(this);
         }
 
+        void INode.AddOutputNode(INode node)
+        {
+            AddOutputNode((BaseNode)node);
+        }
+
         public virtual void RemoveOutputNode(BaseNode node)
         {
             if (node == null)
@@ -244,6 +264,11 @@ namespace GnuClay.ECG
             mOutputNodes.Remove(node);
 
             node.RemoveInputNode(this);
+        }
+
+        void INode.RemoveOutputNode(INode node)
+        {
+            RemoveOutputNode((BaseNode)node);
         }
     }
 }

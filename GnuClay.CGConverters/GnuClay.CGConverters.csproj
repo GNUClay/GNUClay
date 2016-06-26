@@ -76,11 +76,24 @@
     <Compile Include="SGF\FromStringHelpers\Lexer\SGFToken.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\TwoQuotesSGFLexerLeaf.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\UnexpectedSymbolSGFLexerException.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\BaseSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\ConceptSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\DuplicateIdentifierSGFParserException.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\InstructionSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\LinkSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\MainSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\RelationSGFParserLeaf.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\SGFParserContext.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\SGFParserEngine.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\UnexpectedIdentifierSGFParserException.cs" />
+    <Compile Include="SGF\FromStringHelpers\Parser\UnexpectedTokenSGFParserException.cs" />
+    <Compile Include="SGF\ISGFNodeFactory.cs" />
     <Compile Include="SGF\SGFBaseContainerLeaf.cs" />
     <Compile Include="SGF\SGFConceptualLeaf.cs" />
     <Compile Include="SGF\SGFContext.cs" />
     <Compile Include="SGF\SGFConverter.cs" />
     <Compile Include="SGF\SGFLeafFactory.cs" />
+    <Compile Include="SGF\SGFECGNodeFactory.cs" />
     <Compile Include="SGF\SGFRelationLeaf.cs" />
     <Compile Include="SGF\SGFRootLeaf.cs" />
     <Compile Include="SGF\SGFSubGraphLeaf.cs" />
@@ -96,6 +109,10 @@
     <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">
       <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
       <Name>GnuClay.CommonUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.ECG\GnuClay.ECG.csproj">
+      <Project>{c674ce77-7093-4a24-ba5e-25092603d507}</Project>
+      <Name>GnuClay.ECG</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

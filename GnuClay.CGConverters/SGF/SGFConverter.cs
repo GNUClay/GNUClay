@@ -7,21 +7,33 @@ using GnuClay.CG;
 using GnuClay.CGConverters.Helpers.ToStringHelpers;
 using GnuClay.CGConverters.SGF.FromStringHelpers.Lexer;
 using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.CGConverters.SGF.FromStringHelpers.Parser;
 
 namespace GnuClay.CGConverters.SGF
 {
     public class SGFConverter : BaseConverter<SGFContext>
     {
+        public SGFConverter()
+            : this(null)
+        {
+        }
+
+        public SGFConverter(ISGFNodeFactory nodeFactory)
+        {
+            mNodeFactory = nodeFactory;
+        }
+
+        private ISGFNodeFactory mNodeFactory = null;
+
         public override IConceptualNode ConvertFromString(string source)
         {
             var tmpLexer = new SGFLexerEngine();
 
             var tmpTokensList = tmpLexer.Run(source);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpTokensList, nameof(tmpTokensList)));
+            var tmpParser = new SGFParserEngine(mNodeFactory);
 
-            //throw new NotImplementedException();
-            return null;
+            return tmpParser.Run(tmpTokensList);
         }
     }
 }
