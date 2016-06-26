@@ -1,4 +1,5 @@
-﻿using GnuClay.CGConverters.DOT;
+﻿using GnuClay.CGConverters;
+using GnuClay.CGConverters.DOT;
 using GnuClay.CGConverters.SGF;
 using GnuClay.ECG;
 using GnuClay.Engine.Implementations;
@@ -17,7 +18,8 @@ namespace TSTConsoleWorkBench
             //CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
-            ParseSGFString();
+            //ParseSGFString();
+            ConvertSGFToDotString();
         }
 
         private static void CreateGnuClayEngine()
@@ -123,20 +125,8 @@ namespace TSTConsoleWorkBench
             NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
         }
 
-        private static void ParseSGFString()
+        private static string CreateSGFStringExample()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info("{0} {1} {2}", default(char), (int)default(char), default(char) == char.MinValue);
-
-            var tmpConverter = new SGFConverter(new SGFECGNodeFactory());
-
-
-
-            var tmpRootNode = CreateTstGraph_1();
-
-            /*var tmpTargetStr = */
-            NLog.LogManager.GetCurrentClassLogger().Info(tmpConverter.ConvertToString(tmpRootNode));//*/
-
-
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine("[{");
@@ -172,7 +162,23 @@ namespace TSTConsoleWorkBench
             tmpSb.AppendLine("n_6 -> n_7;");
             tmpSb.AppendLine("}];");
 
-            var tmpTargetStr = tmpSb.ToString();
+            return tmpSb.ToString();
+        }
+
+        private static void ParseSGFString()
+        {
+            //NLog.LogManager.GetCurrentClassLogger().Info("{0} {1} {2}", default(char), (int)default(char), default(char) == char.MinValue);
+
+            var tmpConverter = new SGFConverter(new SGFECGNodeFactory());
+
+
+
+            var tmpRootNode = CreateTstGraph_1();
+
+            /*var tmpTargetStr = */
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpConverter.ConvertToString(tmpRootNode));//*/
+
+            var tmpTargetStr = CreateSGFStringExample();
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
 
@@ -189,6 +195,19 @@ namespace TSTConsoleWorkBench
                 NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
             }
             
+        }
+
+        private static void ConvertSGFToDotString()
+        {
+            var tmpMainConverter = new MainConverter();
+
+            var tmpSourceString = CreateSGFStringExample();
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpSourceString);
+
+            var tmpTargetStr = tmpMainConverter.ConvertFromSGFToDotString(tmpSourceString);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
         }
     }
 }

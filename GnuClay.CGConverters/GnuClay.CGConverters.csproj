@@ -66,6 +66,8 @@
     <Compile Include="Helpers\ToStringHelpers\IRelationLeaf.cs" />
     <Compile Include="Helpers\ToStringHelpers\RelationLeaf.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="IMainConverter.cs" />
+    <Compile Include="MainConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\BaseContainerSGFLexerLeaf.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\BaseSGFLexerLeaf.cs" />
