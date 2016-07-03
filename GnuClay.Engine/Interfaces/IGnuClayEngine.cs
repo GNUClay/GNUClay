@@ -13,6 +13,15 @@ namespace GnuClay.Engine.Interfaces
     {
         IGnuClayEngineInitializatorFactory InitializatorFactory { get; set; }
 
-        ECG.ConceptualNode Query(ECG.ConceptualNode inputNode); 
+        ECG.ConceptualNode Query(ECG.ConceptualNode inputNode);
+
+        event Action OnStartRunning;
+        event Action OnStopRunning;
+
+        bool IsRunning { get; }
+
+        void Run();
+
+        void Exit();
     }
 }

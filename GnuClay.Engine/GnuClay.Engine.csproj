@@ -54,6 +54,8 @@
     <Compile Include="CGResolver\Interfaces\IECGResolver.cs" />
     <Compile Include="CodeExecutionSystem\Implementations\CESystem.cs" />
     <Compile Include="CodeExecutionSystem\Interfaces\ICESystem.cs" />
+    <Compile Include="GC\Implementations\GCEngine.cs" />
+    <Compile Include="GC\Interfaces\IGCEngine.cs" />
     <Compile Include="ICG\BaseNode.cs" />
     <Compile Include="ICG\ConceptualNode.cs" />
     <Compile Include="ICG\RelationNode.cs" />
@@ -78,6 +80,8 @@
     <Compile Include="StorageOfKnowledges\Interfaces\IGraphsStorage.cs" />
     <Compile Include="StorageOfKnowledges\Interfaces\IObjectsRegistry.cs" />
     <Compile Include="StorageOfKnowledges\Interfaces\IStorage.cs" />
+    <Compile Include="TimeProvider\Implementations\TimeProviderEngine.cs" />
+    <Compile Include="TimeProvider\Interfaces\ITimeProviderEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

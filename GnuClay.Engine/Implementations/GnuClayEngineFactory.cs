@@ -1,12 +1,8 @@
-﻿using GnuClay.Engine.CGResolver.Implementations;
-using GnuClay.Engine.CodeExecutionSystem.Implementations;
+﻿using GnuClay.Engine.CodeExecutionSystem.Implementations;
+using GnuClay.Engine.GC.Implementations;
 using GnuClay.Engine.Interfaces;
 using GnuClay.Engine.StorageOfKnowledges.Implementations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GnuClay.Engine.TimeProvider.Implementations;
 
 namespace GnuClay.Engine.Implementations
 {
@@ -19,6 +15,10 @@ namespace GnuClay.Engine.Implementations
             tmpContext.CE = new CESystem(tmpContext);
 
             tmpContext.KS = new Storage(tmpContext);
+
+            tmpContext.GC = new GCEngine(tmpContext);
+
+            tmpContext.TimeProvider = new TimeProviderEngine(tmpContext);
 
             var tmpEngine = new GnuClayEngine(tmpContext);
 

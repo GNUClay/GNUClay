@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using GnuClay.Engine.CodeExecutionSystem.Interfaces;
 using GnuClay.Engine.StorageOfKnowledges.Interfaces;
 using GnuClay.Engine.CGResolver.Interfaces;
+using GnuClay.CommonUtils.Tasking;
+using GnuClay.Engine.GC.Interfaces;
+using GnuClay.Engine.TimeProvider.Interfaces;
 
 namespace GnuClay.Engine.Implementations
 {
@@ -15,6 +18,12 @@ namespace GnuClay.Engine.Implementations
         public ICESystem CE { get; set; }
 
         public IStorage KS { get; set; }
+
+        public IGCEngine GC { get; set; }
+
+        public ITimeProviderEngine TimeProvider { get; set; }
+
+        public ActiveContext ActiveContext { get; set; } = new ActiveContext();
 
         private List<IGnuClayEngineComponent> mComponentsList = new List<IGnuClayEngineComponent>();
 

@@ -4,11 +4,13 @@ using GnuClay.CGConverters.SGF;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.ECG;
 using GnuClay.Engine.Implementations;
+using GnuClay.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench
@@ -17,9 +19,9 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTConvertECGToICG();
+            //TSTConvertECGToICG();
             //TSTNormalizeString();
-            //CreateGnuClayEngine();
+            CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
             //ParseSGFString();
@@ -53,11 +55,37 @@ namespace TSTConsoleWorkBench
             NLog.LogManager.GetCurrentClassLogger().Info("|{0}|", tmpTargetString);
         }
 
+        private static IGnuClayEngine mEngine = null;
+
         private static void CreateGnuClayEngine()
         {
             var tmpFactory = new GnuClayEngineFactory();
 
-            var tmpEngine = tmpFactory.Create();
+            mEngine = tmpFactory.Create();
+
+            mEngine.OnStartRunning += () => {
+                NLog.LogManager.GetCurrentClassLogger().Info("OnStartRunning");
+
+                //Thread.Sleep(500);
+
+                mEngine.Exit();
+            };
+
+            mEngine.OnStopRunning += () => {
+                NLog.LogManager.GetCurrentClassLogger().Info("OnStopRunning");
+            };
+
+            var tmpThread = new Thread(NRunOnSecondThread);
+            tmpThread.Start();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateGnuClayEngine Next");
+
+            Thread.Sleep(2000);
+        }
+
+        private static void NRunOnSecondThread()
+        {
+            mEngine.Run();
         }
 
         private static ConceptualNode CreateTstGraph_1()
