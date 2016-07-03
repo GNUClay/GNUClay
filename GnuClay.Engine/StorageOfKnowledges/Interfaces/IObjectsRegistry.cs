@@ -10,10 +10,12 @@ namespace GnuClay.Engine.StorageOfKnowledges.Interfaces
     {
         ulong AddWord(string word);
 
+        ulong AddWord(string word, ulong targetKey);
+
         bool ContainsKey(ulong key);
 
         ulong GetKey(string word);
 
-        void AddWordToKey(string word, ulong key);
+        void AddWordToExistsKey(string word, ulong key);
     }
 }

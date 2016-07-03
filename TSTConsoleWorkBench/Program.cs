@@ -1,12 +1,14 @@
 ﻿using GnuClay.CGConverters;
 using GnuClay.CGConverters.DOT;
 using GnuClay.CGConverters.SGF;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.ECG;
 using GnuClay.Engine.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench
@@ -15,11 +17,40 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
+            TSTConvertECGToICG();
+            //TSTNormalizeString();
             //CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
             //ParseSGFString();
-            ConvertSGFToDotString();
+            //ConvertSGFToDotString();  
+        }
+
+        private static void TSTConvertECGToICG()
+        {
+            var tmpFactory = new GnuClayEngineFactory();
+
+            var tmpEngine = tmpFactory.Create();
+
+            try
+            {
+                var tmpRootNode = CreateTstGraph_1();
+
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpEngine.Query(tmpRootNode));
+            }
+            catch (Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
+            }
+        }
+
+        private static void TSTNormalizeString()
+        {
+            var source = " dog      cat (    (tree)   )   g ";
+
+            var tmpTargetString = _StringHelper.Normalize(source);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("|{0}|", tmpTargetString);
         }
 
         private static void CreateGnuClayEngine()
@@ -193,8 +224,7 @@ namespace TSTConsoleWorkBench
             catch(Exception e)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
-            }
-            
+            }        
         }
 
         private static void ConvertSGFToDotString()

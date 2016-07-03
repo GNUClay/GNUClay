@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.StorageOfKnowledges.Implementations;
+﻿using GnuClay.Engine.Implementations;
+using GnuClay.Engine.StorageOfKnowledges.Implementations;
 using GnuClay.Engine.Tests.Stubs;
 using NUnit.Framework;
 using System;
@@ -31,7 +32,7 @@ namespace GnuClay.Engine.Tests
 
             var tmpSomeWord = "dog";
 
-            Assert.AreEqual(1, tmpRegistry.AddWord(tmpSomeWord));
+            Assert.AreEqual(PreDefinedConceptsCodes.MinAutoDefinedIndex + 1, tmpRegistry.AddWord(tmpSomeWord));
         }
 
         [Test]
@@ -45,7 +46,9 @@ namespace GnuClay.Engine.Tests
 
             tmpRegistry.AddWord(tmpSomeWord);
 
-            Assert.AreEqual(1, tmpRegistry.AddWord(tmpSomeWord));
+            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWord(tmpSomeWord); });
+
+            StringAssert.Contains("already exists", tmpEx.Message);
         }
 
         [Test]
@@ -185,7 +188,7 @@ namespace GnuClay.Engine.Tests
 
             var tmpSomeWord = "dog";
 
-            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToKey(tmpSomeWord, 1); });
+            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToExistsKey(tmpSomeWord, 1); });
         }
 
         [Test]
@@ -197,7 +200,7 @@ namespace GnuClay.Engine.Tests
 
             var tmpSomeWord = "dog";
 
-            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToKey(tmpSomeWord, 0); });
+            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToExistsKey(tmpSomeWord, 0); });
         }
 
         [Test]
@@ -211,7 +214,7 @@ namespace GnuClay.Engine.Tests
 
             var tmpKey = tmpRegistry.AddWord(tmpSomeWord);
 
-            var tmpEx = Assert.Catch<ArgumentNullException>(() => { tmpRegistry.AddWordToKey(null, tmpKey); });
+            var tmpEx = Assert.Catch<ArgumentNullException>(() => { tmpRegistry.AddWordToExistsKey(null, tmpKey); });
         }
 
         [Test]
@@ -221,7 +224,7 @@ namespace GnuClay.Engine.Tests
 
             var tmpRegistry = new ObjectsRegistry(tmpContext);
 
-            var tmpEx = Assert.Catch<ArgumentNullException>(() => { tmpRegistry.AddWordToKey(null, 1); });
+            var tmpEx = Assert.Catch<ArgumentNullException>(() => { tmpRegistry.AddWordToExistsKey(null, 1); });
         }
 
         [Test]
@@ -241,7 +244,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreNotEqual(0, tmpKey_1);
 
-            tmpRegistry.AddWordToKey(tmpSomeWord_2, tmpKey_1);
+            tmpRegistry.AddWordToExistsKey(tmpSomeWord_2, tmpKey_1);
 
             var tmpKey_2 = tmpRegistry.GetKey(tmpSomeWord_2);
 
@@ -267,7 +270,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreNotEqual(tmpKey_1, tmpKey_2);
 
-            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToKey(tmpSomeWord_2, tmpKey_1); });
+            var tmpEx = Assert.Catch<ArgumentOutOfRangeException>(() => { tmpRegistry.AddWordToExistsKey(tmpSomeWord_2, tmpKey_1); });
         }
     }
 }

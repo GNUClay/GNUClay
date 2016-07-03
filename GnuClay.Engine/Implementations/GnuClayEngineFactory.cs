@@ -20,8 +20,6 @@ namespace GnuClay.Engine.Implementations
 
             tmpContext.KS = new Storage(tmpContext);
 
-            tmpContext.ECGResolver = new ECGResolver(tmpContext);
-
             var tmpEngine = new GnuClayEngine(tmpContext);
 
             tmpContext.InitComponents();

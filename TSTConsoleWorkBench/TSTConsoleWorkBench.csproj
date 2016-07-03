@@ -66,6 +66,10 @@
       <Project>{a2c63c14-f083-43a2-af66-50ec2f3d0ee2}</Project>
       <Name>GnuClay.CG</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">
+      <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
+      <Name>GnuClay.CommonUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GnuClay.ECG\GnuClay.ECG.csproj">
       <Project>{c674ce77-7093-4a24-ba5e-25092603d507}</Project>
       <Name>GnuClay.ECG</Name>

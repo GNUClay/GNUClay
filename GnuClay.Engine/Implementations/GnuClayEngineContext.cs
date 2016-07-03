@@ -16,8 +16,6 @@ namespace GnuClay.Engine.Implementations
 
         public IStorage KS { get; set; }
 
-        public IECGResolver ECGResolver { get; set; }
-
         private List<IGnuClayEngineComponent> mComponentsList = new List<IGnuClayEngineComponent>();
 
         public void RegComponent(IGnuClayEngineComponent component)

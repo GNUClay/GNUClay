@@ -46,17 +46,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CGResolver\Implementations\ECGResolver.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverBaseLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverConceptualLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverContext.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverRelationLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\FromECGToICGConverter.cs" />
     <Compile Include="CGResolver\Interfaces\IECGResolver.cs" />
     <Compile Include="CodeExecutionSystem\Implementations\CESystem.cs" />
     <Compile Include="CodeExecutionSystem\Interfaces\ICESystem.cs" />
+    <Compile Include="ICG\BaseNode.cs" />
+    <Compile Include="ICG\ConceptualNode.cs" />
+    <Compile Include="ICG\RelationNode.cs" />
+    <Compile Include="Implementations\BaseGnuClayEngineInitializator.cs" />
+    <Compile Include="Implementations\DefaultGnuClayEngineInitializator.cs" />
+    <Compile Include="Implementations\DefaultGnuClayEngineInitializatorFactory.cs" />
     <Compile Include="Implementations\GnuClayEngine.cs" />
     <Compile Include="Implementations\GnuClayEngineComponent.cs" />
     <Compile Include="Implementations\GnuClayEngineContext.cs" />
     <Compile Include="Implementations\GnuClayEngineFactory.cs" />
+    <Compile Include="Implementations\PreDefinedConceptsCodes.cs" />
     <Compile Include="Interfaces\IGnuClayEngine.cs" />
     <Compile Include="Interfaces\IGnuClayEngineComponent.cs" />
     <Compile Include="Interfaces\IGnuClayEngineContext.cs" />
     <Compile Include="Interfaces\IGnuClayEngineFactory.cs" />
+    <Compile Include="Interfaces\IGnuClayEngineInitializator.cs" />
+    <Compile Include="Interfaces\IGnuClayEngineInitializatorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageOfKnowledges\Implementations\GraphsStorage.cs" />
     <Compile Include="StorageOfKnowledges\Implementations\ObjectsRegistry.cs" />
@@ -67,6 +81,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GnuClay.CG\GnuClay.CG.csproj">
+      <Project>{a2c63c14-f083-43a2-af66-50ec2f3d0ee2}</Project>
+      <Name>GnuClay.CG</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">
+      <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
+      <Name>GnuClay.CommonUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.ECG\GnuClay.ECG.csproj">
+      <Project>{c674ce77-7093-4a24-ba5e-25092603d507}</Project>
+      <Name>GnuClay.ECG</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

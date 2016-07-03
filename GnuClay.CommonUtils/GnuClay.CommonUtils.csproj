@@ -51,6 +51,7 @@
     <Compile Include="TypeHelpers\IToStringData.cs" />
     <Compile Include="TypeHelpers\_ListHelper.cs" />
     <Compile Include="TypeHelpers\_ObjectHelper.cs" />
+    <Compile Include="TypeHelpers\_StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

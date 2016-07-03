@@ -15,8 +15,6 @@ namespace GnuClay.Engine.Interfaces
 
         IStorage KS { get; }
 
-        IECGResolver ECGResolver { get; }
-
         void RegComponent(IGnuClayEngineComponent component);
 
         void InitComponents();

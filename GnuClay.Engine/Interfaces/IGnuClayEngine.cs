@@ -11,5 +11,8 @@ namespace GnuClay.Engine.Interfaces
     /// </summary>
     public interface IGnuClayEngine
     {
+        IGnuClayEngineInitializatorFactory InitializatorFactory { get; set; }
+
+        ECG.ConceptualNode Query(ECG.ConceptualNode inputNode); 
     }
 }

@@ -19,7 +19,7 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
 
         private object mLockObj = new object();
 
-        private ulong mCurrIndex = 0;
+        private ulong mCurrIndex = PreDefinedConceptsCodes.MinAutoDefinedIndex;
 
         private Dictionary<string, ulong> mIdByWordsDict = new Dictionary<string, ulong>();
         private Dictionary<ulong, List<string>> mWordsByIdDict = new Dictionary<ulong, List<string>>();
@@ -28,23 +28,38 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
         {
             lock(mLockObj)
             {
-                if (string.IsNullOrWhiteSpace(word))
-                {
-                    throw new ArgumentNullException(nameof(word));
-                }
-
-                if (mIdByWordsDict.ContainsKey(word))
-                {
-                    return mIdByWordsDict[word];
-                }
+                CheckAddedWord(word);
 
                 mCurrIndex++;
 
-                mIdByWordsDict.Add(word, mCurrIndex);
+                return AddWord(word, mCurrIndex);
+            }
+        }
 
-                mWordsByIdDict.Add(mCurrIndex, new List<string>() { word });
+        public ulong AddWord(string word, ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                CheckAddedWord(word);
+
+                mIdByWordsDict.Add(word, targetKey);
+
+                mWordsByIdDict.Add(targetKey, new List<string>() { word });
 
                 return mCurrIndex;
+            }
+        }
+
+        private void CheckAddedWord(string word)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                throw new ArgumentNullException(nameof(word));
+            }
+
+            if (mIdByWordsDict.ContainsKey(word))
+            {
+                throw new ArgumentOutOfRangeException(nameof(word), $"Word `{word}` already exists.");
             }
         }
 
@@ -87,7 +102,7 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
             }
         }
 
-        public void AddWordToKey(string word, ulong key)
+        public void AddWordToExistsKey(string word, ulong key)
         {
             lock (mLockObj)
             {

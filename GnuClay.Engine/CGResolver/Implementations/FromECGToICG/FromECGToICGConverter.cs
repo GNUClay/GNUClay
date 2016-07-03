@@ -1,18 +1,15 @@
-﻿using GnuClay.Engine.CGResolver.Implementations.FromECGToICG;
-using GnuClay.Engine.CGResolver.Interfaces;
-using GnuClay.Engine.Implementations;
-using GnuClay.Engine.Interfaces;
+﻿using GnuClay.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.CGResolver.Implementations
+namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 {
-    public class ECGResolver : IECGResolver
+    public class FromECGToICGConverter
     {
-        public ECGResolver(IGnuClayEngineContext context)
+        public FromECGToICGConverter(IGnuClayEngineContext context)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
 
@@ -33,9 +30,13 @@ namespace GnuClay.Engine.CGResolver.Implementations
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ConvertECGToICG");
 
-            var tmpConverter = new FromECGToICGConverter(mContext);
+            var tmpContext = new ECGResolverContext(mContext);
 
-            return tmpConverter.ConvertECGToICG(inputNode);
+            var tmpRootLeaf = new ECGResolverConceptualLeaf(tmpContext, inputNode);
+
+            tmpRootLeaf.Run();
+
+            throw new NotImplementedException();
         }
     }
 }

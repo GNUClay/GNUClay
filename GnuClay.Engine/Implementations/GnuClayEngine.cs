@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.Interfaces;
+﻿using GnuClay.Engine.CGResolver.Implementations;
+using GnuClay.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,19 @@ namespace GnuClay.Engine.Implementations
             : base(context)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+        }
+
+        public IGnuClayEngineInitializatorFactory InitializatorFactory { get; set; } = new DefaultGnuClayEngineInitializatorFactory();
+
+        public ECG.ConceptualNode Query(ECG.ConceptualNode inputNode)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Query");
+
+            var tmpConverter = new ECGResolver(Context);
+
+            var tmpTargetICG = tmpConverter.ConvertECGToICG(inputNode);
+
+            throw new NotImplementedException();
         }
     }
 }
