@@ -11,6 +11,9 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
 {
     public class ObjectsRegistry: GnuClayEngineComponent, IObjectsRegistry
     {
+        public const byte MinGenerationsCount = 0;
+        public const byte MaxGenerationsCount = 2;
+
         public ObjectsRegistry(IGnuClayEngineContext context)
             : base(context)
         {
@@ -24,6 +27,16 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
         private Dictionary<string, ulong> mIdByWordsDict = new Dictionary<string, ulong>();
         private Dictionary<ulong, List<string>> mWordsByIdDict = new Dictionary<ulong, List<string>>();
 
+        //private List<ulong> mRemovedKeys = new List<ulong>();
+
+        //private Dictionary<ulong, ulong> mCeneration_0 = new Dictionary<ulong, ulong>();
+        //private Dictionary<ulong, ulong> mCeneration_1 = new Dictionary<ulong, ulong>();
+        //private Dictionary<ulong, ulong> mCeneration_2 = new Dictionary<ulong, ulong>();
+
+        //private Dictionary<ulong, byte> mGenerationsOfKeys = new Dictionary<ulong, byte>();
+
+        //private Dictionary<ulong, ulong> mTimeOfLife = new Dictionary<ulong, ulong>();
+
         public ulong AddWord(string word)
         {
             lock(mLockObj)
@@ -32,11 +45,27 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
 
                 mCurrIndex++;
 
-                return AddWord(word, mCurrIndex);
+                return AddWord(word, mCurrIndex, MinGenerationsCount);
             }
         }
 
-        public ulong AddWord(string word, ulong targetKey)
+        private ulong NCreateCurrIndex()
+        {
+            /*if(mRemovedKeys.Count == 0)
+            {*/
+                mCurrIndex++;
+
+                return mCurrIndex;
+            /*}
+
+            var tmpIndex = mRemovedKeys.First();
+
+            mRemovedKeys.Remove(tmpIndex);
+
+            return tmpIndex;*/
+        }
+
+        public ulong AddWord(string word, ulong targetKey, byte targetGeneration = MaxGenerationsCount)
         {
             lock (mLockObj)
             {
@@ -45,6 +74,10 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
                 mIdByWordsDict.Add(word, targetKey);
 
                 mWordsByIdDict.Add(targetKey, new List<string>() { word });
+
+                //var tmpCurrLifeTime = Context.TimeProvider.Now;
+
+                //SetGenerationForNewKey(targetKey, targetGeneration, tmpCurrLifeTime);
 
                 return mCurrIndex;
             }
@@ -133,5 +166,37 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
                 tmpWordsList.Add(word);
             }       
         }
+
+        /*private void SetGenerationForNewKey(ulong key, byte targetGeneration, ulong timeOfLife)
+        {
+            mGenerationsOfKeys.Add(key, targetGeneration);
+            mTimeOfLife.Add(key, timeOfLife);
+
+            var tmpGenerationDict = GetDictionaryForTargetGeneration(targetGeneration);
+
+            tmpGenerationDict.Add(key, timeOfLife);
+        }*/
+
+        /*private Dictionary<ulong, ulong> GetDictionaryForTargetGeneration(byte targetGeneration)
+        {
+            switch(targetGeneration)
+            {
+                case 0:
+                    return mCeneration_0;
+
+                case 1:
+                    return mCeneration_1;
+
+                case 2:
+                    return mCeneration_2;
+            }
+
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append("Generation maybe from 0 to 2 inclusively, but current value is ");
+            tmpSb.Append(targetGeneration);
+
+            throw new ArgumentOutOfRangeException(nameof(targetGeneration), tmpSb.ToString());
+        }*/
     }
 }

@@ -24,6 +24,8 @@ namespace GnuClay.Engine.Interfaces
 
         ActiveContext ActiveContext { get; set; }
 
+        ActiveContext SysActiveContext { get; set; }
+
         void RegComponent(IGnuClayEngineComponent component);
 
         void InitComponents();

@@ -11,6 +11,9 @@ namespace GnuClay.Engine.Interfaces
     /// </summary>
     public interface IGnuClayEngine
     {
+        [Obsolete("For testing only!")]
+        IGnuClayEngineContext TSTContext { get; }
+
         IGnuClayEngineInitializatorFactory InitializatorFactory { get; set; }
 
         ECG.ConceptualNode Query(ECG.ConceptualNode inputNode);

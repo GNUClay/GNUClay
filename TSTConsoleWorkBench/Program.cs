@@ -3,6 +3,7 @@ using GnuClay.CGConverters.DOT;
 using GnuClay.CGConverters.SGF;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.ECG;
+using GnuClay.Engine.CGResolver.Implementations.FromECGToICG;
 using GnuClay.Engine.Implementations;
 using GnuClay.Engine.Interfaces;
 using System;
@@ -19,13 +20,70 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
+            TSTParseNodeName();
+            //TSTGetDictionaryForTargetGenerationExceptionMessage();
             //TSTConvertECGToICG();
             //TSTNormalizeString();
-            CreateGnuClayEngine();
+            //CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
             //ParseSGFString();
             //ConvertSGFToDotString();  
+        }
+
+        private static void TSTParseNodeName()
+        {
+            var tmpStr = string.Empty;
+
+            NodeNameInfo tmpInfo = null;
+
+            try
+            {
+                tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+                NLog.LogManager.GetCurrentClassLogger
+            }
+            
+        }
+
+        private static void TSTGetDictionaryForTargetGenerationExceptionMessage()
+        {
+            var tmpList = new List<ulong>(){ 1, 2, 3};
+
+            foreach(var i in tmpList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("i = {0}", i);
+            }
+
+            var tmpIndex = tmpList.First();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("tmpIndex = {0}", tmpIndex);
+
+            tmpList.Remove(tmpIndex);
+
+            foreach (var i in tmpList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("i = {0}", i);
+            }
+
+            try
+            {
+                GetDictionaryForTargetGeneration(3);
+            }
+            catch(Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(e.Message);
+            }
+        }
+
+        private static Dictionary<ulong, ulong> GetDictionaryForTargetGeneration(byte targetGeneration)
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append("Generation maybe from 0 to 2 inclusively, but current value is ");
+            tmpSb.Append(targetGeneration);
+
+            throw new ArgumentOutOfRangeException(nameof(targetGeneration), tmpSb.ToString());
         }
 
         private static void TSTConvertECGToICG()
@@ -59,33 +117,15 @@ namespace TSTConsoleWorkBench
 
         private static void CreateGnuClayEngine()
         {
-            var tmpFactory = new GnuClayEngineFactory();
+            var tmpEngine = GnuClayCreator.Create();
 
-            mEngine = tmpFactory.Create();
-
-            mEngine.OnStartRunning += () => {
-                NLog.LogManager.GetCurrentClassLogger().Info("OnStartRunning");
-
-                //Thread.Sleep(500);
-
-                mEngine.Exit();
-            };
-
-            mEngine.OnStopRunning += () => {
-                NLog.LogManager.GetCurrentClassLogger().Info("OnStopRunning");
-            };
-
-            var tmpThread = new Thread(NRunOnSecondThread);
-            tmpThread.Start();
-
-            NLog.LogManager.GetCurrentClassLogger().Info("CreateGnuClayEngine Next");
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpEngine.TSTContext.TimeProvider.Now);
 
             Thread.Sleep(2000);
-        }
 
-        private static void NRunOnSecondThread()
-        {
-            mEngine.Run();
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpEngine.TSTContext.TimeProvider.Now);
+
+            tmpEngine.Exit();
         }
 
         private static ConceptualNode CreateTstGraph_1()

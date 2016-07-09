@@ -8,5 +8,6 @@ namespace GnuClay.Engine.TimeProvider.Interfaces
 {
     public interface ITimeProviderEngine
     {
+        ulong Now { get; }
     }
 }

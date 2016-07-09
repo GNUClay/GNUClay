@@ -17,7 +17,15 @@ namespace GnuClay.Engine.Implementations
         public GnuClayEngine(IGnuClayEngineContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+        }
+
+        [Obsolete("For testing only!")]
+        public IGnuClayEngineContext TSTContext
+        {
+            get
+            {
+                return Context;
+            }
         }
 
         public IGnuClayEngineInitializatorFactory InitializatorFactory { get; set; } = new DefaultGnuClayEngineInitializatorFactory();
@@ -39,8 +47,6 @@ namespace GnuClay.Engine.Implementations
 
         public void Run()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info(nameof(Run));
-
             lock(mLockObj)
             {
                 if(mIsRun)
@@ -50,31 +56,25 @@ namespace GnuClay.Engine.Implementations
 
                 mIsRun = true;
 
-                NLog.LogManager.GetCurrentClassLogger().Info(nameof(Run) + " Next");
-
                 var tmpInitializator = InitializatorFactory.Create(Context);
 
                 tmpInitializator.Run();
 
+                Context.SysActiveContext.ActivateAll();
                 Context.ActiveContext.ActivateAll();
             }
 
             EmitOnStartRunning();
-
-            NLog.LogManager.GetCurrentClassLogger().Info(nameof(Run) + " Before cycle");
 
             while (mIsRun)
             {
                 Thread.Sleep(500);
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info(nameof(Run) + " After cycle");
-
             Context.ActiveContext.StopAll();
+            Context.SysActiveContext.StopAll();
 
             EmitOnStopRunning();
-
-            NLog.LogManager.GetCurrentClassLogger().Info("Run is Finished!!!!");
         }
 
         public event Action OnStartRunning;
@@ -122,8 +122,6 @@ namespace GnuClay.Engine.Implementations
 
         public void Exit()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Exit");
-
             lock(mLockObj)
             {
                 if(!mIsRun)

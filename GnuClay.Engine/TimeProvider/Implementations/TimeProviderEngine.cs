@@ -20,10 +20,21 @@ namespace GnuClay.Engine.TimeProvider.Implementations
 
         private ActiveObject mActiveObject = null;
 
+        private object mLockObj = new object();
+
+        public ulong Now
+        {
+            get
+            {
+                lock(mLockObj)
+                {
+                    return mCurrTicks;
+                }
+            }
+        }
+
         public override void Init()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info(nameof(Init));
-
             mActiveObject = new ActiveObject();
 
             mActiveObject.Context = Context.ActiveContext;
@@ -31,9 +42,14 @@ namespace GnuClay.Engine.TimeProvider.Implementations
             mActiveObject.RunAction = NRun;
         }
 
+        private ulong mCurrTicks = 0;
+
         private void NRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info(nameof(NRun));
+            lock (mLockObj)
+            {
+                mCurrTicks++;
+            }
         }
     }
 }

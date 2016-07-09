@@ -25,6 +25,8 @@ namespace GnuClay.Engine.Implementations
 
         public ActiveContext ActiveContext { get; set; } = new ActiveContext();
 
+        public ActiveContext SysActiveContext { get; set; } = new ActiveContext();
+
         private List<IGnuClayEngineComponent> mComponentsList = new List<IGnuClayEngineComponent>();
 
         public void RegComponent(IGnuClayEngineComponent component)

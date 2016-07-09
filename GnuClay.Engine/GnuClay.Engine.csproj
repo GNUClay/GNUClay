@@ -51,6 +51,8 @@
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverContext.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverRelationLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\FromECGToICGConverter.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameInfo.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\_QueryStringHelper.cs" />
     <Compile Include="CGResolver\Interfaces\IECGResolver.cs" />
     <Compile Include="CodeExecutionSystem\Implementations\CESystem.cs" />
     <Compile Include="CodeExecutionSystem\Interfaces\ICESystem.cs" />
