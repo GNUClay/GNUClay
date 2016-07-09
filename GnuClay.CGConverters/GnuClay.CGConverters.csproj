@@ -88,7 +88,6 @@
     <Compile Include="SGF\FromStringHelpers\Parser\SGFParserContext.cs" />
     <Compile Include="SGF\FromStringHelpers\Parser\SGFParserEngine.cs" />
     <Compile Include="SGF\FromStringHelpers\Parser\UnexpectedIdentifierSGFParserException.cs" />
-    <Compile Include="SGF\FromStringHelpers\Parser\UnexpectedTokenSGFParserException.cs" />
     <Compile Include="SGF\ISGFNodeFactory.cs" />
     <Compile Include="SGF\SGFBaseContainerLeaf.cs" />
     <Compile Include="SGF\SGFConceptualLeaf.cs" />

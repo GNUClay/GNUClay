@@ -1,9 +1,6 @@
 ﻿using GnuClay.CGConverters.SGF.FromStringHelpers.Lexer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using GnuClay.CommonUtils.ParserHelpers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.CGConverters.SGF.FromStringHelpers.Parser
 {
@@ -80,7 +77,7 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Parser
         {
         }
 
-        protected UnexpectedTokenSGFParserException CreateUnexpectedTokenException(SGFToken token)
+        protected UnexpectedTokenException CreateUnexpectedTokenException(SGFToken token)
         {
             var tmpSb = new StringBuilder("Unexpected token `");
             tmpSb.Append(token.Content);
@@ -89,7 +86,7 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Parser
             tmpSb.Append(" near at pos ");
             tmpSb.Append(token.Pos);
 
-            return new UnexpectedTokenSGFParserException(tmpSb.ToString());
+            return new UnexpectedTokenException(tmpSb.ToString());
         }
     }
 }

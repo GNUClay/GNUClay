@@ -37,12 +37,12 @@ namespace TSTConsoleWorkBench
 
             NodeNameInfo tmpInfo = null;
 
-            try
-            {
+            //try
+            //{
                 tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
 
-                NLog.LogManager.GetCurrentClassLogger
-            }
+            //    NLog.LogManager.GetCurrentClassLogger
+            //}
             
         }
 
