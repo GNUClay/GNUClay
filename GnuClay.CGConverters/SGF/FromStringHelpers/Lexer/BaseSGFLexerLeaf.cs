@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GnuClay.CommonUtils.ParserHelpers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.CGConverters.SGF.FromStringHelpers.Lexer
 {
@@ -77,7 +74,7 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Lexer
             return tmpRez;
         }
 
-        protected UnexpectedSymbolSGFLexerException CreateUndefinedTokenException(char ch)
+        protected UnexpectedSymbolException CreateUndefinedTokenException(char ch)
         {
             var tmpSb = new StringBuilder("Unexpected symbol `");
             tmpSb.Append(ch);
@@ -86,7 +83,7 @@ namespace GnuClay.CGConverters.SGF.FromStringHelpers.Lexer
             tmpSb.Append(" near at pos ");
             tmpSb.Append(Context.Pos);
 
-            return new UnexpectedSymbolSGFLexerException(tmpSb.ToString());
+            return new UnexpectedSymbolException(tmpSb.ToString());
         }
     }
 }

@@ -77,7 +77,6 @@
     <Compile Include="SGF\FromStringHelpers\Lexer\SGFLexerEngine.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\SGFToken.cs" />
     <Compile Include="SGF\FromStringHelpers\Lexer\TwoQuotesSGFLexerLeaf.cs" />
-    <Compile Include="SGF\FromStringHelpers\Lexer\UnexpectedSymbolSGFLexerException.cs" />
     <Compile Include="SGF\FromStringHelpers\Parser\BaseSGFParserLeaf.cs" />
     <Compile Include="SGF\FromStringHelpers\Parser\ConceptSGFParserLeaf.cs" />
     <Compile Include="SGF\FromStringHelpers\Parser\DuplicateIdentifierSGFParserException.cs" />
