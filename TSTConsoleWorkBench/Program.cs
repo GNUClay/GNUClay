@@ -37,13 +37,17 @@ namespace TSTConsoleWorkBench
 
             NodeNameInfo tmpInfo = null;
 
-            //try
-            //{
+            try
+            {
+                tmpStr = "dog dog(cat) # * : ∀ ∃ ? 12345 `dfgh^`";
+
                 tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
 
-            //    NLog.LogManager.GetCurrentClassLogger
-            //}
-            
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpInfo);
+            }catch(Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
+            }
         }
 
         private static void TSTGetDictionaryForTargetGenerationExceptionMessage()

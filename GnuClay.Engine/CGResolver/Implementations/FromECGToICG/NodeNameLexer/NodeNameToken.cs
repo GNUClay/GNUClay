@@ -30,7 +30,11 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer
         /// <summary>
         /// #
         /// </summary>
-        Octothorpe
+        Octothorpe,
+        OpenRoundBracket,
+        CloseRoundBracket,
+        Colon,
+        Space
     }
 
     public class NodeNameToken : IToStringData

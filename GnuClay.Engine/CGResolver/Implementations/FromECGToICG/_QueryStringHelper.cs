@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,12 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             {
                 throw new ArgumentNullException(nameof(name));
             }
+
+            var tmpLexerEngine = new NodeNameLexerEngine();
+
+            var tmpTokensList = tmpLexerEngine.Run(name);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpTokensList, nameof(tmpTokensList)));
 
             throw new NotImplementedException();
         }
