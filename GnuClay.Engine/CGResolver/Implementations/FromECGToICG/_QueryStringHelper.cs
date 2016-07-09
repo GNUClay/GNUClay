@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer;
+using GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameParser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,9 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpTokensList, nameof(tmpTokensList)));
 
-            throw new NotImplementedException();
+            var tmpParser = new NodeNameParserEngine();
+
+            return tmpParser.Run(tmpTokensList);
         }
     }
 }
