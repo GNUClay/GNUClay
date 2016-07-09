@@ -57,6 +57,7 @@
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameLexer\NodeNameLexerEngine.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameLexer\NodeNameLexerMainLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameLexer\NodeNameLexerStringLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameLexer\NodeNameToken.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameParser\NodeNameParserBaseLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameParser\NodeNameParserContext.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameParser\NodeNameParserEngine.cs" />
