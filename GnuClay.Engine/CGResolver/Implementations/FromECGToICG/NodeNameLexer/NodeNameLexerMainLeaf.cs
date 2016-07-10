@@ -26,7 +26,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer
                     return;
 
                 case ' ':
-                    Context.AddToken(CreateToken(NodeNameTokenKind.Space, " "));
                     return;
 
                 case '#':

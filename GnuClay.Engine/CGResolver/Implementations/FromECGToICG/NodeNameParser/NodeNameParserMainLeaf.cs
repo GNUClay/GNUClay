@@ -9,15 +9,35 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameParser
 {
     public class NodeNameParserMainLeaf: NodeNameParserBaseLeaf
     {
+        private enum State
+        {
+            Base
+        }
+
         public NodeNameParserMainLeaf(NodeNameParserContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
+
+        private State mState = State.Base;
 
         protected override void ProcessToken(NodeNameToken token)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessToken token = {0}", token);
+            switch(mState)
+            {
+                case State.Base:
+                    ProcessToken_InBase(token);
+                    return;
+            }
+
+            throw CreateUnexpectedTokenException(token);
+        }
+
+        private void ProcessToken_InBase(NodeNameToken token)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessToken_InBase token = {0}", token);
+
+            throw CreateUnexpectedTokenException(token);
         }
 
         protected override void OnExit()

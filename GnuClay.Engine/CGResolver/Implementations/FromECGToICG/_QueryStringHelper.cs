@@ -24,8 +24,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             var tmpTokensList = tmpLexerEngine.Run(name);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpTokensList, nameof(tmpTokensList)));
-
             var tmpParser = new NodeNameParserEngine();
 
             return tmpParser.Run(tmpTokensList);

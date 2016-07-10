@@ -33,18 +33,33 @@ namespace TSTConsoleWorkBench
 
         private static void TSTParseNodeName()
         {
-            var tmpStr = string.Empty;
+            ParseNodeName("dog");
+            ParseNodeName("dog cat");
+            ParseNodeName("dog(cat)");
+            ParseNodeName("dog:#123");
+            ParseNodeName("#123");
+            ParseNodeName("∀");
+            ParseNodeName("∃");
+            ParseNodeName("?");
+            ParseNodeName("?*X");
+            ParseNodeName("dog:*");
+            ParseNodeName("dog:?X");
+            ParseNodeName("dog:?∃X");
+            ParseNodeName("?*");
+            ParseNodeName("*:*");
+            ParseNodeName("?:?");
+            ParseNodeName("?*X:?*Y");
+        }
 
-            NodeNameInfo tmpInfo = null;
-
+        private static void ParseNodeName(string name)
+        {
             try
             {
-                tmpStr = "dog dog(cat) # * : ∀ ∃ ? 12345 `dfgh^`";
-
-                tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+                var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(name);
 
                 NLog.LogManager.GetCurrentClassLogger().Info(tmpInfo);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
             }
