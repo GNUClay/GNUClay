@@ -22,9 +22,9 @@ namespace TSTConsoleWorkBench
         {
             //TSTParseNodeName();
             //TSTGetDictionaryForTargetGenerationExceptionMessage();
-            //TSTConvertECGToICG();
+            TSTConvertECGToICG();
             //TSTNormalizeString();
-            CreateGnuClayEngine();
+            //CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
             //ParseSGFString();

@@ -21,6 +21,10 @@ namespace GnuClay.Engine.Implementations
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
             Context.KS.ObjectsRegistry.AddWord("Iself", PreDefinedConceptsCodes.ISELF, ObjectsRegistry.MaxGenerationsCount);
+
+            Context.KS.ObjectsRegistry.AddWord("is", PreDefinedConceptsCodes.IS, ObjectsRegistry.MaxGenerationsCount);
+
+            Context.KS.ObjectsRegistry.AddWord("proposition", PreDefinedConceptsCodes.PROPOSITION, ObjectsRegistry.MaxGenerationsCount);
         }
     }
 }

@@ -22,15 +22,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            ProcessChildNodes();
-
-            throw new NotImplementedException();
-        }
-
-        private void ProcessChildNodes()
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessChildNodes");
-
             throw new NotImplementedException();
         }
     }

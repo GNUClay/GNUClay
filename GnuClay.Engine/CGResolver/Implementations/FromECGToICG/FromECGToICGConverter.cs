@@ -32,11 +32,11 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             var tmpContext = new ECGResolverContext(mContext);
 
-            var tmpRootLeaf = new ECGResolverConceptualLeaf(tmpContext, inputNode);
+            var tmpRootLeaf = new ECGResolverRootContainerLeaf(tmpContext, inputNode);
 
             tmpRootLeaf.Run();
 
-            throw new NotImplementedException();
+            return tmpContext.Result;
         }
     }
 }
