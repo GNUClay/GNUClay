@@ -46,10 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CGResolver\Implementations\ECGResolver.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverBaseContainerLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverBaseLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverConceptualLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverContainerLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverContext.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverRelationLeaf.cs" />
+    <Compile Include="CGResolver\Implementations\FromECGToICG\ECGResolverRootContainerLeaf.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\FromECGToICGConverter.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameInfo.cs" />
     <Compile Include="CGResolver\Implementations\FromECGToICG\NodeNameLexer\NodeNameLexerBaseContainerLeaf.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="GC\Interfaces\IGCEngine.cs" />
     <Compile Include="ICG\BaseNode.cs" />
     <Compile Include="ICG\ConceptualNode.cs" />
+    <Compile Include="ICG\QuantificationInfo.cs" />
     <Compile Include="ICG\RelationNode.cs" />
     <Compile Include="Implementations\BaseGnuClayEngineInitializator.cs" />
     <Compile Include="Implementations\DefaultGnuClayEngineInitializator.cs" />

@@ -39,6 +39,45 @@ namespace GnuClay.Engine.ICG
             }
         }
 
+        [Obsolete("Setter is not still implemented")]
+        public override string FullName
+        {
+            get
+            {
+                var tmpSb = new StringBuilder();
+
+                if(IsInstance)
+                {
+                    tmpSb.Append("#");
+                }
+
+                if(HasQuestion)
+                {
+                    tmpSb.Append("?");
+                }
+
+                switch(Quantification)
+                {
+                    case QuantificationInfo.Existential:
+                        tmpSb.Append("∃");
+                        break;
+
+                    case QuantificationInfo.Universal:
+                        tmpSb.Append("∀");
+                        break;
+                }
+
+                tmpSb.Append(Name);
+
+                return base.FullName;
+            }
+        
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         private List<BaseNode> mChildren = new List<BaseNode>();
 
         public IList<BaseNode> Children
@@ -120,5 +159,17 @@ namespace GnuClay.Engine.ICG
 
             base.AddOutputNode(node);
         }
+
+        /// <summary>
+        /// Additional information for this node.
+        /// For example, if ECG node contains number "123.34", then his ICG-equivalent will be instance of number concept, which contains "123.34" in this property.
+        /// </summary>
+        public object Value { get; set; } = null;
+
+        public QuantificationInfo Quantification { get; set; } = QuantificationInfo.Universal;
+
+        public bool HasQuestion { get; set; } = false;
+
+        public bool IsInstance { get; set; } = false;
     }
 }

@@ -13,20 +13,24 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
     {
         public static NodeNameInfo CreateNodeNameInfo(string name)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CreateNodeNameInfo name = {0}", name);
-
             if(string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var tmpLexerEngine = new NodeNameLexerEngine();
+            try
+            {
+                var tmpLexerEngine = new NodeNameLexerEngine();
 
-            var tmpTokensList = tmpLexerEngine.Run(name);
+                var tmpTokensList = tmpLexerEngine.Run(name);
 
-            var tmpParser = new NodeNameParserEngine();
+                var tmpParser = new NodeNameParserEngine();
 
-            return tmpParser.Run(tmpTokensList);
+                return tmpParser.Run(tmpTokensList);
+            }catch(Exception e)
+            {
+                throw new ArgumentException(e.ToString(), e);
+            }
         }
     }
 }

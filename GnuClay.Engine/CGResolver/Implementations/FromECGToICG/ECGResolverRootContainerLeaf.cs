@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.StorageOfKnowledges.Interfaces
+namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 {
-    public interface IStorage
+    class ECGResolverRootContainerLeaf
     {
-        IObjectsRegistry ObjectsRegistry { get; }
     }
 }

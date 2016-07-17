@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

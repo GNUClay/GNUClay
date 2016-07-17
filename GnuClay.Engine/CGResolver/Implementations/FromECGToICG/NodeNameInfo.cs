@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.ICG;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +10,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 {
     public class NodeNameInfo : IToStringData
     {
-        /// <summary>
-        /// Represents quantification in name
-        /// </summary>
-        public enum QuantificationInfo
-        {
-            /// <summary>
-            /// None quantification.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Existential quantification (∃).
-            /// </summary>
-            Existential,
-
-            /// <summary>
-            /// Universal quantification (∀).
-            /// </summary>
-            Universal
-        }
-
         public bool HasQuestion
         {
             get
@@ -54,7 +34,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         public bool HasClassVar { get; set; } = false;
 
-        public QuantificationInfo ClassQuantification { get; set; } = QuantificationInfo.None;
+        public QuantificationInfo ClassQuantification { get; set; } = QuantificationInfo.Universal;
 
         public bool HasInstance { get; set; } = false;
 
@@ -64,7 +44,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         public string InstanceName { get; set; } = string.Empty;
 
-        public QuantificationInfo InstanceQuantification { get; set; } = QuantificationInfo.None;
+        public QuantificationInfo InstanceQuantification { get; set; } = QuantificationInfo.Universal;
 
         public override string ToString()
         {

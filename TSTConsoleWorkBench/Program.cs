@@ -20,11 +20,11 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTParseNodeName();
+            //TSTParseNodeName();
             //TSTGetDictionaryForTargetGenerationExceptionMessage();
             //TSTConvertECGToICG();
             //TSTNormalizeString();
-            //CreateGnuClayEngine();
+            CreateGnuClayEngine();
             //CreateDotFileByCG();
             //CreateSGFContentByCG();
             //ParseSGFString();
@@ -33,22 +33,43 @@ namespace TSTConsoleWorkBench
 
         private static void TSTParseNodeName()
         {
-            ParseNodeName("dog");
-            ParseNodeName("dog cat");
-            ParseNodeName("dog(cat)");
-            ParseNodeName("dog:#123");
-            ParseNodeName("#123");
-            ParseNodeName("∀");
-            ParseNodeName("∃");
-            ParseNodeName("?");
-            ParseNodeName("?*X");
-            ParseNodeName("dog:*");
-            ParseNodeName("dog:?X");
-            ParseNodeName("dog:?∃X");
-            ParseNodeName("?*");
-            ParseNodeName("*:*");
-            ParseNodeName("?:?");
-            ParseNodeName("?*X:?*Y");
+            //ParseNodeName("dog");
+            //ParseNodeName("dog cat");
+            //ParseNodeName("dog(cat(mode))");
+            //ParseNodeName("dog:#123");
+            //ParseNodeName("dog(cat):#123");
+            //ParseNodeName("#123");
+            //ParseNodeName("∀");
+            //ParseNodeName("∀:#123");
+            //ParseNodeName("∀X");
+            //ParseNodeName("∀X:#123");
+            //ParseNodeName("∃");
+            //ParseNodeName("∃X");
+            //ParseNodeName("∃:#123");
+            //ParseNodeName("?");
+            //ParseNodeName("?*X");
+            //ParseNodeName("?∃X");
+            //ParseNodeName("?∃");
+            //ParseNodeName("?X");
+            //ParseNodeName("?:#123");
+            //ParseNodeName("dog:*");
+            //ParseNodeName("dog:∃");
+            //ParseNodeName("dog:?");
+            //ParseNodeName("dog:?X");
+            //ParseNodeName("dog:?∃");
+            //ParseNodeName("dog:?*");
+            //ParseNodeName("dog:?∃X");
+            //ParseNodeName("dog:?*X");
+            //ParseNodeName("?*");
+            //ParseNodeName("*:*");
+            //ParseNodeName("?:?");
+            //ParseNodeName("?*X:?*Y");
+            //ParseNodeName("#?");
+            //ParseNodeName("#*");
+            //ParseNodeName("#∃");
+            ParseNodeName("#∃)");
+            ParseNodeName("!");
+            ParseNodeName("dog(");
         }
 
         private static void ParseNodeName(string name)

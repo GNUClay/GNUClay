@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.Interfaces;
+using GnuClay.Engine.StorageOfKnowledges.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace GnuClay.Engine.Implementations
         public override void Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
+
+            Context.KS.ObjectsRegistry.AddWord("Iself", PreDefinedConceptsCodes.ISELF, ObjectsRegistry.MaxGenerationsCount);
         }
     }
 }

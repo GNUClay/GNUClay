@@ -21,6 +21,15 @@ namespace GnuClay.Engine.StorageOfKnowledges.Implementations
         }
 
         private IGraphsStorage mGraphsStorage = null;
+
+        public IObjectsRegistry ObjectsRegistry
+        {
+            get
+            {
+                return mObjectsRegistry;
+            }
+        }
+
         private IObjectsRegistry mObjectsRegistry = null;
     }
 }

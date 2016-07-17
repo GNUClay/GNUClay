@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.CGResolver.Implementations.FromECGToICG;
+using GnuClay.Engine.ICG;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -50,7 +51,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -75,7 +76,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -85,7 +86,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -106,11 +107,11 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("dog(cat)", tmpInfo.ClassName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.HasClassQuestion);
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(false, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -120,7 +121,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -145,7 +146,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -155,7 +156,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("123", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -180,7 +181,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -190,7 +191,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("123", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -215,7 +216,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -225,7 +226,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -250,7 +251,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -260,7 +261,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -285,9 +286,9 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
-            Assert.AreEqual(false, tmpInfo.HasInstance);
+            Assert.AreEqual(true, tmpInfo.HasInstance);
 
             Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
 
@@ -295,7 +296,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -320,7 +321,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -330,7 +331,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("X", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -355,7 +356,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -365,7 +366,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("X", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -390,7 +391,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -400,7 +401,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("X", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -425,7 +426,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -435,7 +436,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -460,7 +461,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(true, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -470,7 +471,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -495,7 +496,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(true, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -505,7 +506,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -530,7 +531,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -540,7 +541,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -565,7 +566,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -575,7 +576,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("X", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -600,7 +601,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -610,7 +611,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -635,7 +636,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -645,7 +646,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -670,7 +671,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(true, tmpInfo.HasInstance);
 
@@ -680,7 +681,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase("X", tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -815,7 +816,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -825,7 +826,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -842,7 +843,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -850,7 +851,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -860,7 +861,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -885,7 +886,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -895,7 +896,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -956,7 +957,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -964,9 +965,9 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
 
-            Assert.AreEqual(false, tmpInfo.HasInstance);
+            Assert.AreEqual(true, tmpInfo.HasInstance);
 
             Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
 
@@ -974,7 +975,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -999,7 +1000,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1009,7 +1010,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1026,7 +1027,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -1034,7 +1035,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1044,7 +1045,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1069,7 +1070,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1079,7 +1080,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1096,7 +1097,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -1104,7 +1105,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1114,7 +1115,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1131,7 +1132,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -1139,7 +1140,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1149,7 +1150,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1166,7 +1167,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasVar);
 
-            Assert.AreEqual(false, tmpInfo.HasClass);
+            Assert.AreEqual(true, tmpInfo.HasClass);
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
 
@@ -1174,7 +1175,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1184,7 +1185,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1209,7 +1210,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(true, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1219,7 +1220,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1244,7 +1245,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(true, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1254,7 +1255,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1279,7 +1280,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(true, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1289,7 +1290,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1311,7 +1312,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1322,7 +1347,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Existential, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1333,7 +1382,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1344,7 +1417,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1355,7 +1452,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1366,7 +1487,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasVar);
+
+            Assert.AreEqual(true, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(true, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(false, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1399,7 +1544,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasVar);
+
+            Assert.AreEqual(false, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(true, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1410,7 +1579,31 @@ namespace GnuClay.Engine.Tests
             StringAssert.AreNotEqualIgnoringCase(string.Empty, tmpStr);
             StringAssert.AreNotEqualIgnoringCase(null, tmpStr);
 
-            var tmpEx = Assert.Catch<ArgumentException>(() => { _QueryStringHelper.CreateNodeNameInfo(tmpStr); });
+            var tmpInfo = _QueryStringHelper.CreateNodeNameInfo(tmpStr);
+
+            Assert.AreEqual(false, tmpInfo.HasQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasVar);
+
+            Assert.AreEqual(false, tmpInfo.HasClass);
+
+            StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.ClassName);
+
+            Assert.AreEqual(false, tmpInfo.HasClassQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasClassVar);
+
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.ClassQuantification);
+
+            Assert.AreEqual(true, tmpInfo.HasInstance);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceQuestion);
+
+            Assert.AreEqual(false, tmpInfo.HasInstanceVar);
+
+            StringAssert.AreEqualIgnoringCase("dog", tmpInfo.InstanceName);
+
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1490,7 +1683,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1500,7 +1693,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1525,7 +1718,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1535,7 +1728,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1560,7 +1753,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1570,7 +1763,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1595,7 +1788,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1605,7 +1798,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1630,7 +1823,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1640,7 +1833,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1665,7 +1858,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1675,7 +1868,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1700,7 +1893,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1710,7 +1903,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]
@@ -1735,7 +1928,7 @@ namespace GnuClay.Engine.Tests
 
             Assert.AreEqual(false, tmpInfo.HasClassVar);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.None, tmpInfo.ClassQuantification);
+            Assert.AreEqual(QuantificationInfo.None, tmpInfo.ClassQuantification);
 
             Assert.AreEqual(false, tmpInfo.HasInstance);
 
@@ -1745,7 +1938,7 @@ namespace GnuClay.Engine.Tests
 
             StringAssert.AreEqualIgnoringCase(string.Empty, tmpInfo.InstanceName);
 
-            Assert.AreEqual(NodeNameInfo.QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
+            Assert.AreEqual(QuantificationInfo.Universal, tmpInfo.InstanceQuantification);
         }
 
         [Test]

@@ -15,7 +15,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer
 
         protected override void ProcessChar(char ch)
         {
-            switch(ch)
+            switch (ch)
             {
                 case '(':
                     Context.AddToken(CreateToken(NodeNameTokenKind.OpenRoundBracket, "("));

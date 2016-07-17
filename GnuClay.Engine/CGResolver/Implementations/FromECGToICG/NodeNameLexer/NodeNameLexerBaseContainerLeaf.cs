@@ -24,5 +24,10 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG.NodeNameLexer
         {
             Context.AddToken(CreateToken(NodeNameTokenKind.String, mBuffer.ToString()));
         }
+
+        protected override void OnExitIfEndOfString()
+        {
+            OnExit();
+        }
     }
 }
