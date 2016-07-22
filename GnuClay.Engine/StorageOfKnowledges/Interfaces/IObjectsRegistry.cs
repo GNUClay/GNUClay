@@ -14,6 +14,8 @@ namespace GnuClay.Engine.StorageOfKnowledges.Interfaces
 
         bool ContainsKey(ulong key);
 
+        bool ContainsWord(string word);
+
         ulong GetKey(string word);
 
         void AddWordToExistsKey(string word, ulong key);

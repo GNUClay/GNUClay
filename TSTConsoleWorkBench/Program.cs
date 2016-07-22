@@ -172,6 +172,8 @@ namespace TSTConsoleWorkBench
         {
             var tmpRootNode = new ConceptualNode();
 
+            CreateAdditionalNodes(tmpRootNode);
+
             var tmpA_1 = new ConceptualNode(tmpRootNode);
             tmpA_1.Name = "I";
 
@@ -204,7 +206,7 @@ namespace TSTConsoleWorkBench
             var tmpCluster_2 = new ConceptualNode(tmpCluster_1);
 
             var tmpA_10 = new ConceptualNode(tmpCluster_2);
-            tmpA_10.Name = "dog:Spike";
+            tmpA_10.Name = "dog:#123456";
 
             var tmpA_11 = new RelationNode(tmpCluster_2);
             tmpA_11.Name = "color";
@@ -235,6 +237,27 @@ namespace TSTConsoleWorkBench
             tmpCluster_1.AddInputNode(tmpA_5);
 
             return tmpRootNode;
+        }
+
+        private static void CreateAdditionalNodes(ConceptualNode rootNode)
+        {
+            var tmpA_1 = new ConceptualNode(rootNode);
+            tmpA_1.Name = "∀";
+
+            tmpA_1 = new ConceptualNode(rootNode);
+            tmpA_1.Name = "?*X";
+
+            tmpA_1 = new ConceptualNode(rootNode);
+            tmpA_1.Name = "#?*X";
+
+            var tmpA_2 = new RelationNode(rootNode);
+            tmpA_2.Name = "∀";
+
+            tmpA_2 = new RelationNode(rootNode);
+            tmpA_2.Name = "?*X";
+
+            tmpA_2 = new RelationNode(rootNode);
+            tmpA_2.Name = "?*Y";
         }
 
         private static string CreateDotContent(ConceptualNode node)

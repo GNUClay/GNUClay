@@ -37,7 +37,7 @@ namespace GnuClay.Engine.ICG
             {
                 Name = value;
             }
-        }
+        } 
 
         [Obsolete("Setter is not still implemented")]
         public override string FullName
@@ -165,10 +165,6 @@ namespace GnuClay.Engine.ICG
         /// For example, if ECG node contains number "123.34", then his ICG-equivalent will be instance of number concept, which contains "123.34" in this property.
         /// </summary>
         public object Value { get; set; } = null;
-
-        public QuantificationInfo Quantification { get; set; } = QuantificationInfo.Universal;
-
-        public bool HasQuestion { get; set; } = false;
 
         public bool IsInstance { get; set; } = false;
     }

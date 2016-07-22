@@ -45,11 +45,20 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             tmpICGNode.AddOutputNode(tmpIsICGNode);
 
-            var tmpPropositionICGNode = new ICG.ConceptualNode(tmpParentICGNode);
+            ICG.ConceptualNode tmpPropositionICGNode = null;
 
-            tmpPropositionICGNode.Key = PreDefinedConceptsCodes.PROPOSITION;
+            if(Context.ContainsICGNodeWithKey(PreDefinedConceptsCodes.PROPOSITION))
+            {
+                tmpPropositionICGNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(PreDefinedConceptsCodes.PROPOSITION);
+            }
+            else
+            {
+                tmpPropositionICGNode = new ICG.ConceptualNode(tmpParentICGNode);
 
-            Context.RegICGNode(tmpPropositionICGNode);
+                tmpPropositionICGNode.Key = PreDefinedConceptsCodes.PROPOSITION;
+
+                Context.RegICGNode(tmpPropositionICGNode);
+            }
 
             tmpIsICGNode.AddOutputNode(tmpPropositionICGNode);
 
@@ -61,11 +70,20 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             tmpICGNode.AddOutputNode(tmpIsICGNode_2);
 
-            var tmpInstanceNode = new ICG.ConceptualNode(tmpParentICGNode);
+            ICG.ConceptualNode tmpInstanceNode = null;
 
-            tmpInstanceNode.Key = PreDefinedConceptsCodes.INSTANCE;
+            if (Context.ContainsICGNodeWithKey(PreDefinedConceptsCodes.INSTANCE))
+            {
+                tmpInstanceNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(PreDefinedConceptsCodes.INSTANCE);
+            }
+            else
+            {
+                tmpInstanceNode = new ICG.ConceptualNode(tmpParentICGNode);
 
-            Context.RegICGNode(tmpInstanceNode);
+                tmpInstanceNode.Key = PreDefinedConceptsCodes.INSTANCE;
+
+                Context.RegICGNode(tmpInstanceNode);
+            }
 
             tmpIsICGNode_2.AddOutputNode(tmpInstanceNode);
         }

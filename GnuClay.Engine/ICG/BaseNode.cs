@@ -278,5 +278,9 @@ namespace GnuClay.Engine.ICG
         {
             RemoveOutputNode((BaseNode)node);
         }
+
+        public QuantificationInfo Quantification { get; set; } = QuantificationInfo.None;
+
+        public bool HasQuestion { get; set; } = false;
     }
 }
