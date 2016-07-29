@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.Interfaces;
+using GnuClay.Engine.StorageOfKnowledges.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         public ECGResolverContext(IGnuClayEngineContext mainContext)
         {
             mMainContext = mainContext;
+
+            mObjectsRegistry = mMainContext.KS.ObjectsRegistry;
         }
 
         private IGnuClayEngineContext mMainContext = null;
@@ -23,6 +26,8 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
                 return mMainContext;
             }
         }
+
+        private IObjectsRegistry mObjectsRegistry = null;
 
         public ulong RegRootECGNode(ECG.ConceptualNode node)
         {
@@ -72,7 +77,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("LinkECGNodeAndKey node.FullName = {0}, key = {1}", node.FullName, key);
 
-            mECGNodeFromKey[key] = node;
             mKeyFromECGNode[node] = key;
         }
 
@@ -113,7 +117,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             var tmpKey = MainContext.KS.ObjectsRegistry.AddWord(tmpNodeName);
 
-            NLog.LogManager.GetCurrentClassLogger().Info("RegRootNode tmpKey = {0}", tmpKey);
+            NLog.LogManager.GetCurrentClassLogger().Info("RegInstanceName tmpKey = {0}", tmpKey);
 
             mInstacesKeys.Add(tmpNodeName, tmpKey);
             mInstancesAliases[name] = tmpNodeName;
@@ -121,15 +125,39 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             return tmpKey;
         }
 
-        public void RegRelationWithSimpleName(ECG.RelationNode ecgNode, ICG.RelationNode icgNode, ulong key, string name)
+        public ulong RegInstanceVar(string name)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("RegRelationWithSimpleName key = {0}, name = {1}", key, name);
+            NLog.LogManager.GetCurrentClassLogger().Info("RegInstanceVar name = {0}", name);
+
+            var tmpNodeName = Guid.NewGuid().ToString("D");
+
+            NLog.LogManager.GetCurrentClassLogger().Info("RegInstanceVar tmpNodeName = {0}", tmpNodeName);
+
+            var tmpKey = MainContext.KS.ObjectsRegistry.AddWord(tmpNodeName);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("RegInstanceVar tmpKey = {0}", tmpKey);
+
+            mInstancesVarKeys.Add(tmpNodeName, tmpKey);
+            mInstanceVarsAliases[name] = tmpNodeName;
+
+            return tmpKey;
+        }
+
+        public ulong GetKeyByInstanceVarName(string name)
+        {
+            return mInstancesVarKeys[mInstanceVarsAliases[name]];
+        }
+
+        public bool ExistsInstanceVar(string name)
+        {
+            return mInstanceVarsAliases.ContainsKey(name);
+        }
+
+        public void RegRelation(ECG.RelationNode ecgNode, ICG.RelationNode icgNode)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RegRelation");
 
             mRelationsICGNodeFromECG[ecgNode] = icgNode;
-
-            mRelationsAliases[name] = name;
-
-            mRelationsKeys[name] = key;
         }
 
         public ICG.RelationNode GetICGRelationNodeByECGRelationNode(ECG.RelationNode ecgNode)
@@ -137,10 +165,33 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             return mRelationsICGNodeFromECG[ecgNode];
         }
 
+        public bool ExistsVar(string varName)
+        {
+            return mVarAliases.ContainsKey(varName);
+        }
+
+        public ulong RegVarName(string varName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RegVarName varName = {0}", varName);
+
+            var tmpName = Guid.NewGuid().ToString("D");
+
+            mVarAliases[varName] = tmpName;
+
+            var tmpKey = mObjectsRegistry.AddWord(tmpName);
+
+            mVarsKeys[tmpName] = tmpKey;
+
+            return tmpKey;
+        }
+
+        public ulong GetKeyByVarName(string varName)
+        {
+            return mVarsKeys[mVarAliases[varName]];
+        }
+
         private Dictionary<string, ulong> mInstacesKeys = new Dictionary<string, ulong>();
         private Dictionary<string, string> mInstancesAliases = new Dictionary<string, string>();
-
-        private Dictionary<ulong, ECG.ConceptualNode> mECGNodeFromKey = new Dictionary<ulong, ECG.ConceptualNode>();
 
         private Dictionary<ECG.ConceptualNode, ulong> mKeyFromECGNode = new Dictionary<ECG.ConceptualNode, ulong>();
 
@@ -150,10 +201,14 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         private Dictionary<ECG.RelationNode, ICG.RelationNode> mRelationsICGNodeFromECG = new Dictionary<ECG.RelationNode, ICG.RelationNode>();
 
-        private Dictionary<string, string> mRelationsAliases = new Dictionary<string, string>();
+        private Dictionary<string, string> mVarAliases = new Dictionary<string, string>();
 
-        private Dictionary<string, ulong> mRelationsKeys = new Dictionary<string, ulong>();
+        private Dictionary<string, ulong> mVarsKeys = new Dictionary<string, ulong>();
 
+
+        private Dictionary<string, string> mInstanceVarsAliases = new Dictionary<string, string>();
+
+        private Dictionary<string, ulong> mInstancesVarKeys = new Dictionary<string, ulong>();
 
         private ICG.ConceptualNode mResult = null;
 

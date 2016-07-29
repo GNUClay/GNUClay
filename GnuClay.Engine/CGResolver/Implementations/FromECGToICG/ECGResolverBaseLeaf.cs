@@ -103,5 +103,77 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             return tmpClassICGNode;
         }
+
+        protected ICG.ConceptualNode GetUniversalAllConceptNode()
+        {
+            if (Context.ContainsICGNodeWithKey(PreDefinedConceptsCodes.UNIVERSAL_ALL))
+            {
+                return (ICG.ConceptualNode)Context.GetICGNodeByKey(PreDefinedConceptsCodes.UNIVERSAL_ALL);
+            }
+
+            var tmpClassConceptNode = new ICG.ConceptualNode(ParentICGNode);
+
+            tmpClassConceptNode.Key = PreDefinedConceptsCodes.UNIVERSAL_ALL;
+
+            tmpClassConceptNode.Quantification = ICG.QuantificationInfo.Universal;
+
+            Context.RegICGNode(tmpClassConceptNode);
+
+            return tmpClassConceptNode;
+        }
+
+        protected void DeclareAsVar(ICG.ConceptualNode node)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("DeclareAsVar");
+
+            var tmpIsICGNode = new ICG.RelationNode(ParentICGNode);
+
+            tmpIsICGNode.Key = PreDefinedConceptsCodes.IS;
+
+            Context.RegICGNode(tmpIsICGNode);
+
+            node.AddOutputNode(tmpIsICGNode);
+
+            var tmpVarConceptNode = GetVarConceptNode();
+
+            tmpIsICGNode.AddOutputNode(tmpVarConceptNode);
+        }
+
+        private ICG.ConceptualNode GetVarConceptNode()
+        {
+            if (Context.ContainsICGNodeWithKey(PreDefinedConceptsCodes.VARIABLE))
+            {
+                return (ICG.ConceptualNode)Context.GetICGNodeByKey(PreDefinedConceptsCodes.VARIABLE);
+            }
+
+            var tmpClassConceptNode = new ICG.ConceptualNode(ParentICGNode);
+
+            tmpClassConceptNode.Key = PreDefinedConceptsCodes.VARIABLE;
+
+            Context.RegICGNode(tmpClassConceptNode);
+
+            return tmpClassConceptNode;
+        }
+
+        protected void CheckInstanceVarName(string varName)
+        {
+            if(Context.ExistsVar(varName) || Context.ContainsInstanceName(varName))
+            {
+                throw CreateUsingInstanceVarInTheClass(varName);
+            }
+        }
+
+        protected void CheckClassVarName(string varName)
+        {
+            if(Context.ExistsInstanceVar(varName) || Context.ContainsInstanceName(varName))
+            {
+                throw CreateUsingInstanceVarInTheClass(varName);
+            }
+        }
+
+        private ArgumentException CreateUsingInstanceVarInTheClass(string varName)
+        {
+            return new ArgumentException("Using an instance variable in the class.", varName);
+        }
     }
 }

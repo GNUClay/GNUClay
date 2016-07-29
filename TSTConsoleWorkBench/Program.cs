@@ -3,6 +3,7 @@ using GnuClay.CGConverters.DOT;
 using GnuClay.CGConverters.SGF;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.ECG;
+using GnuClay.Engine.CGResolver.Implementations;
 using GnuClay.Engine.CGResolver.Implementations.FromECGToICG;
 using GnuClay.Engine.Implementations;
 using GnuClay.Engine.Interfaces;
@@ -136,7 +137,17 @@ namespace TSTConsoleWorkBench
             {
                 var tmpRootNode = CreateTstGraph_1();
 
-                NLog.LogManager.GetCurrentClassLogger().Info(tmpEngine.Query(tmpRootNode));
+                var tmpConverter = new ECGResolver(tmpEngine.TSTContext);
+
+                var tmpTargetICG = tmpConverter.ConvertECGToICG(tmpRootNode);
+
+                var tmpSGFConverter = new SGFConverter();
+
+                var tmpTargetStr = tmpSGFConverter.ConvertToString(tmpTargetICG);
+
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetStr);
+
+                //NLog.LogManager.GetCurrentClassLogger().Info(tmpEngine.Query(tmpRootNode));
             }
             catch (Exception e)
             {
@@ -172,7 +183,7 @@ namespace TSTConsoleWorkBench
         {
             var tmpRootNode = new ConceptualNode();
 
-            CreateAdditionalNodes(tmpRootNode);
+            //CreateAdditionalNodes(tmpRootNode);
 
             var tmpA_1 = new ConceptualNode(tmpRootNode);
             tmpA_1.Name = "I";
@@ -248,7 +259,7 @@ namespace TSTConsoleWorkBench
             tmpA_1.Name = "?*X";
 
             tmpA_1 = new ConceptualNode(rootNode);
-            tmpA_1.Name = "#?*X";
+            tmpA_1.Name = "#?*Z";
 
             var tmpA_2 = new RelationNode(rootNode);
             tmpA_2.Name = "∀";

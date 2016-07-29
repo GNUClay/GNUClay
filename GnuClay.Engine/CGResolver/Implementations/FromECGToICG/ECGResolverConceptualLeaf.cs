@@ -106,7 +106,39 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessClassVarOrQuestion");
 
-            throw new NotImplementedException();
+            ulong tmpKey = 0;
+
+            if (Context.ExistsVar(mNodeNameInfo.ClassName))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessClassVarOrQuestion Context.ExistsVar");
+
+                tmpKey = Context.GetKeyByVarName(mNodeNameInfo.ClassName);
+
+                mClassICGNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(tmpKey);
+            }
+            else
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessClassVarOrQuestion !Context.ExistsVar");
+
+                CheckClassVarName(mNodeNameInfo.ClassName);
+
+                tmpKey = Context.RegVarName(mNodeNameInfo.ClassName);
+
+                mClassICGNode = CreateAndDeclareClass(tmpKey);
+
+                DeclareAsVar(mClassICGNode);
+
+                mClassICGNode.HasQuestion = mNodeNameInfo.HasClassQuestion;
+                mClassICGNode.Quantification = mNodeNameInfo.ClassQuantification;
+                mClassICGNode.HasVar = mNodeNameInfo.HasClassVar;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessClassVarOrQuestion tmpKey = {0}", tmpKey);
+
+            if (!mNodeNameInfo.HasInstance)
+            {
+                Context.LinkECGNodeAndKey(mInputNode, tmpKey);
+            }
         }
 
         private void ProcessInstance()
@@ -115,52 +147,52 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             ulong tmpKey = 0;
 
-            var tmpIsNewInstance = false;
-
             if (Context.ContainsInstanceName(mNodeNameInfo.InstanceName))
             {
                 tmpKey = Context.GetKeyByInstanceName(mNodeNameInfo.InstanceName);
+
+                mInstanceICGNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(tmpKey);
             }
             else
             {
                 tmpKey = Context.RegInstanceName(mNodeNameInfo.InstanceName);
 
-                tmpIsNewInstance = true;
+                CreateAndDeclareNewInstance(tmpKey);
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessInstance tmpKey = {0}", tmpKey);
 
             Context.LinkECGNodeAndKey(mInputNode, tmpKey);
+        }
 
-            if(Context.ContainsICGNodeWithKey(tmpKey))
-            {
-                mInstanceICGNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(tmpKey);
-            }
-            else
-            {
-                mInstanceICGNode = new ICG.ConceptualNode(ParentICGNode);
+        private void CreateAndDeclareNewInstance(ulong key)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateAndDeclareNewInstance key = {0}", key);
 
-                mInstanceICGNode.Key = tmpKey;
+            mInstanceICGNode = new ICG.ConceptualNode(ParentICGNode);
 
-                Context.RegICGNode(mInstanceICGNode);
-            }
+            mInstanceICGNode.Key = key;
 
-            if(tmpIsNewInstance)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("tmpIsNewInstance");
+            mInstanceICGNode.IsInstance = true;
 
-                var tmpIsICGNode = new ICG.RelationNode(ParentICGNode);
+            Context.RegICGNode(mInstanceICGNode);
 
-                tmpIsICGNode.Key = PreDefinedConceptsCodes.IS;
+            DeclareAsInstance();
+        }
 
-                Context.RegICGNode(tmpIsICGNode);
+        private void DeclareAsInstance()
+        {
+            var tmpIsICGNode = new ICG.RelationNode(ParentICGNode);
 
-                mInstanceICGNode.AddOutputNode(tmpIsICGNode);
+            tmpIsICGNode.Key = PreDefinedConceptsCodes.IS;
 
-                var tmpInstanceConceptNode = GetInstanceConceptNode();
+            Context.RegICGNode(tmpIsICGNode);
 
-                tmpIsICGNode.AddOutputNode(mInstanceICGNode);
-            }
+            mInstanceICGNode.AddOutputNode(tmpIsICGNode);
+
+            var tmpInstanceConceptNode = GetInstanceConceptNode();
+
+            tmpIsICGNode.AddOutputNode(mInstanceICGNode);
         }
 
         private ICG.ConceptualNode GetInstanceConceptNode()
@@ -181,9 +213,36 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         private void ProcessInstanceVarOrQuestion()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessInstanceVarOrQuestion");
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessInstanceVarOrQuestion mNodeNameInfo.InstanceName = {0}", mNodeNameInfo.InstanceName);
 
-            throw new NotImplementedException();
+            ulong tmpKey = 0;
+
+            if(Context.ExistsInstanceVar(mNodeNameInfo.InstanceName))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessInstanceVarOrQuestion Context.ExistsInstanceVar");
+
+                tmpKey = Context.GetKeyByInstanceVarName(mNodeNameInfo.InstanceName);
+
+                mInstanceICGNode = (ICG.ConceptualNode)Context.GetICGNodeByKey(tmpKey);
+            }
+            else
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessInstanceVarOrQuestion !Context.ExistsInstanceVar");
+
+                CheckInstanceVarName(mNodeNameInfo.InstanceName);
+
+                tmpKey = Context.RegInstanceVar(mNodeNameInfo.InstanceName);
+
+                CreateAndDeclareNewInstance(tmpKey);
+
+                mInstanceICGNode.HasQuestion = mNodeNameInfo.HasInstanceQuestion;
+                mInstanceICGNode.Quantification = mNodeNameInfo.InstanceQuantification;
+                mInstanceICGNode.HasVar = mNodeNameInfo.HasInstanceVar;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessClassVarOrQuestion tmpKey = {0}", tmpKey);
+
+            Context.LinkECGNodeAndKey(mInputNode, tmpKey);
         }
 
         private void CombineClassAndInstance()
@@ -205,7 +264,11 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("NotClassOrInstance");
 
-            throw new NotImplementedException();
+            var tmpICGNode = GetUniversalAllConceptNode();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("NotClassOrInstance tmpICGNode.Key = {0}", tmpICGNode.Key);
+
+            Context.LinkECGNodeAndKey(mInputNode, tmpICGNode.Key);
         }
     }
 }

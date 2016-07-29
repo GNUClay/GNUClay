@@ -105,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GnuClay.CGConverters\GnuClay.CGConverters.csproj">
+      <Project>{c7089760-14ff-4768-a3fb-e7e3dd220343}</Project>
+      <Name>GnuClay.CGConverters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GnuClay.CG\GnuClay.CG.csproj">
       <Project>{a2c63c14-f083-43a2-af66-50ec2f3d0ee2}</Project>
       <Name>GnuClay.CG</Name>

@@ -18,8 +18,6 @@ namespace GnuClay.CG
 
         IConceptualNode Parent { get; }
 
-        IList<IConceptualNode> Annotations { get; }
-
         IList<INode> InputNodes { get; }
 
         void AddInputNode(INode node);

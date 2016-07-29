@@ -99,54 +99,6 @@ namespace GnuClay.ECG
             }
         }
 
-        private List<ConceptualNode> mAnnotations = new List<ConceptualNode>();
-
-        public IList<ConceptualNode> Annotations
-        {
-            get
-            {
-                return mAnnotations;
-            }
-        }
-
-        IList<IConceptualNode> INode.Annotations
-        {
-            get
-            {
-                return mAnnotations.Cast<IConceptualNode>().ToList();
-            }
-        }
-
-        public void AddAnnotation(ConceptualNode annotation)
-        {
-            if(annotation == null)
-            {
-                throw new ArgumentNullException(nameof(annotation));
-            }
-
-            if(mAnnotations.Contains(annotation))
-            {
-                return;
-            }
-
-            mAnnotations.Add(annotation);
-        }
-
-        public void RemoveAnnotation(ConceptualNode annotation)
-        {
-            if (annotation == null)
-            {
-                throw new ArgumentNullException(nameof(annotation));
-            }
-
-            if (!mAnnotations.Contains(annotation))
-            {
-                return;
-            }
-
-            mAnnotations.Remove(annotation);
-        }
-
         private List<BaseNode> mInputNodes = new List<BaseNode>();
 
         public IList<BaseNode> InputNodes

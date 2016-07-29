@@ -84,21 +84,52 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
             mICGNode.Key = tmpKey;
 
-            Context.RegRelationWithSimpleName(mInputNode, mICGNode, tmpKey, mNodeNameInfo.ClassName);
+            Context.RegRelation(mInputNode, mICGNode);
         }
 
         private void ProcessVarOrQuestion()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarOrQuestion");
 
-            throw new NotImplementedException();
+            ulong tmpKey = 0;
+
+            if (mObjectsRegistry.ContainsWord(mNodeNameInfo.ClassName))
+            {
+                tmpKey = mObjectsRegistry.GetKey(mNodeNameInfo.ClassName);
+            }
+            else
+            {
+                tmpKey = mObjectsRegistry.AddWord(mNodeNameInfo.ClassName);
+
+                CreateAndDeclareClass(tmpKey);
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarOrQuestion tmpKey = {0}", tmpKey);
+
+            mICGNode = new ICG.RelationNode(ParentICGNode);
+
+            mICGNode.Key = tmpKey;
+
+            mICGNode.HasQuestion = mNodeNameInfo.HasClassQuestion;
+            mICGNode.Quantification = mNodeNameInfo.ClassQuantification;
+            mICGNode.HasVar = mNodeNameInfo.HasClassVar;
+
+            Context.RegRelation(mInputNode, mICGNode);
         }
 
         private void ProcessNotSimpleNameOrVarOrQuestion()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessNotSimpleNameOrVarOrQuestion");
 
-            throw new NotImplementedException();
+            var tmpICGNode = GetUniversalAllConceptNode();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("NotClassOrInstance tmpICGNode.Key = {0}", tmpICGNode.Key);
+
+            mICGNode = new ICG.RelationNode(ParentICGNode);
+
+            mICGNode.Key = tmpICGNode.Key;
+
+            Context.RegRelation(mInputNode, mICGNode);
         }
     }
 }

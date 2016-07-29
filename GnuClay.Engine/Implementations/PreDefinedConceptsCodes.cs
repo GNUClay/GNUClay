@@ -22,5 +22,9 @@ namespace GnuClay.Engine.Implementations
         public const ulong INSTANCE = 4;
 
         public const ulong CLASS = 5;
+
+        public const ulong UNIVERSAL_ALL = 6;
+
+        public const ulong VARIABLE = 7;
     }
 }
