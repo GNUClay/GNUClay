@@ -31,7 +31,9 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            mNodeNameInfo = _QueryStringHelper.CreateNodeNameInfo(mInputNode.FullName);
+            throw new NotImplementedException();
+
+            /*mNodeNameInfo = _QueryStringHelper.CreateNodeNameInfo(mInputNode.FullName);
 
             NLog.LogManager.GetCurrentClassLogger().Info(mNodeNameInfo);
 
@@ -58,10 +60,10 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
                 {
                     ProcessNotSimpleNameOrVarOrQuestion();
                 }
-            }
+            }*/
         }
 
-        private void ProcessSimpleName()
+        /*private void ProcessSimpleName()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessSimpleName");
 
@@ -130,6 +132,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             mICGNode.Key = tmpICGNode.Key;
 
             Context.RegRelation(mInputNode, mICGNode);
-        }
+        }*/
     }
 }

@@ -34,7 +34,9 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run mInputNode.FullName = {0}", mInputNode.FullName);
 
-            var tmpParentECGNode = mInputNode.Parent;
+            throw new NotImplementedException();
+
+            /*var tmpParentECGNode = mInputNode.Parent;
 
             mNodeNameInfo = _QueryStringHelper.CreateNodeNameInfo(mInputNode.FullName);
 
@@ -72,10 +74,10 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             if(!mNodeNameInfo.HasClass && !mNodeNameInfo.HasClass)
             {
                 NotClassOrInstance();
-            }
+            }*/
         }
 
-        private void ProcessClass()
+        /*private void ProcessClass()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessClass mNodeNameInfo.ClassName = {0}", mNodeNameInfo.ClassName);
 
@@ -269,6 +271,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             NLog.LogManager.GetCurrentClassLogger().Info("NotClassOrInstance tmpICGNode.Key = {0}", tmpICGNode.Key);
 
             Context.LinkECGNodeAndKey(mInputNode, tmpICGNode.Key);
-        }
+        }*/
     }
 }

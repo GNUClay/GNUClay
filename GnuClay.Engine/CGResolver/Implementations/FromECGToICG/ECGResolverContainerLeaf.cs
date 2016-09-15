@@ -19,7 +19,9 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("OnRun");
 
-            var tmpKey = Context.RegContainerECGNode(InputNode);
+            throw new NotImplementedException();
+
+            /*var tmpKey = Context.RegContainerECGNode(InputNode);
 
             NLog.LogManager.GetCurrentClassLogger().Info("OnRun tmpKey = {0}", tmpKey);
 
@@ -85,7 +87,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
                 Context.RegICGNode(tmpInstanceNode);
             }
 
-            tmpIsICGNode_2.AddOutputNode(tmpInstanceNode);
+            tmpIsICGNode_2.AddOutputNode(tmpInstanceNode);*/
         }
     }
 }

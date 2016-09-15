@@ -29,19 +29,48 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         private IObjectsRegistry mObjectsRegistry = null;
 
-        public ulong RegRootECGNode(ECG.ConceptualNode node)
+        public ulong CreateContainerKey()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateContainerKey");
+
+            var tmpNodeName = Guid.NewGuid().ToString("D");
+
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateContainerKey tmpNodeName = {0}", tmpNodeName);
+
+            var tmpKey = MainContext.KS.ObjectsRegistry.AddWord(tmpNodeName);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateContainerKey tmpKey = {0}", tmpKey);
+
+            return tmpKey;
+        }
+
+        public void LinkECGAndICGNodes(ECG.BaseNode ecgNode, ICG.BaseNode icgNode)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("LinkECGAndICGNodes");
+
+            mICGByECGNodesDict[ecgNode] = icgNode;
+        }
+
+        private Dictionary<ECG.BaseNode, ICG.BaseNode> mICGByECGNodesDict = new Dictionary<ECG.BaseNode, ICG.BaseNode>();
+
+        public ICG.BaseNode GetICGNodeFromECG(ECG.BaseNode ecgNode)
+        {
+            return mICGByECGNodesDict[ecgNode];
+        }
+
+        public void RegRootICGNode(ICG.ConceptualNode node)
+        {
+            mResult = node;
+        }
+
+        /*public ulong RegRootECGNode(ECG.ConceptualNode node)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RegRootNode");
 
             return RegContainerECGNode(node);
         }
 
-        public void RegRootICGNode(ICG.ConceptualNode node)
-        {
-            mICGNodeFromKey[node.Key] = node;
 
-            mResult = node;
-        }
 
         public ulong RegContainerECGNode(ECG.ConceptualNode node)
         {
@@ -209,7 +238,7 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         private Dictionary<string, string> mInstanceVarsAliases = new Dictionary<string, string>();
 
         private Dictionary<string, ulong> mInstancesVarKeys = new Dictionary<string, ulong>();
-
+        */
         private ICG.ConceptualNode mResult = null;
 
         public ICG.ConceptualNode Result

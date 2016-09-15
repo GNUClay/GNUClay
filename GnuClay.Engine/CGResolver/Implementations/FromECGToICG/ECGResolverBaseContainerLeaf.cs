@@ -91,7 +91,9 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinks");
 
-            foreach(var node in mInputNode.Children)
+            throw new NotImplementedException();
+
+            /*foreach (var node in mInputNode.Children)
             {
                 if(_ListHelper.IsEmpty(node.OutputNodes))
                 {
@@ -117,10 +119,10 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
                     NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinks {0} ⇒ {1}", node.FullName, secondNode.FullName);
                     NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinks {0} ⇒ {1}", tmpICGNode.Key, tmpSecondICGNode.Key);
                 }
-            }
+            }*/
         }
 
-        private ICG.BaseNode GetLinkedICGNode(ECG.BaseNode node)
+        /*private ICG.BaseNode GetLinkedICGNode(ECG.BaseNode node)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GetLinkedICGNode node.FullName = {0}", node.FullName);
 
@@ -148,6 +150,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
             NLog.LogManager.GetCurrentClassLogger().Info("GetLinkedICGRelationNode node.FullName = {0}", node.FullName);
 
             return Context.GetICGRelationNodeByECGRelationNode(node);
-        }
+        }*/
     }
 }

@@ -44,19 +44,17 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
 
         private void FindParentICGNode()
         {
-            if(mParentECGNode == null)
+            NLog.LogManager.GetCurrentClassLogger().Info("FindParentICGNode");
+
+            if (mParentECGNode == null)
             {
                 return;
             }
 
-            var tmpParentKey = Context.GetKeyByNode(mParentECGNode);
-
-            NLog.LogManager.GetCurrentClassLogger().Info("OnRun tmpParentKey = {0}", tmpParentKey);
-
-            mParentICGNode = Context.GetICGNodeByKey(tmpParentKey) as ICG.ConceptualNode;
+            mParentICGNode = Context.GetICGNodeFromECG(mParentECGNode) as ICG.ConceptualNode;
         }
 
-        protected void DeclareNewClass(ICG.ConceptualNode classNode)
+        /*protected void DeclareNewClass(ICG.ConceptualNode classNode)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("DeclareNewClass");
 
@@ -174,6 +172,6 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         private ArgumentException CreateUsingInstanceVarInTheClass(string varName)
         {
             return new ArgumentException("Using an instance variable in the class.", varName);
-        }
+        }*/
     }
 }

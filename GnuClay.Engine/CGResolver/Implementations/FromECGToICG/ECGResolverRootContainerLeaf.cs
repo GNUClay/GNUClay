@@ -18,13 +18,15 @@ namespace GnuClay.Engine.CGResolver.Implementations.FromECGToICG
         {
             NLog.LogManager.GetCurrentClassLogger().Info("OnRun");
 
-            var tmpKey = Context.RegRootECGNode(InputNode);
+            var tmpKey = Context.CreateContainerKey();
 
             NLog.LogManager.GetCurrentClassLogger().Info("OnRun tmpKey = {0}", tmpKey);
 
             var tmpICGNode = new ICG.ConceptualNode();
 
             tmpICGNode.Key = tmpKey;
+
+            Context.LinkECGAndICGNodes(InputNode, tmpICGNode);
 
             Context.RegRootICGNode(tmpICGNode);
         }
