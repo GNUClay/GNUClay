@@ -53,12 +53,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GnuClay.CG\GnuClay.CG.csproj">
-      <Project>{a2c63c14-f083-43a2-af66-50ec2f3d0ee2}</Project>
-      <Name>GnuClay.CG</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

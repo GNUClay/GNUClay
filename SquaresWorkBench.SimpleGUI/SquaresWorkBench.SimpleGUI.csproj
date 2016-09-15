@@ -113,10 +113,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj">
-      <Project>{63258204-c529-4f4a-872b-cabb772dec85}</Project>
-      <Name>SquaresWorkBench.CommonEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SquaresWorkBench.TypicalCases\SquaresWorkBench.TypicalCases.csproj">
       <Project>{e08d4cee-f8a2-4482-9963-3cb1c208a2d2}</Project>
       <Name>SquaresWorkBench.TypicalCases</Name>

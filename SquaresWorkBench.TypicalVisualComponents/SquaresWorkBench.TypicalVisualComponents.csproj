@@ -71,10 +71,6 @@
       <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
       <Name>GnuClay.CommonUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj">
-      <Project>{63258204-c529-4f4a-872b-cabb772dec85}</Project>
-      <Name>SquaresWorkBench.CommonEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

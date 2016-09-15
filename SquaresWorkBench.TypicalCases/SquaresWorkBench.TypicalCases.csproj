@@ -62,10 +62,6 @@
       <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
       <Name>GnuClay.CommonUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj">
-      <Project>{63258204-c529-4f4a-872b-cabb772dec85}</Project>
-      <Name>SquaresWorkBench.CommonEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SquaresWorkBench.TypicalVisualComponents\SquaresWorkBench.TypicalVisualComponents.csproj">
       <Project>{554d51f3-0a82-4fee-b2cf-7d85b85b8fe8}</Project>
       <Name>SquaresWorkBench.TypicalVisualComponents</Name>
