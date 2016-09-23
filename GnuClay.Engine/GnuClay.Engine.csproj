@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GnuClay.Engine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogicalStorage\CommonData\RuleInstance.cs" />
+    <Compile Include="LogicalStorage\CommonData\RulePart.cs" />
+    <Compile Include="LogicalStorage\ExpressionNode.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverEngine.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />

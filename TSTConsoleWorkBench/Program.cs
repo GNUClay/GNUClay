@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,66 @@ namespace TSTConsoleWorkBench
     class Program
     {
         static void Main(string[] args)
-        {  
+        {
+            CreateMyFirstExpressionTree();
+        }
+
+        private static void CreateMyFirstExpressionTree()
+        {
+            //Represents sentence:`parent($X, $Y) & male($Y)`
+            //Global data dictionary:
+            //parent - 1;
+            //male - 2;
+            //Variables data dictionary:
+            //$X - 1;
+            //$Y - 2;
+
+            var tmpRootNode = new ExpressionNode();
+
+            tmpRootNode.Kind = ExpressionNodeKind.And;
+
+            var tmpLeftNode = new ExpressionNode();
+
+            tmpRootNode.Left = tmpLeftNode;
+
+            tmpLeftNode.Kind = ExpressionNodeKind.Relation;
+
+            tmpLeftNode.RelationParams = new List<ExpressionNode>();
+
+            tmpLeftNode.Key = 1;
+
+            var tmpParam = new ExpressionNode();
+
+            tmpLeftNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Var;
+            tmpParam.Key = 1;
+
+            tmpParam = new ExpressionNode();
+
+            tmpLeftNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Var;
+            tmpParam.Key = 2;
+
+            var tmpRightNode = new ExpressionNode();
+
+            tmpRootNode.Right = tmpRightNode;
+
+            tmpRightNode.Kind = ExpressionNodeKind.Relation;
+
+            tmpRightNode.Key = 2;
+
+            tmpRightNode.RelationParams = new List<ExpressionNode>();
+
+            tmpParam = new ExpressionNode();
+
+            tmpRightNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Var;
+            tmpParam.Key = 2;
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpRootNode);
         }
     }
 }
