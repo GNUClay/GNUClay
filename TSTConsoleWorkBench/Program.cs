@@ -14,10 +14,5 @@ namespace TSTConsoleWorkBench
         static void Main(string[] args)
         {  
         }
-
-        private static void TSTParseNodeName()
-        {
-
-        }
     }
 }
