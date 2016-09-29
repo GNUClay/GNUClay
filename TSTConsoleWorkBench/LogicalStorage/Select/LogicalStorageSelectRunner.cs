@@ -16,7 +16,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             mCreateTestingRules = new CreateTestingRules(mLogicalStorageEngine);
 
-            mCreateTestingQuery = new CreateTestingQuery();
+            mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.mStorageDataDictionary);
         }
 
         private LogicalStorageEngine mLogicalStorageEngine = null;
@@ -31,9 +31,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             mCreateTestingRules.Run();
 
-            //var tmpSelectQuery = mCreateTestingQuery.Run();
+            var tmpSelectQuery = mCreateTestingQuery.Run();
 
-            //mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private SelectQuery mSelectQuery = null;
         private InternalStorageEngine mInternalStorageEngine = null;
         private StorageDataDictionary mStorageDataDictionary = null;
-        private List<RulePart> mExistsParts = new List<RulePart>();
+        private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
 
         public void Run()
         {
@@ -60,15 +61,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessTree(ExpressionNode rootNode, PartCaller partCaler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTree {rootNode.Kind} {rootNode.Key} partCaler {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTree `{ExpressionNodeDebugHelper.ConvertToString(rootNode, mStorageDataDictionary, null)}` partCaler = {partCaler?.RelationKey}");
 
             ProcessNextNode(rootNode, partCaler);
         }
 
         private void ProcessNextNode(ExpressionNode node, PartCaller partCaler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {node.Kind} {node.Key} partCaler {partCaler?.RelationKey}");
-
             switch(node.Kind)
             {
                 case ExpressionNodeKind.And:
@@ -93,11 +92,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessAndNode(ExpressionNode node, PartCaller partCaler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode {node.Kind} {node.Key}  partCaler {partCaler?.RelationKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode {node.Kind} {node.Key}  partCaler {partCaler?.RelationKey}");
 
             ProcessNextNode(node.Left, partCaler);
 
-            NLog.LogManager.GetCurrentClassLogger().Info("====================================");
+            NLog.LogManager.GetCurrentClassLogger().Info($"==== `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
 
             ProcessNextNode(node.Right, partCaler);
         }
@@ -118,32 +117,23 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessRelationNode(ExpressionNode node, PartCaller partCaler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode {node.Kind} {node.Key} partCaler {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode {node.Kind} `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}` node.Key = {node.Key} partCaler = {partCaler?.RelationKey}");
 
             if(partCaler != null && partCaler.RelationKey == node.Key)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("partCaler != null && partCaler.RelationKey == node.Key");
-
                 return ;
             }
 
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
-            //NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpList, nameof(tmpList)));
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpList.Count = {tmpList.Count}");
-
             foreach(var tmpPart in tmpList)
             {
-                if(mExistsParts.Contains(tmpPart))
+                if(mExistingsRules.Contains(tmpPart.Parent))
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"mExistsParts.Contains(tmpPart) {tmpPart.GetHashCode()}");
-
                     continue;
                 }
 
-                mExistsParts.Add(tmpPart);
-
-                if(tmpPart.Next == null)
+                if (tmpPart.Next == null)
                 {
                     ProcessFact(tmpPart);
 
@@ -156,7 +146,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessRule(RulePart part, int targetKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey} `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
+
+            mExistingsRules.Add(part.Parent);
 
             var tmpPartCaller = new PartCaller();
 
@@ -165,21 +157,22 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             ProcessPart(part, tmpPartCaller);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey} >>>>");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey} >>>> `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
 
             ProcessPart(part.Next, null);
         }
 
         private void ProcessFact(RulePart part)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessFact");
+            mExistingsRules.Add(part.Parent);
 
-            ProcessPart(part, null);
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact {RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info("Tree boundary");
         }
 
         private void ProcessPart(RulePart part, PartCaller partCaler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPart {partCaler?.RelationKey} {part.GetHashCode()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPart `{ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary, null)}`");
 
             ProcessTree(part.Tree, partCaler);
         }

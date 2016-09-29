@@ -1,5 +1,7 @@
 ﻿using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
+using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +12,20 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 {
     public class CreateTestingQuery
     {
+        public CreateTestingQuery(StorageDataDictionary dataDictionary)
+        {
+            mStorageDataDictionary = dataDictionary;
+        }
+
+        private StorageDataDictionary mStorageDataDictionary = null;
+
         public SelectQuery Run()
         {
             //SELECT {son(Piter, $X)}
-            //Global data dictionary:
-            //parent - 1;
-            //child - 2;
-            //son - 3;
-            //male - 4;
-            //female - 5;
-            //Tom - 6;
-            //Piter - 7;
-            //Mary - 8;
-
-            //Variables data dictionary:
-            //$X - 1;
 
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
+
+            var tmpStorageDataDictionary = new StorageDataDictionary();
 
             var tmpQuery = new SelectQuery();
 
@@ -36,7 +35,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = 3;
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("son");
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
 
@@ -45,16 +44,17 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = 7;
+            tmpParam.Key = mStorageDataDictionary.GetKey("Piter");
 
             tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Var;
 
-            tmpParam.Key = 1;
+            tmpParam.Key = tmpStorageDataDictionary.GetKey("$X");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpQuery);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpQuery, mStorageDataDictionary, null));
 
             return tmpQuery;
         }
