@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using TSTConsoleWorkBench.LogicalStorage.Select;
 
 namespace TSTConsoleWorkBench
 {
@@ -14,7 +16,31 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            CreateMyFirstExpressionTree();
+            //TSTStorageDataDictionary();
+            TSTRunSelect();
+            //CreateMyFirstExpressionTree();
+        }
+
+        public static void TSTStorageDataDictionary()
+        {
+            var tmpStorageDataDictionary = new StorageDataDictionary();
+
+            var tmpStr = "parent";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
+
+            tmpStr = "male";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
+        }
+
+        private static void TSTRunSelect()
+        {
+            var tmpLogicalStorageSelectRunner = new LogicalStorageSelectRunner();
+
+            tmpLogicalStorageSelectRunner.Run();
         }
 
         private static void CreateMyFirstExpressionTree()

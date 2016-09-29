@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.4\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,9 +47,15 @@
   <ItemGroup>
     <Compile Include="LogicalStorage\CommonData\RuleInstance.cs" />
     <Compile Include="LogicalStorage\CommonData\RulePart.cs" />
+    <Compile Include="LogicalStorage\CommonData\SelectQuery.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\ExpressionNodeDebugHelper.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\RuleInstanceDebugHelper.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\StorageDataDictionaryForVariables.cs" />
     <Compile Include="LogicalStorage\ExpressionNode.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverEngine.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\InternalResolverSelectProcess.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
+    <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,7 +65,9 @@
       <Name>GnuClay.CommonUtils</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
