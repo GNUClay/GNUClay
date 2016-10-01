@@ -55,6 +55,8 @@
     <Compile Include="LogicalStorage\ExpressionNode.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverEngine.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverSelectProcess.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\InternalResult.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\ParamsBinder.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
     <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />

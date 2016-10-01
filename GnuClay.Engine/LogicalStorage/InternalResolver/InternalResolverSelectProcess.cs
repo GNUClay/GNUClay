@@ -10,32 +10,6 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class PartCaller: IToStringData
-    {
-        public bool IsFirstPart = true;
-        public int RelationKey = 0;
-
-        public override string ToString()
-        {
-            return _ObjectHelper.PrintDefaultToStringInformation(this);
-        }
-
-        public string ToStringData()
-        {
-            var tmpSb = new StringBuilder();
-
-            tmpSb.Append(nameof(IsFirstPart));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(IsFirstPart.ToString());
-
-            tmpSb.Append(nameof(RelationKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(RelationKey.ToString());
-
-            return tmpSb.ToString();
-        }
-    }
-
     public class InternalResolverSelectProcess
     {
         public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, StorageDataDictionary dataDictionary)
@@ -54,72 +28,80 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            ProcessTree(mSelectQuery.SelectedTree, null);
+            //var tmpParamsBinder = new ParamsBinder();
+
+            var tmpInternalResult = new InternalResult();
+
+            ProcessTree(mSelectQuery.SelectedTree, null, ref tmpInternalResult);
 
             //throw new NotImplementedException();
         }
 
-        private void ProcessTree(ExpressionNode rootNode, PartCaller partCaler)
+        private void ProcessTree(ExpressionNode rootNode, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTree `{ExpressionNodeDebugHelper.ConvertToString(rootNode, mStorageDataDictionary, null)}` partCaler = {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTree `{ExpressionNodeDebugHelper.ConvertToString(rootNode, mStorageDataDictionary, null)}` partCaler = {paramsBinder?.RelationKey}");
 
-            ProcessNextNode(rootNode, partCaler);
+            ProcessNextNode(rootNode, paramsBinder, ref result);
         }
 
-        private void ProcessNextNode(ExpressionNode node, PartCaller partCaler)
+        private void ProcessNextNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
             switch(node.Kind)
             {
                 case ExpressionNodeKind.And:
-                    ProcessAndNode(node, partCaler);
+                    ProcessAndNode(node, paramsBinder, ref result);
                     break;
 
                 case ExpressionNodeKind.Or:
-                    ProcessOrNode(node, partCaler);
+                    ProcessOrNode(node, paramsBinder, ref result);
                     break;
 
                 case ExpressionNodeKind.Not:
-                    ProcessNotNode(node, partCaler);
+                    ProcessNotNode(node, paramsBinder, ref result);
                     break;
 
                 case ExpressionNodeKind.Relation:
-                    ProcessRelationNode(node, partCaler);
+                    ProcessRelationNode(node, paramsBinder, ref result);
                     break;
 
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void ProcessAndNode(ExpressionNode node, PartCaller partCaler)
+        private void ProcessAndNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode {node.Kind} {node.Key}  partCaler {partCaler?.RelationKey}");
 
-            ProcessNextNode(node.Left, partCaler);
+            var tmpLeftResult = new InternalResult();
+
+            ProcessNextNode(node.Left, paramsBinder, ref tmpLeftResult);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"==== `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
 
-            ProcessNextNode(node.Right, partCaler);
+            var tmpRightResult = new InternalResult();
+
+            ProcessNextNode(node.Right, paramsBinder, ref tmpRightResult);
         }
 
-        private void ProcessOrNode(ExpressionNode node, PartCaller partCaler)
+        private void ProcessOrNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOrNode {node.Kind} {node.Key}  partCaler {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOrNode {node.Kind} {node.Key}  partCaler {paramsBinder?.RelationKey}");
 
             throw new NotImplementedException();
         }
 
-        private void ProcessNotNode(ExpressionNode node, PartCaller partCaler)
+        private void ProcessNotNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNotNode {node.Kind} {node.Key}  partCaler {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNotNode {node.Kind} {node.Key}  partCaler {paramsBinder?.RelationKey}");
 
             throw new NotImplementedException();
         }
 
-        private void ProcessRelationNode(ExpressionNode node, PartCaller partCaler)
+        private void ProcessRelationNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode {node.Kind} `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}` node.Key = {node.Key} partCaler = {partCaler?.RelationKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode {node.Kind} `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}` node.Key = {node.Key} partCaler = {paramsBinder?.RelationKey}");
 
-            if(partCaler != null && partCaler.RelationKey == node.Key)
+            if(paramsBinder != null && paramsBinder.RelationKey == node.Key)
             {
                 return ;
             }
@@ -133,48 +115,88 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     continue;
                 }
 
+                var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder);
+
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpBinder);
+
                 if (tmpPart.Next == null)
                 {
-                    ProcessFact(tmpPart);
+                    ProcessFact(tmpPart, tmpBinder, ref result);
 
                     continue;
                 }
 
-                ProcessRule(tmpPart, node.Key);
+                ProcessRule(tmpPart, tmpBinder, ref result);
             }
         }
 
-        private void ProcessRule(RulePart part, int targetKey)
+        private void ProcessRule(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey} `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {paramsBinder.RelationKey} `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
 
             mExistingsRules.Add(part.Parent);
 
-            var tmpPartCaller = new PartCaller();
+            if(!BindParams(part.Parent, paramsBinder))
+            {
+                return;
+            }
 
-            tmpPartCaller.IsFirstPart = true;
-            tmpPartCaller.RelationKey = targetKey;
+            NLog.LogManager.GetCurrentClassLogger().Info($">>>> ProcessRule {paramsBinder}");
 
-            ProcessPart(part, tmpPartCaller);
+            var tmpFirstPartResult = new InternalResult();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {targetKey} >>>> `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
+            ProcessPart(part, paramsBinder, ref tmpFirstPartResult);
 
-            ProcessPart(part.Next, null);
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {paramsBinder.RelationKey} >>>> `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
+
+            var tmpSecondPartResult = new InternalResult();
+
+            ProcessPart(part.Next, paramsBinder, ref tmpSecondPartResult);
         }
 
-        private void ProcessFact(RulePart part)
+        private bool BindParams(RuleInstance ruleInstance, ParamsBinder paramsBinder)
+        {
+            if(ruleInstance.VarsCount > paramsBinder.ParamsList.Count)
+            {
+                return false;
+            }
+
+            var tmpTargetNode = ruleInstance.GetRealationNodeByKey(paramsBinder.RelationKey);
+
+            var tmpBinderParamsIterator = paramsBinder.ParamsList.GetEnumerator();
+            var tmpTargetNodeParamsIterator = tmpTargetNode.RelationParams.GetEnumerator();
+
+            while(tmpBinderParamsIterator.MoveNext())
+            {
+                tmpTargetNodeParamsIterator.MoveNext();
+
+                var tmpCurrBinderParam = tmpBinderParamsIterator.Current;
+
+                tmpCurrBinderParam.Key_Down = tmpTargetNodeParamsIterator.Current.Key;
+
+                if(tmpCurrBinderParam.IsEntity)
+                {
+                    paramsBinder.VarsWithEntities[tmpCurrBinderParam.Key_Down] = tmpCurrBinderParam.EntityKey;
+                }
+            }
+
+            return true;
+        }
+
+        private void ProcessFact(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
             mExistingsRules.Add(part.Parent);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact {RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info(paramsBinder);
             NLog.LogManager.GetCurrentClassLogger().Info("Tree boundary");
         }
 
-        private void ProcessPart(RulePart part, PartCaller partCaler)
+        private void ProcessPart(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPart `{ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary, null)}`");
 
-            ProcessTree(part.Tree, partCaler);
+            ProcessTree(part.Tree, paramsBinder, ref result);
         }
     }
 }

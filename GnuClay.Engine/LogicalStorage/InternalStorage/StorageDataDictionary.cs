@@ -36,5 +36,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
             return mMaxKey; 
         }
+
+        public int UniqueKeysCount()
+        {
+            return mKeysDict.Count;
+        }
     }
 }

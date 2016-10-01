@@ -14,6 +14,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public List<RuleInstance> mRulesAndFactsList = new List<RuleInstance>();
 
+        public List<int> mEntitiesList = new List<int>();
+
         public void AddIndex(int key, RulePart rulePart)
         {
             List<RulePart> tmpList = null;
@@ -45,6 +47,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             }
 
             return new List<RulePart>();
+        }
+
+        public void AddEntity(int key)
+        {
+            if(mEntitiesList.Contains(key))
+            {
+                return;
+            }
+
+            mEntitiesList.Add(key);
         }
     }
 }
