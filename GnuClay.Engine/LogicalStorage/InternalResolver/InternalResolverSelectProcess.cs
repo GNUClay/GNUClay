@@ -48,8 +48,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessTree(ExpressionNode rootNode, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTree `{ExpressionNodeDebugHelper.ConvertToString(rootNode, mStorageDataDictionary, null)}` partCaler = {paramsBinder?.RelationKey}");
-
             ProcessNextNode(rootNode, paramsBinder, ref result);
         }
 
@@ -79,36 +77,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessAndNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode pre Left `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
-
             var tmpLeftResult = new InternalResult();
 
             ProcessNextNode(node.Left, paramsBinder, ref tmpLeftResult);
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode pre Right `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
-
             var tmpRightResult = new InternalResult();
 
             ProcessNextNode(node.Right, paramsBinder, ref tmpRightResult);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAndNode End Processing `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
-
-            /*NLog.LogManager.GetCurrentClassLogger().Info("Begin LeftResult");
-
-            foreach (var tmpRezItem in tmpLeftResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End LeftResult");*/
-            /*NLog.LogManager.GetCurrentClassLogger().Info("Begin RightResult");
-
-            foreach (var tmpRezItem in tmpRightResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End RightResult");*/
 
             if(_ListHelper.IsEmpty(tmpLeftResult.Items) || _ListHelper.IsEmpty(tmpRightResult.Items))
             {
@@ -117,48 +92,26 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             var tmpTargetResult = InternalResult.MergeAsAnd(tmpLeftResult, tmpRightResult);
 
-            /*NLog.LogManager.GetCurrentClassLogger().Info("Begin tmpTargetResult");
-
-            foreach (var tmpRezItem in tmpTargetResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End tmpTargetResult");*/
-
             if(_ListHelper.IsEmpty(tmpTargetResult.Items))
             {
                 return;
             }
 
             result.Items.AddRange(tmpTargetResult.Items);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("End ProcessAndNode");
         }
 
         private void ProcessOrNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOrNode {node.Kind} {node.Key}  partCaler {paramsBinder?.RelationKey}");
-
             throw new NotImplementedException();
         }
 
         private void ProcessNotNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNotNode {node.Kind} {node.Key}  partCaler {paramsBinder?.RelationKey}");
-
             throw new NotImplementedException();
         }
 
         private void ProcessRelationNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode {node.Kind} `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}` node.Key = {node.Key} partCaler = {paramsBinder?.RelationKey}");
-
-            /*if(paramsBinder != null && paramsBinder.RelationKey == node.Key)
-            {
-                return ;
-            }*/
-
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
             foreach(var tmpPart in tmpList)
@@ -179,21 +132,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     ProcessRule(tmpPart, tmpBinder, ref result);
                 }
             }
-
-            /*NLog.LogManager.GetCurrentClassLogger().Info($"Begin result of `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");
-
-            foreach (var tmpRezItem in result.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End result of `{ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}`");*/
         }
 
         private void ProcessRule(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRule targetKey = {paramsBinder.RelationKey} `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
-
             mExistingsRules.Add(part.Parent);
 
             if(!BindParams(part.Parent, paramsBinder))
@@ -205,31 +147,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             ProcessPart(part.Next, paramsBinder, ref tmpPartResult);
 
-            /*NLog.LogManager.GetCurrentClassLogger().Info("Begin PartResult");
-
-            foreach (var tmpRezItem in tmpPartResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End PartResult");*/
-
-            //NLog.LogManager.GetCurrentClassLogger().Info($">>>> ProcessRule {paramsBinder}");
-
             tmpPartResult.Map(paramsBinder.RevertDictionary);
 
-            /*NLog.LogManager.GetCurrentClassLogger().Info($"Begin Maped PartResult of `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
-
-            foreach (var tmpRezItem in tmpPartResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Maped PartResult of `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");*/
-
             result.Items.AddRange(tmpPartResult.Items);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info($"End ProcessRule targetKey = {paramsBinder.RelationKey} `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
         }
 
         private bool BindParams(RuleInstance ruleInstance, ParamsBinder paramsBinder)
@@ -281,8 +201,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 }           
             }
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
-
             var tmpResultItem = new InternalResultItem();
             result.Items.Add(tmpResultItem);
 
@@ -306,8 +224,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessPart(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPart `{ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary, null)}` of rule `{RuleInstanceDebugHelper.ConvertToString(part.Parent, mStorageDataDictionary)}`");
-
             ProcessTree(part.Tree, paramsBinder, ref result);
         }
     }
