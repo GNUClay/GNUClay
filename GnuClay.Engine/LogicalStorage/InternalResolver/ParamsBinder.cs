@@ -54,8 +54,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             tmpItem.RelationKey = node.Key;
 
+            var tmpI = -1;
+
             foreach (var tmpParam in node.RelationParams)
             {
+                tmpI++;
+
                 var tmpBindedParam = new ParamsInfo();
 
                 tmpItem.ParamsList.Add(tmpBindedParam);
@@ -67,6 +71,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     case ExpressionNodeKind.Entity:
                         tmpBindedParam.IsEntity = true;
                         tmpBindedParam.EntityKey = tmpBindedParam.Key_Up;
+                        tmpItem.IndexesParamsWithEntities.Add(tmpI);
                         break;
 
                     case ExpressionNodeKind.Var:
@@ -80,6 +85,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                         {
                             tmpBindedParam.IsEntity = true;
                             tmpBindedParam.EntityKey = sourceParamsBinder.VarsWithEntities[tmpParam.Key];
+                            tmpItem.IndexesParamsWithEntities.Add(tmpI);
                             break;
                         }
 
@@ -99,6 +105,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public Dictionary<int, int> VarsWithEntities = new Dictionary<int, int>();
 
+        public List<int> IndexesParamsWithEntities = new List<int>();
+
+        public Dictionary<int, int> RevertDictionary = new Dictionary<int, int>();
+
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
@@ -113,6 +123,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             tmpSb.AppendLine(RelationKey.ToString());
 
             tmpSb.AppendLine(_ListHelper._ToString(ParamsList, nameof(ParamsList)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(IndexesParamsWithEntities, nameof(IndexesParamsWithEntities)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(RevertDictionary.ToList(), nameof(RevertDictionary)));
 
             return tmpSb.ToString();
         }

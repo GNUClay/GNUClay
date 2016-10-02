@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage.InternalStorage;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
                 tmpSb.Append(",");
             }
 
-            tmpSb.Remove(tmpSb.Length - 1, 1);
+            _StringBuilderHelper.TruncateEnd(tmpSb);
 
             tmpSb.Append(")");
 

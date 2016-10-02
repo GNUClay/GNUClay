@@ -49,6 +49,7 @@
     <Compile Include="LogicalStorage\CommonData\RulePart.cs" />
     <Compile Include="LogicalStorage\CommonData\SelectQuery.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\ExpressionNodeDebugHelper.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\InternalResultItemDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\RuleInstanceDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\SelectQueryDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\StorageDataDictionaryForVariables.cs" />
