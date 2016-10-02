@@ -24,7 +24,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private StorageDataDictionary mStorageDataDictionary = null;
         private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
 
-        public void Run()
+        public SelectResult Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Run `{ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary, null)}`");
 
@@ -37,13 +37,31 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             foreach (var tmpRezItem in tmpInternalResult.Items)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpRezItem = {tmpRezItem}");
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info("End tmpInternalResult");
 
+            var tmpResult = CreateResult(tmpInternalResult);
+
             NLog.LogManager.GetCurrentClassLogger().Info($"End Run `{ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary, null)}`");
 
             //throw new NotImplementedException();
+
+            return tmpResult;
+        }
+
+        private SelectResult CreateResult(InternalResult result)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("CreateResult");
+
+            var tmpResult = new SelectResult();
+
+
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End CreateResult");
+
+            return tmpResult;
         }
 
         private void ProcessTree(ExpressionNode rootNode, ParamsBinder paramsBinder, ref InternalResult result)

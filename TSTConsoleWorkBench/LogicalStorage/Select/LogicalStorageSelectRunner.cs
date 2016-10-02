@@ -33,7 +33,10 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             var tmpSelectQuery = mCreateTestingQuery.Run();
 
-            mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            var tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult = {tmpResult}");
+            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
     }
