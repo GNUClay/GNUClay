@@ -10,7 +10,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class ExpressionNodeDebugHelper
     {
-        public static string ConvertToString(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        public static string ConvertToString(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             if(localDataDictionary == null)
             {
@@ -20,7 +20,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             return ProcesNode(node, dataDictionary, localDataDictionary);
         }
 
-        private static string ProcesNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcesNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             switch (node.Kind)
             {
@@ -46,22 +46,22 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             }
         }
 
-        private static string ProcessAndNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessAndNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)} & {ProcesNode(node.Right, dataDictionary, localDataDictionary)}";
         }
 
-        private static string ProcessOrNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessOrNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)} | {ProcesNode(node.Right, dataDictionary, localDataDictionary)}";
         }
 
-        private static string ProcessNotNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessNotNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)}";
         }
 
-        private static string ProcessRelationNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessRelationNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             var tmpSb = new StringBuilder();
 
@@ -81,12 +81,12 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             return tmpSb.ToString();
         }
 
-        private static string ProcessEntityNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessEntityNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return dataDictionary.GetValue(node.Key);
         }
 
-        private static string ProcessVarNode(ExpressionNode node, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        private static string ProcessVarNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return localDataDictionary.GetValue(node.Key);
         }

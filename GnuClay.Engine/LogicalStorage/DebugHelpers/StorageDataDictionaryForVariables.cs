@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.LogicalStorage.InternalStorage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
-    public class StorageDataDictionaryForVariables
+    public class StorageDataDictionaryForVariables: IReadOnlyStorageDataDictionary
     {
         public string GetValue(int key)
         {
@@ -27,6 +28,11 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             mValuesDict[key] = tmpStr;
 
             return tmpStr;
+        }
+
+        public int UniqueKeysCount()
+        {
+            return mValuesDict.Count;
         }
     }
 }

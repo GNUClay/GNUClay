@@ -45,21 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogicalStorage\CommonData\FactException.cs" />
+    <Compile Include="LogicalStorage\CommonData\InsertQuery.cs" />
+    <Compile Include="LogicalStorage\CommonData\RuleException.cs" />
     <Compile Include="LogicalStorage\CommonData\RuleInstance.cs" />
     <Compile Include="LogicalStorage\CommonData\RulePart.cs" />
     <Compile Include="LogicalStorage\CommonData\SelectQuery.cs" />
     <Compile Include="LogicalStorage\CommonData\SelectResult.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\ExpressionNodeDebugHelper.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\InsertQueryDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\InternalResultItemDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\RuleInstanceDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\SelectQueryDebugHelper.cs" />
+    <Compile Include="LogicalStorage\DebugHelpers\SelectResultDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\StorageDataDictionaryForVariables.cs" />
     <Compile Include="LogicalStorage\ExpressionNode.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatistics.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverEngine.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\InternalResolverInsertProcess.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverSelectProcess.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResult.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ParamsBinder.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
+    <Compile Include="LogicalStorage\InternalStorage\IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

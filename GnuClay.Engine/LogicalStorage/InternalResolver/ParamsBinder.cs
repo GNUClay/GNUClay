@@ -48,7 +48,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
     public class ParamsBinder : IToStringData
     {
-        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder)
+        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<int, int> EKMap)
         {
             var tmpItem = new ParamsBinder();
 
@@ -70,12 +70,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 {
                     case ExpressionNodeKind.Entity:
                         tmpBindedParam.IsEntity = true;
-                        tmpBindedParam.EntityKey = tmpBindedParam.Key_Up;
+                        tmpBindedParam.EntityKey = EKMap[tmpBindedParam.Key_Up];
                         tmpItem.IndexesParamsWithEntities.Add(tmpI);
                         break;
 
                     case ExpressionNodeKind.Var:
-                        if(sourceParamsBinder == null)
+                        if(sourceParamsBinder.IsRoot)
                         {
                             tmpBindedParam.IsEntity = false;
                             break;
@@ -99,6 +99,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             return tmpItem;
         }
 
+        public bool IsRoot = false;
+
         public int RelationKey = 0;
 
         public List<ParamsInfo> ParamsList = new List<ParamsInfo>();
@@ -117,6 +119,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
+
+            tmpSb.Append(nameof(IsRoot));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(IsRoot.ToString());
 
             tmpSb.Append(nameof(RelationKey));
             tmpSb.Append(" = ");

@@ -58,5 +58,85 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             return tmpQuery;
         }
+
+        public SelectQuery RunCase_2()
+        {
+            //SELECT {son(Piter, Tom)}
+
+            NLog.LogManager.GetCurrentClassLogger().Info("Run");
+
+            var tmpStorageDataDictionary = new StorageDataDictionary();
+
+            var tmpQuery = new SelectQuery();
+
+            var tmpRootExpressionNode = new ExpressionNode();
+
+            tmpQuery.SelectedTree = tmpRootExpressionNode;
+
+            tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
+
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("son");
+
+            tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
+
+            var tmpParam = new ExpressionNode();
+            tmpRootExpressionNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Entity;
+
+            tmpParam.Key = mStorageDataDictionary.GetKey("Piter");
+
+            tmpParam = new ExpressionNode();
+            tmpRootExpressionNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Entity;
+
+            tmpParam.Key = mStorageDataDictionary.GetKey("Tom");
+
+            //NLog.LogManager.GetCurrentClassLogger().Info(tmpQuery);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpQuery, mStorageDataDictionary, null));
+
+            return tmpQuery;
+        }
+
+        public SelectQuery RunCase_3()
+        {
+            //SELECT {son(Piter, Tom)}
+
+            NLog.LogManager.GetCurrentClassLogger().Info("Run");
+
+            var tmpStorageDataDictionary = new StorageDataDictionary();
+
+            var tmpQuery = new SelectQuery();
+
+            var tmpRootExpressionNode = new ExpressionNode();
+
+            tmpQuery.SelectedTree = tmpRootExpressionNode;
+
+            tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
+
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("son");
+
+            tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
+
+            var tmpParam = new ExpressionNode();
+            tmpRootExpressionNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Var;
+
+            tmpParam.Key = tmpStorageDataDictionary.GetKey("$X");
+
+            tmpParam = new ExpressionNode();
+            tmpRootExpressionNode.RelationParams.Add(tmpParam);
+
+            tmpParam.Kind = ExpressionNodeKind.Var;
+
+            tmpParam.Key = tmpStorageDataDictionary.GetKey("$Y");
+
+            //NLog.LogManager.GetCurrentClassLogger().Info(tmpQuery);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpQuery, mStorageDataDictionary, null));
+
+            return tmpQuery;
+        }
     }
 }

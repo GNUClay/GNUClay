@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalStorage
 {
-    public class StorageDataDictionary
+    public class StorageDataDictionary: IReadOnlyStorageDataDictionary
     {
         public int GetKey(string val)
         {

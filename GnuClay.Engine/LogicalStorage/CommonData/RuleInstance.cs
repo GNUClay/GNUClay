@@ -16,6 +16,18 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         public Dictionary<int, ExpressionNode> LocalRelationsIndex = new Dictionary<int, ExpressionNode>();
 
+        private int mHasheCode = 0;
+
+        public void CalculateHashCode()
+        {
+            //NLog.LogManager.GetCurrentClassLogger().Info("CalculateHashCode");
+        }
+
+        public override int GetHashCode()
+        {
+            return mHasheCode;
+        }
+
         public void IndexRelationNode(ExpressionNode node)
         {
             LocalRelationsIndex[node.Key] = node;

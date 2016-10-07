@@ -8,22 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.LogicalStorage.Select
+namespace TSTConsoleWorkBench.LogicalStorage.Insert
 {
-    public class CreateTestingRules
+    public class CreateTestingQuery
     {
-        public CreateTestingRules(LogicalStorageEngine engine)
+        public CreateTestingQuery(StorageDataDictionary storageDataDictionary)
         {
-            mEngine = engine;
+            mStorageDataDictionary = storageDataDictionary;
         }
 
-        private LogicalStorageEngine mEngine = null;
+        private InsertQuery mInsertQuery = null;
 
-        public void Run()
+        private StorageDataDictionary mStorageDataDictionary = null;
+
+        public InsertQuery Run()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Run");
-
-            //mEngine.mStorageDataDictionary.GetKey("Piter");
+            mInsertQuery = new InsertQuery();
 
             CreateRule_1();
             CreateRule_2();
@@ -32,6 +32,8 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             CreateRule_5();
             CreateRule_6();
             CreateRule_7();
+
+            return mInsertQuery;
         }
 
         private void CreateRule_1()
@@ -41,6 +43,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             var tmpStorageDataDictionary = new StorageDataDictionary();
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart_1 = new RulePart();
 
@@ -66,13 +69,11 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("parent");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("parent");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart_1);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
@@ -97,13 +98,11 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("child");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("child");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart_2);
 
             tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
@@ -121,12 +120,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            tmpRule.VarsCount = tmpStorageDataDictionary.UniqueKeysCount();
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_2()
@@ -136,6 +130,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             var tmpStorageDataDictionary = new StorageDataDictionary();
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart_1 = new RulePart();
 
@@ -161,13 +156,11 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("son");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("son");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart_1);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
@@ -199,11 +192,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpLeftNode.RelationParams = new List<ExpressionNode>();
 
-            tmpLeftNode.Key = mEngine.mStorageDataDictionary.GetKey("child");
+            tmpLeftNode.Key = mStorageDataDictionary.GetKey("child");
 
             tmpRule.IndexRelationNode(tmpLeftNode);
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpLeftNode.Key, tmpRulePart_2);
 
             tmpParam = new ExpressionNode();
             tmpLeftNode.RelationParams.Add(tmpParam);
@@ -225,11 +216,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRightNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRightNode.Key = mEngine.mStorageDataDictionary.GetKey("male");
+            tmpRightNode.Key = mStorageDataDictionary.GetKey("male");
 
             tmpRule.IndexRelationNode(tmpRightNode);
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRightNode.Key, tmpRulePart_2);
 
             tmpRightNode.RelationParams = new List<ExpressionNode>();
 
@@ -242,12 +231,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            tmpRule.VarsCount = tmpStorageDataDictionary.UniqueKeysCount();
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_3()
@@ -255,6 +239,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             //>: {parent(Tom, Piter)}
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart = new RulePart();
 
@@ -268,11 +253,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("parent");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("parent");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
 
@@ -281,24 +264,18 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Tom");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Tom");
 
             tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Piter");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Piter");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Tom"));
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Piter"));
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_4()
@@ -306,6 +283,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             //>: {parent(Tom, Mary)}
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart = new RulePart();
 
@@ -319,37 +297,29 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("parent");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("parent");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Tom");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Tom");
 
             tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Mary");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Mary");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Tom"));
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Mary"));
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_5()
@@ -357,6 +327,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             //>: {male(Piter)}
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart = new RulePart();
 
@@ -370,29 +341,22 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("male");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("male");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Piter");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Piter");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Piter"));
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_6()
@@ -400,6 +364,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             //>: {female(Mary)}
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart = new RulePart();
 
@@ -413,29 +378,22 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("female");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("female");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Mary");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Mary");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Mary"));
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
 
         private void CreateRule_7()
@@ -443,6 +401,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
             //>: {male(Bob)}
 
             var tmpRule = new RuleInstance();
+            mInsertQuery.Items.Add(tmpRule);
 
             var tmpRulePart = new RulePart();
 
@@ -456,29 +415,22 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             tmpRootExpressionNode.Kind = ExpressionNodeKind.Relation;
 
-            tmpRootExpressionNode.Key = mEngine.mStorageDataDictionary.GetKey("male");
+            tmpRootExpressionNode.Key = mStorageDataDictionary.GetKey("male");
 
             tmpRule.IndexRelationNode(tmpRootExpressionNode);
 
             tmpRootExpressionNode.RelationParams = new List<ExpressionNode>();
-
-            mEngine.mInternalStorageEngine.AddIndex(tmpRootExpressionNode.Key, tmpRulePart);
 
             var tmpParam = new ExpressionNode();
             tmpRootExpressionNode.RelationParams.Add(tmpParam);
 
             tmpParam.Kind = ExpressionNodeKind.Entity;
 
-            tmpParam.Key = mEngine.mStorageDataDictionary.GetKey("Bob");
+            tmpParam.Key = mStorageDataDictionary.GetKey("Bob");
 
             //NLog.LogManager.GetCurrentClassLogger().Info(tmpRule);
 
-            mEngine.mInternalStorageEngine.mRulesAndFactsList.Add(tmpRule);
-
-            mEngine.mInternalStorageEngine.AddEntity(mEngine.mStorageDataDictionary.GetKey("Bob"));
-
-            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mEngine.mStorageDataDictionary));
-            //NLog.LogManager.GetCurrentClassLogger().Info($"VarsCount = {tmpRule.VarsCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info(RuleInstanceDebugHelper.ConvertToString(tmpRule, mStorageDataDictionary));
         }
     }
 }

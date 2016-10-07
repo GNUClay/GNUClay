@@ -21,17 +21,18 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public SelectResult SelectQuery(SelectQuery query)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("SelectQuery");
-
             var tmpProcess = new InternalResolverSelectProcess(query, mInternalStorageEngine, mStorageDataDictionary);
 
             var tmpResult = tmpProcess.Run();
 
-            NLog.LogManager.GetCurrentClassLogger().Info("SelectQuery Finish");
-
-            //throw new NotImplementedException();
-
             return tmpResult;
+        }
+
+        public void InsertQuery(InsertQuery query)
+        {
+            var tmpProcess = new InternalResolverInsertProcess(query, mInternalStorageEngine, mStorageDataDictionary);
+
+            tmpProcess.Run();
         }
     }
 }

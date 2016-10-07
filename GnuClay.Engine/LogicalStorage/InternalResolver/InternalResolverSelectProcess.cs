@@ -23,45 +23,163 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private InternalStorageEngine mInternalStorageEngine = null;
         private StorageDataDictionary mStorageDataDictionary = null;
         private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
+        private List<int> mVariablesKeys = new List<int>();
+
+        private Dictionary<int, List<ExpressionNode>> mModifyEntityKeyExpressionNodeDict = new Dictionary<int, List<ExpressionNode>>();
+        private Dictionary<int, int> mVarKeyEntityKeyDict = new Dictionary<int, int>();
+        private int mMaxVarCount = 0;
 
         public SelectResult Run()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run `{ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary, null)}`");
+            ModifySelectTree();
+
+            var tmpParamBinder = new ParamsBinder();
+
+            tmpParamBinder.IsRoot = true;
 
             var tmpInternalResult = new InternalResult();
 
-            ProcessTree(mSelectQuery.SelectedTree, null, ref tmpInternalResult);
-
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin tmpInternalResult");
-
-            foreach (var tmpRezItem in tmpInternalResult.Items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{InternalResultItemDebugHelper.ConvertToString(tmpRezItem, mStorageDataDictionary, null)}");
-                NLog.LogManager.GetCurrentClassLogger().Info($"tmpRezItem = {tmpRezItem}");
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End tmpInternalResult");
+            ProcessTree(mSelectQuery.SelectedTree, tmpParamBinder, ref tmpInternalResult);
 
             var tmpResult = CreateResult(tmpInternalResult);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Run `{ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary, null)}`");
-
-            //throw new NotImplementedException();
 
             return tmpResult;
         }
 
         private SelectResult CreateResult(InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CreateResult");
-
             var tmpResult = new SelectResult();
 
+            if(result.Items.Count == 0)
+            {
+                return tmpResult;
+            }
 
+            tmpResult.Success = true;
 
-            NLog.LogManager.GetCurrentClassLogger().Info("End CreateResult");
+            foreach (var tmpRezItem in result.Items)
+            {
+                var tmpSelectResultItem = new SelectResultItem();
+
+                tmpResult.Items.Add(tmpSelectResultItem);
+
+                if(mVariablesKeys.Count == 0)
+                {
+                    continue;
+                }
+
+                foreach(var varKey in mVariablesKeys)
+                {
+                    var targetValue = tmpRezItem.ParamsDict[varKey];
+
+                    var tmpParamItem = new VarResultItem();
+
+                    tmpSelectResultItem.Params.Add(tmpParamItem);
+
+                    tmpParamItem.ParamKey = varKey;
+                    tmpParamItem.EntityKey = targetValue;
+                }
+            }
 
             return tmpResult;
+        }
+
+        private void ModifySelectTree()
+        {
+            ModifySelectedTreeNode(mSelectQuery.SelectedTree);
+
+            var tmpN = mMaxVarCount;
+
+            foreach (var tmpItem in mModifyEntityKeyExpressionNodeDict)
+            {
+                tmpN++;
+                mVarKeyEntityKeyDict[tmpN] = tmpItem.Key;
+
+                foreach (var tmpParam in tmpItem.Value)
+                {
+                    tmpParam.Key = tmpN;
+                }
+            }
+
+            if(mMaxVarCount > 0)
+            {
+                for (var n = 1; n <= mMaxVarCount; n++)
+                {
+                    mVariablesKeys.Add(n);
+                }
+            }
+        }
+
+        private void ModifySelectedTreeNode(ExpressionNode node)
+        {
+            switch (node.Kind)
+            {
+                case ExpressionNodeKind.And:
+                    ModifySelectedAndNode(node);
+                    break;
+
+                case ExpressionNodeKind.Or:
+                    ModifySelectedOrNode(node);
+                    break;
+
+                case ExpressionNodeKind.Not:
+                    ModifySelectedNotNode(node);
+                    break;
+
+                case ExpressionNodeKind.Relation:
+                    ModifySelectedRelationNode(node);
+                    break;
+
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void ModifySelectedAndNode(ExpressionNode node)
+        {
+            ModifySelectedTreeNode(node.Left);
+            ModifySelectedTreeNode(node.Right);
+        }
+
+        private void ModifySelectedOrNode(ExpressionNode node)
+        {
+            ModifySelectedTreeNode(node.Left);
+            ModifySelectedTreeNode(node.Right);
+        }
+
+        private void ModifySelectedNotNode(ExpressionNode node)
+        {
+            ModifySelectedTreeNode(node.Left);
+        }
+
+        private void ModifySelectedRelationNode(ExpressionNode node)
+        {
+            foreach(var tmpParam in node.RelationParams)
+            {
+                if(tmpParam.Kind == ExpressionNodeKind.Entity)
+                {
+                    List<ExpressionNode> tmpList = null;
+
+                    if (mModifyEntityKeyExpressionNodeDict.ContainsKey(tmpParam.Key))
+                    {
+                        tmpList = mModifyEntityKeyExpressionNodeDict[tmpParam.Key];
+                    }
+                    else
+                    {
+                        tmpList = new List<ExpressionNode>();
+
+                        mModifyEntityKeyExpressionNodeDict.Add(tmpParam.Key, tmpList);
+                    }
+
+                    tmpList.Add(tmpParam);
+                }
+                else
+                {
+                    if(tmpParam.Key > mMaxVarCount)
+                    {
+                        mMaxVarCount = tmpParam.Key; 
+                    }
+                }
+            }
         }
 
         private void ProcessTree(ExpressionNode rootNode, ParamsBinder paramsBinder, ref InternalResult result)
@@ -132,6 +250,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
+            Dictionary<int, int> KEMap = null;
+
+            if(paramsBinder.IsRoot)
+            {
+                KEMap = mVarKeyEntityKeyDict;
+            }
+
             foreach(var tmpPart in tmpList)
             {
                 if(mExistingsRules.Contains(tmpPart.Parent))
@@ -139,7 +264,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     continue;
                 }
 
-                var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder);
+                var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, KEMap);
 
                 if (tmpPart.Next == null)
                 {

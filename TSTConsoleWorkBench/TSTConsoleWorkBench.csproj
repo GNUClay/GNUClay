@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogicalStorage\Insert\CreateTestingQuery.cs" />
+    <Compile Include="LogicalStorage\Insert\LogicalStorageInsertRunner.cs" />
     <Compile Include="LogicalStorage\Select\CreateTestingQuery.cs" />
     <Compile Include="LogicalStorage\Select\CreateTestingRules.cs" />
     <Compile Include="LogicalStorage\Select\LogicalStorageSelectRunner.cs" />

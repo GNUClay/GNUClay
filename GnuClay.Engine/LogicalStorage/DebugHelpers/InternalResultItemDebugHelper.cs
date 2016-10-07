@@ -11,7 +11,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class InternalResultItemDebugHelper
     {
-        public static string ConvertToString(InternalResultItem source, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localStorage)
+        public static string ConvertToString(InternalResultItem source, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localStorage)
         {
             if(localStorage == null)
             {

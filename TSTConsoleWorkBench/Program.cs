@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using TSTConsoleWorkBench.LogicalStorage.Insert;
 using TSTConsoleWorkBench.LogicalStorage.Select;
 
 namespace TSTConsoleWorkBench
@@ -16,12 +17,20 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
+            TSTRunInsert();
             //TSTStorageDataDictionary();
-            TSTRunSelect();
+            //TSTRunSelect();
             //CreateMyFirstExpressionTree();
         }
 
-        public static void TSTStorageDataDictionary()
+        private static void TSTRunInsert()
+        {
+            var tmpLogicalStorageInsertRunner = new LogicalStorageInsertRunner();
+
+            tmpLogicalStorageInsertRunner.Run();
+        }
+
+        private static void TSTStorageDataDictionary()
         {
             var tmpStorageDataDictionary = new StorageDataDictionary();
 

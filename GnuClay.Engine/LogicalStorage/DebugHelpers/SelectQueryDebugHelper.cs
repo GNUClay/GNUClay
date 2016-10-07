@@ -10,7 +10,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class SelectQueryDebugHelper
     {
-        public static string ConvertToString(SelectQuery query, StorageDataDictionary dataDictionary, StorageDataDictionaryForVariables localDataDictionary)
+        public static string ConvertToString(SelectQuery query, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary = null)
         {
             if (localDataDictionary == null)
             {

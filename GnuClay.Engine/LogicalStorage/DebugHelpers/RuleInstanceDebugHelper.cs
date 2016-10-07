@@ -10,7 +10,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class RuleInstanceDebugHelper
     {
-        public static string ConvertToString(RuleInstance source, StorageDataDictionary dataDictionary)
+        public static string ConvertToString(RuleInstance source, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpStorageDataDictionaryForVariables = new StorageDataDictionaryForVariables();
 
