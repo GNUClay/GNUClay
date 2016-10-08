@@ -16,14 +16,25 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         public Dictionary<int, ExpressionNode> LocalRelationsIndex = new Dictionary<int, ExpressionNode>();
 
-        private int mHasheCode = 0;
+        private long mHasheCode = 0;
 
         public void CalculateHashCode()
         {
             //NLog.LogManager.GetCurrentClassLogger().Info("CalculateHashCode");
+
+            mHasheCode = Part_1.GetLongHashCode();
+
+            if (Part_2 == null)
+            {
+                mHasheCode *= 1000;
+            }
+            else { 
+                mHasheCode += Part_2.GetLongHashCode();
+                mHasheCode *= 10000;
+            }
         }
 
-        public override int GetHashCode()
+        public long GetLongHashCode()
         {
             return mHasheCode;
         }

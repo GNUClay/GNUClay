@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage.InternalResolver;
+﻿using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,26 @@ namespace GnuClay.Engine.LogicalStorage
             mInternalResolverEngine = new InternalResolverEngine(mInternalStorageEngine, mStorageDataDictionary);
         }
 
-        public StorageDataDictionary mStorageDataDictionary = null;
-        public InternalStorageEngine mInternalStorageEngine = null;
-        public InternalResolverEngine mInternalResolverEngine = null;
+        private StorageDataDictionary mStorageDataDictionary = null;
+        private InternalStorageEngine mInternalStorageEngine = null;
+        private InternalResolverEngine mInternalResolverEngine = null;
+
+        public StorageDataDictionary DataDictionary
+        {
+            get
+            {
+                return mStorageDataDictionary;
+            }
+        }
+
+        public SelectResult SelectQuery(SelectQuery query)
+        {
+            return mInternalResolverEngine.SelectQuery(query);
+        }
+
+        public void InsertQuery(InsertQuery query)
+        {
+            mInternalResolverEngine.InsertQuery(query);
+        }
     }
 }

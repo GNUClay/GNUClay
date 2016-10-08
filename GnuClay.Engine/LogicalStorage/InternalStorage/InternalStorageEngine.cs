@@ -14,6 +14,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public List<RuleInstance> mRulesAndFactsList = new List<RuleInstance>();
 
+        public Dictionary<long, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict = new Dictionary<long, List<RuleInstance>>();
+
         public List<int> mEntitiesList = new List<int>();
 
         public void AddIndex(int key, RulePart rulePart)
@@ -57,6 +59,26 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             }
 
             mEntitiesList.Add(key);
+        }
+
+        public void RegExistsStatisticsHashCode(RuleInstance targetItem)
+        {
+            List<RuleInstance> tmpList = null;
+
+            var hasheCode = targetItem.GetLongHashCode();
+
+            if (mLongHasheCodeRulesAndFactsDict.ContainsKey(hasheCode))
+            {
+                tmpList = mLongHasheCodeRulesAndFactsDict[hasheCode];
+            }
+            else
+            {
+                tmpList = new List<RuleInstance>();
+
+                mLongHasheCodeRulesAndFactsDict.Add(hasheCode, tmpList);
+            }
+
+            tmpList.Add(targetItem);
         }
     }
 }

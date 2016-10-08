@@ -31,6 +31,69 @@ namespace GnuClay.Engine.LogicalStorage
 
         public List<ExpressionNode> RelationParams = null;
 
+        public long GetLongHashCode()
+        {
+            switch (Kind)
+            {
+                case ExpressionNodeKind.And:
+                    return GetLongAndHashCode();
+
+                case ExpressionNodeKind.Or:
+                    return GetLongOrHashCode();
+
+                case ExpressionNodeKind.Not:
+                    return GetLongNotHashCode();
+
+                case ExpressionNodeKind.Relation:
+                    return GetLongRelationHashCode();
+
+                case ExpressionNodeKind.Var:
+                    return GetLongVarHashCode();
+
+                case ExpressionNodeKind.Entity:
+                    return GetLongEntityHashCode();
+
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private long GetLongAndHashCode()
+        {
+            return (int)Kind * 500 * (Left.GetLongHashCode() + Right.GetLongHashCode());
+        }
+
+        private long GetLongOrHashCode()
+        {
+            return (int)Kind * 400 * (Left.GetLongHashCode() + Right.GetLongHashCode());
+        }
+
+        private long GetLongNotHashCode()
+        {
+            return (int)Kind * 300 * Left.GetLongHashCode();
+        }
+
+        private long GetLongRelationHashCode()
+        {
+            long tmpHashCode = (int)Kind * 200 * Key;
+
+            foreach(var tmpParam in RelationParams)
+            {
+                tmpHashCode += tmpParam.GetLongHashCode();
+            }
+
+            return tmpHashCode;
+        }
+
+        private long GetLongVarHashCode()
+        {
+            return (int)Kind * 100 * Key;
+        }
+
+        private long GetLongEntityHashCode()
+        {
+            return (int)Kind * 10 * Key;
+        }
+
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);

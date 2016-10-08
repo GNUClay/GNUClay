@@ -32,7 +32,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             CreateRule_5();
             CreateRule_6();
             CreateRule_7();
-
+            
             return mInsertQuery;
         }
 

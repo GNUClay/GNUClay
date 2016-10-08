@@ -24,11 +24,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private StorageDataDictionary mStorageDataDictionary = null;
 
         private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
+        private Dictionary<long, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<long, List<RuleInstance>>();
 
         public void Run()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info("Run");
-
             if(_ListHelper.IsEmpty(mInsertQuery.Items))
             {
                 throw new NullReferenceException("Query is not contain inserting items.");
@@ -37,28 +36,18 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             FillStatistics();
 
             ImplementStatistics();
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
         private void FillStatistics()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info("FillStatistics");
-
             foreach(var tmpItem in mInsertQuery.Items)
             {
                 GetStatistics(tmpItem);
             }
-
-            //NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(mStatisticsList, nameof(mStatisticsList)));
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("End FillStatistics");
         }
 
         private void ImplementStatistics()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info("ImplementStatistics");
-
             foreach (var tmpStatisticsItem in mStatisticsList)
             {
                 mInternalStorageEngine.mRulesAndFactsList.Add(tmpStatisticsItem.Target);
@@ -75,21 +64,20 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                         mInternalStorageEngine.AddIndex(tmpRelation, tmpIndexedPartItem.Key);
                     }
                 }
-            }
 
-            //NLog.LogManager.GetCurrentClassLogger().Info("End ImplementStatistics");
+                mInternalStorageEngine.RegExistsStatisticsHashCode(tmpStatisticsItem.Target);
+            }
         }
 
         private void GetStatistics(RuleInstance targetItem)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`");
-
             var tmpStatistics = new InsertQueryItemStatistics();
-            mStatisticsList.Add(tmpStatistics);
-
+            
             tmpStatistics.Target = targetItem;
 
             targetItem.CalculateHashCode();
+
+            CheckUnique(targetItem);
 
             AnalyzingTreeNode(targetItem.Part_1.Tree, targetItem.Part_1, tmpStatistics);
 
@@ -99,8 +87,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 ValidateFact(tmpStatistics);
             }else{ 
-                //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics begin part 2`{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`");
-
                 tmpStatistics.IsRule = true;
 
                 AnalyzingTreeNode(targetItem.Part_2.Tree, targetItem.Part_2, tmpStatistics);
@@ -111,15 +97,48 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             targetItem.VarsCount = tmpStatistics.VarsCount;
             targetItem.LocalRelationsIndex = tmpStatistics.LocalRelationsIndex;
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"tmpStatistics = {tmpStatistics}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"targetItem.GetHashCode() = {targetItem.GetHashCode()}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"End GetStatistics `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`");
+            mStatisticsList.Add(tmpStatistics);
+        }
+
+        private void CheckUnique(RuleInstance targetItem)
+        {
+            var hasheCode = targetItem.GetLongHashCode();
+
+            if (mExistsStatisticsHashCodes.ContainsKey(hasheCode))
+            {
+                throw new NotImplementedException($"Duplicated rule or fact `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`. Processing collision does not implemented yet");
+            }
+
+            RegExistsStatisticsHashCode(targetItem);
+
+            if(mInternalStorageEngine.mLongHasheCodeRulesAndFactsDict.ContainsKey(hasheCode))
+            {
+                throw new NotImplementedException($"Duplicated rule or fact `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`. Processing collision does not implemented yet");
+            }
+        }
+
+        private void RegExistsStatisticsHashCode(RuleInstance targetItem)
+        {
+            List<RuleInstance> tmpList = null;
+
+            var hasheCode = targetItem.GetLongHashCode();
+
+            if (mExistsStatisticsHashCodes.ContainsKey(hasheCode))
+            {
+                tmpList = mExistsStatisticsHashCodes[hasheCode];
+            }
+            else
+            {
+                tmpList = new List<RuleInstance>();
+
+                mExistsStatisticsHashCodes.Add(hasheCode, tmpList);
+            }
+
+            tmpList.Add(targetItem);
         }
 
         private void ValidateRule(InsertQueryItemStatistics context)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateRule context = {context}");
-
             if(context.Vars.Count == 0)
             {
                 throw new RuleException($"The rule `{RuleInstanceDebugHelper.ConvertToString(context.Target, mStorageDataDictionary)}` must contain one or more variables");
@@ -128,7 +147,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
         }
 
         private void AnalyzingTreeNode(ExpressionNode node, RulePart part, InsertQueryItemStatistics context)

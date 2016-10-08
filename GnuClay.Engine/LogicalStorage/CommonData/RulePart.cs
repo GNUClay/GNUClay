@@ -15,6 +15,11 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         public ExpressionNode Tree = null;
 
+        public long GetLongHashCode()
+        {
+            return Tree.GetLongHashCode();
+        }
+
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);

@@ -19,7 +19,6 @@ namespace TSTConsoleWorkBench
         {
             TSTRunInsert();
             //TSTStorageDataDictionary();
-            //TSTRunSelect();
             //CreateMyFirstExpressionTree();
         }
 
@@ -47,13 +46,6 @@ namespace TSTConsoleWorkBench
             NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpStorageDataDictionary.UniqueKeysCount() = {tmpStorageDataDictionary.UniqueKeysCount()}");
-        }
-
-        private static void TSTRunSelect()
-        {
-            var tmpLogicalStorageSelectRunner = new LogicalStorageSelectRunner();
-
-            tmpLogicalStorageSelectRunner.Run();
         }
 
         private static void CreateMyFirstExpressionTree()

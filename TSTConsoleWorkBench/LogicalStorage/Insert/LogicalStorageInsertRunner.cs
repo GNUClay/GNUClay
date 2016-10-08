@@ -14,9 +14,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             mLogicalStorageEngine = new LogicalStorageEngine();
 
-            mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.mStorageDataDictionary);
+            mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
 
-            mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.mStorageDataDictionary);
+            mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
         }
 
         private LogicalStorageEngine mLogicalStorageEngine = null;
@@ -31,45 +31,45 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             var tmpSelectQuery = mCreateSelectTestingQuery.Run();
 
-            var tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            var tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             tmpSelectQuery = mCreateSelectTestingQuery.RunCase_2();
 
-            tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             tmpSelectQuery = mCreateSelectTestingQuery.RunCase_3();
 
-            tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             var tmpInsertQuery = mCreateTestingQuery.Run();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.mStorageDataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.DataDictionary)}`");
 
-            mLogicalStorageEngine.mInternalResolverEngine.InsertQuery(tmpInsertQuery);
+            mLogicalStorageEngine.InsertQuery(tmpInsertQuery);
 
             tmpSelectQuery = mCreateSelectTestingQuery.Run();
 
-            tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             tmpSelectQuery = mCreateSelectTestingQuery.RunCase_2();
 
-            tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             tmpSelectQuery = mCreateSelectTestingQuery.RunCase_3();
 
-            tmpResult = mLogicalStorageEngine.mInternalResolverEngine.SelectQuery(tmpSelectQuery);
+            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.mStorageDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
