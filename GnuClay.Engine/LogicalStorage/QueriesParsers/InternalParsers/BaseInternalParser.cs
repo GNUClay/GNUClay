@@ -20,6 +20,11 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             while((CurrToken = Context.Read()) != null)
             {
                 OnRun();
+
+                if(mIsExited)
+                {
+                    break;
+                }
             }
 
             OnExit();
@@ -33,6 +38,13 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         protected virtual void OnExit()
         {
+        }
+
+        private bool mIsExited = false;
+
+        protected void Exit()
+        {
+            mIsExited = true;
         }
     }
 }

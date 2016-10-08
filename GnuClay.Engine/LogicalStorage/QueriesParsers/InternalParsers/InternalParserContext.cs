@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.LogicalStorage.InternalStorage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,22 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 {
     public class InternalParserContext
     {
-        public InternalParserContext(List<Token> source)
+        public InternalParserContext(List<Token> source, StorageDataDictionary dataDictionary)
         {
             mSource = new Queue<Token>(source);
+            mStorageDataDictionary = dataDictionary;
         }
 
         private Queue<Token> mSource = null;
+        private StorageDataDictionary mStorageDataDictionary = null;
+
+        public StorageDataDictionary DataDictionary
+        {
+            get
+            {
+                return mStorageDataDictionary;
+            }
+        }
 
         public Token Read()
         {
@@ -33,6 +44,11 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             tmpNewList.AddRange(tmpOldList);
 
             mSource = new Queue<Token>(tmpNewList);
+        }
+
+        public bool IsEmpty()
+        {
+            return mSource.Count == 0;
         }
     }
 }

@@ -19,6 +19,8 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
             var tmpInternalExpressionParser = new InternalExpressionParser(Context);
             tmpInternalExpressionParser.Run();
+
+            Context.Read();
         }
     }
 }

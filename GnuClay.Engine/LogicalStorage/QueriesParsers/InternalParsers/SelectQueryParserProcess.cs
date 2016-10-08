@@ -33,7 +33,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
             var tmpTokensList = tmpLexer.Run();
 
-            var tmpContext = new InternalParserContext(tmpTokensList);
+            var tmpContext = new InternalParserContext(tmpTokensList, mStorageDataDictionary);
 
             var tmpInternalSelectQueryParser = new InternalSelectQueryParser(tmpContext);
 
