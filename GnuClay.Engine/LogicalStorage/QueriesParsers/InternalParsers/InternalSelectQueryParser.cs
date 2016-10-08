@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+{
+    public class InternalSelectQueryParser: BaseInternalParser
+    {
+        private enum State
+        {
+            Init,
+            FirstStep,
+            ParsingSelect,
+            AfterParsingSelect
+        }
+
+        public InternalSelectQueryParser(InternalParserContext context)
+            : base(context)
+        {
+        }
+
+        private State mState = State.Init;
+
+        protected override void OnRun()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"CurrToken = {CurrToken.TokenKind} mState = {mState}");
+
+            switch(mState)
+            {
+                case State.Init:
+                    switch(CurrToken.TokenKind)
+                    {
+                        case TokenKind.SELECT:
+                            mState = State.FirstStep;
+                            break;
+
+                        default:throw new UndefinedTokenException(CurrToken.TokenKind);
+                    }
+                    break;
+
+                case State.FirstStep:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.OpenFigureBracket:
+                            mState = State.ParsingSelect;
+                            var tmpSelectQueryParser = new InternalSelectedTreeParser(Context);
+                            tmpSelectQueryParser.Run();
+                            mState = State.AfterParsingSelect;
+                            break;
+
+                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                    }
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(mState));
+            }
+        }
+    }
+}

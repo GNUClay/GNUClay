@@ -34,8 +34,8 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            //var tmpSelectQueryText = "SELECT{son(Piter,$X1)}";
-            var tmpSelectQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
+            var tmpSelectQueryText = "SELECT{son(Piter,$X1)}";
+            //var tmpSelectQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
             /*var tmpSelectQuery = mCreateSelectTestingQuery.Run();
 

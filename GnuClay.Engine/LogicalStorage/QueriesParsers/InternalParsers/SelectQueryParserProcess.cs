@@ -31,11 +31,15 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
             var tmpLexer = new Lexer(mText);
 
+            var tmpTokensList = tmpLexer.Run();
+
+            var tmpContext = new InternalParserContext(tmpTokensList);
+
+            var tmpInternalSelectQueryParser = new InternalSelectQueryParser(tmpContext);
+
             try
             {
-                var tmpTokensList = tmpLexer.Run();
-
-                NLog.LogManager.GetCurrentClassLogger().Info(_ListHelper._ToString(tmpTokensList, nameof(tmpTokensList)));
+                tmpInternalSelectQueryParser.Run();
             }
             catch(Exception e)
             {

@@ -71,9 +71,15 @@
     <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InsertQueryParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\BaseInternalParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalExpressionParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalParserContext.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalSelectedTreeParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalSelectQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\Lexer.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\SelectQueryParserProcess.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\Token.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\UndefinedTokenException.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\SelectQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\UndefinedSymbolException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
