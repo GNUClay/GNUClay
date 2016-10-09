@@ -9,9 +9,9 @@ using GnuClay.CommonUtils.TypeHelpers;
 
 namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 {
-    public class SelectQueryParserProcess
+    public class InsertQueryParserProcess
     {
-        public SelectQueryParserProcess(string text, StorageDataDictionary dataDictionary)
+        public InsertQueryParserProcess(string text, StorageDataDictionary dataDictionary)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -25,7 +25,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         private StorageDataDictionary mStorageDataDictionary = null;
         private string mText = string.Empty;
 
-        public SelectQuery Run()
+        public InsertQuery Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Run `{mText}`");
 
@@ -35,11 +35,11 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
             var tmpContext = new InternalParserContext(tmpTokensList, mStorageDataDictionary);
 
-            var tmpInternalSelectQueryParser = new InternalSelectQueryParser(tmpContext);
+            var tmpInternalInsertQueryParser = new InternalInsertQueryParser(tmpContext);
 
-            tmpInternalSelectQueryParser.Run();
+            tmpInternalInsertQueryParser.Run();
 
-            return tmpInternalSelectQueryParser.Result;
+            return tmpInternalInsertQueryParser.Result;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.LogicalStorage.CommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         }
 
         private State mState = State.Init;
+
+        public SelectQuery Result = new SelectQuery();
 
         protected override void OnRun()
         {
@@ -47,6 +50,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                             mState = State.ParsingSelect;
                             var tmpSelectQueryParser = new InternalSelectedTreeParser(Context);
                             tmpSelectQueryParser.Run();
+                            Result.SelectedTree = tmpSelectQueryParser.Result;
                             mState = State.AfterParsingSelect;
                             break;
 

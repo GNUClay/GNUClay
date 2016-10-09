@@ -18,9 +18,15 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             EndDeclaringRelation
         }
 
-        public InternalExpressionParser(InternalParserContext context)
+        public InternalExpressionParser(InternalParserContext context, StorageDataDictionary localDataDictionary = null)
             : base(context)
         {
+            mLocalDataDictionary = localDataDictionary;
+
+            if (mLocalDataDictionary == null)
+            {
+                mLocalDataDictionary = new StorageDataDictionary();
+            }
         }
 
         private State mState = State.Init;
@@ -36,7 +42,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             }
         }
 
-        private StorageDataDictionary mLocalDataDictionary = new StorageDataDictionary();
+        private StorageDataDictionary mLocalDataDictionary = null;
 
         protected override void OnRun()
         {
@@ -54,8 +60,17 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                             tmpNode.Kind = ExpressionNodeKind.Relation;
                             tmpNode.RelationParams = new List<ExpressionNode>();
                             tmpNode.Key = Context.DataDictionary.GetKey(CurrToken.Content);
-                            mRootNode = tmpNode;
-                            mCurrentNode = mRootNode;
+
+                            if(mRootNode == null)
+                            {
+                                mRootNode = tmpNode;
+                            }
+                            else
+                            {
+                                mRootNode.Right = tmpNode;
+                            }
+                            
+                            mCurrentNode = tmpNode;
                             mState = State.DeclaredRelationName;
                             break;
 
@@ -108,6 +123,15 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                         case TokenKind.CloseFigureBracket:
                             Context.Recovery(CurrToken);
                             Exit();
+                            break;
+
+                        case TokenKind.And:
+                            tmpNode = new ExpressionNode();
+                            tmpNode.Kind = ExpressionNodeKind.And;
+                            tmpNode.Left = mCurrentNode;
+                            mCurrentNode = tmpNode;
+                            mRootNode = tmpNode;
+                            mState = State.Init;
                             break;
 
                         default: throw new UndefinedTokenException(CurrToken.TokenKind);

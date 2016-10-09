@@ -13,12 +13,24 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         {
         }
 
+        private ExpressionNode mRootNode = null;
+
+        public ExpressionNode Result
+        {
+            get
+            {
+                return mRootNode;
+            }
+        }
+
         protected override void OnRun()
         {
             Context.Recovery(CurrToken);
 
             var tmpInternalExpressionParser = new InternalExpressionParser(Context);
             tmpInternalExpressionParser.Run();
+
+            mRootNode = tmpInternalExpressionParser.Result;
 
             Context.Read();
         }

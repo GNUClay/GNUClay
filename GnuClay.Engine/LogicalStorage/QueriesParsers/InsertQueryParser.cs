@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
+using GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,18 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Run `{text}`");
 
-            throw new NotImplementedException();
+            try
+            {
+                var tmpProcess = new InsertQueryParserProcess(text, mStorageDataDictionary);
+
+                return tmpProcess.Run();
+            }
+            catch(Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
+            }
+
+            return null;
         }
     }
 }

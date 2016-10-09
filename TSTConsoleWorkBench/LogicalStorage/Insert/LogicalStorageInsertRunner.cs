@@ -20,6 +20,8 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
 
             mSelectQueryParser = new SelectQueryParser(mLogicalStorageEngine.DataDictionary);
+
+            mInsertQueryParser = new InsertQueryParser(mLogicalStorageEngine.DataDictionary);
         }
 
         private LogicalStorageEngine mLogicalStorageEngine = null;
@@ -30,12 +32,14 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
         private SelectQueryParser mSelectQueryParser = null;
 
+        private InsertQueryParser mInsertQueryParser = null;
+
         public void Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
             var tmpSelectQueryText = "SELECT{son(Piter,$X1)}";
-            //var tmpSelectQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
+            var tmpInsertQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
             /*var tmpSelectQuery = mCreateSelectTestingQuery.Run();
 
@@ -55,6 +59,12 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));*/
 
+            var tmpInsertQuery = mInsertQueryParser.Run(tmpInsertQueryText);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.DataDictionary)}`");
+
+            mLogicalStorageEngine.InsertQuery(tmpInsertQuery);
+
             /*var tmpInsertQuery = mCreateTestingQuery.Run();
 
             NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.DataDictionary)}`");
@@ -62,14 +72,15 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
             var tmpSelectQuery = mSelectQueryParser.Run(tmpSelectQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, mLogicalStorageEngine.DataDictionary, null));
 
-            /*tmpSelectQuery = mCreateSelectTestingQuery.Run();
+            /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/
 
-            tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
+            var tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
 
-            tmpSelectQuery = mCreateSelectTestingQuery.RunCase_2();
+            /*tmpSelectQuery = mCreateSelectTestingQuery.RunCase_2();
 
             tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
 

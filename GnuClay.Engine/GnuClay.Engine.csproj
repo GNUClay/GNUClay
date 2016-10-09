@@ -73,8 +73,11 @@
     <Compile Include="LogicalStorage\QueriesParsers\AbnormalTerminationException.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InsertQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\BaseInternalParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InsertQueryParserProcess.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalExpressionParser.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalInsertQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalParserContext.cs" />
+    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalRuleParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalSelectedTreeParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalSelectQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\Lexer.cs" />

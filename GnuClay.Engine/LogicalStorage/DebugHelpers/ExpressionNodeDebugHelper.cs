@@ -22,6 +22,11 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
         private static string ProcesNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
+            if(node == null)
+            {
+                return string.Empty;
+            }
+
             switch (node.Kind)
             {
                 case ExpressionNodeKind.And:
