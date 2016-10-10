@@ -46,8 +46,6 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         protected override void OnRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CurrToken = {CurrToken.TokenKind} mState = {mState}");
-
             ExpressionNode tmpNode = null;
 
             switch (mState)
@@ -140,9 +138,6 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState));
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, Context.DataDictionary, mLocalDataDictionary)}`");
-            NLog.LogManager.GetCurrentClassLogger().Info($"mCurrentNode = `{ExpressionNodeDebugHelper.ConvertToString(mCurrentNode, Context.DataDictionary, mLocalDataDictionary)}`");
         }
 
         protected override void OnExit()

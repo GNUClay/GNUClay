@@ -28,8 +28,6 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         protected override void OnRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CurrToken = {CurrToken.TokenKind} mState = {mState}");
-
             switch(mState)
             {
                 case State.Init:

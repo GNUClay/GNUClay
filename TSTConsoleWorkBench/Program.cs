@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
 using TSTConsoleWorkBench.LogicalStorage.Select;
+using TSTConsoleWorkBench.LogicalStorage.Wrapper;
 
 namespace TSTConsoleWorkBench
 {
@@ -17,9 +18,16 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTRunInsert();
+            TSTRunWrapper();
+            //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTRunWrapper()
+        {
+            var tmpLogicalStorageWrapperRunner = new LogicalStorageWrapperRunner();
+            tmpLogicalStorageWrapperRunner.Run();
         }
 
         private static void TSTRunInsert()

@@ -70,6 +70,7 @@
     <Compile Include="LogicalStorage\InternalStorage\IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
+    <Compile Include="LogicalStorage\LogicalStorageExampleWrapper.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\AbnormalTerminationException.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InsertQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\BaseInternalParser.cs" />

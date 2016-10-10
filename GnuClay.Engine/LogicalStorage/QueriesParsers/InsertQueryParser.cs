@@ -20,20 +20,9 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers
 
         public InsertQuery Run(string text)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run `{text}`");
+            var tmpProcess = new InsertQueryParserProcess(text, mStorageDataDictionary);
 
-            try
-            {
-                var tmpProcess = new InsertQueryParserProcess(text, mStorageDataDictionary);
-
-                return tmpProcess.Run();
-            }
-            catch(Exception e)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info(e.ToString());
-            }
-
-            return null;
+            return tmpProcess.Run();
         }
     }
 }

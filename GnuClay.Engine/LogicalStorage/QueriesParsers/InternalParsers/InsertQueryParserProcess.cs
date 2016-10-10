@@ -27,8 +27,6 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         public InsertQuery Run()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run `{mText}`");
-
             var tmpLexer = new Lexer(mText);
 
             var tmpTokensList = tmpLexer.Run();
