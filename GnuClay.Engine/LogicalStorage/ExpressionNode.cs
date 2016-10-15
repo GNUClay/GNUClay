@@ -7,18 +7,50 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage
 {
+    /// <summary>
+    /// The kind of some expression node.
+    /// </summary>
     public enum ExpressionNodeKind
     {
+        /// <summary>
+        /// Represents `And` node.
+        /// </summary>
         And,
+
+        /// <summary>
+        /// Represents `Or` node.
+        /// </summary>
         Or,
+
+        /// <summary>
+        /// Represents `Not` node.
+        /// </summary>
         Not,
+
+        /// <summary>
+        /// Represents some relation.
+        /// </summary>
         Relation,
+
+        /// <summary>
+        /// Represents some entity.
+        /// </summary>
         Entity,
+
+        /// <summary>
+        /// Represents some variable.
+        /// </summary>
         Var
     }
 
+    /// <summary>
+    /// The node of some expression.
+    /// </summary>
     public class ExpressionNode: IToStringData
     {
+        /// <summary>
+        /// Kind of this node instance.
+        /// </summary>
         public ExpressionNodeKind Kind = ExpressionNodeKind.And;
 
         /// <summary>
@@ -26,11 +58,25 @@ namespace GnuClay.Engine.LogicalStorage
         /// </summary>
         public int Key = 0;
 
+        /// <summary>
+        /// The node of left branch expression.
+        /// </summary>
         public ExpressionNode Left = null;
+
+        /// <summary>
+        /// The node of right branch expression.
+        /// </summary>
         public ExpressionNode Right = null;
 
+        /// <summary>
+        /// Params of relation. Has params if Kind equal ExpressionNodeKind.Relation.
+        /// </summary>
         public List<ExpressionNode> RelationParams = null;
 
+        /// <summary>
+        /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
+        /// </summary>
+        /// <returns>The hash code for this instance</returns>
         public long GetLongHashCode()
         {
             switch (Kind)
@@ -94,11 +140,19 @@ namespace GnuClay.Engine.LogicalStorage
             return (int)Kind * 10 * Key;
         }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
         }
 
+        /// <summary>
+        /// Provides string data for method ToString.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();

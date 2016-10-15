@@ -13,11 +13,19 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         public int EntityKey = 0;
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
         }
 
+        /// <summary>
+        /// Provides string data for method ToString.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
@@ -38,11 +46,19 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
     {
         public List<VarResultItem> Params = new List<VarResultItem>();
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
         }
 
+        /// <summary>
+        /// Provides string data for method ToString.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
@@ -59,11 +75,19 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         public List<SelectResultItem> Items = new List<SelectResultItem>();
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
         }
 
+        /// <summary>
+        /// Provides string data for method ToString.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();

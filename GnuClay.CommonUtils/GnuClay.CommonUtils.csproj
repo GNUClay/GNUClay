@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\GnuClay.CommonUtils.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParserHelpers\UnexpectedSymbolException.cs" />
-    <Compile Include="ParserHelpers\UnexpectedTokenException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasking\ActiveContext.cs" />
     <Compile Include="Tasking\ActiveObject.cs" />

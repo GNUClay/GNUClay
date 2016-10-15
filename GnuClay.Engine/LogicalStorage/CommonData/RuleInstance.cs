@@ -7,17 +7,36 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.CommonData
 {
+    /// <summary>
+    /// Represents instance of rule (or fact) in the storage.
+    /// </summary>
     public class RuleInstance : IToStringData
     {
+        /// <summary>
+        /// Head of rule (or fact).
+        /// </summary>
         public RulePart Part_1 = null;
+
+        /// <summary>
+        /// Body of rule (or fact).
+        /// </summary>
         public RulePart Part_2 = null;
 
+        /// <summary>
+        /// Count variables in the rule.
+        /// </summary>
         public int VarsCount = 0;
 
+        /// <summary>
+        /// Links key and relation which this key represents in the rule (or fact).
+        /// </summary>
         public Dictionary<int, ExpressionNode> LocalRelationsIndex = new Dictionary<int, ExpressionNode>();
 
         private long mHasheCode = 0;
 
+        /// <summary>
+        /// Calculating long hashcode (which may get by GetLongHashCode()).
+        /// </summary>
         public void CalculateHashCode()
         {
             //NLog.LogManager.GetCurrentClassLogger().Info("CalculateHashCode");
@@ -34,26 +53,47 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
             }
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
+        /// </summary>
+        /// <returns>The hash code for this instance</returns>
         public long GetLongHashCode()
         {
             return mHasheCode;
         }
 
+        /// <summary>
+        /// Add some expression node to LocalRelationsIndex.
+        /// </summary>
+        /// <param name="node">Added expression node.</param>
         public void IndexRelationNode(ExpressionNode node)
         {
             LocalRelationsIndex[node.Key] = node;
         }
 
+        /// <summary>
+        /// Get some expression node from LocalRelationsIndex by its key.
+        /// </summary>
+        /// <param name="key">The key of target expression node.</param>
+        /// <returns></returns>
         public ExpressionNode GetRealationNodeByKey(int key)
         {
             return LocalRelationsIndex[key];
         }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return _ObjectHelper.PrintDefaultToStringInformation(this);
         }
 
+        /// <summary>
+        /// Provides string data for method ToString.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
