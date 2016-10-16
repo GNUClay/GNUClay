@@ -2,8 +2,7 @@
 ##Overview
 I develop just for fun a small expert system based on the principles of Prolog.
 
-[Href text](http://gnuclay.github.io/ "FFF")
-My project site
+[My project site](http://gnuclay.github.io/ "GNU Clay")
 
 Pure Prolog has a very minimalistic syntax.
 As a result, the writing on it complicated programs generates large amounts of code.
@@ -33,7 +32,7 @@ Names are case sensitive.
 So, `x` and `X`; `Dog` and `dog` - are different names.
 
 ###Types of entities
-Class. At the moment, it is just some entity of the subject area.
+**Class**. At the moment, it is just some entity of the subject area.
 In the future, it will be a class in terms of object-oriented programming.
 Standard name. Globally unique.
 
