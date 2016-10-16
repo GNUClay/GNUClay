@@ -68,7 +68,9 @@ All variables in the rule are quantifier ∀.
 While we can not set a different quantifier for a variable.
 
 The fact has the structure:
->: {A($X)}
+
+`>: {A($X)}`
+
 The logical expression is enclosed in figure brackets.
 Fact may contain only one relation.
 Fact can not contain variables.
