@@ -23,20 +23,23 @@ The name may contain latin letters (in any case), numbers and underscore.
 The name may begin with any of these types of characters.
 
 Examples of valid names:
+
 `Tom, fire3, tom_and_jerry, _Tom, 1X, _1m_X_5`
 
 Names are case sensitive.
-So, x and X; Dog and dog - are different names.
+So, `x` and `X`; `Dog` and `dog` - are different names.
 
 ###Types of entities
 Class. At the moment, it is just some entity of the subject area.
 In the future, it will be a class in terms of object-oriented programming.
 Standard name. Globally unique.
 Examples: 
+
 `Tom, fire3, tom_and_jerry, _Tom, 1X, _1m_X_5`
 
 Variable. Standard name with the symbol $ before its. It is unique within its rule.
 Examples: 
+
 `$dog, $X, $Z_1`
 
 Relation. Standard name with its parameters, that are followed for it in round brackets.
@@ -44,11 +47,18 @@ Separator of these parameters - the comma.
 There must be at least one parameter.
 The parameter must be a class or a variable.
 The first parameter must necessarily be a logical subject.
-Examples: male(Tom), male($X), parent($X, $Y).
+
+Examples: 
+
+`male(Tom), male($X), parent($X, $Y)`
+
 
 ###Logical expression
 Logical expression consists of at least one relationship.
-Examples: male(Tom), male($X), parent($X, $Y).
+
+Examples: 
+
+`male(Tom), male($X), parent($X, $Y)`
 
 Two or more relationships can be combined by operation "AND" (denoted by symbol &).
 Examples: parent($X1, $X2) & male($X2).
