@@ -36,17 +36,17 @@ So, `x` and `X`; `Dog` and `dog` - are different names.
 In the future, it will be a class in terms of object-oriented programming.
 Standard name. Globally unique.
 
-Examples: 
+Examples: </br>
 
 `Tom, fire3, tom_and_jerry, _Tom, 1X, _1m_X_5`
 
-Variable. Standard name with the symbol $ before its. It is unique within its rule.
+**Variable**. Standard name with the symbol $ before its. It is unique within its rule.
 
 Examples: 
 
 `$dog, $X, $Z_1`
 
-Relation. Standard name with its parameters, that are followed for it in round brackets.
+**Relation**. Standard name with its parameters, that are followed for it in round brackets.
 Separator of these parameters - the comma.
 There must be at least one parameter.
 The parameter must be a class or a variable.
