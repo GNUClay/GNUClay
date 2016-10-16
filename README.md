@@ -37,7 +37,6 @@ In the future, it will be a class in terms of object-oriented programming.
 Standard name. Globally unique.
 
 Examples: </br>
-
 `Tom, fire3, tom_and_jerry, _Tom, 1X, _1m_X_5`
 
 **Variable**. Standard name with the symbol $ before its. It is unique within its rule.
