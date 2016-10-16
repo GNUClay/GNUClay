@@ -33,11 +33,13 @@ So, `x` and `X`; `Dog` and `dog` - are different names.
 Class. At the moment, it is just some entity of the subject area.
 In the future, it will be a class in terms of object-oriented programming.
 Standard name. Globally unique.
+
 Examples: 
 
 `Tom, fire3, tom_and_jerry, _Tom, 1X, _1m_X_5`
 
 Variable. Standard name with the symbol $ before its. It is unique within its rule.
+
 Examples: 
 
 `$dog, $X, $Z_1`
@@ -61,7 +63,10 @@ Examples:
 `male(Tom), male($X), parent($X, $Y)`
 
 Two or more relationships can be combined by operation "AND" (denoted by symbol &).
-Examples: parent($X1, $X2) & male($X2).
+
+Examples: 
+
+`parent($X1, $X2) & male($X2)`
 
 ###Structures of the language
 The language consists of facts and rules, like Prolog.
@@ -89,14 +94,20 @@ Fact can not contain variables.
 
 ###Query language
 ####Extracting information
-Format: SELECT {A($X)}.
+Format: 
+
+`SELECT {A($X)}`
+
 The extracted expression is enclosed in figure brackets.
 The field Success contains a boolean values: true or false.
 If the query contains variables, we return a list of results.
 Each result contains the found values of these variables.
 
 ####Adding information
-Format: INSERT {added a fact or rule}.
+Format: 
+
+`INSERT {added a fact or rule}`
+
 Added rule or fact is enclosed in figure brackets.
 Acceptable simultaneously adding two or more of the facts or the rules in one expression.
 Separator added facts or rules - a comma.
