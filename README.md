@@ -55,7 +55,7 @@ Examples: parent($X1, $X2) & male($X2).
 The language consists of facts and rules, like Prolog.
 
 The rule has the structure:
->: {A($X)} -> {B($X)}
+`>: {A($X)} -> {B($X)}`
 Which means: A($X) is true if it is true B($X).
 So, B($X) is true if it is true A($X).
 The logical expressions are enclosed in figure brackets braces in the two parts of the rule.
