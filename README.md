@@ -116,15 +116,24 @@ Separator added facts or rules - a comma.
 `INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}`
 
 `? SELECT {son(Piter,$X1)}`
+
 `yes`
+
 `$X1 = Tom`
 
+
 `? SELECT {son(Piter,Tom)}`
+
 `yes`
+
 
 `? SELECT {son($X1,$X2)}`
+
 `yes`
+
 `$X1 = Piter;$X2 = Tom`
 
+
 `? SELECT {son(Piter,Mary)}`
+
 `no`
