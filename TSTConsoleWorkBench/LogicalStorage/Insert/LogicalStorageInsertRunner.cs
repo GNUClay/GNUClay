@@ -13,7 +13,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
     {
         public LogicalStorageInsertRunner()
         {
-            mLogicalStorageEngine = new LogicalStorageEngine();
+            mLogicalStorageEngine = new LogicalStorageEngine(null);
 
             mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
 

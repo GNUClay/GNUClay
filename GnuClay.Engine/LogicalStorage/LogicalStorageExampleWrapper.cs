@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage.CommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.LogicalStorage.QueriesParsers;
@@ -14,12 +15,12 @@ namespace GnuClay.Engine.LogicalStorage
     {
         public LogicalStorageExampleWrapper()
         {
-            mLogicalStorageEngine = new LogicalStorageEngine();
-            mSelectQueryParser = new SelectQueryParser(mLogicalStorageEngine.DataDictionary);
-            mInsertQueryParser = new InsertQueryParser(mLogicalStorageEngine.DataDictionary);
+            mGnuClayEngine = new GnuClayEngine();
+            mSelectQueryParser = new SelectQueryParser(mGnuClayEngine.DataDictionary);
+            mInsertQueryParser = new InsertQueryParser(mGnuClayEngine.DataDictionary);
         }
 
-        private LogicalStorageEngine mLogicalStorageEngine = null;
+        private GnuClayEngine mGnuClayEngine = null;
         private SelectQueryParser mSelectQueryParser = null;
         private InsertQueryParser mInsertQueryParser = null;
 
@@ -27,7 +28,7 @@ namespace GnuClay.Engine.LogicalStorage
         {
             get
             {
-                return mLogicalStorageEngine.DataDictionary;
+                return mGnuClayEngine.DataDictionary;
             }
         }
 
@@ -44,7 +45,7 @@ namespace GnuClay.Engine.LogicalStorage
             {
                 var tmpInsertQuery = mInsertQueryParser.Run(text);
 
-                mLogicalStorageEngine.InsertQuery(tmpInsertQuery);
+                mGnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
                 return null;
             }
@@ -53,7 +54,7 @@ namespace GnuClay.Engine.LogicalStorage
             {
                 var tmpSelectQuery = mSelectQueryParser.Run(text);
                 
-                return mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
+                return mGnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
             }
 
             throw new NotImplementedException();

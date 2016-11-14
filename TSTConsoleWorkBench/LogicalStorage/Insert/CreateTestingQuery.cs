@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
@@ -40,7 +41,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             //>: {parent($X, $Y)} -> {child($Y, $X)}
 
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpRule = new RuleInstance();
             mInsertQuery.Items.Add(tmpRule);
@@ -127,7 +128,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             //>: {son($X, $Y)} -> {child($X, $Y) & male($X)}
 
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpRule = new RuleInstance();
             mInsertQuery.Items.Add(tmpRule);

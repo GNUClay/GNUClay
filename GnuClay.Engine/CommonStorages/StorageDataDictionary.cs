@@ -1,13 +1,19 @@
-﻿using System;
+﻿using GnuClay.Engine.InternalCommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.InternalStorage
+namespace GnuClay.Engine.CommonStorages
 {
-    public class StorageDataDictionary: IReadOnlyStorageDataDictionary
+    public class StorageDataDictionary: BaseGnuClayEngineComponent, IReadOnlyStorageDataDictionary
     {
+        public StorageDataDictionary(GnuClayEngineComponentContext context)
+            : base(context)
+        {
+        }
+
         public int GetKey(string val)
         {
             if(mValuesDict.ContainsKey(val))

@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
@@ -8,9 +9,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
 using TSTConsoleWorkBench.LogicalStorage.Select;
 using TSTConsoleWorkBench.LogicalStorage.Wrapper;
+using TSTConsoleWorkBench.ScriptExecuting;
 
 namespace TSTConsoleWorkBench
 {
@@ -18,10 +21,24 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTRunWrapper();
+            //TSTCommonRunner();
+            TSTInitialRunner();
+            //TSTRunWrapper();
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTCommonRunner()
+        {
+            var tmpCommonRunner = new CommonRunner();
+            tmpCommonRunner.Run();
+        }
+
+        private static void TSTInitialRunner()
+        {
+            var tmpInitialRunner = new InitialRunner();
+            tmpInitialRunner.Run();
         }
 
         private static void TSTRunWrapper()
@@ -39,7 +56,7 @@ namespace TSTConsoleWorkBench
 
         private static void TSTStorageDataDictionary()
         {
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpStr = "parent";
 

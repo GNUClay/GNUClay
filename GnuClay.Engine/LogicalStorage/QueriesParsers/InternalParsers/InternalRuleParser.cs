@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage.CommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         private RulePart Part_1 = null;
         private RulePart Part_2 = null;
 
-        private StorageDataDictionary mLocalDataDictionary = new StorageDataDictionary();
+        private StorageDataDictionary mLocalDataDictionary = new StorageDataDictionary(null);
 
         protected override void OnRun()
         {

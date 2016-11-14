@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GnuClayEngine.cs" />
+    <Compile Include="InternalCommonData\BaseGnuClayEngineComponent.cs" />
+    <Compile Include="InternalCommonData\GnuClayEngineComponentContext.cs" />
     <Compile Include="LogicalStorage\CommonData\FactException.cs" />
     <Compile Include="LogicalStorage\CommonData\InsertQuery.cs" />
     <Compile Include="LogicalStorage\CommonData\RuleException.cs" />
@@ -67,8 +70,8 @@
     <Compile Include="LogicalStorage\InternalResolver\InternalResult.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ParamsBinder.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
-    <Compile Include="LogicalStorage\InternalStorage\IReadOnlyStorageDataDictionary.cs" />
-    <Compile Include="LogicalStorage\InternalStorage\StorageDataDictionary.cs" />
+    <Compile Include="CommonStorages\IReadOnlyStorageDataDictionary.cs" />
+    <Compile Include="CommonStorages\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="LogicalStorage\LogicalStorageExampleWrapper.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\AbnormalTerminationException.cs" />
@@ -88,6 +91,29 @@
     <Compile Include="LogicalStorage\QueriesParsers\SelectQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\UndefinedSymbolException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptExecutor\CommonData\IGnuClayScriptFunctor.cs" />
+    <Compile Include="ScriptExecutor\CommonData\IRunTimeTypeProcessingContext.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ITryCallResult.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ITypeProcessingContext.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ITypeProvider.cs" />
+    <Compile Include="ScriptExecutor\CommonData\IValueFactory.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClaySctriptExecutingContext.cs" />
+    <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\BaseTypeProvider.cs" />
+    <Compile Include="StandardLibrary\CommonData\BaseValue.cs" />
+    <Compile Include="ScriptExecutor\CommonData\IValue.cs" />
+    <Compile Include="StandardLibrary\CommonData\GCSMemberAttribute.cs" />
+    <Compile Include="StandardLibrary\CommonData\NumberValue.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ScriptRuntimeException.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutor.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
+    <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
+    <Compile Include="StandardLibrary\CommonData\TryCallResult.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\GCSClassInfo.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\TypeProcessingContext.cs" />
+    <Compile Include="StandardLibrary\NumberProvider.cs" />
+    <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptSystemFunctor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">

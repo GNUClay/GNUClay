@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
@@ -25,7 +26,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpQuery = new SelectQuery();
 
@@ -65,7 +66,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpQuery = new SelectQuery();
 
@@ -105,7 +106,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Select
 
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var tmpStorageDataDictionary = new StorageDataDictionary();
+            var tmpStorageDataDictionary = new StorageDataDictionary(null);
 
             var tmpQuery = new SelectQuery();
 

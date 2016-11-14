@@ -1,4 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
@@ -12,11 +14,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResolverInsertProcess
     {
-        public InternalResolverInsertProcess(InsertQuery query, InternalStorageEngine engine, StorageDataDictionary dataDictionary)
+        public InternalResolverInsertProcess(InsertQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
         {
             mInsertQuery = query;
             mInternalStorageEngine = engine;
-            mStorageDataDictionary = dataDictionary;
+            mStorageDataDictionary = context.DataDictionary;
         }
 
         private InsertQuery mInsertQuery = null;

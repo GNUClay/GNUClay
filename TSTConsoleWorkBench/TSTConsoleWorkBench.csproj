@@ -47,12 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRunner.cs" />
+    <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LogicalStorage\Insert\CreateTestingQuery.cs" />
     <Compile Include="LogicalStorage\Insert\LogicalStorageInsertRunner.cs" />
     <Compile Include="LogicalStorage\Select\CreateTestingQuery.cs" />
     <Compile Include="LogicalStorage\Wrapper\LogicalStorageWrapperRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptExecuting\InitialRunner.cs" />
+    <Compile Include="ScriptExecuting\TstValue.cs" />
+    <Compile Include="ScriptExecuting\TSTValueProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.InternalStorage
+namespace GnuClay.Engine.CommonStorages
 {
     public interface IReadOnlyStorageDataDictionary
     {

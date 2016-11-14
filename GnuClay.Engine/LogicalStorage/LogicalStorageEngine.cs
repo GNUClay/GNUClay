@@ -1,4 +1,6 @@
-﻿using GnuClay.Engine.LogicalStorage.CommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
@@ -9,16 +11,17 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage
 {
-    public class LogicalStorageEngine
+    public class LogicalStorageEngine: BaseGnuClayEngineComponent
     {
-        public LogicalStorageEngine()
+        public LogicalStorageEngine(GnuClayEngineComponentContext context)
+            : base(context)
         {
-            mStorageDataDictionary = new StorageDataDictionary();
+            NLog.LogManager.GetCurrentClassLogger().Info("LogicalStorageEngine");
+
             mInternalStorageEngine = new InternalStorageEngine();
-            mInternalResolverEngine = new InternalResolverEngine(mInternalStorageEngine, mStorageDataDictionary);
+            mInternalResolverEngine = new InternalResolverEngine(mInternalStorageEngine, Context);
         }
 
-        private StorageDataDictionary mStorageDataDictionary = null;
         private InternalStorageEngine mInternalStorageEngine = null;
         private InternalResolverEngine mInternalResolverEngine = null;
 
@@ -26,7 +29,7 @@ namespace GnuClay.Engine.LogicalStorage
         {
             get
             {
-                return mStorageDataDictionary;
+                return Context.DataDictionary;
             }
         }
 

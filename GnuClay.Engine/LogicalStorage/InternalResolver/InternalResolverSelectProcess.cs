@@ -1,4 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
@@ -12,11 +14,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResolverSelectProcess
     {
-        public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, StorageDataDictionary dataDictionary)
+        public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
         {
             mSelectQuery = query;
             mInternalStorageEngine = engine;
-            mStorageDataDictionary = dataDictionary;
+            mStorageDataDictionary = context.DataDictionary;
         }
 
         private SelectQuery mSelectQuery = null;

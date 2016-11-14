@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.LogicalStorage.DebugHelpers;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
             if (mLocalDataDictionary == null)
             {
-                mLocalDataDictionary = new StorageDataDictionary();
+                mLocalDataDictionary = new StorageDataDictionary(null);
             }
         }
 
