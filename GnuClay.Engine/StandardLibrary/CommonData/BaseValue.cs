@@ -19,27 +19,52 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 
         protected GCSClassInfo ClassInfo = null;
 
+        public int TypeKey
+        {
+            get
+            {
+                return ClassInfo.TypeKey;
+            }
+        }
+
+        public abstract object ToExternal();
+
         public ITryCallResult TryCall(int key, List<IValue> args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"TryCal key = `{key}` `{_ObjectHelper.PrintDefaultToStringInformation(args)}`");
-            if (!ClassInfo.SystemMethods.ContainsKey(key))
+            NLog.LogManager.GetCurrentClassLogger().Info($"TryCal key = `{key}`");
+            if (ClassInfo.SystemMethods.ContainsKey(key))
             {
-                return new TryCallResult();
-            }
+                var targetMethods = ClassInfo.SystemMethods[key];
 
-            var targetMethods = ClassInfo.SystemMethods[key];
-
-            foreach (var method in targetMethods)
-            {
-                if(!method.Probing(args))
+                foreach (var method in targetMethods)
                 {
-                    continue;
-                }
+                    if (!method.Probing(args))
+                    {
+                        continue;
+                    }
 
-                return new TryCallResult(method.Invoke(this, args), true, method);
+                    return new TryCallMethodResult(method.Invoke(this, args), true, method);
+                }
             }
 
-            return new TryCallResult();
+            NLog.LogManager.GetCurrentClassLogger().Info($"TryCal key = `{key}` Next");
+
+            if (ClassInfo.ExternalMethods.ContainsKey(key))
+            {
+                var targetMethods = ClassInfo.ExternalMethods[key];
+
+                foreach (var method in targetMethods)
+                {
+                    if (!method.Probing(args))
+                    {
+                        continue;
+                    }
+
+                    return new TryCallMethodResult(method.Invoke(this, args), true, method);
+                }
+            }
+
+            return new TryCallMethodResult();
         }
 
         public ITryCallResult TrySetProperty(int key, IValue value)

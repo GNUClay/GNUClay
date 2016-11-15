@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.StandardLibrary.CommonData
 {
-    public class TryCallResult : ITryCallResult
+    public class TryCallMethodResult : ITryCallResult
     {
-        public TryCallResult()
+        public TryCallMethodResult()
             : this(null, false, null)
         {
         }
 
-        public TryCallResult(IValue result, bool success, IGnuClayScriptFunctor functor)
+        public TryCallMethodResult(IValue result, bool success, IGnuClayScriptFunctor functor)
         {
             mResult = result;
             mSuccess = success;

@@ -21,6 +21,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private int mValue = 0;
 
+        public override object ToExternal()
+        {
+            return mValue;
+        }
+
         /*[GCSMember]
         public void SecondMethod()
         {

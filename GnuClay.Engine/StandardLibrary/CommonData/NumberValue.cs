@@ -18,6 +18,11 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 
         private int mValue = 0;
 
+        public override object ToExternal()
+        {
+            return mValue;
+        }
+
         public override string ToString()
         {
             return $"NumberValue: {mValue}";

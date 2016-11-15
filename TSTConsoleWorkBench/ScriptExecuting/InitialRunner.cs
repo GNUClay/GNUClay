@@ -41,6 +41,23 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 var numberValue = GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"numberValue = `{numberValue}`");
+
+                var tmpParamNameKey = GnuClayEngine.DataDictionary.GetKey("a");
+
+                var externalMethodInfoKey = GnuClayEngine.DataDictionary.GetKey("Move");
+                var externalMethodInfo = new ExternalMethodInfo();
+                externalMethodInfo.MethodKey = externalMethodInfoKey;
+                externalMethodInfo.HolderKey = numberKey;
+                externalMethodInfo.Parameters.Add(new ExternalParameterInfo() {
+                    NameKey = tmpParamNameKey,
+                    ParameterType = numberKey
+                });
+
+                GnuClayEngine.Context.TypeProcessingContext.RegExternalMethod(externalMethodInfo);
+
+                rez = numberValue.TryCall(externalMethodInfoKey, new List<IValue>() { numberValue });
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"externalMethodInfo rez.Result = `{rez.Result}`");
             }
             catch (Exception e)
             {

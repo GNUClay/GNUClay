@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
             if(string.IsNullOrWhiteSpace(typeName))
             {
-                throw new ArgumentNullException(nameof(typeName));
+                throw new ArgumentNullException(nameof(typeName)); 
             }
 
             mTypeName = typeName;

@@ -23,6 +23,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         }
 
         private Dictionary<Type, GCSClassInfo> mGCSClassInfoDict = new Dictionary<Type, GCSClassInfo>();
+        private Dictionary<int, GCSClassInfo> mGCSClassInfoDictByKey = new Dictionary<int, GCSClassInfo>();
         private Dictionary<int, ITypeProvider> mProvidersDict = new Dictionary<int, ITypeProvider>();
 
         public GCSClassInfo RegType<T>(ITypeProvider provider)
@@ -38,7 +39,9 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             NLog.LogManager.GetCurrentClassLogger().Info($"RegType `{type.FullName}`");
 
             var result = CreateClassInfo(type);
+            result.TypeKey = provider.TypeKey;
             mGCSClassInfoDict.Add(type, result);
+            mGCSClassInfoDictByKey.Add(provider.TypeKey, result);
             mProvidersDict[provider.TypeKey] = provider;
             return result;
         }
@@ -101,6 +104,27 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public IValue CreateValue(int typeKey, object value)
         {
             return mProvidersDict[typeKey].Create(value);
+        }
+
+        public void RegExternalMethod(ExternalMethodInfo methodInfo)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RegExternalMethod");
+
+            var targetClassInfo = mGCSClassInfoDictByKey[methodInfo.HolderKey];
+
+            List<IGnuClayScriptFunctor> tmpFunctorsList = null;
+
+            if(targetClassInfo.ExternalMethods.ContainsKey(methodInfo.MethodKey))
+            {
+                tmpFunctorsList = targetClassInfo.ExternalMethods[methodInfo.MethodKey];
+            }
+            else
+            {
+                tmpFunctorsList = new List<IGnuClayScriptFunctor>();
+                targetClassInfo.ExternalMethods.Add(methodInfo.MethodKey, tmpFunctorsList);
+            }
+
+            tmpFunctorsList.Add(new GnuClayScriptExternalFunctor(methodInfo));
         }
     }
 }
