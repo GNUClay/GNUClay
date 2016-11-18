@@ -124,7 +124,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
                 targetClassInfo.ExternalMethods.Add(methodInfo.MethodKey, tmpFunctorsList);
             }
 
-            tmpFunctorsList.Add(new GnuClayScriptExternalFunctor(methodInfo));
+            tmpFunctorsList.Add(new GnuClayScriptExternalFunctor(methodInfo, Context));
         }
     }
 }

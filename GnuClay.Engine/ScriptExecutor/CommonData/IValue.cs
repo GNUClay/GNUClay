@@ -11,6 +11,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         int TypeKey { get; }
         object ToExternal();
         ITryCallResult TryCall(int key, List<IValue> args);
-        ITryCallResult TrySetProperty(int key, IValue value);
+        ITryCallPropertyResult TrySetProperty(int key, IValue value);
     }
 }

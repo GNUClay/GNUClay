@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
-    public interface ITryCallResult
+    public interface ITryCallPropertyResult : ITryCallResult
     {
-        bool Success { get; }
-        IValue Result { get; }
+        IGnuClayAbstractProperty AbstractProperty { get; }
     }
 }

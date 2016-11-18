@@ -58,6 +58,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 rez = numberValue.TryCall(externalMethodInfoKey, new List<IValue>() { numberValue });
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"externalMethodInfo rez.Result = `{rez.Result}`");
+
+                var somePropertyKey = GnuClayEngine.DataDictionary.GetKey("SomeProperty");
+                NLog.LogManager.GetCurrentClassLogger().Info($"somePropertyKey = `{somePropertyKey}`");
+
+                rez = tmpVal.TrySetProperty(somePropertyKey, numberValue);
+                NLog.LogManager.GetCurrentClassLogger().Info($"SomeProperty rez = `{rez}`");
+
             }
             catch (Exception e)
             {

@@ -21,8 +21,6 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         public bool Probing(List<IValue> args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Probing {mMethodInfo.Name}");
-
             var parameters = mMethodInfo.GetParameters();
             var methodParamsEnumerator = parameters.GetEnumerator();
             
@@ -56,12 +54,8 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         public IValue Invoke(object obj, List<IValue> args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Invoke {mMethodInfo.Name}");
-
             var parameters = mMethodInfo.GetParameters();
-
             var argsAsObjectList = new List<object>();
-
             var methodParamsEnumerator = parameters.GetEnumerator();
 
             foreach (var arg in args)
@@ -85,7 +79,6 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
 
             var callResult = mMethodInfo.Invoke(obj, argsAsObjectList.ToArray());
-
             return (IValue)callResult;
         }
     }

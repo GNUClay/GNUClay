@@ -1,4 +1,6 @@
-﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.RemoteEvents;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -10,17 +12,17 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
     public class GnuClayScriptExternalFunctor : IGnuClayScriptFunctor
     {
-        public GnuClayScriptExternalFunctor(ExternalMethodInfo methodInfo)
+        public GnuClayScriptExternalFunctor(ExternalMethodInfo methodInfo, GnuClayEngineComponentContext context)
         {
             mExternalMethodInfo = methodInfo;
+            mContext = context;
         }
 
         private ExternalMethodInfo mExternalMethodInfo = null;
+        private GnuClayEngineComponentContext mContext = null;
 
         public bool Probing(List<IValue> args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Probing {mExternalMethodInfo.MethodKey}");
-
             var parameters = mExternalMethodInfo.Parameters;
             var methodParamsEnumerator = parameters.GetEnumerator();
 
@@ -54,9 +56,21 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         public IValue Invoke(object obj, List<IValue> args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Invoke {mExternalMethodInfo.MethodKey}");
+            var e = new RemoteEvent();
+            e.HolderKey = mExternalMethodInfo.HolderKey;
+            e.MethodKey = mExternalMethodInfo.MethodKey;
 
-            throw new NotImplementedException();
+            var parameters = mExternalMethodInfo.Parameters;
+            var methodParamsEnumerator = parameters.GetEnumerator();
+
+            foreach (var arg in args)
+            {
+                methodParamsEnumerator.MoveNext();
+                e.Parameters.Add(methodParamsEnumerator.Current.NameKey, arg.ToExternal());
+            }
+
+            mContext.RemoteEventsEngine.Emit(e);
+            return null;
         }
     }
 }

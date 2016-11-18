@@ -67,7 +67,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
             return new TryCallMethodResult();
         }
 
-        public ITryCallResult TrySetProperty(int key, IValue value)
+        public ITryCallPropertyResult TrySetProperty(int key, IValue value)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TrySetProperty key = {key} value = {value}");
             throw new NotImplementedException();

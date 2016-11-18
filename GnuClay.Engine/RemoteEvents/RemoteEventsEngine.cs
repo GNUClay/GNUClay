@@ -14,5 +14,10 @@ namespace GnuClay.Engine.RemoteEvents
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RemoteEventsEngine");
         }
+
+        public void Emit(RemoteEvent e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Emit e = {e}");
+        }
     }
 }

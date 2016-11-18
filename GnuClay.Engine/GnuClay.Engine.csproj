@@ -97,6 +97,7 @@
     <Compile Include="ScriptExecutor\CommonData\IGnuClayScriptFunctor.cs" />
     <Compile Include="ScriptExecutor\CommonData\IRunTimeTypeProcessingContext.cs" />
     <Compile Include="ScriptExecutor\CommonData\ITryCallMethodResult.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ITryCallPropertyResult.cs" />
     <Compile Include="ScriptExecutor\CommonData\ITryCallResult.cs" />
     <Compile Include="ScriptExecutor\CommonData\ITypeProcessingContext.cs" />
     <Compile Include="ScriptExecutor\CommonData\ITypeProvider.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClaySctriptExecutingContext.cs" />
     <Compile Include="StandardLibrary\CommonData\ExternalMethodInfo.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
+    <Compile Include="StandardLibrary\CommonData\TryCallPropertyResult.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BaseTypeProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\BaseValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\IValue.cs" />

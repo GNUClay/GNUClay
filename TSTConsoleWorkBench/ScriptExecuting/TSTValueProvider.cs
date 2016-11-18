@@ -19,14 +19,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         protected override void OnRegType()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRegType `{TypeName}` `{TypeKey}`");
             RegType<TstValue>();
         }
 
         public override IValue Create(object value)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Create `{TypeName}` `{TypeKey}` `{value}`");
-
             return new TstValue(ClassInfo, (int)value);
         }
     }
