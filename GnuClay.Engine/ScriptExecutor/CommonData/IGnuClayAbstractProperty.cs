@@ -8,5 +8,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
     public interface IGnuClayAbstractProperty
     {
+        bool Probing(IValue arg);
+        IValue Set(object obj, IValue arg);
+        IValue Get(object obj);
     }
 }

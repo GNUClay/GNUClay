@@ -38,7 +38,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"numberKey = `{numberKey}`");
 
-                var numberValue = GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12);
+                var numberValue = GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"numberValue = `{numberValue}`");
 
@@ -63,8 +63,50 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 NLog.LogManager.GetCurrentClassLogger().Info($"somePropertyKey = `{somePropertyKey}`");
 
                 rez = tmpVal.TrySetProperty(somePropertyKey, numberValue);
-                NLog.LogManager.GetCurrentClassLogger().Info($"SomeProperty rez = `{rez}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"SomeProperty rez = `{rez.Result}`");
 
+                var initList = new List<IValue>() { GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0),
+                    GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 2.0),
+                    GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 3.0)};
+
+                var arrayKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.ArrayName);
+                NLog.LogManager.GetCurrentClassLogger().Info($"arrayKey = `{arrayKey}`");
+
+                var arrayVal = GnuClayEngine.Context.TypeProcessingContext.CreateValue(arrayKey, initList);
+
+                var getIteratorKey = GnuClayEngine.DataDictionary.GetKey("GetIterator");
+                NLog.LogManager.GetCurrentClassLogger().Info($"getIteratorKey = `{getIteratorKey}`");
+
+                var iterator = arrayVal.TryGetProperty(getIteratorKey).Result;
+
+                var moveNextKey = GnuClayEngine.DataDictionary.GetKey("MoveNext");
+
+                iterator.TryCall(moveNextKey, new List<IValue>());
+
+                var currentValueKey = GnuClayEngine.DataDictionary.GetKey("CurrentValue");
+
+                var currentValue = iterator.TryGetProperty(currentValueKey).Result;
+                NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+
+                iterator.TryCall(moveNextKey, new List<IValue>());
+                currentValue = iterator.TryGetProperty(currentValueKey).Result;
+                NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+
+                iterator.TryCall(moveNextKey, new List<IValue>());
+                currentValue = iterator.TryGetProperty(currentValueKey).Result;
+                NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+
+                var tmpCodeFrame = new FunctionModel();
+                tmpCodeFrame.AddCommand(new ScriptCommand()
+                {
+                    OperationCode = OperationCode.Nop
+                });
+
+                NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+                var context = new GnuClayThreadExecutionContext();
+                var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+
+                tmpInternalThreadExecutor.Run();
             }
             catch (Exception e)
             {

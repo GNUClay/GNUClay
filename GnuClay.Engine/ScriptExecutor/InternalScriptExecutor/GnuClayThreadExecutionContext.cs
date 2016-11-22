@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
-    public class GnuClaySctriptExecutingContext
+    public class GnuClayThreadExecutionContext
     {
     }
 }

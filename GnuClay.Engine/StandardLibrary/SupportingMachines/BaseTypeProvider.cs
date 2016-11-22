@@ -59,6 +59,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         protected void RegType<T>()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RegType TypeName = `{mTypeName}` mTypeKey = {mTypeKey}");
+
             ClassInfo = Context.TypeProcessingContext.RegType<T>(this);
         }
 

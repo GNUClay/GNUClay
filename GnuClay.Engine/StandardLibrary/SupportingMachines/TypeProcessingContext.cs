@@ -38,11 +38,12 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RegType `{type.FullName}`");
 
-            var result = CreateClassInfo(type);
-            result.TypeKey = provider.TypeKey;
+            var result = CreateClassInfo(type);      
             mGCSClassInfoDict.Add(type, result);
+            result.TypeKey = provider.TypeKey;
             mGCSClassInfoDictByKey.Add(provider.TypeKey, result);
             mProvidersDict[provider.TypeKey] = provider;
+
             return result;
         }
 
@@ -50,12 +51,13 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         {
             var result = new GCSClassInfo();
             FillSystemMethods(result, type);
+            FillSystemProperties(result, type);
             return result;
         }
 
         private void FillSystemMethods(GCSClassInfo result, Type type)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateClassInfo `{type.FullName}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillSystemMethods `{type.FullName}`");
             var methodsList = type.GetMethods().Where(p => p.CustomAttributes.Any(x => x.AttributeType == TargetAttribute));
 
             var targetsMethods = new List<MethodInfo>();
@@ -88,7 +90,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             foreach(var item in tmpMethodsDict)
             {
                 var key = Context.DataDictionary.GetKey(item.Key);
-                NLog.LogManager.GetCurrentClassLogger().Info($"CreateClassInfo `{key}` `{item.Key}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"FillSystemMethods `{key}` `{item.Key}`");
 
                 var functorsList = new List<IGnuClayScriptFunctor>();
 
@@ -98,6 +100,42 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
                 }
 
                 result.SystemMethods.Add(key, functorsList);
+            }
+        }
+
+        private void FillSystemProperties(GCSClassInfo result, Type type)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillSystemProperties `{type.FullName}`");
+
+            var propertiesList = type.GetProperties().Where(p => p.CustomAttributes.Any(x => x.AttributeType == TargetAttribute));
+
+            var targetProperties = new List<PropertyInfo>();
+
+            foreach (var property in propertiesList)
+            {
+                if (!property.PropertyType.GetInterfaces().Any(p => p == IValueType) && !(property.PropertyType == IValueType))
+                {
+                    throw new NotSupportedException($"Registered property must have IValue as self type. Instead of this, `{property.Name}` of `{type.FullName}` is `{property.PropertyType.FullName}`.");
+                }
+
+                targetProperties.Add(property);
+            }
+
+            var propertiesDict = targetProperties.GroupBy(p => p.Name).ToDictionary(p => p.Key, p => p.ToList());
+
+            foreach (var item in propertiesDict)
+            {
+                var key = Context.DataDictionary.GetKey(item.Key);
+                NLog.LogManager.GetCurrentClassLogger().Info($"FillSystemProperties `{key}` `{item.Key}`");
+
+                var abstractPropertiesList = new List<IGnuClayAbstractProperty>();
+
+                foreach (var property in item.Value)
+                {
+                    abstractPropertiesList.Add(new GnuClayScriptSystemProperty(property));
+                }
+
+                result.SystemProperties.Add(key, abstractPropertiesList);
             }
         }
 

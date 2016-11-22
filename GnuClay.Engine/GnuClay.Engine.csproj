@@ -93,6 +93,7 @@
     <Compile Include="LogicalStorage\QueriesParsers\UndefinedSymbolException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteEvents\RemoteEventsEngine.cs" />
+    <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
     <Compile Include="ScriptExecutor\CommonData\IGnuClayAbstractProperty.cs" />
     <Compile Include="ScriptExecutor\CommonData\IGnuClayScriptFunctor.cs" />
     <Compile Include="ScriptExecutor\CommonData\IRunTimeTypeProcessingContext.cs" />
@@ -102,10 +103,20 @@
     <Compile Include="ScriptExecutor\CommonData\ITypeProcessingContext.cs" />
     <Compile Include="ScriptExecutor\CommonData\ITypeProvider.cs" />
     <Compile Include="ScriptExecutor\CommonData\IValueFactory.cs" />
-    <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClaySctriptExecutingContext.cs" />
+    <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ScriptCommand.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
+    <Compile Include="StandardLibrary\ArrayProvider.cs" />
+    <Compile Include="StandardLibrary\CommonData\ArrayValue.cs" />
     <Compile Include="StandardLibrary\CommonData\ExternalMethodInfo.cs" />
+    <Compile Include="StandardLibrary\CommonData\IteratorValue.cs" />
+    <Compile Include="StandardLibrary\CommonData\PropertyResultIteratorValue.cs" />
+    <Compile Include="StandardLibrary\CommonData\PropertyResultValue.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\TryCallPropertyResult.cs" />
+    <Compile Include="StandardLibrary\IteratorProvider.cs" />
+    <Compile Include="StandardLibrary\PropertyResultIteratorProvider.cs" />
+    <Compile Include="StandardLibrary\PropertyResultProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BaseTypeProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\BaseValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\IValue.cs" />
@@ -118,6 +129,7 @@
     <Compile Include="StandardLibrary\CommonData\TryCallMethodResult.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\GCSClassInfo.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptExternalFunctor.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptSystemProperty.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\TypeProcessingContext.cs" />
     <Compile Include="StandardLibrary\NumberProvider.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />

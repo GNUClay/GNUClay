@@ -24,7 +24,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public override IValue Create(object value)
         {
-            return new TstValue(ClassInfo, (int)value);
+            return NCreate((int)value);
+        }
+
+        public IValue NCreate(int value)
+        {
+            return new TstValue(ClassInfo, Context, value);
         }
     }
 }

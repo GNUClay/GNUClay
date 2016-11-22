@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.StandardLibrary.SupportingMachines;
+﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,15 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 {
     public class NumberValue : BaseValue
     {
-        public NumberValue(GCSClassInfo classInfo, int value)
-            : base(classInfo)
+        public NumberValue(GCSClassInfo classInfo, GnuClayEngineComponentContext context, double value)
+            : base(classInfo, context)
         {
             mValue = value;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"NumberValue mValue = `{mValue}`");
         }
 
-        private int mValue = 0;
+        private double mValue = 0;
 
         public override object ToExternal()
         {

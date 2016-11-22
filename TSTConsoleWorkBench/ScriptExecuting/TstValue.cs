@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -11,8 +12,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class TstValue: BaseValue
     {
-        public TstValue(GCSClassInfo classInfo, int value)
-            : base(classInfo)
+        public TstValue(GCSClassInfo classInfo, GnuClayEngineComponentContext context, int value)
+            : base(classInfo, context)
         {
             mValue = value;
 
@@ -37,7 +38,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("SomeMethod");
 
-            return new NumberValue(ClassInfo, 1);
+            return new NumberValue(ClassInfo, Context, 1);
         }
 
         [GCSMember]
@@ -47,12 +48,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         [GCSMember]
-        public IValue SomeProperty
+        public NumberValue SomeProperty
         {
             get                                                          
             {                       
                 NLog.LogManager.GetCurrentClassLogger().Info("get SomeMethod");
-                return new NumberValue(ClassInfo, 12);
+                return new NumberValue(ClassInfo, Context, 12);
             }
 
             set

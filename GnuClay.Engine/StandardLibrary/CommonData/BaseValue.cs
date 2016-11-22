@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -12,12 +13,14 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 {
     public abstract class BaseValue: IValue
     {
-        protected BaseValue(GCSClassInfo classInfo)
+        protected BaseValue(GCSClassInfo classInfo, GnuClayEngineComponentContext context)
         {
             ClassInfo = classInfo;
+            Context = context;
         }
 
         protected GCSClassInfo ClassInfo = null;
+        protected GnuClayEngineComponentContext Context = null;
 
         public int TypeKey
         {
@@ -70,7 +73,40 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public ITryCallPropertyResult TrySetProperty(int key, IValue value)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TrySetProperty key = {key} value = {value}");
-            throw new NotImplementedException();
+
+            if (ClassInfo.SystemProperties.ContainsKey(key))
+            {
+                var targetProperies = ClassInfo.SystemProperties[key];
+
+                foreach(var propery in targetProperies)
+                {
+                    if(!propery.Probing(value))
+                    {
+                        continue;
+                    }
+
+                    return new TryCallPropertyResult(propery.Set(this, value), true, propery);
+                }
+            }
+
+            return new TryCallPropertyResult();
+        }
+
+        public ITryCallPropertyResult TryGetProperty(int key)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TryGetProperty key = {key}");
+
+            if (ClassInfo.SystemProperties.ContainsKey(key))
+            {
+                var targetProperies = ClassInfo.SystemProperties[key];
+
+                foreach (var propery in targetProperies)
+                {
+                    return new TryCallPropertyResult(propery.Get(this), true, propery);
+                }
+            }
+
+            return new TryCallPropertyResult();
         }
     }
 }
