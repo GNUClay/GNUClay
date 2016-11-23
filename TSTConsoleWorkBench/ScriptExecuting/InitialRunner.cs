@@ -102,8 +102,31 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     OperationCode = OperationCode.Nop
                 });
 
+                tmpCodeFrame.AddCommand(new ScriptCommand()
+                {
+                    OperationCode = OperationCode.PushConst,
+                    Key = numberKey,
+                    Value = 1.0
+                });
+
+                tmpCodeFrame.AddCommand(new ScriptCommand()
+                {
+                    OperationCode = OperationCode.PushConst,
+                    Key = numberKey,
+                    Value = 2.0
+                });
+
+                var addOperatorKey = GnuClayEngine.DataDictionary.GetKey("Add");
+
+                tmpCodeFrame.AddCommand(new ScriptCommand()
+                {
+                    OperationCode = OperationCode.CallBinOp,
+                    Key = addOperatorKey
+                });
+
                 NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
                 var context = new GnuClayThreadExecutionContext();
+                context.MainContext = GnuClayEngine.Context;
                 var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
 
                 tmpInternalThreadExecutor.Run();

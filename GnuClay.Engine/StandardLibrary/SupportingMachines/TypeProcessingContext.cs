@@ -164,5 +164,31 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
             tmpFunctorsList.Add(new GnuClayScriptExternalFunctor(methodInfo, Context));
         }
+
+        private Dictionary<int, Dictionary<int, BinaryOperatorHandler>> mOperatorsDict = new Dictionary<int, Dictionary<int, BinaryOperatorHandler>>();
+
+        public void RegBinaryOperator(BinaryOperatorRule rule)
+        {
+            Dictionary<int, BinaryOperatorHandler> tmpDict = null;
+
+            if (mOperatorsDict.ContainsKey(rule.FirstOperandType))
+            {
+                tmpDict = mOperatorsDict[rule.FirstOperandType];
+            }
+            else
+            {
+                tmpDict = new Dictionary<int, BinaryOperatorHandler>();
+
+                mOperatorsDict.Add(rule.FirstOperandType, tmpDict);
+            }
+
+            tmpDict[rule.SecondOperandType] = rule.OperatorHandler;
+        }
+
+        public IValue CallBinaryOperator(int operatorKey, IValue firstOperand, IValue secondOperand)
+        {
+            var tmpHandler = mOperatorsDict[firstOperand.TypeKey][secondOperand.TypeKey];
+            return tmpHandler(firstOperand, secondOperand);
+        }
     }
 }

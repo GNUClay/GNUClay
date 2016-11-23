@@ -9,5 +9,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     public interface IRunTimeTypeProcessingContext
     {
         IValue CreateValue(int typeKey, object value);
+        IValue CallBinaryOperator(int operatorKey, IValue firstOperand, IValue secondOperand);
     }
 }

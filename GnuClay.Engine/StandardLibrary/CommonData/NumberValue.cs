@@ -19,6 +19,14 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 
         private double mValue = 0;
 
+        public double OriginalValue
+        {
+            get
+            {
+                return mValue;
+            }
+        }
+
         public override object ToExternal()
         {
             return mValue;

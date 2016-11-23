@@ -24,11 +24,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.Nop:
                     return OperationCode.ToString();
 
-                //case OperationCode.PushConst:
-                //    return $"{OperationCode}: {Key} {Value}";
+                case OperationCode.PushConst:
+                    return $"{OperationCode}: {Key} {Value}";
 
-                //case OperationCode.CallBinOp:
-                //    return $"{OperationCode}: {Key}";
+                case OperationCode.CallBinOp:
+                    return $"{OperationCode}: {Key}";
 
                 //case OperationCode.PushEntity:
                 //    return $"{OperationCode}: {Key}";

@@ -104,6 +104,7 @@
     <Compile Include="ScriptExecutor\CommonData\ITypeProvider.cs" />
     <Compile Include="ScriptExecutor\CommonData\IValueFactory.cs" />
     <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
+    <Compile Include="ScriptExecutor\CommonData\BinaryOperatorRule.cs" />
     <Compile Include="ScriptExecutor\CommonData\ScriptCommand.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
     <Compile Include="StandardLibrary\ArrayProvider.cs" />
