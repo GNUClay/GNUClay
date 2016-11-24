@@ -19,6 +19,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Call binary operator
         /// </summary>
-        CallBinOp
+        CallBinOp,
+        CallMethod
     }
 }

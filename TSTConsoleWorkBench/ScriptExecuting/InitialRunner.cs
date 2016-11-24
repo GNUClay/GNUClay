@@ -124,6 +124,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     Key = addOperatorKey
                 });
 
+                /*tmpCodeFrame.AddCommand(new ScriptCommand()
+                {
+                    OperationCode = OperationCode.CallBinOp,
+                    Key = addOperatorKey
+                });*/
+
                 NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
                 var context = new GnuClayThreadExecutionContext();
                 context.MainContext = GnuClayEngine.Context;
