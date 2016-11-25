@@ -96,7 +96,8 @@
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTBinaryOperator.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTConstExpression.cs" />
-    <Compile Include="ScriptExecutor\AST\Expressions\ASTExpressionNode.cs" />
+    <Compile Include="ScriptExecutor\AST\Expressions\ASTExpression.cs" />
+    <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
     <Compile Include="ScriptExecutor\CommonData\IGnuClayAbstractProperty.cs" />
@@ -111,6 +112,11 @@
     <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
     <Compile Include="ScriptExecutor\CommonData\BinaryOperatorRule.cs" />
     <Compile Include="ScriptExecutor\CommonData\ScriptCommand.cs" />
+    <Compile Include="ScriptExecutor\Compiler\GnuClayScriptCompiler.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BaseLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
     <Compile Include="StandardLibrary\ArrayProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\ArrayValue.cs" />
@@ -152,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Parser\" />
-    <Folder Include="ScriptExecutor\Compiler\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

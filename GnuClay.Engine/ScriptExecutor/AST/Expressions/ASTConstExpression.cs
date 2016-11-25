@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
 {
-    class ASTConstExpression
+    public class ASTConstExpression : ASTExpression
     {
+        public ASTConstExpression()
+            : base(ExpressionKind.ConstExpression)
+        {
+        }
+
+        public int TypeKey { get; set; }
+        public object Value { get; set; }
     }
 }

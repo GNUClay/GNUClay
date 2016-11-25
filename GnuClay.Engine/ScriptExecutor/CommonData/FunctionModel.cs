@@ -72,7 +72,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
             tmpSb.Append(nameof(FirstCommand));
             tmpSb.Append(" = ");
-            tmpSb.AppendLine(FirstCommand.ToString());
+            tmpSb.AppendLine(FirstCommand?.ToString());
 
             return tmpSb.ToString();
         }

@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
 {
-    class ASTBinaryOperator
+    public class ASTBinaryOperator: ASTExpression
     {
+        public ASTBinaryOperator()
+            : base (ExpressionKind.BinaryOperator)
+        {
+        }
+
+        public int OperatorKey { get; set; }
+        public ASTExpression Left { get; set; }
+        public ASTExpression Right { get; set; }
     }
 }
