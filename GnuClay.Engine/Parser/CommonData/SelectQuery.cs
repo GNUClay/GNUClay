@@ -1,21 +1,22 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.CommonData
+namespace GnuClay.Engine.Parser.CommonData
 {
     /// <summary>
-    /// Represents an insert query.
+    /// Represents an select query.
     /// </summary>
-    public class InsertQuery : IToStringData
+    public class SelectQuery : IToStringData
     {
         /// <summary>
-        /// Inserted rules or facts.
+        /// Represents an selecting expression
         /// </summary>
-        public List<RuleInstance> Items = new List<RuleInstance>();
+        public ExpressionNode SelectedTree = null;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -34,7 +35,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine(_ListHelper._ToString(Items, nameof(Items)));
+            tmpSb.AppendLine(_ObjectHelper._ToString(SelectedTree, nameof(SelectedTree)));
 
             return tmpSb.ToString();
         }

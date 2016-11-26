@@ -1,12 +1,6 @@
-﻿using GnuClay.Engine.LogicalStorage.CommonData;
-using GnuClay.Engine.LogicalStorage.InternalStorage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GnuClay.CommonUtils.TypeHelpers;
+﻿using System;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Parser.CommonData;
 
 namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 {

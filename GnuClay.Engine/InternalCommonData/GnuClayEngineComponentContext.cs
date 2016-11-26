@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.StandardLibrary;
@@ -19,5 +20,6 @@ namespace GnuClay.Engine.InternalCommonData
         public ScriptExecutorEngine ScriptExecutor = null;
         public TypeProcessingContext TypeProcessingContext = null;
         public RemoteEventsEngine RemoteEventsEngine = null;
+        public GnuClayParserEngine ParserEngine = null;
     }
 }

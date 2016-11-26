@@ -1,5 +1,5 @@
 ﻿using GnuClay.Engine.CommonStorages;
-using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.Parser.CommonData;
 using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers

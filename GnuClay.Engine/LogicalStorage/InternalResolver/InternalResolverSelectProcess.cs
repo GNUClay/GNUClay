@@ -2,13 +2,10 @@
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
-using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
+using GnuClay.Engine.Parser.CommonData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {

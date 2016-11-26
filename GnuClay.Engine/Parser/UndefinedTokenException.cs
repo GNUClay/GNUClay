@@ -1,13 +1,13 @@
-﻿using GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers;
+﻿using GnuClay.Engine.Parser.InternalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers
+namespace GnuClay.Engine.Parser
 {
-    public class UndefinedTokenException: Exception
+    public class UndefinedTokenException : Exception
     {
         public UndefinedTokenException(TokenKind tokenKind)
             : base($"Undefined token `{tokenKind}`")

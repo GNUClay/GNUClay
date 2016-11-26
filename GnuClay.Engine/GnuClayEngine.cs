@@ -1,6 +1,7 @@
 ﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.StandardLibrary;
@@ -67,6 +68,7 @@ namespace GnuClay.Engine
             mContext.StandardLibrary = new StandardLibraryEngine(mContext);
             mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
             mContext.RemoteEventsEngine = new RemoteEventsEngine(mContext);
+            mContext.ParserEngine = new GnuClayParserEngine(mContext);
 
             mContext.StandardLibrary.CreateProviders();
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
     /// <summary>
     /// What represents an instance of Token.
@@ -71,6 +71,16 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         /// Represents symbol Ampersand.
         /// </summary>
         And,
+
+        /// <summary>
+        /// Represents symbol `+`.
+        /// </summary>
+        Plus,
+
+        /// <summary>
+        /// Represents symbol `;`.
+        /// </summary>
+        Semicolon,
 
         /// <summary>
         /// Represents combination of symbols `>:`.

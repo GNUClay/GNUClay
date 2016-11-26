@@ -45,16 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parser\CommonData\GnuClayQuery.cs" />
+    <Compile Include="Parser\CommonData\InsertQuery.cs" />
+    <Compile Include="Parser\CommonData\SelectQuery.cs" />
+    <Compile Include="Parser\GnuClayParserEngine.cs" />
+    <Compile Include="Parser\InternalParsers\BaseParserHandler.cs" />
+    <Compile Include="Parser\InternalParsers\Lexer.cs" />
+    <Compile Include="Parser\InternalParsers\ParserProcessingInstance.cs" />
+    <Compile Include="Parser\InternalParsers\ParsingContext.cs" />
+    <Compile Include="Parser\InternalParsers\Token.cs" />
+    <Compile Include="Parser\UndefinedSymbolException.cs" />
+    <Compile Include="Parser\UndefinedTokenException.cs" />
     <Compile Include="RemoteEvents\RemoteEvent.cs" />
     <Compile Include="GnuClayEngine.cs" />
     <Compile Include="InternalCommonData\BaseGnuClayEngineComponent.cs" />
     <Compile Include="InternalCommonData\GnuClayEngineComponentContext.cs" />
     <Compile Include="LogicalStorage\CommonData\FactException.cs" />
-    <Compile Include="LogicalStorage\CommonData\InsertQuery.cs" />
     <Compile Include="LogicalStorage\CommonData\RuleException.cs" />
     <Compile Include="LogicalStorage\CommonData\RuleInstance.cs" />
     <Compile Include="LogicalStorage\CommonData\RulePart.cs" />
-    <Compile Include="LogicalStorage\CommonData\SelectQuery.cs" />
     <Compile Include="LogicalStorage\CommonData\SelectResult.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\ExpressionNodeDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\InsertQueryDebugHelper.cs" />
@@ -87,10 +96,7 @@
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InternalSelectQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\Lexer.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\SelectQueryParserProcess.cs" />
-    <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\Token.cs" />
-    <Compile Include="LogicalStorage\QueriesParsers\UndefinedTokenException.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\SelectQueryParser.cs" />
-    <Compile Include="LogicalStorage\QueriesParsers\UndefinedSymbolException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteEvents\RemoteEventsEngine.cs" />
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />
@@ -156,9 +162,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Parser\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

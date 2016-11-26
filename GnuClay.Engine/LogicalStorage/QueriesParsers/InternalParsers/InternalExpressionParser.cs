@@ -1,11 +1,8 @@
 ﻿using GnuClay.Engine.CommonStorages;
-using GnuClay.Engine.LogicalStorage.DebugHelpers;
-using GnuClay.Engine.LogicalStorage.InternalStorage;
+using GnuClay.Engine.Parser;
+using GnuClay.Engine.Parser.InternalParsers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 {

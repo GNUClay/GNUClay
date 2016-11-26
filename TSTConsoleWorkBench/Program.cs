@@ -13,6 +13,7 @@ using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
 using TSTConsoleWorkBench.LogicalStorage.Select;
 using TSTConsoleWorkBench.LogicalStorage.Wrapper;
+using TSTConsoleWorkBench.ParserExecuting;
 using TSTConsoleWorkBench.ScriptExecuting;
 
 namespace TSTConsoleWorkBench
@@ -21,12 +22,19 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
+            TSTParserRunner();
             //TSTCommonRunner();
-            TSTInitialRunner();
+            //TSTInitialRunner();
             //TSTRunWrapper();
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTParserRunner()
+        {
+            var tmpParserRunner = new ParserRunner();
+            tmpParserRunner.Run();
         }
 
         private static void TSTCommonRunner()
