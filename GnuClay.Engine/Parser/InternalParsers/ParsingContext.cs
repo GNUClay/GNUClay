@@ -32,6 +32,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             else
             {
                 CurrentHandler = mHandlersStack.Pop();
+                CurrentHandler.OnFinishChildHandler();
             }
         }
 
@@ -40,16 +41,17 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public Token GetToken()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("GetToken");
-
             if(mRecoveriesTokens.Count == 0)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("GetToken mRecoveriesTokens.Count == 0");
-
                 return Lexer.GetToken();
             }
 
             return mRecoveriesTokens.Dequeue();
+        }
+
+        public void Recovery(Token token)
+        {
+            mRecoveriesTokens.Enqueue(token);
         }
     }
 }

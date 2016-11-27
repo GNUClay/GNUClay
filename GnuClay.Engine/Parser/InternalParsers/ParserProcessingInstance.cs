@@ -31,8 +31,29 @@ namespace GnuClay.Engine.Parser.InternalParsers
             while((token = mContext.GetToken()) != null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"token = `{token}`");
+
+                if(mContext.CurrentHandler == null)
+                {
+                    switch(token.TokenKind)
+                    {
+                        case TokenKind.INSERT:
+                            mContext.PushHandler(new InternalInsertQueryParserHandler(mContext));
+                            mContext.Recovery(token);
+                            break;
+
+                        default: throw new UndefinedTokenException(token.TokenKind);
+                    }
+                }
+                else
+                {
+                    mContext.CurrentHandler.Dispatch(token);
+                }
             }
 
+            if(mContext.CurrentHandler != null)
+            {
+                mContext.CurrentHandler.CanIExit();
+            }
             NLog.LogManager.GetCurrentClassLogger().Info("Finish");
 
             return result;

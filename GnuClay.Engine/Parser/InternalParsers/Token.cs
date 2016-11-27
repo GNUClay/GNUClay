@@ -23,6 +23,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Word,
 
         /// <summary>
+        /// Represents some number.
+        /// </summary>
+        Number,
+
+        /// <summary>
         /// Represents a variable.
         /// </summary>
         Var,
@@ -56,6 +61,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// Represents symbol `:`.
         /// </summary>
         Colon,
+
+        /// <summary>
+        /// Represents symbol `.`.
+        /// </summary>
+        Point,
 
         /// <summary>
         /// Represents symbol `-`.
@@ -100,7 +110,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// <summary>
         /// Represents keyword `INSERT`.
         /// </summary>
-        INSERT
+        INSERT,
+
+        /// <summary>
+        /// Represents keyword `CALL`.
+        /// </summary>
+        CALL
     }
 
     /// <summary>

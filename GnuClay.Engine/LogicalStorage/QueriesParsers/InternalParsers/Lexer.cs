@@ -7,6 +7,7 @@ using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 {
+    [Obsolete]
     public class Lexer
     {
         private enum LexerState
@@ -15,6 +16,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             InWord
         }
 
+        [Obsolete]
         public Lexer(string text)
         {
             mText = text;
@@ -24,6 +26,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
         private List<Token> mResult = null;
         private LexerState mLexerState = LexerState.Init;
 
+        [Obsolete]
         public List<Token> Run()
         {
             mLexerState = LexerState.Init;

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
-    public class AbnormalTerminationException: Exception
+    //InternalExpressionParser
+    class InternalLogicalExpressionParserHandler
     {
     }
 }

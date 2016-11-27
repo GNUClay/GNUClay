@@ -28,11 +28,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public Token GetToken()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("GetToken");
-
             if(mRecoveriesTokens.Count > 0)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("GetToken mRecoveriesTokens.Count > 0");
                 return mRecoveriesTokens.Dequeue();
             }
 
@@ -42,8 +39,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 var tmpChar = mItems.Dequeue();
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"tmpChar = `{tmpChar}` {mLexerState}");
-
                 switch (mLexerState)
                 {
                     case LexerState.Init:
@@ -51,7 +46,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         {
                             tmpBuffer = new StringBuilder();
                             tmpBuffer.Append(tmpChar);
-                            mLexerState = LexerState.InWord;
+
+                            if(char.IsLetterOrDigit(mItems.Peek()))
+                            {
+                                mLexerState = LexerState.InWord;
+                            }
+                            else
+                            {
+                                return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                            }                      
                             break;
                         }
 
@@ -99,6 +102,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case ';':
                                 return CreateToken(TokenKind.Semicolon);
 
+                            case '.':
+                                return CreateToken(TokenKind.Point);
+
                             default: throw new UndefinedSymbolException(tmpChar);
                         }
                         break;
@@ -124,7 +130,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private Token CreateToken(TokenKind kind, string content = null)
         {
             char tmpNextChar;
-            double d;
             int id;
 
             switch (kind)
@@ -144,24 +149,23 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         break;
                     }
 
+                    if (string.Compare(content, "CALL", true) == 0)
+                    {
+                        kind = TokenKind.CALL;
+                        content = null;
+                        break;
+                    }
+
                     if (content.StartsWith("$"))
                     {
                         kind = TokenKind.Var;
                         break;
                     }
 
-                    if(content.Contains("."))
-                    {
-                        if (double.TryParse(content, NumberStyles.AllowDecimalPoint, mCultureInfo, out d))
-                        {
-                            NLog.LogManager.GetCurrentClassLogger().Info($"d = {d.ToString()}");
-                        }
-                        break;
-                    }
-
                     if(int.TryParse(content, out id))
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info($"id = {id.ToString()}");
+                        kind = TokenKind.Number;
+                        break;
                     }
                 break;
 

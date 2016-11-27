@@ -45,11 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parser\AbnormalTerminationException.cs" />
     <Compile Include="Parser\CommonData\GnuClayQuery.cs" />
     <Compile Include="Parser\CommonData\InsertQuery.cs" />
     <Compile Include="Parser\CommonData\SelectQuery.cs" />
     <Compile Include="Parser\GnuClayParserEngine.cs" />
     <Compile Include="Parser\InternalParsers\BaseParserHandler.cs" />
+    <Compile Include="Parser\InternalParsers\InternalInsertQueryParserHandler.cs" />
+    <Compile Include="Parser\InternalParsers\InternalLogicalExpressionParserHandler.cs" />
+    <Compile Include="Parser\InternalParsers\InternalRuleParserHandler.cs" />
     <Compile Include="Parser\InternalParsers\Lexer.cs" />
     <Compile Include="Parser\InternalParsers\ParserProcessingInstance.cs" />
     <Compile Include="Parser\InternalParsers\ParsingContext.cs" />
@@ -84,7 +88,6 @@
     <Compile Include="CommonStorages\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="LogicalStorage\LogicalStorageExampleWrapper.cs" />
-    <Compile Include="LogicalStorage\QueriesParsers\AbnormalTerminationException.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InsertQueryParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\BaseInternalParser.cs" />
     <Compile Include="LogicalStorage\QueriesParsers\InternalParsers\InsertQueryParserProcess.cs" />
