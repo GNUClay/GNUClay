@@ -1,11 +1,13 @@
-﻿using GnuClay.Engine.Parser;
-using GnuClay.Engine.Parser.CommonData;
-using GnuClay.Engine.Parser.InternalParsers;
+﻿using GnuClay.Engine.Parser.CommonData;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
-    public class InternalSelectQueryParser: BaseInternalParser
+    public class InternalSelectQueryParser : BaseInternalParser
     {
         private enum State
         {
@@ -26,16 +28,16 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         protected override void OnRun()
         {
-            switch(mState)
+            switch (mState)
             {
                 case State.Init:
-                    switch(CurrToken.TokenKind)
+                    switch (CurrToken.TokenKind)
                     {
                         case TokenKind.SELECT:
                             mState = State.FirstStep;
                             break;
 
-                        default:throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
                     }
                     break;
 

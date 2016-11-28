@@ -1,15 +1,9 @@
 ﻿using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
-using GnuClay.Engine.LogicalStorage.QueriesParsers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.LogicalStorage.Insert
 {
-    public class LogicalStorageInsertRunner
+    public class LogicalStorageInsertRunner: BaseRunner
     {
         public LogicalStorageInsertRunner()
         {
@@ -18,10 +12,6 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
 
             mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
-
-            mSelectQueryParser = new SelectQueryParser(mLogicalStorageEngine.DataDictionary);
-
-            mInsertQueryParser = new InsertQueryParser(mLogicalStorageEngine.DataDictionary);
         }
 
         private LogicalStorageEngine mLogicalStorageEngine = null;
@@ -29,10 +19,6 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         private CreateTestingQuery mCreateTestingQuery = null;
 
         private Select.CreateTestingQuery mCreateSelectTestingQuery = null;
-
-        private SelectQueryParser mSelectQueryParser = null;
-
-        private InsertQueryParser mInsertQueryParser = null;
 
         public void Run()
         {
@@ -59,7 +45,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));*/
 
-            var tmpInsertQuery = mInsertQueryParser.Run(tmpInsertQueryText);
+            var tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.DataDictionary)}`");
 
@@ -71,7 +57,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
-            var tmpSelectQuery = mSelectQueryParser.Run(tmpSelectQueryText);
+            var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
             NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, mLogicalStorageEngine.DataDictionary, null));
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/

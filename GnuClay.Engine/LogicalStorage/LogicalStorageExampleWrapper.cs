@@ -1,13 +1,7 @@
 ﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage.CommonData;
-using GnuClay.Engine.LogicalStorage.DebugHelpers;
-using GnuClay.Engine.LogicalStorage.InternalStorage;
-using GnuClay.Engine.LogicalStorage.QueriesParsers;
+using GnuClay.Engine.Parser.CommonData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage
 {
@@ -16,13 +10,9 @@ namespace GnuClay.Engine.LogicalStorage
         public LogicalStorageExampleWrapper()
         {
             mGnuClayEngine = new GnuClayEngine();
-            mSelectQueryParser = new SelectQueryParser(mGnuClayEngine.DataDictionary);
-            mInsertQueryParser = new InsertQueryParser(mGnuClayEngine.DataDictionary);
         }
 
         private GnuClayEngine mGnuClayEngine = null;
-        private SelectQueryParser mSelectQueryParser = null;
-        private InsertQueryParser mInsertQueryParser = null;
 
         public IReadOnlyStorageDataDictionary DataDictionary
         {
@@ -39,22 +29,18 @@ namespace GnuClay.Engine.LogicalStorage
                 throw new ArgumentNullException(nameof(text));
             }
 
-            var tmpFirstChars = text.Substring(0, 6).ToLower();
+            var query = mGnuClayEngine.Context.ParserEngine.Parse(text);
 
-            if (tmpFirstChars.StartsWith("insert"))
+            switch(query.Kind)
             {
-                var tmpInsertQuery = mInsertQueryParser.Run(text);
+                case GnuClayQueryKind.INSERT:
+                    mGnuClayEngine.LogicalStorage.InsertQuery(query.InsertQuery);
+                    return null;
 
-                mGnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
+                case GnuClayQueryKind.SELECT:
+                    return mGnuClayEngine.LogicalStorage.SelectQuery(query.SelectQuery);
 
-                return null;
-            }
-
-            if(tmpFirstChars.StartsWith("select"))
-            {
-                var tmpSelectQuery = mSelectQueryParser.Run(text);
-                
-                return mGnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
+                default: throw new ArgumentOutOfRangeException(nameof(query.Kind));
             }
 
             throw new NotImplementedException();

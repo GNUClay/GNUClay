@@ -1,10 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.Parser.CommonData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.Engine.Parser.InternalParsers
 {
@@ -12,11 +7,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
     {
         public ParserProcessingInstance(GnuClayEngineComponentContext context)
         {
-            mContext = new ParsingContext();
+            mContext = new InternalParserContext();
             mContext.MainContext = context;         
         }
 
-        private ParsingContext mContext = null;
+        private InternalParserContext mContext = null;
 
         public GnuClayQuery Parse(string queryText)
         {
@@ -31,29 +26,28 @@ namespace GnuClay.Engine.Parser.InternalParsers
             while((token = mContext.GetToken()) != null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"token = `{token}`");
-
-                if(mContext.CurrentHandler == null)
+                switch (token.TokenKind)
                 {
-                    switch(token.TokenKind)
-                    {
-                        case TokenKind.INSERT:
-                            mContext.PushHandler(new InternalInsertQueryParserHandler(mContext));
-                            mContext.Recovery(token);
-                            break;
+                    case TokenKind.INSERT:
+                        result.Kind = GnuClayQueryKind.INSERT;
+                        mContext.Recovery(token);
+                        var tmpInternalInsertQueryParser = new InternalInsertQueryParser(mContext);
+                        tmpInternalInsertQueryParser.Run();
+                        result.InsertQuery = tmpInternalInsertQueryParser.Result;
+                        break;
 
-                        default: throw new UndefinedTokenException(token.TokenKind);
-                    }
-                }
-                else
-                {
-                    mContext.CurrentHandler.Dispatch(token);
+                    case TokenKind.SELECT:
+                        result.Kind = GnuClayQueryKind.SELECT;
+                        mContext.Recovery(token);
+                        var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
+                        tmpInternalSelectQueryParser.Run();
+                        result.SelectQuery = tmpInternalSelectQueryParser.Result;
+                        break;
+
+                    default: throw new UndefinedTokenException(token.TokenKind);
                 }
             }
 
-            if(mContext.CurrentHandler != null)
-            {
-                mContext.CurrentHandler.CanIExit();
-            }
             NLog.LogManager.GetCurrentClassLogger().Info("Finish");
 
             return result;

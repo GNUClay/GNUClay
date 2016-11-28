@@ -1,12 +1,14 @@
 ﻿using GnuClay.Engine.CommonStorages;
-using GnuClay.Engine.Parser;
-using GnuClay.Engine.Parser.InternalParsers;
+using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
-    public class InternalExpressionParser: BaseInternalParser
+    public class InternalLogicalExpressionParser : BaseInternalParser
     {
         private enum State
         {
@@ -16,7 +18,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             EndDeclaringRelation
         }
 
-        public InternalExpressionParser(InternalParserContext context, StorageDataDictionary localDataDictionary = null)
+        public InternalLogicalExpressionParser(InternalParserContext context, StorageDataDictionary localDataDictionary = null)
             : base(context)
         {
             mLocalDataDictionary = localDataDictionary;
@@ -49,15 +51,15 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
             switch (mState)
             {
                 case State.Init:
-                    switch(CurrToken.TokenKind)
+                    switch (CurrToken.TokenKind)
                     {
                         case TokenKind.Word:
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Relation;
                             tmpNode.RelationParams = new List<ExpressionNode>();
-                            tmpNode.Key = Context.DataDictionary.GetKey(CurrToken.Content);
+                            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(CurrToken.Content);
 
-                            if(mRootNode == null)
+                            if (mRootNode == null)
                             {
                                 mRootNode = tmpNode;
                             }
@@ -65,7 +67,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                             {
                                 mRootNode.Right = tmpNode;
                             }
-                            
+
                             mCurrentNode = tmpNode;
                             mState = State.DeclaredRelationName;
                             break;
@@ -75,7 +77,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                     break;
 
                 case State.DeclaredRelationName:
-                    switch(CurrToken.TokenKind)
+                    switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenRoundBracket:
                             mState = State.InputParams;
@@ -91,7 +93,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                         case TokenKind.Word:
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Entity;
-                            tmpNode.Key = Context.DataDictionary.GetKey(CurrToken.Content);
+                            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(CurrToken.Content);
                             mCurrentNode.RelationParams.Add(tmpNode);
                             break;
 
@@ -114,7 +116,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                     break;
 
                 case State.EndDeclaringRelation:
-                    switch(CurrToken.TokenKind)
+                    switch (CurrToken.TokenKind)
                     {
                         case TokenKind.CloseFigureBracket:
                             Context.Recovery(CurrToken);
@@ -140,7 +142,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         protected override void OnExit()
         {
-            if(Context.IsEmpty())
+            if (Context.IsEmpty())
             {
                 throw new AbnormalTerminationException();
             }

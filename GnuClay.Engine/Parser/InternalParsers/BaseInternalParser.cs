@@ -1,11 +1,10 @@
-﻿using GnuClay.Engine.Parser.InternalParsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
     public abstract class BaseInternalParser
     {
@@ -18,11 +17,11 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
 
         public void Run()
         {
-            while((CurrToken = Context.Read()) != null)
+            while ((CurrToken = Context.GetToken()) != null)
             {
                 OnRun();
 
-                if(mIsExited)
+                if (mIsExited)
                 {
                     break;
                 }

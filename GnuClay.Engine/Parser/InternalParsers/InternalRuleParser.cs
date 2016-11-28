@@ -1,17 +1,14 @@
 ﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage.CommonData;
-using GnuClay.Engine.LogicalStorage.InternalStorage;
-using GnuClay.Engine.Parser;
-using GnuClay.Engine.Parser.InternalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
+namespace GnuClay.Engine.Parser.InternalParsers
 {
-    class InternalRuleParser : BaseInternalParser
+    public class InternalRuleParser : BaseInternalParser
     {
         private enum State
         {
@@ -56,7 +53,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalExpressionParser(Context, mLocalDataDictionary);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, mLocalDataDictionary);
                             tmpInternalExpressionParser.Run();
                             Part_1 = new RulePart();
                             Result.Part_1 = Part_1;
@@ -100,7 +97,7 @@ namespace GnuClay.Engine.LogicalStorage.QueriesParsers.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalExpressionParser(Context, mLocalDataDictionary);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, mLocalDataDictionary);
                             tmpInternalExpressionParser.Run();
                             Part_2 = new RulePart();
                             Result.Part_2 = Part_2;
