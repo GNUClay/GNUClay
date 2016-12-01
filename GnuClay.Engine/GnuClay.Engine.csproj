@@ -51,6 +51,9 @@
     <Compile Include="Parser\CommonData\SelectQuery.cs" />
     <Compile Include="Parser\GnuClayParserEngine.cs" />
     <Compile Include="Parser\InternalParsers\BaseInternalParser.cs" />
+    <Compile Include="Parser\InternalParsers\InternalCodeExpressionNode.cs" />
+    <Compile Include="Parser\InternalParsers\InternalCodeExpressionStatementParser.cs" />
+    <Compile Include="Parser\InternalParsers\InternalFunctionBodyParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalInsertQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalLogicalExpressionParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalRuleParser.cs" />

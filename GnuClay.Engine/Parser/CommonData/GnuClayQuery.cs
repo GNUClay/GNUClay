@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.AST;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace GnuClay.Engine.Parser.CommonData
 
         public SelectQuery SelectQuery = null;
         public InsertQuery InsertQuery = null;
+        public ASTCodeBlock ASTCodeBlock = null;
 
         public override string ToString()
         {

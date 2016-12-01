@@ -23,10 +23,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 if (mIsExited)
                 {
+                    OnFinish();
                     break;
                 }
             }
 
+            OnFinish();
             OnExit();
         }
 
@@ -37,6 +39,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
         }
 
         protected virtual void OnExit()
+        {
+        }
+
+        protected virtual void OnFinish()
         {
         }
 

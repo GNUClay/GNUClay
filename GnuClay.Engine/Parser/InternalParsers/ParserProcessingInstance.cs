@@ -44,6 +44,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         result.SelectQuery = tmpInternalSelectQueryParser.Result;
                         break;
 
+                    case TokenKind.CALL:
+                        result.Kind = GnuClayQueryKind.CALL;
+                        var tmpInternalFunctionBodyParser = new InternalFunctionBodyParser(mContext);
+                        tmpInternalFunctionBodyParser.Run();
+                        result.ASTCodeBlock = tmpInternalFunctionBodyParser.Result;
+                        break;
+
                     default: throw new UndefinedTokenException(token.TokenKind);
                 }
             }
