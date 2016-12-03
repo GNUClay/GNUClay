@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.Parser
 {
-    public class UndefinedTokenException : Exception
+    public class UnexpectedTokenException : Exception
     {
-        public UndefinedTokenException(TokenKind tokenKind)
-            : base($"Undefined token `{tokenKind}`")
+        public UnexpectedTokenException(Token token)
+            : base($"Unexpected token {token.ToDebugString()}")
         {
         }
     }

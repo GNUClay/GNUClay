@@ -51,7 +51,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         result.ASTCodeBlock = tmpInternalFunctionBodyParser.Result;
                         break;
 
-                    default: throw new UndefinedTokenException(token.TokenKind);
+                    default: throw new UnexpectedTokenException(token);
                 }
             }
 

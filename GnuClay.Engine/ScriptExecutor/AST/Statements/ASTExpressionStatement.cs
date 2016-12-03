@@ -10,7 +10,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
     public class ASTExpressionStatement: ASTStatement
     {
         public ASTExpressionStatement()
-            : base( StatementKind.Expression)
+            : base(StatementKind.Expression)
         {
         }
 

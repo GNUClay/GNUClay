@@ -160,5 +160,17 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             return tmpSb.ToString();
         }
+
+        public string ToDebugString()
+        {
+            var tmpSb = new StringBuilder($"`{TokenKind}`");
+
+            if(!string.IsNullOrWhiteSpace(Content))
+            {
+                tmpSb.Append($": `{Content}`");
+            }
+
+            return tmpSb.ToString();
+        }
     }
 }

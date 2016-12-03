@@ -7,18 +7,18 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
     {
         public LogicalStorageInsertRunner()
         {
-            mLogicalStorageEngine = new LogicalStorageEngine(null);
+            //mLogicalStorageEngine = new LogicalStorageEngine(null);
 
-            mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
+            //mCreateTestingQuery = new CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
 
-            mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
+            //mCreateSelectTestingQuery = new Select.CreateTestingQuery(mLogicalStorageEngine.DataDictionary);
         }
 
-        private LogicalStorageEngine mLogicalStorageEngine = null;
+        //private LogicalStorageEngine mLogicalStorageEngine = null;
 
-        private CreateTestingQuery mCreateTestingQuery = null;
+        //private CreateTestingQuery mCreateTestingQuery = null;
 
-        private Select.CreateTestingQuery mCreateSelectTestingQuery = null;
+        //private Select.CreateTestingQuery mCreateSelectTestingQuery = null;
 
         public void Run()
         {
@@ -47,9 +47,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             var tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, mLogicalStorageEngine.DataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
 
-            mLogicalStorageEngine.InsertQuery(tmpInsertQuery);
+            GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
             /*var tmpInsertQuery = mCreateTestingQuery.Run();
 
@@ -58,13 +58,13 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
             var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, mLogicalStorageEngine.DataDictionary, null));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary, null));
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/
 
-            var tmpResult = mLogicalStorageEngine.SelectQuery(tmpSelectQuery);
+            var tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.RunCase_2();
 

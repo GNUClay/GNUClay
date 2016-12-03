@@ -36,7 +36,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.BeginInstruction;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -47,7 +47,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessExpressionStatement();
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        case TokenKind.CloseFigureBracket:
+                            Exit();
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -61,7 +65,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, false);
             tmpInternalCodeExpressionStatementParser.Run();
-            Result.Statements.Add(tmpInternalCodeExpressionStatementParser.Result);
+            var astResult = tmpInternalCodeExpressionStatementParser.ASTResult;
+
+            if(astResult != null)
+            {
+                Result.Statements.Add(astResult);
+            }
         }
     }
 }

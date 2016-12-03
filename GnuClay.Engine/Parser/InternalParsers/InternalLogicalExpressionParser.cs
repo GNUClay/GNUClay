@@ -72,7 +72,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.DeclaredRelationName;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -83,7 +83,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.InputParams;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -111,7 +111,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.EndDeclaringRelation;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -132,7 +132,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.Init;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 

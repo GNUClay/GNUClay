@@ -63,8 +63,8 @@
     <Compile Include="Parser\InternalParsers\ParserProcessingInstance.cs" />
     <Compile Include="Parser\InternalParsers\InternalParserContext.cs" />
     <Compile Include="Parser\InternalParsers\Token.cs" />
-    <Compile Include="Parser\UndefinedSymbolException.cs" />
-    <Compile Include="Parser\UndefinedTokenException.cs" />
+    <Compile Include="Parser\UnexpectedSymbolException.cs" />
+    <Compile Include="Parser\UnexpectedTokenException.cs" />
     <Compile Include="RemoteEvents\RemoteEvent.cs" />
     <Compile Include="GnuClayEngine.cs" />
     <Compile Include="InternalCommonData\BaseGnuClayEngineComponent.cs" />
@@ -126,11 +126,13 @@
     <Compile Include="StandardLibrary\CommonData\IteratorValue.cs" />
     <Compile Include="StandardLibrary\CommonData\PropertyResultIteratorValue.cs" />
     <Compile Include="StandardLibrary\CommonData\PropertyResultValue.cs" />
+    <Compile Include="StandardLibrary\CommonData\StandartOperatorPrioritiesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\TryCallPropertyResult.cs" />
     <Compile Include="StandardLibrary\IteratorProvider.cs" />
     <Compile Include="StandardLibrary\PropertyResultIteratorProvider.cs" />
     <Compile Include="StandardLibrary\PropertyResultProvider.cs" />
+    <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BaseTypeProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\BaseValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\IValue.cs" />

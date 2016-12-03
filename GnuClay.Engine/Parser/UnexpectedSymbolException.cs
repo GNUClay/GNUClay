@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.Parser
 {
-    public class UndefinedSymbolException : Exception
+    public class UnexpectedSymbolException : Exception
     {
-        public UndefinedSymbolException(char symbol)
-            : base($"Undefined symbol `{symbol}`")
+        public UnexpectedSymbolException(char symbol)
+            : base($"Unexpected symbol `{symbol}`")
         {
         }
     }

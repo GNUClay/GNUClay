@@ -105,7 +105,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '.':
                                 return CreateToken(TokenKind.Point);
 
-                            default: throw new UndefinedSymbolException(tmpChar);
+                            default: throw new UnexpectedSymbolException(tmpChar);
                         }
                         break;
 

@@ -24,7 +24,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 if (mIsExited)
                 {
                     OnFinish();
-                    break;
+                    return;
                 }
             }
 

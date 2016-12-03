@@ -33,7 +33,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.WaitRule;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -47,7 +47,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.GotRule;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -58,7 +58,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.EndRule;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
@@ -69,7 +69,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.WaitRule;
                             break;
 
-                        default: throw new UndefinedTokenException(CurrToken.TokenKind);
+                        default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
