@@ -18,15 +18,11 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpressionStatement ast)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Run");
-
             ProcessNode(ast.Expression);
         }
 
         private void ProcessNode(ASTExpression expression)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNode {expression.Kind}");
-
             switch(expression.Kind)
             {
                 case ExpressionKind.BinaryOperator:
@@ -43,8 +39,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessBinaryOperator(ASTBinaryOperator expression)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessBinaryOperator");
-
             ProcessNode(expression.Left);
             ProcessNode(expression.Right);
 
@@ -57,8 +51,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessConstExpression(ASTConstExpression expression)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessConstExpression");
-
             var tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.PushConst;
             tmpCommand.Key = expression.TypeKey;

@@ -20,8 +20,6 @@ namespace GnuClay.Engine.Parser
 
         public GnuClayQuery Parse(string queryText)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Parse queryText = `{queryText}`");
-
             var tmpParserProcess = new ParserProcessingInstance(Context);
             return tmpParserProcess.Parse(queryText);
         }

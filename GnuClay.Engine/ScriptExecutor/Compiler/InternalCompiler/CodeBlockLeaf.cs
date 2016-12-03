@@ -19,8 +19,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTCodeBlock ast)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Run");
-
             mASTCodeBlock = ast;
 
             foreach(var statement in mASTCodeBlock.Statements)

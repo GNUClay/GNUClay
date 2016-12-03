@@ -25,8 +25,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun {CurrToken} {mState}");
-
             switch (mState)
             {
                 case State.Init:

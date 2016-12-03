@@ -46,8 +46,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun {CurrToken} {mState} {mCurrentNumberContent} {mFullCurrentNumberContent}");
-
             switch (mState)
             {
                 case State.Init:
@@ -102,9 +100,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState));
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = `{RootNode}`");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = `{mCurrentNode}`");
         }
 
         private void ProcessNumberToken()
@@ -129,15 +124,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public void SetNode(InternalCodeExpressionNode node, Token token)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode node = `{node}`");
-
             switch(node.Kind)
             {
                 case ExpressionKind.Undefined:
                     throw new ArgumentException("I can not process undefined InternalCodeExpressionNode.");
 
                 case ExpressionKind.BinaryOperator:
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetNode node.Kind = `{node.Kind}` mAddTo = {mAddTo}");
                     switch (mAddTo)
                     {
                         case Associativity.Undefined:
@@ -158,7 +150,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch(mAddTo)
                     {
                         case Associativity.Undefined:
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode RootNode = `{RootNode}`");
                             if(RootNode == null)
                             {
                                 break;
@@ -196,14 +187,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetMajorPriorityNode(InternalCodeExpressionNode node)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode node = `{node}`");
-
             var tmpNode = mCurrentNode;
 
             while (true)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode tmpNode = `{tmpNode}`");
-
                 var tmpParent = tmpNode.Parent;
 
                 if(tmpParent == null)
@@ -224,8 +211,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetBetweenNodes(InternalCodeExpressionNode targetNode, InternalCodeExpressionNode parentNode, InternalCodeExpressionNode childNode)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetBetweenNodes targetNode = `{targetNode}` parentNode = `{parentNode}` childNode = `{childNode}`");
-
             if(parentNode == null)
             {
                 RootNode = targetNode;           
@@ -236,9 +221,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
 
             mCurrentNode = targetNode;
-
             childNode.Parent = targetNode;
-
             switch(targetNode.Associativity)
             {
                 case Associativity.Left:
@@ -247,8 +230,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     break;
 
                 case Associativity.Right:
-                    throw new NotImplementedException();
-                    //break;
+                    targetNode.Right = childNode;
+                    mAddTo = Associativity.Left;
+                    break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(targetNode.Associativity));
             }
@@ -256,8 +240,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetMinorPriorityNode(InternalCodeExpressionNode node)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetMinorPriorityNode node = `{node}`");
-
             switch(mAddTo)
             {
                 case Associativity.Right:
@@ -298,8 +280,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private InternalCodeExpressionNode GetNodeByToken(Token token)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetNodeByToken token = `{token}`");
-
             var result = new InternalCodeExpressionNode();
 
             switch(token.TokenKind)

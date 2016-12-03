@@ -15,17 +15,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public GnuClayQuery Parse(string queryText)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Parse queryText = `{queryText}`");
-
             mContext.Lexer = new Lexer(queryText);
-
             var result = new GnuClayQuery();
-
             Token token = null;
 
             while((token = mContext.GetToken()) != null)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"token = `{token}`");
                 switch (token.TokenKind)
                 {
                     case TokenKind.INSERT:
@@ -54,8 +49,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     default: throw new UnexpectedTokenException(token);
                 }
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("Finish");
 
             return result;
         }

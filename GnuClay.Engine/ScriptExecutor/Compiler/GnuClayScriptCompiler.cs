@@ -20,8 +20,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
 
         public FunctionModel Compile(ASTCodeBlock ast)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Compile");
-
             var context = new CompilerContext();
             context.MainContext = Context;
 
