@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.Engine", "GnuClay.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.ConsoleTalk", "GnuClay.ConsoleTalk\GnuClay.ConsoleTalk.csproj", "{50BB77B4-5604-4FA0-960F-0F66782D46B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.LocalHost", "GnuClay.LocalHost\GnuClay.LocalHost.csproj", "{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonClientTypes", "GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj", "{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{50BB77B4-5604-4FA0-960F-0F66782D46B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50BB77B4-5604-4FA0-960F-0F66782D46B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50BB77B4-5604-4FA0-960F-0F66782D46B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.InternalResolver;

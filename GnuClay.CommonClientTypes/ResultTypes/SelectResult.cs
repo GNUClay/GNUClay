@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.LogicalStorage.CommonData
+namespace GnuClay.CommonClientTypes.ResultTypes
 {
-    public class VarResultItem: IToStringData
+    public class VarResultItem : IToStringData
     {
         public int ParamKey = 0;
 
@@ -71,8 +71,11 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
     public class SelectResult : IToStringData
     {
-        public bool Success = false;
+        public string ErrorText = string.Empty;
+        public bool HasErrors = false;
 
+        public bool Success = false;
+        
         public List<SelectResultItem> Items = new List<SelectResultItem>();
 
         /// <summary>

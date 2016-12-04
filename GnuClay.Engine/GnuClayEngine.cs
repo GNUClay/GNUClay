@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
@@ -76,6 +77,13 @@ namespace GnuClay.Engine
         private void InitFromZero()
         {
             mContext.StandardLibrary.InitFromZero();
+        }
+
+        public SelectResult Query(string text)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Query text = `{text}`");
+
+            throw new NotImplementedException();
         }
     }
 }

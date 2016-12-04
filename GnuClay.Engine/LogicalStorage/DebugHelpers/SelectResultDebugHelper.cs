@@ -1,6 +1,6 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
-using GnuClay.Engine.LogicalStorage.CommonData;
 using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers
@@ -9,17 +9,24 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
     {
         public static string ConvertToString(SelectResult source, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localStorage = null)
         {
+            var tmpSb = new StringBuilder();
+
+            if (source.HasErrors)
+            {
+                tmpSb.AppendLine("Has errors!");
+                tmpSb.AppendLine($"ErrorText `{source.ErrorText}`");
+            }
+
             if(!source.Success)
             {
-                return "no";
+                tmpSb.AppendLine("no");
+                return tmpSb.ToString();
             }
 
             if (localStorage == null)
             {
                 localStorage = new StorageDataDictionaryForVariables();
             }
-
-            var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine("yes");
 
