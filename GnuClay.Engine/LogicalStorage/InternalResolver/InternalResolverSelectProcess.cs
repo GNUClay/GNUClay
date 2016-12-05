@@ -55,7 +55,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 return tmpResult;
             }
 
-            tmpResult.Success = true;
+            tmpResult.HaveBeenFound = true;
 
             foreach (var tmpRezItem in result.Items)
             {

@@ -1,6 +1,6 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.CommonStorages;
 using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers
@@ -17,7 +17,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
                 tmpSb.AppendLine($"ErrorText `{source.ErrorText}`");
             }
 
-            if(!source.Success)
+            if(!source.HaveBeenFound)
             {
                 tmpSb.AppendLine("no");
                 return tmpSb.ToString();
@@ -51,7 +51,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             {
                 tmpSb.Append(localStorage.GetValue(tmpParamInfo.ParamKey));
                 tmpSb.Append(" = ");
-                tmpSb.Append(dataDictionary.GetValue(tmpParamInfo.EntityKey));
+                tmpSb.Append(dataDictionary?.GetValue(tmpParamInfo.EntityKey));
                 tmpSb.Append(";");
             }
 

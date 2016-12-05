@@ -31,6 +31,30 @@ namespace TSTConsoleWorkBench.LocalHostExecuting
 
             var result = mEntityConnection.Query(queryString);
             DisplayResult(result);
+
+            queryString = "SELECT{son(Piter,$X1)}";
+            NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+            result = mEntityConnection.Query(queryString);
+            DisplayResult(result);
+
+            queryString = "CALL { 1.0 + 2;}";
+            NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+            result = mEntityConnection.Query(queryString);
+            DisplayResult(result);
+
+            queryString = "CALL { 1.0 + 5 + 2;}";
+            NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+            result = mEntityConnection.Query(queryString);
+            DisplayResult(result);
+
+            queryString = "CALL { 1.0 + 5 + 2; 2 + 3;}";
+            NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+            result = mEntityConnection.Query(queryString);
+            DisplayResult(result);
         }
 
         private void DisplayResult(SelectResult result)

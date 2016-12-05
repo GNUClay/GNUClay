@@ -51,7 +51,6 @@
     <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LocalHostExecuting\LocalHostRunner.cs" />
     <Compile Include="LogicalStorage\Insert\LogicalStorageInsertRunner.cs" />
-    <Compile Include="LogicalStorage\Wrapper\LogicalStorageWrapperRunner.cs" />
     <Compile Include="ParserExecuting\ParserRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

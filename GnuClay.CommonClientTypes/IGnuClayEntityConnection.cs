@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
-    public interface IGnuClayEntityConnection
+    public interface IGnuClayEntityConnection: IReadOnlyStorageDataDictionary
     {
         SelectResult Query(string text);
     }

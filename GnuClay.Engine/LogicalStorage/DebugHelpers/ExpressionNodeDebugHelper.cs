@@ -1,5 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Text;
 

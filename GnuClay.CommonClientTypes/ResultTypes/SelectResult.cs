@@ -74,7 +74,7 @@ namespace GnuClay.CommonClientTypes.ResultTypes
         public string ErrorText = string.Empty;
         public bool HasErrors = false;
 
-        public bool Success = false;
+        public bool HaveBeenFound = false;
         
         public List<SelectResultItem> Items = new List<SelectResultItem>();
 
@@ -95,9 +95,9 @@ namespace GnuClay.CommonClientTypes.ResultTypes
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(Success));
+            tmpSb.Append(nameof(HaveBeenFound));
             tmpSb.Append(" = ");
-            tmpSb.AppendLine(Success.ToString());
+            tmpSb.AppendLine(HaveBeenFound.ToString());
 
             tmpSb.AppendLine(_ListHelper._ToString(Items, nameof(Items)));
 

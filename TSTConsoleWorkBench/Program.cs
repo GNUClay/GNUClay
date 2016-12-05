@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LocalHostExecuting;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
-using TSTConsoleWorkBench.LogicalStorage.Wrapper;
 using TSTConsoleWorkBench.ParserExecuting;
 using TSTConsoleWorkBench.ScriptExecuting;
 
@@ -19,7 +18,6 @@ namespace TSTConsoleWorkBench
             //TSTParserRunner();
             //TSTCommonRunner();
             //TSTInitialRunner();
-            //TSTRunWrapper();
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
@@ -54,12 +52,6 @@ namespace TSTConsoleWorkBench
         {
             var tmpInitialRunner = new InitialRunner();
             tmpInitialRunner.Run();
-        }
-
-        private static void TSTRunWrapper()
-        {
-            var tmpLogicalStorageWrapperRunner = new LogicalStorageWrapperRunner();
-            tmpLogicalStorageWrapperRunner.Run();
         }
 
         private static void TSTRunInsert()

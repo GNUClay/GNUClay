@@ -1,4 +1,4 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using System.Text;
 

@@ -31,11 +31,21 @@ namespace GnuClay.LocalHost
             }catch(Exception e)
             {
                 var result = new SelectResult();
-                result.Success = false;
+                result.HaveBeenFound = false;
                 result.HasErrors = true;
                 result.ErrorText = e.ToString();
                 return result;
             }
+        }
+
+        public string GetValue(int key)
+        {
+            return GnuClayEngine.DataDictionary.GetValue(key);
+        }
+
+        public int UniqueKeysCount()
+        {
+            return GnuClayEngine.DataDictionary.UniqueKeysCount();
         }
     }
 }

@@ -3,8 +3,10 @@ using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
+using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -79,11 +81,55 @@ namespace GnuClay.Engine
             mContext.StandardLibrary.InitFromZero();
         }
 
-        public SelectResult Query(string text)
+        public SelectResult Query(string queryString)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Query text = `{text}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Query queryString = `{queryString}`");
 
-            throw new NotImplementedException();
+            var queryTree = mContext.ParserEngine.Parse(queryString);
+            return Query(queryTree);
+        }
+
+        public SelectResult Query(GnuClayQuery queryTree)
+        {
+            switch(queryTree.Kind)
+            {
+                case GnuClayQueryKind.SELECT:
+                    return ProcessSelectQuery(queryTree.SelectQuery);
+
+                case GnuClayQueryKind.INSERT:
+                    return ProcessInsertQuery(queryTree.InsertQuery);
+
+                case GnuClayQueryKind.CALL:
+                    return ProcessCall(queryTree.ASTCodeBlock);
+
+                default: throw new ArgumentOutOfRangeException(nameof(queryTree.Kind));
+            }
+        }
+
+        private SelectResult ProcessSelectQuery(SelectQuery query)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessSelectQuery");
+
+            return mContext.LogicalStorage.SelectQuery(query);
+        }
+
+        private SelectResult ProcessInsertQuery(InsertQuery query)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessInsertQuery");
+
+            mContext.LogicalStorage.InsertQuery(query);
+
+            var result = new SelectResult();
+            return result;
+        }
+
+        private SelectResult ProcessCall(ASTCodeBlock codeBlock)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessCall");
+            mContext.ScriptExecutor.Execute(codeBlock);
+
+            var result = new SelectResult();
+            return result;
         }
     }
 }

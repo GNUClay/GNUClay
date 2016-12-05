@@ -1,5 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.LogicalStorage.InternalResolver;
 using System.Text;
 

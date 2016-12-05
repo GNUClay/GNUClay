@@ -88,10 +88,8 @@
     <Compile Include="LogicalStorage\InternalResolver\InternalResult.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ParamsBinder.cs" />
     <Compile Include="LogicalStorage\InternalStorage\InternalStorageEngine.cs" />
-    <Compile Include="CommonStorages\IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="CommonStorages\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
-    <Compile Include="LogicalStorage\LogicalStorageExampleWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteEvents\RemoteEventsEngine.cs" />
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />

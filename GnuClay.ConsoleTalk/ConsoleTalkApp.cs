@@ -1,5 +1,7 @@
-﻿using GnuClay.Engine.LogicalStorage;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
+using GnuClay.LocalHost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,13 @@ namespace GnuClay.ConsoleTalk
     {
         public ConsoleTalkApp()
         {
-            mLogicalStorageExampleWrapper = new LogicalStorageExampleWrapper();
+            mServerConnection = new GnuClayLocalServer();
+            mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
         }
 
-        private LogicalStorageExampleWrapper mLogicalStorageExampleWrapper = null;
+        private string mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
+        private IGnuClayServerConnection mServerConnection = null;
+        private IGnuClayEntityConnection mEntityConnection = null;
 
         public void Run()
         {
@@ -63,17 +68,7 @@ namespace GnuClay.ConsoleTalk
                     continue;
                 }
 
-                if (tmpFirstStr.StartsWith("insert"))
-                {
-                    ProcessQuery(tmpStr);
-                    continue;
-                }
-
-                if (tmpFirstStr.StartsWith("select"))
-                {
-                    ProcessQuery(tmpStr);
-                    continue;
-                }
+                ProcessQuery(tmpStr);
             }
         }
 
@@ -97,7 +92,7 @@ namespace GnuClay.ConsoleTalk
         {
             try
             {
-                var tmpResult = mLogicalStorageExampleWrapper.Query(queryText);
+                var tmpResult = mEntityConnection.Query(queryText);
                 if(tmpResult == null)
                 {
                     Console.WriteLine("yess");
@@ -105,7 +100,7 @@ namespace GnuClay.ConsoleTalk
                     return;
                 }
 
-                Console.WriteLine(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageExampleWrapper.DataDictionary));
+                Console.WriteLine(SelectResultDebugHelper.ConvertToString(tmpResult, mEntityConnection));
             }
             catch(Exception e)
             {

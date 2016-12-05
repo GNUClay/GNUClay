@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IGnuClayServerConnection.cs" />
     <Compile Include="IGnuClayEntityConnection.cs" />
+    <Compile Include="IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultTypes\SelectResult.cs" />
   </ItemGroup>

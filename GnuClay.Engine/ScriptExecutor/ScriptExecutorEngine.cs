@@ -1,5 +1,7 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.ScriptExecutor.Compiler;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,17 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 return mCompiler;
             }
+        }
+
+        public void Execute(ASTCodeBlock codeBlock)
+        {
+            var tmpCodeFrame = mCompiler.Compile(codeBlock);
+            var context = new GnuClayThreadExecutionContext();
+            context.MainContext = Context;
+
+            var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+
+            tmpInternalThreadExecutor.Run();
         }
     }
 }

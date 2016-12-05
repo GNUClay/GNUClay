@@ -28,7 +28,7 @@ namespace GnuClay.Engine.LogicalStorage
             {
                 return Context.DataDictionary;
             }
-        }
+        } 
 
         public SelectResult SelectQuery(SelectQuery query)
         {
