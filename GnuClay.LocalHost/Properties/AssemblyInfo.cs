@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TSTConsoleWorkBench")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("GnuClay.LocalHost")]
+[assembly: AssemblyDescription("LocalHost of gnu clay language.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TSTConsoleWorkBench")]
+[assembly: AssemblyProduct("GnuClay.LocalHost")]
 [assembly: AssemblyCopyright("Copyright © metatypeman 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1be2f238-a6b5-4f4c-8cca-06afb5cfc4c5")]
+[assembly: Guid("85da149a-3309-415a-9815-cb4227c10b1c")]
 
 // Version information for an assembly consists of the following four values:
 //

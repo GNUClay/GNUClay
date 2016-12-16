@@ -11,7 +11,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         {
             var tmpSb = new StringBuilder();
 
-            if (source.HasErrors)
+            if (!source.Success)
             {
                 tmpSb.AppendLine("Has errors!");
                 tmpSb.AppendLine($"ErrorText `{source.ErrorText}`");

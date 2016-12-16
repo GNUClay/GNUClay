@@ -32,7 +32,7 @@ namespace GnuClay.LocalHost
             {
                 var result = new SelectResult();
                 result.HaveBeenFound = false;
-                result.HasErrors = true;
+                result.Success = false;
                 result.ErrorText = e.ToString();
                 return result;
             }

@@ -41,7 +41,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
             }
         }
 
-        private bool mSuccess = false;
+        private bool mSuccess = true;
 
         public bool Success
         {

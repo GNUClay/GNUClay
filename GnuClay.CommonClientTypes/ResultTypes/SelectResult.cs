@@ -72,7 +72,7 @@ namespace GnuClay.CommonClientTypes.ResultTypes
     public class SelectResult : IToStringData
     {
         public string ErrorText = string.Empty;
-        public bool HasErrors = false;
+        public bool Success = true;
 
         public bool HaveBeenFound = false;
         
