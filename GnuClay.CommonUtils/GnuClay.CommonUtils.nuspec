@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>GnuClay.Engine</id>
+    <id>GnuClay.CommonUtils</id>
     <version>$version$</version>
-    <title>Gnu Clay</title>
+    <title>Gnu Clay - CommonUtils</title>
     <authors>metatypeman</authors>
     <owners>metatypeman</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -14,9 +14,11 @@
     This is a small and simple system of logic programming similar to the Prolog.
 	</description>
     <copyright>Copyright © 2016 metatypeman</copyright>
+	<dependencies>
+	    <dependency id="NLog" version="4.4.0" />
+	</dependencies>
   </metadata>
   <files>
-       <file src="bin/Debug/*.dll" target="lib/net45" /> 
-       <file src="bin/Debug/*.pdb" target="lib/net45" />
+       <file src="bin/Debug/*.dll" target="lib/net452" />
    </files>
 </package>
