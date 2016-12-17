@@ -1,5 +1,4 @@
 # GNUClay
-##Overview
 I develop just for fun a small expert system based on the principles of Prolog.
 
 Pure Prolog has a very minimalistic syntax.
