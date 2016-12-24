@@ -190,14 +190,14 @@ namespace GnuClay.CommonUtils.Tasking
 
         public void Stop()
         {
-            if (!mIsShouldRun)
-            {
-                return;
-            }
+            //if (!mIsShouldRun)
+            //{
+            //    return;
+            //}
 
             mIsShouldRun = false;
 
-            mThread.Abort();
+            mThread?.Abort();
             mThread = null;
 
             mIsSuspended = true;

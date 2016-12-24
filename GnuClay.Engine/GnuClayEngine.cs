@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
@@ -24,6 +25,8 @@ namespace GnuClay.Engine
             CreateContext();
             InitFromZero();
         }
+
+        private object mLockObj = new object();
 
         public StorageDataDictionary DataDictionary
         {
@@ -65,6 +68,7 @@ namespace GnuClay.Engine
 
             mContext = new GnuClayEngineComponentContext();
 
+            mContext.ActiveContext = new ActiveContext();
             mContext.DataDictionary = new StorageDataDictionary(mContext);
             mContext.LogicalStorage = new LogicalStorageEngine(mContext);
             mContext.TypeProcessingContext = new TypeProcessingContext(mContext);
@@ -79,6 +83,72 @@ namespace GnuClay.Engine
         private void InitFromZero()
         {
             mContext.StandardLibrary.InitFromZero();
+
+            //mContext.ActiveContext.ActivateAll();
+        }
+
+        private bool mIsRunning = true;
+
+        public void Suspend()
+        {
+            lock(mLockObj)
+            {
+                if(!mIsRunning)
+                {
+                    return;
+                }
+
+                mIsRunning = false;
+
+                NLog.LogManager.GetCurrentClassLogger().Info("Suspend");
+
+                var tmpTasksList = new List<Task>();
+
+                var tmpTask = new Task(() => {
+                    mContext.ActiveContext.Suspend();
+                });
+                tmpTasksList.Add(tmpTask);
+                tmpTask.Start();
+
+                tmpTask = new Task(() => {
+                    mContext.LogicalStorage.Suspend();
+                });
+                tmpTasksList.Add(tmpTask);
+                tmpTask.Start();
+
+                Task.WaitAll(tmpTasksList.ToArray());
+            }
+        }
+
+        public void Resume()
+        {
+            lock (mLockObj)
+            {
+                if(mIsRunning)
+                {
+                    return;
+                }
+
+                mIsRunning = true;
+
+                NLog.LogManager.GetCurrentClassLogger().Info("Resume");
+
+                var tmpTasksList = new List<Task>();
+
+                var tmpTask = new Task(() => {
+                    mContext.ActiveContext.Resume();
+                });
+                tmpTasksList.Add(tmpTask);
+                tmpTask.Start();
+
+                tmpTask = new Task(() => {
+                    mContext.LogicalStorage.Resume();
+                });
+                tmpTasksList.Add(tmpTask);
+                tmpTask.Start();
+
+                Task.WaitAll(tmpTasksList.ToArray());
+            }
         }
 
         public SelectResult Query(string queryString)

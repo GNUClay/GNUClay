@@ -57,6 +57,7 @@
     <Compile Include="ScriptExecuting\InitialRunner.cs" />
     <Compile Include="ScriptExecuting\TstValue.cs" />
     <Compile Include="ScriptExecuting\TSTValueProvider.cs" />
+    <Compile Include="Serialiazation\SerializationRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

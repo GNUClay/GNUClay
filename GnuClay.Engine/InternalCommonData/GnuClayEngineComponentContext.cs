@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonUtils.Tasking;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteEvents;
@@ -14,6 +15,7 @@ namespace GnuClay.Engine.InternalCommonData
 {
     public class GnuClayEngineComponentContext
     {
+        public ActiveContext ActiveContext = null;
         public StorageDataDictionary DataDictionary = null;
         public StandardLibraryEngine StandardLibrary = null;
         public LogicalStorageEngine LogicalStorage = null;

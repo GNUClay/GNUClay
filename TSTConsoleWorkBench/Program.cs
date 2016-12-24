@@ -7,6 +7,7 @@ using TSTConsoleWorkBench.LocalHostExecuting;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
 using TSTConsoleWorkBench.ParserExecuting;
 using TSTConsoleWorkBench.ScriptExecuting;
+using TSTConsoleWorkBench.Serialiazation;
 
 namespace TSTConsoleWorkBench
 {
@@ -14,13 +15,20 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTLocalHostRunner();
+            TSTSerializationRunner();
+            //TSTLocalHostRunner();
             //TSTParserRunner();
             //TSTCommonRunner();
             //TSTInitialRunner();
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTSerializationRunner()
+        {
+            var tmpSerializationRunner = new SerializationRunner();
+            tmpSerializationRunner.Run();
         }
 
         private static void TSTLocalHostRunner()

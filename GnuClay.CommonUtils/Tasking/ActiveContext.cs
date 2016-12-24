@@ -74,6 +74,19 @@ namespace GnuClay.CommonUtils.Tasking
             }
         }
 
+        private bool mIsRunning = false;
+
+        public bool IsRunning
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mIsRunning;
+                }
+            }
+        }
+
         public void ActivateAll()
         {
             lock (mLockObj)
@@ -112,6 +125,7 @@ namespace GnuClay.CommonUtils.Tasking
             {
                 mResetEvent.Reset();
                 mIsNeedWait = true;
+                mIsRunning = false;
 
                 while (mChildren.Count(p => p.IsSuspended) < mChildren.Count)
                 {
@@ -124,6 +138,7 @@ namespace GnuClay.CommonUtils.Tasking
             lock (mLockObj)
             {
                 mIsNeedWait = false;
+                mIsRunning = true;
                 mResetEvent.Set();
             }
         }

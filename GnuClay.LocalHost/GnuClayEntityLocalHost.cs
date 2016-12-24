@@ -21,6 +21,16 @@ namespace GnuClay.LocalHost
         private string mEntityName = null;
         private GnuClayEngine GnuClayEngine = null;
 
+        public void Suspend()
+        {
+            GnuClayEngine.Suspend();
+        }
+
+        public void Resume()
+        {
+            GnuClayEngine.Resume();
+        }
+
         public SelectResult Query(string text)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Query text = `{text}`");
