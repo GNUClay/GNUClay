@@ -80,5 +80,37 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
             tmpList.Add(targetItem);
         }
+
+        [Serializable]
+        private class Data
+        {
+            public Dictionary<int, List<RulePart>> mRelationIndex;
+            public List<RuleInstance> mRulesAndFactsList;
+            public Dictionary<long, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
+            public List<int> mEntitiesList;
+        }
+
+        public object Save()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Save");
+
+            var tmpData = new Data();
+            tmpData.mRelationIndex = mRelationIndex;
+            tmpData.mRulesAndFactsList = mRulesAndFactsList;
+            tmpData.mLongHasheCodeRulesAndFactsDict = mLongHasheCodeRulesAndFactsDict;
+            tmpData.mEntitiesList = mEntitiesList;
+            return tmpData;
+        }
+
+        public void Load(object value)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Load");
+
+            var tmpData = (Data)value;
+            mRelationIndex = tmpData.mRelationIndex;
+            mRulesAndFactsList = tmpData.mRulesAndFactsList;
+            mLongHasheCodeRulesAndFactsDict = tmpData.mLongHasheCodeRulesAndFactsDict;
+            mEntitiesList = tmpData.mEntitiesList;
+        }
     }
 }

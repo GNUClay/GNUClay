@@ -8,6 +8,7 @@ using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
+using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -69,6 +70,7 @@ namespace GnuClay.Engine
             mContext = new GnuClayEngineComponentContext();
 
             mContext.ActiveContext = new ActiveContext();
+            mContext.SerializationEngine = new SerializationEngine(mContext);
             mContext.DataDictionary = new StorageDataDictionary(mContext);
             mContext.LogicalStorage = new LogicalStorageEngine(mContext);
             mContext.TypeProcessingContext = new TypeProcessingContext(mContext);
@@ -148,6 +150,46 @@ namespace GnuClay.Engine
                 tmpTask.Start();
 
                 Task.WaitAll(tmpTasksList.ToArray());
+            }
+        }
+
+        public byte[] Save()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Save");
+
+            var tmpIsRunning = mIsRunning;
+
+            if(tmpIsRunning)
+            {
+                Suspend();
+            }
+
+            var result = mContext.SerializationEngine.Save();
+
+            if(tmpIsRunning)
+            {
+                Resume();
+            }
+
+            return result;
+        }
+
+        public void Load(byte[] value)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Load");
+
+            var tmpIsRunning = mIsRunning;
+
+            if (tmpIsRunning)
+            {
+                Suspend();
+            }
+
+            mContext.SerializationEngine.Load(value);
+
+            if (tmpIsRunning)
+            {
+                Resume();
             }
         }
 

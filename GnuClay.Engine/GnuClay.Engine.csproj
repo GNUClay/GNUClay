@@ -117,6 +117,9 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
+    <Compile Include="Serialization\SerializationEngine.cs" />
+    <Compile Include="Serialization\SerializationInfo.cs" />
+    <Compile Include="Serialization\SerializationPackage.cs" />
     <Compile Include="StandardLibrary\ArrayProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\ArrayValue.cs" />
     <Compile Include="StandardLibrary\CommonData\ExternalMethodInfo.cs" />

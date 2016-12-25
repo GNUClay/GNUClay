@@ -81,5 +81,15 @@ namespace GnuClay.Engine.LogicalStorage
 
             mInternalResolverEngine.InsertQuery(query);
         }
+
+        public object Save()
+        {
+            return mInternalStorageEngine.Save();
+        }
+
+        public void Load(object value)
+        {
+            mInternalStorageEngine.Load(value);
+        }
     }
 }

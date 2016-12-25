@@ -4,6 +4,7 @@ using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -16,6 +17,7 @@ namespace GnuClay.Engine.InternalCommonData
     public class GnuClayEngineComponentContext
     {
         public ActiveContext ActiveContext = null;
+        public SerializationEngine SerializationEngine = null;
         public StorageDataDictionary DataDictionary = null;
         public StandardLibraryEngine StandardLibrary = null;
         public LogicalStorageEngine LogicalStorage = null;

@@ -10,6 +10,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
     /// <summary>
     /// Represents instance of rule (or fact) in the storage.
     /// </summary>
+    [Serializable]
     public class RuleInstance : IToStringData
     {
         /// <summary>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.CommonData
 {
+    [Serializable]
     public class RulePart : IToStringData
     {
         public RuleInstance Parent = null;

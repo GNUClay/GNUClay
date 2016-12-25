@@ -46,6 +46,7 @@ namespace GnuClay.Engine.LogicalStorage
     /// <summary>
     /// The node of some expression.
     /// </summary>
+    [Serializable]
     public class ExpressionNode: IToStringData
     {
         /// <summary>
