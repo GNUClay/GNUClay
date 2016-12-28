@@ -91,6 +91,17 @@ namespace GnuClay.Engine
 
         private bool mIsRunning = true;
 
+        public bool IsRunning
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mIsRunning;
+                }
+            }
+        }
+
         public void Suspend()
         {
             lock(mLockObj)
@@ -186,6 +197,25 @@ namespace GnuClay.Engine
             }
 
             mContext.SerializationEngine.Load(value);
+
+            if (tmpIsRunning)
+            {
+                Resume();
+            }
+        }
+
+        public void Clear()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
+
+            var tmpIsRunning = mIsRunning;
+
+            if (tmpIsRunning)
+            {
+                Suspend();
+            }
+
+            mContext.SerializationEngine.Clear();
 
             if (tmpIsRunning)
             {

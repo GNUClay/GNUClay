@@ -10,12 +10,14 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 {
     public class InternalStorageEngine
     {
+        public InternalStorageEngine()
+        {
+            Clear();
+        }
+
         public Dictionary<int, List<RulePart>> mRelationIndex = new Dictionary<int, List<RulePart>>();
-
         public List<RuleInstance> mRulesAndFactsList = new List<RuleInstance>();
-
         public Dictionary<long, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict = new Dictionary<long, List<RuleInstance>>();
-
         public List<int> mEntitiesList = new List<int>();
 
         public void AddIndex(int key, RulePart rulePart)
@@ -111,6 +113,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             mRulesAndFactsList = tmpData.mRulesAndFactsList;
             mLongHasheCodeRulesAndFactsDict = tmpData.mLongHasheCodeRulesAndFactsDict;
             mEntitiesList = tmpData.mEntitiesList;
+        }
+
+        public void Clear()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
+
+            mRelationIndex = new Dictionary<int, List<RulePart>>();
+            mRulesAndFactsList = new List<RuleInstance>();
+            mLongHasheCodeRulesAndFactsDict = new Dictionary<long, List<RuleInstance>>();
+            mEntitiesList = new List<int>();
         }
     }
 }

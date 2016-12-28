@@ -11,6 +11,7 @@ namespace GnuClay.Engine.CommonStorages
         public StorageDataDictionary(GnuClayEngineComponentContext context)
             : base(context)
         {
+            Clear();
         }
 
         public int GetKey(string val)
@@ -28,9 +29,9 @@ namespace GnuClay.Engine.CommonStorages
             return mKeysDict[key];
         }
 
-        private Dictionary<int, string> mKeysDict = new Dictionary<int, string>();
-        private Dictionary<string, int> mValuesDict = new Dictionary<string, int>();
-        private int mMaxKey = 0;
+        private Dictionary<int, string> mKeysDict;
+        private Dictionary<string, int> mValuesDict;
+        private int mMaxKey;
 
         private int CreateKey(string val)
         {
@@ -74,6 +75,15 @@ namespace GnuClay.Engine.CommonStorages
             mKeysDict = tmpData.mKeysDict;
             mValuesDict = tmpData.mValuesDict;
             mMaxKey = tmpData.mMaxKey;
+        }
+
+        public void Clear()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
+
+            mKeysDict = new Dictionary<int, string>();
+            mValuesDict = new Dictionary<string, int>();
+            mMaxKey = 0;
         }
     }
 }

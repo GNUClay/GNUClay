@@ -5,6 +5,7 @@ using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
 using System;
+using System.Threading;
 
 namespace GnuClay.Engine.LogicalStorage
 {
@@ -32,7 +33,24 @@ namespace GnuClay.Engine.LogicalStorage
             lock(mLockObj)
             {
                 mIsRunning = false;
+
+
             }
+
+            while(true)
+            {
+                lock (mLockObj)
+                {
+                    if(mInsertQueriesCount == 0)
+                    {
+                        break;
+                    }
+                }
+
+                Thread.Sleep(10);
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Suspend");
         }
 
         public void Resume()
@@ -69,6 +87,8 @@ namespace GnuClay.Engine.LogicalStorage
             return mInternalResolverEngine.SelectQuery(query);
         }
 
+        private int mInsertQueriesCount = 0;
+
         public void InsertQuery(InsertQuery query)
         {
             lock(mLockObj)
@@ -77,9 +97,16 @@ namespace GnuClay.Engine.LogicalStorage
                 {
                     return;
                 }
+
+                mInsertQueriesCount++;
             }
 
             mInternalResolverEngine.InsertQuery(query);
+
+            lock (mLockObj)
+            {
+                mInsertQueriesCount--;
+            }
         }
 
         public object Save()
@@ -90,6 +117,11 @@ namespace GnuClay.Engine.LogicalStorage
         public void Load(object value)
         {
             mInternalStorageEngine.Load(value);
+        }
+
+        public void Clear()
+        {
+            mInternalStorageEngine.Clear();
         }
     }
 }

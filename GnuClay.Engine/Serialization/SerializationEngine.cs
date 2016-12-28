@@ -75,5 +75,13 @@ namespace GnuClay.Engine.Serialization
             Context.DataDictionary.Load(serializationInfo.StorageDataDictionaryInfo);
             Context.LogicalStorage.Load(serializationInfo.LogicalStorageInfo);
         }
+
+        public void Clear()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
+
+            Context.DataDictionary.Clear();
+            Context.LogicalStorage.Clear();
+        }
     }
 }

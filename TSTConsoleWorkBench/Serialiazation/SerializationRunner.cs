@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
+using GnuClay.LocalHost;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,6 +54,17 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 var qr_2 = tmpEngine_2.Query(queryString);
                 NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine_2.DataDictionary));
+
+                tmpEngine_2.Clear();
+
+                var qr_3 = tmpEngine_2.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(qr_3, tmpEngine_2.DataDictionary));
+
+                var mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
+                var mServerConnection = new GnuClayLocalServer();
+                var mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+
+                mEntityConnection.Destroy();
             }
             catch (Exception e)
             {

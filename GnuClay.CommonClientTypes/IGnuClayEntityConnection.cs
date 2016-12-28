@@ -9,8 +9,17 @@ namespace GnuClay.CommonClientTypes
 {
     public interface IGnuClayEntityConnection: IReadOnlyStorageDataDictionary
     {
+        string Name { get; }
         void Suspend();
         void Resume();
-        SelectResult Query(string text);
+        bool IsRunning { get; }
+        SelectResult Query(string text);      
+        void Load(string name);
+        void Load(byte[] data);
+        void Save(string name);
+        byte[] Save();
+        void Clear();
+        bool IsDestroyed { get; }
+        void Destroy();
     }
 }
