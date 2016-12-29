@@ -4,6 +4,7 @@ using GnuClay.LocalHost;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,16 +32,27 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 tmpEngine.Query(queryString);
 
-                byte[] result = null;
+                var result = tmpEngine.Save();
 
-                using (var stream = new FileStream("MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var originalStream = new MemoryStream(result))
                 {
-                    result = tmpEngine.Save();
+                    using (var compressedStream = new FileStream("MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        using (var compressionStream = new GZipStream(compressedStream, CompressionMode.Compress))
+                        {
+                            originalStream.CopyTo(compressionStream);
+                        }
+                    }
+                }
+
+                /*using (var stream = new FileStream("MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    
                     NLog.LogManager.GetCurrentClassLogger().Info($"result.Count() = {result.Count()}");
 
                     stream.Write(result, 0, result.Count());
                     stream.Flush();
-                }
+                }*/
 
                 queryString = "SELECT{son(Piter,$X1)}";
 
@@ -63,6 +75,8 @@ namespace TSTConsoleWorkBench.Serialiazation
                 var mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
                 var mServerConnection = new GnuClayLocalServer();
                 var mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+
+                mEntityConnection.Save("0813940A-EAC6-47E7-BF57-9B8C05E2168A.gcd");
 
                 mEntityConnection.Destroy();
             }

@@ -10,8 +10,10 @@ namespace GnuClay.ConsoleTalk
     {
         static void Main(string[] args)
         {
-            var tmpConsoleTalkApp = new ConsoleTalkApp();
-            tmpConsoleTalkApp.Run();
+            using (var tmpConsoleTalkApp = new ConsoleTalkApp())
+            {
+                tmpConsoleTalkApp.Run();
+            }             
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +56,22 @@ namespace GnuClay.CommonUtils.TypeHelpers
             }
 
             return objName + " = " + obj.ToString();
+        }
+
+        public static void CopyTo<T>(this object source, T dest)
+        {
+            JsonConvert.PopulateObject(source.ToJson(), dest);
+        }
+
+        public static string ToJson(this object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string PrintJsonToStringInformation(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj).Replace("{", "{\n").Replace("[", "[\n").Replace("}", "\n}").Replace("]", "\n]").Replace(",", ",\n");
+            return json;
         }
     }
 }

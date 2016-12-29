@@ -113,7 +113,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         tmpBuffer.Append(tmpChar);
                         mLexerState = LexerState.InWord;
 
-                        if (!char.IsLetterOrDigit(mItems.Peek()))
+                        if (mItems.Count == 0 || !char.IsLetterOrDigit(mItems.Peek()))
                         {
                             mLexerState = LexerState.Init;
                             return CreateToken(TokenKind.Word, tmpBuffer.ToString());

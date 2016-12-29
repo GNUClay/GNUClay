@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine
 {
-    public class GnuClayEngine
+    public class GnuClayEngine: IDisposable
     {
         public GnuClayEngine()
         {
@@ -106,7 +106,9 @@ namespace GnuClay.Engine
         {
             lock(mLockObj)
             {
-                if(!mIsRunning)
+                ValidateIsDestroyed();
+
+                if (!mIsRunning)
                 {
                     return;
                 }
@@ -137,7 +139,9 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                if(mIsRunning)
+                ValidateIsDestroyed();
+
+                if (mIsRunning)
                 {
                     return;
                 }
@@ -166,85 +170,156 @@ namespace GnuClay.Engine
 
         public byte[] Save()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
-            var tmpIsRunning = mIsRunning;
-
-            if(tmpIsRunning)
+            lock (mLockObj)
             {
-                Suspend();
+                NLog.LogManager.GetCurrentClassLogger().Info("Save");
+
+                ValidateIsDestroyed();
+
+                var tmpIsRunning = mIsRunning;
+
+                if (tmpIsRunning)
+                {
+                    Suspend();
+                }
+
+                var result = mContext.SerializationEngine.Save();
+
+                if (tmpIsRunning)
+                {
+                    Resume();
+                }
+
+                return result;
             }
-
-            var result = mContext.SerializationEngine.Save();
-
-            if(tmpIsRunning)
-            {
-                Resume();
-            }
-
-            return result;
         }
 
         public void Load(byte[] value)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
-            var tmpIsRunning = mIsRunning;
-
-            if (tmpIsRunning)
+            lock (mLockObj)
             {
-                Suspend();
-            }
+                NLog.LogManager.GetCurrentClassLogger().Info("Load");
 
-            mContext.SerializationEngine.Load(value);
+                ValidateIsDestroyed();
 
-            if (tmpIsRunning)
-            {
-                Resume();
+                var tmpIsRunning = mIsRunning;
+
+                if (tmpIsRunning)
+                {
+                    Suspend();
+                }
+
+                mContext.SerializationEngine.Load(value);
+
+                if (tmpIsRunning)
+                {
+                    Resume();
+                }
             }
         }
 
         public void Clear()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
-            var tmpIsRunning = mIsRunning;
-
-            if (tmpIsRunning)
+            lock (mLockObj)
             {
-                Suspend();
+                NLog.LogManager.GetCurrentClassLogger().Info("Clear");
+
+                ValidateIsDestroyed();
+
+                var tmpIsRunning = mIsRunning;
+
+                if (tmpIsRunning)
+                {
+                    Suspend();
+                }
+
+                mContext.SerializationEngine.Clear();
+
+                if (tmpIsRunning)
+                {
+                    Resume();
+                }
             }
+        }
 
-            mContext.SerializationEngine.Clear();
-
-            if (tmpIsRunning)
+        private void ValidateIsDestroyed()
+        {
+            if (mIsDestroyed)
             {
-                Resume();
+                throw new ApplicationException("The GnuClay engine was destroyed.");
             }
+        }
+
+        private bool mIsDestroyed = false;
+
+        public bool IsDestroyed
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mIsDestroyed;
+                }
+            }
+        }
+
+        public void Destroy()
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("Destroy");
+
+                if (mIsDestroyed)
+                {
+                    return;
+                }
+
+                mIsDestroyed = true;
+
+                mIsRunning = false;
+
+                mContext.ActiveContext.StopAll();
+                mContext = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            Destroy();
         }
 
         public SelectResult Query(string queryString)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Query queryString = `{queryString}`");
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Query queryString = `{queryString}`");
 
-            var queryTree = mContext.ParserEngine.Parse(queryString);
-            return Query(queryTree);
+                ValidateIsDestroyed();
+
+                var queryTree = mContext.ParserEngine.Parse(queryString);
+                return Query(queryTree);
+            }
         }
 
         public SelectResult Query(GnuClayQuery queryTree)
         {
-            switch(queryTree.Kind)
+            lock (mLockObj)
             {
-                case GnuClayQueryKind.SELECT:
-                    return ProcessSelectQuery(queryTree.SelectQuery);
+                ValidateIsDestroyed();
 
-                case GnuClayQueryKind.INSERT:
-                    return ProcessInsertQuery(queryTree.InsertQuery);
+                switch (queryTree.Kind)
+                {
+                    case GnuClayQueryKind.SELECT:
+                        return ProcessSelectQuery(queryTree.SelectQuery);
 
-                case GnuClayQueryKind.CALL:
-                    return ProcessCall(queryTree.ASTCodeBlock);
+                    case GnuClayQueryKind.INSERT:
+                        return ProcessInsertQuery(queryTree.InsertQuery);
 
-                default: throw new ArgumentOutOfRangeException(nameof(queryTree.Kind));
+                    case GnuClayQueryKind.CALL:
+                        return ProcessCall(queryTree.ASTCodeBlock);
+
+                    default: throw new ArgumentOutOfRangeException(nameof(queryTree.Kind));
+                }
             }
         }
 

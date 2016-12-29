@@ -2,14 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using GnuClay.CommonUtils.TypeHelpers;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace GnuClay.LocalHost
 {
     public class GnuClayLocalServer : IGnuClayServerConnection
     {
+        public GnuClayLocalServer()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("GnuClayLocalServer");
+        }
+
         private object mLockObj = new object();
+
         private bool mIsRunning = true;
 
         public bool IsRunning
@@ -27,6 +34,8 @@ namespace GnuClay.LocalHost
         {
             lock(mLockObj)
             {
+                ValidateIsDestroyed();
+
                 if (!mIsRunning)
                 {
                     return;
@@ -145,14 +154,11 @@ namespace GnuClay.LocalHost
 
         internal void RemoveEntity(IGnuClayEntityConnection entity)
         {
-            lock (mLockObj)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveEntity entity.Name = {entity.Name}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveEntity entity.Name = {entity.Name}");
 
-                if (mEntityConnectionDict.ContainsKey(entity.Name))
-                {
-                    mEntityConnectionDict.Remove(entity.Name);
-                }
+            if (mEntityConnectionDict.ContainsKey(entity.Name))
+            {
+                mEntityConnectionDict.Remove(entity.Name);
             }
         }
 
@@ -170,37 +176,6 @@ namespace GnuClay.LocalHost
 
         private Dictionary<string, IGnuClayEntityConnection> mEntityConnectionDict = new Dictionary<string, IGnuClayEntityConnection>();
 
-        public void Load()
-        {
-            lock (mLockObj)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
-                ValidateIsDestroyed();
-
-                var tmpIsRunning = mIsRunning;
-
-                if (tmpIsRunning)
-                {
-                    Suspend();
-                }
-
-                throw new NotImplementedException();
-
-                foreach (var enityConnection in mEntityConnectionDict)
-                {
-                    throw new NotImplementedException();
-                }
-
-                throw new NotImplementedException();
-
-                if (tmpIsRunning)
-                {
-                    Resume();
-                }
-            }
-        }
-
         public void Load(string name)
         {
             lock (mLockObj)
@@ -216,45 +191,31 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                throw new NotImplementedException();
+                var targetFiles = Directory.GetFiles(name, "*.gcd");
 
-                foreach (var enityConnection in mEntityConnectionDict)
+                foreach(var fileName in targetFiles)
                 {
-                    throw new NotImplementedException();
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Load fileName = {fileName}");
+
+                    var tmpFileInfo = new FileInfo(fileName);
+                    var targetEntityName = tmpFileInfo.Name.Substring(0, tmpFileInfo.Name.Length - tmpFileInfo.Extension.Length);
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Load targetEntityName = {targetEntityName}");
+
+                    IGnuClayEntityConnection targetEntity = null;
+
+                    if (mEntityConnectionDict.ContainsKey(targetEntityName))
+                    {
+                        targetEntity = mEntityConnectionDict[targetEntityName];
+                    }
+                    else
+                    {
+                        targetEntity = ConnectToEntity(targetEntityName);
+                        targetEntity.Suspend();
+                    }
+
+                    targetEntity.Load(fileName);
                 }
-
-                throw new NotImplementedException();
-
-                if (tmpIsRunning)
-                {
-                    Resume();
-                }
-            }
-        }
-
-        public void Save()
-        {
-            lock (mLockObj)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
-                ValidateIsDestroyed();
-
-                var tmpIsRunning = mIsRunning;
-
-                if (tmpIsRunning)
-                {
-                    Suspend();
-                }
-
-                throw new NotImplementedException();
-
-                foreach (var enityConnection in mEntityConnectionDict)
-                {
-                    throw new NotImplementedException();
-                }
-
-                throw new NotImplementedException();
 
                 if (tmpIsRunning)
                 {
@@ -278,14 +239,25 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                throw new NotImplementedException();
-
-                foreach (var enityConnection in mEntityConnectionDict)
+                if(Directory.Exists(name))
                 {
-                    throw new NotImplementedException();
+                    Directory.Delete(name, true);
                 }
 
-                throw new NotImplementedException();
+                Directory.CreateDirectory(name);
+
+                foreach (var entity in mEntityConnectionDict)
+                {
+                    var tmpEntity = entity.Value;
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpEntity.Name = `{tmpEntity.Name}`");
+
+                    var targetPath = Path.Combine(name, $"{tmpEntity.Name}.gcd");
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"targetPath = `{targetPath}`");
+
+                    tmpEntity.Save(targetPath);
+                }
 
                 if (tmpIsRunning)
                 {
@@ -309,9 +281,9 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                foreach (var enityConnection in mEntityConnectionDict)
+                foreach (var entity in mEntityConnectionDict)
                 {
-                    enityConnection.Value.Clear();
+                    entity.Value.Clear();
                 }
 
                 if (tmpIsRunning)
@@ -323,7 +295,10 @@ namespace GnuClay.LocalHost
 
         private void ValidateIsDestroyed()
         {
-            throw new ApplicationException("The GnuClay local server was destroyed.");
+            if (mIsDestroyed)
+            {
+                throw new ApplicationException("The GnuClay local server was destroyed.");
+            }           
         }
 
         private bool mIsDestroyed = false;
@@ -351,19 +326,26 @@ namespace GnuClay.LocalHost
                 }
 
                 mIsDestroyed = true;
+                mIsRunning = false;
 
-                var tmpIsRunning = mIsRunning;
+                var tmpTasksList = new List<Task>();
 
-                if (tmpIsRunning)
+                foreach (var entity in mEntityConnectionDict)
                 {
-                    Suspend();
+                    var tmpTask = new Task(() => {
+                        entity.Value.Destroy();
+                    });
+                    tmpTasksList.Add(tmpTask);
+                    tmpTask.Start();
                 }
 
-                foreach (var enityConnection in mEntityConnectionDict)
-                {
-                    enityConnection.Value.Destroy();
-                }
+                Task.WaitAll(tmpTasksList.ToArray());
             }   
+        }
+
+        public void Dispose()
+        {
+            Destroy();
         }
     }
 }

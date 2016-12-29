@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
-    public interface IGnuClayEntityConnection: IReadOnlyStorageDataDictionary
+    public interface IGnuClayEntityConnection: IReadOnlyStorageDataDictionary, IDisposable
     {
         string Name { get; }
         void Suspend();

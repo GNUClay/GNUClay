@@ -16,6 +16,7 @@
     <copyright>Copyright © 2016 metatypeman</copyright>
 		<dependencies>
 	    <dependency id="NLog" version="4.4.0" />
+		<dependency id="Newtonsoft.Json" version="9.0.1" />
 		<dependency id="GnuClay.CommonUtils" version="0.2.1" />
 		<dependency id="GnuClay.CommonClientTypes" version="0.2.1" />
 		<dependency id="GnuClay.Engine" version="0.2.1" />

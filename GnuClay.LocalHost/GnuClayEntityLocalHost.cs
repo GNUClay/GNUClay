@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GnuClay.CommonClientTypes.ResultTypes;
+using System.IO;
+using System.IO.Compression;
 
 namespace GnuClay.LocalHost
 {
@@ -37,20 +39,18 @@ namespace GnuClay.LocalHost
         {
             lock(mLockObj)
             {
-
-            }
-
-            GnuClayEngine.Suspend();
+                GnuClayEngine.Suspend();
+            }           
         }
 
         public void Resume()
         {
             lock (mLockObj)
             {
+                ValidateIsDestroyed();
 
-            }
-
-            GnuClayEngine.Resume();
+                GnuClayEngine.Resume();
+            }         
         }
 
         public bool IsRunning
@@ -59,10 +59,8 @@ namespace GnuClay.LocalHost
             {
                 lock (mLockObj)
                 {
-
-                }
-
-                return GnuClayEngine.IsRunning;
+                    return GnuClayEngine.IsRunning;
+                }          
             }
         }
 
@@ -70,21 +68,22 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Query text = `{text}`");
 
-            }
+                ValidateIsDestroyed();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Query text = `{text}`");
-
-            try
-            {
-                return GnuClayEngine.Query(text);
-            }catch(Exception e)
-            {
-                var result = new SelectResult();
-                result.HaveBeenFound = false;
-                result.Success = false;
-                result.ErrorText = e.ToString();
-                return result;
+                try
+                {
+                    return GnuClayEngine.Query(text);
+                }
+                catch (Exception e)
+                {
+                    var result = new SelectResult();
+                    result.HaveBeenFound = false;
+                    result.Success = false;
+                    result.ErrorText = e.ToString();
+                    return result;
+                }
             }
         }
 
@@ -92,30 +91,43 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
+                ValidateIsDestroyed();
 
-            }
-            return GnuClayEngine.DataDictionary.GetValue(key);
+                return GnuClayEngine.DataDictionary.GetValue(key);
+            }        
         }
 
         public int UniqueKeysCount()
         {
             lock (mLockObj)
             {
+                ValidateIsDestroyed();
 
-            }
-
-            return GnuClayEngine.DataDictionary.UniqueKeysCount();
+                return GnuClayEngine.DataDictionary.UniqueKeysCount();
+            }      
         }
 
         public void Load(string name)
         {
             lock (mLockObj)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Load name = `{name}`");
 
+                ValidateIsDestroyed();
+
+                using (var originalStream = new FileStream(name, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    using (var decompressionStream = new GZipStream(originalStream, CompressionMode.Decompress))
+                    {
+                        using (var decompressedStream = new MemoryStream())
+                        {
+                            decompressionStream.CopyTo(decompressedStream);
+
+                            GnuClayEngine.Load(decompressedStream.ToArray());
+                        }
+                    }                     
+                }            
             }
-            NLog.LogManager.GetCurrentClassLogger().Info($"Load name = `{name}`");
-
-            throw new NotImplementedException();
         }
 
         public void Load(byte[] data)
@@ -124,7 +136,9 @@ namespace GnuClay.LocalHost
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(" Load(byte[] data)");
 
-                throw new NotImplementedException();
+                ValidateIsDestroyed();
+
+                GnuClayEngine.Load(data);
             }
         }
 
@@ -134,7 +148,20 @@ namespace GnuClay.LocalHost
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"Save name = `{name}`");
 
-                throw new NotImplementedException();
+                ValidateIsDestroyed();
+
+                var result = GnuClayEngine.Save();
+
+                using (var originalStream = new MemoryStream(result))
+                {
+                    using (var compressedStream = new FileStream(name, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        using (var compressionStream = new GZipStream(compressedStream, CompressionMode.Compress))
+                        {
+                            originalStream.CopyTo(compressionStream);
+                        }
+                    }
+                }
             }
         }
 
@@ -144,7 +171,9 @@ namespace GnuClay.LocalHost
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("byte[] Save()");
 
-                throw new NotImplementedException();
+                ValidateIsDestroyed();
+
+                return GnuClayEngine.Save();
             }
         }
 
@@ -154,13 +183,18 @@ namespace GnuClay.LocalHost
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("Clear");
 
+                ValidateIsDestroyed();
+
                 GnuClayEngine.Clear();
             }
         }
 
         private void ValidateIsDestroyed()
         {
-            throw new ApplicationException($"The entity `{mEntityName}` was destroyed.");
+            if(mIsDestroyed)
+            {
+                throw new ApplicationException($"The entity `{mEntityName}` was destroyed.");
+            }      
         }
 
         private bool mIsDestroyed = false;
@@ -182,10 +216,22 @@ namespace GnuClay.LocalHost
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("Destroy");
 
-                mServer.RemoveEntity(this);
+                if (mIsDestroyed)
+                {
+                    return;
+                }
 
-                throw new NotImplementedException();
+                mIsDestroyed = true;
+
+                mServer.RemoveEntity(this);
+                GnuClayEngine.Destroy();
+                GnuClayEngine = null;
             }
+        }
+
+        public void Dispose()
+        {
+            Destroy();
         }
     }
 }
