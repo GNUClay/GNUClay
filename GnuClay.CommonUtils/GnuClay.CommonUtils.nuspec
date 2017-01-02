@@ -13,9 +13,10 @@
 	This is my little experiment in creating game AI.
     This is a small and simple system of logic programming similar to the Prolog.
 	</description>
-    <copyright>Copyright © 2016 metatypeman</copyright>
+    <copyright>Copyright © metatypeman 2016 - 2017</copyright>
 	<dependencies>
 	    <dependency id="NLog" version="4.4.0" />
+		<dependency id="Newtonsoft.Json" version="9.0.1" />
 	</dependencies>
   </metadata>
   <files>
