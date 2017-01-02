@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,7 +55,10 @@ namespace NPackageCreator
 
             NLog.LogManager.GetCurrentClassLogger().Info($"currDir = `{Directory.GetCurrentDirectory()}`");
 
-            
+            var process = Process.Start(NuGetStr, $" pack {projectName}.csproj");
+            process.WaitForExit();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End CreatePackage");
         }
     }
 }
