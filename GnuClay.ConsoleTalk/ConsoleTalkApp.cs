@@ -202,11 +202,11 @@ namespace GnuClay.ConsoleTalk
             Console.WriteLine("eas - enable auto saving. The state of this program will be saved, when command exit will be written;");
             Console.WriteLine("das - disable auto saving;");
             Console.WriteLine("isas - print a state of the auto saving. true if enabled. false if disabled;");
-            Console.WriteLine("clear - ;");
-            Console.WriteLine("load - ;");
-            Console.WriteLine("load <file name> - ;");
-            Console.WriteLine("save - ;");
-            Console.WriteLine("save <file name> - ;");
+            Console.WriteLine("clear - reset current state. Remove all rules, facts and other information;");
+            Console.WriteLine("load - load a state of the program from default dump;");
+            Console.WriteLine("load <file name> - load a state of the program from file by the file name;");
+            Console.WriteLine("save - save a state of the program to default dump;");
+            Console.WriteLine("save <file name> - save a state of the program to file with the file name;");
             Console.WriteLine("exit - exit from this program;");
             Console.WriteLine("type queries and this program execute its;");
             Console.WriteLine(" ");
