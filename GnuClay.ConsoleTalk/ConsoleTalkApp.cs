@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +25,7 @@ namespace GnuClay.ConsoleTalk
 
             if(mConfig.EnabledAutoSave)
             {
-                Console.WriteLine("begin loading...");
-                mServerConnection.Load(mConfig.AutoSavedDumpName);
-                Console.WriteLine("dump was loaded successfully");
+                LoadDefaultDump();
             }
 
             mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
@@ -76,6 +75,20 @@ namespace GnuClay.ConsoleTalk
             }
         }
 
+        private void LoadDefaultDump()
+        {
+            Console.WriteLine("begin loading...");
+            mServerConnection.Load(mConfig.AutoSavedDumpName);
+            Console.WriteLine("dump was loaded successfully");
+        }
+
+        private void SaveDefaultDump()
+        {
+            Console.WriteLine("begin saving...");
+            mServerConnection.Save(mConfig.AutoSavedDumpName);
+            Console.WriteLine("dump was saved successfully");
+        }
+
         public void Dispose()
         {
             mServerConnection.Dispose();
@@ -106,9 +119,7 @@ namespace GnuClay.ConsoleTalk
                 {
                     if (mConfig.EnabledAutoSave)
                     {
-                        Console.WriteLine("begin saving...");
-                        mServerConnection.Save(mConfig.AutoSavedDumpName);
-                        Console.WriteLine("dump was saved successfully");
+                        SaveDefaultDump();
                     }
 
                     return;
@@ -150,13 +161,19 @@ namespace GnuClay.ConsoleTalk
                     continue;
                 }
 
-                if (tmpFirstStr.StartsWith("save"))
+                if(tmpFirstStr.StartsWith("clear"))
+                {
+                    ProcessClear();
+                    continue;
+                }
+
+                if (tmpFirstStr.StartsWith(SaveCommandName))
                 {
                     ProcessSave(tmpStr);
                     continue;
                 }
 
-                if (tmpFirstStr.StartsWith("load"))
+                if (tmpFirstStr.StartsWith(LoadCommandName))
                 {
                     ProcessLoad(tmpStr);
                     continue;
@@ -165,6 +182,11 @@ namespace GnuClay.ConsoleTalk
                 ProcessQuery(tmpStr);
             }
         }
+
+        private string SaveCommandName = "save";
+        private int SaveCommandNameLength = 4;
+        private string LoadCommandName = "load";
+        private int LoadCommandNameLength = 4;
 
         private void PrintHello()
         {
@@ -226,18 +248,43 @@ namespace GnuClay.ConsoleTalk
             Console.WriteLine(mConfig.EnabledAutoSave ? "yes" : "no");
         }
 
+        private void ProcessClear()
+        {
+            mEntityConnection.Clear();
+        }
+
         private void ProcessSave(string queryText)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave queryText = `{queryText}`");
 
-            PrintNotSupportedMessage();
+            var dumpName = queryText.Remove(0, SaveCommandNameLength);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave dumpName = `{dumpName}`");
+
+            if(string.IsNullOrWhiteSpace(dumpName))
+            {
+                SaveDefaultDump();
+                return;
+            }
+
+            mEntityConnection.Save(dumpName);
         }
 
         private void ProcessLoad(string queryText)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLoad queryText = `{queryText}`");
 
-            PrintNotSupportedMessage();
+            var dumpName = queryText.Remove(0, LoadCommandNameLength);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave dumpName = `{dumpName}`");
+
+            if (string.IsNullOrWhiteSpace(dumpName))
+            {
+                LoadDefaultDump();
+                return;
+            }
+
+            mEntityConnection.Load(dumpName);
         }
     }
 }
