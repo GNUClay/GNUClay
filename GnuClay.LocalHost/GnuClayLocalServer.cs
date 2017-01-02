@@ -174,6 +174,14 @@ namespace GnuClay.LocalHost
             }
         }
 
+        public string[] EntitiesNames
+        {
+            get
+            {
+                return mEntityConnectionDict.Keys.ToArray();
+            }
+        }
+
         private Dictionary<string, IGnuClayEntityConnection> mEntityConnectionDict = new Dictionary<string, IGnuClayEntityConnection>();
 
         public void Load(string name)

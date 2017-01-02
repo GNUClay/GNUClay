@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonUtils", "GnuClay.CommonUtils\GnuClay.CommonUtils.csproj", "{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.LocalHost", "GnuClay.LocalHost\GnuClay.LocalHost.csproj", "{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonClientTypes", "GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj", "{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supports", "Supports", "{351F14CE-CF6F-4F39-93ED-03667D49EB92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPackageCreator", "NPackageCreator\NPackageCreator.csproj", "{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,11 +57,16 @@ Global
 		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3976AFF6-9FDE-4CF1-9BAE-2ECCDC652AFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{310F070A-4BE4-49E1-A3B6-9579669F8231} = {145C017E-5C9B-4DD0-9528-E968C43D7119}
+		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3} = {351F14CE-CF6F-4F39-93ED-03667D49EB92}
 	EndGlobalSection
 EndGlobal

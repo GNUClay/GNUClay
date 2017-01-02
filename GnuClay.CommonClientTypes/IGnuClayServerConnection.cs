@@ -13,6 +13,7 @@ namespace GnuClay.CommonClientTypes
         IGnuClayEntityConnection CreateEntity(byte[] data);
         void DestroyEntity(string entityName);
         bool ContainsEntity(string entityName);
+        string[] EntitiesNames { get; }
 
         void Suspend();
         void Resume();

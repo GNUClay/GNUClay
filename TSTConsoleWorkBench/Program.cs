@@ -2,6 +2,8 @@
 using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LocalHostExecuting;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
@@ -11,11 +13,39 @@ using TSTConsoleWorkBench.Serialiazation;
 
 namespace TSTConsoleWorkBench
 {
+    internal delegate void SignalHandler(ConsoleSignal consoleSignal);
+
+    internal enum ConsoleSignal
+    {
+        CtrlC = 0,
+        CtrlBreak = 1,
+        Close = 2,
+        LogOff = 5,
+        Shutdown = 6
+    }
+
+    internal static class ConsoleHelper
+    {
+        [DllImport("Kernel32", EntryPoint = "SetConsoleCtrlHandler")]
+        public static extern bool SetSignalHandler(SignalHandler handler, bool add);
+    }
+
     class Program
     {
+        private static SignalHandler signalHandler;
+
         static void Main(string[] args)
         {
-            TSTGnuClayLocalServerSerializationRunner();
+            signalHandler += HandleConsoleSignal;
+            ConsoleHelper.SetSignalHandler(signalHandler, true);
+
+            /*while (true)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("Main Tick");
+                Thread.Sleep(1000);
+            }*/
+            
+            //TSTGnuClayLocalServerSerializationRunner();
             //TSTEntityConnectionSerializationRunner();
             //TSTSerializationRunner();
             //TSTLocalHostRunner();
@@ -25,6 +55,17 @@ namespace TSTConsoleWorkBench
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void HandleConsoleSignal(ConsoleSignal consoleSignal)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"HandleConsoleSignal consoleSignal = {consoleSignal}");
+
+            /*while (true)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("HandleConsoleSignal Tick");
+                Thread.Sleep(1000);
+            }*/
         }
 
         private static void TSTGnuClayLocalServerSerializationRunner()

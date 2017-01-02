@@ -143,13 +143,13 @@ namespace GnuClay.ConsoleTalk
                     continue;
                 }
 
-                if(tmpFirstStr.StartsWith("yas"))
+                if(tmpFirstStr.StartsWith("eas"))
                 {
                     ProcessEnableAutoSave();
                     continue;
                 }
 
-                if (tmpFirstStr.StartsWith("nas"))
+                if (tmpFirstStr.StartsWith("das"))
                 {
                     ProcessDisableAutoSave();
                     continue;
@@ -199,6 +199,14 @@ namespace GnuClay.ConsoleTalk
             Console.WriteLine("h - print help;");
             Console.WriteLine("help - print help;");
             Console.WriteLine("man - print help;");
+            Console.WriteLine("eas - enable auto saving. The state of this program will be saved, when command exit will be written;");
+            Console.WriteLine("das - disable auto saving;");
+            Console.WriteLine("isas - print a state of the auto saving. true if enabled. false if disabled;");
+            Console.WriteLine("clear - ;");
+            Console.WriteLine("load - ;");
+            Console.WriteLine("load <file name> - ;");
+            Console.WriteLine("save - ;");
+            Console.WriteLine("save <file name> - ;");
             Console.WriteLine("exit - exit from this program;");
             Console.WriteLine("type queries and this program execute its;");
             Console.WriteLine(" ");
