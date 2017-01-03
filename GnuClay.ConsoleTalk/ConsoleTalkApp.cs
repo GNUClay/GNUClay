@@ -199,7 +199,7 @@ namespace GnuClay.ConsoleTalk
             Console.WriteLine("h - print help;");
             Console.WriteLine("help - print help;");
             Console.WriteLine("man - print help;");
-            Console.WriteLine("eas - enable auto saving. The state of this program will be saved, when command exit will be written;");
+            Console.WriteLine("eas - enable auto saving. The state of this program will be saved, when command exit will be executed;");
             Console.WriteLine("das - disable auto saving;");
             Console.WriteLine("isas - print a state of the auto saving. true if enabled. false if disabled;");
             Console.WriteLine("clear - reset current state. Remove all rules, facts and other information;");
