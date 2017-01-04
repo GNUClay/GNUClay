@@ -14,7 +14,7 @@ namespace GnuClay.Engine.CommonStorages
             Clear();
         }
 
-        public int GetKey(string val)
+        public ulong GetKey(string val)
         {
             if(mValuesDict.ContainsKey(val))
             {
@@ -24,16 +24,16 @@ namespace GnuClay.Engine.CommonStorages
             return CreateKey(val);
         }
 
-        public string GetValue(int key)
+        public string GetValue(ulong key)
         {
             return mKeysDict[key];
         }
 
-        private Dictionary<int, string> mKeysDict;
-        private Dictionary<string, int> mValuesDict;
-        private int mMaxKey;
+        private Dictionary<ulong, string> mKeysDict;
+        private Dictionary<string, ulong> mValuesDict;
+        private ulong mMaxKey;
 
-        private int CreateKey(string val)
+        private ulong CreateKey(string val)
         {
             mMaxKey++;
 
@@ -43,17 +43,12 @@ namespace GnuClay.Engine.CommonStorages
             return mMaxKey; 
         }
 
-        public int UniqueKeysCount()
-        {
-            return mKeysDict.Count;
-        }
-
         [Serializable]
         private class Data
         {
-            public Dictionary<int, string> mKeysDict;
-            public Dictionary<string, int> mValuesDict;
-            public int mMaxKey;
+            public Dictionary<ulong, string> mKeysDict;
+            public Dictionary<string, ulong> mValuesDict;
+            public ulong mMaxKey;
         }
 
         public object Save()
@@ -81,8 +76,8 @@ namespace GnuClay.Engine.CommonStorages
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Clear");
 
-            mKeysDict = new Dictionary<int, string>();
-            mValuesDict = new Dictionary<string, int>();
+            mKeysDict = new Dictionary<ulong, string>();
+            mValuesDict = new Dictionary<string, ulong>();
             mMaxKey = 0;
         }
     }

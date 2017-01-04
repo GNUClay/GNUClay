@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,42 +8,6 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage
 {
-    /// <summary>
-    /// The kind of some expression node.
-    /// </summary>
-    public enum ExpressionNodeKind
-    {
-        /// <summary>
-        /// Represents `And` node.
-        /// </summary>
-        And,
-
-        /// <summary>
-        /// Represents `Or` node.
-        /// </summary>
-        Or,
-
-        /// <summary>
-        /// Represents `Not` node.
-        /// </summary>
-        Not,
-
-        /// <summary>
-        /// Represents some relation.
-        /// </summary>
-        Relation,
-
-        /// <summary>
-        /// Represents some entity.
-        /// </summary>
-        Entity,
-
-        /// <summary>
-        /// Represents some variable.
-        /// </summary>
-        Var
-    }
-
     /// <summary>
     /// The node of some expression.
     /// </summary>
@@ -57,7 +22,7 @@ namespace GnuClay.Engine.LogicalStorage
         /// <summary>
         /// A key of Relation, Entity or Var.
         /// </summary>
-        public int Key = 0;
+        public ulong Key = 0;
 
         /// <summary>
         /// The node of left branch expression.
@@ -75,10 +40,15 @@ namespace GnuClay.Engine.LogicalStorage
         public List<ExpressionNode> RelationParams = null;
 
         /// <summary>
+        /// Contains Value if Kind = ExpressionNodeKind.Value.
+        /// </summary>
+        public object Value;
+
+        /// <summary>
         /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
         /// </summary>
         /// <returns>The hash code for this instance</returns>
-        public long GetLongHashCode()
+        public ulong GetLongHashCode()
         {
             switch (Kind)
             {
@@ -100,28 +70,31 @@ namespace GnuClay.Engine.LogicalStorage
                 case ExpressionNodeKind.Entity:
                     return GetLongEntityHashCode();
 
-                default: throw new ArgumentOutOfRangeException();
+                case ExpressionNodeKind.Value:
+                    return GetLongValueHashCode();
+
+                default: throw new ArgumentOutOfRangeException(nameof(Kind), Kind.ToString());
             }
         }
 
-        private long GetLongAndHashCode()
+        private ulong GetLongAndHashCode()
         {
-            return (int)Kind * 500 * (Left.GetLongHashCode() + Right.GetLongHashCode());
+            return (ulong)Kind * 500 * (Left.GetLongHashCode() + Right.GetLongHashCode());
         }
 
-        private long GetLongOrHashCode()
+        private ulong GetLongOrHashCode()
         {
-            return (int)Kind * 400 * (Left.GetLongHashCode() + Right.GetLongHashCode());
+            return (ulong)Kind * 400 * (Left.GetLongHashCode() + Right.GetLongHashCode());
         }
 
-        private long GetLongNotHashCode()
+        private ulong GetLongNotHashCode()
         {
-            return (int)Kind * 300 * Left.GetLongHashCode();
+            return (ulong)Kind * 300 * Left.GetLongHashCode();
         }
 
-        private long GetLongRelationHashCode()
+        private ulong GetLongRelationHashCode()
         {
-            long tmpHashCode = (int)Kind * 200 * Key;
+            ulong tmpHashCode = (ulong)Kind * 200 * Key;
 
             foreach(var tmpParam in RelationParams)
             {
@@ -131,14 +104,26 @@ namespace GnuClay.Engine.LogicalStorage
             return tmpHashCode;
         }
 
-        private long GetLongVarHashCode()
+        private ulong GetLongVarHashCode()
         {
-            return (int)Kind * 100 * Key;
+            return (ulong)Kind * 100 * Key;
         }
 
-        private long GetLongEntityHashCode()
+        private ulong GetLongEntityHashCode()
         {
-            return (int)Kind * 10 * Key;
+            return (ulong)Kind * 10 * Key;
+        }
+
+        private ulong GetLongValueHashCode()
+        {
+            var tmpHash = (ulong)Kind * 10 * Key;
+
+            if(Value != null)
+            {
+                tmpHash *= (ulong)Value.GetHashCode();
+            }
+
+            return tmpHash;
         }
 
         /// <summary>
@@ -170,6 +155,10 @@ namespace GnuClay.Engine.LogicalStorage
             tmpSb.AppendLine(_ObjectHelper._ToString(Right, nameof(Right)));
 
             tmpSb.AppendLine(_ListHelper._ToString(RelationParams, nameof(RelationParams)));
+
+            tmpSb.Append(nameof(Value));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(Value?.ToString());
 
             return tmpSb.ToString();
         }

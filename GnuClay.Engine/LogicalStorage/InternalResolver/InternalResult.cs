@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResultParamItem : IToStringData
     {
-        public int ParamKey = 0;
-
-        public int EntityKey = 0;
+        public ulong ParamKey = 0;
+        public ulong EntityKey = 0;
+        /// <summary>
+        /// Kind of node in the result.
+        /// </summary>
+        public ExpressionNodeKind Kind = ExpressionNodeKind.Unknown;
+        public object Value;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -38,6 +43,14 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             tmpSb.Append(" = ");
             tmpSb.AppendLine(EntityKey.ToString());
 
+            tmpSb.Append(nameof(Kind));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(Kind.ToString());
+
+            tmpSb.Append(nameof(Value));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(Value?.ToString());
+
             return tmpSb.ToString();
         }
     }
@@ -46,7 +59,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
     {
         public List<InternalResultParamItem> ParamsValues = new List<InternalResultParamItem>();
 
-        public Dictionary<int, int> ParamsDict = new Dictionary<int, int>();
+        public Dictionary<ulong, ulong> ParamsDict = new Dictionary<ulong, ulong>();
 
         public void End()
         {
@@ -82,7 +95,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
     {
         public List<InternalResultItem> Items = new List<InternalResultItem>();
 
-        public void Map(Dictionary<int, int> map)
+        public void Map(Dictionary<ulong, ulong> map)
         {
             foreach(var tmpItem in Items)
             {
@@ -151,7 +164,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             return tmpTargetResult;
         }
 
-        private static List<InternalResultItem> NMergeItemsAsAnd(List<InternalResultItem> mainItems, List<InternalResultItem> secondItems, List<int> commonKeys)
+        private static List<InternalResultItem> NMergeItemsAsAnd(List<InternalResultItem> mainItems, List<InternalResultItem> secondItems, List<ulong> commonKeys)
         {
             var tmpResult = new List<InternalResultItem>();
 

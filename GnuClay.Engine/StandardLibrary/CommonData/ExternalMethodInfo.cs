@@ -8,16 +8,16 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 {
     public class ExternalParameterInfo
     {
-        public int NameKey { get; set; }
-        public int ParameterType { get; set; }
+        public ulong NameKey { get; set; }
+        public ulong ParameterType { get; set; }
         public bool HasDefaultValue { get; set; }
         public object DefaultValue { get; set; }
     }
 
     public class ExternalMethodInfo
     {
-        public int HolderKey { get; set; }
-        public int MethodKey { get; set; }
+        public ulong HolderKey { get; set; }
+        public ulong MethodKey { get; set; }
         public List<ExternalParameterInfo> Parameters = new List<ExternalParameterInfo>();
     }
 }

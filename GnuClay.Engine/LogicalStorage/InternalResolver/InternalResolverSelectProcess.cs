@@ -1,12 +1,15 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
@@ -23,11 +26,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private InternalStorageEngine mInternalStorageEngine = null;
         private StorageDataDictionary mStorageDataDictionary = null;
         private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
-        private List<int> mVariablesKeys = new List<int>();
+        private List<ulong> mVariablesKeys = new List<ulong>();
 
-        private Dictionary<int, List<ExpressionNode>> mModifyEntityKeyExpressionNodeDict = new Dictionary<int, List<ExpressionNode>>();
-        private Dictionary<int, int> mVarKeyEntityKeyDict = new Dictionary<int, int>();
-        private int mMaxVarCount = 0;
+        private Dictionary<ulong, List<ExpressionNode>> mModifyEntityKeyExpressionNodeDict = new Dictionary<ulong, List<ExpressionNode>>();
+        private Dictionary<ulong, ulong> mVarKeyEntityKeyDict = new Dictionary<ulong, ulong>();
+        private ulong mMaxVarCount = 0;
 
         public SelectResult Run()
         {
@@ -59,6 +62,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach (var tmpRezItem in result.Items)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"CreateResult tmpRezItem = {tmpRezItem}");
+
+                var tmpValuesDict = tmpRezItem.ParamsValues.ToDictionary(p => p.EntityKey, p => p);
+
                 var tmpSelectResultItem = new SelectResultItem();
 
                 tmpResult.Items.Add(tmpSelectResultItem);
@@ -72,12 +79,26 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 {
                     var targetValue = tmpRezItem.ParamsDict[varKey];
 
+                    var targetItem = tmpValuesDict[targetValue];
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"CreateResult targetItem = {targetItem}");
+
                     var tmpParamItem = new VarResultItem();
 
                     tmpSelectResultItem.Params.Add(tmpParamItem);
 
                     tmpParamItem.ParamKey = varKey;
                     tmpParamItem.EntityKey = targetValue;
+                    tmpParamItem.Kind = targetItem.Kind;
+
+                    switch (targetItem.Kind)
+                    {
+                        case ExpressionNodeKind.Value:
+                            tmpParamItem.Value = targetItem.Value;
+                            break;
+
+                        default: throw new ArgumentOutOfRangeException(nameof(targetItem.Kind), targetItem.Kind.ToString());
+                    }
                 }
             }
 
@@ -103,7 +124,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             if(mMaxVarCount > 0)
             {
-                for (var n = 1; n <= mMaxVarCount; n++)
+                for (ulong n = 1; n <= mMaxVarCount; n++)
                 {
                     mVariablesKeys.Add(n);
                 }
@@ -130,7 +151,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     ModifySelectedRelationNode(node);
                     break;
 
-                default: throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException(nameof(node.Kind), node.Kind.ToString());
             }
         }
 
@@ -189,6 +210,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessNextNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}");
+
             switch(node.Kind)
             {
                 case ExpressionNodeKind.And:
@@ -250,7 +273,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
-            Dictionary<int, int> KEMap = null;
+            Dictionary<ulong, ulong> KEMap = null;
 
             if(paramsBinder.IsRoot)
             {
@@ -297,7 +320,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private bool BindParams(RuleInstance ruleInstance, ParamsBinder paramsBinder)
         {
-            if(ruleInstance.VarsCount > paramsBinder.ParamsList.Count)
+            if(ruleInstance.VarsCount > (ulong)paramsBinder.ParamsList.Count)
             {
                 return false;
             }
@@ -328,6 +351,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessFact(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact {ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary, null)}");
+
             mExistingsRules.Add(part.Parent);
 
             if(!_ListHelper.IsEmpty(paramsBinder.IndexesParamsWithEntities))
@@ -358,8 +383,27 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 tmpResultItem.ParamsValues.Add(tmpParamResult);
 
-                tmpParamResult.EntityKey = tmpParamsOfFactsIterator.Current.Key;
+                var currentParamOfFacts = tmpParamsOfFactsIterator.Current;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact tmpBindedParamsIterator.Current.Key_Up = {tmpBindedParamsIterator.Current.Key_Up} currentParamOfFacts = {currentParamOfFacts}");
+                
+                tmpParamResult.EntityKey = currentParamOfFacts.Key;
                 tmpParamResult.ParamKey = tmpBindedParamsIterator.Current.Key_Up;
+                tmpParamResult.Kind = currentParamOfFacts.Kind;
+
+                switch(tmpParamResult.Kind)
+                {
+                    case ExpressionNodeKind.Entity:
+                        break;
+
+                    case ExpressionNodeKind.Value:
+                        tmpParamResult.Value = currentParamOfFacts.Value;
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(tmpParamResult.Kind), tmpParamResult.Kind.ToString());
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact tmpParamResult = {tmpParamResult}");
             }
 
             tmpResultItem.End();

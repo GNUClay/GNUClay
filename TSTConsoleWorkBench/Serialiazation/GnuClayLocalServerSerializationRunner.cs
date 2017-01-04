@@ -27,7 +27,7 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 var fileName = "0813940A-EAC6-47E7-BF57-9B8C05E2168A.gcd";
 
-                mEntityConnection.Save();
+                mEntityConnection.Save(fileName);
 
                 var entity_2 = mServerConnection.CreateEntity();
 
@@ -54,7 +54,7 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 var targetServerStateName = @"c:\Users\Admin\Documents\GitHub\GNUClay\TSTConsoleWorkBench\bin\Debug\DataDir\TST_1";
 
-                //mServerConnection.Save(targetServerStateName);
+                mServerConnection.Save(targetServerStateName);
 
                 var tmpServer_2 = new GnuClayLocalServer();
                 var tmpEntityConnection_2 = tmpServer_2.ConnectToEntity(mEntityName);

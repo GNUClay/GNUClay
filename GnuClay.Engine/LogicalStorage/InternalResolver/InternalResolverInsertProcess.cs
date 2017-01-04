@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
@@ -24,7 +25,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private StorageDataDictionary mStorageDataDictionary = null;
 
         private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
-        private Dictionary<long, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<long, List<RuleInstance>>();
+        private Dictionary<ulong, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<ulong, List<RuleInstance>>();
 
         public void Run()
         {
@@ -169,7 +170,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     AnalyzingRelationNode(node, part, context);
                     break;
 
-                default: throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException(nameof(node.Kind), node.Kind.ToString());
             }
         }
 

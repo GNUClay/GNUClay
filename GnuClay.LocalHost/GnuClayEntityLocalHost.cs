@@ -87,7 +87,7 @@ namespace GnuClay.LocalHost
             }
         }
 
-        public string GetValue(int key)
+        public string GetValue(ulong key)
         {
             lock (mLockObj)
             {
@@ -95,16 +95,6 @@ namespace GnuClay.LocalHost
 
                 return GnuClayEngine.DataDictionary.GetValue(key);
             }        
-        }
-
-        public int UniqueKeysCount()
-        {
-            lock (mLockObj)
-            {
-                ValidateIsDestroyed();
-
-                return GnuClayEngine.DataDictionary.UniqueKeysCount();
-            }      
         }
 
         public void Load(string name)

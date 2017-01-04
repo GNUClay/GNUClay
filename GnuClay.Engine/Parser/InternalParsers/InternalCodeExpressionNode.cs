@@ -19,7 +19,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
     {
         public InternalCodeExpressionNode Parent = null;
         public ExpressionKind Kind { get; set; } = ExpressionKind.Undefined;
-        public int TypeKey = 0;
+        public ulong TypeKey = 0;
         public InternalCodeExpressionNode Left = null;
         public InternalCodeExpressionNode Right = null;
         public List<InternalCodeExpressionNode> Params = null;

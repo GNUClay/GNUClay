@@ -13,7 +13,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         {
         }
 
-        public int OperatorKey { get; set; }
+        public ulong OperatorKey { get; set; }
         public ASTExpression Left { get; set; }
         public ASTExpression Right { get; set; }
     }

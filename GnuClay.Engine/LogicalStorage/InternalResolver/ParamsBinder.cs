@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
     {
         public bool IsEntity = false;
 
-        public int EntityKey = 0;
+        public ulong EntityKey = 0;
 
-        public int Key_Up = 0;
+        public ulong Key_Up = 0;
 
-        public int Key_Down = 0;
+        public ulong Key_Down = 0;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -56,7 +57,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
     public class ParamsBinder : IToStringData
     {
-        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<int, int> EKMap)
+        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<ulong, ulong> EKMap)
         {
             var tmpItem = new ParamsBinder();
 
@@ -100,7 +101,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                         tmpBindedParam.IsEntity = false;
                         break;
 
-                    default:throw new ArgumentOutOfRangeException(nameof(tmpParam.Kind));
+                    default:throw new ArgumentOutOfRangeException(nameof(tmpParam.Kind), tmpParam.Kind.ToString());
                 }
             }
 
@@ -109,15 +110,15 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public bool IsRoot = false;
 
-        public int RelationKey = 0;
+        public ulong RelationKey = 0;
 
         public List<ParamsInfo> ParamsList = new List<ParamsInfo>();
 
-        public Dictionary<int, int> VarsWithEntities = new Dictionary<int, int>();
+        public Dictionary<ulong, ulong> VarsWithEntities = new Dictionary<ulong, ulong>();
 
         public List<int> IndexesParamsWithEntities = new List<int>();
 
-        public Dictionary<int, int> RevertDictionary = new Dictionary<int, int>();
+        public Dictionary<ulong, ulong> RevertDictionary = new Dictionary<ulong, ulong>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

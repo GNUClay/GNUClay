@@ -8,10 +8,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
     public interface IValue
     {
-        int TypeKey { get; }
+        ulong TypeKey { get; }
         object ToExternal();
-        ITryCallResult TryCall(int key, List<IValue> args);
-        ITryCallPropertyResult TrySetProperty(int key, IValue value);
-        ITryCallPropertyResult TryGetProperty(int key);
+        ITryCallResult TryCall(ulong key, List<IValue> args);
+        ITryCallPropertyResult TrySetProperty(ulong key, IValue value);
+        ITryCallPropertyResult TryGetProperty(ulong key);
     }
 }

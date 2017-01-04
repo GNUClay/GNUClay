@@ -8,7 +8,6 @@ namespace GnuClay.CommonClientTypes
 {
     public interface IReadOnlyStorageDataDictionary
     {
-        string GetValue(int key);
-        int UniqueKeysCount();
+        string GetValue(ulong key);
     }
 }

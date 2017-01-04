@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
+using System;
 using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers
@@ -49,9 +50,30 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
             foreach (var tmpParamInfo in source.Params)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpParamInfo = {tmpParamInfo}");
+
                 tmpSb.Append(localStorage.GetValue(tmpParamInfo.ParamKey));
                 tmpSb.Append(" = ");
-                tmpSb.Append(dataDictionary?.GetValue(tmpParamInfo.EntityKey));
+                switch(tmpParamInfo.Kind)
+                {
+                    case ExpressionNodeKind.Entity:
+                        tmpSb.Append(dataDictionary?.GetValue(tmpParamInfo.EntityKey));
+                        break;
+
+                    case ExpressionNodeKind.Value:
+                        if(tmpParamInfo.Value == null)
+                        {
+                            tmpSb.Append("null");
+                        }
+                        else
+                        {
+                            tmpSb.Append(tmpParamInfo.Value);
+                        }
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(tmpParamInfo.Kind), tmpParamInfo.Kind.ToString());
+                }
+                
                 tmpSb.Append(";");
             }
 

@@ -10,6 +10,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     public interface ITypeProvider: IValueFactory
     {
         string TypeName { get; }
-        int TypeKey { get; }
+        ulong TypeKey { get; }
     }
 }

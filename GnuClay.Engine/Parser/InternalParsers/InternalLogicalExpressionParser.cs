@@ -1,7 +1,10 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +18,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
             Init,
             DeclaredRelationName,
             InputParams,
+            InputIntNumberParam,
+            InputSemiNumberParam,
+            InputDoubleNumberParam,
+            ParamWasEntered,
             EndDeclaringRelation
         }
 
@@ -33,6 +40,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ExpressionNode mRootNode = null;
         private ExpressionNode mCurrentNode = null;
+        private string mBuffer = string.Empty;
+        private CultureInfo mFormatProvider = new CultureInfo("en-GB");
 
         public ExpressionNode Result
         {
@@ -47,6 +56,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
         protected override void OnRun()
         {
             ExpressionNode tmpNode = null;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mBuffer = `{mBuffer}`");
 
             switch (mState)
             {
@@ -95,9 +107,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode.Kind = ExpressionNodeKind.Entity;
                             tmpNode.Key = Context.MainContext.DataDictionary.GetKey(CurrToken.Content);
                             mCurrentNode.RelationParams.Add(tmpNode);
-                            break;
-
-                        case TokenKind.Comma:
+                            mState = State.ParamWasEntered;
                             break;
 
                         case TokenKind.Var:
@@ -105,6 +115,47 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode.Kind = ExpressionNodeKind.Var;
                             tmpNode.Key = mLocalDataDictionary.GetKey(CurrToken.Content);
                             mCurrentNode.RelationParams.Add(tmpNode);
+                            mState = State.ParamWasEntered;
+                            break;
+
+                        case TokenKind.Number:
+                            mBuffer = CurrToken.Content;
+                            mState = State.InputIntNumberParam;
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.InputIntNumberParam:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.Point:
+                            mBuffer += ".";
+                            mState = State.InputSemiNumberParam;
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.InputSemiNumberParam:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.Number:
+                            mBuffer += CurrToken.Content;
+                            ProcessNumberToken();
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.ParamWasEntered:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.Comma:
+                            mState = State.InputParams;
                             break;
 
                         case TokenKind.CloseRoundBracket:
@@ -136,8 +187,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(mState));
+                default: throw new ArgumentOutOfRangeException(nameof(mState), mState.ToString());
             }
+        }
+
+        private void ProcessNumberToken()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) mBuffer = `{mBuffer}`");
+            var tmpVal = double.Parse(mBuffer, mFormatProvider);
+            mBuffer = string.Empty;
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) tmpVal = `{tmpVal}`");
+            var tmpNode = new ExpressionNode();
+            tmpNode = new ExpressionNode();
+            tmpNode.Kind = ExpressionNodeKind.Value;
+            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            tmpNode.Value = tmpVal;
+            mCurrentNode.RelationParams.Add(tmpNode);
+            mState = State.ParamWasEntered;
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) tmpNode = `{tmpNode}`");
         }
 
         protected override void OnExit()

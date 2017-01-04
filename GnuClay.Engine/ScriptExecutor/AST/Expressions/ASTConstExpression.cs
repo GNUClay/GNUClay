@@ -13,7 +13,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         {
         }
 
-        public int TypeKey { get; set; }
+        public ulong TypeKey { get; set; }
         public object Value { get; set; }
     }
 }

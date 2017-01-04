@@ -9,9 +9,9 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
     public class GCSClassInfo
     {
-        public int TypeKey = 0;
-        public Dictionary<int, List<IGnuClayScriptFunctor>> SystemMethods = new Dictionary<int, List<IGnuClayScriptFunctor>>();
-        public Dictionary<int, List<IGnuClayScriptFunctor>> ExternalMethods = new Dictionary<int, List<IGnuClayScriptFunctor>>();
-        public Dictionary<int, List<IGnuClayAbstractProperty>> SystemProperties = new Dictionary<int, List<IGnuClayAbstractProperty>>();
+        public ulong TypeKey = 0;
+        public Dictionary<ulong, List<IGnuClayScriptFunctor>> SystemMethods = new Dictionary<ulong, List<IGnuClayScriptFunctor>>();
+        public Dictionary<ulong, List<IGnuClayScriptFunctor>> ExternalMethods = new Dictionary<ulong, List<IGnuClayScriptFunctor>>();
+        public Dictionary<ulong, List<IGnuClayAbstractProperty>> SystemProperties = new Dictionary<ulong, List<IGnuClayAbstractProperty>>();
     }
 }

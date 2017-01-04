@@ -16,25 +16,25 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public bool IsRule = false;
 
-        public int VarsCount
+        public ulong VarsCount
         {
             get
             {
-                return Vars.Count;
+                return (ulong)Vars.Count;
             }
         }
 
-        public List<int> Entities = new List<int>();
+        public List<ulong> Entities = new List<ulong>();
 
-        public List<int> Vars = new List<int>();
+        public List<ulong> Vars = new List<ulong>();
 
-        public Dictionary<RulePart, List<int>> IndexedPartsDict = new Dictionary<RulePart, List<int>>();
+        public Dictionary<RulePart, List<ulong>> IndexedPartsDict = new Dictionary<RulePart, List<ulong>>();
 
-        public Dictionary<int, ExpressionNode> LocalRelationsIndex = new Dictionary<int, ExpressionNode>();
+        public Dictionary<ulong, ExpressionNode> LocalRelationsIndex = new Dictionary<ulong, ExpressionNode>();
 
         public void RegIndex(RulePart part, ExpressionNode node)
         {
-            List<int> tmpList = null;
+            List<ulong> tmpList = null;
 
             if (IndexedPartsDict.ContainsKey(part))
             {
@@ -42,7 +42,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
             else
             {
-                tmpList = new List<int>();
+                tmpList = new List<ulong>();
 
                 IndexedPartsDict.Add(part, tmpList);
             }
@@ -60,7 +60,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
         }
 
-        public void RegVar(int key)
+        public void RegVar(ulong key)
         {
             if(Vars.Contains(key))
             {
@@ -70,7 +70,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             Vars.Add(key);
         }
 
-        public void RegEntity(int key)
+        public void RegEntity(ulong key)
         {
             if (Entities.Contains(key))
             {

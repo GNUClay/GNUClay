@@ -38,8 +38,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private string mCurrentNumberContent = string.Empty;
         private string mFullCurrentNumberContent = string.Empty;
 
-        private int NumberKey = 0;
-        private int AddOperatorKey = 0;
+        private ulong NumberKey = 0;
+        private ulong AddOperatorKey = 0;
 
         private int ConstValPriority = 1;
         private CultureInfo mFormatProvider = new CultureInfo("en-GB");

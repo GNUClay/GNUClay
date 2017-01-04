@@ -26,14 +26,14 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// <summary>
         /// Count variables in the rule.
         /// </summary>
-        public int VarsCount = 0;
+        public ulong VarsCount = 0;
 
         /// <summary>
         /// Links key and relation which this key represents in the rule (or fact).
         /// </summary>
-        public Dictionary<int, ExpressionNode> LocalRelationsIndex = new Dictionary<int, ExpressionNode>();
+        public Dictionary<ulong, ExpressionNode> LocalRelationsIndex = new Dictionary<ulong, ExpressionNode>();
 
-        private long mHasheCode = 0;
+        private ulong mHasheCode = 0;
 
         /// <summary>
         /// Calculating long hashcode (which may get by GetLongHashCode()).
@@ -58,7 +58,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
         /// </summary>
         /// <returns>The hash code for this instance</returns>
-        public long GetLongHashCode()
+        public ulong GetLongHashCode()
         {
             return mHasheCode;
         }
@@ -77,7 +77,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// </summary>
         /// <param name="key">The key of target expression node.</param>
         /// <returns></returns>
-        public ExpressionNode GetRealationNodeByKey(int key)
+        public ExpressionNode GetRealationNodeByKey(ulong key)
         {
             return LocalRelationsIndex[key];
         }

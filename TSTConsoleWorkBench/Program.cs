@@ -1,50 +1,23 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
 using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LocalHostExecuting;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
+using TSTConsoleWorkBench.OOP;
 using TSTConsoleWorkBench.ParserExecuting;
 using TSTConsoleWorkBench.ScriptExecuting;
 using TSTConsoleWorkBench.Serialiazation;
 
 namespace TSTConsoleWorkBench
 {
-    internal delegate void SignalHandler(ConsoleSignal consoleSignal);
-
-    internal enum ConsoleSignal
-    {
-        CtrlC = 0,
-        CtrlBreak = 1,
-        Close = 2,
-        LogOff = 5,
-        Shutdown = 6
-    }
-
-    internal static class ConsoleHelper
-    {
-        [DllImport("Kernel32", EntryPoint = "SetConsoleCtrlHandler")]
-        public static extern bool SetSignalHandler(SignalHandler handler, bool add);
-    }
-
     class Program
     {
-        private static SignalHandler signalHandler;
-
         static void Main(string[] args)
         {
-            signalHandler += HandleConsoleSignal;
-            ConsoleHelper.SetSignalHandler(signalHandler, true);
-
-            /*while (true)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("Main Tick");
-                Thread.Sleep(1000);
-            }*/
-            
+            TSTGnuClayLocalServerValueQueryRunner();
             //TSTGnuClayLocalServerSerializationRunner();
             //TSTEntityConnectionSerializationRunner();
             //TSTSerializationRunner();
@@ -57,15 +30,10 @@ namespace TSTConsoleWorkBench
             //CreateMyFirstExpressionTree();
         }
 
-        private static void HandleConsoleSignal(ConsoleSignal consoleSignal)
+        private static void TSTGnuClayLocalServerValueQueryRunner()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"HandleConsoleSignal consoleSignal = {consoleSignal}");
-
-            /*while (true)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("HandleConsoleSignal Tick");
-                Thread.Sleep(1000);
-            }*/
+            var tmpGnuClayLocalServerValueQueryRunner = new GnuClayLocalServerValueQueryRunner();
+            tmpGnuClayLocalServerValueQueryRunner.Run();
         }
 
         private static void TSTGnuClayLocalServerSerializationRunner()
@@ -133,14 +101,10 @@ namespace TSTConsoleWorkBench
             NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpStorageDataDictionary.UniqueKeysCount() = {tmpStorageDataDictionary.UniqueKeysCount()}");
-
             tmpStr = "male";
 
             NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"{tmpStr} = {tmpStorageDataDictionary.GetKey(tmpStr)}");
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpStorageDataDictionary.UniqueKeysCount() = {tmpStorageDataDictionary.UniqueKeysCount()}");
         }
 
         private static void CreateMyFirstExpressionTree()

@@ -8,8 +8,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
     public class BinaryOperatorRule
     {
-        public int FirstOperandType = 0;
-        public int SecondOperandType = 0;
+        public ulong FirstOperandType = 0;
+        public ulong SecondOperandType = 0;
         public BinaryOperatorHandler OperatorHandler = null;
     }
 }

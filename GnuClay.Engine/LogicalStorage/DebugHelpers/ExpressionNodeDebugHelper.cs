@@ -44,7 +44,10 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
                 case ExpressionNodeKind.Var:
                     return ProcessVarNode(node, dataDictionary, localDataDictionary);
 
-                default: throw new ArgumentOutOfRangeException();
+                case ExpressionNodeKind.Value:
+                    return ProcessValueNode(node, dataDictionary, localDataDictionary);
+
+                default: throw new ArgumentOutOfRangeException(nameof(node.Kind), node.Kind.ToString());
             }
         }
 
@@ -91,6 +94,16 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         private static string ProcessVarNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
         {
             return localDataDictionary.GetValue(node.Key);
+        }
+
+        private static string ProcessValueNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        {
+            if(node.Value == null)
+            {
+                return "null";
+            }
+
+            return node.Value.ToString();
         }
     }
 }

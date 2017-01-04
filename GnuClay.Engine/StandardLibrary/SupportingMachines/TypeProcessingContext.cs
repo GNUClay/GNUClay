@@ -23,8 +23,8 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         }
 
         private Dictionary<Type, GCSClassInfo> mGCSClassInfoDict = new Dictionary<Type, GCSClassInfo>();
-        private Dictionary<int, GCSClassInfo> mGCSClassInfoDictByKey = new Dictionary<int, GCSClassInfo>();
-        private Dictionary<int, ITypeProvider> mProvidersDict = new Dictionary<int, ITypeProvider>();
+        private Dictionary<ulong, GCSClassInfo> mGCSClassInfoDictByKey = new Dictionary<ulong, GCSClassInfo>();
+        private Dictionary<ulong, ITypeProvider> mProvidersDict = new Dictionary<ulong, ITypeProvider>();
 
         public GCSClassInfo RegType<T>(ITypeProvider provider)
         {
@@ -139,7 +139,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
         }
 
-        public IValue CreateValue(int typeKey, object value)
+        public IValue CreateValue(ulong typeKey, object value)
         {
             return mProvidersDict[typeKey].Create(value);
         }
@@ -165,11 +165,11 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             tmpFunctorsList.Add(new GnuClayScriptExternalFunctor(methodInfo, Context));
         }
 
-        private Dictionary<int, Dictionary<int, BinaryOperatorHandler>> mOperatorsDict = new Dictionary<int, Dictionary<int, BinaryOperatorHandler>>();
+        private Dictionary<ulong, Dictionary<ulong, BinaryOperatorHandler>> mOperatorsDict = new Dictionary<ulong, Dictionary<ulong, BinaryOperatorHandler>>();
 
         public void RegBinaryOperator(BinaryOperatorRule rule)
         {
-            Dictionary<int, BinaryOperatorHandler> tmpDict = null;
+            Dictionary<ulong, BinaryOperatorHandler> tmpDict = null;
 
             if (mOperatorsDict.ContainsKey(rule.FirstOperandType))
             {
@@ -177,7 +177,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
             else
             {
-                tmpDict = new Dictionary<int, BinaryOperatorHandler>();
+                tmpDict = new Dictionary<ulong, BinaryOperatorHandler>();
 
                 mOperatorsDict.Add(rule.FirstOperandType, tmpDict);
             }
@@ -185,7 +185,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             tmpDict[rule.SecondOperandType] = rule.OperatorHandler;
         }
 
-        public IValue CallBinaryOperator(int operatorKey, IValue firstOperand, IValue secondOperand)
+        public IValue CallBinaryOperator(ulong operatorKey, IValue firstOperand, IValue secondOperand)
         {
             var tmpHandler = mOperatorsDict[firstOperand.TypeKey][secondOperand.TypeKey];
             return tmpHandler(firstOperand, secondOperand);

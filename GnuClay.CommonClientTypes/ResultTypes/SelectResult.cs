@@ -9,9 +9,13 @@ namespace GnuClay.CommonClientTypes.ResultTypes
 {
     public class VarResultItem : IToStringData
     {
-        public int ParamKey = 0;
-
-        public int EntityKey = 0;
+        public ulong ParamKey = 0;
+        public ulong EntityKey = 0;
+        /// <summary>
+        /// Kind of node in the result.
+        /// </summary>
+        public ExpressionNodeKind Kind = ExpressionNodeKind.Unknown;
+        public object Value;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -37,6 +41,14 @@ namespace GnuClay.CommonClientTypes.ResultTypes
             tmpSb.Append(nameof(EntityKey));
             tmpSb.Append(" = ");
             tmpSb.AppendLine(EntityKey.ToString());
+
+            tmpSb.Append(nameof(Kind));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(Kind.ToString());
+
+            tmpSb.Append(nameof(Value));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(Value?.ToString());
 
             return tmpSb.ToString();
         }

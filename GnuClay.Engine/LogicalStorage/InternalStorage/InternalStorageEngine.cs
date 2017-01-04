@@ -15,12 +15,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             Clear();
         }
 
-        public Dictionary<int, List<RulePart>> mRelationIndex = new Dictionary<int, List<RulePart>>();
+        public Dictionary<ulong, List<RulePart>> mRelationIndex = new Dictionary<ulong, List<RulePart>>();
         public List<RuleInstance> mRulesAndFactsList = new List<RuleInstance>();
-        public Dictionary<long, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict = new Dictionary<long, List<RuleInstance>>();
-        public List<int> mEntitiesList = new List<int>();
+        public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict = new Dictionary<ulong, List<RuleInstance>>();
+        public List<ulong> mEntitiesList = new List<ulong>();
 
-        public void AddIndex(int key, RulePart rulePart)
+        public void AddIndex(ulong key, RulePart rulePart)
         {
             List<RulePart> tmpList = null;
 
@@ -43,7 +43,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             tmpList.Add(rulePart);
         }
 
-        public List<RulePart> GetIndex(int key)
+        public List<RulePart> GetIndex(ulong key)
         {
             if (mRelationIndex.ContainsKey(key))
             {
@@ -53,7 +53,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             return new List<RulePart>();
         }
 
-        public void AddEntity(int key)
+        public void AddEntity(ulong key)
         {
             if(mEntitiesList.Contains(key))
             {
@@ -86,10 +86,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         [Serializable]
         private class Data
         {
-            public Dictionary<int, List<RulePart>> mRelationIndex;
+            public Dictionary<ulong, List<RulePart>> mRelationIndex;
             public List<RuleInstance> mRulesAndFactsList;
-            public Dictionary<long, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
-            public List<int> mEntitiesList;
+            public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
+            public List<ulong> mEntitiesList;
         }
 
         public object Save()
@@ -119,10 +119,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Clear");
 
-            mRelationIndex = new Dictionary<int, List<RulePart>>();
+            mRelationIndex = new Dictionary<ulong, List<RulePart>>();
             mRulesAndFactsList = new List<RuleInstance>();
-            mLongHasheCodeRulesAndFactsDict = new Dictionary<long, List<RuleInstance>>();
-            mEntitiesList = new List<int>();
+            mLongHasheCodeRulesAndFactsDict = new Dictionary<ulong, List<RuleInstance>>();
+            mEntitiesList = new List<ulong>();
         }
     }
 }

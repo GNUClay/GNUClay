@@ -22,7 +22,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         protected GCSClassInfo ClassInfo = null;
         protected GnuClayEngineComponentContext Context = null;
 
-        public int TypeKey
+        public ulong TypeKey
         {
             get
             {
@@ -32,7 +32,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 
         public abstract object ToExternal();
 
-        public ITryCallResult TryCall(int key, List<IValue> args)
+        public ITryCallResult TryCall(ulong key, List<IValue> args)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TryCal key = `{key}`");
             if (ClassInfo.SystemMethods.ContainsKey(key))
@@ -70,7 +70,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
             return new TryCallMethodResult();
         }
 
-        public ITryCallPropertyResult TrySetProperty(int key, IValue value)
+        public ITryCallPropertyResult TrySetProperty(ulong key, IValue value)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TrySetProperty key = {key} value = {value}");
 
@@ -92,7 +92,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
             return new TryCallPropertyResult();
         }
 
-        public ITryCallPropertyResult TryGetProperty(int key)
+        public ITryCallPropertyResult TryGetProperty(ulong key)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TryGetProperty key = {key}");
 

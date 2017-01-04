@@ -9,9 +9,9 @@ namespace GnuClay.Engine.RemoteEvents
 {
     public class RemoteEvent: IToStringData
     {
-        public int HolderKey { get; set; }
-        public int MethodKey { get; set; }
-        public Dictionary<int, object> Parameters = new Dictionary<int, object>();
+        public ulong HolderKey { get; set; }
+        public ulong MethodKey { get; set; }
+        public Dictionary<ulong, object> Parameters = new Dictionary<ulong, object>();
 
         public override string ToString()
         {

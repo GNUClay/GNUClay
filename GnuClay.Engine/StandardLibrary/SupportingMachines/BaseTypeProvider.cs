@@ -34,9 +34,9 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
         }
 
-        private int mTypeKey = 0;
+        private ulong mTypeKey = 0;
 
-        public int TypeKey
+        public ulong TypeKey
         {
             get
             {

@@ -11,7 +11,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public OperationCode OperationCode = OperationCode.Nop;
 
-        public int Key = 0;
+        public ulong Key = 0;
         public int ArgsCount = 0;
 
         public ScriptCommand Next = null;

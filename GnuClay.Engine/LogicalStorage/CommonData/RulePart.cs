@@ -20,7 +20,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
         /// </summary>
         /// <returns>The hash code for this instance</returns>
-        public long GetLongHashCode()
+        public ulong GetLongHashCode()
         {
             return Tree.GetLongHashCode();
         }

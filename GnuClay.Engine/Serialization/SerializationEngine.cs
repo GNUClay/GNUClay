@@ -11,7 +11,7 @@ namespace GnuClay.Engine.Serialization
 {
     public class SerializationEngine : BaseGnuClayEngineComponent
     {
-        private static decimal CurrentVersion = 0.2M;
+        private static decimal CurrentVersion = 0.3M;
 
         public SerializationEngine(GnuClayEngineComponentContext context)
             : base(context)

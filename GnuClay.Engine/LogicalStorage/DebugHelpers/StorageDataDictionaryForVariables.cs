@@ -5,7 +5,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public class StorageDataDictionaryForVariables: IReadOnlyStorageDataDictionary
     {
-        public string GetValue(int key)
+        public string GetValue(ulong key)
         {
             if(mValuesDict.ContainsKey(key))
             {
@@ -15,20 +15,15 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             return CreateValue(key);
         }
 
-        private Dictionary<int, string> mValuesDict = new Dictionary<int, string>();
+        private Dictionary<ulong, string> mValuesDict = new Dictionary<ulong, string>();
 
-        private string CreateValue(int key)
+        private string CreateValue(ulong key)
         {
             var tmpStr = $"$X{key}";
 
             mValuesDict[key] = tmpStr;
 
             return tmpStr;
-        }
-
-        public int UniqueKeysCount()
-        {
-            return mValuesDict.Count;
         }
     }
 }
