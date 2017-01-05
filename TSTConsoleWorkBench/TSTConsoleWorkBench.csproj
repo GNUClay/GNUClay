@@ -55,6 +55,7 @@
     <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LocalHostExecuting\LocalHostRunner.cs" />
     <Compile Include="LogicalStorage\Insert\LogicalStorageInsertRunner.cs" />
+    <Compile Include="OOP\GnuClayLocalServerInheritanceQueryRunner.cs" />
     <Compile Include="OOP\GnuClayLocalServerValueQueryRunner.cs" />
     <Compile Include="ParserExecuting\ParserRunner.cs" />
     <Compile Include="Program.cs" />

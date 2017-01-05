@@ -73,5 +73,10 @@ namespace GnuClay.CommonUtils.TypeHelpers
             var json = JsonConvert.SerializeObject(obj).Replace("{", "{\n").Replace("[", "[\n").Replace("}", "\n}").Replace("]", "\n]").Replace(",", ",\n");
             return json;
         }
+
+        public static string CreateName()
+        {
+            return $"#{Guid.NewGuid().ToString("D").Replace('-', '_')}";
+        }
     }
 }

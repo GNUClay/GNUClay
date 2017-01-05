@@ -12,7 +12,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private enum LexerState
         {
             Init,
-            InWord
+            InWord,
+            InRichWord
         }
 
         public Lexer(string text)
@@ -60,6 +61,34 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                         switch (tmpChar)
                         {
+                            case '#':
+                                tmpBuffer = new StringBuilder();
+                                tmpBuffer.Append(tmpChar);
+
+                                if (char.IsLetterOrDigit(mItems.Peek()))
+                                {
+                                    mLexerState = LexerState.InWord;
+                                }
+                                else
+                                {
+                                    return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                                }
+                                break;
+
+                            case '_':
+                                tmpBuffer = new StringBuilder();
+                                tmpBuffer.Append(tmpChar);
+
+                                if (char.IsLetterOrDigit(mItems.Peek()))
+                                {
+                                    mLexerState = LexerState.InWord;
+                                }
+                                else
+                                {
+                                    return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                                }
+                                break;
+
                             case '{':
                                 return CreateToken(TokenKind.OpenFigureBracket);
 
@@ -105,6 +134,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '.':
                                 return CreateToken(TokenKind.Point);
 
+                            case '`':
+                                tmpBuffer = new StringBuilder();
+                                mLexerState = LexerState.InRichWord;
+                                break;
+
                             default: throw new UnexpectedSymbolException(tmpChar);
                         }
                         break;
@@ -113,14 +147,35 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         tmpBuffer.Append(tmpChar);
                         mLexerState = LexerState.InWord;
 
-                        if (mItems.Count == 0 || !char.IsLetterOrDigit(mItems.Peek()))
+                        if (mItems.Count == 0)
+                        {
+                            mLexerState = LexerState.Init;
+                            return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                        }
+
+                        var tmpNextChar = mItems.Peek();
+
+                        if(!char.IsLetterOrDigit(tmpNextChar) && tmpNextChar != '_')
                         {
                             mLexerState = LexerState.Init;
                             return CreateToken(TokenKind.Word, tmpBuffer.ToString());
                         }
                         break;
 
-                    default: throw new ArgumentOutOfRangeException(nameof(mLexerState));
+                    case LexerState.InRichWord:
+                        switch(tmpChar)
+                        {
+                            case '`':
+                                mLexerState = LexerState.Init;
+                                return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+
+                            default:
+                                tmpBuffer.Append(tmpChar);
+                                break;
+                        }
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(mLexerState), mLexerState.ToString());
                 }
             }
 

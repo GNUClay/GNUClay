@@ -31,7 +31,7 @@ namespace GnuClay.ConsoleTalk
             mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
         }
 
-        private string mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
+        private string mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
         private IGnuClayServerConnection mServerConnection = null;
         private IGnuClayEntityConnection mEntityConnection = null;
         private ConsoleTalkAppConfig mConfig = null;

@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.LocalHost;
 using System;
@@ -17,19 +18,25 @@ namespace TSTConsoleWorkBench.OOP
 
             try
             {
-                var GnuClayEngine = new GnuClayEngine();
+                var tmpEngine = new GnuClayEngine();
 
-                var queryString = "INSERT {>: {age(Tom,25.4)}}";
+                var queryString = "INSERT {>: {age(Tom, 25)}}";
 
-                var qr_1 = GnuClayEngine.Query(queryString);
+                var qr_1 = tmpEngine.Query(queryString);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, GnuClayEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");
+
+                //queryString = "INSERT {>: {age(`Tom`, 25)}}";
+
+                //var qr_1_5 = GnuClayEngine.Query(queryString);
+
+                //NLog.LogManager.GetCurrentClassLogger().Info($"qr_1_5 = {SelectResultDebugHelper.ConvertToString(qr_1_5, GnuClayEngine.DataDictionary)}");
 
                 queryString = "SELECT {age(Tom, $X1)}";
 
-                var qr_2 = GnuClayEngine.Query(queryString);
+                var qr_2 = tmpEngine.Query(queryString);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, GnuClayEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
             }
             catch (Exception e)
             {

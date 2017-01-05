@@ -57,9 +57,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             ExpressionNode tmpNode = null;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mBuffer = `{mBuffer}`");
-
             switch (mState)
             {
                 case State.Init:
@@ -135,6 +132,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.InputSemiNumberParam;
                             break;
 
+                        case TokenKind.CloseRoundBracket:
+                            Context.Recovery(CurrToken);
+                            ProcessNumberToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -193,10 +195,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessNumberToken()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) mBuffer = `{mBuffer}`");
             var tmpVal = double.Parse(mBuffer, mFormatProvider);
             mBuffer = string.Empty;
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) tmpVal = `{tmpVal}`");
+            
             var tmpNode = new ExpressionNode();
             tmpNode = new ExpressionNode();
             tmpNode.Kind = ExpressionNodeKind.Value;
@@ -204,7 +205,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpNode.Value = tmpVal;
             mCurrentNode.RelationParams.Add(tmpNode);
             mState = State.ParamWasEntered;
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun (2) tmpNode = `{tmpNode}`");
         }
 
         protected override void OnExit()

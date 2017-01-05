@@ -17,7 +17,8 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTGnuClayLocalServerValueQueryRunner();
+            TSTGnuClayLocalServerInheritanceQueryRunner();
+            //TSTGnuClayLocalServerValueQueryRunner();
             //TSTGnuClayLocalServerSerializationRunner();
             //TSTEntityConnectionSerializationRunner();
             //TSTSerializationRunner();
@@ -28,6 +29,12 @@ namespace TSTConsoleWorkBench
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTGnuClayLocalServerInheritanceQueryRunner()
+        {
+            var tmpGnuClayLocalServerInheritanceQueryRunner = new GnuClayLocalServerInheritanceQueryRunner();
+            tmpGnuClayLocalServerInheritanceQueryRunner.Run();
         }
 
         private static void TSTGnuClayLocalServerValueQueryRunner()

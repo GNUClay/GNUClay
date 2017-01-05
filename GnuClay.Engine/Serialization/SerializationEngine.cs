@@ -27,6 +27,7 @@ namespace GnuClay.Engine.Serialization
 
             serializationInfo.StorageDataDictionaryInfo = Context.DataDictionary.Save();
             serializationInfo.LogicalStorageInfo = Context.LogicalStorage.Save();
+            serializationInfo.InheritanceEngineInfo = Context.InheritanceEngine.Save();
 
             var formatter = new BinaryFormatter();
 
@@ -74,6 +75,7 @@ namespace GnuClay.Engine.Serialization
 
             Context.DataDictionary.Load(serializationInfo.StorageDataDictionaryInfo);
             Context.LogicalStorage.Load(serializationInfo.LogicalStorageInfo);
+            Context.InheritanceEngine.Load(serializationInfo.InheritanceEngineInfo);
         }
 
         public void Clear()
@@ -82,6 +84,7 @@ namespace GnuClay.Engine.Serialization
 
             Context.DataDictionary.Clear();
             Context.LogicalStorage.Clear();
+            Context.InheritanceEngine.Clear();
         }
     }
 }

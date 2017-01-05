@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteEvents;
@@ -25,5 +26,6 @@ namespace GnuClay.Engine.InternalCommonData
         public TypeProcessingContext TypeProcessingContext = null;
         public RemoteEventsEngine RemoteEventsEngine = null;
         public GnuClayParserEngine ParserEngine = null;
+        public InheritanceEngine InheritanceEngine = null;
     }
 }

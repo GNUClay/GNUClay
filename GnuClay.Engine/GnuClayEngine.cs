@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
@@ -78,6 +79,7 @@ namespace GnuClay.Engine
             mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
             mContext.RemoteEventsEngine = new RemoteEventsEngine(mContext);
             mContext.ParserEngine = new GnuClayParserEngine(mContext);
+            mContext.InheritanceEngine = new InheritanceEngine(mContext);
 
             mContext.StandardLibrary.CreateProviders();
         }

@@ -116,7 +116,7 @@ namespace GnuClay.LocalHost
 
                 ValidateIsDestroyed();
 
-                return ConnectToEntity($"#{Guid.NewGuid().ToString("D")}");
+                return ConnectToEntity(_ObjectHelper.CreateName());
             }
         }
 

@@ -15,10 +15,19 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             Clear();
         }
 
-        public Dictionary<ulong, List<RulePart>> mRelationIndex = new Dictionary<ulong, List<RulePart>>();
-        public List<RuleInstance> mRulesAndFactsList = new List<RuleInstance>();
-        public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict = new Dictionary<ulong, List<RuleInstance>>();
-        public List<ulong> mEntitiesList = new List<ulong>();
+        public Dictionary<ulong, List<RulePart>> mRelationIndex;
+        public List<RuleInstance> mRulesAndFactsList;
+        public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
+        public List<ulong> mEntitiesList;
+
+        [Serializable]
+        private class Data
+        {
+            public Dictionary<ulong, List<RulePart>> mRelationIndex;
+            public List<RuleInstance> mRulesAndFactsList;
+            public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
+            public List<ulong> mEntitiesList;
+        }
 
         public void AddIndex(ulong key, RulePart rulePart)
         {
@@ -81,15 +90,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             }
 
             tmpList.Add(targetItem);
-        }
-
-        [Serializable]
-        private class Data
-        {
-            public Dictionary<ulong, List<RulePart>> mRelationIndex;
-            public List<RuleInstance> mRulesAndFactsList;
-            public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
-            public List<ulong> mEntitiesList;
         }
 
         public object Save()

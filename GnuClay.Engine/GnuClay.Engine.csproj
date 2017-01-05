@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inheritance\CalculatingInheritanceItemsContext.cs" />
+    <Compile Include="Inheritance\CyclicInheritanceException.cs" />
+    <Compile Include="Inheritance\InheritanceAspect.cs" />
+    <Compile Include="Inheritance\InheritanceEngine.cs" />
+    <Compile Include="Inheritance\InheritanceInfo.cs" />
+    <Compile Include="Inheritance\InheritanceItem.cs" />
     <Compile Include="Parser\AbnormalTerminationException.cs" />
     <Compile Include="Parser\CommonData\GnuClayQuery.cs" />
     <Compile Include="Parser\CommonData\InsertQuery.cs" />

@@ -17,7 +17,7 @@ namespace TSTConsoleWorkBench.Serialiazation
             try
             {
                 var mServerConnection = new GnuClayLocalServer();
-                var mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
+                var mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
 
                 var mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
 
@@ -25,7 +25,7 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 mEntityConnection.Query(queryString);
 
-                var fileName = "0813940A-EAC6-47E7-BF57-9B8C05E2168A.gcd";
+                var fileName = $"{mEntityName}.gcd";
 
                 mEntityConnection.Save();
 
