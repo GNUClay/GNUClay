@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.Inheritance
+namespace GnuClay.Engine.LogicalStorage
 {
-    public class CalculatingInheritanceItemsContext
+    public class SystemRelationsNamesConstants
     {
+        public const string Is = "is";
     }
 }

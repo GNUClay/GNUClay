@@ -13,18 +13,16 @@ using System.Linq;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class InternalResolverSelectProcess
+    public class InternalResolverSelectProcess: BaseInternalResolver
     {
         public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
+            : base(engine, context)
         {
             mSelectQuery = query;
-            mInternalStorageEngine = engine;
-            mStorageDataDictionary = context.DataDictionary;
         }
 
         private SelectQuery mSelectQuery = null;
-        private InternalStorageEngine mInternalStorageEngine = null;
-        private StorageDataDictionary mStorageDataDictionary = null;
+
         private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
         private List<ulong> mVariablesKeys = new List<ulong>();
 

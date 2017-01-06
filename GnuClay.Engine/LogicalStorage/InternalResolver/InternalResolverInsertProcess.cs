@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -8,21 +9,19 @@ using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class InternalResolverInsertProcess
+    public class InternalResolverInsertProcess: BaseInternalResolver
     {
         public InternalResolverInsertProcess(InsertQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
+            : base(engine, context)
         {
             mInsertQuery = query;
-            mInternalStorageEngine = engine;
-            mStorageDataDictionary = context.DataDictionary;
         }
 
         private InsertQuery mInsertQuery = null;
-        private InternalStorageEngine mInternalStorageEngine = null;
-        private StorageDataDictionary mStorageDataDictionary = null;
 
         private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
         private Dictionary<ulong, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<ulong, List<RuleInstance>>();
@@ -49,25 +48,65 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ImplementStatistics()
         {
-            foreach (var tmpStatisticsItem in mStatisticsList)
+            foreach (var statisticsItem in mStatisticsList)
             {
-                mInternalStorageEngine.mRulesAndFactsList.Add(tmpStatisticsItem.Target);
+                NLog.LogManager.GetCurrentClassLogger().Info($"ImplementStatistics statisticsItem = {statisticsItem}");
 
-                foreach (var tmpEntity in tmpStatisticsItem.Entities)
+                switch(statisticsItem.Kind)
                 {
-                    mInternalStorageEngine.AddEntity(tmpEntity);
-                }
+                    case InsertQueryItemStatisticsKind.Fact:
+                        ProcessRuleOrFact(statisticsItem);
+                        break;
 
-                foreach(var tmpIndexedPartItem in tmpStatisticsItem.IndexedPartsDict)
-                {
-                    foreach(var tmpRelation in tmpIndexedPartItem.Value)
-                    {
-                        mInternalStorageEngine.AddIndex(tmpRelation, tmpIndexedPartItem.Key);
-                    }
-                }
+                    case InsertQueryItemStatisticsKind.Rule:
+                        ProcessRuleOrFact(statisticsItem);
+                        break;
 
-                mInternalStorageEngine.RegExistsStatisticsHashCode(tmpStatisticsItem.Target);
+                    case InsertQueryItemStatisticsKind.SetInheritence:
+                        ProcessSetInheritence(statisticsItem);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(statisticsItem.Kind), statisticsItem.Kind.ToString());
+                }
             }
+        }
+
+        private void ProcessRuleOrFact(InsertQueryItemStatistics statisticsItem)
+        {
+            mInternalStorageEngine.mRulesAndFactsList.Add(statisticsItem.Target);
+
+            foreach (var tmpEntity in statisticsItem.Entities)
+            {
+                mInternalStorageEngine.AddEntity(tmpEntity);
+            }
+
+            foreach (var tmpIndexedPartItem in statisticsItem.IndexedPartsDict)
+            {
+                foreach (var tmpRelation in tmpIndexedPartItem.Value)
+                {
+                    mInternalStorageEngine.AddIndex(tmpRelation, tmpIndexedPartItem.Key);
+                }
+            }
+
+            mInternalStorageEngine.RegExistsStatisticsHashCode(statisticsItem.Target);
+        }
+
+        private void ProcessSetInheritence(InsertQueryItemStatistics statisticsItem)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence statisticsItem = {statisticsItem}");
+
+            var tmpItem = statisticsItem.LocalRelationsIndex.First();
+
+            var expression = tmpItem.Value;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence expression = {expression}");
+
+            var subKey = expression.RelationParams[0].Key;
+            var superKey = expression.RelationParams[1].Key;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
+
+            mContext.InheritanceEngine.SetInheritance(subKey, superKey, 1, InheritanceAspect.WithOutClause);
         }
 
         private void GetStatistics(RuleInstance targetItem)
@@ -84,11 +123,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             if (targetItem.Part_2 == null)
             {
-                tmpStatistics.IsRule = false;
+                tmpStatistics.Kind = InsertQueryItemStatisticsKind.Fact;
 
                 ValidateFact(tmpStatistics);
-            }else{ 
-                tmpStatistics.IsRule = true;
+            }else{
+                tmpStatistics.Kind = InsertQueryItemStatisticsKind.Rule;
 
                 AnalyzingTreeNode(targetItem.Part_2.Tree, targetItem.Part_2, tmpStatistics);
 
@@ -97,6 +136,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             targetItem.VarsCount = tmpStatistics.VarsCount;
             targetItem.LocalRelationsIndex = tmpStatistics.LocalRelationsIndex;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
 
             mStatisticsList.Add(tmpStatistics);
         }
@@ -148,6 +189,29 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
+
+            switch(context.IndexedPartsDict.Count)
+            {
+                case 1:
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(context.LocalRelationsIndex.Count), context.LocalRelationsIndex.Count.ToString());
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
+
+            var tmpItem = context.LocalRelationsIndex.First();
+            var tmpKey = tmpItem.Key;
+
+            if(tmpKey == IsKey)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact ProcessInheritese!!!!!!");
+                context.Kind = InsertQueryItemStatisticsKind.SetInheritence;
+                return;
+            }
         }
 
         private void AnalyzingTreeNode(ExpressionNode node, RulePart part, InsertQueryItemStatistics context)

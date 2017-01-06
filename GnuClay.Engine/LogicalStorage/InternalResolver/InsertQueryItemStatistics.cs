@@ -14,7 +14,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public bool Exists = false;
 
-        public bool IsRule = false;
+        public InsertQueryItemStatisticsKind Kind = InsertQueryItemStatisticsKind.Unknown;
+
+        //public bool IsRule = false;
 
         public ulong VarsCount
         {
@@ -101,9 +103,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             tmpSb.Append(" = ");
             tmpSb.AppendLine(Exists.ToString());
 
-            tmpSb.Append(nameof(IsRule));
+            tmpSb.Append(nameof(Kind));
             tmpSb.Append(" = ");
-            tmpSb.AppendLine(IsRule.ToString());
+            tmpSb.AppendLine(Kind.ToString());
 
             tmpSb.Append(nameof(VarsCount));
             tmpSb.Append(" = ");

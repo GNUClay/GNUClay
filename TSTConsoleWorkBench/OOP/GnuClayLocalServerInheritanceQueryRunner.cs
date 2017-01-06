@@ -20,20 +20,22 @@ namespace TSTConsoleWorkBench.OOP
             {
                 var tmpEngine = new GnuClayEngine();
 
-                /*var queryString = "INSERT {>: {is(Dog, Animal)}}";
+                var queryString = "INSERT {>: {is(Dog, Animal)}}";
 
                 var qr_1 = tmpEngine.Query(queryString);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");*/
+                NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");
 
-                var tmpTKey = tmpEngine.DataDictionary.GetKey("T");
+                /*var tmpKKey = tmpEngine.DataDictionary.GetKey("K");
+                var tmpTKey = tmpEngine.DataDictionary.GetKey("T");*/
                 var tmpAnimalKey = tmpEngine.DataDictionary.GetKey("Animal");
-                var tmpPetKey = tmpEngine.DataDictionary.GetKey("Pet");
+                //var tmpPetKey = tmpEngine.DataDictionary.GetKey("Pet");
                 var tmpDogKey = tmpEngine.DataDictionary.GetKey("Dog");
 
-                var tmpInstanceName = _ObjectHelper.CreateName();
+                /*var tmpInstanceName = _ObjectHelper.CreateName();
                 var tmpInstanceKey = tmpEngine.DataDictionary.GetKey(tmpInstanceName);
 
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpKKey = {tmpKKey}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpTKey = {tmpTKey}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpAnimalKey = {tmpAnimalKey}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpPetKey = {tmpPetKey}");
@@ -41,12 +43,14 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpInstanceName = {tmpInstanceName}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpInstanceKey = {tmpInstanceKey}");
 
+                tmpEngine.Context.InheritanceEngine.SetInheritance(tmpTKey, tmpKKey, 1, InheritanceAspect.WithOutClause);
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpAnimalKey, tmpTKey, 1, InheritanceAspect.WithOutClause);
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpDogKey, tmpAnimalKey, 1, InheritanceAspect.WithOutClause);
                 //tmpEngine.Context.InheritanceEngine.SetInheritance(tmpDogKey, tmpAnimalKey, 0.5, InheritanceAspect.WithOutClause);
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpPetKey, tmpTKey, 1, InheritanceAspect.WithOutClause);
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpDogKey, tmpPetKey, 0.5, InheritanceAspect.WithOutClause);
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpInstanceKey, tmpDogKey, 1, InheritanceAspect.WithOutClause);
+                tmpEngine.Context.InheritanceEngine.SetInheritance(tmpInstanceKey, tmpPetKey, 0.5, InheritanceAspect.WithOutClause);
                 //tmpEngine.Context.InheritanceEngine.SetInheritance(tmpAnimalKey, tmpInstanceKey, 1, InheritanceAspect.WithOutClause);
 
                 var tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpInstanceKey);
@@ -64,6 +68,28 @@ namespace TSTConsoleWorkBench.OOP
                 }
 
                 tmpEngine.Context.InheritanceEngine.SetInheritance(tmpInstanceKey, tmpDogKey, 0, InheritanceAspect.WithOutClause);
+
+                tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpInstanceKey);
+
+                foreach (var tmpInheritanceItem in tmpListOfInheritance)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem = {tmpInheritanceItem}");
+                }
+
+                var tmpRank = tmpEngine.Context.InheritanceEngine.GetRank(tmpInstanceKey, tmpPetKey);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");*/
+
+                var tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpDogKey);
+
+                foreach (var tmpInheritanceItem in tmpListOfInheritance)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem = {tmpInheritanceItem}");
+                }
+
+                var tmpRank = tmpEngine.Context.InheritanceEngine.GetRank(tmpDogKey, tmpAnimalKey);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");
 
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Finish");
             }

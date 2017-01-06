@@ -201,20 +201,130 @@ namespace GnuClay.Engine.Inheritance
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfInheritance NEXT targetKey = {targetKey}");
 
-                var tmpContext = new CalculatingInheritanceItemsContext();
-
-
-
-                throw new NotImplementedException();
+                return CalculateCashItem(targetKey);
             }
         }
 
-        /*private void NLoadListOfInheritance(ulong targetKey, CalculatingInheritanceItemsContext context)
-        {?????
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
+        private List<InheritanceItem> CalculateCashItem(ulong targetKey)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateCashItem targetKey = {targetKey}");
 
-            throw new NotImplementedException();
-        }*/
+            var resultList = new List<InheritanceItem>();
+
+            NLoadListOfInheritance(targetKey, resultList, 0, -1);
+
+            if (_ListHelper.IsEmpty(resultList))
+            {
+                mInheritanceCash.Add(targetKey, new List<InheritanceItem>());
+                mInheritanceCashDict.Add(targetKey, new Dictionary<ulong, double>());
+                return resultList;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfInheritance NEXT NEXT targetKey = {targetKey}");
+
+            resultList = resultList.OrderByDescending(p => p.Rank).ThenBy(p => p.Distance).ToList();
+
+            var filteredResultList = new List<InheritanceItem>();
+
+            var tmpDict = new Dictionary<ulong, double>();
+
+            var tmpExistsKeys = new List<ulong>();
+
+            foreach (var item in resultList)
+            {
+                var tmpKey = item.Key;
+
+                if (tmpExistsKeys.Contains(tmpKey))
+                {
+                    continue;
+                }
+
+                tmpExistsKeys.Add(tmpKey);
+
+                filteredResultList.Add(item);
+                tmpDict.Add(tmpKey, item.Rank);
+            }
+
+            mInheritanceCash.Add(targetKey, filteredResultList);
+            mInheritanceCashDict.Add(targetKey, tmpDict);
+
+            return filteredResultList;
+        }
+
+        private void NLoadListOfInheritance(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
+        {
+            if(currentRank > -1)
+            {
+                var tmpItem = new InheritanceItem();
+                tmpItem.Key = targetKey;
+                tmpItem.Rank = currentRank;
+                tmpItem.Distance = currentDistance;
+                resultList.Add(tmpItem);
+            }
+
+            if(mInheritanceRegistry.ContainsKey(targetKey))
+            {
+                currentDistance++;
+
+                var tmpDict = mInheritanceRegistry[targetKey];
+
+                foreach(var item in tmpDict)
+                {
+                    var tmpKey = item.Key;
+                    var info = item.Value;
+
+                    switch (info.Aspect)
+                    {
+                        case InheritanceAspect.WithOutClause:
+                            break;
+
+                        default: throw new NotSupportedException($"The value `{info.Aspect}` of variable `info.Aspect` is not supported.");
+                    }
+
+                    var targetRank = info.Rank;
+
+                    if(currentRank > -1)
+                    {
+                        targetRank *= currentRank;
+                    }
+
+                    NLoadListOfInheritance(tmpKey, resultList, currentDistance, targetRank);
+                }            
+            }      
+        }
+
+        public double GetRank(ulong subKey, ulong superKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
+
+                if(mInheritanceCashDict.ContainsKey(subKey))
+                {
+                    return GetRankFromCash(subKey, superKey);
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT subKey = {subKey} superKey = {superKey}");
+
+                CalculateCashItem(subKey);
+
+                return GetRankFromCash(subKey, superKey);
+            }               
+        }
+
+        private double GetRankFromCash(ulong subKey, ulong superKey)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetRankFromCash subKey = {subKey} superKey = {superKey}");
+
+            var tmpDict = mInheritanceCashDict[subKey];
+
+            if (tmpDict.ContainsKey(superKey))
+            {
+                return tmpDict[superKey];
+            }
+
+            return 0;
+        }
 
         public object Save()
         {
