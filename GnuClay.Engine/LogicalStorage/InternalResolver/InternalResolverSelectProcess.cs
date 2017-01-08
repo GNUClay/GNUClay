@@ -178,7 +178,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             foreach(var tmpParam in node.RelationParams)
             {
-                if(tmpParam.Kind == ExpressionNodeKind.Entity)
+                if(tmpParam.Kind == ExpressionNodeKind.Entity || tmpParam.Kind == ExpressionNodeKind.Var)
                 {
                     List<ExpressionNode> tmpList = null;
 
@@ -195,13 +195,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                     tmpList.Add(tmpParam);
                 }
-                else
+                /*else
                 {
                     if(tmpParam.Key > mMaxVarCount)
                     {
                         mMaxVarCount = tmpParam.Key; 
                     }
-                }
+                }*/
             }
         }
 
