@@ -32,8 +32,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private RulePart Part_1 = null;
         private RulePart Part_2 = null;
 
-        private StorageDataDictionary mLocalDataDictionary = new StorageDataDictionary(null);
-
         protected override void OnRun()
         {
             switch (mState)
@@ -53,7 +51,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, mLocalDataDictionary);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
                             tmpInternalExpressionParser.Run();
                             Part_1 = new RulePart();
                             Result.Part_1 = Part_1;
@@ -97,7 +95,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, mLocalDataDictionary);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
                             tmpInternalExpressionParser.Run();
                             Part_2 = new RulePart();
                             Result.Part_2 = Part_2;

@@ -30,7 +30,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
                 NLog.LogManager.GetCurrentClassLogger().Info($"result = {result}");
 
                 var tmpSelectQuery = result.SelectQuery;
-                NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary, null));
+                NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary));
 
                 var tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 

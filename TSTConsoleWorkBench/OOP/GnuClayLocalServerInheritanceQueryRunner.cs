@@ -91,6 +91,23 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");
 
+                queryString = "INSERT {>: {!is(Dog, Animal)}}";
+
+                var qr_2 = tmpEngine.Query(queryString);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
+
+                tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpDogKey);
+
+                foreach (var tmpInheritanceItem in tmpListOfInheritance)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem = {tmpInheritanceItem}");
+                }
+
+                tmpRank = tmpEngine.Context.InheritanceEngine.GetRank(tmpDogKey, tmpAnimalKey);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");
+
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Finish");
             }
             catch (Exception e)

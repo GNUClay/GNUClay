@@ -58,7 +58,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
             var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary, null));
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary));
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/
 

@@ -6,17 +6,12 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class SelectQueryDebugHelper
     {
-        public static string ConvertToString(SelectQuery query, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary = null)
+        public static string ConvertToString(SelectQuery query, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            if (localDataDictionary == null)
-            {
-                localDataDictionary = new StorageDataDictionaryForVariables();
-            }
-
             var tmpSb = new StringBuilder();
 
             tmpSb.Append("SELECT {");
-            tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(query.SelectedTree, dataDictionary, localDataDictionary));
+            tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(query.SelectedTree, dataDictionary));
             tmpSb.Append("}");
 
             return tmpSb.ToString();

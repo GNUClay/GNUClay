@@ -7,17 +7,14 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public static class ExpressionNodeDebugHelper
     {
-        public static string ConvertToString(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        public static string ConvertToString(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            if(localDataDictionary == null)
-            {
-                localDataDictionary = new StorageDataDictionaryForVariables();
-            }
+            NLog.LogManager.GetCurrentClassLogger().Info($"ConvertToString node = {node}");
 
-            return ProcesNode(node, dataDictionary, localDataDictionary);
+            return ProcesNode(node, dataDictionary);
         }
 
-        private static string ProcesNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcesNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
             if(node == null)
             {
@@ -27,46 +24,46 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             switch (node.Kind)
             {
                 case ExpressionNodeKind.And:
-                    return ProcessAndNode(node, dataDictionary, localDataDictionary);
+                    return ProcessAndNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Or:
-                    return ProcessOrNode(node, dataDictionary, localDataDictionary);
+                    return ProcessOrNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Not:
-                    return ProcessNotNode(node, dataDictionary, localDataDictionary);
+                    return ProcessNotNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Relation:
-                    return ProcessRelationNode(node, dataDictionary, localDataDictionary);
+                    return ProcessRelationNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Entity:
-                    return ProcessEntityNode(node, dataDictionary, localDataDictionary);
+                    return ProcessEntityNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Var:
-                    return ProcessVarNode(node, dataDictionary, localDataDictionary);
+                    return ProcessVarNode(node, dataDictionary);
 
                 case ExpressionNodeKind.Value:
-                    return ProcessValueNode(node, dataDictionary, localDataDictionary);
+                    return ProcessValueNode(node, dataDictionary);
 
                 default: throw new ArgumentOutOfRangeException(nameof(node.Kind), node.Kind.ToString());
             }
         }
 
-        private static string ProcessAndNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessAndNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)} & {ProcesNode(node.Right, dataDictionary, localDataDictionary)}";
+            return $"{ProcesNode(node.Left, dataDictionary)} & {ProcesNode(node.Right, dataDictionary)}";
         }
 
-        private static string ProcessOrNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessOrNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)} | {ProcesNode(node.Right, dataDictionary, localDataDictionary)}";
+            return $"{ProcesNode(node.Left, dataDictionary)} | {ProcesNode(node.Right, dataDictionary)}";
         }
 
-        private static string ProcessNotNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessNotNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            return $"{ProcesNode(node.Left, dataDictionary, localDataDictionary)}";
+            return $"!{ProcesNode(node.Left, dataDictionary)}";
         }
 
-        private static string ProcessRelationNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessRelationNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpSb = new StringBuilder();
 
@@ -75,7 +72,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
             foreach (var tmpParam in node.RelationParams)
             {
-                tmpSb.Append(ProcesNode(tmpParam, dataDictionary, localDataDictionary));
+                tmpSb.Append(ProcesNode(tmpParam, dataDictionary));
                 tmpSb.Append(",");
             }
 
@@ -86,17 +83,18 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             return tmpSb.ToString();
         }
 
-        private static string ProcessEntityNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessEntityNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessEntityNode node = {node}");
+            return dataDictionary.GetValue(node.Key);
+        }
+
+        private static string ProcessVarNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
             return dataDictionary.GetValue(node.Key);
         }
 
-        private static string ProcessVarNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
-        {
-            return localDataDictionary.GetValue(node.Key);
-        }
-
-        private static string ProcessValueNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localDataDictionary)
+        private static string ProcessValueNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
             if(node.Value == null)
             {

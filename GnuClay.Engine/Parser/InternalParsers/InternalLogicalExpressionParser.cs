@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -25,15 +26,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
             EndDeclaringRelation
         }
 
-        public InternalLogicalExpressionParser(InternalParserContext context, StorageDataDictionary localDataDictionary = null)
+        public InternalLogicalExpressionParser(InternalParserContext context)
             : base(context)
         {
-            mLocalDataDictionary = localDataDictionary;
-
-            if (mLocalDataDictionary == null)
-            {
-                mLocalDataDictionary = new StorageDataDictionary(null);
-            }
+            mDataDictionary = context.MainContext.DataDictionary;
         }
 
         private State mState = State.Init;
@@ -51,11 +47,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
         }
 
-        private StorageDataDictionary mLocalDataDictionary = null;
+        private StorageDataDictionary mDataDictionary = null;
 
         protected override void OnRun()
         {
             ExpressionNode tmpNode = null;
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind}");
 
             switch (mState)
             {
@@ -64,9 +62,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case TokenKind.Word:
                             tmpNode = new ExpressionNode();
+                            
                             tmpNode.Kind = ExpressionNodeKind.Relation;
                             tmpNode.RelationParams = new List<ExpressionNode>();
-                            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(CurrToken.Content);
+                            tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
 
                             if (mRootNode == null)
                             {
@@ -74,11 +73,27 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             }
                             else
                             {
-                                mRootNode.Right = tmpNode;
+                                mRootNode.Left = tmpNode;
                             }
 
                             mCurrentNode = tmpNode;
                             mState = State.DeclaredRelationName;
+                            break;
+
+                        case TokenKind.Not:
+                            tmpNode = new ExpressionNode();
+                            tmpNode.Kind = ExpressionNodeKind.Not;
+
+                            if (mRootNode == null)
+                            {
+                                mRootNode = tmpNode;
+                            }
+                            else
+                            {
+                                mRootNode.Left = tmpNode;
+                            }
+
+                            mCurrentNode = tmpNode;
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);
@@ -102,7 +117,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case TokenKind.Word:
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Entity;
-                            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(CurrToken.Content);
+                            tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
                             mCurrentNode.RelationParams.Add(tmpNode);
                             mState = State.ParamWasEntered;
                             break;
@@ -110,7 +125,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case TokenKind.Var:
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Var;
-                            tmpNode.Key = mLocalDataDictionary.GetKey(CurrToken.Content);
+                            tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
+
+                            NLog.LogManager.GetCurrentClassLogger().Info($"TokenKind.Var tmpNode.Key = {tmpNode.Key}");
+
                             mCurrentNode.RelationParams.Add(tmpNode);
                             mState = State.ParamWasEntered;
                             break;
@@ -191,6 +209,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState.ToString());
             }
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mLocalDataDictionary, mLocalDataDictionary)}`");
         }
 
         private void ProcessNumberToken()
@@ -201,7 +221,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             var tmpNode = new ExpressionNode();
             tmpNode = new ExpressionNode();
             tmpNode.Kind = ExpressionNodeKind.Value;
-            tmpNode.Key = Context.MainContext.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            tmpNode.Key = mDataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
             tmpNode.Value = tmpVal;
             mCurrentNode.RelationParams.Add(tmpNode);
             mState = State.ParamWasEntered;

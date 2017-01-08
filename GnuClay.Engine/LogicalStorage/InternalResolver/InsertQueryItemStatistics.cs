@@ -14,6 +14,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public bool Exists = false;
 
+        public bool IsNot = false;
+
         public InsertQueryItemStatisticsKind Kind = InsertQueryItemStatisticsKind.Unknown;
 
         //public bool IsRule = false;
@@ -103,6 +105,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             tmpSb.Append(" = ");
             tmpSb.AppendLine(Exists.ToString());
 
+            tmpSb.Append(nameof(IsNot));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(IsNot.ToString());
+            
             tmpSb.Append(nameof(Kind));
             tmpSb.Append(" = ");
             tmpSb.AppendLine(Kind.ToString());

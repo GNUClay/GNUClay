@@ -11,6 +11,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         Unknown,
         Rule,
         Fact,
+        RemoveFact,
         SetInheritence,
         RemoveInheritence
     }

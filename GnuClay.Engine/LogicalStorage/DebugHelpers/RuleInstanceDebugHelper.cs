@@ -8,18 +8,16 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
     {
         public static string ConvertToString(RuleInstance source, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            var tmpStorageDataDictionaryForVariables = new StorageDataDictionaryForVariables();
-
             var tmpSb = new StringBuilder();
 
             tmpSb.Append(">: {");
-            tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(source.Part_1.Tree, dataDictionary, tmpStorageDataDictionaryForVariables));
+            tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(source.Part_1.Tree, dataDictionary));
             tmpSb.Append("}");
 
             if(source.Part_2 != null)
             {
                 tmpSb.Append(" -> {");
-                tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(source.Part_2.Tree, dataDictionary, tmpStorageDataDictionaryForVariables));
+                tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(source.Part_2.Tree, dataDictionary));
                 tmpSb.Append("}");
             }
 

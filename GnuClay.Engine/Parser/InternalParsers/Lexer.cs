@@ -40,6 +40,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 var tmpChar = mItems.Dequeue();
 
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpChar = {tmpChar} mLexerState = {mLexerState}");
+
                 switch (mLexerState)
                 {
                     case LexerState.Init:
@@ -133,6 +135,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                             case '.':
                                 return CreateToken(TokenKind.Point);
+
+                            case '!':
+                                return CreateToken(TokenKind.Not);
 
                             case '`':
                                 tmpBuffer = new StringBuilder();

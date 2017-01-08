@@ -91,7 +91,6 @@
     <Compile Include="LogicalStorage\DebugHelpers\RuleInstanceDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\SelectQueryDebugHelper.cs" />
     <Compile Include="LogicalStorage\DebugHelpers\SelectResultDebugHelper.cs" />
-    <Compile Include="LogicalStorage\DebugHelpers\StorageDataDictionaryForVariables.cs" />
     <Compile Include="LogicalStorage\ExpressionNode.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatistics.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InternalResolverEngine.cs" />

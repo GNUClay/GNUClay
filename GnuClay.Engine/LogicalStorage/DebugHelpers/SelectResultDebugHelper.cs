@@ -8,7 +8,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
     public class SelectResultDebugHelper
     {
-        public static string ConvertToString(SelectResult source, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localStorage = null)
+        public static string ConvertToString(SelectResult source, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpSb = new StringBuilder();
 
@@ -24,35 +24,25 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
                 return tmpSb.ToString();
             }
 
-            if (localStorage == null)
-            {
-                localStorage = new StorageDataDictionaryForVariables();
-            }
-
             tmpSb.AppendLine("yes");
 
             foreach(var tmpItem in source.Items)
             {
-                tmpSb.AppendLine(ConvertToString(tmpItem, dataDictionary, localStorage));
+                tmpSb.AppendLine(ConvertToString(tmpItem, dataDictionary));
             }
 
             return tmpSb.ToString();
         }
 
-        public static string ConvertToString(SelectResultItem source, IReadOnlyStorageDataDictionary dataDictionary, IReadOnlyStorageDataDictionary localStorage)
+        public static string ConvertToString(SelectResultItem source, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            if (localStorage == null)
-            {
-                localStorage = new StorageDataDictionaryForVariables();
-            }
-
             var tmpSb = new StringBuilder();
 
             foreach (var tmpParamInfo in source.Params)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpParamInfo = {tmpParamInfo}");
 
-                tmpSb.Append(localStorage.GetValue(tmpParamInfo.ParamKey));
+                tmpSb.Append(dataDictionary.GetValue(tmpParamInfo.ParamKey));
                 tmpSb.Append(" = ");
                 switch(tmpParamInfo.Kind)
                 {

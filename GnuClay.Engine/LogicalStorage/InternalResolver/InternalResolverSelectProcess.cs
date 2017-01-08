@@ -19,6 +19,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             : base(engine, context)
         {
             mSelectQuery = query;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
         }
 
         private SelectQuery mSelectQuery = null;
@@ -208,7 +212,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessNextNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary, null)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary)}");
 
             switch(node.Kind)
             {
@@ -349,7 +353,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessFact(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact {ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary, null)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact {ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary)}");
 
             mExistingsRules.Add(part.Parent);
 

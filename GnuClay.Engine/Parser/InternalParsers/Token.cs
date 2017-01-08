@@ -93,6 +93,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Semicolon,
 
         /// <summary>
+        /// Represents symbol `!`.
+        /// </summary>
+        Not,
+
+        /// <summary>
         /// Represents combination of symbols `>:`.
         /// </summary>
         RULE_HEAD,

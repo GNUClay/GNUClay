@@ -33,6 +33,8 @@ namespace GnuClay.Engine.CommonStorages
         {
             lock (mLockObj)
             {
+                TSTDump();
+
                 return mKeysDict[key];
             }       
         }
@@ -47,6 +49,8 @@ namespace GnuClay.Engine.CommonStorages
 
             mKeysDict[mMaxKey] = val;
             mValuesDict[val] = mMaxKey;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateKey val = `{val}` mMaxKey = {mMaxKey}");
 
             return mMaxKey; 
         }
@@ -96,6 +100,18 @@ namespace GnuClay.Engine.CommonStorages
                 mValuesDict = new Dictionary<string, ulong>();
                 mMaxKey = 0;
             }
+        }
+
+        public void TSTDump()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTDump");
+
+            foreach(var item in mKeysDict)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTDump item = {item}");
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End TSTDump");
         }
     }
 }
