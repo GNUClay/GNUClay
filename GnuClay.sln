@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonUtils", "GnuC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{145C017E-5C9B-4DD0-9528-E968C43D7119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonUtils.Test", "GnuClay.CommonUtils.Test\GnuClay.CommonUtils.Test.csproj", "{310F070A-4BE4-49E1-A3B6-9579669F8231}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSTConsoleWorkBench", "TSTConsoleWorkBench\TSTConsoleWorkBench.csproj", "{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.Engine", "GnuClay.Engine\GnuClay.Engine.csproj", "{85DA149A-3309-415A-9815-CB4227C10B1C}"
@@ -23,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supports", "Supports", "{35
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPackageCreator", "NPackageCreator\NPackageCreator.csproj", "{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.UnitTests", "GnuClay.UnitTests\GnuClay.UnitTests.csproj", "{268DB336-B226-45F8-BD5B-A4117B02948C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +33,6 @@ Global
 		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{310F070A-4BE4-49E1-A3B6-9579669F8231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{310F070A-4BE4-49E1-A3B6-9579669F8231}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{310F070A-4BE4-49E1-A3B6-9579669F8231}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{310F070A-4BE4-49E1-A3B6-9579669F8231}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BE2F238-A6B5-4F4C-8CCA-06AFB5CFC4C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,12 +57,16 @@ Global
 		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268DB336-B226-45F8-BD5B-A4117B02948C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268DB336-B226-45F8-BD5B-A4117B02948C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268DB336-B226-45F8-BD5B-A4117B02948C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268DB336-B226-45F8-BD5B-A4117B02948C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{310F070A-4BE4-49E1-A3B6-9579669F8231} = {145C017E-5C9B-4DD0-9528-E968C43D7119}
 		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3} = {351F14CE-CF6F-4F39-93ED-03667D49EB92}
+		{268DB336-B226-45F8-BD5B-A4117B02948C} = {145C017E-5C9B-4DD0-9528-E968C43D7119}
 	EndGlobalSection
 EndGlobal

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CommonUtils.Test
+namespace GnuClay.UnitTests.CommonUtils
 {
     [TestFixture]
     public class _StringHelperTests

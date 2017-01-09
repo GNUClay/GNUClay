@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GnuClay.CommonUtils.Test")]
-[assembly: AssemblyDescription("The unit tests for GnuClay.CommonUtils.Test project.")]
+[assembly: AssemblyTitle("GnuClay.UnitTests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GnuClay.CommonUtils.Test")]
-[assembly: AssemblyCopyright("Copyright © metatypeman 2016 - 2017")]
+[assembly: AssemblyProduct("GnuClay.UnitTests")]
+[assembly: AssemblyCopyright("© metatypeman 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("310f070a-4be4-49e1-a3b6-9579669f8231")]
+[assembly: Guid("268db336-b226-45f8-bd5b-a4117b02948c")]
 
 // Version information for an assembly consists of the following four values:
 //

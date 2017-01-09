@@ -17,14 +17,14 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTGnuClayLocalServerInheritanceSelectQueryRunner();
+            //TSTGnuClayLocalServerInheritanceSelectQueryRunner();
             //TSTGnuClayLocalServerInheritanceQueryRunner();
             //TSTGnuClayLocalServerValueQueryRunner();
             //TSTGnuClayLocalServerSerializationRunner();
             //TSTEntityConnectionSerializationRunner();
             //TSTSerializationRunner();
             //TSTLocalHostRunner();
-            //TSTParserRunner();
+            TSTParserRunner();
             //TSTCommonRunner();
             //TSTInitialRunner();
             //TSTRunInsert();
