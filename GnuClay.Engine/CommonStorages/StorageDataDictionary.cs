@@ -33,7 +33,7 @@ namespace GnuClay.Engine.CommonStorages
         {
             lock (mLockObj)
             {
-                TSTDump();
+                //TSTDump();
 
                 return mKeysDict[key];
             }       
@@ -50,7 +50,7 @@ namespace GnuClay.Engine.CommonStorages
             mKeysDict[mMaxKey] = val;
             mValuesDict[val] = mMaxKey;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateKey val = `{val}` mMaxKey = {mMaxKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateKey val = `{val}` mMaxKey = {mMaxKey}");
 
             return mMaxKey; 
         }

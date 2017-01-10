@@ -53,7 +53,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             ExpressionNode tmpNode = null;
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = `{CurrToken.Content}`");
 
             switch (mState)
             {
@@ -73,7 +73,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             }
                             else
                             {
-                                mRootNode.Left = tmpNode;
+                                mRootNode.Right = tmpNode;
                             }
 
                             mCurrentNode = tmpNode;
@@ -210,7 +210,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState.ToString());
             }
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mLocalDataDictionary, mLocalDataDictionary)}`");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mDataDictionary)}`");
         }
 
         private void ProcessNumberToken()
