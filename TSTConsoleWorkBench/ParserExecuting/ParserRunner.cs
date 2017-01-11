@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using GnuClay.CommonUtils.TypeHelpers;
 
 namespace TSTConsoleWorkBench.ParserExecuting
 {
@@ -35,6 +35,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
                 var tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 
                 NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult = {tmpResult.ToJson()}");
 
                 queryString = "CALL { 1.0 + 2;}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");

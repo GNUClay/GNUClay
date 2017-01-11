@@ -50,7 +50,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             foreach (var statisticsItem in mStatisticsList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ImplementStatistics statisticsItem = {statisticsItem}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"ImplementStatistics statisticsItem = {statisticsItem}");
 
                 switch(statisticsItem.Kind)
                 {
@@ -133,7 +133,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void GetStatistics(RuleInstance targetItem)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, mContext.DataDictionary)}`");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, mContext.DataDictionary)}`");
 
             var tmpStatistics = new InsertQueryItemStatistics();
             
@@ -161,7 +161,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             targetItem.VarsCount = tmpStatistics.VarsCount;
             targetItem.LocalRelationsIndex = tmpStatistics.LocalRelationsIndex;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
 
             mStatisticsList.Add(tmpStatistics);
         }
@@ -213,9 +213,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
 
             switch(context.IndexedPartsDict.Count)
             {
@@ -225,14 +225,14 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(context.LocalRelationsIndex.Count), context.LocalRelationsIndex.Count.ToString());
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
 
             var tmpItem = context.LocalRelationsIndex.First();
             var tmpKey = tmpItem.Key;
 
             if(tmpKey == IsKey)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact ProcessInheritese!!!!!!");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact ProcessInheritese!!!!!!");
                 if(context.IsNot)
                 {
                     context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;

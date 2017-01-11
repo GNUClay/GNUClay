@@ -40,8 +40,6 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
             foreach (var tmpParamInfo in source.Params)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"tmpParamInfo = {tmpParamInfo}");
-
                 tmpSb.Append(dataDictionary.GetValue(tmpParamInfo.ParamKey));
                 tmpSb.Append(" = ");
                 switch(tmpParamInfo.Kind)

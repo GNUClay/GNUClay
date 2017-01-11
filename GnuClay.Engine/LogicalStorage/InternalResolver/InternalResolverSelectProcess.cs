@@ -20,9 +20,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             mSelectQuery = query;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
         }
 
         private SelectQuery mSelectQuery = null;
@@ -32,10 +32,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private Dictionary<ulong, List<ExpressionNode>> mModifyEntityKeyExpressionNodeDict = new Dictionary<ulong, List<ExpressionNode>>();
         private Dictionary<ulong, ulong> mVarKeyEntityKeyDict = new Dictionary<ulong, ulong>();
-        private ulong mMaxVarCount = 0;
-
+        
         public SelectResult Run()
         {
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run pre {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
+
             ModifySelectTree();
 
             var tmpParamBinder = new ParamsBinder();
@@ -43,6 +44,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             tmpParamBinder.IsRoot = true;
 
             var tmpInternalResult = new InternalResult();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
 
             ProcessTree(mSelectQuery.SelectedTree, tmpParamBinder, ref tmpInternalResult);
 
@@ -61,6 +64,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
 
             tmpResult.HaveBeenFound = true;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateResult mVariablesKeys = {mVariablesKeys.ToJson()}");
 
             foreach (var tmpRezItem in result.Items)
             {
@@ -99,6 +104,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                             tmpParamItem.Value = targetItem.Value;
                             break;
 
+                        case ExpressionNodeKind.Entity:
+                            break;
+
                         default: throw new ArgumentOutOfRangeException(nameof(targetItem.Kind), targetItem.Kind.ToString());
                     }
                 }
@@ -111,7 +119,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             ModifySelectedTreeNode(mSelectQuery.SelectedTree);
 
-            var tmpN = mMaxVarCount;
+            ulong tmpN = 0;
 
             foreach (var tmpItem in mModifyEntityKeyExpressionNodeDict)
             {
@@ -121,14 +129,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 foreach (var tmpParam in tmpItem.Value)
                 {
                     tmpParam.Key = tmpN;
-                }
-            }
-
-            if(mMaxVarCount > 0)
-            {
-                for (ulong n = 1; n <= mMaxVarCount; n++)
-                {
-                    mVariablesKeys.Add(n);
                 }
             }
         }
@@ -178,7 +178,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             foreach(var tmpParam in node.RelationParams)
             {
-                if(tmpParam.Kind == ExpressionNodeKind.Entity || tmpParam.Kind == ExpressionNodeKind.Var)
+                if(tmpParam.Kind == ExpressionNodeKind.Entity)
                 {
                     List<ExpressionNode> tmpList = null;
 
@@ -194,6 +194,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     }
 
                     tmpList.Add(tmpParam);
+
+                    continue;
+                }
+
+                if(tmpParam.Kind == ExpressionNodeKind.Var)
+                {
+                    mVariablesKeys.Add(tmpParam.Key);
                 }
                 /*else
                 {
@@ -212,9 +219,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessNextNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, mStorageDataDictionary)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode node = {node}");
 
-            switch(node.Kind)
+            switch (node.Kind)
             {
                 case ExpressionNodeKind.And:
                     ProcessAndNode(node, paramsBinder, ref result);
@@ -273,6 +281,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessRelationNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode node = {node} (`{mStorageDataDictionary.GetValue(node.Key)}`)");
+
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
             Dictionary<ulong, ulong> KEMap = null;
@@ -280,16 +290,24 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             if(paramsBinder.IsRoot)
             {
                 KEMap = mVarKeyEntityKeyDict;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode KEMap = {KEMap.ToJson()}");
             }
 
-            foreach(var tmpPart in tmpList)
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpList.Count = {tmpList.Count}");
+
+            foreach (var tmpPart in tmpList)
             {
                 if(mExistingsRules.Contains(tmpPart.Parent))
                 {
                     continue;
                 }
 
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpPart.Parent {RuleInstanceDebugHelper.ConvertToString(tmpPart.Parent, mStorageDataDictionary)}");
+
                 var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, KEMap);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpBinder = {tmpBinder}");
 
                 if (tmpPart.Next == null)
                 {
