@@ -2,6 +2,7 @@
 using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -18,12 +19,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
             : base(engine, context)
         {
+            mInheritanceEngine = mContext.InheritanceEngine;
+
             mSelectQuery = query;
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
         }
+
+        private InheritanceEngine mInheritanceEngine = null;
 
         private SelectQuery mSelectQuery = null;
 
@@ -32,7 +37,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private Dictionary<ulong, List<ExpressionNode>> mModifyEntityKeyExpressionNodeDict = new Dictionary<ulong, List<ExpressionNode>>();
         private Dictionary<ulong, ulong> mVarKeyEntityKeyDict = new Dictionary<ulong, ulong>();
-        
+        private Dictionary<ulong, List<InheritanceItem>> mEntityKeyInheritanceDict = new Dictionary<ulong, List<InheritanceItem>>();
+
         public SelectResult Run()
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run pre {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
@@ -117,20 +123,38 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ModifySelectTree()
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mSelectQuery.SelectedTree = {mSelectQuery.SelectedTree}");
+
             ModifySelectedTreeNode(mSelectQuery.SelectedTree);
 
             ulong tmpN = 0;
 
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree pre mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
+
             foreach (var tmpItem in mModifyEntityKeyExpressionNodeDict)
             {
                 tmpN++;
-                mVarKeyEntityKeyDict[tmpN] = tmpItem.Key;
+                var tmpEntityKey = tmpItem.Key;
+                mVarKeyEntityKeyDict[tmpN] = tmpEntityKey;
 
                 foreach (var tmpParam in tmpItem.Value)
                 {
                     tmpParam.Key = tmpN;
                 }
+
+                if(mEntityKeyInheritanceDict.ContainsKey(tmpEntityKey))
+                {
+                    continue;
+                }
+
+                var tmpInheritenceList = mInheritanceEngine.LoadListOfInheritance(tmpEntityKey);
+
+                mEntityKeyInheritanceDict[tmpEntityKey] = tmpInheritenceList;
             }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree post mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mVarKeyEntityKeyDict = {mVarKeyEntityKeyDict.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mEntityKeyInheritanceDict = {mEntityKeyInheritanceDict.ToJson()}");
         }
 
         private void ModifySelectedTreeNode(ExpressionNode node)
@@ -375,19 +399,91 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             mExistingsRules.Add(part.Parent);
 
-            if(!_ListHelper.IsEmpty(paramsBinder.IndexesParamsWithEntities))
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact part.Tree.RelationParams.Count = {part.Tree.RelationParams.Count}");
+
+            var countRelationParamsOfFact = part.Tree.RelationParams.Count;
+
+            switch (countRelationParamsOfFact)
             {
-                foreach(var tmpEntityIndex in paramsBinder.IndexesParamsWithEntities)
+                case 2:
+                    ProcessTwoParamsFact(part, paramsBinder, ref result);
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(countRelationParamsOfFact), countRelationParamsOfFact.ToString());
+            }
+        }
+
+        private void ProcessTwoParamsFact(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact {ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary)}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact part.Tree = {part.Tree}");
+
+            var tmpRelationKey = part.Tree.Key;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact tmpRelationKey = {tmpRelationKey}");
+
+            if(tmpRelationKey == IsKey)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessTwoParamsFact tmpRelationKey == IsKey");
+                throw new NotImplementedException();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessTwoParamsFact NEXT");
+
+            var tmpFirstParam = paramsBinder.ParamsList.First();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact tmpFirstParam = {tmpFirstParam}");
+
+            if (tmpFirstParam.IsEntity)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessTwoParamsFact tmpFirstParam.IsEntity");
+
+                var tmpOriginalEntityKey = tmpFirstParam.EntityKey;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact tmpOriginalEntityKey = {tmpOriginalEntityKey} ({mStorageDataDictionary.GetValue(tmpOriginalEntityKey)})");
+
+                NProcessTwoParamsFact(part, paramsBinder, ref result, tmpOriginalEntityKey, tmpOriginalEntityKey);
+
+                var tmpInheritaceList = mEntityKeyInheritanceDict[tmpOriginalEntityKey];
+
+                foreach(var inheritanceItem in tmpInheritaceList)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact inheritanceItem = {inheritanceItem.ToJson()}");
+
+                    tmpFirstParam.EntityKey = inheritanceItem.Key;
+
+                    NProcessTwoParamsFact(part, paramsBinder, ref result, tmpOriginalEntityKey, inheritanceItem.Key);
+                }
+            }
+            else
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessTwoParamsFact NOT tmpFirstParam.IsEntity");
+                throw new NotImplementedException();
+            }
+        }
+
+        private void NProcessTwoParamsFact(RulePart part, ParamsBinder paramsBinder, ref InternalResult result, ulong originalKey, ulong superKey)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact `{ExpressionNodeDebugHelper.ConvertToString(part.Tree, mStorageDataDictionary)}` originalKey = {originalKey} superKey = {superKey}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact paramsBinder = {paramsBinder.ToJson()}");
+
+            if (!_ListHelper.IsEmpty(paramsBinder.IndexesParamsWithEntities))
+            {
+                foreach (var tmpEntityIndex in paramsBinder.IndexesParamsWithEntities)
                 {
                     var tmpTargetParam = part.Tree.RelationParams[tmpEntityIndex];
                     var tmpBindedParam = paramsBinder.ParamsList[tmpEntityIndex];
 
-                    if(tmpTargetParam.Key != tmpBindedParam.EntityKey)
+                    if (tmpTargetParam.Key != tmpBindedParam.EntityKey)
                     {
                         return;
                     }
-                }           
+                }
             }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("NProcessTwoParamsFact NEXT");
 
             var tmpResultItem = new InternalResultItem();
             result.Items.Add(tmpResultItem);
@@ -395,8 +491,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             var tmpBindedParamsIterator = paramsBinder.ParamsList.GetEnumerator();
             var tmpParamsOfFactsIterator = part.Tree.RelationParams.GetEnumerator();
 
-            while(tmpBindedParamsIterator.MoveNext())
+            var n = 0;
+
+            while (tmpBindedParamsIterator.MoveNext())
             {
+                n++;
+
                 tmpParamsOfFactsIterator.MoveNext();
 
                 var tmpParamResult = new InternalResultParamItem();
@@ -405,13 +505,22 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 var currentParamOfFacts = tmpParamsOfFactsIterator.Current;
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact tmpBindedParamsIterator.Current.Key_Up = {tmpBindedParamsIterator.Current.Key_Up} currentParamOfFacts = {currentParamOfFacts}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact n = {n}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact tmpBindedParamsIterator.Current.Key_Up = {tmpBindedParamsIterator.Current.Key_Up} currentParamOfFacts = {currentParamOfFacts}");
+
+                if(n == 1 && currentParamOfFacts.Kind == ExpressionNodeKind.Entity)
+                {
+                    tmpParamResult.EntityKey = originalKey;
+                }
+                else
+                {
+                    tmpParamResult.EntityKey = currentParamOfFacts.Key;
+                }
                 
-                tmpParamResult.EntityKey = currentParamOfFacts.Key;
                 tmpParamResult.ParamKey = tmpBindedParamsIterator.Current.Key_Up;
                 tmpParamResult.Kind = currentParamOfFacts.Kind;
 
-                switch(tmpParamResult.Kind)
+                switch (tmpParamResult.Kind)
                 {
                     case ExpressionNodeKind.Entity:
                         break;
@@ -423,7 +532,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     default: throw new ArgumentOutOfRangeException(nameof(tmpParamResult.Kind), tmpParamResult.Kind.ToString());
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessFact tmpParamResult = {tmpParamResult}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact tmpParamResult = {tmpParamResult}");
             }
 
             tmpResultItem.End();
