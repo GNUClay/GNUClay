@@ -134,7 +134,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpLeftKeys = leftResult.Items.First().ParamsValues.Select(p => p.ParamKey).ToList();
 
+            NLog.LogManager.GetCurrentClassLogger().Info($"MergeAsAnd tmpLeftKeys = {tmpLeftKeys.ToJson()}");
+
             var tmpRightKeys = rightResult.Items.First().ParamsValues.Select(p => p.ParamKey).ToList();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"MergeAsAnd tmpRightKeys = {tmpRightKeys.ToJson()}");
 
             var tmpCommonKeys = _ListHelper.Comparare(tmpLeftKeys, tmpRightKeys).MustIgnoredItems;
 

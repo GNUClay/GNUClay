@@ -24,6 +24,11 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");
 
+                queryString = "INSERT {>: {biped(Robot)}}";
+                var qr_1_1 = tmpEngine.Query(queryString);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"qr_1_1 = {SelectResultDebugHelper.ConvertToString(qr_1_1, tmpEngine.DataDictionary)}");
+
                 queryString = "INSERT {>: {is(human, biped)}}";
                 var qr_2 = tmpEngine.Query(queryString);
 

@@ -57,7 +57,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
     public class ParamsBinder : IToStringData
     {
-        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<ulong, ulong> EKMap)
+        public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<ulong, ulong> KEMap)
         {
             var tmpItem = new ParamsBinder();
 
@@ -79,7 +79,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 {
                     case ExpressionNodeKind.Entity:
                         tmpBindedParam.IsEntity = true;
-                        tmpBindedParam.EntityKey = EKMap[tmpBindedParam.Key_Up];
+                        tmpBindedParam.EntityKey = KEMap[tmpBindedParam.Key_Up];
                         tmpItem.IndexesParamsWithEntities.Add(tmpI);
                         break;
 

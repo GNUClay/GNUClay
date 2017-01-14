@@ -105,8 +105,29 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence expression = {expression}");
 
-            var subKey = expression.RelationParams[0].Key;
-            var superKey = expression.RelationParams[1].Key;
+            var tmpRelationParams = expression.RelationParams;
+
+            var paramsCount = tmpRelationParams.Count;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence paramsCount = {paramsCount}");
+
+            ulong subKey = 0;
+            ulong superKey = 0;
+
+            switch (paramsCount)
+            {
+                case 1:
+                    subKey = tmpRelationParams[0].Key;
+                    superKey = expression.Key;
+                    break;
+
+                case 2:
+                    subKey = tmpRelationParams[0].Key;
+                    superKey = tmpRelationParams[1].Key;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
+            }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
 
@@ -123,8 +144,29 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence expression = {expression}");
 
-            var subKey = expression.RelationParams[0].Key;
-            var superKey = expression.RelationParams[1].Key;
+            var tmpRelationParams = expression.RelationParams;
+
+            var paramsCount = tmpRelationParams.Count;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence paramsCount = {paramsCount}");
+
+            ulong subKey = 0;
+            ulong superKey = 0;
+
+            switch (paramsCount)
+            {
+                case 1:
+                    subKey = tmpRelationParams[0].Key;
+                    superKey = expression.Key;
+                    break;
+
+                case 2:
+                    subKey = tmpRelationParams[0].Key;
+                    superKey = tmpRelationParams[1].Key;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
+            }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
 
@@ -213,9 +255,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
 
             switch(context.IndexedPartsDict.Count)
             {
@@ -225,28 +267,49 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(context.LocalRelationsIndex.Count), context.LocalRelationsIndex.Count.ToString());
             }
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
 
             var tmpItem = context.LocalRelationsIndex.First();
             var tmpKey = tmpItem.Key;
+            var paramsCount = tmpItem.Value.RelationParams.Count;
 
-            if(tmpKey == IsKey)
+            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact tmpParamsCount = {paramsCount}");
+
+            switch(paramsCount)
             {
-                //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact ProcessInheritese!!!!!!");
-                if(context.IsNot)
-                {
-                    context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;
-                }
-                else
-                {
+                case 1:
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact case 1 ProcessInheritese!!!!!!");
+                    if (context.IsNot)
+                    {
+                        context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;
+                        return;
+                    }
+
                     context.Kind = InsertQueryItemStatisticsKind.SetInheritence;
-                }            
-                return;
-            }
+                    return;
 
-            if(context.IsNot)
-            {
-                context.Kind = InsertQueryItemStatisticsKind.RemoveFact;
+                case 2:
+                    if (tmpKey == IsKey)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact case 2 ProcessInheritese!!!!!!");
+                        if (context.IsNot)
+                        {
+                            context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;
+                        }
+                        else
+                        {
+                            context.Kind = InsertQueryItemStatisticsKind.SetInheritence;
+                        }
+                        return;
+                    }
+
+                    if (context.IsNot)
+                    {
+                        context.Kind = InsertQueryItemStatisticsKind.RemoveFact;
+                    }
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
             }
         }
 
