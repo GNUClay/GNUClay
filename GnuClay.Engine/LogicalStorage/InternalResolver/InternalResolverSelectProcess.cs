@@ -334,14 +334,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             var tmpList = mInternalStorageEngine.GetIndex(node.Key);
 
-            Dictionary<ulong, ulong> KEMap = null;
-
-            if(paramsBinder.IsRoot)
-            {
-                KEMap = mVarKeyEntityKeyDict;         
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode KEMap = {KEMap.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode mVarKeyEntityKeyDict = {mVarKeyEntityKeyDict.ToJson()}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpList.Count = {tmpList.Count}");
 
             foreach (var tmpPart in tmpList)
@@ -353,7 +346,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpPart.Parent {RuleInstanceDebugHelper.ConvertToString(tmpPart.Parent, mStorageDataDictionary)}");
 
-                var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, KEMap);
+                var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, mVarKeyEntityKeyDict);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode tmpBinder = {tmpBinder}");
 
@@ -372,7 +365,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessUnaryInheritanceRelationNode node = {node} (`{mStorageDataDictionary.GetValue(node.Key)}`)");
 
-            var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, null);
+            var tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, mVarKeyEntityKeyDict);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessUnaryInheritanceRelationNode tmpBinder = {tmpBinder}");
 
@@ -437,72 +430,91 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessUnaryInheritanceRelationNode_IsSubClass tmpParamResult = {tmpParamResult}");
 
             tmpResultItem.End();
-
-            mContext.DataDictionary.TSTDump();
-            /*
-            
-
-            var tmpBindedParamsIterator = paramsBinder.ParamsList.GetEnumerator();
-            var tmpParamsOfFactsIterator = part.Tree.RelationParams.GetEnumerator();
-
-            var n = 0;
-
-            while (tmpBindedParamsIterator.MoveNext())
-            {
-                n++;
-
-                tmpParamsOfFactsIterator.MoveNext();
-
-                var tmpParamResult = new InternalResultParamItem();
-
-                tmpResultItem.ParamsValues.Add(tmpParamResult);
-
-                var currentParamOfFacts = tmpParamsOfFactsIterator.Current;
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact n = {n}");
-                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact tmpBindedParamsIterator.Current.Key_Up = {tmpBindedParamsIterator.Current.Key_Up} currentParamOfFacts = {currentParamOfFacts}");
-
-                if(n == 1 && currentParamOfFacts.Kind == ExpressionNodeKind.Entity)
-                {
-                    tmpParamResult.EntityKey = originalKey;
-                }
-                else
-                {
-                    tmpParamResult.EntityKey = currentParamOfFacts.Key;
-                }
-                
-                tmpParamResult.ParamKey = tmpBindedParamsIterator.Current.Key_Up;
-                tmpParamResult.Kind = currentParamOfFacts.Kind;
-
-                switch (tmpParamResult.Kind)
-                {
-                    case ExpressionNodeKind.Entity:
-                        break;
-
-                    case ExpressionNodeKind.Value:
-                        tmpParamResult.Value = currentParamOfFacts.Value;
-                        break;
-
-                    default: throw new ArgumentOutOfRangeException(nameof(tmpParamResult.Kind), tmpParamResult.Kind.ToString());
-                }
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"NProcessTwoParamsFact tmpParamResult = {tmpParamResult}");
-            }
-
-            tmpResultItem.End();
-            */
-
-            //throw new NotImplementedException();
         }
 
         private void ProcessBinaryInheritanceRelationNode(ExpressionNode node, ParamsBinder paramsBinder, ref InternalResult result)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode node = {node} (`{mStorageDataDictionary.GetValue(node.Key)}`)");
 
+            var tmpRelationParams = node.RelationParams;
+
+            var firstParam = tmpRelationParams[0];
+            var secondParam = tmpRelationParams[1];
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode firstParam = {firstParam}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode secondParam = {secondParam}");
+
+            ParamsBinder tmpBinder = null;
+
+            switch (firstParam.Kind)
+            {
+                case ExpressionNodeKind.Entity:
+                    switch(secondParam.Kind)
+                    {
+                        case ExpressionNodeKind.Entity:
+                            tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, mVarKeyEntityKeyDict);
+
+                            ProcessBinaryInheritanceRelationNode_IsSubClass(tmpBinder, ref result);
+                            return;
+
+                        default: throw new ArgumentOutOfRangeException(nameof(secondParam.Kind), secondParam.Kind.ToString());
+                    }
+
+                default: throw new ArgumentOutOfRangeException(nameof(firstParam.Kind), firstParam.Kind.ToString());
+            }
+
             throw new NotImplementedException();
         }
 
+        private void ProcessBinaryInheritanceRelationNode_IsSubClass(ParamsBinder paramsBinder, ref InternalResult result)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass paramsBinder = {paramsBinder}");
 
+            var paramsList = paramsBinder.ParamsList;
+
+            var firstParam = paramsList[0];
+            var secondParam = paramsList[1];
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass firstParam = {firstParam}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass secondParam = {secondParam}");
+
+            var subKey = firstParam.EntityKey;
+            var superKey = secondParam.EntityKey;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass subKey = {subKey} (`{mStorageDataDictionary.GetValue(subKey)}`) superKey = {superKey} (`{mStorageDataDictionary.GetValue(superKey)}`)");
+            
+            var rank = mInheritanceEngine.GetRank(subKey, superKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass rank = {rank}");
+
+            if (rank == 0)
+            {
+                return;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessBinaryInheritanceRelationNode_IsSubClass NEXT");
+
+            var tmpResultItem = new InternalResultItem();
+            result.Items.Add(tmpResultItem);
+
+            var tmpParamResult = new InternalResultParamItem();
+            tmpResultItem.ParamsValues.Add(tmpParamResult);
+
+            tmpParamResult.EntityKey = subKey;
+            tmpParamResult.Kind = ExpressionNodeKind.Entity;
+            tmpParamResult.ParamKey = firstParam.Key_Up;
+
+            tmpParamResult = new InternalResultParamItem();
+            tmpResultItem.ParamsValues.Add(tmpParamResult);
+
+            tmpParamResult.EntityKey = superKey;
+            tmpParamResult.Kind = ExpressionNodeKind.Entity;
+            tmpParamResult.ParamKey = secondParam.Key_Up;
+
+            tmpResultItem.End();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass tmpResultItem = {tmpResultItem}");
+        }
 
         private void ProcessRule(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
         {
