@@ -55,6 +55,14 @@ namespace TSTConsoleWorkBench.CommonTST
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpGnuClayEngine.DataDictionary)}");
 
+                queryString = "SELECT{son($X, $Y)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpGnuClayEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpGnuClayEngine.DataDictionary)}");
+
                 /*tmpGnuClayEngine.Clear();
 
                 queryString = "SELECT{son(Piter,$X1)}";

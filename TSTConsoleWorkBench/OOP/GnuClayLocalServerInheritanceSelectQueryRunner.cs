@@ -46,6 +46,46 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_4 = {SelectResultDebugHelper.ConvertToString(qr_4, tmpEngine.DataDictionary)}");
 
+                queryString = "SELECT {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                var tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
+                queryString = "SELECT {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
+                queryString = "SELECT {is($X ,biped)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
+                queryString = "SELECT {biped($X)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
+                queryString = "SELECT {is($X ,$X)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Finish");
             }
             catch (Exception e)
