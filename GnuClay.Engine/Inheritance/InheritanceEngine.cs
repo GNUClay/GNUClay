@@ -22,6 +22,9 @@ namespace GnuClay.Engine.Inheritance
         private Dictionary<ulong, List<InheritanceItem>> mInheritanceCash;
         private Dictionary<ulong, Dictionary<ulong, double>> mInheritanceCashDict;
 
+        private Dictionary<ulong, List<InheritanceItem>> mSubClasesCash;
+        private Dictionary<ulong, Dictionary<ulong, double>> mSubClassesCachDict;
+
         [Serializable]
         private class Data
         {
@@ -29,6 +32,9 @@ namespace GnuClay.Engine.Inheritance
 
             public Dictionary<ulong, List<InheritanceItem>> mInheritanceCash;
             public Dictionary<ulong, Dictionary<ulong, double>> mInheritanceCashDict;
+
+            public Dictionary<ulong, List<InheritanceItem>> mSubClasesCash;
+            public Dictionary<ulong, Dictionary<ulong, double>> mSubClassesCachDict;
         }
 
         private object mLockObj = new object();
@@ -186,32 +192,35 @@ namespace GnuClay.Engine.Inheritance
 
             mInheritanceCash = new Dictionary<ulong, List<InheritanceItem>>();
             mInheritanceCashDict = new Dictionary<ulong, Dictionary<ulong, double>>();
+
+            mSubClasesCash = new Dictionary<ulong, List<InheritanceItem>>();
+            mSubClassesCachDict = new Dictionary<ulong, Dictionary<ulong, double>>();
         }
 
-        public List<InheritanceItem> LoadListOfInheritance(ulong targetKey)
+        public List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfInheritance targetKey = {targetKey}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
 
                 if(mInheritanceCash.ContainsKey(targetKey))
                 {
                     return mInheritanceCash[targetKey];
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfInheritance NEXT targetKey = {targetKey}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses NEXT targetKey = {targetKey}");
 
-                return CalculateCashItem(targetKey);
+                return CalculateListOfSuperClassesCashItems(targetKey);
             }
         }
 
-        private List<InheritanceItem> CalculateCashItem(ulong targetKey)
+        private List<InheritanceItem> CalculateListOfSuperClassesCashItems(ulong targetKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateCashItem targetKey = {targetKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems targetKey = {targetKey}");
 
             var resultList = new List<InheritanceItem>();
 
-            NLoadListOfInheritance(targetKey, resultList, 0, -1);
+            NLoadListOfSuperClasses(targetKey, resultList, 0, -1);
 
             if (_ListHelper.IsEmpty(resultList))
             {
@@ -220,7 +229,7 @@ namespace GnuClay.Engine.Inheritance
                 return resultList;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfInheritance NEXT NEXT targetKey = {targetKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems NEXT NEXT targetKey = {targetKey}");
 
             resultList = resultList.OrderByDescending(p => p.Rank).ThenBy(p => p.Distance).ToList();
 
@@ -251,7 +260,7 @@ namespace GnuClay.Engine.Inheritance
             return filteredResultList;
         }
 
-        private void NLoadListOfInheritance(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
+        private void NLoadListOfSuperClasses(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
             if(currentRank > -1)
             {
@@ -288,7 +297,7 @@ namespace GnuClay.Engine.Inheritance
                         targetRank *= currentRank;
                     }
 
-                    NLoadListOfInheritance(tmpKey, resultList, currentDistance, targetRank);
+                    NLoadListOfSuperClasses(tmpKey, resultList, currentDistance, targetRank);
                 }            
             }      
         }
@@ -306,7 +315,7 @@ namespace GnuClay.Engine.Inheritance
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT subKey = {subKey} superKey = {superKey}");
 
-                CalculateCashItem(subKey);
+                CalculateListOfSuperClassesCashItems(subKey);
 
                 return GetRankFromCash(subKey, superKey);
             }               
@@ -326,6 +335,28 @@ namespace GnuClay.Engine.Inheritance
             return 0;
         }
 
+        public List<InheritanceItem> LoadListOfSubClasses(ulong targetKey)
+        {
+            lock(mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
+
+                if(mSubClasesCash.ContainsKey(targetKey))
+                {
+                    return mSubClasesCash[targetKey];
+                }
+
+                return CalculateListSubClasses(targetKey);
+            }
+        }
+
+        private List<InheritanceItem> CalculateListSubClasses(ulong targetKey)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($" CalculateListSubClasses targetKey = {targetKey}");
+
+            throw new NotImplementedException();
+        }
+
         public object Save()
         {
             lock (mLockObj)
@@ -338,6 +369,9 @@ namespace GnuClay.Engine.Inheritance
 
                 tmpData.mInheritanceCash = mInheritanceCash;
                 tmpData.mInheritanceCashDict = mInheritanceCashDict;
+
+                tmpData.mSubClasesCash = mSubClasesCash;
+                tmpData.mSubClassesCachDict = mSubClassesCachDict;
 
                 return tmpData;
             }
@@ -355,6 +389,9 @@ namespace GnuClay.Engine.Inheritance
 
                 mInheritanceCash = tmpData.mInheritanceCash;
                 mInheritanceCashDict = tmpData.mInheritanceCashDict;
+
+                mSubClasesCash = tmpData.mSubClasesCash;
+                mSubClassesCachDict = tmpData.mSubClassesCachDict;
             }
         }
 
@@ -368,6 +405,9 @@ namespace GnuClay.Engine.Inheritance
 
                 mInheritanceCash = new Dictionary<ulong, List<InheritanceItem>>();
                 mInheritanceCashDict = new Dictionary<ulong, Dictionary<ulong, double>>();
+
+                mSubClasesCash = new Dictionary<ulong, List<InheritanceItem>>();
+                mSubClassesCachDict = new Dictionary<ulong, Dictionary<ulong, double>>();
             }
         }
     }

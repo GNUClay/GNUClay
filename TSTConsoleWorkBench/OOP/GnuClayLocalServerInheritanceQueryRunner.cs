@@ -80,16 +80,23 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");*/
 
-                var tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpDogKey);
+                var tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfSuperClasses(tmpDogKey);
 
                 foreach (var tmpInheritanceItem in tmpListOfInheritance)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem = {tmpInheritanceItem}");
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem (1) = {tmpInheritanceItem}");
                 }
 
                 var tmpRank = tmpEngine.Context.InheritanceEngine.GetRank(tmpDogKey, tmpAnimalKey);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpRank = {tmpRank}");
+
+                var tmpListOfSubClasses = tmpEngine.Context.InheritanceEngine.LoadListOfSubClasses(tmpAnimalKey);
+
+                foreach (var tmpInheritanceItem in tmpListOfSubClasses)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"tmpInheritanceItem (2) = {tmpInheritanceItem}");
+                }
 
                 queryString = "INSERT {>: {!is(Dog, Animal)}}";
 
@@ -97,7 +104,7 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
 
-                tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfInheritance(tmpDogKey);
+                tmpListOfInheritance = tmpEngine.Context.InheritanceEngine.LoadListOfSuperClasses(tmpDogKey);
 
                 foreach (var tmpInheritanceItem in tmpListOfInheritance)
                 {

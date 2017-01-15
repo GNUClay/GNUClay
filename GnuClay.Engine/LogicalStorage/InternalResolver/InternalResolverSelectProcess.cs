@@ -147,7 +147,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     continue;
                 }
 
-                var tmpInheritenceList = mInheritanceEngine.LoadListOfInheritance(tmpEntityKey);
+                var tmpInheritenceList = mInheritanceEngine.LoadListOfSuperClasses(tmpEntityKey);
 
                 mEntityKeyInheritanceDict[tmpEntityKey] = tmpInheritenceList;
             }
@@ -538,7 +538,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSuperClasses subKey = {subKey} ({mStorageDataDictionary.GetValue(subKey)})");
 
-            var tmpInheritanceList = mInheritanceEngine.LoadListOfInheritance(subKey);
+            var tmpInheritanceList = mInheritanceEngine.LoadListOfSuperClasses(subKey);
 
             foreach(var item in tmpInheritanceList)
             {
