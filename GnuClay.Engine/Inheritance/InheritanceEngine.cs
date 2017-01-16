@@ -18,6 +18,7 @@ namespace GnuClay.Engine.Inheritance
         }
 
         private Dictionary<ulong, Dictionary<ulong, InheritanceInfo>> mInheritanceRegistry;
+        private Dictionary<ulong, Dictionary<ulong, InheritanceInfo>> mSubClassesRegistry;
 
         private Dictionary<ulong, List<InheritanceItem>> mInheritanceCash;
         private Dictionary<ulong, Dictionary<ulong, double>> mInheritanceCashDict;
@@ -29,6 +30,7 @@ namespace GnuClay.Engine.Inheritance
         private class Data
         {
             public Dictionary<ulong, Dictionary<ulong, InheritanceInfo>> mInheritanceRegistry;
+            public Dictionary<ulong, Dictionary<ulong, InheritanceInfo>> mSubClassesRegistry;
 
             public Dictionary<ulong, List<InheritanceItem>> mInheritanceCash;
             public Dictionary<ulong, Dictionary<ulong, double>> mInheritanceCashDict;
@@ -118,12 +120,27 @@ namespace GnuClay.Engine.Inheritance
 
                     ClearCash();
                 }
+
+                if(mSubClassesRegistry.ContainsKey(superKey))
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
+
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT mSubClassesRegistry.ContainsKey(superKey)");
+
+                    throw new NotImplementedException();
+                }
             }  
         }
 
         private void RemoveInheritance(ulong subKey, ulong superKey)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance subKey = {subKey} superKey = {superKey}");
+
+            var mustClearCash = false;
 
             if (mInheritanceRegistry.ContainsKey(subKey))
             {
@@ -137,9 +154,30 @@ namespace GnuClay.Engine.Inheritance
 
                     tmpDict.Remove(superKey);
 
-                    ClearCash();
+                    mustClearCash = true;
                 }            
-            }                
+            }
+
+            if(mSubClassesRegistry.ContainsKey(superKey))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance mSubClassesRegistry.ContainsKey(superKey)");
+
+                var tmpDict = mSubClassesRegistry[superKey];
+
+                if(tmpDict.ContainsKey(subKey))
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance tmpDict.ContainsKey(subKey)");
+
+                    tmpDict.Remove(subKey);
+
+                    mustClearCash = true;
+                }
+            }  
+            
+            if(mustClearCash)
+            {
+                ClearCash();
+            }      
         }
 
         private bool IsOwnSuperClass(ulong subKey, ulong superKey)
@@ -354,8 +392,16 @@ namespace GnuClay.Engine.Inheritance
         {
             NLog.LogManager.GetCurrentClassLogger().Info($" CalculateListSubClasses targetKey = {targetKey}");
 
+            var resultList = new List<InheritanceItem>();
+
+
+
             throw new NotImplementedException();
         }
+
+        /*
+        
+        */
 
         public object Save()
         {
@@ -366,6 +412,7 @@ namespace GnuClay.Engine.Inheritance
                 var tmpData = new Data();
 
                 tmpData.mInheritanceRegistry = mInheritanceRegistry;
+                tmpData.mSubClassesRegistry = mSubClassesRegistry;
 
                 tmpData.mInheritanceCash = mInheritanceCash;
                 tmpData.mInheritanceCashDict = mInheritanceCashDict;
@@ -386,6 +433,7 @@ namespace GnuClay.Engine.Inheritance
                 var tmpData = (Data)value;
 
                 mInheritanceRegistry = tmpData.mInheritanceRegistry;
+                mSubClassesRegistry = tmpData.mSubClassesRegistry;
 
                 mInheritanceCash = tmpData.mInheritanceCash;
                 mInheritanceCashDict = tmpData.mInheritanceCashDict;
@@ -402,6 +450,7 @@ namespace GnuClay.Engine.Inheritance
                 NLog.LogManager.GetCurrentClassLogger().Info("Clear");
 
                 mInheritanceRegistry = new Dictionary<ulong, Dictionary<ulong, InheritanceInfo>>();
+                mSubClassesRegistry = new Dictionary<ulong, Dictionary<ulong, InheritanceInfo>>();
 
                 mInheritanceCash = new Dictionary<ulong, List<InheritanceItem>>();
                 mInheritanceCashDict = new Dictionary<ulong, Dictionary<ulong, double>>();
