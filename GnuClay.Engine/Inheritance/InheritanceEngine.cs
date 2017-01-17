@@ -66,6 +66,8 @@ namespace GnuClay.Engine.Inheritance
                     throw new CyclicInheritanceException(Context.DataDictionary.GetValue(subKey), Context.DataDictionary.GetValue(superKey));
                 }
 
+                var mustAddSubClass = false;
+
                 if (mInheritanceRegistry.ContainsKey(subKey))
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mInheritanceRegistry.ContainsKey(subKey)");
@@ -90,7 +92,7 @@ namespace GnuClay.Engine.Inheritance
                         targetItem.Rank = rank;
                         targetItem.Aspect = aspect;
 
-                        ClearCash();
+                        mustAddSubClass = true;
                     }
                     else
                     {
@@ -102,7 +104,7 @@ namespace GnuClay.Engine.Inheritance
                             Aspect = aspect
                         });
 
-                        ClearCash();
+                        mustAddSubClass = true;
                     }
                 }
                 else
@@ -118,20 +120,55 @@ namespace GnuClay.Engine.Inheritance
 
                     mInheritanceRegistry.Add(subKey, tmpDict);
 
+                    mustAddSubClass = true;
+                }
+
+                if(mustAddSubClass)
+                {
+                    if (mSubClassesRegistry.ContainsKey(superKey))
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
+
+                        var tmpDict = mSubClassesRegistry[superKey];
+
+                        NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance tmpDict (2) = {tmpDict.ToJson()}");
+
+                        if(tmpDict.ContainsKey(subKey))
+                        {
+                            NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
+
+                            var targetItem = tmpDict[subKey];
+
+                            targetItem.Rank = rank;
+                            targetItem.Aspect = aspect;
+                        }
+                        else
+                        {
+                            NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
+
+                            tmpDict.Add(subKey, new InheritanceInfo()
+                            {
+                                Rank = rank,
+                                Aspect = aspect
+                            });
+                        }                       
+                    }
+                    else
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT mSubClassesRegistry.ContainsKey(superKey)");
+
+                        var tmpDict = new Dictionary<ulong, InheritanceInfo>();
+
+                        tmpDict.Add(subKey, new InheritanceInfo()
+                        {
+                            Rank = rank,
+                            Aspect = aspect
+                        });
+
+                        mSubClassesRegistry.Add(superKey, tmpDict);
+                    }
+
                     ClearCash();
-                }
-
-                if(mSubClassesRegistry.ContainsKey(superKey))
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
-
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT mSubClassesRegistry.ContainsKey(superKey)");
-
-                    throw new NotImplementedException();
                 }
             }  
         }
