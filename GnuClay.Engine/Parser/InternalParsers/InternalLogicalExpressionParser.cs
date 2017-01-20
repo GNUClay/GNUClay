@@ -73,7 +73,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             }
                             else
                             {
-                                mRootNode.Right = tmpNode;
+                                //NLog.LogManager.GetCurrentClassLogger().Info("OnRun NOT mRootNode == null");
+
+                                if(mRootNode.Kind == ExpressionNodeKind.Not)
+                                {
+                                    mRootNode.Left = tmpNode;
+                                }
+                                else
+                                {
+                                    mRootNode.Right = tmpNode;
+                                }            
                             }
 
                             mCurrentNode = tmpNode;
@@ -127,7 +136,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode.Kind = ExpressionNodeKind.Var;
                             tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
 
-                            NLog.LogManager.GetCurrentClassLogger().Info($"TokenKind.Var tmpNode.Key = {tmpNode.Key}");
+                            //NLog.LogManager.GetCurrentClassLogger().Info($"TokenKind.Var tmpNode.Key = {tmpNode.Key}");
 
                             mCurrentNode.RelationParams.Add(tmpNode);
                             mState = State.ParamWasEntered;

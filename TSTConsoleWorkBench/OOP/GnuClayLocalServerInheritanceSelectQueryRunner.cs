@@ -78,6 +78,14 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
+                queryString = "SELECT {is($X ,$Y)}";
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
+
+                tmpSelectResult = tmpEngine.Query(queryString);
+                NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+
                 queryString = "SELECT {is($X ,$X)}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 

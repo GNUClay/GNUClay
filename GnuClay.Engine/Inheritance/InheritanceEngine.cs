@@ -427,18 +427,97 @@ namespace GnuClay.Engine.Inheritance
 
         private List<InheritanceItem> CalculateListSubClasses(ulong targetKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($" CalculateListSubClasses targetKey = {targetKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListSubClasses targetKey = {targetKey}");
 
             var resultList = new List<InheritanceItem>();
 
+            NLoadListOfSubClasses(targetKey, resultList, 0, -1);
 
+            if (_ListHelper.IsEmpty(resultList))
+            {
+                mSubClasesCash.Add(targetKey, new List<InheritanceItem>());
+                mSubClassesCachDict.Add(targetKey, new Dictionary<ulong, double>());
+                return resultList;
+            }
 
-            throw new NotImplementedException();
+            NLog.LogManager.GetCurrentClassLogger().Info("CalculateListSubClasses NEXT");
+
+            resultList = resultList.OrderByDescending(p => p.Rank).ThenBy(p => p.Distance).ToList();
+
+            var filteredResultList = new List<InheritanceItem>();
+
+            var tmpDict = new Dictionary<ulong, double>();
+
+            var tmpExistsKeys = new List<ulong>();
+
+            foreach (var item in resultList)
+            {
+                var tmpKey = item.Key;
+
+                if (tmpExistsKeys.Contains(tmpKey))
+                {
+                    continue;
+                }
+
+                tmpExistsKeys.Add(tmpKey);
+
+                filteredResultList.Add(item);
+                tmpDict.Add(tmpKey, item.Rank);
+            }
+
+            mSubClasesCash.Add(targetKey, filteredResultList);
+            mSubClassesCachDict.Add(targetKey, tmpDict);
+
+            return filteredResultList;
         }
 
-        /*
-        
-        */
+        private void NLoadListOfSubClasses(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
+
+            if (currentRank > -1)
+            {
+                var tmpItem = new InheritanceItem();
+                tmpItem.Key = targetKey;
+                tmpItem.Rank = currentRank;
+                tmpItem.Distance = currentDistance;
+                resultList.Add(tmpItem);
+            }
+
+            if(mSubClassesRegistry.ContainsKey(targetKey))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("NLoadListOfSubClasses NEXT");
+
+                currentDistance++;
+
+                var tmpDict = mSubClassesRegistry[targetKey];
+
+                foreach(var item in tmpDict)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses item = {item.ToJson()}");
+
+                    var tmpKey = item.Key;
+                    var info = item.Value;
+
+                    switch (info.Aspect)
+                    {
+                        case InheritanceAspect.WithOutClause:
+                            break;
+
+                        default: throw new NotSupportedException($"The value `{info.Aspect}` of variable `info.Aspect` is not supported.");
+                    }
+
+                    var targetRank = info.Rank;
+
+                    if (currentRank > -1)
+                    {
+                        targetRank *= currentRank;
+                    }
+
+                    NLoadListOfSubClasses(tmpKey, resultList, currentDistance, targetRank);
+                }
+            }          
+        }
 
         public object Save()
         {
