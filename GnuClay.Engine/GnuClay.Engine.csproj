@@ -54,6 +54,7 @@
     <Compile Include="Inheritance\InheritanceEngine.cs" />
     <Compile Include="Inheritance\InheritanceInfo.cs" />
     <Compile Include="Inheritance\InheritanceItem.cs" />
+    <Compile Include="Inheritance\TwoKeysInheritanceItem.cs" />
     <Compile Include="LogicalStorage\InternalResolver\BaseInternalResolver.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatisticsKind.cs" />
     <Compile Include="LogicalStorage\SystemRelationsNamesConstants.cs" />

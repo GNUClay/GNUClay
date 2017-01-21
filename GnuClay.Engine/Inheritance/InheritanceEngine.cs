@@ -519,6 +519,16 @@ namespace GnuClay.Engine.Inheritance
             }          
         }
 
+        public List<TwoKeysInheritanceItem> LoadAllItems()
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("LoadAllItems");
+
+                throw new NotImplementedException();
+            }
+        }
+
         public object Save()
         {
             lock (mLockObj)

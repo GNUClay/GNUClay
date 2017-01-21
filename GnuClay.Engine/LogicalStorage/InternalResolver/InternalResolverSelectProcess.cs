@@ -493,6 +493,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                             ProcessBinaryInheritanceRelationNode_LoadSubClasses(tmpBinder, ref result);
                             return;
 
+                        case ExpressionNodeKind.Var:
+                            tmpBinder = ParamsBinder.FromRelationNode(node, paramsBinder, mVarKeyEntityKeyDict);
+
+                            ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo(tmpBinder, ref result);
+                            return;
+
                         default: throw new ArgumentOutOfRangeException(nameof(secondParam.Kind), secondParam.Kind.ToString());
                     }
                     
@@ -640,6 +646,28 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass tmpResultItem = {tmpResultItem}");
             }
+        }
+
+        private void ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo(ParamsBinder paramsBinder, ref InternalResult result)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo paramsBinder = {paramsBinder}");
+
+            var paramsList = paramsBinder.ParamsList;
+
+            var firstParam = paramsList[0];
+            var secondParam = paramsList[1];
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo firstParam = {firstParam}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo secondParam = {secondParam}");
+
+            var tmpInheritanceList = mInheritanceEngine.LoadAllItems();
+
+            foreach (var item in tmpInheritanceList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} ({mStorageDataDictionary.GetValue(item.Key)})");
+            }
+
+            throw new NotImplementedException();
         }
 
         private void ProcessRule(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)

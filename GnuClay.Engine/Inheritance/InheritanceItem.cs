@@ -27,7 +27,7 @@ namespace GnuClay.Engine.Inheritance
         /// Provides string data for method ToString.
         /// </summary>
         /// <returns>The string representation of this instance.</returns>
-        public string ToStringData()
+        public virtual string ToStringData()
         {
             var tmpSb = new StringBuilder();
 
