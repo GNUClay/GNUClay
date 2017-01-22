@@ -527,17 +527,39 @@ namespace GnuClay.Engine.Inheritance
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("LoadAllItems");
 
-                foreach(var item in mInheritanceRegistry)
+                var result = new List<InheritanceItem>();
+
+                foreach (var item in mInheritanceRegistry)
                 {
                     var subKey = item.Key;
 
                     foreach(var subItem in item.Value)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems subKey = {subKey} subItem = {subItem}");
+
+                        var tmpObj = subItem.Value;
+
+                        var aspect = tmpObj.Aspect;
+
+                        switch (aspect)
+                        {
+                            case InheritanceAspect.WithOutClause:
+                                break;
+
+                            default: throw new ArgumentOutOfRangeException(nameof(aspect), aspect.ToString());
+                        }
+
+                        var tmpItem = new InheritanceItem();
+                        tmpItem.SubKey = subKey;
+                        tmpItem.SuperKey = subItem.Key;
+                        tmpItem.Rank = tmpObj.Rank;
+                        tmpItem.Distance = 1;
+
+                        result.Add(tmpItem);
                     }
                 }
 
-                throw new NotImplementedException();
+                return result;
             }
         }
 

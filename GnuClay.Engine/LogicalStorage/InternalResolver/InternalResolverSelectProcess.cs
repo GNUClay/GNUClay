@@ -664,7 +664,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach (var item in tmpInheritanceList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} item.SubKey = {item.SubKey} ({mStorageDataDictionary.GetValue(item.SubKey)}) item.SubKey = {item.SuperKey} ({mStorageDataDictionary.GetValue(item.SubKey)})");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} item.SubKey = {item.SubKey} ({mStorageDataDictionary.GetValue(item.SubKey)}) item.SuperKey = {item.SuperKey} ({mStorageDataDictionary.GetValue(item.SuperKey)})");
             }
 
             throw new NotImplementedException();
