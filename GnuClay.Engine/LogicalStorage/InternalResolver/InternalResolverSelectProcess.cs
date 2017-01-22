@@ -396,7 +396,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach(var item in tmpInheritanceList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSuperClasses item = {item} ({mStorageDataDictionary.GetValue(item.Key)})");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessUnaryInheritanceRelationNode item = {item} ({mStorageDataDictionary.GetValue(item.SubKey)})");
 
                 var tmpResultItem = new InternalResultItem();
                 result.Items.Add(tmpResultItem);
@@ -404,7 +404,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 var tmpParamResult = new InternalResultParamItem();
 
                 tmpResultItem.ParamsValues.Add(tmpParamResult);
-                tmpParamResult.EntityKey = item.Key;
+                tmpParamResult.EntityKey = item.SubKey;
 
                 tmpParamResult.ParamKey = binderParam.Key_Up;
                 tmpParamResult.Kind = ExpressionNodeKind.Entity;
@@ -578,7 +578,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach(var item in tmpInheritanceList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSuperClasses item = {item} ({mStorageDataDictionary.GetValue(item.Key)})");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSuperClasses item = {item} ({mStorageDataDictionary.GetValue(item.SuperKey)})");
 
                 var tmpResultItem = new InternalResultItem();
                 result.Items.Add(tmpResultItem);
@@ -593,7 +593,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 tmpParamResult = new InternalResultParamItem();
                 tmpResultItem.ParamsValues.Add(tmpParamResult);
 
-                tmpParamResult.EntityKey = item.Key;
+                tmpParamResult.EntityKey = item.SuperKey;
                 tmpParamResult.Kind = ExpressionNodeKind.Entity;
                 tmpParamResult.ParamKey = secondParam.Key_Up;
 
@@ -623,7 +623,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach (var item in tmpInheritanceList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} ({mStorageDataDictionary.GetValue(item.Key)})");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} ({mStorageDataDictionary.GetValue(item.SubKey)})");
 
                 var tmpResultItem = new InternalResultItem();
                 result.Items.Add(tmpResultItem);
@@ -631,7 +631,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 var tmpParamResult = new InternalResultParamItem();
                 tmpResultItem.ParamsValues.Add(tmpParamResult);
 
-                tmpParamResult.EntityKey = item.Key;
+                tmpParamResult.EntityKey = item.SubKey;
                 tmpParamResult.Kind = ExpressionNodeKind.Entity;
                 tmpParamResult.ParamKey = firstParam.Key_Up;
 
@@ -664,7 +664,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach (var item in tmpInheritanceList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} ({mStorageDataDictionary.GetValue(item.Key)})");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} item.SubKey = {item.SubKey} ({mStorageDataDictionary.GetValue(item.SubKey)}) item.SubKey = {item.SuperKey} ({mStorageDataDictionary.GetValue(item.SubKey)})");
             }
 
             throw new NotImplementedException();
@@ -777,9 +777,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info($"ProcessTwoParamsFact inheritanceItem = {inheritanceItem.ToJson()}");
 
-                    tmpFirstParam.EntityKey = inheritanceItem.Key;
+                    tmpFirstParam.EntityKey = inheritanceItem.SuperKey;
 
-                    NProcessTwoParamsFact(part, paramsBinder, ref result, tmpOriginalEntityKey, inheritanceItem.Key);
+                    NProcessTwoParamsFact(part, paramsBinder, ref result, tmpOriginalEntityKey, inheritanceItem.SuperKey);
                 }
             }
             else

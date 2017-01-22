@@ -10,7 +10,8 @@ namespace GnuClay.Engine.Inheritance
     [Serializable]
     public class InheritanceItem : IToStringData
     {
-        public ulong Key = 0;
+        public ulong SubKey = 0;
+        public ulong SuperKey = 0;
         public double Rank = 0;
         public int Distance = 0;
 
@@ -31,9 +32,13 @@ namespace GnuClay.Engine.Inheritance
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(Key));
+            tmpSb.Append(nameof(SubKey));
             tmpSb.Append(" = ");
-            tmpSb.AppendLine(Key.ToString());
+            tmpSb.AppendLine(SubKey.ToString());
+
+            tmpSb.Append(nameof(SuperKey));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(SuperKey.ToString());
 
             tmpSb.Append(nameof(Rank));
             tmpSb.Append(" = ");

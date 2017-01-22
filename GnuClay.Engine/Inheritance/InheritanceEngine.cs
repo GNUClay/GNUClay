@@ -295,7 +295,7 @@ namespace GnuClay.Engine.Inheritance
 
             var resultList = new List<InheritanceItem>();
 
-            NLoadListOfSuperClasses(targetKey, resultList, 0, -1);
+            NLoadListOfSuperClasses(targetKey, targetKey, resultList, 0, -1);
 
             if (_ListHelper.IsEmpty(resultList))
             {
@@ -316,7 +316,7 @@ namespace GnuClay.Engine.Inheritance
 
             foreach (var item in resultList)
             {
-                var tmpKey = item.Key;
+                var tmpKey = item.SuperKey;
 
                 if (tmpExistsKeys.Contains(tmpKey))
                 {
@@ -335,12 +335,13 @@ namespace GnuClay.Engine.Inheritance
             return filteredResultList;
         }
 
-        private void NLoadListOfSuperClasses(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
+        private void NLoadListOfSuperClasses(ulong subKey, ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
             if(currentRank > -1)
             {
                 var tmpItem = new InheritanceItem();
-                tmpItem.Key = targetKey;
+                tmpItem.SubKey = subKey;
+                tmpItem.SuperKey = targetKey;
                 tmpItem.Rank = currentRank;
                 tmpItem.Distance = currentDistance;
                 resultList.Add(tmpItem);
@@ -372,7 +373,7 @@ namespace GnuClay.Engine.Inheritance
                         targetRank *= currentRank;
                     }
 
-                    NLoadListOfSuperClasses(tmpKey, resultList, currentDistance, targetRank);
+                    NLoadListOfSuperClasses(subKey, tmpKey, resultList, currentDistance, targetRank);
                 }            
             }      
         }
@@ -431,7 +432,7 @@ namespace GnuClay.Engine.Inheritance
 
             var resultList = new List<InheritanceItem>();
 
-            NLoadListOfSubClasses(targetKey, resultList, 0, -1);
+            NLoadListOfSubClasses(targetKey, targetKey, resultList, 0, -1);
 
             if (_ListHelper.IsEmpty(resultList))
             {
@@ -452,7 +453,7 @@ namespace GnuClay.Engine.Inheritance
 
             foreach (var item in resultList)
             {
-                var tmpKey = item.Key;
+                var tmpKey = item.SubKey;
 
                 if (tmpExistsKeys.Contains(tmpKey))
                 {
@@ -471,14 +472,15 @@ namespace GnuClay.Engine.Inheritance
             return filteredResultList;
         }
 
-        private void NLoadListOfSubClasses(ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
+        private void NLoadListOfSubClasses(ulong superKey, ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses superKey = {superKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
 
             if (currentRank > -1)
             {
                 var tmpItem = new InheritanceItem();
-                tmpItem.Key = targetKey;
+                tmpItem.SubKey = targetKey;
+                tmpItem.SuperKey = superKey;
                 tmpItem.Rank = currentRank;
                 tmpItem.Distance = currentDistance;
                 resultList.Add(tmpItem);
@@ -514,16 +516,26 @@ namespace GnuClay.Engine.Inheritance
                         targetRank *= currentRank;
                     }
 
-                    NLoadListOfSubClasses(tmpKey, resultList, currentDistance, targetRank);
+                    NLoadListOfSubClasses(superKey, tmpKey, resultList, currentDistance, targetRank);
                 }
             }          
         }
 
-        public List<TwoKeysInheritanceItem> LoadAllItems()
+        public List<InheritanceItem> LoadAllItems()
         {
             lock (mLockObj)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("LoadAllItems");
+
+                foreach(var item in mInheritanceRegistry)
+                {
+                    var subKey = item.Key;
+
+                    foreach(var subItem in item.Value)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems subKey = {subKey} subItem = {subItem}");
+                    }
+                }
 
                 throw new NotImplementedException();
             }
