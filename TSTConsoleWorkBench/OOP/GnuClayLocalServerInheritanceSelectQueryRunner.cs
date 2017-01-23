@@ -41,7 +41,7 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_3 = {SelectResultDebugHelper.ConvertToString(qr_3, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {`count of feet`(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}";
+                queryString = "SELECT { >:{`count of feet`(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
                 var qr_4 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_4 = {SelectResultDebugHelper.ConvertToString(qr_4, tmpEngine.DataDictionary)}");

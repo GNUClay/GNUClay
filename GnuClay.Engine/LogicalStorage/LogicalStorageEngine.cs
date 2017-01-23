@@ -109,6 +109,14 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
+        public void RegEntity(ulong key)
+        {
+            lock (mLockObj)
+            {
+                mInternalStorageEngine.RegEntity(key);
+            }
+        }
+
         public object Save()
         {
             return mInternalStorageEngine.Save();

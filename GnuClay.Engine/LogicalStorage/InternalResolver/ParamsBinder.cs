@@ -59,6 +59,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
     {
         public static ParamsBinder FromRelationNode(ExpressionNode node, ParamsBinder sourceParamsBinder, Dictionary<ulong, ulong> KEMap)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FromRelationNode FromRelationNode node = {node}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FromRelationNode FromRelationNode sourceParamsBinder.ParamsList = {sourceParamsBinder.ParamsList.ToJson()}");
+
             var tmpItem = new ParamsBinder();
 
             tmpItem.RelationKey = node.Key;
@@ -67,6 +70,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             foreach (var tmpParam in node.RelationParams)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FromRelationNode tmpParam.Key = {tmpParam.Key} tmpParam.Kind = {tmpParam.Kind}");
+
                 tmpI++;
 
                 var tmpBindedParam = new ParamsInfo();
@@ -87,6 +92,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                         if(sourceParamsBinder.IsRoot)
                         {
                             tmpBindedParam.IsEntity = false;
+                            tmpBindedParam.EntityKey = tmpParam.Key;
                             break;
                         }
 
@@ -98,6 +104,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                             break;
                         }
 
+                        tmpBindedParam.EntityKey = tmpParam.Key;
                         tmpBindedParam.IsEntity = false;
                         break;
 

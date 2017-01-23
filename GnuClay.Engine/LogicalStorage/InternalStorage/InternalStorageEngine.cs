@@ -92,6 +92,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             tmpList.Add(targetItem);
         }
 
+        public void RegEntity(ulong key)
+        {
+            if (mEntitiesList.Contains(key))
+            {
+                return;
+            }
+
+            mEntitiesList.Add(key);
+        }
+
         public object Save()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Save");

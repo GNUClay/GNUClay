@@ -98,6 +98,8 @@ namespace GnuClay.Engine.Inheritance
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT tmpDict.ContainsKey(superKey)");
 
+                        Context.LogicalStorage.RegEntity(superKey);
+
                         tmpDict.Add(superKey, new InheritanceInfo()
                         {
                             Rank = rank,
@@ -117,6 +119,10 @@ namespace GnuClay.Engine.Inheritance
                         Rank = rank,
                         Aspect = aspect
                     });
+
+                    Context.LogicalStorage.RegEntity(superKey);
+                    Context.LogicalStorage.RegEntity(subKey);
+
 
                     mInheritanceRegistry.Add(subKey, tmpDict);
 

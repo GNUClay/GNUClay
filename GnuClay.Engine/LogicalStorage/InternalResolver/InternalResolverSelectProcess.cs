@@ -45,6 +45,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             ModifySelectTree();
 
+            mContext.DataDictionary.TSTDump();
+
             var tmpParamBinder = new ParamsBinder();
 
             tmpParamBinder.IsRoot = true;
@@ -660,14 +662,65 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo firstParam = {firstParam}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo secondParam = {secondParam}");
 
+            if (firstParam.EntityKey == secondParam.EntityKey)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo firstParam.EntityKey == secondParam.EntityKey");
+
+                var entitiesList = mInternalStorageEngine.mEntitiesList;
+
+                foreach (var entityKey in entitiesList)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass entityKey = {entityKey} ({mStorageDataDictionary.GetValue(entityKey)})");
+
+                    var tmpResultItem = new InternalResultItem();
+                    result.Items.Add(tmpResultItem);
+
+                    var tmpParamResult = new InternalResultParamItem();
+                    tmpResultItem.ParamsValues.Add(tmpParamResult);
+
+                    tmpParamResult.EntityKey = entityKey;
+                    tmpParamResult.Kind = ExpressionNodeKind.Entity;
+                    tmpParamResult.ParamKey = firstParam.Key_Up;
+
+                    tmpResultItem.End();
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass tmpResultItem = {tmpResultItem}");
+                }
+
+                return;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessBinaryInheritanceRelationNode_LoadAllInheritanceInfo NOT firstParam.EntityKey == secondParam.EntityKey");
+
             var tmpInheritanceList = mInheritanceEngine.LoadAllItems();
 
             foreach (var item in tmpInheritanceList)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_LoadSubClasses item = {item} item.SubKey = {item.SubKey} ({mStorageDataDictionary.GetValue(item.SubKey)}) item.SuperKey = {item.SuperKey} ({mStorageDataDictionary.GetValue(item.SuperKey)})");
+
+                var tmpResultItem = new InternalResultItem();
+                result.Items.Add(tmpResultItem);
+
+                var tmpParamResult = new InternalResultParamItem();
+                tmpResultItem.ParamsValues.Add(tmpParamResult);
+
+                tmpParamResult.EntityKey = item.SubKey;
+                tmpParamResult.Kind = ExpressionNodeKind.Entity;
+                tmpParamResult.ParamKey = firstParam.Key_Up;
+
+                tmpParamResult = new InternalResultParamItem();
+                tmpResultItem.ParamsValues.Add(tmpParamResult);
+
+                tmpParamResult.EntityKey = item.SuperKey; 
+                tmpParamResult.Kind = ExpressionNodeKind.Entity;
+                tmpParamResult.ParamKey = secondParam.Key_Up;
+
+                tmpResultItem.End();
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBinaryInheritanceRelationNode_IsSubClass tmpResultItem = {tmpResultItem}");
             }
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void ProcessRule(RulePart part, ParamsBinder paramsBinder, ref InternalResult result)
