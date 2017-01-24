@@ -56,7 +56,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(mState));
+                default: throw new ArgumentOutOfRangeException(nameof(mState), mState.ToString());
             }
         }
     }

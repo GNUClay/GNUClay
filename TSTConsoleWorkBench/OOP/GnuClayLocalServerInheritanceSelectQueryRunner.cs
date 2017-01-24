@@ -46,7 +46,7 @@ namespace TSTConsoleWorkBench.OOP
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_4 = {SelectResultDebugHelper.ConvertToString(qr_4, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}";
+                queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 var tmpSelectResult = tmpEngine.Query(queryString);
@@ -54,7 +54,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}";
+                queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 tmpSelectResult = tmpEngine.Query(queryString);
@@ -62,7 +62,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {is($X ,biped)}";
+                queryString = "SELECT {>: {is($X ,biped)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 tmpSelectResult = tmpEngine.Query(queryString);
@@ -70,7 +70,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {biped($X)}";
+                queryString = "SELECT {>: {biped($X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 tmpSelectResult = tmpEngine.Query(queryString);
@@ -78,7 +78,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {is($X ,$Y)}";
+                queryString = "SELECT {>: {is($X ,$Y)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 tmpSelectResult = tmpEngine.Query(queryString);
@@ -86,7 +86,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
 
-                queryString = "SELECT {is($X ,$X)}";
+                queryString = "SELECT {>: {is($X ,$X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
 
                 tmpSelectResult = tmpEngine.Query(queryString);
