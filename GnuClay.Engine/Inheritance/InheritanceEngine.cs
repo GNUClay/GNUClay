@@ -41,11 +41,18 @@ namespace GnuClay.Engine.Inheritance
 
         private object mLockObj = new object();
 
+        private ulong UniversalTypeKey = 1;
+
         public void SetInheritance(ulong subKey, ulong superKey, double rank, InheritanceAspect aspect)
         {
             lock (mLockObj)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank} aspect = {aspect}");
+
+                if (superKey == UniversalTypeKey && (rank > 1 || aspect != InheritanceAspect.WithOutClause))
+                {
+                    return;
+                }
 
                 switch (aspect)
                 {
@@ -53,7 +60,7 @@ namespace GnuClay.Engine.Inheritance
                         break;
 
                     default: throw new NotSupportedException($"The value `{aspect}` of variable `aspect` is not supported.");
-                }
+                }              
 
                 if (rank == 0)
                 {

@@ -36,7 +36,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind}");
 
             switch (mState)
             {
@@ -91,15 +91,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState.ToString());
             }
-
-            /*Context.Recovery(CurrToken);
-
-            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
-            tmpInternalExpressionParser.Run();
-
-            mRootNode = tmpInternalExpressionParser.Result;
-
-            Context.GetToken();*/
         }
     }
 }

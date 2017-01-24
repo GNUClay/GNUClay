@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,8 @@ namespace GnuClay.Engine.CommonStorages
             : base(context)
         {
             Clear();
+
+            GetKey(StandartTypeNamesConstants.UniversalTypeName);
         }
 
         private object mLockObj = new object();

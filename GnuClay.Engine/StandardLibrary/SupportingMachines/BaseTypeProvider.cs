@@ -47,7 +47,8 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public virtual void InitFromZero()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"InitFromZero TypeName = `{mTypeName}`");
-            mTypeKey = Context.DataDictionary.GetKey(mTypeName);
+            //mTypeKey = Context.DataDictionary.GetKey(mTypeName);
+            mTypeKey = Context.LogicalStorage.GetEntityKey(mTypeName);
             NLog.LogManager.GetCurrentClassLogger().Info($"InitFromZero TypeName = `{mTypeName}` mTypeKey = {mTypeKey}");
             OnRegType();
         }

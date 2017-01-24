@@ -1,9 +1,11 @@
 ﻿using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Threading;
 
@@ -109,12 +111,31 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
+        public ulong GetEntityKey(string name)
+        {
+            lock (mLockObj)
+            {
+                var tmpKey = DataDictionary.GetKey(name);
+                NRegEntity(tmpKey);
+                return tmpKey;
+            }
+        }
+
         public void RegEntity(ulong key)
         {
             lock (mLockObj)
             {
-                mInternalStorageEngine.RegEntity(key);
+                NRegEntity(key);
             }
+        }
+
+        private ulong UniversalTypeKey = 1;
+
+        private void NRegEntity(ulong key)
+        {
+            //Context.InheritanceEngine.SetInheritance(key, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            mInternalStorageEngine.RegEntity(key);
         }
 
         public object Save()
