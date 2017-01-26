@@ -133,9 +133,10 @@ namespace GnuClay.Engine.LogicalStorage
 
         private void NRegEntity(ulong key)
         {
-            //Context.InheritanceEngine.SetInheritance(key, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mInternalStorageEngine.RegEntity(key);
+            if (mInternalStorageEngine.RegEntity(key))
+            {
+                Context.InheritanceEngine.SetInheritance(key, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+            }
         }
 
         public object Save()

@@ -10,6 +10,7 @@ using TSTConsoleWorkBench.OOP;
 using TSTConsoleWorkBench.ParserExecuting;
 using TSTConsoleWorkBench.ScriptExecuting;
 using TSTConsoleWorkBench.Serialiazation;
+using TSTConsoleWorkBench.TextCGParser;
 
 namespace TSTConsoleWorkBench
 {
@@ -17,7 +18,8 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TSTGnuClayLocalServerInheritanceSelectQueryRunner();
+            TextCGParserRunner();
+            //TSTGnuClayLocalServerInheritanceSelectQueryRunner();
             //TSTGnuClayLocalServerInheritanceQueryRunner();
             //TSTGnuClayLocalServerValueQueryRunner();
             //TSTGnuClayLocalServerSerializationRunner();
@@ -30,6 +32,12 @@ namespace TSTConsoleWorkBench
             //TSTRunInsert();
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TextCGParserRunner()
+        {
+            var tmpTextCGParserRunner = new TextCGParserRunner();
+            tmpTextCGParserRunner.Run();
         }
 
         private static void TSTGnuClayLocalServerInheritanceSelectQueryRunner()

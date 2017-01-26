@@ -49,6 +49,11 @@ namespace GnuClay.Engine.Inheritance
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank} aspect = {aspect}");
 
+                if(subKey == UniversalTypeKey)
+                {
+                    return;
+                }
+
                 if (superKey == UniversalTypeKey && (rank > 1 || aspect != InheritanceAspect.WithOutClause))
                 {
                     return;
@@ -105,8 +110,6 @@ namespace GnuClay.Engine.Inheritance
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT tmpDict.ContainsKey(superKey)");
 
-                        Context.LogicalStorage.RegEntity(superKey);
-
                         tmpDict.Add(superKey, new InheritanceInfo()
                         {
                             Rank = rank,
@@ -127,17 +130,16 @@ namespace GnuClay.Engine.Inheritance
                         Aspect = aspect
                     });
 
-                    Context.LogicalStorage.RegEntity(superKey);
-                    Context.LogicalStorage.RegEntity(subKey);
-
-
                     mInheritanceRegistry.Add(subKey, tmpDict);
-
+               
                     mustAddSubClass = true;
                 }
 
                 if(mustAddSubClass)
                 {
+                    Context.LogicalStorage.RegEntity(superKey);
+                    Context.LogicalStorage.RegEntity(subKey);
+
                     if (mSubClassesRegistry.ContainsKey(superKey))
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
@@ -350,6 +352,8 @@ namespace GnuClay.Engine.Inheritance
 
         private void NLoadListOfSuperClasses(ulong subKey, ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
+
             if(currentRank > -1)
             {
                 var tmpItem = new InheritanceItem();
@@ -358,6 +362,11 @@ namespace GnuClay.Engine.Inheritance
                 tmpItem.Rank = currentRank;
                 tmpItem.Distance = currentDistance;
                 resultList.Add(tmpItem);
+            }
+
+            if(targetKey == 1)
+            {
+                return;
             }
 
             if(mInheritanceRegistry.ContainsKey(targetKey))
@@ -385,6 +394,8 @@ namespace GnuClay.Engine.Inheritance
                     {
                         targetRank *= currentRank;
                     }
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} tmpKey = {tmpKey}");
 
                     NLoadListOfSuperClasses(subKey, tmpKey, resultList, currentDistance, targetRank);
                 }            

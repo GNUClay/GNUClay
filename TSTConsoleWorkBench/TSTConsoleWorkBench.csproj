@@ -67,6 +67,7 @@
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
+    <Compile Include="TextCGParser\TextCGParserRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
