@@ -68,6 +68,7 @@
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
+    <Compile Include="TextCGParser\WordCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
