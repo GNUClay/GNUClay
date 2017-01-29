@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.Parser.InternalParsers;
+﻿using GnuClay.Engine;
+using GnuClay.Engine.Parser.InternalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,45 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var targetPhrase = "The dog likes man.";
 
-            var tmpLexer = new Lexer(targetPhrase);
+            var context = CreateContext();
 
-            Token CurrToken = null;
+            var tmpLexer = new ExtendTextLexer(targetPhrase, context);
 
-            while ((CurrToken = tmpLexer.GetToken()) != null)
+            ExtendToken CurrToken = null;
+
+            try
             {
-                NLog.LogManager.GetCurrentClassLogger().Info(CurrToken);
+                while ((CurrToken = tmpLexer.GetToken()) != null)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info(CurrToken);
+                }
             }
+            catch(Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(e);
+            }
+        }
+
+        private TextParsingContex CreateContext()
+        {
+            var context = new TextParsingContex();
+
+            context.Engine = new GnuClayEngine();
+
+            var dataDictionary = context.Engine.DataDictionary;
+
+            InitPartOfSpeechKeys(context);
+
+            dataDictionary.TSTDump();
+
+            return context;
+        }
+
+        private void InitPartOfSpeechKeys(TextParsingContex context)
+        {
+            var dataDictionary = context.Engine.DataDictionary;
+
+            context.NounKey = dataDictionary.GetKey("noun");
         }
     }
 }

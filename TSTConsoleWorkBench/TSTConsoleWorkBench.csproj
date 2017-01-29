@@ -67,8 +67,11 @@
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
+    <Compile Include="TextCGParser\ExtendTextLexer.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
-    <Compile Include="TextCGParser\WordCard.cs" />
+    <Compile Include="TextCGParser\TextLexer.cs" />
+    <Compile Include="TextCGParser\ExtendToken.cs" />
+    <Compile Include="TextCGParser\TextParsingContex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

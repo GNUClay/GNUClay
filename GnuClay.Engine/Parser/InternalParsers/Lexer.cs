@@ -16,18 +16,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
             InRichWord
         }
 
-        public Lexer(string text)
+        public Lexer(string text, LexerOptions options = null)
         {
             mItems = new Queue<char>(text.ToList());
+
+            if(options != null)
+            {
+                DetectSpecialWords = options.DetectSpecialWords;
+            }
         }
 
         private string mText = null;
         private Queue<char> mItems = null;
         private LexerState mLexerState = LexerState.Init;
         private Queue<Token> mRecoveriesTokens = new Queue<Token>();
-        private CultureInfo mCultureInfo = new CultureInfo("en-GB");
+        private CultureInfo mCultureInfo = new CultureInfo(GeneralConstants.DefaultCulture);
+        private bool DetectSpecialWords = true;
 
-        public Token GetToken()
+        public virtual Token GetToken()
         {
             if(mRecoveriesTokens.Count > 0)
             {
@@ -195,25 +201,28 @@ namespace GnuClay.Engine.Parser.InternalParsers
             switch (kind)
             {
                 case TokenKind.Word:
-                    if (string.Compare(content, "SELECT", true) == 0)
+                    if(DetectSpecialWords)
                     {
-                        kind = TokenKind.SELECT;
-                        content = null;
-                        break;
-                    }
+                        if (string.Compare(content, "SELECT", true) == 0)
+                        {
+                            kind = TokenKind.SELECT;
+                            content = null;
+                            break;
+                        }
 
-                    if (string.Compare(content, "INSERT", true) == 0)
-                    {
-                        kind = TokenKind.INSERT;
-                        content = null;
-                        break;
-                    }
+                        if (string.Compare(content, "INSERT", true) == 0)
+                        {
+                            kind = TokenKind.INSERT;
+                            content = null;
+                            break;
+                        }
 
-                    if (string.Compare(content, "CALL", true) == 0)
-                    {
-                        kind = TokenKind.CALL;
-                        content = null;
-                        break;
+                        if (string.Compare(content, "CALL", true) == 0)
+                        {
+                            kind = TokenKind.CALL;
+                            content = null;
+                            break;
+                        }
                     }
 
                     if (content.StartsWith("$"))
@@ -258,6 +267,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.TokenKind = kind;
             result.Content = content;
             return result;
+        }
+
+        public void Recovery(Token token)
+        {
+            mRecoveriesTokens.Enqueue(token);
         }
     }
 }

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneralConstants.cs" />
     <Compile Include="Inheritance\CyclicInheritanceException.cs" />
     <Compile Include="Inheritance\InheritanceAspect.cs" />
     <Compile Include="Inheritance\InheritanceEngine.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Parser\InternalParsers\InternalSelectedTreeParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\Lexer.cs" />
+    <Compile Include="Parser\InternalParsers\LexerOptions.cs" />
     <Compile Include="Parser\InternalParsers\ParserProcessingInstance.cs" />
     <Compile Include="Parser\InternalParsers\InternalParserContext.cs" />
     <Compile Include="Parser\InternalParsers\Token.cs" />
