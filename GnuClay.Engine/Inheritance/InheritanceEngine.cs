@@ -47,7 +47,7 @@ namespace GnuClay.Engine.Inheritance
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank} aspect = {aspect}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank} aspect = {aspect}");
 
                 if(subKey == UniversalTypeKey)
                 {
@@ -82,15 +82,15 @@ namespace GnuClay.Engine.Inheritance
 
                 if (mInheritanceRegistry.ContainsKey(subKey))
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mInheritanceRegistry.ContainsKey(subKey)");
+                    //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mInheritanceRegistry.ContainsKey(subKey)");
 
                     var tmpDict = mInheritanceRegistry[subKey];
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance tmpDict = {tmpDict.ToJson()}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance tmpDict = {tmpDict.ToJson()}");
 
                     if (tmpDict.ContainsKey(superKey))
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(superKey)");
+                        //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(superKey)");
 
                         var targetItem = tmpDict[superKey];
 
@@ -99,7 +99,7 @@ namespace GnuClay.Engine.Inheritance
                             return;
                         }
 
-                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NEXT tmpDict.ContainsKey(superKey)");
+                        //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NEXT tmpDict.ContainsKey(superKey)");
 
                         targetItem.Rank = rank;
                         targetItem.Aspect = aspect;
@@ -108,7 +108,7 @@ namespace GnuClay.Engine.Inheritance
                     }
                     else
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT tmpDict.ContainsKey(superKey)");
+                        //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT tmpDict.ContainsKey(superKey)");
 
                         tmpDict.Add(superKey, new InheritanceInfo()
                         {
@@ -121,7 +121,7 @@ namespace GnuClay.Engine.Inheritance
                 }
                 else
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance Not mInheritanceRegistry.ContainsKey(subKey)");
+                    //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance Not mInheritanceRegistry.ContainsKey(subKey)");
 
                     var tmpDict = new Dictionary<ulong, InheritanceInfo>();
                     tmpDict.Add(superKey, new InheritanceInfo()
@@ -142,15 +142,15 @@ namespace GnuClay.Engine.Inheritance
 
                     if (mSubClassesRegistry.ContainsKey(superKey))
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
+                        //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance mSubClassesRegistry.ContainsKey(superKey)");
 
                         var tmpDict = mSubClassesRegistry[superKey];
 
-                        NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance tmpDict (2) = {tmpDict.ToJson()}");
+                        //NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance tmpDict (2) = {tmpDict.ToJson()}");
 
                         if(tmpDict.ContainsKey(subKey))
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
+                            //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
 
                             var targetItem = tmpDict[subKey];
 
@@ -159,7 +159,7 @@ namespace GnuClay.Engine.Inheritance
                         }
                         else
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
+                            //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance tmpDict.ContainsKey(subKey)");
 
                             tmpDict.Add(subKey, new InheritanceInfo()
                             {
@@ -170,7 +170,7 @@ namespace GnuClay.Engine.Inheritance
                     }
                     else
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT mSubClassesRegistry.ContainsKey(superKey)");
+                        //NLog.LogManager.GetCurrentClassLogger().Info("SetInheritance NOT mSubClassesRegistry.ContainsKey(superKey)");
 
                         var tmpDict = new Dictionary<ulong, InheritanceInfo>();
 
@@ -190,19 +190,19 @@ namespace GnuClay.Engine.Inheritance
 
         private void RemoveInheritance(ulong subKey, ulong superKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance subKey = {subKey} superKey = {superKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance subKey = {subKey} superKey = {superKey}");
 
             var mustClearCash = false;
 
             if (mInheritanceRegistry.ContainsKey(subKey))
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance mInheritanceRegistry.ContainsKey(subKey)");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance mInheritanceRegistry.ContainsKey(subKey)");
 
                 var tmpDict = mInheritanceRegistry[subKey];
 
                 if(tmpDict.ContainsKey(superKey))
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance tmpDict.ContainsKey(superKey)");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance tmpDict.ContainsKey(superKey)");
 
                     tmpDict.Remove(superKey);
 
@@ -212,13 +212,13 @@ namespace GnuClay.Engine.Inheritance
 
             if(mSubClassesRegistry.ContainsKey(superKey))
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance mSubClassesRegistry.ContainsKey(superKey)");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance mSubClassesRegistry.ContainsKey(superKey)");
 
                 var tmpDict = mSubClassesRegistry[superKey];
 
                 if(tmpDict.ContainsKey(subKey))
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance tmpDict.ContainsKey(subKey)");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"RemoveInheritance tmpDict.ContainsKey(subKey)");
 
                     tmpDict.Remove(subKey);
 
@@ -234,22 +234,22 @@ namespace GnuClay.Engine.Inheritance
 
         private bool IsOwnSuperClass(ulong subKey, ulong superKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"IsOwnSuperClass subKey = {subKey} superKey = {superKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"IsOwnSuperClass subKey = {subKey} superKey = {superKey}");
 
             return NIsOwnSuperClass(subKey, superKey, new List<ulong>());
         }
 
         private bool NIsOwnSuperClass(ulong subKey, ulong superKey, List<ulong> visitedKeys)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass subKey = {subKey} superKey = {superKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass visitedKeys = {visitedKeys.ToJson()}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass subKey = {subKey} superKey = {superKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass visitedKeys = {visitedKeys.ToJson()}");
 
             if(visitedKeys.Contains(superKey))
             {
                 return false;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass Next subKey = {subKey} superKey = {superKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass Next subKey = {subKey} superKey = {superKey}");
 
             visitedKeys.Add(superKey);
 
@@ -264,7 +264,7 @@ namespace GnuClay.Engine.Inheritance
 
                 foreach(var tmpItem in targetDict)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass Next tmpItem.Key = {tmpItem.Key}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"NIsOwnSuperClass Next tmpItem.Key = {tmpItem.Key}");
 
                     if(NIsOwnSuperClass(subKey, tmpItem.Key, visitedKeys))
                     {
@@ -278,7 +278,7 @@ namespace GnuClay.Engine.Inheritance
 
         private void ClearCash()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ClearCash");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ClearCash");
 
             mInheritanceCash = new Dictionary<ulong, List<InheritanceItem>>();
             mInheritanceCashDict = new Dictionary<ulong, Dictionary<ulong, double>>();
@@ -291,14 +291,14 @@ namespace GnuClay.Engine.Inheritance
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
 
                 if(mInheritanceCash.ContainsKey(targetKey))
                 {
                     return mInheritanceCash[targetKey];
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses NEXT targetKey = {targetKey}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses NEXT targetKey = {targetKey}");
 
                 return CalculateListOfSuperClassesCashItems(targetKey);
             }
@@ -306,7 +306,7 @@ namespace GnuClay.Engine.Inheritance
 
         private List<InheritanceItem> CalculateListOfSuperClassesCashItems(ulong targetKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems targetKey = {targetKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems targetKey = {targetKey}");
 
             var resultList = new List<InheritanceItem>();
 
@@ -319,7 +319,7 @@ namespace GnuClay.Engine.Inheritance
                 return resultList;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems NEXT NEXT targetKey = {targetKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListOfSuperClassesCashItems NEXT NEXT targetKey = {targetKey}");
 
             resultList = resultList.OrderByDescending(p => p.Rank).ThenBy(p => p.Distance).ToList();
 
@@ -352,7 +352,7 @@ namespace GnuClay.Engine.Inheritance
 
         private void NLoadListOfSuperClasses(ulong subKey, ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
 
             if(currentRank > -1)
             {
@@ -395,7 +395,7 @@ namespace GnuClay.Engine.Inheritance
                         targetRank *= currentRank;
                     }
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} tmpKey = {tmpKey}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSuperClasses subKey = {subKey} tmpKey = {tmpKey}");
 
                     NLoadListOfSuperClasses(subKey, tmpKey, resultList, currentDistance, targetRank);
                 }            
@@ -406,14 +406,14 @@ namespace GnuClay.Engine.Inheritance
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
 
                 if(mInheritanceCashDict.ContainsKey(subKey))
                 {
                     return GetRankFromCash(subKey, superKey);
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT subKey = {subKey} superKey = {superKey}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT subKey = {subKey} superKey = {superKey}");
 
                 CalculateListOfSuperClassesCashItems(subKey);
 
@@ -423,7 +423,7 @@ namespace GnuClay.Engine.Inheritance
 
         private double GetRankFromCash(ulong subKey, ulong superKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetRankFromCash subKey = {subKey} superKey = {superKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetRankFromCash subKey = {subKey} superKey = {superKey}");
 
             var tmpDict = mInheritanceCashDict[subKey];
 
@@ -439,7 +439,7 @@ namespace GnuClay.Engine.Inheritance
         {
             lock(mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
 
                 if(mSubClasesCash.ContainsKey(targetKey))
                 {
@@ -452,7 +452,7 @@ namespace GnuClay.Engine.Inheritance
 
         private List<InheritanceItem> CalculateListSubClasses(ulong targetKey)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListSubClasses targetKey = {targetKey}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CalculateListSubClasses targetKey = {targetKey}");
 
             var resultList = new List<InheritanceItem>();
 
@@ -465,7 +465,7 @@ namespace GnuClay.Engine.Inheritance
                 return resultList;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info("CalculateListSubClasses NEXT");
+            //NLog.LogManager.GetCurrentClassLogger().Info("CalculateListSubClasses NEXT");
 
             resultList = resultList.OrderByDescending(p => p.Rank).ThenBy(p => p.Distance).ToList();
 
@@ -498,7 +498,7 @@ namespace GnuClay.Engine.Inheritance
 
         private void NLoadListOfSubClasses(ulong superKey, ulong targetKey, List<InheritanceItem> resultList, int currentDistance, double currentRank)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses superKey = {superKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses superKey = {superKey} targetKey = {targetKey} currentDistance = {currentDistance} currentRank = {currentRank}");
 
             if (currentRank > -1)
             {
@@ -512,7 +512,7 @@ namespace GnuClay.Engine.Inheritance
 
             if(mSubClassesRegistry.ContainsKey(targetKey))
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("NLoadListOfSubClasses NEXT");
+                //NLog.LogManager.GetCurrentClassLogger().Info("NLoadListOfSubClasses NEXT");
 
                 currentDistance++;
 
@@ -520,7 +520,7 @@ namespace GnuClay.Engine.Inheritance
 
                 foreach(var item in tmpDict)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses item = {item.ToJson()}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"NLoadListOfSubClasses item = {item.ToJson()}");
 
                     var tmpKey = item.Key;
                     var info = item.Value;
@@ -549,7 +549,7 @@ namespace GnuClay.Engine.Inheritance
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("LoadAllItems");
+                //NLog.LogManager.GetCurrentClassLogger().Info("LoadAllItems");
 
                 var result = new List<InheritanceItem>();
 
@@ -559,7 +559,7 @@ namespace GnuClay.Engine.Inheritance
 
                     foreach(var subItem in item.Value)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems subKey = {subKey} subItem = {subItem}");
+                        //NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems subKey = {subKey} subItem = {subItem}");
 
                         var tmpObj = subItem.Value;
 

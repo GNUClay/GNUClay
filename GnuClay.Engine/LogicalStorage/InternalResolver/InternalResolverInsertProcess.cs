@@ -255,9 +255,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
 
             switch(context.IndexedPartsDict.Count)
             {
@@ -267,7 +267,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(context.LocalRelationsIndex.Count), context.LocalRelationsIndex.Count.ToString());
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
 
             var tmpItem = context.LocalRelationsIndex.First();
             var tmpKey = tmpItem.Key;

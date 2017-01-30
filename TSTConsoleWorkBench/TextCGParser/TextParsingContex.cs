@@ -11,6 +11,9 @@ namespace TSTConsoleWorkBench.TextCGParser
     {
         public GnuClayEngine Engine = null;
 
-        public ulong NounKey = 0;
+        public TextParsingPartOfSpeechContext PartOfSpeechContext = null;
+        public TextParsingNumberContext NumberContext = null;
+        public TextParsingTenseContext TenseContext = null;
+        public TextParsingAspectContext AspectContext = null;
     }
 }

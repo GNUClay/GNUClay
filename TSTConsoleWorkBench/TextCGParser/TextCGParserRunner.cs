@@ -18,7 +18,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var context = CreateContext();
 
-            var tmpLexer = new ExtendTextLexer(targetPhrase, context);
+            var tmpLexer = new ExtendTextLexer(targetPhrase.ToLower().Trim(), context);
 
             ExtendToken CurrToken = null;
 
@@ -41,20 +41,38 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             context.Engine = new GnuClayEngine();
 
+            context.PartOfSpeechContext = new TextParsingPartOfSpeechContext(context.Engine);
+            context.NumberContext = new TextParsingNumberContext(context.Engine);
+            context.TenseContext = new TextParsingTenseContext(context.Engine);
+            context.AspectContext = new TextParsingAspectContext(context.Engine);
+
             var dataDictionary = context.Engine.DataDictionary;
 
-            InitPartOfSpeechKeys(context);
+            InitWordsDb(context);
 
             dataDictionary.TSTDump();
 
             return context;
         }
 
-        private void InitPartOfSpeechKeys(TextParsingContex context)
+        private void InitWordsDb(TextParsingContex context)
         {
-            var dataDictionary = context.Engine.DataDictionary;
+            var engine = context.Engine;
 
-            context.NounKey = dataDictionary.GetKey("noun");
+            var queryStr = "INSERT {>: {`part of speech`(the, article)}}, { >: {root(the, the)}}, {>: {number(the, plural)}}, {>: {number(the, singular)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(dog, noun)}}, {>: {root(dog, dog)}}, { >: {number(dog, singular)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(man, noun)}}";
+            engine.Query(queryStr);
         }
     }
 }
