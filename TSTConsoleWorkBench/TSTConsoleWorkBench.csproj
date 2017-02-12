@@ -69,6 +69,7 @@
     <Compile Include="Serialiazation\SerializationRunner.cs" />
     <Compile Include="TextCGParser\BaseTextParsingContext.cs" />
     <Compile Include="TextCGParser\ExtendTextLexer.cs" />
+    <Compile Include="TextCGParser\PartOfSpeech.cs" />
     <Compile Include="TextCGParser\TextParsingAspectContext.cs" />
     <Compile Include="TextCGParser\TextParsingNumberContext.cs" />
     <Compile Include="TextCGParser\TextParsingPartOfSpeechContext.cs" />

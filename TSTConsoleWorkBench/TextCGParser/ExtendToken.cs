@@ -21,7 +21,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         public string Content = string.Empty;
 
         public ulong Key = 0;
-        public ulong PartOfSpeech = 0;
+        public List<PartOfSpeech> PartOfSpeech = new List<PartOfSpeech>();
         public ulong RootKey = 0;
 
         public List<ulong> Number = new List<ulong>();

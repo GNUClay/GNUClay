@@ -64,18 +64,27 @@ namespace TSTConsoleWorkBench.TextCGParser
             return result;
         }
 
-        private ulong GetPartOfSpeech(string content)
+        private List<PartOfSpeech> GetPartOfSpeech(string content)
         {
             var queryStr = $"SELECT {{>: {{`part of speech`({content}, $X)}}}}";
 
-            var result = Engine.Query(queryStr);
+            var queryResult = Engine.Query(queryStr);
 
-            if(result.Success && result.HaveBeenFound)
+            if (queryResult.Success && queryResult.HaveBeenFound)
             {
-                return result.Items.First().Params.First().EntityKey;
+                var result = new List<PartOfSpeech>();
+
+                var context = mContext.PartOfSpeechContext;
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(context.KeyToPartOfSpeech(item.Params.First().EntityKey));
+                }
+
+                return result;
             }
 
-            return 0;
+            return new List<PartOfSpeech>();
         }
 
         private ulong GetRoot(string content)

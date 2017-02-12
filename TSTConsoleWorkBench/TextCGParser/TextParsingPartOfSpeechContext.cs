@@ -39,5 +39,66 @@ namespace TSTConsoleWorkBench.TextCGParser
         public ulong ConjunctionKey = 0;
         public ulong InterjectionKey = 0;
         public ulong ArticleKey = 0;
+
+        public PartOfSpeech KeyToPartOfSpeech(ulong key)
+        {
+            if(key == NounKey)
+            {
+                return PartOfSpeech.Noun;
+            }
+
+            if (key == PronounKey)
+            {
+                return PartOfSpeech.Pronoun;
+            }
+
+            if (key == AdjectiveKey)
+            {
+                return PartOfSpeech.Adjective;
+            }
+
+            if (key == VerbKey)
+            {
+                return PartOfSpeech.Verb;
+            }
+
+            if (key == AdverbKey)
+            {
+                return PartOfSpeech.Adverb;
+            }
+
+            if (key == PrepositionKey)
+            {
+                return PartOfSpeech.Preposition;
+            }
+
+            if (key == ConjunctionKey)
+            {
+                return PartOfSpeech.Conjunction;
+            }
+
+            if (key == InterjectionKey)
+            {
+                return PartOfSpeech.Interjection;
+            }
+
+            if (key == ArticleKey)
+            {
+                return PartOfSpeech.Article;
+            }
+            throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
+        }
+
+        public List<PartOfSpeech> KeyListToPartOfSpeech(List<ulong> keys)
+        {
+            var result = new List<PartOfSpeech>();
+
+            foreach(var item in keys)
+            {
+                result.Add(KeyToPartOfSpeech(item));
+            }
+
+            return result;
+        }
     }
 }
