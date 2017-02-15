@@ -37,14 +37,9 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         private TextParsingContex CreateContext()
         {
-            var context = new TextParsingContex();
+            var engine = new GnuClayEngine();
 
-            context.Engine = new GnuClayEngine();
-
-            context.PartOfSpeechContext = new TextParsingPartOfSpeechContext(context.Engine);
-            context.NumberContext = new TextParsingNumberContext(context.Engine);
-            context.TenseContext = new TextParsingTenseContext(context.Engine);
-            context.AspectContext = new TextParsingAspectContext(context.Engine);
+            var context = new TextParsingContex(engine);
 
             var dataDictionary = context.Engine.DataDictionary;
 

@@ -82,6 +82,42 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
             return LocalRelationsIndex[key];
         }
 
+        public bool IsEquals(RuleInstance item)
+        {
+            if(item == null)
+            {
+                return false;
+            }
+
+            if(Part_1 == null && item.Part_1 != null)
+            {
+                return false;
+            }
+
+            if(Part_2 == null && item.Part_2 != null)
+            {
+                return false;
+            }
+
+            if(Part_1 != null)
+            {
+                if(!Part_1.IsEquals(item.Part_1))
+                {
+                    return false;
+                }
+            }
+
+            if(Part_2 != null)
+            {
+                if(!Part_2.IsEquals(item.Part_2))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

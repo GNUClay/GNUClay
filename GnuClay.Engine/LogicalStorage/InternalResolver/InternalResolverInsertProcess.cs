@@ -221,7 +221,19 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             if(mInternalStorageEngine.mLongHasheCodeRulesAndFactsDict.ContainsKey(hasheCode))
             {
-                throw new NotImplementedException($"Duplicated rule or fact `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`. Processing collision does not implemented yet");
+                NLog.LogManager.GetCurrentClassLogger().Info($"CheckUnique (1) `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`");
+
+                var existsItemsList = mInternalStorageEngine.mLongHasheCodeRulesAndFactsDict[hasheCode];
+
+                foreach (var existsItem in existsItemsList)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"CheckUnique (2) `{RuleInstanceDebugHelper.ConvertToString(existsItem, mStorageDataDictionary)}`");
+
+                    if(targetItem.IsEquals(existsItem))
+                    {
+                        throw new NotImplementedException($"Duplicated rule or fact `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`. Processing collision does not implemented yet");
+                    }
+                }             
             }
         }
 

@@ -21,10 +21,22 @@ namespace TSTConsoleWorkBench.TextCGParser
         public string Content = string.Empty;
 
         public ulong Key = 0;
-        public List<PartOfSpeech> PartOfSpeech = new List<PartOfSpeech>();
+        public List<GrammaticalPartOfSpeech> PartOfSpeech = new List<GrammaticalPartOfSpeech>();
         public ulong RootKey = 0;
 
-        public List<ulong> Number = new List<ulong>();
+        public List<GrammaticalNumberOfWord> Number = new List<GrammaticalNumberOfWord>();
+
+        public bool IsModality = false;
+        public bool IsNumberWord = false;
+
+        public List<GrammaticalTenses> Tenses = new List<GrammaticalTenses>();
+        public List<GrammaticalComparison> Comparison = new List<GrammaticalComparison>();
+        public List<GrammaticalGender> Gender = new List<GrammaticalGender>();
+        public List<CaseOfPersonalPronoun> CaseOfPersonalPronoun = new List<CaseOfPersonalPronoun>();
+        public List<TypeOfPronoun> TypeOfPronoun = new List<TypeOfPronoun>();
+        public List<GrammaticalPerson> Person = new List<GrammaticalPerson>();
+        public List<VerbType> VerbType = new List<VerbType>();
+        public List<NumeralType> NumeralType = new List<NumeralType>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -55,15 +67,37 @@ namespace TSTConsoleWorkBench.TextCGParser
             tmpSb.Append(" = ");
             tmpSb.AppendLine(Key.ToString());
 
-            tmpSb.Append(nameof(PartOfSpeech));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(PartOfSpeech.ToString());
+            tmpSb.AppendLine(_ListHelper._ToString(PartOfSpeech, nameof(PartOfSpeech)));
 
             tmpSb.Append(nameof(RootKey));
             tmpSb.Append(" = ");
             tmpSb.AppendLine(RootKey.ToString());
 
             tmpSb.AppendLine(_ListHelper._ToString(Number, nameof(Number)));
+
+            tmpSb.Append(nameof(IsModality));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(IsModality.ToString());
+
+            tmpSb.Append(nameof(IsNumberWord));
+            tmpSb.Append(" = ");
+            tmpSb.AppendLine(IsNumberWord.ToString());
+
+            tmpSb.AppendLine(_ListHelper._ToString(Tenses, nameof(Tenses)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(Comparison, nameof(Comparison)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(Gender, nameof(Gender)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(CaseOfPersonalPronoun, nameof(CaseOfPersonalPronoun)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(TypeOfPronoun, nameof(TypeOfPronoun)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(Person, nameof(Person)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(VerbType, nameof(VerbType)));
+
+            tmpSb.AppendLine(_ListHelper._ToString(NumeralType, nameof(NumeralType)));
 
             return tmpSb.ToString();
         }

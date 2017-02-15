@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public enum PartOfSpeech
+    public enum GrammaticalPartOfSpeech
     {
         Undifined,
         Noun,
@@ -17,6 +17,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         Preposition,
         Conjunction,
         Interjection,
-        Article
+        Article,
+        Numeral
     }
 }

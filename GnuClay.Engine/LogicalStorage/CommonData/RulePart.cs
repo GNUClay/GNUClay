@@ -25,6 +25,21 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
             return Tree.GetLongHashCode();
         }
 
+        public bool IsEquals(RulePart item)
+        {
+            if(item != null)
+            {
+                return false;
+            }
+
+            if(Tree == null && item.Tree != null)
+            {
+                return false;
+            }
+
+            return Tree.IsEquals(item.Tree);
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

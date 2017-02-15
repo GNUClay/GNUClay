@@ -126,6 +126,89 @@ namespace GnuClay.Engine.LogicalStorage
             return tmpHash;
         }
 
+        public bool IsEquals(ExpressionNode item)
+        {
+            if(item == null)
+            {
+                return false;
+            }
+
+            if(Key != item.Key)
+            {
+                return false;
+            }
+
+            if(Kind != item.Kind)
+            {
+                return false;
+            }
+
+            switch(Kind)
+            {
+                case ExpressionNodeKind.And:
+                    return IsEqualsAndNode(item);
+
+                case ExpressionNodeKind.Or:
+                    return IsEqualsOrNode(item);
+
+                case ExpressionNodeKind.Not:
+                    return IsEqualsNotNode(item);
+
+                case ExpressionNodeKind.Relation:
+                    return IsEqualsRelationNode(item);
+            }
+
+            return true;
+        }
+
+        private bool IsEqualsAndNode(ExpressionNode item)
+        {
+            return Left.IsEquals(item.Left) && Right.IsEquals(item.Right);
+        }
+
+        private bool IsEqualsOrNode(ExpressionNode item)
+        {
+            return Left.IsEquals(item.Left) && Right.IsEquals(item.Right);
+        }
+
+        private bool IsEqualsNotNode(ExpressionNode item)
+        {
+            return Left.IsEquals(item.Left);
+        }
+
+        private bool IsEqualsRelationNode(ExpressionNode item)
+        {
+            if(_ListHelper.IsEmpty(RelationParams) && _ListHelper.IsEmpty(item.RelationParams))
+            {
+                return true;
+            }
+
+            if(RelationParams == null && item.RelationParams != null)
+            {
+                return false;
+            }
+
+            if(RelationParams.Count != item.RelationParams.Count)
+            {
+                return false;
+            }
+
+            var selfEnumerator = RelationParams.GetEnumerator();
+            var otherEnumerator = item.RelationParams.GetEnumerator();
+
+            while(selfEnumerator.MoveNext())
+            {
+                otherEnumerator.MoveNext();
+
+                if(!selfEnumerator.Current.IsEquals(otherEnumerator.Current))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

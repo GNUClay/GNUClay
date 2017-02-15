@@ -58,68 +58,10 @@ namespace TSTConsoleWorkBench.TextCGParser
             result.TokenKind = TokenKind.Word;
             result.Content = token.Content;
             result.Key = DataDictionary.GetKey(result.Content);
-            result.PartOfSpeech = GetPartOfSpeech(result.Content);
-            result.RootKey = GetRoot(result.Content);
-            result.Number = GetNumbers(result.Content);
+            result.PartOfSpeech = mContext.GetPartOfSpeech(result.Content);
+            result.RootKey = mContext.GetRoot(result.Content);
+            result.Number = mContext.GetNumbers(result.Content);
             return result;
-        }
-
-        private List<PartOfSpeech> GetPartOfSpeech(string content)
-        {
-            var queryStr = $"SELECT {{>: {{`part of speech`({content}, $X)}}}}";
-
-            var queryResult = Engine.Query(queryStr);
-
-            if (queryResult.Success && queryResult.HaveBeenFound)
-            {
-                var result = new List<PartOfSpeech>();
-
-                var context = mContext.PartOfSpeechContext;
-
-                foreach (var item in queryResult.Items)
-                {
-                    result.Add(context.KeyToPartOfSpeech(item.Params.First().EntityKey));
-                }
-
-                return result;
-            }
-
-            return new List<PartOfSpeech>();
-        }
-
-        private ulong GetRoot(string content)
-        {
-            var queryStr = $"SELECT {{>: {{root({content}, $X)}}}}";
-
-            var result = Engine.Query(queryStr);
-
-            if (result.Success && result.HaveBeenFound)
-            {
-                return result.Items.First().Params.First().EntityKey;
-            }
-
-            return 0;
-        }
-
-        private List<ulong> GetNumbers(string content)
-        {
-            var queryStr = $"SELECT {{>: {{number({content}, $X)}}}}";
-
-            var queryResult = Engine.Query(queryStr);
-
-            if (queryResult.Success && queryResult.HaveBeenFound)
-            {
-                var result = new List<ulong>();
-
-                foreach(var item in queryResult.Items)
-                {
-                    result.Add(item.Params.First().EntityKey);
-                }
-
-                return result;
-            }
-
-            return new List<ulong>();
         }
     }
 }
