@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public class TextParsingContex
+    public class TextParsingLexerContex
     {
-        public TextParsingContex(GnuClayEngine engine)
+        public TextParsingLexerContex(GnuClayEngine engine)
         {
             Engine = engine;
             DataDictionary = Engine.DataDictionary;

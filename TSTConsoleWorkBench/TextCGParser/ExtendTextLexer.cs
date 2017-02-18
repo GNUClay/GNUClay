@@ -11,7 +11,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 {
     public class ExtendTextLexer
     {
-        public ExtendTextLexer(string text, TextParsingContex context)
+        public ExtendTextLexer(string text, TextParsingLexerContex context)
         {
             mContext = context;
             Engine = mContext.Engine;
@@ -19,7 +19,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             mLexer = new TextLexer(text);
         }
 
-        private TextParsingContex mContext = null;
+        private TextParsingLexerContex mContext = null;
         private GnuClayEngine Engine = null;
         private StorageDataDictionary DataDictionary = null;
         private TextLexer mLexer = null;

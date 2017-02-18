@@ -24,10 +24,18 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             try
             {
+                var tokens = new List<ExtendToken>();
+
                 while ((CurrToken = tmpLexer.GetToken()) != null)
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info(CurrToken);
+
+                    tokens.Add(CurrToken);
                 }
+
+                var parser = new ATNParser(tokens);
+
+                parser.Run();
             }
             catch(Exception e)
             {
@@ -35,11 +43,11 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
         }
 
-        private TextParsingContex CreateContext()
+        private TextParsingLexerContex CreateContext()
         {
             var engine = new GnuClayEngine();
 
-            var context = new TextParsingContex(engine);
+            var context = new TextParsingLexerContex(engine);
 
             var dataDictionary = context.Engine.DataDictionary;
 
@@ -50,7 +58,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             return context;
         }
 
-        private void InitWordsDb(TextParsingContex context)
+        private void InitWordsDb(TextParsingLexerContex context)
         {
             var engine = context.Engine;
 
