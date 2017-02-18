@@ -38,6 +38,26 @@ namespace TSTConsoleWorkBench.TextCGParser
         public List<VerbType> VerbType = new List<VerbType>();
         public List<NumeralType> NumeralType = new List<NumeralType>();
 
+        public bool Is(GrammaticalPartOfSpeech value)
+        {
+            if(PartOfSpeech.Contains(value))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Is(TypeOfPronoun value)
+        {
+            if(TypeOfPronoun.Contains(value))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

@@ -56,11 +56,65 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             var result = new ExtendToken();
             result.TokenKind = TokenKind.Word;
-            result.Content = token.Content;
-            result.Key = DataDictionary.GetKey(result.Content);
-            result.PartOfSpeech = mContext.GetPartOfSpeech(result.Content);
-            result.RootKey = mContext.GetRoot(result.Content);
-            result.Number = mContext.GetNumbers(result.Content);
+
+            var content = token.Content;
+
+            result.Content = content;
+            result.Key = DataDictionary.GetKey(content);
+            result.PartOfSpeech = mContext.GetPartOfSpeech(content);
+            result.RootKey = mContext.GetRoot(content);
+
+            var isVerb = result.Is(GrammaticalPartOfSpeech.Verb);
+            var isNoun = result.Is(GrammaticalPartOfSpeech.Noun);
+            var isPronoun = result.Is(GrammaticalPartOfSpeech.Pronoun);
+            var isAdjective = result.Is(GrammaticalPartOfSpeech.Adjective);
+            var isAdverb = result.Is(GrammaticalPartOfSpeech.Adverb);
+
+            if (isVerb || isNoun || isPronoun)
+            {
+                result.Number = mContext.GetNumbers(content);
+            }
+            
+            if(isNoun || isPronoun)
+            {
+                result.Gender = mContext.GetGenders(content);
+            }
+
+            if(isPronoun)
+            {
+                result.TypeOfPronoun = mContext.GetTypesOfPronoun(content);
+            }
+
+            var isPersonalPronoun = false;
+
+            if(isPronoun && result.Is(TypeOfPronoun.Personal))
+            {
+                isPersonalPronoun = true;
+            }
+
+            if(isPersonalPronoun)
+            {
+                result.CaseOfPersonalPronoun = mContext.GetCasesOfPersonalPronoun(content);
+            }
+
+            if (isVerb || isPersonalPronoun)
+            {
+                result.Person = mContext.GetPersons(content);
+            }
+
+            if (isVerb)
+            {
+                result.Tenses = mContext.GetTenses(content);
+                result.VerbType = mContext.GetVerbTypes(content);
+
+                //result.IsModality = mContext.IsModality(content);
+            }
+
+            if(isAdjective || isAdverb)
+            {
+                result.Comparison = mContext.GetComparisons(content);
+            }
+
             return result;
         }
     }

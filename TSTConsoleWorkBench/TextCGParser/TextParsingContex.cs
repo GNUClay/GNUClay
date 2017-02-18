@@ -18,10 +18,10 @@ namespace TSTConsoleWorkBench.TextCGParser
             InitPartOfSpeech();
             InitNumberOfWord();
             InitGrammaticalTenses();
-            InitGrammaticalComparison();
-            InitGrammaticalGender();
-            InitCaseOfPersonalPronoun();
-            InitTypeOfPronoun();
+            InitGrammaticalComparisons();
+            InitGrammaticalGenders();
+            InitCasesOfPersonalPronoun();
+            InitTypesOfPronoun();
             InitGrammaticalPerson();
             InitVerbType();
             InitNumeralType();
@@ -227,10 +227,31 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<GrammaticalTenses> GetTenses(string content)
+        {
+            var queryStr = $"SELECT {{>: {{tense({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<GrammaticalTenses>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToTense(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<GrammaticalTenses>();
+        }
         #endregion
 
         #region GrammaticalComparison
-        private void InitGrammaticalComparison()
+        private void InitGrammaticalComparisons()
         {
             NoneKey = DataDictionary.GetKey("none");
             ComparativeKey = DataDictionary.GetKey("comparative");
@@ -260,10 +281,31 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<GrammaticalComparison> GetComparisons(string content)
+        {
+            var queryStr = $"SELECT {{>: {{comparison({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<GrammaticalComparison>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToComparison(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<GrammaticalComparison>();
+        }
         #endregion
 
         #region GrammaticalGender
-        private void InitGrammaticalGender()
+        private void InitGrammaticalGenders()
         {
             MasculineKey = DataDictionary.GetKey("masculine");
             FeminineKey = DataDictionary.GetKey("feminine");
@@ -293,10 +335,31 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<GrammaticalGender> GetGenders(string content)
+        {
+            var queryStr = $"SELECT {{>: {{gender({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<GrammaticalGender>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToGender(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<GrammaticalGender>();
+        }
         #endregion
 
         #region CaseOfPersonalPronoun
-        private void InitCaseOfPersonalPronoun()
+        private void InitCasesOfPersonalPronoun()
         {
             SubjectKey = DataDictionary.GetKey("subject");
             ObjectKey = DataDictionary.GetKey("object");
@@ -319,10 +382,31 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<CaseOfPersonalPronoun> GetCasesOfPersonalPronoun(string content)
+        {
+            var queryStr = $"SELECT {{>: {{`case of personal pronoun`({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<CaseOfPersonalPronoun>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToCaseOfPersonalPronoun(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<CaseOfPersonalPronoun>();
+        }
         #endregion
 
         #region TypeOfPronoun
-        private void InitTypeOfPronoun()
+        private void InitTypesOfPronoun()
         {
             PersonalKey = DataDictionary.GetKey("personal");
             ReflexiveKey = DataDictionary.GetKey("reflexive");
@@ -379,6 +463,27 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<TypeOfPronoun> GetTypesOfPronoun(string content)
+        {
+            var queryStr = $"SELECT {{>: {{`type of pronoun`({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<TypeOfPronoun>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToTypeOfPronoun(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<TypeOfPronoun>();
+        }
         #endregion
 
         #region GrammaticalPerson
@@ -411,6 +516,27 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
+        }
+
+        public List<GrammaticalPerson> GetPersons(string content)
+        {
+            var queryStr = $"SELECT {{>: {{person({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<GrammaticalPerson>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToPerson(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<GrammaticalPerson>();
         }
         #endregion
 
@@ -452,6 +578,27 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
         }
+
+        public List<VerbType> GetVerbTypes(string content)
+        {
+            var queryStr = $"SELECT {{>: {{`verb type`({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<VerbType>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToVerbType(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<VerbType>();
+        }
         #endregion
 
         #region NumeralType
@@ -477,6 +624,41 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
 
             throw new ArgumentOutOfRangeException(nameof(key), key.ToString());
+        }
+
+        public List<NumeralType> GetNumeralTypes(string content)
+        {
+            var queryStr = $"SELECT {{>: {{`numeral type`({content}, $X)}}}}";
+
+            var queryResult = Engine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<NumeralType>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    result.Add(KeyToNumeralType(item.Params.First().EntityKey));
+                }
+
+                return result;
+            }
+
+            return new List<NumeralType>();
+        }
+        #endregion
+
+        #region Modality
+        public bool IsModality(string content)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region NumberWord
+        public bool IsNumberWord(string content)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
