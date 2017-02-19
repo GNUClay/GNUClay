@@ -15,9 +15,9 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         private List<ExtendToken> mTokens = null;
 
-        private List<Phrase> mResultList = new List<Phrase>();
+        private List<Sentence> mResultList = new List<Sentence>();
 
-        public List<Phrase> Result
+        public List<Sentence> Result
         {
             get
             {
@@ -25,7 +25,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
         }
 
-        public void AddResult(Phrase phrase)
+        public void AddResult(Sentence phrase)
         {
             mResultList.Add(phrase);
         }

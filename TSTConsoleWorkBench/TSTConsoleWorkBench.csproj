@@ -67,9 +67,11 @@
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
+    <Compile Include="TextCGParser\AdjectivePhrase.cs" />
     <Compile Include="TextCGParser\ATNNode.cs" />
     <Compile Include="TextCGParser\ATNParser.cs" />
     <Compile Include="TextCGParser\CaseOfPersonalPronoun.cs" />
+    <Compile Include="TextCGParser\GrammaticalAspect.cs" />
     <Compile Include="TextCGParser\GrammaticalComparison.cs" />
     <Compile Include="TextCGParser\ExtendTextLexer.cs" />
     <Compile Include="TextCGParser\GrammaticalGender.cs" />
@@ -77,14 +79,18 @@
     <Compile Include="TextCGParser\GrammaticalPartOfSpeech.cs" />
     <Compile Include="TextCGParser\GrammaticalPerson.cs" />
     <Compile Include="TextCGParser\GrammaticalTenses.cs" />
+    <Compile Include="TextCGParser\IPhrase.cs" />
+    <Compile Include="TextCGParser\NounPhrase.cs" />
     <Compile Include="TextCGParser\NumeralType.cs" />
-    <Compile Include="TextCGParser\Phrase.cs" />
+    <Compile Include="TextCGParser\PrepositionalPhrase.cs" />
+    <Compile Include="TextCGParser\Sentence.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
     <Compile Include="TextCGParser\TextLexer.cs" />
     <Compile Include="TextCGParser\ExtendToken.cs" />
     <Compile Include="TextCGParser\TextParsingLexerContex.cs" />
     <Compile Include="TextCGParser\TextPhraseContext.cs" />
     <Compile Include="TextCGParser\TypeOfPronoun.cs" />
+    <Compile Include="TextCGParser\VerbPhrase.cs" />
     <Compile Include="TextCGParser\VerbType.cs" />
   </ItemGroup>
   <ItemGroup>
