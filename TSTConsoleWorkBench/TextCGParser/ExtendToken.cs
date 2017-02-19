@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public class ExtendToken : IToStringData
+    public class ExtendToken : IToStringData, IPhrase
     {
         /// <summary>
         /// What represents an instance of this class.

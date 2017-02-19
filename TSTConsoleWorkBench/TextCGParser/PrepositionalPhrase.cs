@@ -11,5 +11,7 @@ namespace TSTConsoleWorkBench.TextCGParser
     /// </summary>
     public class PrepositionalPhrase: IPhrase
     {
+        public ExtendToken Prepositional = null;
+        public IPhrase Noun = null;
     }
 }

@@ -11,5 +11,7 @@ namespace TSTConsoleWorkBench.TextCGParser
     /// </summary>
     public class AdjectivePhrase: IPhrase
     {
+        public ExtendToken Adjective = null;
+        public ExtendToken Adverb = null;
     }
 }

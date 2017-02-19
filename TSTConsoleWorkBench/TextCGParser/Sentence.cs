@@ -8,6 +8,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 {
     public class Sentence
     {
-
+        public NounPhrase NounPhrase = null;
+        public VerbPhrase VerbPhrase = null;
     }
 }

@@ -11,5 +11,7 @@ namespace TSTConsoleWorkBench.TextCGParser
     /// </summary>
     public class VerbPhrase: IPhrase
     {
+        public ExtendToken Verb = null;
+        public IPhrase Object = null;
     }
 }
