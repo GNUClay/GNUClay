@@ -69,6 +69,7 @@
     <Compile Include="Serialiazation\SerializationRunner.cs" />
     <Compile Include="TextCGParser\AdjectivePhrase.cs" />
     <Compile Include="TextCGParser\ATNNode.cs" />
+    <Compile Include="TextCGParser\ATNNodeState.cs" />
     <Compile Include="TextCGParser\ATNParser.cs" />
     <Compile Include="TextCGParser\CaseOfPersonalPronoun.cs" />
     <Compile Include="TextCGParser\GrammaticalAspect.cs" />

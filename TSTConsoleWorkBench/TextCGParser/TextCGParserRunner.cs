@@ -8,6 +8,18 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
+    public class N
+    {
+        public string N_1 = string.Empty;
+        public string N_2 = string.Empty;
+        public string N_3 = string.Empty;
+        public string N_4 = string.Empty;
+        public string N_5 = string.Empty;
+        public string N_6 = string.Empty;
+        public string N_7 = string.Empty;
+        public string N_8 = string.Empty;
+    }
+
     public class TextCGParserRunner
     {
         public void Run()
@@ -94,116 +106,146 @@ namespace TSTConsoleWorkBench.TextCGParser
         private const string could = "could";
         private const string might = "might";
         private const string be = "be";
-        private const string abble = "able";
+        private const string able = "able";
         private const string F_to_do = "(f to do)";
         private const string F_to_be = "(f to be)";
         private const string F_to_have = "(f to have)";
-
-        private class N
-        {
-            public string N_1 = string.Empty;
-            public string N_2 = string.Empty;
-            public string N_3 = string.Empty;
-            public string N_4 = string.Empty;
-            public string N_5 = string.Empty;
-            public string N_6 = string.Empty;
-            public string N_7 = string.Empty;
-            public string N_8 = string.Empty;
-        }
 
         public void CreateATNStateTree()
         {
             var nodes = new List<N>()
             {
-                new N()
-                {
-                    N_1 = NP,
-                    N_2 = V
-                },
-                new N ()
-                {
-                    N_1 = NP,
-                    N_2 = F_to_do,
-                    N_3 = not,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = QW,
-                    N_2 = V
-                },
-                new N ()
-                {
-                    N_1 = QW,
-                    N_2 = F_to_do,
-                    N_3 = not,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = F_to_do,
-                    N_2 = NP,
-                    N_3 = V
-                },
-                new N()
-                {
-                    N_1 = F_to_do,
-                    N_2 = not,
-                    N_3 = NP,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = QW,
-                    N_2 = F_to_do,
-                    N_3 = NP,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = QW,
-                    N_2 = F_to_do,
-                    N_3 = not,
-                    N_4 = NP,
-                    N_5 = V
-                },
-                new N()
-                {
-                    N_1 = NP,
-                    N_2 = will,
-                    N_3 = V
-                },
-                new N()
-                {
-                    N_1 = NP,
-                    N_2 = will,
-                    N_3 = not,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = QW,
-                    N_2 = will,
-                    N_3 = V
-                },
-                new N()
-                {
-                    N_1 = QW,
-                    N_2 = will,
-                    N_3 = not,
-                    N_4 = V
-                },
-                new N()
-                {
-                    N_1 = will,
-                    N_2 = NP,
-                    N_3 = V
-                }
+                N(NP, V),
+                N(NP, F_to_do, not, V),
+                N(QW, V),
+                N(QW, F_to_do, not, V),
+                N(F_to_do, NP, V),
+                N(F_to_do, not, NP, V),
+                N(QW, F_to_do, NP, V),
+                N(QW, F_to_do, not, NP, V),
+                N(NP, will, V),
+                N(NP, will, not, V),
+                N(QW, will, V),
+                N(QW, will, not, V),
+                N(will, NP, V),
+                N(will, not, NP, V),
+                N(QW, will, NP, V),
+                N(QW, will, not, NP, V),
+                N(V, NP),
+                N(_do, not, V, NP),
+                N(NP, F_to_be, Ving),
+                N(NP, F_to_be, not, Ving),
+                N(QW, F_to_be, Ving),
+                N(QW, F_to_be, not, Ving),
+                N(F_to_be, NP, Ving),
+                N(F_to_be, not, NP, Ving),
+                N(QW, F_to_be, NP, Ving),
+                N(QW, F_to_be, not, NP, Ving),
+                N(NP, will, be, Ving),
+                N(NP, will, not, be, Ving),
+                N(QW, will, be, Ving),
+                N(QW, will, not, be, Ving),
+                N(will, NP, be, Ving),
+                N(will, not, NP, be, Ving),
+                N(QW, will, NP, be, Ving),
+                N(QW, will, not, NP, be, Ving),
+                N(NP, F_to_have, V3f),
+                N(NP, F_to_have, not, V3f),
+                N(QW, F_to_have, V3f),
+                N(QW, F_to_have, not, V3f),
+                N(F_to_have, NP, V3f),
+                N(F_to_have, not, NP, V3f),
+                N(QW, F_to_have, NP, V3f),
+                N(QW, F_to_have, not, NP, V3f),
+                N(NP, will, have, V3f),
+                N(NP, will, not, have, V3f),
+                N(QW, will, have, V3f),
+                N(QW, will, not, have, V3f),
+                N(will, NP, have, V3f),
+                N(will, not, NP, have, V3f),
+                N(QW, will, NP, have, V3f),
+                N(QW, will, not, NP, have, V3f),
+                N(NP, must, V),
+                N(NP, must, not, V),
+                N(QW, must, V),
+                N(QW, must, not, V),
+                N(must, NP, V),
+                N(must, not, NP, V),
+                N(QW, must, NP, V),
+                N(QW, must, not, NP, V),
+                N(NP, F_to_have, to, V),
+                N(QW, F_to_have, to, V),
+                N(NP, F_to_do, not, have, to, V),
+                N(QW, F_to_do, not, have, to, V),
+                N(F_to_do, NP, have, to, V),
+                N(F_to_do, not, NP, have, to, V),
+                N(QW, F_to_do, NP, have, to, V),
+                N(QW, F_to_do, not, NP, have, to, V),
+                N(NP, will, have, to, V),
+                N(NP, will, not, have, to, V),
+                N(QW, will, have, to, V),
+                N(QW, will, not, have, to, V),
+                N(will, NP, have, to, V),
+                N(will, not, NP, have, to, V),
+                N(QW, will, NP, have, to, V),
+                N(QW, will, not, NP, have, to, V),
+                N(NP, F_to_be, able, to, V),
+                N(NP, F_to_be, not, able, to, V),
+                N(QW, F_to_be, able, to, V),
+                N(QW, F_to_be, not, able, to, V),
+                N(F_to_be, NP, able, to, V),
+                N(F_to_be, not, NP, able, to, V),
+                N(QW, F_to_be, NP, able, to, V),
+                N(QW, F_to_be, not, NP, able, to, V),
+                N(NP, will, be, able, to, V),
+                N(NP, will, not, be, able, to, V),
+                N(QW, will, be, able, to, V),
+                N(QW, will, not, be, able, to, V),
+                N(will, NP, be, able, to, V),
+                N(will, not, NP, be, able, to, V),
+                N(QW, will, NP, be, able, to, V),
+                N(QW, will, not, NP, be, able, to, V),
+                N(NP, may, V),
+                N(NP, may, not, V),
+                N(QW, may, V),
+                N(QW, may, not, V),
+                N(may, NP, V),
+                N(may, not, NP, V),
+                N(QW, may, NP, V),
+                N(QW, may, not, NP, V),
+                N(NP, might, V),
+                N(NP, might, not, V),
+                N(QW, might, V),
+                N(QW, might, not, V),
+                N(might, NP, V),
+                N(might, not, NP, V),
+                N(QW, might, NP, V),
+                N(QW, might, not, NP, V),
+                N(NP, can, V),
+                N(NP, can, not, V),
+                N(QW, can, V),
+                N(QW, can, not, V),
+                N(can, NP, V),
+                N(can, not, NP, V),
+                N(QW, can, NP, V),
+                N(QW, can, not, NP, V),
+                N(NP, could, V),
+                N(NP, could, not, V),
+                N(QW, could, V),
+                N(QW, could, not, V),
+                N(could, NP, V),
+                N(could, not, NP, V),
+                N(QW, could, NP, V),
+                N(QW, could, not, NP, V)
             };
 
             var N1List = nodes.GroupBy(p => p.N_1).ToDictionary(p => p.Key, p => p.ToList());
 
             var n = 0;
+
+            var tmpStateSb = new StringBuilder();
+
+            var tmpProcessingStub = new StringBuilder();
 
             foreach(var node in N1List)
             {
@@ -214,6 +256,9 @@ namespace TSTConsoleWorkBench.TextCGParser
                 n++;
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree n_1 = {n_1} stateName = {stateName} n = {n}");
+
+                RegStateItem(tmpStateSb, stateName);
+                RegProsessingItem(tmpProcessingStub, stateName);
 
                 var N2List = node.Value.GroupBy(p => p.N_2).ToDictionary(p => p.Key, p => p.ToList());
 
@@ -226,6 +271,9 @@ namespace TSTConsoleWorkBench.TextCGParser
                     n++;
 
                     NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(1)} n_2 = {n_2} stateName = {stateName} n = {n}");
+
+                    RegStateItem(tmpStateSb, stateName);
+                    RegProsessingItem(tmpProcessingStub, stateName);
 
                     var items_3 = subNode_2.Value;
 
@@ -243,6 +291,9 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                             NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(2)} n_3 = {n_3} stateName = {stateName} n = {n}");
 
+                            RegStateItem(tmpStateSb, stateName);
+                            RegProsessingItem(tmpProcessingStub, stateName);
+
                             var items_4 = subNode_3.Value;
 
                             if(items_4.Any(p => !string.IsNullOrWhiteSpace(p.N_4)))
@@ -258,6 +309,9 @@ namespace TSTConsoleWorkBench.TextCGParser
                                     n++;
 
                                     NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(3)} n_4 = {n_4} stateName = {stateName} n = {n}");
+
+                                    RegStateItem(tmpStateSb, stateName);
+                                    RegProsessingItem(tmpProcessingStub, stateName);
 
                                     var items_5 = subNode_4.Value;
 
@@ -275,6 +329,9 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                                             NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(4)} n_5 = {n_5} stateName = {stateName} n = {n}");
 
+                                            RegStateItem(tmpStateSb, stateName);
+                                            RegProsessingItem(tmpProcessingStub, stateName);
+
                                             var items_6 = subNode_5.Value;
 
                                             if(items_6.Any(p => !string.IsNullOrWhiteSpace(p.N_6)))
@@ -290,6 +347,9 @@ namespace TSTConsoleWorkBench.TextCGParser
                                                     n++;
 
                                                     NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(5)} n_6 = {n_6} stateName = {stateName} n = {n}");
+
+                                                    RegStateItem(tmpStateSb, stateName);
+                                                    RegProsessingItem(tmpProcessingStub, stateName);
 
                                                     var items_7 = subNode_6.Value;
 
@@ -307,6 +367,9 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                                                             NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(6)} n_7 = {n_7} stateName = {stateName} n = {n}");
 
+                                                            RegStateItem(tmpStateSb, stateName);
+                                                            RegProsessingItem(tmpProcessingStub, stateName);
+
                                                             var items_8 = subNode_7.Value;
 
                                                             if(items_8.Any(p => !string.IsNullOrWhiteSpace(p.N_8)))
@@ -322,6 +385,9 @@ namespace TSTConsoleWorkBench.TextCGParser
                                                                     n++;
 
                                                                     NLog.LogManager.GetCurrentClassLogger().Info($"CreateATNStateTree {Spacer(7)} n_8 = {n_8} stateName = {stateName} n = {n}");
+
+                                                                    RegStateItem(tmpStateSb, stateName);
+                                                                    RegProsessingItem(tmpProcessingStub, stateName);
                                                                 }
                                                             }
                                                         }
@@ -336,6 +402,122 @@ namespace TSTConsoleWorkBench.TextCGParser
                     }
                 }
             }
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpStateSb.ToString());
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpProcessingStub.ToString());
+
+        }
+
+        private static void RegStateItem(StringBuilder sb, string name)
+        {
+            sb.AppendLine($"{name},");
+        }
+
+        private static void RegProsessingItem(StringBuilder sb, string name)
+        {
+            sb.AppendLine($"case ATNNodeState.{name}:");
+            sb.AppendLine("throw new NotImplementedException();");
+            sb.AppendLine(string.Empty);
+        }
+
+        private static N N(string n_1)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3, string n_4)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+            result.N_4 = n_4;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3, string n_4, string n_5)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+            result.N_4 = n_4;
+            result.N_5 = n_5;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3, string n_4, string n_5, string n_6)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+            result.N_4 = n_4;
+            result.N_5 = n_5;
+            result.N_6 = n_6;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3, string n_4, string n_5, string n_6, string n_7)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+            result.N_4 = n_4;
+            result.N_5 = n_5;
+            result.N_6 = n_6;
+            result.N_7 = n_7;
+
+            return result;
+        }
+
+        private static N N(string n_1, string n_2, string n_3, string n_4, string n_5, string n_6, string n_7, string n_8)
+        {
+            var result = new N();
+
+            result.N_1 = n_1;
+            result.N_2 = n_2;
+            result.N_3 = n_3;
+            result.N_4 = n_4;
+            result.N_5 = n_5;
+            result.N_6 = n_6;
+            result.N_7 = n_7;
+            result.N_8 = n_8;
+
+            return result;
         }
 
         private string Spacer(int n)
@@ -472,7 +654,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 return "Be";
             }
 
-            if (node == abble)
+            if (node == able)
             {
                 return "Able";
             }

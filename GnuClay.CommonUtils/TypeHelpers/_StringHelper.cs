@@ -9,7 +9,7 @@ namespace GnuClay.CommonUtils.TypeHelpers
 {
     public static class _StringHelper
     {
-        public static string Normalize(string source)
+        public static string Normalize(this string source)
         {
             if(string.IsNullOrWhiteSpace(source))
             {
@@ -20,20 +20,20 @@ namespace GnuClay.CommonUtils.TypeHelpers
 
             var tmpRegex_1 = new Regex("\\W(\\s)\\W");
 
-            source = SpaceRemoverInNormalizedString(source, tmpRegex_1);
+            source = source.SpaceRemoverInNormalizedString(tmpRegex_1);
 
             var tmpRegex_2 = new Regex("\\w(\\s)\\W");
 
-            source = SpaceRemoverInNormalizedString(source, tmpRegex_2);
+            source = source.SpaceRemoverInNormalizedString(tmpRegex_2);
 
             var tmpRegex_3 = new Regex("\\W(\\s)\\w");
 
-            source = SpaceRemoverInNormalizedString(source, tmpRegex_3);
+            source = source.SpaceRemoverInNormalizedString(tmpRegex_3);
 
             return source.Trim();
         }
 
-        private static string SpaceRemoverInNormalizedString(string source, Regex regex)
+        private static string SpaceRemoverInNormalizedString(this string source, Regex regex)
         {
             do
             {

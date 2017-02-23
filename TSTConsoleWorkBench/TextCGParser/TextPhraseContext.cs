@@ -8,13 +8,8 @@ namespace TSTConsoleWorkBench.TextCGParser
 {
     public class TextPhraseContext
     {
-        public enum State
-        {
-            Init
-        }
-
         public Queue<ExtendToken> Tokens = null;
-        public State mState = State.Init;
+        public ATNNodeState State = ATNNodeState.Init;
 
         public TextPhraseContext Clone()
         {
@@ -23,7 +18,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             var result = new TextPhraseContext();
 
             result.Tokens = new Queue<ExtendToken>(Tokens);
-            result.mState = mState;
+            result.State = State;
 
             return result;
         }

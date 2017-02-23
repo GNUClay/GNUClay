@@ -8,7 +8,7 @@ namespace GnuClay.CommonUtils.TypeHelpers
 {
     public static class _StringBuilderHelper
     {
-        public static void TruncateEnd(StringBuilder sb)
+        public static void TruncateEnd(this StringBuilder sb)
         {
             if(sb.Length == 0)
             {
