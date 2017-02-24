@@ -34,9 +34,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var context = new TextPhraseContext();
-
-            context.Tokens = new Queue<ExtendToken>(mTokens);
+            var context = new TextPhraseContext(mTokens);
 
             var node = new ATNNode(context, this);
 

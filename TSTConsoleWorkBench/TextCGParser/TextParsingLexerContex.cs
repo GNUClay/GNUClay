@@ -187,6 +187,19 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             return new List<GrammaticalNumberOfWord>();
         }
+
+        public List<GrammaticalNumberOfWord> FillToAllIfEmpty(List<GrammaticalNumberOfWord> source)
+        {
+            if(source.Count == 0)
+            {
+                return new List<GrammaticalNumberOfWord>() {
+                    GrammaticalNumberOfWord.Singular,
+                    GrammaticalNumberOfWord.Plural
+                };
+            }
+
+            return source;
+        }
         #endregion
 
         #region GrammaticalTenses

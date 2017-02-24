@@ -70,8 +70,14 @@
     <Compile Include="TextCGParser\AdjectivePhrase.cs" />
     <Compile Include="TextCGParser\ATNNode.cs" />
     <Compile Include="TextCGParser\ATNNodeState.cs" />
+    <Compile Include="TextCGParser\ATNNPNode.cs" />
+    <Compile Include="TextCGParser\ATNNPParser.cs" />
+    <Compile Include="TextCGParser\ATNNPParserContext.cs" />
+    <Compile Include="TextCGParser\ATNNPParserResult.cs" />
     <Compile Include="TextCGParser\ATNParser.cs" />
+    <Compile Include="TextCGParser\BaseATNParserContext.cs" />
     <Compile Include="TextCGParser\CaseOfPersonalPronoun.cs" />
+    <Compile Include="TextCGParser\ExtendTokenGoal.cs" />
     <Compile Include="TextCGParser\GrammaticalAspect.cs" />
     <Compile Include="TextCGParser\GrammaticalComparison.cs" />
     <Compile Include="TextCGParser\ExtendTextLexer.cs" />
@@ -91,6 +97,7 @@
     <Compile Include="TextCGParser\TextParsingLexerContex.cs" />
     <Compile Include="TextCGParser\TextPhraseContext.cs" />
     <Compile Include="TextCGParser\TypeOfPronoun.cs" />
+    <Compile Include="TextCGParser\UnknownWordException.cs" />
     <Compile Include="TextCGParser\VerbPhrase.cs" />
     <Compile Include="TextCGParser\VerbType.cs" />
   </ItemGroup>

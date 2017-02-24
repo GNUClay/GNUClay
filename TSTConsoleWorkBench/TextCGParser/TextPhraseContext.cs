@@ -6,18 +6,26 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public class TextPhraseContext
+    public class TextPhraseContext: BaseATNParserContext
     {
-        public Queue<ExtendToken> Tokens = null;
+        public TextPhraseContext(List<ExtendToken> tokens)
+            : base(tokens)
+        {    
+        }
+
+        public TextPhraseContext(BaseATNParserContext source)
+            : base(source)
+        {
+        }
+
         public ATNNodeState State = ATNNodeState.Init;
 
         public TextPhraseContext Clone()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Clone");
 
-            var result = new TextPhraseContext();
+            var result = new TextPhraseContext(this);
 
-            result.Tokens = new Queue<ExtendToken>(Tokens);
             result.State = State;
 
             return result;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.Parser.InternalParsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace TSTConsoleWorkBench.TextCGParser
     {
         public ATNNode(TextPhraseContext context, ATNParser parent)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ATNNode");
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
 
             mParent = parent;
             mContext = context;
@@ -19,7 +20,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         private TextPhraseContext mContext = null;
         private ATNParser mParent = null;
 
-        public bool Run()
+        public void Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
@@ -27,10 +28,57 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Run state = {state}");
 
+            var token = mContext.GetToken();
+
             switch (state)
             {
                 case ATNNodeState.Init:
-                    throw new NotImplementedException();
+                    var goals = ExtendTokenToGoals(token);
+
+                    if(goals.Count == 0)
+                    {
+                        return;
+                    }
+
+                    foreach(var goal in goals)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"Run goal = {goal}");
+
+                        switch(goal)
+                        {
+                            case ExtendTokenGoal.NP:
+                                var targetContext = mContext.Clone();
+
+                                targetContext.State = ATNNodeState.NP;
+                                targetContext.Recovery(token);
+
+                                var targetNpContext = new ATNNPParserContext(targetContext);
+
+                                var npParser = new ATNNPParser(targetNpContext);
+                                npParser.Run();
+
+                                var npResult = npParser.Result;
+
+                                if(npResult.Count == 0)
+                                {
+                                    NLog.LogManager.GetCurrentClassLogger().Info("Run npResult.Count == 0");
+
+                                    throw new NotImplementedException();
+                                }
+                                else
+                                {
+                                    foreach(var npItem in npResult)
+                                    {
+                                        NLog.LogManager.GetCurrentClassLogger().Info("Run npItem");
+                                        throw new NotImplementedException();
+                                    }
+                                }
+                                break;
+
+                            default: throw new ArgumentOutOfRangeException(nameof(goal), goal.ToString());
+                        }
+                    }
+                    break;
 
                 case ATNNodeState.NP:
                     throw new NotImplementedException();
@@ -230,400 +278,202 @@ namespace TSTConsoleWorkBench.TextCGParser
                 case ATNNodeState.NP_Could_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW:
+                case ATNNodeState.PQW:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_V:
+                case ATNNodeState.PQW_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo:
+                case ATNNodeState.PQW_FToDo:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not:
+                case ATNNodeState.PQW_FToDo_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_V:
+                case ATNNodeState.PQW_FToDo_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_NP:
+                case ATNNodeState.PQW_FToDo_Not_Have:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_NP_V:
+                case ATNNodeState.PQW_FToDo_Not_Have_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_NP_Have:
+                case ATNNodeState.PQW_FToDo_Not_Have_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_NP_Have_To:
+                case ATNNodeState.PQW_Will:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_NP_Have_To_V:
+                case ATNNodeState.PQW_Will_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_Have:
+                case ATNNodeState.PQW_Will_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_Have_To:
+                case ATNNodeState.PQW_Will_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_Not_Have_To_V:
+                case ATNNodeState.PQW_Will_Not_Be:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_NP:
+                case ATNNodeState.PQW_Will_Not_Be_Ving:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_NP_V:
+                case ATNNodeState.PQW_Will_Not_Be_Able:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_NP_Have:
+                case ATNNodeState.PQW_Will_Not_Be_Able_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_NP_Have_To:
+                case ATNNodeState.PQW_Will_Not_Be_Able_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToDo_NP_Have_To_V:
+                case ATNNodeState.PQW_Will_Not_Have:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will:
+                case ATNNodeState.PQW_Will_Not_Have_V3f:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_V:
+                case ATNNodeState.PQW_Will_Not_Have_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not:
+                case ATNNodeState.PQW_Will_Not_Have_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_V:
+                case ATNNodeState.PQW_Will_Be:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP:
+                case ATNNodeState.PQW_Will_Be_Ving:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_V:
+                case ATNNodeState.PQW_Will_Be_Able:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Be:
+                case ATNNodeState.PQW_Will_Be_Able_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Be_Ving:
+                case ATNNodeState.PQW_Will_Be_Able_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Be_Able:
+                case ATNNodeState.PQW_Will_Have:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Be_Able_To:
+                case ATNNodeState.PQW_Will_Have_V3f:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Be_Able_To_V:
+                case ATNNodeState.PQW_Will_Have_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Have:
+                case ATNNodeState.PQW_Will_Have_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Have_V3f:
+                case ATNNodeState.PQW_FToBe:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Have_To:
+                case ATNNodeState.PQW_FToBe_Ving:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_NP_Have_To_V:
+                case ATNNodeState.PQW_FToBe_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Be:
+                case ATNNodeState.PQW_FToBe_Not_Ving:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Be_Ving:
+                case ATNNodeState.PQW_FToBe_Not_Able:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Be_Able:
+                case ATNNodeState.PQW_FToBe_Not_Able_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Be_Able_To:
+                case ATNNodeState.PQW_FToBe_Not_Able_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Be_Able_To_V:
+                case ATNNodeState.PQW_FToBe_Able:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Have:
+                case ATNNodeState.PQW_FToBe_Able_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Have_V3f:
+                case ATNNodeState.PQW_FToBe_Able_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Have_To:
+                case ATNNodeState.PQW_FToHave:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Not_Have_To_V:
+                case ATNNodeState.PQW_FToHave_V3f:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP:
+                case ATNNodeState.PQW_FToHave_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_V:
+                case ATNNodeState.PQW_FToHave_Not_V3f:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Be:
+                case ATNNodeState.PQW_FToHave_To:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Be_Ving:
+                case ATNNodeState.PQW_FToHave_To_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Be_Able:
+                case ATNNodeState.PQW_Must:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Be_Able_To:
+                case ATNNodeState.PQW_Must_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Be_Able_To_V:
+                case ATNNodeState.PQW_Must_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Have:
+                case ATNNodeState.PQW_Must_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Have_V3f:
+                case ATNNodeState.PQW_May:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Have_To:
+                case ATNNodeState.PQW_May_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_NP_Have_To_V:
+                case ATNNodeState.PQW_May_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Be:
+                case ATNNodeState.PQW_May_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Be_Ving:
+                case ATNNodeState.PQW_Might:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Be_Able:
+                case ATNNodeState.PQW_Might_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Be_Able_To:
+                case ATNNodeState.PQW_Might_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Be_Able_To_V:
+                case ATNNodeState.PQW_Might_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Have:
+                case ATNNodeState.PQW_Can:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Have_V3f:
+                case ATNNodeState.PQW_Can_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Have_To:
+                case ATNNodeState.PQW_Can_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_Will_Have_To_V:
+                case ATNNodeState.PQW_Can_Not_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToBe:
+                case ATNNodeState.PQW_Could:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToBe_Ving:
+                case ATNNodeState.PQW_Could_V:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToBe_Not:
+                case ATNNodeState.PQW_Could_Not:
                     throw new NotImplementedException();
 
-                case ATNNodeState.QW_FToBe_Not_Ving:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_NP_Ving:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_NP_Able:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_NP_Able_To:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_NP_Able_To_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_Able:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_Able_To:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Not_Able_To_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_NP_Ving:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_NP_Able:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_NP_Able_To:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_NP_Able_To_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Able:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Able_To:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToBe_Able_To_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_V3f:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_Not_V3f:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_Not_NP_V3f:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_NP_V3f:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_To:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_FToHave_To_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_Not_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_Not_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Must_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_Not_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_Not_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_May_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_Not_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_Not_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Might_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_Not_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_Not_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Can_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_Not:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_Not_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_Not_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_Not_NP_V:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_NP:
-                    throw new NotImplementedException();
-
-                case ATNNodeState.QW_Could_NP_V:
+                case ATNNodeState.PQW_Could_Not_V:
                     throw new NotImplementedException();
 
                 case ATNNodeState.FToDo:
@@ -660,6 +510,261 @@ namespace TSTConsoleWorkBench.TextCGParser
                     throw new NotImplementedException();
 
                 case ATNNodeState.FToDo_Not_NP_Have_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_NP_Have:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_NP_Have_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_NP_Have_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not_NP_Have:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not_NP_Have_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToDo_Not_NP_Have_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Be:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Be_Ving:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Be_Able:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Be_Able_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Be_Able_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Have:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Have_V3f:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Have_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_NP_Have_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Be:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Be_Ving:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Be_Able:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Be_Able_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Be_Able_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Have:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Have_V3f:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Have_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Will_Not_NP_Have_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_NP_Ving:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_NP_Able:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_NP_Able_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_NP_Able_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not_NP_Ving:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not_NP_Able:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not_NP_Able_To:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToBe_Not_NP_Able_To_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave_NP_V3f:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_FToHave_Not_NP_V3f:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Must_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_May_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Might_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Can_Not_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could_NP_V:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could_Not:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could_Not_NP:
+                    throw new NotImplementedException();
+
+                case ATNNodeState.QW_Could_Not_NP_V:
                     throw new NotImplementedException();
 
                 case ATNNodeState.Will:
@@ -899,6 +1004,39 @@ namespace TSTConsoleWorkBench.TextCGParser
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state.ToString());
             }
+        }
+
+        private static List<ExtendTokenGoal> ExtendTokenToGoals(ExtendToken token)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExtendTokenToGoals token = {token}");
+
+            if(token.TokenKind != TokenKind.Word)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ExtendTokenToGoals token.TokenKind != TokenKind.Word");
+
+                throw new NotImplementedException();
+                //return new List<ExtendTokenGoal>();
+            }
+
+            var partsOfSpeechList = token.PartOfSpeech;
+
+            var result = new List<ExtendTokenGoal>();
+
+            foreach (var partsOfSpeech in partsOfSpeechList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ExtendTokenToGoals partsOfSpeech = {partsOfSpeech}");
+
+                switch(partsOfSpeech)
+                {
+                    case GrammaticalPartOfSpeech.Article:
+                        result.Add(ExtendTokenGoal.NP);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(partsOfSpeech), partsOfSpeech.ToString());
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -62,17 +62,34 @@ namespace TSTConsoleWorkBench.TextCGParser
             result.Content = content;
             result.Key = DataDictionary.GetKey(content);
             result.PartOfSpeech = mContext.GetPartOfSpeech(content);
+
+            if(result.PartOfSpeech.Count == 0)
+            {
+                throw new UnknownWordException(content);
+            }
+
             result.RootKey = mContext.GetRoot(content);
+
+            if(result.RootKey == 0)
+            {
+                result.RootKey = result.Key;
+            }
 
             var isVerb = result.Is(GrammaticalPartOfSpeech.Verb);
             var isNoun = result.Is(GrammaticalPartOfSpeech.Noun);
             var isPronoun = result.Is(GrammaticalPartOfSpeech.Pronoun);
             var isAdjective = result.Is(GrammaticalPartOfSpeech.Adjective);
             var isAdverb = result.Is(GrammaticalPartOfSpeech.Adverb);
+            var isArticle = result.Is(GrammaticalPartOfSpeech.Article);
 
-            if (isVerb || isNoun || isPronoun)
+            if (isVerb || isNoun || isPronoun || isArticle)
             {
                 result.Number = mContext.GetNumbers(content);
+
+                if(isVerb || isArticle)
+                {
+                    result.Number = mContext.FillToAllIfEmpty(result.Number);
+                }
             }
             
             if(isNoun || isPronoun)
