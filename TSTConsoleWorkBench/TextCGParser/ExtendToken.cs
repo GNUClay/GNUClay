@@ -128,5 +128,10 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             return this;
         }
+
+        public string ToDbgString()
+        {
+            return Content;
+        }
     }
 }

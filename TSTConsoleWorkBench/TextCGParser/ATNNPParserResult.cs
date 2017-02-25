@@ -10,5 +10,10 @@ namespace TSTConsoleWorkBench.TextCGParser
     {
         public NounPhrase NP = null;
         public ATNNPParserContext Context = null;
+
+        public string ToDbgString()
+        {
+            return NP.ToDbgString();
+        }
     }
 }

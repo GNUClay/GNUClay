@@ -20,13 +20,48 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new PrepositionalPhrase();
 
-            result.Prepositional = Prepositional;
-            ptrList?.Add(result.Prepositional, Prepositional);
+            if(Prepositional != null)
+            {
+                result.Prepositional = Prepositional;
+                ptrList?.Add(result.Prepositional, Prepositional);
+            }
 
-            result.Noun = Noun?.Clone(ptrList);
-            ptrList?.Add(result.Noun, Noun);
+            if (Noun != null)
+            {
+                result.Noun = Noun.Clone(ptrList);
+                ptrList?.Add(result.Noun, Noun);
+            }
 
             return result;
+        }
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append($"{nameof(Prepositional)} = ");
+
+            if (Prepositional == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Prepositional.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Noun)} = ");
+
+            if (Noun == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Noun.ToDbgString());
+            }
+
+            return tmpSb.ToString();
         }
     }
 }

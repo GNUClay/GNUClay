@@ -41,16 +41,64 @@ namespace TSTConsoleWorkBench.TextCGParser
                 ptrList?.Add(Prepositional, result.Prepositional);
             }
 
-            if ( != null)
+            if (Adjective != null)
             {
-
+                result.Adjective = Adjective.Clone(ptrList);
+                ptrList?.Add(Adjective, result.Adjective);
             }
 
-            result.Adjective = Adjective?.Clone(ptrList);
-
-            ptrList?.Add(Adjective, result.Adjective);
-
             return result;
+        }
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append($"{nameof(Determiner)} = ");
+
+            if(Determiner == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Determiner.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Noun)} = ");
+
+            if (Noun == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Noun.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Prepositional)} = ");
+
+            if (Prepositional == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Prepositional.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Adjective)} = ");
+
+            if (Adjective == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Adjective.ToDbgString());
+            }
+
+            return tmpSb.ToString();
         }
     }
 }

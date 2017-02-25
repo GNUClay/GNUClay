@@ -35,5 +35,34 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             return result;
         }
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append($"{nameof(Verb)} = ");
+
+            if (Verb == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Verb.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Object)} = ");
+
+            if (Object == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Object.ToDbgString());
+            }
+
+            return tmpSb.ToString();
+        }
     }
 }

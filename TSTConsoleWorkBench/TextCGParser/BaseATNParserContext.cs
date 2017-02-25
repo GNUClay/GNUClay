@@ -15,8 +15,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         protected BaseATNParserContext(BaseATNParserContext source)
         {
-            mTokens = new Queue<ExtendToken>(source.mTokens);
-            mRecoveriesTokens = new Queue<ExtendToken>(source.mRecoveriesTokens);
+            AssignTokens(source);
         }
 
         protected Queue<ExtendToken> mTokens = null;
@@ -35,6 +34,12 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
 
             return mRecoveriesTokens.Dequeue();
+        }
+
+        public void AssignTokens(BaseATNParserContext source)
+        {
+            mTokens = new Queue<ExtendToken>(source.mTokens);
+            mRecoveriesTokens = new Queue<ExtendToken>(source.mRecoveriesTokens);
         }
 
         public void Recovery(ExtendToken token)

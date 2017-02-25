@@ -27,6 +27,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             var state = mContext.State;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Run state = {state}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mContext = {mContext.ToDbgString()}");
 
             var token = mContext.GetToken();
 
@@ -69,8 +70,15 @@ namespace TSTConsoleWorkBench.TextCGParser
                                 {
                                     foreach(var npItem in npResult)
                                     {
-                                        NLog.LogManager.GetCurrentClassLogger().Info("Run npItem");
-                                        throw new NotImplementedException();
+                                        NLog.LogManager.GetCurrentClassLogger().Info($"Run npItem = {npItem.ToDbgString()}");
+
+                                        var targetContext_2 = targetContext.Clone();
+                                        targetContext_2.AssignTokens(npItem.Context);
+
+                                        targetContext_2.Subject = npItem.NP;
+
+                                        var node = new ATNNode(targetContext_2, mParent);
+                                        node.Run();
                                     }
                                 }
                                 break;

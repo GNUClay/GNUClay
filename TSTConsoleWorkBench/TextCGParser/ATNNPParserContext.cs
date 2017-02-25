@@ -33,7 +33,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             ptrList.Add(RootNP, result.RootNP);
 
-            throw new NotImplementedException();
+            result.CurrentNP = (NounPhrase)ptrList[CurrentNP];
 
             return result;
         }

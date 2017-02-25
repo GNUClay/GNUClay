@@ -20,25 +20,48 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new AdjectivePhrase();
 
-            if ( != null)
+            if (Adjective != null)
             {
-
+                result.Adjective = Adjective;
+                ptrList?.Add(Adjective, result.Adjective);
             }
 
-            result.Adjective = Adjective;
-
-            ptrList?.Add(Adjective, result.Adjective);
-
-            if ( != null)
+            if (Adverb != null)
             {
-
+                result.Adverb = Adverb;
+                ptrList?.Add(Adverb, result.Adverb);
             }
-
-            result.Adverb = Adverb;
-
-            ptrList?.Add(Adverb, result.Adverb);
 
             return result;
+        }
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.Append($"{nameof(Adjective)} = ");
+
+            if (Adjective == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Adjective.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(Adverb)} = Adverb");
+
+            if(Adverb == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(Adverb.ToDbgString());
+            }
+
+            return tmpSb.ToString();
         }
     }
 }
