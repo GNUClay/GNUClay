@@ -44,7 +44,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                         mContext.CurrentNP.Determiner = token;
 
-                        var targetContext = 
+                        //var targetContext = 
 
                         throw new NotImplementedException();
 

@@ -8,5 +8,6 @@ namespace TSTConsoleWorkBench.TextCGParser
 {
     public interface IPhrase
     {
+        IPhrase Clone(Dictionary<object, object> ptrList);
     }
 }

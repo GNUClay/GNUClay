@@ -121,5 +121,12 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             return tmpSb.ToString();
         }
+
+        public IPhrase Clone(Dictionary<object, object> ptrList)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clone");
+
+            return this;
+        }
     }
 }

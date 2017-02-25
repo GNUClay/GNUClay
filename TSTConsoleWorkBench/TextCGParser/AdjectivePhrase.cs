@@ -13,5 +13,32 @@ namespace TSTConsoleWorkBench.TextCGParser
     {
         public ExtendToken Adjective = null;
         public ExtendToken Adverb = null;
+
+        public IPhrase Clone(Dictionary<object, object> ptrList)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Clone");
+
+            var result = new AdjectivePhrase();
+
+            if ( != null)
+            {
+
+            }
+
+            result.Adjective = Adjective;
+
+            ptrList?.Add(Adjective, result.Adjective);
+
+            if ( != null)
+            {
+
+            }
+
+            result.Adverb = Adverb;
+
+            ptrList?.Add(Adverb, result.Adverb);
+
+            return result;
+        }
     }
 }

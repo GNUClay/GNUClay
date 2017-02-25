@@ -22,6 +22,17 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new ATNNPParserContext(this);
 
+            if(RootNP == null)
+            {
+                return result;
+            }
+
+            var ptrList = new Dictionary<object, object>();
+
+            result.RootNP = (NounPhrase)RootNP.Clone(ptrList);
+
+            ptrList.Add(RootNP, result.RootNP);
+
             throw new NotImplementedException();
 
             return result;
