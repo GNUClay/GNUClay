@@ -25,6 +25,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             InitGrammaticalPerson();
             InitVerbType();
             InitNumeralType();
+            InitSpecialWords();
         }
 
         public GnuClayEngine Engine = null;
@@ -661,18 +662,27 @@ namespace TSTConsoleWorkBench.TextCGParser
         }
         #endregion
 
-        #region Modality
+        #region SpecialWords
         public bool IsModality(string content)
         {
             throw new NotImplementedException();
         }
-        #endregion
 
-        #region NumberWord
         public bool IsNumberWord(string content)
         {
             throw new NotImplementedException();
         }
+
+        private void InitSpecialWords();
+        public bool IsDoVerb(ulong key);
+        public bool IsHaveVerb(ulong key);
+        public bool IsBeVerb(ulong key);
+        public bool IsWillVerb(ulong key);
+        public bool IsCanVerb(ulong key);
+        public bool IsCouldVerb(ulong key);
+        public bool IsMustVerb(ulong key);
+        public bool IsMayVerb(ulong key);
+        public bool IsMightVerb(ulong key);
         #endregion
     }
 }

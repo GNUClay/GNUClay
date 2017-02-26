@@ -29,6 +29,16 @@ namespace TSTConsoleWorkBench.TextCGParser
         public bool IsModality = false;
         public bool IsNumberWord = false;
 
+        public bool IsDoVerb = false;
+        public bool IsHaveVerb = false;
+        public bool IsBeVerb = false;
+        public bool IsWillVerb = false;
+        public bool IsCanVerb = false;
+        public bool IsCouldVerb = false;    
+        public bool IsMustVerb = false;
+        public bool IsMayVerb = false;
+        public bool IsMightVerb = false;
+
         public List<GrammaticalTenses> Tenses = new List<GrammaticalTenses>();
         public List<GrammaticalComparison> Comparison = new List<GrammaticalComparison>();
         public List<GrammaticalGender> Gender = new List<GrammaticalGender>();
@@ -75,48 +85,30 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(TokenKind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(TokenKind.ToString());
-
-            tmpSb.Append(nameof(Content));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Content);
-
-            tmpSb.Append(nameof(Key));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Key.ToString());
-
+            tmpSb.AppendLine($"{nameof(TokenKind)} = {TokenKind}");
+            tmpSb.AppendLine($"{nameof(Content)} = {Content}");
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine(_ListHelper._ToString(PartOfSpeech, nameof(PartOfSpeech)));
-
-            tmpSb.Append(nameof(RootKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(RootKey.ToString());
-
+            tmpSb.AppendLine($"{nameof(RootKey)} = {RootKey}");
             tmpSb.AppendLine(_ListHelper._ToString(Number, nameof(Number)));
-
-            tmpSb.Append(nameof(IsModality));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(IsModality.ToString());
-
-            tmpSb.Append(nameof(IsNumberWord));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(IsNumberWord.ToString());
-
+            tmpSb.AppendLine($"{nameof(IsModality)} = {IsModality}");
+            tmpSb.AppendLine($"{nameof(IsNumberWord)} = {IsNumberWord}");
+            tmpSb.AppendLine($"{nameof(IsDoVerb)} = {IsDoVerb}");
+            tmpSb.AppendLine($"{nameof(IsHaveVerb)} = {IsHaveVerb}");
+            tmpSb.AppendLine($"{nameof(IsBeVerb)} = {IsBeVerb}");
+            tmpSb.AppendLine($"{nameof(IsWillVerb)} = {IsWillVerb}");
+            tmpSb.AppendLine($"{nameof(IsCanVerb)} = {IsCanVerb}");
+            tmpSb.AppendLine($"{nameof(IsCouldVerb)} = {IsCouldVerb}");
+            tmpSb.AppendLine($"{nameof(IsMustVerb)} = {IsMustVerb}");
+            tmpSb.AppendLine($"{nameof(IsMayVerb)} = {IsMayVerb}");
+            tmpSb.AppendLine($"{nameof(IsMightVerb)} = {IsMightVerb}");
             tmpSb.AppendLine(_ListHelper._ToString(Tenses, nameof(Tenses)));
-
             tmpSb.AppendLine(_ListHelper._ToString(Comparison, nameof(Comparison)));
-
             tmpSb.AppendLine(_ListHelper._ToString(Gender, nameof(Gender)));
-
             tmpSb.AppendLine(_ListHelper._ToString(CaseOfPersonalPronoun, nameof(CaseOfPersonalPronoun)));
-
             tmpSb.AppendLine(_ListHelper._ToString(TypeOfPronoun, nameof(TypeOfPronoun)));
-
             tmpSb.AppendLine(_ListHelper._ToString(Person, nameof(Person)));
-
             tmpSb.AppendLine(_ListHelper._ToString(VerbType, nameof(VerbType)));
-
             tmpSb.AppendLine(_ListHelper._ToString(NumeralType, nameof(NumeralType)));
 
             return tmpSb.ToString();

@@ -19,6 +19,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         private TextPhraseContext mContext = null;
         private ATNParser mParent = null;
+        private ExtendToken CurrToken = null;
 
         public void Run()
         {
@@ -29,12 +30,16 @@ namespace TSTConsoleWorkBench.TextCGParser
             NLog.LogManager.GetCurrentClassLogger().Info($"Run state = {state}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mContext = {mContext.ToDbgString()}");
 
-            var token = mContext.GetToken();
+            CurrToken = mContext.GetToken();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run CurrToken = {CurrToken}");
+
+            List<ExtendTokenGoal> goals = null;
 
             switch (state)
             {
                 case ATNNodeState.Init:
-                    var goals = ExtendTokenToGoals(token);
+                    goals = ExtendTokenToGoals(CurrToken);
 
                     if(goals.Count == 0)
                     {
@@ -51,7 +56,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                                 var targetContext = mContext.Clone();
 
                                 targetContext.State = ATNNodeState.NP;
-                                targetContext.Recovery(token);
+                                targetContext.Recovery(CurrToken);
 
                                 var targetNpContext = new ATNNPParserContext(targetContext);
 
@@ -89,7 +94,28 @@ namespace TSTConsoleWorkBench.TextCGParser
                     break;
 
                 case ATNNodeState.NP:
-                    throw new NotImplementedException();
+                    goals = ExtendTokenToGoals(CurrToken);
+
+                    if(goals.Count == 0)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("goals.Count == 0");
+
+                        throw new NotImplementedException();
+                    }
+
+                    foreach (var goal in goals)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"Run goal = {goal}");
+
+                        switch(goal)
+                        {
+                            //case ExtendTokenGoal.V:
+
+
+                            default: throw new ArgumentOutOfRangeException(nameof(goal), goal.ToString());
+                        }
+                    }
+                    break;    
 
                 case ATNNodeState.NP_V:
                     throw new NotImplementedException();
@@ -1038,6 +1064,10 @@ namespace TSTConsoleWorkBench.TextCGParser
                 {
                     case GrammaticalPartOfSpeech.Article:
                         result.Add(ExtendTokenGoal.NP);
+                        break;
+
+                    case GrammaticalPartOfSpeech.Verb:
+
                         break;
 
                     default: throw new ArgumentOutOfRangeException(nameof(partsOfSpeech), partsOfSpeech.ToString());

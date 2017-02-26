@@ -20,9 +20,13 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public ATNNodeState State = ATNNodeState.Init;
 
+        public NounPhrase PQW = null;
+        public NounPhrase QW = null;
         public NounPhrase Subject = null;
         public ExtendToken Verb = null;
         public NounPhrase Object = null;
+
+        public ExtendToken AdditionalVerb = null;
 
         public TextPhraseContext Clone()
         {
@@ -30,10 +34,13 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new TextPhraseContext(this);
 
+            result.PQW = PQW;
+            result.QW = QW;
             result.State = State;
             result.Subject = Subject;
             result.Verb = Verb;
             result.Object = Object;
+            result.AdditionalVerb = AdditionalVerb;
 
             return result;
         }
@@ -43,6 +50,28 @@ namespace TSTConsoleWorkBench.TextCGParser
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine($"{nameof(State)} = {State}");
+
+            tmpSb.Append($"{nameof(PQW)} = ");
+
+            if (PQW == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(PQW.ToDbgString());
+            }
+
+            tmpSb.Append($"{nameof(QW)} = ");
+
+            if (QW == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(QW.ToDbgString());
+            }
 
             tmpSb.Append($"{nameof(Subject)} = ");
 
@@ -76,7 +105,17 @@ namespace TSTConsoleWorkBench.TextCGParser
             {
                 tmpSb.AppendLine(Object.ToDbgString());
             }
+          
+            tmpSb.Append($"{nameof(AdditionalVerb)} = ");
 
+            if (AdditionalVerb == null)
+            {
+                tmpSb.AppendLine("null");
+            }
+            else
+            {
+                tmpSb.AppendLine(AdditionalVerb.ToDbgString());
+            }
             return tmpSb.ToString();
         }
     }
