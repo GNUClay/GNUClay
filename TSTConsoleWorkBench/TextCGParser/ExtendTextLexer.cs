@@ -60,7 +60,10 @@ namespace TSTConsoleWorkBench.TextCGParser
             var content = token.Content;
 
             result.Content = content;
-            result.Key = DataDictionary.GetKey(content);
+
+            var key = DataDictionary.GetKey(content);
+
+            result.Key = key;
             result.PartOfSpeech = mContext.GetPartOfSpeech(content);
 
             if(result.PartOfSpeech.Count == 0)
@@ -68,11 +71,14 @@ namespace TSTConsoleWorkBench.TextCGParser
                 throw new UnknownWordException(content);
             }
 
-            result.RootKey = mContext.GetRoot(content);
+            var rootKey = mContext.GetRoot(content);
 
-            if(result.RootKey == 0)
+            result.RootKey = rootKey;
+
+            if (rootKey == 0)
             {
-                result.RootKey = result.Key;
+                rootKey = result.Key;
+                result.RootKey = rootKey;
             }
 
             var isVerb = result.Is(GrammaticalPartOfSpeech.Verb);
@@ -91,7 +97,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                     result.Number = mContext.FillToAllIfEmpty(result.Number);
                 }
             }
-            
+             
             if(isNoun || isPronoun)
             {
                 result.Gender = mContext.GetGenders(content);
@@ -124,10 +130,20 @@ namespace TSTConsoleWorkBench.TextCGParser
                 result.Tenses = mContext.GetTenses(content);
                 result.VerbType = mContext.GetVerbTypes(content);
 
+                result.IsDoVerb = mContext.IsDoVerb(rootKey);
+                result.IsHaveVerb = mContext.IsHaveVerb(rootKey);
+                result.IsBeVerb = mContext.IsBeVerb(rootKey);
+                result.IsWillVerb = mContext.IsWillVerb(key);
+                result.IsCanVerb = mContext.IsCanVerb(key);
+                result.IsCouldVerb = mContext.IsCouldVerb(key);    
+                result.IsMustVerb = mContext.IsMustVerb(key);
+                result.IsMayVerb = mContext.IsMayVerb(key);
+                result.IsMightVerb = mContext.IsMightVerb(key);
+
                 //result.IsModality = mContext.IsModality(content);
             }
 
-            if(isAdjective || isAdverb)
+            if (isAdjective || isAdverb)
             {
                 result.Comparison = mContext.GetComparisons(content);
             }

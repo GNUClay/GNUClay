@@ -663,26 +663,82 @@ namespace TSTConsoleWorkBench.TextCGParser
         #endregion
 
         #region SpecialWords
-        public bool IsModality(string content)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsNumberWord(string content)
         {
             throw new NotImplementedException();
         }
 
-        private void InitSpecialWords();
-        public bool IsDoVerb(ulong key);
-        public bool IsHaveVerb(ulong key);
-        public bool IsBeVerb(ulong key);
-        public bool IsWillVerb(ulong key);
-        public bool IsCanVerb(ulong key);
-        public bool IsCouldVerb(ulong key);
-        public bool IsMustVerb(ulong key);
-        public bool IsMayVerb(ulong key);
-        public bool IsMightVerb(ulong key);
+        private void InitSpecialWords()
+        {
+            DoKey = DataDictionary.GetKey("do");
+            HaveKey = DataDictionary.GetKey("have");
+            BeKey = DataDictionary.GetKey("be");
+            WillKey = DataDictionary.GetKey("will");
+            CanKey = DataDictionary.GetKey("can");
+            CouldKey = DataDictionary.GetKey("could");
+            MustKey = DataDictionary.GetKey("must");
+            MayKey = DataDictionary.GetKey("may");
+            MightKey = DataDictionary.GetKey("might");
+            AbleKey = DataDictionary.GetKey("able");
+            ToKey = DataDictionary.GetKey("to");
+        }
+
+        public ulong DoKey = 0;
+        public ulong HaveKey = 0;
+        public ulong BeKey = 0;
+        public ulong WillKey = 0;
+        public ulong CanKey = 0;
+        public ulong CouldKey = 0;
+        public ulong MustKey = 0;
+        public ulong MayKey = 0;
+        public ulong MightKey = 0;
+        public ulong AbleKey = 0;
+        public ulong ToKey = 0;
+
+        public bool IsDoVerb(ulong key)
+        {
+            return (key == DoKey);
+        }
+
+        public bool IsHaveVerb(ulong key)
+        {
+            return (key == HaveKey);
+        }
+
+        public bool IsBeVerb(ulong key)
+        {
+            return (key == BeKey);
+        }
+
+        public bool IsWillVerb(ulong key)
+        {
+            return (key == WillKey);
+        }
+
+        public bool IsCanVerb(ulong key)
+        {
+            return (key == CanKey);
+        }
+
+        public bool IsCouldVerb(ulong key)
+        {
+            return (key == CouldKey);
+        }
+
+        public bool IsMustVerb(ulong key)
+        {
+            return (key == MustKey);
+        }
+
+        public bool IsMayVerb(ulong key)
+        {
+            return (key == MayKey);
+        }
+
+        public bool IsMightVerb(ulong key)
+        {
+            return (key == MightKey);
+        }
         #endregion
     }
 }

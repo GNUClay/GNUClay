@@ -26,7 +26,6 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public List<GrammaticalNumberOfWord> Number = new List<GrammaticalNumberOfWord>();
 
-        public bool IsModality = false;
         public bool IsNumberWord = false;
 
         public bool IsDoVerb = false;
@@ -91,7 +90,6 @@ namespace TSTConsoleWorkBench.TextCGParser
             tmpSb.AppendLine(_ListHelper._ToString(PartOfSpeech, nameof(PartOfSpeech)));
             tmpSb.AppendLine($"{nameof(RootKey)} = {RootKey}");
             tmpSb.AppendLine(_ListHelper._ToString(Number, nameof(Number)));
-            tmpSb.AppendLine($"{nameof(IsModality)} = {IsModality}");
             tmpSb.AppendLine($"{nameof(IsNumberWord)} = {IsNumberWord}");
             tmpSb.AppendLine($"{nameof(IsDoVerb)} = {IsDoVerb}");
             tmpSb.AppendLine($"{nameof(IsHaveVerb)} = {IsHaveVerb}");
