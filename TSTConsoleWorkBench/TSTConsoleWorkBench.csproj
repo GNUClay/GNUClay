@@ -68,6 +68,7 @@
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
     <Compile Include="TextCGParser\AdjectivePhrase.cs" />
+    <Compile Include="TextCGParser\ATNFinishNode.cs" />
     <Compile Include="TextCGParser\ATNNode.cs" />
     <Compile Include="TextCGParser\ATNNodeState.cs" />
     <Compile Include="TextCGParser\ATNNPNode.cs" />
@@ -75,8 +76,12 @@
     <Compile Include="TextCGParser\ATNNPParserContext.cs" />
     <Compile Include="TextCGParser\ATNNPParserResult.cs" />
     <Compile Include="TextCGParser\ATNParser.cs" />
+    <Compile Include="TextCGParser\ATNTailNode.cs" />
+    <Compile Include="TextCGParser\BaseATNNode.cs" />
     <Compile Include="TextCGParser\BaseATNParserContext.cs" />
     <Compile Include="TextCGParser\CaseOfPersonalPronoun.cs" />
+    <Compile Include="TextCGParser\CGNode.cs" />
+    <Compile Include="TextCGParser\CGNodeKind.cs" />
     <Compile Include="TextCGParser\ExtendTokenGoal.cs" />
     <Compile Include="TextCGParser\GrammaticalAspect.cs" />
     <Compile Include="TextCGParser\GrammaticalComparison.cs" />
@@ -97,6 +102,7 @@
     <Compile Include="TextCGParser\TextParsingLexerContex.cs" />
     <Compile Include="TextCGParser\TextPhraseContext.cs" />
     <Compile Include="TextCGParser\TypeOfPronoun.cs" />
+    <Compile Include="TextCGParser\TypeOfSentence.cs" />
     <Compile Include="TextCGParser\UnknownWordException.cs" />
     <Compile Include="TextCGParser\VerbPhrase.cs" />
     <Compile Include="TextCGParser\VerbType.cs" />

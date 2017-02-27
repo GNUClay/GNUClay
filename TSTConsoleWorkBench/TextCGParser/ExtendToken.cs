@@ -67,6 +67,16 @@ namespace TSTConsoleWorkBench.TextCGParser
             return false;
         }
 
+        public bool Is(VerbType verbType)
+        {
+            if (VerbType.Contains(verbType))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

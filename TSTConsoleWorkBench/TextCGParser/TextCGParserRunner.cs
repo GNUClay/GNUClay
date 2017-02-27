@@ -48,6 +48,13 @@ namespace TSTConsoleWorkBench.TextCGParser
                 var parser = new ATNParser(tokens);
 
                 parser.Run();
+
+                var result = parser.Result;
+
+                foreach(var item in result)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"item = {item.ToDbgString()}");
+                }
             }
             catch(Exception e)
             {

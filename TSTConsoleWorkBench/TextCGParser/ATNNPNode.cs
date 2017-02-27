@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.Parser.InternalParsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,24 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var partsOfSpeechList = CurrToken.PartOfSpeech;
 
+            if(partsOfSpeechList.Count == 0)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("Run partsOfSpeechList.Count == 0");
+
+                var tokenKind = CurrToken.TokenKind;
+
+                switch(tokenKind)
+                {
+                    case TokenKind.Point:
+                        PutRootAsNPAndExit();
+                        return;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(tokenKind), tokenKind.ToString());
+                }
+
+                throw new NotImplementedException();
+            }
+
             foreach(var partOfSpeech in partsOfSpeechList)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run partOfSpeech = {partOfSpeech}");
@@ -59,7 +78,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                     default: throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech.ToString());
                 }
-            }            
+            }           
         }
 
         private void InitRootNPIfNotExists()

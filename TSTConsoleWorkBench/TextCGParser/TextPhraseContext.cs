@@ -19,6 +19,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         }
 
         public ATNNodeState State = ATNNodeState.Init;
+        public ExtendTokenGoal TailState = ExtendTokenGoal.Undefined;
 
         public NounPhrase PQW = null;
         public NounPhrase QW = null;
@@ -37,6 +38,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             result.PQW = PQW;
             result.QW = QW;
             result.State = State;
+            result.TailState = TailState;
             result.Subject = Subject;
             result.Verb = Verb;
             result.Object = Object;
@@ -50,7 +52,8 @@ namespace TSTConsoleWorkBench.TextCGParser
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine($"{nameof(State)} = {State}");
-
+            tmpSb.AppendLine($"{nameof(TailState)} = {TailState}");
+            
             tmpSb.Append($"{nameof(PQW)} = ");
 
             if (PQW == null)

@@ -8,6 +8,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 {
     public enum ExtendTokenGoal
     {
+        Undefined,
         NP,
         QW,
         PQW,

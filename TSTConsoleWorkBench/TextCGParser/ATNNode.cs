@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public class ATNNode
+    public class ATNNode: BaseATNNode
     {
         public ATNNode(TextPhraseContext context, ATNParser parent)
+            : base(context, parent)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
-
-            mParent = parent;
-            mContext = context;
         }
 
-        private TextPhraseContext mContext = null;
-        private ATNParser mParent = null;
         private ExtendToken CurrToken = null;
 
         public void Run()
@@ -109,8 +105,16 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                         switch(goal)
                         {
-                            //case ExtendTokenGoal.V:
+                            case ExtendTokenGoal.V:
+                                var targetContext = mContext.Clone();
 
+                                targetContext.State = ATNNodeState.NP_V;
+
+                                targetContext.Verb = CurrToken;
+
+                                var node = new ATNNode(targetContext, mParent);
+                                node.Run();
+                                break;
 
                             default: throw new ArgumentOutOfRangeException(nameof(goal), goal.ToString());
                         }
@@ -118,7 +122,35 @@ namespace TSTConsoleWorkBench.TextCGParser
                     break;    
 
                 case ATNNodeState.NP_V:
-                    throw new NotImplementedException();
+                    goals = ExtendTokenToGoals(CurrToken);
+
+                    if (goals.Count == 0)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("goals.Count == 0");
+
+                        throw new NotImplementedException();
+                    }
+
+                    foreach (var goal in goals)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"Run goal = {goal}");
+
+                        switch (goal)
+                        {
+                            case ExtendTokenGoal.NP:
+                                var targetContext = mContext.Clone();
+
+                                targetContext.TailState = goal;
+                                targetContext.Recovery(CurrToken);
+
+                                var tailNode = new ATNTailNode(targetContext, mParent);
+                                tailNode.Run();
+                                break;
+
+                            default: throw new ArgumentOutOfRangeException(nameof(goal), goal.ToString());
+                        }
+                    }
+                    break;
 
                 case ATNNodeState.NP_FToDo:
                     throw new NotImplementedException();
@@ -1038,43 +1070,6 @@ namespace TSTConsoleWorkBench.TextCGParser
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state.ToString());
             }
-        }
-
-        private static List<ExtendTokenGoal> ExtendTokenToGoals(ExtendToken token)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExtendTokenToGoals token = {token}");
-
-            if(token.TokenKind != TokenKind.Word)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("ExtendTokenToGoals token.TokenKind != TokenKind.Word");
-
-                throw new NotImplementedException();
-                //return new List<ExtendTokenGoal>();
-            }
-
-            var partsOfSpeechList = token.PartOfSpeech;
-
-            var result = new List<ExtendTokenGoal>();
-
-            foreach (var partsOfSpeech in partsOfSpeechList)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ExtendTokenToGoals partsOfSpeech = {partsOfSpeech}");
-
-                switch(partsOfSpeech)
-                {
-                    case GrammaticalPartOfSpeech.Article:
-                        result.Add(ExtendTokenGoal.NP);
-                        break;
-
-                    case GrammaticalPartOfSpeech.Verb:
-
-                        break;
-
-                    default: throw new ArgumentOutOfRangeException(nameof(partsOfSpeech), partsOfSpeech.ToString());
-                }
-            }
-
-            return result;
         }
     }
 }
