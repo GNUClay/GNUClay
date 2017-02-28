@@ -17,8 +17,100 @@ namespace TSTConsoleWorkBench.TextCGParser
             Parent = parent;
         }
 
-        public string ClassName = string.Empty;
-        public string InstanceName = string.Empty;
+        public string ClassName
+        {
+            get
+            {
+                return mClassName;
+            }
+
+            set
+            {
+                if(value == mClassName)
+                {
+                    return;
+                }
+
+                if(string.IsNullOrWhiteSpace(value))
+                {
+                    mClassName = string.Empty;
+
+                    NCreateName();
+                }
+
+                mClassName = value.Trim();
+
+                NCreateName();
+            }
+        }
+
+        public string InstanceName
+        {
+            get
+            {
+                return mInstanceName;
+            }
+
+            set
+            {
+                if(value == mInstanceName)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    mInstanceName = string.Empty;
+
+                    NCreateName();
+                }
+
+                mInstanceName = value.Trim();
+
+                NCreateName();
+            }
+        }
+
+        private void NCreateName()
+        {
+            if (string.IsNullOrWhiteSpace(mClassName) && string.IsNullOrWhiteSpace(mInstanceName))
+            {
+                mName = string.Empty;
+
+                return;
+            }
+
+            var sb = new StringBuilder();
+
+            if(!string.IsNullOrWhiteSpace(mClassName))
+            {
+                sb.Append(mClassName);
+
+                if (!string.IsNullOrWhiteSpace(mInstanceName))
+                {
+                    sb.Append(":");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mInstanceName))
+            {
+                sb.Append(mInstanceName);
+            }
+
+            mName = sb.ToString().Trim();
+        }
+
+        public string Name
+        {
+            get
+            {
+                return mName;
+            }
+        }
+
+        private string mClassName = string.Empty;
+        private string mInstanceName = string.Empty;
+        private string mName = string.Empty;
 
         public CGNodeKind Kind = CGNodeKind.Undefined;
 
@@ -92,6 +184,60 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
         }
 
-        public List
+        public List<CGNode> OutputNodes
+        {
+            get
+            {
+                return mOutputNodes;
+            }
+        }
+
+        public void AddInputNode(CGNode node)
+        {
+            if(mInputNodes.Contains(node))
+            {
+                return;
+            }
+
+            mInputNodes.Add(node);
+
+            node.AddOutputNode(this);
+        }
+
+        public void RemoveInputNode(CGNode node)
+        {
+            if(!mInputNodes.Contains(node))
+            {
+                return;
+            }
+
+            mInputNodes.Remove(node);
+
+            node.RemoveOutputNode(this);
+        }
+
+        public void AddOutputNode(CGNode node)
+        {
+            if(mOutputNodes.Contains(node))
+            {
+                return;
+            }
+
+            mOutputNodes.Add(node);
+
+            node.AddInputNode(this);
+        }
+
+        public void RemoveOutputNode(CGNode node)
+        {
+            if(!mOutputNodes.Contains(node))
+            {
+                return;
+            }
+
+            mOutputNodes.Remove(node);
+
+            node.RemoveInputNode(this);
+        }
     }
 }

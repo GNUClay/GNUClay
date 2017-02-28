@@ -95,6 +95,8 @@
     <Compile Include="TextCGParser\NounPhrase.cs" />
     <Compile Include="TextCGParser\NumeralType.cs" />
     <Compile Include="TextCGParser\PrepositionalPhrase.cs" />
+    <Compile Include="TextCGParser\SemanticAnalyzer.cs" />
+    <Compile Include="TextCGParser\SemanticAnalyzerSentenceContext.cs" />
     <Compile Include="TextCGParser\Sentence.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
     <Compile Include="TextCGParser\TextLexer.cs" />

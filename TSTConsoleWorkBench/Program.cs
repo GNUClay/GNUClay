@@ -39,6 +39,7 @@ namespace TSTConsoleWorkBench
             var tmpTextCGParserRunner = new TextCGParserRunner();
             //tmpTextCGParserRunner.CreateATNStateTree();
             tmpTextCGParserRunner.Run();
+            //tmpTextCGParserRunner.TstCG();
         }
 
         private static void TSTGnuClayLocalServerInheritanceSelectQueryRunner()

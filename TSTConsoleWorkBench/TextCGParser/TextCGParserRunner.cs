@@ -17,7 +17,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         public string N_5 = string.Empty;
         public string N_6 = string.Empty;
         public string N_7 = string.Empty;
-        public string N_8 = string.Empty;
+        public string N_8 = string.Empty; 
     }
 
     public class TextCGParserRunner
@@ -51,10 +51,10 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                 var result = parser.Result;
 
-                foreach(var item in result)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"item = {item.ToDbgString()}");
-                }
+                var semanticAnalyzer = new SemanticAnalyzer(result, context.Engine);
+                semanticAnalyzer.Run();
+
+                var cgNodes = semanticAnalyzer.Result;
             }
             catch(Exception e)
             {
@@ -688,6 +688,34 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
 
             throw new ArgumentOutOfRangeException(nameof(node), node);
+        }
+
+        public void TstCG()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstCG");
+
+            var rootNode = new CGNode();
+
+            rootNode.Kind = CGNodeKind.Concept;
+            rootNode.ClassName = "qwerty";
+
+            var child_1 = new CGNode(rootNode);
+            child_1.ClassName = "person";
+            child_1.InstanceName = "#123";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstCG child_1.Name = {child_1.Name}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstCG rootNode.Children.Count = {rootNode.Children.Count}");
+
+            var child_2 = new CGNode(rootNode);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstCG rootNode.Children.Count = {rootNode.Children.Count}");
+
+            child_1.AddInputNode(child_2);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstCG child_2.OutputNodes.Count = {child_2.OutputNodes.Count}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End TstCG");
         }
     }
 }
