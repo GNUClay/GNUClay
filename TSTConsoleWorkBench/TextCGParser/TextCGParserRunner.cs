@@ -90,10 +90,10 @@ namespace TSTConsoleWorkBench.TextCGParser
             queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}";
+            queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}, {>: {root(likes, like)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(man, noun)}}";
+            queryStr = "INSERT {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}";
             engine.Query(queryStr);
         }
 

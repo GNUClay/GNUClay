@@ -57,6 +57,16 @@ namespace TSTConsoleWorkBench.TextCGParser
             return false;
         }
 
+        public bool Is(GrammaticalNumberOfWord value)
+        {
+            if (Number.Contains(value))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool Is(TypeOfPronoun value)
         {
             if(TypeOfPronoun.Contains(value))

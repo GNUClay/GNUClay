@@ -34,21 +34,10 @@ namespace GnuClay.CommonClientTypes.ResultTypes
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(ParamKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(ParamKey.ToString());
-
-            tmpSb.Append(nameof(EntityKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(EntityKey.ToString());
-
-            tmpSb.Append(nameof(Kind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Kind.ToString());
-
-            tmpSb.Append(nameof(Value));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Value?.ToString());
+            tmpSb.AppendLine($"{nameof(ParamKey)} = {ParamKey}");
+            tmpSb.AppendLine($"{nameof(EntityKey)} = {EntityKey}");
+            tmpSb.AppendLine($"{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{nameof(Value)} = {Value}");
 
             return tmpSb.ToString();
         }
