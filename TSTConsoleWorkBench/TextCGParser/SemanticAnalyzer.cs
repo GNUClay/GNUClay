@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine;
+using GnuClay.Engine.CommonStorages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,73 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
+    public enum SemanticConcepts
+    {
+        Animate,
+        State
+    }
+
     public class SemanticAnalyzer
     {
         public SemanticAnalyzer(List<Sentence> sentences, GnuClayEngine engine)
         {
             mSentences = sentences;
             mEngine = engine;
+
+            DataDictionary = mEngine.DataDictionary;
+
+            InitConcepts();
         }
 
         private List<Sentence> mSentences = null;
         private GnuClayEngine mEngine = null;
+        private StorageDataDictionary DataDictionary = null;
+
+        private void InitConcepts()
+        {
+            AnimateKey = DataDictionary.GetKey("animate");
+            StateKey = DataDictionary.GetKey("state");
+        }
+
+        private ulong AnimateKey = 0;
+        private ulong StateKey = 0;
+
+        private List<SemanticConcepts> LoadSemanticConcepts(string content)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run LoadSemanticConcepts content = {content}");
+
+            var queryStr = $"SELECT {{>: {{is($X, `{content}`)}}}}";
+
+            var queryResult = mEngine.Query(queryStr);
+
+            if (queryResult.Success && queryResult.HaveBeenFound)
+            {
+                var result = new List<SemanticConcepts>();
+
+                foreach (var item in queryResult.Items)
+                {
+                    var key = item.Params.First().EntityKey;
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Run LoadSemanticConcepts key = {key}");
+
+                    if (key == AnimateKey)
+                    {
+                        result.Add(SemanticConcepts.Animate);
+                        continue;
+                    }
+
+                    if (key == StateKey)
+                    {
+                        result.Add(SemanticConcepts.State);
+                        continue;
+                    }
+                }
+
+                return result;
+            }
+
+            return new List<SemanticConcepts>();
+        }
 
         private List<CGNode> mResult = new List<CGNode>();
 
@@ -165,16 +223,29 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessInstanceNP node.Name = {node.Name}");
 
-            RegNP(context, node, kind);
+            RegNP(context, node, kind, extendTokenNoun);
         }
 
-        private void RegNP(SemanticAnalyzerSentenceCommonContext context, CGNode node, ProcessNPKind kind)
+        private void RegNP(SemanticAnalyzerSentenceCommonContext context, CGNode node, ProcessNPKind kind, ExtendToken extendTokenNoun)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RegNP node.Name = {node.Name} kind = {kind}");
 
             var currentConcreteContext = context.CurrentSentenceContext;
 
-            switch(kind)
+            var rootKey = extendTokenNoun.RootKey;
+
+            var rootName = DataDictionary.GetValue(rootKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RegNP rootKey = {rootKey} rootName = {rootName}");
+
+            var conceptsList = LoadSemanticConcepts(rootName);
+
+            foreach(var c in conceptsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"RegNP c = {c}");
+            }
+
+            switch (kind)
             {
                 case ProcessNPKind.Subject:
                     currentConcreteContext.Subject = node;

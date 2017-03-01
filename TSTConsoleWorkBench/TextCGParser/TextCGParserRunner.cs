@@ -81,19 +81,31 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             var engine = context.Engine;
 
-            var queryStr = "INSERT {>: {`part of speech`(the, article)}}";
+            var queryStr = "INSERT {>: {entity(animate)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(dog, noun)}}, { >: {number(dog, singular)}}";
+            queryStr = "INSERT {>: {entity(physobj)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}";
+            queryStr = "INSERT {>: {animate(animal)}}, {>: {physobj(animal)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {animal(person)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(the, article)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(dog, noun)}}, { >: {number(dog, singular)}}, {>: {animal(dog)}}";
+            engine.Query(queryStr);
+
+            queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}, {>: {state(like)}}";
             engine.Query(queryStr);
 
             queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}, {>: {root(likes, like)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}";
+            queryStr = "INSERT {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}, {>: {animal(man)}}";
             engine.Query(queryStr);
         }
 
