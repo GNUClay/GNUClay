@@ -9,12 +9,6 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
-    public enum SemanticConcepts
-    {
-        Animate,
-        State
-    }
-
     public class SemanticAnalyzer
     {
         public SemanticAnalyzer(List<Sentence> sentences, GnuClayEngine engine)
@@ -44,7 +38,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Run LoadSemanticConcepts content = {content}");
 
-            var queryStr = $"SELECT {{>: {{is($X, `{content}`)}}}}";
+            var queryStr = $"SELECT {{>: {{is(`{content}`, $X)}}}}";
 
             var queryResult = mEngine.Query(queryStr);
 
@@ -55,8 +49,6 @@ namespace TSTConsoleWorkBench.TextCGParser
                 foreach (var item in queryResult.Items)
                 {
                     var key = item.Params.First().EntityKey;
-
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Run LoadSemanticConcepts key = {key}");
 
                     if (key == AnimateKey)
                     {
@@ -75,6 +67,28 @@ namespace TSTConsoleWorkBench.TextCGParser
             }
 
             return new List<SemanticConcepts>();
+        }
+
+        private string TenseToString(GrammaticalTenses tense)
+        {
+            switch(tense)
+            {
+                case GrammaticalTenses.Present:
+                    return "present";
+
+                default: throw new ArgumentOutOfRangeException(nameof(tense), tense.ToString());
+            }
+        }
+
+        private string AspectToString(GrammaticalAspect aspect)
+        {
+            switch (aspect)
+            {
+                case GrammaticalAspect.Simple:
+                    return "simple";
+
+                default: throw new ArgumentOutOfRangeException(nameof(aspect), aspect.ToString());
+            }
         }
 
         private List<CGNode> mResult = new List<CGNode>();
@@ -117,30 +131,37 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSentence sentence = {sentence.ToDbgString()}");
 
-            CGNode rootNode = null;
-            CGNode sentenceNode = null;
+            var IsStart = false;
 
             if (context == null)
             {
-                rootNode = new CGNode();
+                var rootNode = new CGNode();
                 rootNode.Kind = CGNodeKind.Concept;
 
-                sentenceNode = rootNode;
                 context = new SemanticAnalyzerSentenceCommonContext();
                 context.RootNode = rootNode;
+
+                IsStart = true;
+
+                var rootConcreteContext = new SemanticAnalyzerSentenceContext();
+
+                context.RootSentenceContext = rootConcreteContext;
+                context.CurrentSentenceContext = rootConcreteContext;
+                rootConcreteContext.SentenceNode = rootNode;
             }
 
             var concreteContext = new SemanticAnalyzerSentenceContext();
 
-            if (context.CurrentSentenceContext != null)
-            {
-                concreteContext.Parent = context.CurrentSentenceContext;
-               
-                sentenceNode = new CGNode(rootNode);
-                sentenceNode.Kind = CGNodeKind.Concept;
-            }
+            var parent = context.CurrentSentenceContext;
+
+            concreteContext.Parent = parent;
+
+            parent.Children.Add(concreteContext);
 
             context.CurrentSentenceContext = concreteContext;
+
+            var sentenceNode = new CGNode(concreteContext.Parent.SentenceNode);
+            sentenceNode.Kind = CGNodeKind.Concept;
 
             concreteContext.Sentence = sentence;
             concreteContext.SentenceNode = sentenceNode;
@@ -157,9 +178,50 @@ namespace TSTConsoleWorkBench.TextCGParser
                 ProcessNP(context, ProcessNPKind.Object, sentence.Object);
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSentence Next");
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessSentence Next");
 
-            throw new NotImplementedException();
+            if(IsStart)
+            {
+                var rootNode = context.RootNode;
+
+                var primaryChildNode = context.RootSentenceContext.Children.First();
+                var primaryChildSentence = primaryChildNode.Sentence;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSentence primaryChildSentence = {primaryChildSentence.ToDbgString()}");
+
+                var primaryChildCGNode = primaryChildNode.SentenceNode;
+
+                var tenseNode = new CGNode(rootNode);
+                tenseNode.Kind = CGNodeKind.Concept;
+
+                tenseNode.ClassName = TenseToString(primaryChildSentence.Tense);
+
+                var tenseRelation = new CGNode(rootNode);
+                tenseRelation.Kind = CGNodeKind.Relation;
+                tenseRelation.ClassName = "tense";
+
+                tenseRelation.AddInputNode(primaryChildCGNode);
+                tenseRelation.AddOutputNode(tenseNode);
+
+                var aspectNode = new CGNode(rootNode);
+                aspectNode.Kind = CGNodeKind.Concept;
+                aspectNode.ClassName = AspectToString(primaryChildSentence.Aspect);
+
+                var aspectRelation = new CGNode(rootNode);
+                aspectRelation.Kind = CGNodeKind.Relation;
+                aspectRelation.ClassName = "aspect";
+
+                aspectRelation.AddInputNode(primaryChildCGNode);
+                aspectRelation.AddOutputNode(aspectNode);
+                    
+                ProcessLinkingConcepts(context, null);
+
+                mResult.Add(context.RootNode);
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessSentence Next Next");
+     
+            //throw new NotImplementedException();
         }
 
         private void ProcessNP(SemanticAnalyzerSentenceCommonContext context, ProcessNPKind kind, NounPhrase np)
@@ -245,6 +307,17 @@ namespace TSTConsoleWorkBench.TextCGParser
                 NLog.LogManager.GetCurrentClassLogger().Info($"RegNP c = {c}");
             }
 
+            var targetConcept = SemanticConcepts.Unknown;
+
+            if(conceptsList.Any())
+            {
+                targetConcept = conceptsList.First();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RegNP targetConcept = {targetConcept}");
+
+            context.SemanticConceptsDict[node] = targetConcept;
+
             switch (kind)
             {
                 case ProcessNPKind.Subject:
@@ -264,14 +337,153 @@ namespace TSTConsoleWorkBench.TextCGParser
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb verb = {verb.ToDbgString()}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb verb = {verb}");
 
-            var verbName = mEngine.DataDictionary.GetValue(verb.RootKey);
+            var currentConcreteContext = context.CurrentSentenceContext;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb verbName = {verbName}");
+            var rootName = mEngine.DataDictionary.GetValue(verb.RootKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb rootName = {rootName}");
 
             var cgNode = new CGNode(context.CurrentSentenceContext.SentenceNode);
             cgNode.Kind = CGNodeKind.Concept;
 
-            cgNode.ClassName = verbName;
+            cgNode.ClassName = rootName;
+
+            var conceptsList = LoadSemanticConcepts(rootName);
+
+            foreach (var c in conceptsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb c = {c}");
+            }
+
+            var targetConcept = SemanticConcepts.Unknown;
+
+            if (conceptsList.Any())
+            {
+                targetConcept = conceptsList.First();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RegNP targetConcept = {targetConcept}");
+
+            context.SemanticConceptsDict[cgNode] = targetConcept;
+
+            currentConcreteContext.Verb = cgNode;
+
+            //throw new NotImplementedException();
+        }
+
+        private void ProcessLinkingConcepts(SemanticAnalyzerSentenceCommonContext context, SemanticAnalyzerSentenceContext concreteContext)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts (concreteContext == null) = {(concreteContext == null)}");
+
+            if (concreteContext == null)
+            {
+                concreteContext = context.RootSentenceContext;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts concreteContext = {concreteContext.ToDbgString()}");
+
+            var sentenceNode = concreteContext.SentenceNode;
+
+            var subject = concreteContext.Subject;
+            var verb = concreteContext.Verb;
+            var objectNode = concreteContext.Object;
+
+            if (subject != null && verb != null)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinkingConcepts subject != null && verb != null");
+
+                var subjectConcept = context.SemanticConceptsDict[subject];
+                var verbConcept = context.SemanticConceptsDict[verb];
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts subjectConcept = {subjectConcept} verbConcept = {verbConcept}");
+
+                var subjectToVerbRelationName = string.Empty;
+                var verbToSubjectRelationName = string.Empty;
+
+                switch (subjectConcept)
+                {
+                    case SemanticConcepts.Animate:
+                        switch(verbConcept)
+                        {
+                            case SemanticConcepts.State:
+                                subjectToVerbRelationName = "state";
+                                verbToSubjectRelationName = "expensier";
+                                break;
+
+                            default: throw new ArgumentOutOfRangeException(nameof(verbConcept), verbConcept.ToString());
+                        }
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(subjectConcept), subjectConcept.ToString());
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts subjectToVerbRelationName = {subjectToVerbRelationName} verbToSubjectRelationName = {verbToSubjectRelationName}");
+
+                var stvRelation = new CGNode(sentenceNode);
+                stvRelation.Kind = CGNodeKind.Relation;
+
+                stvRelation.ClassName = subjectToVerbRelationName;
+
+                stvRelation.AddInputNode(subject);
+                stvRelation.AddOutputNode(verb);
+
+                var vtsRelation = new CGNode(sentenceNode);
+                vtsRelation.Kind = CGNodeKind.Relation;
+
+                vtsRelation.ClassName = verbToSubjectRelationName;
+
+                vtsRelation.AddInputNode(verb);
+                vtsRelation.AddOutputNode(subject);
+            }
+
+            if(verb != null && objectNode != null)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinkingConcepts verb != null && objectNode != null");
+
+                var verbConcept = context.SemanticConceptsDict[verb];
+                var objectConcept = context.SemanticConceptsDict[objectNode];
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts verbConcept = {verbConcept} objectConcept = {objectConcept}");
+
+                var verbToObjectRelationName = string.Empty;
+
+                switch(objectConcept)
+                {
+                    case SemanticConcepts.Animate:
+                        switch(verbConcept)
+                        {
+                            case SemanticConcepts.State:
+                                verbToObjectRelationName = "object";
+                                break;
+
+                            default: throw new ArgumentOutOfRangeException(nameof(verbConcept), verbConcept.ToString());
+                        }
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(objectConcept), objectConcept.ToString());
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLinkingConcepts verbToObjectRelationName = {verbToObjectRelationName}");
+
+                var vtoRelation = new CGNode(sentenceNode);
+                vtoRelation.Kind = CGNodeKind.Relation;
+
+                vtoRelation.ClassName = verbToObjectRelationName;
+
+                vtoRelation.AddInputNode(verb);
+                vtoRelation.AddOutputNode(objectNode);
+                //throw new NotImplementedException();
+            }
+
+            var concreteContextChildren = concreteContext.Children;
+
+            if (concreteContextChildren.Any())
+            {
+                foreach(var child in concreteContextChildren)
+                {
+                    ProcessLinkingConcepts(context, child);
+                }
+            }
 
             //throw new NotImplementedException();
         }

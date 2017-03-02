@@ -10,6 +10,7 @@ namespace TSTConsoleWorkBench.TextCGParser
     public class SemanticAnalyzerSentenceContext
     {
         public SemanticAnalyzerSentenceContext Parent = null;
+        public List<SemanticAnalyzerSentenceContext> Children = new List<SemanticAnalyzerSentenceContext>();
 
         public Sentence Sentence = null;
      
@@ -18,6 +19,28 @@ namespace TSTConsoleWorkBench.TextCGParser
         public CGNode Subject = null;
         public CGNode Verb = null;
         public CGNode Object = null;
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.AppendLine($"{nameof(Sentence)} = {Sentence?.ToDbgString()}");
+            tmpSb.AppendLine($"{nameof(SentenceNode)} = {SentenceNode?.ToDbgString()}");
+            tmpSb.AppendLine($"{nameof(Subject)} = {Subject?.ToDbgString()}");
+            tmpSb.AppendLine($"{nameof(Verb)} = {Verb?.ToDbgString()}");
+            tmpSb.AppendLine($"{nameof(Object)} = {Object?.ToDbgString()}");
+
+            tmpSb.AppendLine("Begin Children");
+
+            foreach (var child in Children)
+            {
+                tmpSb.AppendLine($"{nameof(child)} = {child?.ToDbgString()}");
+            }
+
+            tmpSb.AppendLine("End Children");
+
+            return tmpSb.ToString();
+        }
     }
 
     public class SemanticAnalyzerSentenceCommonContext
@@ -29,6 +52,8 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public Dictionary<ulong, CGNode> Concepts = new Dictionary<ulong, CGNode>();
         public Dictionary<ulong, CGNode> Relations = new Dictionary<ulong, CGNode>();
+
+        public Dictionary<CGNode, SemanticConcepts> SemanticConceptsDict = new Dictionary<CGNode, SemanticConcepts>();
 
         public ulong GetTemplateInstanceKey(CGNode node)
         {

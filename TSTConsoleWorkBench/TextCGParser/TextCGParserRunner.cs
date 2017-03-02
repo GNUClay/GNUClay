@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSTConsoleWorkBench.TextCGParser.DOT;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {
@@ -55,6 +56,15 @@ namespace TSTConsoleWorkBench.TextCGParser
                 semanticAnalyzer.Run();
 
                 var cgNodes = semanticAnalyzer.Result;
+
+                NLog.LogManager.GetCurrentClassLogger().Info("Run Begin cgNodes");
+
+                foreach (var node in cgNodes)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Run node = {DotConverter.ConvertToString(node)}");
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info("Run End cgNodes");
             }
             catch(Exception e)
             {

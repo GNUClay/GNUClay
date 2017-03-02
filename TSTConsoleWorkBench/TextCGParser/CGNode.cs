@@ -239,5 +239,10 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             node.RemoveInputNode(this);
         }
+
+        public string ToDbgString()
+        {
+            return Name;
+        }
     }
 }
