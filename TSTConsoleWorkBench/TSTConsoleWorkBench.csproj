@@ -107,6 +107,7 @@
     <Compile Include="TextCGParser\SemanticAnalyzerSentenceContext.cs" />
     <Compile Include="TextCGParser\SemanticConcepts.cs" />
     <Compile Include="TextCGParser\Sentence.cs" />
+    <Compile Include="TextCGParser\TextCGEngine.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
     <Compile Include="TextCGParser\TextLexer.cs" />
     <Compile Include="TextCGParser\ExtendToken.cs" />
