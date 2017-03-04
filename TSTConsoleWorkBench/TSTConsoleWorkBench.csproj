@@ -80,16 +80,6 @@
     <Compile Include="TextCGParser\BaseATNNode.cs" />
     <Compile Include="TextCGParser\BaseATNParserContext.cs" />
     <Compile Include="TextCGParser\CaseOfPersonalPronoun.cs" />
-    <Compile Include="TextCGParser\CGNode.cs" />
-    <Compile Include="TextCGParser\CGNodeKind.cs" />
-    <Compile Include="TextCGParser\DOT\BaseContainerLeaf.cs" />
-    <Compile Include="TextCGParser\DOT\BaseLeaf.cs" />
-    <Compile Include="TextCGParser\DOT\ConceptualLeaf.cs" />
-    <Compile Include="TextCGParser\DOT\DotContext.cs" />
-    <Compile Include="TextCGParser\DOT\DotConverter.cs" />
-    <Compile Include="TextCGParser\DOT\RelationLeaf.cs" />
-    <Compile Include="TextCGParser\DOT\RootGraphDotLeaf.cs" />
-    <Compile Include="TextCGParser\DOT\SubGraphDotLeaf.cs" />
     <Compile Include="TextCGParser\ExtendTokenGoal.cs" />
     <Compile Include="TextCGParser\GrammaticalAspect.cs" />
     <Compile Include="TextCGParser\GrammaticalComparison.cs" />

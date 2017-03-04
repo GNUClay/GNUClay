@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.CommonUtils.CG
 {
     public class CGNode
     {
@@ -26,12 +26,12 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             set
             {
-                if(value == mClassName)
+                if (value == mClassName)
                 {
                     return;
                 }
 
-                if(string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     mClassName = string.Empty;
 
@@ -53,7 +53,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             set
             {
-                if(value == mInstanceName)
+                if (value == mInstanceName)
                 {
                     return;
                 }
@@ -82,7 +82,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var sb = new StringBuilder();
 
-            if(!string.IsNullOrWhiteSpace(mClassName))
+            if (!string.IsNullOrWhiteSpace(mClassName))
             {
                 sb.Append(mClassName);
 
@@ -126,19 +126,19 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             set
             {
-                if(value == mParent)
+                if (value == mParent)
                 {
                     return;
                 }
 
-                if(mParent != null)
+                if (mParent != null)
                 {
                     mParent.RemoveChild(this);
                 }
 
                 mParent = value;
 
-                if(mParent != null)
+                if (mParent != null)
                 {
                     mParent.AddChild(this);
                 }
@@ -155,7 +155,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         protected void AddChild(CGNode node)
         {
-            if(mChildren.Contains(node))
+            if (mChildren.Contains(node))
             {
                 return;
             }
@@ -194,7 +194,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public void AddInputNode(CGNode node)
         {
-            if(mInputNodes.Contains(node))
+            if (mInputNodes.Contains(node))
             {
                 return;
             }
@@ -206,7 +206,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public void RemoveInputNode(CGNode node)
         {
-            if(!mInputNodes.Contains(node))
+            if (!mInputNodes.Contains(node))
             {
                 return;
             }
@@ -218,7 +218,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public void AddOutputNode(CGNode node)
         {
-            if(mOutputNodes.Contains(node))
+            if (mOutputNodes.Contains(node))
             {
                 return;
             }
@@ -230,7 +230,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public void RemoveOutputNode(CGNode node)
         {
-            if(!mOutputNodes.Contains(node))
+            if (!mOutputNodes.Contains(node))
             {
                 return;
             }
@@ -247,27 +247,27 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public bool IsEquals(CGNode node)
         {
-            if(ClassName != node.ClassName)
+            if (ClassName != node.ClassName)
             {
                 return false;
             }
 
-            if(InstanceName != node.InstanceName)
+            if (InstanceName != node.InstanceName)
             {
                 return false;
             }
 
-            if(Children == null && node.Children != null)
+            if (Children == null && node.Children != null)
             {
                 return false;
             }
 
-            if(Children.Count != node.Children.Count)
+            if (Children.Count != node.Children.Count)
             {
                 return false;
             }
 
-            if(OutputNodes == null && node.OutputNodes != null)
+            if (OutputNodes == null && node.OutputNodes != null)
             {
                 return false;
             }
@@ -287,23 +287,23 @@ namespace TSTConsoleWorkBench.TextCGParser
                 return false;
             }
 
-            if(Children.Count > 0)
+            if (Children.Count > 0)
             {
                 var thisChildrenEnumerator = Children.GetEnumerator();
                 var otherChildrenEnumerator = node.Children.GetEnumerator();
 
-                while(thisChildrenEnumerator.MoveNext())
+                while (thisChildrenEnumerator.MoveNext())
                 {
                     otherChildrenEnumerator.MoveNext();
 
-                    if(!thisChildrenEnumerator.Current.IsEquals(otherChildrenEnumerator.Current))
+                    if (!thisChildrenEnumerator.Current.IsEquals(otherChildrenEnumerator.Current))
                     {
                         return false;
                     }
                 }
             }
 
-            if(OutputNodes.Count > 0)
+            if (OutputNodes.Count > 0)
             {
                 var thisOutputNodesEnumerator = OutputNodes.GetEnumerator();
                 var otherOutputNodesEnumerator = node.OutputNodes.GetEnumerator();
@@ -319,7 +319,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 }
             }
 
-            if(InputNodes.Count > 0)
+            if (InputNodes.Count > 0)
             {
                 var thisInputNodesEnumerator = InputNodes.GetEnumerator();
                 var otherInputNodesEnumerator = node.InputNodes.GetEnumerator();

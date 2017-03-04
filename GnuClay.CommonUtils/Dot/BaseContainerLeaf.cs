@@ -1,12 +1,13 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser.DOT
+namespace GnuClay.CommonUtils.Dot
 {
-    public abstract class BaseContainerLeaf: BaseLeaf
+    public abstract class BaseContainerLeaf : BaseLeaf
     {
         protected BaseContainerLeaf(DotContext context, CGNode node)
             : base(context)

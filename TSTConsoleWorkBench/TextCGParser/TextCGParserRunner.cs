@@ -1,11 +1,9 @@
-﻿using GnuClay.Engine;
-using GnuClay.Engine.Parser.InternalParsers;
+﻿using GnuClay.CommonUtils.CG;
+using GnuClay.CommonUtils.Dot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using TSTConsoleWorkBench.TextCGParser.DOT;
 
 namespace TSTConsoleWorkBench.TextCGParser
 {

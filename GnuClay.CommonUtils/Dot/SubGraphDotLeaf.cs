@@ -1,24 +1,24 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser.DOT
+namespace GnuClay.CommonUtils.Dot
 {
-    public class RootGraphDotLeaf: BaseContainerLeaf
+    public class SubGraphDotLeaf : BaseContainerLeaf
     {
-        public RootGraphDotLeaf(DotContext context, CGNode node)
+        public SubGraphDotLeaf(DotContext context, CGNode node)
             : base(context, node)
         {
         }
 
         protected override void PringBegin()
         {
-            Sb.Append("digraph ");
+            Sb.Append("subgraph ");
             Sb.Append(Name);
             Sb.AppendLine("{");
-            Sb.AppendLine("compound=true;");
         }
     }
 }

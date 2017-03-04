@@ -1,15 +1,16 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.CG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser.DOT
+namespace GnuClay.CommonUtils.Dot
 {
-    public class ConceptualLeaf : BaseLeaf
+    public class RelationLeaf : BaseLeaf
     {
-        public ConceptualLeaf(DotContext context, CGNode node)
-            : base(context)
+        public RelationLeaf(DotContext context, CGNode node)
+             : base(context)
         {
             mNode = node;
             Name = Context.GetNodeName();
@@ -29,7 +30,7 @@ namespace TSTConsoleWorkBench.TextCGParser.DOT
         protected override void OnRun()
         {
             Sb.Append(Name);
-            Sb.Append("[shape=box,label=\"");
+            Sb.Append("[shape=ellipse,label=\"");
             Sb.Append(Node.Name);
             Sb.Append("\"];");
         }
