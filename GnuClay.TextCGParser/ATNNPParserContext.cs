@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public class ATNNPParserContext: BaseATNParserContext
+    public class ATNNPParserContext : BaseATNParserContext
     {
         public ATNNPParserContext(BaseATNParserContext source)
             : base(source)
@@ -22,7 +22,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new ATNNPParserContext(this);
 
-            if(RootNP == null)
+            if (RootNP == null)
             {
                 return result;
             }

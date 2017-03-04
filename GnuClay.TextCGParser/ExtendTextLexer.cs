@@ -1,13 +1,10 @@
-﻿using GnuClay.Engine;
-using GnuClay.Engine.CommonStorages;
-using GnuClay.Engine.Parser.InternalParsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public class ExtendTextLexer
     {
@@ -30,7 +27,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var token = mLexer.GetToken();
 
-            if(token == null)
+            if (token == null)
             {
                 return null;
             }
@@ -66,7 +63,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             result.Key = key;
             result.PartOfSpeech = mContext.GetPartOfSpeech(content);
 
-            if(result.PartOfSpeech.Count == 0)
+            if (result.PartOfSpeech.Count == 0)
             {
                 throw new UnknownWordException(content);
             }
@@ -92,30 +89,30 @@ namespace TSTConsoleWorkBench.TextCGParser
             {
                 result.Number = mContext.GetNumbers(content);
 
-                if(isVerb || isArticle)
+                if (isVerb || isArticle)
                 {
                     result.Number = mContext.FillToAllIfEmpty(result.Number);
                 }
             }
-             
-            if(isNoun || isPronoun)
+
+            if (isNoun || isPronoun)
             {
                 result.Gender = mContext.GetGenders(content);
             }
 
-            if(isPronoun)
+            if (isPronoun)
             {
                 result.TypeOfPronoun = mContext.GetTypesOfPronoun(content);
             }
 
             var isPersonalPronoun = false;
 
-            if(isPronoun && result.Is(TypeOfPronoun.Personal))
+            if (isPronoun && result.Is(TypeOfPronoun.Personal))
             {
                 isPersonalPronoun = true;
             }
 
-            if(isPersonalPronoun)
+            if (isPersonalPronoun)
             {
                 result.CaseOfPersonalPronoun = mContext.GetCasesOfPersonalPronoun(content);
             }
@@ -135,7 +132,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 result.IsBeVerb = mContext.IsBeVerb(rootKey);
                 result.IsWillVerb = mContext.IsWillVerb(key);
                 result.IsCanVerb = mContext.IsCanVerb(key);
-                result.IsCouldVerb = mContext.IsCouldVerb(key);    
+                result.IsCouldVerb = mContext.IsCouldVerb(key);
                 result.IsMustVerb = mContext.IsMustVerb(key);
                 result.IsMayVerb = mContext.IsMayVerb(key);
                 result.IsMightVerb = mContext.IsMightVerb(key);

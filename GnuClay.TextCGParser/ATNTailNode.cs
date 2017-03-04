@@ -1,18 +1,17 @@
-﻿using GnuClay.Engine.Parser.InternalParsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public class ATNTailNode: BaseATNNode
+    public class ATNTailNode : BaseATNNode
     {
         public ATNTailNode(TextPhraseContext context, ATNParser parent)
             : base(context, parent)
         {
-             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
 
         private ExtendToken CurrToken = null;
@@ -30,7 +29,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Run CurrToken = {CurrToken}");
 
-            switch(state)
+            switch (state)
             {
                 case ExtendTokenGoal.NP:
                     var targetNpContext = new ATNNPParserContext(mContext);
@@ -64,7 +63,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                         }
                     }
                     break;
-                    
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state.ToString());
             }
@@ -78,7 +77,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TryNextDetect token = {token}");
 
-            if(token == null)
+            if (token == null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("TryNextDetect token == null");
 
@@ -87,7 +86,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var tokenKind = token.TokenKind;
 
-            switch(tokenKind)
+            switch (tokenKind)
             {
                 case TokenKind.Point:
                     Finish(context);
@@ -104,6 +103,6 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var node = new ATNFinishNode(context, mParent);
             node.Run();
-        }  
+        }
     }
 }

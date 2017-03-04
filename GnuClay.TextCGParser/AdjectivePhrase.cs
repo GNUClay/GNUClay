@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     /// <summary>
     /// AP
     /// </summary>
-    public class AdjectivePhrase: IPhrase
+    public class AdjectivePhrase : IPhrase
     {
         public ExtendToken Adjective = null;
         public ExtendToken Adverb = null;
@@ -52,7 +52,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             tmpSb.Append($"{nameof(Adverb)} = Adverb");
 
-            if(Adverb == null)
+            if (Adverb == null)
             {
                 tmpSb.AppendLine("null");
             }

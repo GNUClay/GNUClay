@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public enum GrammaticalGender
+    public enum CaseOfPersonalPronoun
     {
-        Masculine,
-        Feminine,
-        Neuter
+        Subject,
+        Object
     }
 }

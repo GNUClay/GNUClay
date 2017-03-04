@@ -1,13 +1,12 @@
-﻿using GnuClay.Engine.Parser.InternalParsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public class ATNNode: BaseATNNode
+    public class ATNNode : BaseATNNode
     {
         public ATNNode(TextPhraseContext context, ATNParser parent)
             : base(context, parent)
@@ -37,16 +36,16 @@ namespace TSTConsoleWorkBench.TextCGParser
                 case ATNNodeState.Init:
                     goals = ExtendTokenToGoals(CurrToken);
 
-                    if(goals.Count == 0)
+                    if (goals.Count == 0)
                     {
                         return;
                     }
 
-                    foreach(var goal in goals)
+                    foreach (var goal in goals)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info($"Run goal = {goal}");
 
-                        switch(goal)
+                        switch (goal)
                         {
                             case ExtendTokenGoal.NP:
                                 var targetContext = mContext.Clone();
@@ -61,7 +60,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                                 var npResult = npParser.Result;
 
-                                if(npResult.Count == 0)
+                                if (npResult.Count == 0)
                                 {
                                     NLog.LogManager.GetCurrentClassLogger().Info("Run npResult.Count == 0");
 
@@ -69,7 +68,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                                 }
                                 else
                                 {
-                                    foreach(var npItem in npResult)
+                                    foreach (var npItem in npResult)
                                     {
                                         NLog.LogManager.GetCurrentClassLogger().Info($"Run npItem = {npItem.ToDbgString()}");
 
@@ -92,7 +91,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 case ATNNodeState.NP:
                     goals = ExtendTokenToGoals(CurrToken);
 
-                    if(goals.Count == 0)
+                    if (goals.Count == 0)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("goals.Count == 0");
 
@@ -103,7 +102,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info($"Run goal = {goal}");
 
-                        switch(goal)
+                        switch (goal)
                         {
                             case ExtendTokenGoal.V:
                                 var targetContext = mContext.Clone();
@@ -119,7 +118,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                             default: throw new ArgumentOutOfRangeException(nameof(goal), goal.ToString());
                         }
                     }
-                    break;    
+                    break;
 
                 case ATNNodeState.NP_V:
                     goals = ExtendTokenToGoals(CurrToken);

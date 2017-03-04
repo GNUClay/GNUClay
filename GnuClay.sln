@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPackageCreator", "NPackage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.UnitTests", "GnuClay.UnitTests\GnuClay.UnitTests.csproj", "{268DB336-B226-45F8-BD5B-A4117B02948C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.TextCGParser", "GnuClay.TextCGParser\GnuClay.TextCGParser.csproj", "{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{268DB336-B226-45F8-BD5B-A4117B02948C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268DB336-B226-45F8-BD5B-A4117B02948C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268DB336-B226-45F8-BD5B-A4117B02948C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

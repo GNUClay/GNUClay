@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public enum GrammaticalComparison
+    public enum GrammaticalNumberOfWord
     {
-        None,
-        Comparative,
-        Superlative
+        Singular,
+        Plural
     }
 }

@@ -1,12 +1,11 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.Parser.InternalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public class ExtendToken : IToStringData, IPhrase
     {
@@ -33,7 +32,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         public bool IsBeVerb = false;
         public bool IsWillVerb = false;
         public bool IsCanVerb = false;
-        public bool IsCouldVerb = false;    
+        public bool IsCouldVerb = false;
         public bool IsMustVerb = false;
         public bool IsMayVerb = false;
         public bool IsMightVerb = false;
@@ -49,7 +48,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public bool Is(GrammaticalPartOfSpeech value)
         {
-            if(PartOfSpeech.Contains(value))
+            if (PartOfSpeech.Contains(value))
             {
                 return true;
             }
@@ -69,7 +68,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public bool Is(TypeOfPronoun value)
         {
-            if(TypeOfPronoun.Contains(value))
+            if (TypeOfPronoun.Contains(value))
             {
                 return true;
             }

@@ -1,11 +1,10 @@
-﻿using GnuClay.Engine.Parser.InternalParsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public abstract class BaseATNNode
     {
