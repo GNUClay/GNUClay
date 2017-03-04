@@ -29,33 +29,11 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var targetPhrase = "The dog likes man.";
 
-            var context = CreateContext();
-
-            var tmpLexer = new ExtendTextLexer(targetPhrase.ToLower().Trim(), context);
-
-            ExtendToken CurrToken = null;
-
             try
             {
-                var tokens = new List<ExtendToken>();
+                var parser = new TextCGEngine();
 
-                while ((CurrToken = tmpLexer.GetToken()) != null)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info(CurrToken);
-
-                    tokens.Add(CurrToken);
-                }
-
-                var parser = new ATNParser(tokens);
-
-                parser.Run();
-
-                var result = parser.Result;
-
-                var semanticAnalyzer = new SemanticAnalyzer(result, context.Engine);
-                semanticAnalyzer.Run();
-
-                var cgNodes = semanticAnalyzer.Result;
+                var cgNodes = parser.Run(targetPhrase);
 
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Begin cgNodes");
 
@@ -70,53 +48,6 @@ namespace TSTConsoleWorkBench.TextCGParser
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(e);
             }
-        }
-
-        private TextParsingLexerContex CreateContext()
-        {
-            var engine = new GnuClayEngine();
-
-            var context = new TextParsingLexerContex(engine);
-
-            var dataDictionary = context.Engine.DataDictionary;
-
-            InitWordsDb(context);
-
-            dataDictionary.TSTDump();
-
-            return context;
-        }
-
-        private void InitWordsDb(TextParsingLexerContex context)
-        {
-            var engine = context.Engine;
-
-            var queryStr = "INSERT {>: {entity(animate)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {entity(physobj)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {animate(animal)}}, {>: {physobj(animal)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {animal(person)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {`part of speech`(the, article)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {`part of speech`(dog, noun)}}, { >: {number(dog, singular)}}, {>: {animal(dog)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}, {>: {state(like)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}, {>: {root(likes, like)}}";
-            engine.Query(queryStr);
-
-            queryStr = "INSERT {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}, {>: {animal(man)}}";
-            engine.Query(queryStr);
         }
 
         private const string NP = "NP";

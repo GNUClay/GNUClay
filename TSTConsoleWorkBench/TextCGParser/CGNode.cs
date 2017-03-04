@@ -244,5 +244,98 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             return Name;
         }
+
+        public bool IsEquals(CGNode node)
+        {
+            if(ClassName != node.ClassName)
+            {
+                return false;
+            }
+
+            if(InstanceName != node.InstanceName)
+            {
+                return false;
+            }
+
+            if(Children == null && node.Children != null)
+            {
+                return false;
+            }
+
+            if(Children.Count != node.Children.Count)
+            {
+                return false;
+            }
+
+            if(OutputNodes == null && node.OutputNodes != null)
+            {
+                return false;
+            }
+
+            if (OutputNodes.Count != node.OutputNodes.Count)
+            {
+                return false;
+            }
+
+            if (InputNodes == null && InputNodes != null)
+            {
+                return false;
+            }
+
+            if (InputNodes.Count != InputNodes.Count)
+            {
+                return false;
+            }
+
+            if(Children.Count > 0)
+            {
+                var thisChildrenEnumerator = Children.GetEnumerator();
+                var otherChildrenEnumerator = node.Children.GetEnumerator();
+
+                while(thisChildrenEnumerator.MoveNext())
+                {
+                    otherChildrenEnumerator.MoveNext();
+
+                    if(!thisChildrenEnumerator.Current.IsEquals(otherChildrenEnumerator.Current))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if(OutputNodes.Count > 0)
+            {
+                var thisOutputNodesEnumerator = OutputNodes.GetEnumerator();
+                var otherOutputNodesEnumerator = node.OutputNodes.GetEnumerator();
+
+                while (thisOutputNodesEnumerator.MoveNext())
+                {
+                    otherOutputNodesEnumerator.MoveNext();
+
+                    if (!thisOutputNodesEnumerator.Current.IsEquals(otherOutputNodesEnumerator.Current))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if(InputNodes.Count > 0)
+            {
+                var thisInputNodesEnumerator = InputNodes.GetEnumerator();
+                var otherInputNodesEnumerator = node.InputNodes.GetEnumerator();
+
+                while (thisInputNodesEnumerator.MoveNext())
+                {
+                    otherInputNodesEnumerator.MoveNext();
+
+                    if (!thisInputNodesEnumerator.Current.IsEquals(otherInputNodesEnumerator.Current))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
