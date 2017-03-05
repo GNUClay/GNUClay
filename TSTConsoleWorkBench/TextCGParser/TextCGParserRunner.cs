@@ -26,7 +26,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var targetPhrase = "The dog likes man.";
+            var targetPhrase = "The black dog likes a big man.";
 
             try
             {
@@ -40,7 +40,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info($"Run node = {DotConverter.ConvertToString(node)}");
 
-                    CreateTargetNode(node);
+                    //CreateTargetNode(node);
                 }
 
                 NLog.LogManager.GetCurrentClassLogger().Info("Run End cgNodes");
