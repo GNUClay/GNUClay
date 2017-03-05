@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public class SemanticAnalyzer
     {
@@ -72,7 +72,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         private string TenseToString(GrammaticalTenses tense)
         {
-            switch(tense)
+            switch (tense)
             {
                 case GrammaticalTenses.Present:
                     return "present";
@@ -108,12 +108,12 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             mResult = new List<CGNode>();
 
-            if(_ListHelper.IsEmpty(mSentences))
+            if (_ListHelper.IsEmpty(mSentences))
             {
                 return;
             }
 
-            foreach(var sentence in mSentences)
+            foreach (var sentence in mSentences)
             {
                 ProcessSentence(sentence, null);
             }
@@ -181,7 +181,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessSentence Next");
 
-            if(IsStart)
+            if (IsStart)
             {
                 var rootNode = context.RootNode;
 
@@ -214,14 +214,14 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                 aspectRelation.AddInputNode(primaryChildCGNode);
                 aspectRelation.AddOutputNode(aspectNode);
-                    
+
                 ProcessLinkingConcepts(context, null);
 
                 mResult.Add(context.RootNode);
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessSentence Next Next");
-     
+
             //throw new NotImplementedException();
         }
 
@@ -234,7 +234,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var extendTokenNoun = np.Noun as ExtendToken;
 
-            if(extendTokenNoun == null)
+            if (extendTokenNoun == null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("ProcessNP extendTokenNoun == null");
 
@@ -243,7 +243,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNP extendTokenNoun = {extendTokenNoun}");
 
-            if(extendTokenNoun.Is(GrammaticalNumberOfWord.Singular))
+            if (extendTokenNoun.Is(GrammaticalNumberOfWord.Singular))
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("ProcessNP extendTokenNoun.Is(GrammaticalNumberOfWord.Singular)");
 
@@ -263,7 +263,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 throw new NotImplementedException();
             }
 
-            if(np.Prepositional != null)
+            if (np.Prepositional != null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("ProcessNP np.Prepositional != null");
 
@@ -303,14 +303,14 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var conceptsList = LoadSemanticConcepts(rootName);
 
-            foreach(var c in conceptsList)
+            foreach (var c in conceptsList)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"RegNP c = {c}");
             }
 
             var targetConcept = SemanticConcepts.Unknown;
 
-            if(conceptsList.Any())
+            if (conceptsList.Any())
             {
                 targetConcept = conceptsList.First();
             }
@@ -404,7 +404,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 switch (subjectConcept)
                 {
                     case SemanticConcepts.Animate:
-                        switch(verbConcept)
+                        switch (verbConcept)
                         {
                             case SemanticConcepts.State:
                                 subjectToVerbRelationName = "state";
@@ -437,7 +437,7 @@ namespace TSTConsoleWorkBench.TextCGParser
                 vtsRelation.AddOutputNode(subject);
             }
 
-            if(verb != null && objectNode != null)
+            if (verb != null && objectNode != null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("ProcessLinkingConcepts verb != null && objectNode != null");
 
@@ -448,10 +448,10 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                 var verbToObjectRelationName = string.Empty;
 
-                switch(objectConcept)
+                switch (objectConcept)
                 {
                     case SemanticConcepts.Animate:
-                        switch(verbConcept)
+                        switch (verbConcept)
                         {
                             case SemanticConcepts.State:
                                 verbToObjectRelationName = "object";
@@ -480,7 +480,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             if (concreteContextChildren.Any())
             {
-                foreach(var child in concreteContextChildren)
+                foreach (var child in concreteContextChildren)
                 {
                     ProcessLinkingConcepts(context, child);
                 }

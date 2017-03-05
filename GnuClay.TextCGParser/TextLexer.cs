@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public class TextLexer: Lexer
+    public class TextLexer : Lexer
     {
         public enum State
         {
@@ -37,7 +37,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken mState = {mState} token = {token}");
 
-                if(token == null)
+                if (token == null)
                 {
                     return null;
                 }

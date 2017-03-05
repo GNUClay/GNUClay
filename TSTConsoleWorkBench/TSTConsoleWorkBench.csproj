@@ -67,26 +67,7 @@
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />
-    <Compile Include="TextCGParser\GrammaticalPartOfSpeech.cs" />
-    <Compile Include="TextCGParser\GrammaticalPerson.cs" />
-    <Compile Include="TextCGParser\GrammaticalTenses.cs" />
-    <Compile Include="TextCGParser\NounPhrase.cs" />
-    <Compile Include="TextCGParser\NumeralType.cs" />
-    <Compile Include="TextCGParser\PrepositionalPhrase.cs" />
-    <Compile Include="TextCGParser\SemanticAnalyzer.cs" />
-    <Compile Include="TextCGParser\SemanticAnalyzerSentenceContext.cs" />
-    <Compile Include="TextCGParser\SemanticConcepts.cs" />
-    <Compile Include="TextCGParser\Sentence.cs" />
-    <Compile Include="TextCGParser\TextCGEngine.cs" />
     <Compile Include="TextCGParser\TextCGParserRunner.cs" />
-    <Compile Include="TextCGParser\TextLexer.cs" />
-    <Compile Include="TextCGParser\TextParsingLexerContex.cs" />
-    <Compile Include="TextCGParser\TextPhraseContext.cs" />
-    <Compile Include="TextCGParser\TypeOfPronoun.cs" />
-    <Compile Include="TextCGParser\TypeOfSentence.cs" />
-    <Compile Include="TextCGParser\UnknownWordException.cs" />
-    <Compile Include="TextCGParser\VerbPhrase.cs" />
-    <Compile Include="TextCGParser\VerbType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -111,6 +92,10 @@
     <ProjectReference Include="..\GnuClay.LocalHost\GnuClay.LocalHost.csproj">
       <Project>{ad8ad01b-3db7-4002-aa2f-047b7f7c85ea}</Project>
       <Name>GnuClay.LocalHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.TextCGParser\GnuClay.TextCGParser.csproj">
+      <Project>{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}</Project>
+      <Name>GnuClay.TextCGParser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

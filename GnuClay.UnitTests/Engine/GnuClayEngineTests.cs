@@ -17,7 +17,7 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var queryString = "SELECT{son(Piter,$X1)}";
+            var queryString = "SELECT{ >:{son(Piter,$X1)}}";
 
             var qr_1 = tmpEngine.Query(queryString);
 
@@ -28,7 +28,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_1.Items, null);
             Assert.AreEqual(qr_1.Items.Count, 0);
 
-            queryString = "SELECT{son(Piter,Tom)}";
+            queryString = "SELECT{>:{son(Piter,Tom)}}";
 
             var qr_2 = tmpEngine.Query(queryString);
 
@@ -50,7 +50,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(insert_result.Items, null);
             Assert.AreEqual(insert_result.Items.Count, 0);
 
-            queryString = "SELECT{son(Piter,$X1)}";
+            queryString = "SELECT{ >: {son(Piter,$X1)}}";
 
             var qr_3 = tmpEngine.Query(queryString);
 
@@ -75,7 +75,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetParam.Kind, ExpressionNodeKind.Entity);
             Assert.AreEqual(targetParam.Value, null);
 
-            queryString = "SELECT{son(Piter,Tom)}";
+            queryString = "SELECT{ >: {son(Piter,Tom)}}";
 
             var qr_4 = tmpEngine.Query(queryString);
 
@@ -93,7 +93,7 @@ namespace GnuClay.UnitTests.Engine
 
             tmpEngine.Clear();
 
-            queryString = "SELECT{son(Piter,$X1)}";
+            queryString = "SELECT{ >:{son(Piter,$X1)}}";
 
             var qr_5 = tmpEngine.Query(queryString);
 
@@ -104,7 +104,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_5.Items, null);
             Assert.AreEqual(qr_5.Items.Count, 0);
 
-            queryString = "SELECT{son(Piter,Tom)}";
+            queryString = "SELECT{ >:{son(Piter,Tom)}}";
 
             var qr_6 = tmpEngine.Query(queryString);
 

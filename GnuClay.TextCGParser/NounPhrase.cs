@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     /// <summary>
     /// NP
     /// </summary>
-    public class NounPhrase: IPhrase
+    public class NounPhrase : IPhrase
     {
         public ExtendToken Determiner = null;
         public IPhrase Noun = null;
@@ -22,7 +22,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new NounPhrase();
 
-            if(Determiner != null)
+            if (Determiner != null)
             {
                 result.Determiner = Determiner;
                 ptrList?.Add(Determiner, result.Determiner);
@@ -56,7 +56,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             tmpSb.Append($"{nameof(Determiner)} = ");
 
-            if(Determiner == null)
+            if (Determiner == null)
             {
                 tmpSb.AppendLine("null");
             }

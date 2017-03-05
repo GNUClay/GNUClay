@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     /// <summary>
     /// PP
     /// </summary>
-    public class PrepositionalPhrase: IPhrase
+    public class PrepositionalPhrase : IPhrase
     {
         public ExtendToken Prepositional = null;
         public IPhrase Noun = null;
@@ -20,7 +20,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             var result = new PrepositionalPhrase();
 
-            if(Prepositional != null)
+            if (Prepositional != null)
             {
                 result.Prepositional = Prepositional;
                 ptrList?.Add(result.Prepositional, Prepositional);

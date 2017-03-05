@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public class TextParsingLexerContex
     {
@@ -155,7 +155,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public GrammaticalNumberOfWord KeyToNumberOfWord(ulong key)
         {
-            if(key == SingularKey)
+            if (key == SingularKey)
             {
                 return GrammaticalNumberOfWord.Singular;
             }
@@ -191,7 +191,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public List<GrammaticalNumberOfWord> FillToAllIfEmpty(List<GrammaticalNumberOfWord> source)
         {
-            if(source.Count == 0)
+            if (source.Count == 0)
             {
                 return new List<GrammaticalNumberOfWord>() {
                     GrammaticalNumberOfWord.Singular,
@@ -209,7 +209,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             PresentKey = DataDictionary.GetKey("present");
             PastKey = DataDictionary.GetKey("past");
             FutureKey = DataDictionary.GetKey("future");
-            FutureInThePastKey = DataDictionary.GetKey("future in the past");           
+            FutureInThePastKey = DataDictionary.GetKey("future in the past");
         }
 
         public ulong PresentKey = 0;
@@ -219,7 +219,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public GrammaticalTenses KeyToTense(ulong key)
         {
-            if(key == PresentKey)
+            if (key == PresentKey)
             {
                 return GrammaticalTenses.Present;
             }
@@ -328,8 +328,8 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public ulong MasculineKey = 0;
         public ulong FeminineKey = 0;
-        public ulong NeuterKey = 0; 
-        
+        public ulong NeuterKey = 0;
+
         public GrammaticalGender KeyToGender(ulong key)
         {
             if (key == MasculineKey)

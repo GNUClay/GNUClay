@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public enum TypeOfSentence
+    public enum SemanticConcepts
     {
-        Declaration,
-        Question,
-        Command
+        Unknown,
+        Animate,
+        State
     }
 }

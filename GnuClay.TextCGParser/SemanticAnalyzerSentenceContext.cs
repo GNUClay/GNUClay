@@ -1,12 +1,11 @@
 ﻿using GnuClay.CommonUtils.CG;
-using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     public class SemanticAnalyzerSentenceContext
     {
@@ -14,7 +13,7 @@ namespace TSTConsoleWorkBench.TextCGParser
         public List<SemanticAnalyzerSentenceContext> Children = new List<SemanticAnalyzerSentenceContext>();
 
         public Sentence Sentence = null;
-     
+
         public CGNode SentenceNode = null;
 
         public CGNode Subject = null;
@@ -58,7 +57,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
         public ulong GetTemplateInstanceKey(CGNode node)
         {
-            if(mTemplateInstanceKeysDict.ContainsKey(node))
+            if (mTemplateInstanceKeysDict.ContainsKey(node))
             {
                 return mTemplateInstanceKeysDict[node];
             }

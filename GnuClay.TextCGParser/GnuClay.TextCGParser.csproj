@@ -64,13 +64,36 @@
     <Compile Include="GrammaticalComparison.cs" />
     <Compile Include="GrammaticalGender.cs" />
     <Compile Include="GrammaticalNumberOfWord.cs" />
+    <Compile Include="GrammaticalPartOfSpeech.cs" />
+    <Compile Include="GrammaticalPerson.cs" />
+    <Compile Include="GrammaticalTenses.cs" />
     <Compile Include="IPhrase.cs" />
+    <Compile Include="NounPhrase.cs" />
+    <Compile Include="NumeralType.cs" />
+    <Compile Include="PrepositionalPhrase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SemanticAnalyzer.cs" />
+    <Compile Include="SemanticAnalyzerSentenceContext.cs" />
+    <Compile Include="SemanticConcepts.cs" />
+    <Compile Include="Sentence.cs" />
+    <Compile Include="TextCGEngine.cs" />
+    <Compile Include="TextLexer.cs" />
+    <Compile Include="TextParsingLexerContex.cs" />
+    <Compile Include="TextPhraseContext.cs" />
+    <Compile Include="TypeOfPronoun.cs" />
+    <Compile Include="TypeOfSentence.cs" />
+    <Compile Include="UnknownWordException.cs" />
+    <Compile Include="VerbPhrase.cs" />
+    <Compile Include="VerbType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj">
+      <Project>{3976aff6-9fde-4cf1-9bae-2eccdc652afe}</Project>
+      <Name>GnuClay.CommonClientTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">
       <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
       <Name>GnuClay.CommonUtils</Name>

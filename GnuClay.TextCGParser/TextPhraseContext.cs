@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
-    public class TextPhraseContext: BaseATNParserContext
+    public class TextPhraseContext : BaseATNParserContext
     {
         public TextPhraseContext(List<ExtendToken> tokens)
             : base(tokens)
-        {    
+        {
         }
 
         public TextPhraseContext(BaseATNParserContext source)
@@ -53,7 +53,7 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             tmpSb.AppendLine($"{nameof(State)} = {State}");
             tmpSb.AppendLine($"{nameof(TailState)} = {TailState}");
-            
+
             tmpSb.Append($"{nameof(PQW)} = ");
 
             if (PQW == null)
@@ -108,7 +108,7 @@ namespace TSTConsoleWorkBench.TextCGParser
             {
                 tmpSb.AppendLine(Object.ToDbgString());
             }
-          
+
             tmpSb.Append($"{nameof(AdditionalVerb)} = ");
 
             if (AdditionalVerb == null)

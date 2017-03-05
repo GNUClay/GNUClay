@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.TextCGParser
+namespace GnuClay.TextCGParser
 {
     /// <summary>
     /// VP
     /// </summary>
-    public class VerbPhrase: IPhrase
+    public class VerbPhrase : IPhrase
     {
         public ExtendToken Verb = null;
         public IPhrase Object = null;
@@ -22,12 +22,12 @@ namespace TSTConsoleWorkBench.TextCGParser
 
             result.Verb = Verb;
 
-            if(Verb != null)
+            if (Verb != null)
             {
                 ptrList?.Add(Verb, result.Verb);
             }
-            
-            if(Object != null)
+
+            if (Object != null)
             {
                 result.Object = Object.Clone(ptrList);
                 ptrList?.Add(Object, result.Object);

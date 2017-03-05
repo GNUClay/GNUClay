@@ -48,9 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonUtils\CGNodeTests.cs" />
     <Compile Include="CommonUtils\_StringHelperTests.cs" />
     <Compile Include="Engine\GnuClayEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextCGParser\TextCGEngineTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,6 +73,10 @@
     <ProjectReference Include="..\GnuClay.LocalHost\GnuClay.LocalHost.csproj">
       <Project>{ad8ad01b-3db7-4002-aa2f-047b7f7c85ea}</Project>
       <Name>GnuClay.LocalHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.TextCGParser\GnuClay.TextCGParser.csproj">
+      <Project>{5cfa7eae-fcc1-46ec-b3d5-e88d4852dc1b}</Project>
+      <Name>GnuClay.TextCGParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

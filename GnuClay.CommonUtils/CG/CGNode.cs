@@ -245,8 +245,24 @@ namespace GnuClay.CommonUtils.CG
             return Name;
         }
 
-        public bool IsEquals(CGNode node)
+        public bool IsEquals(CGNode node, List<CGNode> visitedNodes = null)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"IsEquals `{Name}` node = `{node.Name}`");
+
+            if(visitedNodes == null)
+            {
+                visitedNodes = new List<CGNode>();            
+            }
+            else
+            {
+                if(visitedNodes.Contains(this))
+                {
+                    return true;
+                }
+            }
+
+            visitedNodes.Add(this);
+
             if (ClassName != node.ClassName)
             {
                 return false;
@@ -296,7 +312,7 @@ namespace GnuClay.CommonUtils.CG
                 {
                     otherChildrenEnumerator.MoveNext();
 
-                    if (!thisChildrenEnumerator.Current.IsEquals(otherChildrenEnumerator.Current))
+                    if (!thisChildrenEnumerator.Current.IsEquals(otherChildrenEnumerator.Current, visitedNodes))
                     {
                         return false;
                     }
@@ -312,7 +328,7 @@ namespace GnuClay.CommonUtils.CG
                 {
                     otherOutputNodesEnumerator.MoveNext();
 
-                    if (!thisOutputNodesEnumerator.Current.IsEquals(otherOutputNodesEnumerator.Current))
+                    if (!thisOutputNodesEnumerator.Current.IsEquals(otherOutputNodesEnumerator.Current, visitedNodes))
                     {
                         return false;
                     }
@@ -328,7 +344,7 @@ namespace GnuClay.CommonUtils.CG
                 {
                     otherInputNodesEnumerator.MoveNext();
 
-                    if (!thisInputNodesEnumerator.Current.IsEquals(otherInputNodesEnumerator.Current))
+                    if (!thisInputNodesEnumerator.Current.IsEquals(otherInputNodesEnumerator.Current, visitedNodes))
                     {
                         return false;
                     }
