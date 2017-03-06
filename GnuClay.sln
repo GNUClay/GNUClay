@@ -25,6 +25,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.UnitTests", "GnuCla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.TextCGParser", "GnuClay.TextCGParser\GnuClay.TextCGParser.csproj", "{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Squares", "Squares", "{92DCB126-D492-4C8F-8700-3508ABAC2679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.CommonEngine", "SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj", "{63258204-C529-4F4A-872B-CABB772DEC85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalVisualComponents", "SquaresWorkBench.TypicalVisualComponents\SquaresWorkBench.TypicalVisualComponents.csproj", "{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalCases", "SquaresWorkBench.TypicalCases\SquaresWorkBench.TypicalCases.csproj", "{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.SimpleGUI", "SquaresWorkBench.SimpleGUI\SquaresWorkBench.SimpleGUI.csproj", "{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +77,22 @@ Global
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +100,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{29B30B38-C22D-4317-9FDD-C0EDAA4F02D3} = {351F14CE-CF6F-4F39-93ED-03667D49EB92}
 		{268DB336-B226-45F8-BD5B-A4117B02948C} = {145C017E-5C9B-4DD0-9528-E968C43D7119}
+		{63258204-C529-4F4A-872B-CABB772DEC85} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
+		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
+		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
+		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
 	EndGlobalSection
 EndGlobal
