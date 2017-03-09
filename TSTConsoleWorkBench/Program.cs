@@ -18,8 +18,8 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
-            TextCGParserRunner();
-            //TSTGnuClayLocalServerInheritanceSelectQueryRunner();
+            //TextCGParserRunner();
+            TSTGnuClayLocalServerInheritanceSelectQueryRunner();
             //TSTGnuClayLocalServerInheritanceQueryRunner();
             //TSTGnuClayLocalServerValueQueryRunner();
             //TSTGnuClayLocalServerSerializationRunner();

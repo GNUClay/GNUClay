@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CommonUtils\CGNodeTests.cs" />
     <Compile Include="CommonUtils\_StringHelperTests.cs" />
+    <Compile Include="Engine\GnuClayEngineOOPTests.cs" />
     <Compile Include="Engine\GnuClayEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextCGParser\TextCGEngineTests.cs" />
