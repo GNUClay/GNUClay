@@ -96,9 +96,9 @@ namespace GnuClay.CommonClientTypes.ResultTypes
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(HaveBeenFound));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(HaveBeenFound.ToString());
+            tmpSb.AppendLine($"{nameof(ErrorText)} = {ErrorText}");
+            tmpSb.AppendLine($"{nameof(Success)} = {Success}");
+            tmpSb.AppendLine($"{nameof(HaveBeenFound)} = {HaveBeenFound}");
 
             tmpSb.AppendLine(_ListHelper._ToString(Items, nameof(Items)));
 

@@ -21,6 +21,8 @@ namespace GnuClay.Engine.CommonStorages
 
         public ulong GetKey(string val)
         {
+            val = val.ToLower();
+
             lock(mLockObj)
             {
                 if (mValuesDict.ContainsKey(val))

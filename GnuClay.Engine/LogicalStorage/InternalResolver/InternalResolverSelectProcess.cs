@@ -45,7 +45,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             ModifySelectTree();
 
-            mContext.DataDictionary.TSTDump();
+            //mContext.DataDictionary.TSTDump();
 
             var tmpParamBinder = new ParamsBinder();
 
