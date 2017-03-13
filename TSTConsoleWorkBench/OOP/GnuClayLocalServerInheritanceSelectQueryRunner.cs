@@ -23,16 +23,19 @@ namespace TSTConsoleWorkBench.OOP
                 var qr_1 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_1)} = {qr_1}");
 
                 queryString = "INSERT {>: {biped(Robot)}}";
                 var qr_1_1 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_1_1 = {SelectResultDebugHelper.ConvertToString(qr_1_1, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_1_1)} = {qr_1_1}");
 
                 queryString = "INSERT {>: {is(human, biped)}}";
                 var qr_2 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_2)} = {qr_2}");
 
                 var tmpInstanceName = "#957B6203_D200_47E0_B51E_0E8DEF869B3D";
 
@@ -40,11 +43,13 @@ namespace TSTConsoleWorkBench.OOP
                 var qr_3 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_3 = {SelectResultDebugHelper.ConvertToString(qr_3, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_3)} = {qr_3}");
 
                 queryString = "SELECT { >:{`count of feet`(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
                 var qr_4 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_4 = {SelectResultDebugHelper.ConvertToString(qr_4, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_4)} = {qr_4}");
 
                 queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -53,6 +58,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -61,6 +67,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 queryString = "SELECT {>: {is($X ,biped)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -69,6 +76,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 queryString = "SELECT {>: {biped($X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -77,6 +85,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 queryString = "SELECT {>: {is($X ,$Y)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -85,6 +94,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 queryString = "SELECT {>: {is($X ,$X)}}";
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString = `{queryString}`");
@@ -93,6 +103,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Finish");
             }

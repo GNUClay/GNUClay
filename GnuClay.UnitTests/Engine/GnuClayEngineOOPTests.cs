@@ -12,7 +12,7 @@ namespace GnuClay.UnitTests.Engine
     public class GnuClayEngineOOPTests
     {
         [Test]
-        public void Case_1()
+        public void OOP_Case_1()
         {
             var tmpEngine = new GnuClayEngine();
 
@@ -62,6 +62,41 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(tmpListOfSubClasses.Any(p => p.SubKey == tmpDogKey), true);
         }
 
-        //public void 
+        [Test]
+        public void OOP_Case_2()
+        {
+            var tmpEngine = new GnuClayEngine();
+
+            var queryString = "INSERT {>: {`count of feet`(biped, 2)}}";
+
+            var qr_1 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_1, null);
+            Assert.AreEqual(qr_1.Success, true);
+            Assert.AreEqual(qr_1.HaveBeenFound, false);
+
+            queryString = "INSERT {>: {biped(Robot)}}";
+            var qr_1_1 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_1_1, null);
+            Assert.AreEqual(qr_1_1.Success, true);
+            Assert.AreEqual(qr_1_1.HaveBeenFound, false);
+
+            queryString = "INSERT {>: {is(human, biped)}}";
+            var qr_2 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_2, null);
+            Assert.AreEqual(qr_2.Success, true);
+            Assert.AreEqual(qr_2.HaveBeenFound, false);
+
+            queryString = "INSERT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,human)}}";
+            var qr_3 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_3, null);
+            Assert.AreEqual(qr_3.Success, true);
+            Assert.AreEqual(qr_3.HaveBeenFound, false);
+
+            throw new NotImplementedException();
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace GnuClay.UnitTests.Engine
     public class GnuClayEngineTests
     {
         [Test]
-        public void Case_1()
+        public void Queries_Case_1()
         {
             var tmpEngine = new GnuClayEngine();
 
