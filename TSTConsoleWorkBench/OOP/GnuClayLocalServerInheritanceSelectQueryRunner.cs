@@ -105,6 +105,8 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
+                tmpEngine.DataDictionary.TSTDump();
+
                 NLog.LogManager.GetCurrentClassLogger().Info("Run Finish");
             }
             catch (Exception e)
