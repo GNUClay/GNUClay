@@ -25,6 +25,7 @@ namespace TSTConsoleWorkBench.OOP
                 var qr_1 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_1 = {SelectResultDebugHelper.ConvertToString(qr_1, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_1)} = {qr_1}");
 
                 //queryString = "INSERT {>: {age(`Tom`, 25)}}";
 
@@ -32,11 +33,12 @@ namespace TSTConsoleWorkBench.OOP
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"qr_1_5 = {SelectResultDebugHelper.ConvertToString(qr_1_5, GnuClayEngine.DataDictionary)}");
 
-                queryString = "SELECT {age(Tom, $X1)}";
+                queryString = "SELECT {>: {age(Tom, $X1)}}";
 
                 var qr_2 = tmpEngine.Query(queryString);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_2)} = {qr_2}");
             }
             catch (Exception e)
             {

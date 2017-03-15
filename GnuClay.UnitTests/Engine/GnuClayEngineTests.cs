@@ -115,5 +115,47 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_6.Items, null);
             Assert.AreEqual(qr_6.Items.Count, 0);
         }
+
+        [Test]
+        public void Queries_Case_2_NumberValue()
+        {
+            var tmpEngine = new GnuClayEngine();
+
+            var queryString = "INSERT {>: {age(Tom, 25)}}";
+
+            var qr_1 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_1, null);
+            Assert.AreEqual(qr_1.ErrorText, string.Empty);
+            Assert.AreEqual(qr_1.Success, true);
+            Assert.AreEqual(qr_1.HaveBeenFound, false);
+            Assert.AreNotEqual(qr_1.Items, null);
+            Assert.AreEqual(qr_1.Items.Count, 0);
+
+            var numberKey = tmpEngine.DataDictionary.GetKey("number");
+            var x1VarKey = tmpEngine.DataDictionary.GetKey("$X1");
+
+            queryString = "SELECT {>: {age(Tom, $X1)}}";
+
+            var qr_2 = tmpEngine.Query(queryString);
+
+            Assert.AreNotEqual(qr_2, null);
+            Assert.AreEqual(qr_2.ErrorText, string.Empty);
+            Assert.AreEqual(qr_2.Success, true);
+            Assert.AreEqual(qr_2.HaveBeenFound, true);
+
+            Assert.AreEqual(qr_2.Items.Count, 1);
+
+            var targetItem = qr_2.Items.Single();
+
+            Assert.AreEqual(targetItem.Params.Count, 1);
+
+            var targetVarItem = targetItem.Params.Single();
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Value);
+            Assert.AreEqual(targetVarItem.Value, 25);
+            Assert.AreEqual(targetVarItem.EntityKey, numberKey);
+            Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
+        }
     }
 }

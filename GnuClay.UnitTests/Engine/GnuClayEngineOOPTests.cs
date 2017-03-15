@@ -127,7 +127,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(tmpSelectResult.Success, true);
             Assert.AreEqual(tmpSelectResult.HaveBeenFound, true);
 
-            Assert.AreEqual(tmpSelectResult.Items.Count, 0);
+            Assert.AreEqual(tmpSelectResult.Items.Count, 1);
 
             var tKey = tmpEngine.DataDictionary.GetKey("⊤");
             var humanKey = tmpEngine.DataDictionary.GetKey("human");
@@ -245,6 +245,12 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetVarItem.EntityKey, instanceKey);
             Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
 
+            var yVarKey = tmpEngine.DataDictionary.GetKey("$Y");
+
+            var arrayKey = tmpEngine.DataDictionary.GetKey("array");
+            var iteratorKey = tmpEngine.DataDictionary.GetKey("iterator");
+            var _propertyresultKey = tmpEngine.DataDictionary.GetKey("_propertyresult");
+            var _propertyresultiteratorKey = tmpEngine.DataDictionary.GetKey("_propertyresultiterator");
 
             queryString = "SELECT {>: {is($X ,$Y)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
@@ -255,19 +261,381 @@ namespace GnuClay.UnitTests.Engine
 
             Assert.AreEqual(tmpSelectResult.Items.Count, 11);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
+            targetItem = tmpSelectResult.Items[0];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, numberKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[1];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, arrayKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[2];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, iteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[3];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[4];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultiteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[5];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, robotKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, bipedKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[6];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, robotKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+            targetItem = tmpSelectResult.Items[7];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, humanKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, bipedKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[8];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, humanKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[9];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, instanceKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, humanKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[10];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, instanceKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
+
 
             queryString = "SELECT {>: {is($X ,$X)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
-            NLog.LogManager.GetCurrentClassLogger().Info($"queryString (2) = `{queryString}`");
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {tmpSelectResult.ToJson()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectResult = {SelectResultDebugHelper.ConvertToString(tmpSelectResult, tmpEngine.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(tmpSelectResult)} = {tmpSelectResult}");
 
-            throw new NotImplementedException();
+
+            Assert.AreNotEqual(tmpSelectResult, null);
+            Assert.AreEqual(tmpSelectResult.Success, true);
+            Assert.AreEqual(tmpSelectResult.HaveBeenFound, true);
+
+            Assert.AreEqual(tmpSelectResult.Items.Count, 10);
+
+            targetItem = tmpSelectResult.Items[0];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, numberKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, numberKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[1];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, tKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[2];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, arrayKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, arrayKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+ 
+            targetItem = tmpSelectResult.Items[3];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, iteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, iteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[4];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[5];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultiteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, _propertyresultiteratorKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+
+            targetItem = tmpSelectResult.Items[6];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, bipedKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, bipedKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+            targetItem = tmpSelectResult.Items[7];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, robotKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, robotKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+            targetItem = tmpSelectResult.Items[8];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, humanKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, humanKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+
+            targetItem = tmpSelectResult.Items[9];
+            Assert.AreEqual(targetItem.Params.Count, 2);
+
+            targetVarItem = targetItem.Params[0];
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, instanceKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
+
+            targetVarItem = targetItem.Params[1];
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.Value, null);
+            Assert.AreEqual(targetVarItem.EntityKey, instanceKey);
+            Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
         }
     }
 }
