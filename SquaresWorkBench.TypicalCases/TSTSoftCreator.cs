@@ -40,7 +40,7 @@ namespace SquaresWorkBench.TypicalCases
             mDoll_1.RelativePos = new Point(-40, -80);
             mDoll_1.CurrAngle = 0;
 
-            var mGoodHuman = new GoodHuman();
+            var mGoodHuman = new GoodSquareHuman();
 
             mGoodHuman.CurrMainContext = scene.CurrContext;
 
@@ -53,7 +53,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //mSimplePlatform.AddChild(mGoodHuman);
 
-            var mBadHuman = new BadHuman();
+            var mBadHuman = new BadSquareHuman();
 
             mBadHuman.CurrMainContext = scene.CurrContext;
 

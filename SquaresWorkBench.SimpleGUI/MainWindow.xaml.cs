@@ -22,16 +22,21 @@ namespace SquaresWorkBench.SimpleGUI
     {
         public MainWindow()
         {
-            InitializeComponent();
-
-            mTSTWindow1 = new TSTWindow1();
+            InitializeComponent();         
         }
 
         private TSTWindow1 mTSTWindow1 = null;
 
         private void button_1_Click(object sender, RoutedEventArgs e)
         {
+            mTSTWindow1 = new TSTWindow1();
             mTSTWindow1.Show();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new Window2();
+            window.Show();
         }
     }
 }

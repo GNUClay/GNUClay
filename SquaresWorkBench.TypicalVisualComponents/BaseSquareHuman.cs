@@ -9,9 +9,9 @@ using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public abstract class BaseHuman : ActiveEntity
+    public abstract class BaseSquareHuman : ActiveEntity
     {
-        protected BaseHuman()
+        protected BaseSquareHuman()
         {
             IsHard = true;
             Opacity = 1;

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class BadHuman : BaseHuman
+    public class BadSquareHuman : BaseSquareHuman
     {
-        public BadHuman()
+        public BadSquareHuman()
         {
             CurrentBrush = System.Windows.Media.Brushes.Red;
         }

@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class GoodHuman : BaseHuman
+    public class GoodSquareHuman : BaseSquareHuman
     {
-        public GoodHuman()
+        public GoodSquareHuman()
         {
             CurrentBrush = Brushes.Lime;
         }

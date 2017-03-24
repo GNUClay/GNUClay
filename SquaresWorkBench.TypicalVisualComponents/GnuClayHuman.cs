@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class GnuClayHuman: BaseHuman
+    public class GnuClayHuman: BaseSquareHuman
     {
         public GnuClayHuman()
         {
