@@ -9,10 +9,14 @@
     <Grid>
         <DockPanel Margin="0">
             <Grid Height="358" VerticalAlignment="Top" Width="197">
-                <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="66,28,0,0" VerticalAlignment="Top" Width="20" Height="20"/>
-                <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Margin="26,84,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="116,134,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="button3" Content="Button" HorizontalAlignment="Left" Margin="66,186,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="btnGoAhead" Content="▲" HorizontalAlignment="Left" Margin="66,28,0,0" VerticalAlignment="Top" Width="20" Height="20" ToolTip="Go ahead" Click="btnGoAhead_Click"/>
+                <Button x:Name="btnGoLeft" Content="◀" HorizontalAlignment="Left" Margin="38,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go left" Height="20" Click="btnGoLeft_Click"/>
+                <Button x:Name="btnStop" Content="⛒" HorizontalAlignment="Left" Margin="66,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Stop" Height="20" Click="btnStop_Click"/>
+                <Button x:Name="btnGoRigth" Content="▶" HorizontalAlignment="Left" Margin="91,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go rigth" Height="20" Click="btnGoRigth_Click"/>
+                <Button x:Name="btnGoBack" Content="▼" HorizontalAlignment="Left" Margin="66,79,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go back" Height="20" Click="btnGoBack_Click"/>
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="41,130,0,0" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="f"/>
+                </ComboBox>
             </Grid>
             <Grid>
                 <ScrollViewer x:Name="mSw" Margin="0,10" HorizontalScrollBarVisibility="Visible"/>

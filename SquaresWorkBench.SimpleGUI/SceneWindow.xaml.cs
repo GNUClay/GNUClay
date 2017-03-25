@@ -30,5 +30,30 @@ namespace SquaresWorkBench.SimpleGUI
         }
 
         private Scene mScene = null;
+
+        private void btnGoAhead_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnGoAhead_Click");
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnStop_Click");
+        }
+
+        private void btnGoLeft_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnGoLeft_Click");
+        }
+
+        private void btnGoRigth_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnGoRigth_Click");
+        }
+
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnGoBack_Click");
+        }
     }
 }
