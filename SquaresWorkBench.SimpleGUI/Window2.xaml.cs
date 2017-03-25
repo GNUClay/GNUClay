@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaresWorkBench.CommonEngine;
+using SquaresWorkBench.TypicalCases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,27 @@ namespace SquaresWorkBench.SimpleGUI
         public Window2()
         {
             InitializeComponent();
+
+            mScene = new Scene(mSw);
+
+            CreateMainScene();
+            //CreateRoomScene();
+        }
+
+        private Scene mScene = null;
+
+        private void CreateMainScene()
+        {
+            var tmpSceneCreator = new TSTSoftCreator();
+
+            tmpSceneCreator.Run(mScene);
+        }
+
+        private void CreateRoomScene()
+        {
+            var tmpSceneCreator = new Room_1_SoftCreator();
+
+            tmpSceneCreator.Run(mScene);
         }
     }
 }

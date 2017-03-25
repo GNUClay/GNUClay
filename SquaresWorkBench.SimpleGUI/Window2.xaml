@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:SquaresWorkBench.SimpleGUI"
         mc:Ignorable="d"
         Title="Window2" Height="508.014" Width="625.087" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Grid Margin="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-    </Grid>
+    <DockPanel Margin="0,0,2,1">
+        <GroupBox x:Name="groupBox" Header="GroupBox" Width="200"/>
+        <Grid Width="Auto">
+            <ScrollViewer x:Name="mSw" HorizontalScrollBarVisibility="Visible"/>
+        </Grid>
+    </DockPanel>
 </Window>
