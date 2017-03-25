@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SquaresWorkBench.CommonEngine;
+using SquaresWorkBench.TypicalCases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,16 +29,20 @@ namespace SquaresWorkBench.SimpleGUI
 
         private TSTWindow1 mTSTWindow1 = null;
 
+        private void ShowWindow(BaseSoftCreator sceneCreator)
+        {
+            var window = new SceneWindow(sceneCreator);
+            window.Show();
+        }
+
         private void button_1_Click(object sender, RoutedEventArgs e)
         {
-            mTSTWindow1 = new TSTWindow1();
-            mTSTWindow1.Show();
+            ShowWindow(new TSTSoftCreator());
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new Window2();
-            window.Show();
+            ShowWindow(new Room_1_SoftCreator());
         }
     }
 }
