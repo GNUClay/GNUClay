@@ -9,11 +9,9 @@ namespace SquaresWorkBench.CommonEngine
     public interface ISceneForSoftCreator
     {
         void New();
-
         void BeginAddEntities();
-
         void EndAddEntities();
-
         MainContext CurrContext { get; }
+        ActiveEntityController CurrentActiveEntityController { get; set; }
     }
 }

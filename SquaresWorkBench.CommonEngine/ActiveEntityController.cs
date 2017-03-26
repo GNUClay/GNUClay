@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SquaresWorkBench.CommonEngine
+{
+    public class ActiveEntityController
+    {
+        public ActiveEntityController(ActiveEntity entity)
+        {
+            mEntity = entity;
+        }
+
+        private ActiveEntity mEntity = null;
+        public List<KeyValuePair<string, string>> ExistingObjectsList { get; set; } = new List<KeyValuePair<string, string>>();
+
+        public void GoAhead()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
+
+            mEntity.Speed = 4;
+
+            mEntity.GoDirection = GoDirectionFlag.Go;
+        }
+
+        public void Stop()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Stop");
+
+            mEntity.GoDirection = GoDirectionFlag.Stop;
+        }
+
+        public void GoLeft()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("GoLeft");
+        }
+
+        public void GoRight()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("GoRight");
+        }
+
+        public void GoBack()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("GoBack");
+        }
+
+        public void RotateLeft()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft");
+
+            mEntity.GoDirection = GoDirectionFlag.RotateLeft;
+        }
+
+        public void RotateRight()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
+
+            mEntity.GoDirection = GoDirectionFlag.RotateRight;
+        }
+    }
+}

@@ -43,25 +43,25 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
         protected override void OnSeen(List<VisibleResultItem> items)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+            //NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
-            if (items == null || items.Count == 0)
+            /*if (items == null || items.Count == 0)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Not Sees");
+                //NLog.LogManager.GetCurrentClassLogger().Info("Not Sees");
 
                 return;
             }
 
             foreach (var scanItem in items)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("-----");
-                NLog.LogManager.GetCurrentClassLogger().Info(scanItem.VisibleEntity.Id);
+                //NLog.LogManager.GetCurrentClassLogger().Info("-----");
+                //NLog.LogManager.GetCurrentClassLogger().Info(scanItem.VisibleEntity.Id);
 
                 foreach (var tmpPoint in scanItem.VisiblePoints)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("{0} Angle = {1} Radius = {2}", tmpPoint.TargetPoint, tmpPoint.Angle, tmpPoint.Radius);
+                    //NLog.LogManager.GetCurrentClassLogger().Info("{0} Angle = {1} Radius = {2}", tmpPoint.TargetPoint, tmpPoint.Angle, tmpPoint.Radius);
                 }
-            }
+            }*/
         }
     }
 }

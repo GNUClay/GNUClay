@@ -27,33 +27,61 @@ namespace SquaresWorkBench.SimpleGUI
             mScene = new Scene(mSw);
 
             sceneCreator.Run(mScene);
+
+            mActiveEntityController = mScene.CurrentActiveEntityController;
+
+            var objList = mActiveEntityController.ExistingObjectsList;
+
+            foreach(var objItem in objList)
+            {
+                var cbItem = new ComboBoxItem();
+                cbItem.Content = objItem.Value;
+
+                cbExistingsObjects.Items.Add(cbItem);
+            }
         }
 
         private Scene mScene = null;
+        private ActiveEntityController mActiveEntityController = null;
 
         private void btnGoAhead_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnGoAhead_Click");
+            mActiveEntityController?.GoAhead();
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnStop_Click");
+            mActiveEntityController?.Stop();
         }
 
         private void btnGoLeft_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnGoLeft_Click");
+            mActiveEntityController?.GoLeft();
         }
 
         private void btnGoRigth_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnGoRigth_Click");
+            mActiveEntityController?.GoRight();
         }
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnGoBack_Click");
+            mActiveEntityController?.GoBack();
+        }
+
+        private void btnRotateLeft_Click(object sender, RoutedEventArgs e)
+        {
+            mActiveEntityController?.RotateLeft();
+        }
+
+        private void btnRotateRight_Click(object sender, RoutedEventArgs e)
+        {
+            mActiveEntityController?.RotateRight();
+        }
+
+        private void btnRun_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("btnRun_Click");
         }
     }
 }

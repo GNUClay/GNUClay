@@ -10,13 +10,15 @@
         <DockPanel Margin="0">
             <Grid Height="358" VerticalAlignment="Top" Width="197">
                 <Button x:Name="btnGoAhead" Content="▲" HorizontalAlignment="Left" Margin="66,28,0,0" VerticalAlignment="Top" Width="20" Height="20" ToolTip="Go ahead" Click="btnGoAhead_Click"/>
-                <Button x:Name="btnGoLeft" Content="◀" HorizontalAlignment="Left" Margin="38,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go left" Height="20" Click="btnGoLeft_Click"/>
+                <Button x:Name="btnGoLeft" Content="◀" HorizontalAlignment="Left" Margin="38,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go left" Height="20" Click="btnGoLeft_Click" IsEnabled="False"/>
                 <Button x:Name="btnStop" Content="⛒" HorizontalAlignment="Left" Margin="66,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Stop" Height="20" Click="btnStop_Click"/>
-                <Button x:Name="btnGoRigth" Content="▶" HorizontalAlignment="Left" Margin="91,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go rigth" Height="20" Click="btnGoRigth_Click"/>
-                <Button x:Name="btnGoBack" Content="▼" HorizontalAlignment="Left" Margin="66,79,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go back" Height="20" Click="btnGoBack_Click"/>
-                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="41,130,0,0" VerticalAlignment="Top" Width="120">
-                    <ComboBoxItem Content="f"/>
-                </ComboBox>
+                <Button x:Name="btnGoRigth" Content="▶" HorizontalAlignment="Left" Margin="91,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go rigth" Height="20" Click="btnGoRigth_Click" IsEnabled="False"/>
+                <Button x:Name="btnGoBack" Content="▼" HorizontalAlignment="Left" Margin="66,79,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go back" Height="20" Click="btnGoBack_Click" IsEnabled="False"/>
+                <ComboBox x:Name="cbExistingsObjects" Margin="0,115,0,221"/>
+                <Button x:Name="btnRotateLeft" Content="↶" HorizontalAlignment="Left" Margin="38,29,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate left" Height="20" Click="btnRotateLeft_Click"/>
+                <Button x:Name="btnRun" Content="Run Action!" HorizontalAlignment="Left" Margin="11,195,0,0" VerticalAlignment="Top" Width="75" Click="btnRun_Click"/>
+                <Button x:Name="btnRotateRight" Content="↷" HorizontalAlignment="Left" Margin="91,28,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate right" Click="btnRotateRight_Click" Height="20"/>
+                <ComboBox x:Name="cbActions" Margin="0,155,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid>
                 <ScrollViewer x:Name="mSw" Margin="0,10" HorizontalScrollBarVisibility="Visible"/>

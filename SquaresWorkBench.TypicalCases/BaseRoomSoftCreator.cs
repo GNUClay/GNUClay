@@ -79,6 +79,8 @@ namespace SquaresWorkBench.TypicalCases
 
         protected override void OnRun(ISceneForSoftCreator scene)
         {
+            var existingsObjects = new List<KeyValuePair<string, string>>();
+
             mScene = scene;
 
             mRoom = new BaseRoom();
@@ -177,6 +179,10 @@ namespace SquaresWorkBench.TypicalCases
             mDoor.RelativePos = new Point(85, 196.5);
             mDoor.Width = 60;
 
+            existingsObjects.Add(new KeyValuePair<string, string>(mDoor.Id, $"door ({mDoor.Id})"));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"mDoor.Id = {mDoor.Id}");
+
             mWindowEntity_1 = new Glass();
             mWindowEntity_1.CurrMainContext = scene.CurrContext;
             mWindowEntity_1.CurrPlatform = mRoom;
@@ -193,6 +199,9 @@ namespace SquaresWorkBench.TypicalCases
             mGnuClayHuman.CurrMainContext = scene.CurrContext;
             mGnuClayHuman.CurrPlatform = mRoom;
             mGnuClayHuman.RelativePos = new Point(0, 0);
+
+            scene.CurrentActiveEntityController = new ActiveEntityController(mGnuClayHuman);
+            scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
         }
 
         protected Block CreateBlock()

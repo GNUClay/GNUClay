@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveEntity.cs" />
+    <Compile Include="ActiveEntityController.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseSoftCreator.cs" />
     <Compile Include="Camera.cs" />

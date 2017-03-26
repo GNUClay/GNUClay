@@ -40,8 +40,8 @@ namespace SquaresWorkBench.CommonEngine
         {
             mMainContext = new MainContext(mViever);
 
-            mMainContext.CurrViewer.Height = 20000;
-            mMainContext.CurrViewer.Width = 20000;
+            mMainContext.CurrViewer.Height = 4000;
+            mMainContext.CurrViewer.Width = 4000;
         }
 
         public void New()
@@ -87,5 +87,7 @@ namespace SquaresWorkBench.CommonEngine
                 return mMainContext;
             }
         }
+
+        public ActiveEntityController CurrentActiveEntityController { get; set; }
     }
 }
