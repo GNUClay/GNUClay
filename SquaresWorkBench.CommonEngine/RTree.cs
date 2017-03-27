@@ -293,7 +293,7 @@ namespace SquaresWorkBench.CommonEngine
         public RTreeNode_4(Rect baseRect, Canvas canvas)
             : base(baseRect, canvas)
         {
-            DERW();
+            //DERW();
         }
 
         private object mLocker = new object();

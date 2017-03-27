@@ -32,6 +32,11 @@ namespace SquaresWorkBench.CommonEngine
             mAngleB = mInitialAngle - 15;
             mAngleC = mInitialAngle + 15;
             mAngleD = mInitialAngle + 45;
+            
+            //mAngleA = mInitialAngle;
+            //mAngleB = mInitialAngle;
+            //mAngleC = mInitialAngle;
+            //mAngleD = mInitialAngle;
 
             mCurrAngle = mAngleA;
 
@@ -107,9 +112,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
 
-
-
-            //DarawTSTLine(tmpTargetPos);
+            DrawTSTLine(tmpTargetPos);
 
             //NLog.LogManager.GetCurrentClassLogger().Info("mEntitiesList.Count = {0}", mEntitiesList.Count);
 
@@ -217,11 +220,6 @@ namespace SquaresWorkBench.CommonEngine
 
             //NLog.LogManager.GetCurrentClassLogger().Info("mCurrAngle = {0}", mCurrAngle);
 
-            if (mCurrAngle >= -100)
-            {
-                return false;
-            }
-
             if (mCurrAngle > mAngleA && mCurrAngle < mAngleB)
             {
                 mCurrAngleStep = 2;
@@ -248,7 +246,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public Canvas TSTDrawContext = null;
 
-        private void DarawTSTLine(Point targetPos)
+        private void DrawTSTLine(Point targetPos)
         {
             if (TSTDrawContext == null)
             {

@@ -55,6 +55,7 @@
     <Compile Include="BaseSoftCreator.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CustomVisualHost.cs" />
+    <Compile Include="EntityAction.cs" />
     <Compile Include="EntityInfo.cs" />
     <Compile Include="GoDirectionFlag.cs" />
     <Compile Include="IBaseEntity.cs" />

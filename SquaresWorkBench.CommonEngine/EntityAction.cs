@@ -5,13 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.Inheritance
+namespace SquaresWorkBench.CommonEngine
 {
-    [Serializable]
-    public class InheritanceInfo : IToStringData
+    public enum EntityActionState
     {
-        public double Rank = 0;
-        public InheritanceAspect Aspect = InheritanceAspect.Unknown;
+        Executing,
+        EndSuccess,
+        EndError
+    }
+
+    public class EntityAction : IToStringData
+    {
+        EntityActionState State { get; set; } = EntityActionState.Executing;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -30,8 +35,7 @@ namespace GnuClay.Engine.Inheritance
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(Rank)} = {Rank}");
-            tmpSb.AppendLine($"{nameof(Aspect)} = {Aspect}");
+            tmpSb.AppendLine($"{nameof(State)} = {State}");
 
             return tmpSb.ToString();
         }

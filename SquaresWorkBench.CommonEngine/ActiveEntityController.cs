@@ -82,7 +82,7 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteAction Next objectId = {objectId}  actionName = {actionName}");
+            mEntity.TSTExecuteCommand(objectId, actionName);
         }
     }
 }

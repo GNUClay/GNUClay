@@ -35,12 +35,7 @@ namespace SquaresWorkBench.CommonEngine
 
         private string CreateNewId()
         {
-            var tmpSb = new StringBuilder();
-
-            tmpSb.Append("#");
-            tmpSb.Append(Guid.NewGuid().ToString("D"));
-
-            return tmpSb.ToString();
+            return $"#{Guid.NewGuid().ToString("D")}";
         }
 
         [PersistentKVPProperty]

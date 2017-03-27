@@ -33,6 +33,7 @@ namespace SquaresWorkBench.CommonEngine
         }
 
         private Camera mSimpleCamera = null;
+        private Camera mSecondCamera = null;
 
         public override void ActivateEntity()
         {
@@ -51,6 +52,8 @@ namespace SquaresWorkBench.CommonEngine
             if (CurrViewer != null)
             {
                 mSimpleCamera = new Camera(this, CurrViewer.CurrRTree);
+                mSecondCamera = new Camera(this, CurrViewer.CurrRTree);
+                mSecondCamera.TSTDrawContext = CurrViewer.CurrCanvas;
             }
         }
 
@@ -86,9 +89,9 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            mSimpleCamera.Scan();
+            //mSimpleCamera.Scan();
 
-            OnSeen(mSimpleCamera.Result);
+            //OnSeen(mSimpleCamera.Result);
 
             Thread.Sleep(500);
         }
@@ -108,7 +111,8 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            mSimpleCamera.TSTDrawContext = CurrViewer.CurrCanvas;
+            //mSimpleCamera.TSTDrawContext = CurrViewer.CurrCanvas;
+            //mSecondCamera.TSTDrawContext = CurrViewer.CurrCanvas;
 
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Scan");
 
@@ -183,6 +187,44 @@ namespace SquaresWorkBench.CommonEngine
             }
 
             return true;
+        }
+
+        protected EntityAction ExcecuteAction(string objectId, string actionName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction objectId = {objectId}  actionName = {actionName}");
+
+            mSecondCamera.Scan();
+
+            var result = mSecondCamera.Result;
+
+            var targetItem = result.FirstOrDefault(p => p.VisibleEntity.Id == objectId);
+
+            if(targetItem == null)
+            {
+                return null;
+            }
+
+            var minDistance = targetItem.VisiblePoints.Min(p => p.Radius);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction minDistance = {minDistance}");
+
+            if(minDistance > 20)
+            {
+                return null;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT objectId = {objectId}  actionName = {actionName}");
+
+            return null;
+        }
+
+        public void TSTExecuteCommand(string objectId, string actionName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTExecuteCommand objectId = {objectId}  actionName = {actionName}");
+
+            var result = ExcecuteAction(objectId, actionName);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTExecuteCommand result = {result}");
         }
     }
 }
