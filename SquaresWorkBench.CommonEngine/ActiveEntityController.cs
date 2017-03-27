@@ -20,7 +20,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            mEntity.Speed = 4;
+            
 
             mEntity.GoDirection = GoDirectionFlag.Go;
         }
@@ -59,6 +59,30 @@ namespace SquaresWorkBench.CommonEngine
             NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
 
             mEntity.GoDirection = GoDirectionFlag.RotateRight;
+        }
+
+        public void SetSpeed(int speed)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed speed = {speed}");
+
+            mEntity.Speed = speed;
+        }
+
+        public void ExecuteAction(string objectId, string actionName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteAction objectId = {objectId}  actionName = {actionName}");
+
+            if (string.IsNullOrWhiteSpace(objectId))
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(actionName))
+            {
+                return;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteAction Next objectId = {objectId}  actionName = {actionName}");
         }
     }
 }

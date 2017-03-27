@@ -30,19 +30,57 @@ namespace SquaresWorkBench.SimpleGUI
 
             mActiveEntityController = mScene.CurrentActiveEntityController;
 
-            var objList = mActiveEntityController.ExistingObjectsList;
-
-            foreach(var objItem in objList)
-            {
-                var cbItem = new ComboBoxItem();
-                cbItem.Content = objItem.Value;
-
-                cbExistingsObjects.Items.Add(cbItem);
-            }
+            InitObjectsList();
+            InitCommadsList();
         }
 
         private Scene mScene = null;
         private ActiveEntityController mActiveEntityController = null;
+
+        private void InitObjectsList()
+        {
+            if (mActiveEntityController != null)
+            {
+                var objList = mActiveEntityController.ExistingObjectsList;
+
+                var objIndex = -1;
+
+                foreach (var objItem in objList)
+                {
+                    var cbItem = new ComboBoxItem();
+                    cbItem.Content = objItem.Value;
+
+                    cbExistingsObjects.Items.Add(cbItem);
+
+                    objIndex++;
+
+                    mObjectsDict[objIndex] = objItem.Key;
+                }
+            }
+        }
+
+        private Dictionary<int, string> mObjectsDict = new Dictionary<int, string>();
+        private Dictionary<int, string> mCommandsDict = new Dictionary<int, string>();
+
+        private void InitCommadsList()
+        {
+            AddCommand("open");
+            AddCommand("close");
+        }
+
+        private int mCommandIndex = -1;
+
+        private void AddCommand(string name)
+        {
+            mCommandIndex++;
+
+            var cbItem = new ComboBoxItem();
+            cbItem.Content = name;
+
+            cbActions.Items.Add(cbItem);
+
+            mCommandsDict[mCommandIndex] = name;
+        }
 
         private void btnGoAhead_Click(object sender, RoutedEventArgs e)
         {
@@ -81,7 +119,32 @@ namespace SquaresWorkBench.SimpleGUI
 
         private void btnRun_Click(object sender, RoutedEventArgs e)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("btnRun_Click");
+            var objSelIndex = cbExistingsObjects.SelectedIndex;
+            var cmdSelIndex = cbActions.SelectedIndex;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"btnRun_Click objSelIndex = {objSelIndex} cmdSelIndex = {cmdSelIndex}");
+
+            if(objSelIndex == -1 || cmdSelIndex == -1)
+            {
+                return;
+            }
+
+            var objName = mObjectsDict[objSelIndex];
+            var cmdName = mCommandsDict[cmdSelIndex];
+
+            mActiveEntityController?.ExecuteAction(objName, cmdName);
+        }
+
+        private void cbSpeed_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var targetSpeed = cbSpeed.SelectedIndex + 1;
+
+            if(targetSpeed == 0)
+            {
+                return;
+            }
+
+            mActiveEntityController?.SetSpeed(targetSpeed);
         }
     }
 }

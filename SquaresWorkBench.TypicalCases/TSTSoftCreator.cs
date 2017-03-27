@@ -80,6 +80,13 @@ namespace SquaresWorkBench.TypicalCases
 
             //NLog.LogManager.GetCurrentClassLogger().Info(mBadHuman.CurrentGeometry.Bounds);
 
+            var badHuman = new BadSquareHuman();
+            badHuman.CurrMainContext = scene.CurrContext;
+            badHuman.CurrPos = new Point(250, 500);
+            badHuman.CurrAngle = 180;
+            badHuman.Speed = 8;
+            badHuman.GoDirection = GoDirectionFlag.Go;
+
             mGoodHuman.Speed = 4;
 
             var mDoor = new Door();

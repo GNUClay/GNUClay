@@ -14,11 +14,23 @@
                 <Button x:Name="btnStop" Content="⛒" HorizontalAlignment="Left" Margin="66,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Stop" Height="20" Click="btnStop_Click"/>
                 <Button x:Name="btnGoRigth" Content="▶" HorizontalAlignment="Left" Margin="91,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go rigth" Height="20" Click="btnGoRigth_Click" IsEnabled="False"/>
                 <Button x:Name="btnGoBack" Content="▼" HorizontalAlignment="Left" Margin="66,79,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go back" Height="20" Click="btnGoBack_Click" IsEnabled="False"/>
-                <ComboBox x:Name="cbExistingsObjects" Margin="0,115,0,221"/>
+                <ComboBox x:Name="cbExistingsObjects" Margin="0,165,0,171"/>
                 <Button x:Name="btnRotateLeft" Content="↶" HorizontalAlignment="Left" Margin="38,29,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate left" Height="20" Click="btnRotateLeft_Click"/>
-                <Button x:Name="btnRun" Content="Run Action!" HorizontalAlignment="Left" Margin="11,195,0,0" VerticalAlignment="Top" Width="75" Click="btnRun_Click"/>
+                <Button x:Name="btnRun" Content="Run Action!" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" Width="75" Click="btnRun_Click"/>
                 <Button x:Name="btnRotateRight" Content="↷" HorizontalAlignment="Left" Margin="91,28,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate right" Click="btnRotateRight_Click" Height="20"/>
-                <ComboBox x:Name="cbActions" Margin="0,155,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cbActions" Margin="0,192,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cbSpeed" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" Width="197" SelectionChanged="cbSpeed_SelectionChanged">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5"/>
+                    <ComboBoxItem Content="6"/>
+                    <ComboBoxItem Content="7"/>
+                    <ComboBoxItem Content="8"/>
+                    <ComboBoxItem Content="9"/>
+                    <ComboBoxItem Content="10"/>
+                </ComboBox>
             </Grid>
             <Grid>
                 <ScrollViewer x:Name="mSw" Margin="0,10" HorizontalScrollBarVisibility="Visible"/>
