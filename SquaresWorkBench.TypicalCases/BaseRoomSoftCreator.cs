@@ -181,8 +181,6 @@ namespace SquaresWorkBench.TypicalCases
 
             existingsObjects.Add(new KeyValuePair<string, string>(mDoor.Id, $"door ({mDoor.Id})"));
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"mDoor.Id = {mDoor.Id}");
-
             mWindowEntity_1 = new Glass();
             mWindowEntity_1.CurrMainContext = scene.CurrContext;
             mWindowEntity_1.CurrPlatform = mRoom;
@@ -197,8 +195,28 @@ namespace SquaresWorkBench.TypicalCases
 
             mGnuClayHuman = new GnuClayHuman();
             mGnuClayHuman.CurrMainContext = scene.CurrContext;
-            mGnuClayHuman.CurrPlatform = mRoom;
-            mGnuClayHuman.RelativePos = new Point(0, 0);
+            mGnuClayHuman.CurrPos = new Point(150, 150);
+            //mGnuClayHuman.CurrPlatform = mRoom;
+            //mGnuClayHuman.RelativePos = new Point(0, 0);
+
+            var mGun = new Gun();
+
+            //mGun.Id = "mGun";
+
+            mGun.CurrMainContext = scene.CurrContext;
+
+            mGun.CurrPos = new Point(100, 100);
+
+            //mGnuClayHuman.AddChild(mGun);
+
+            //mGun.RelativePos = new Point(0, -10);
+
+            var badHuman = new BadSquareHuman();
+            badHuman.CurrMainContext = scene.CurrContext;
+            badHuman.CurrPos = new Point(250, 500);
+            badHuman.CurrAngle = 180;
+
+            existingsObjects.Add(new KeyValuePair<string, string>(mGun.Id, $"gun ({mGun.Id})"));
 
             scene.CurrentActiveEntityController = new ActiveEntityController(mGnuClayHuman);
             scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;

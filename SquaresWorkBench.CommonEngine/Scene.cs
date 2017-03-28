@@ -40,8 +40,8 @@ namespace SquaresWorkBench.CommonEngine
         {
             mMainContext = new MainContext(mViever);
 
-            mMainContext.CurrViewer.Height = 4000;
-            mMainContext.CurrViewer.Width = 4000;
+            mMainContext.CurrViewer.Height = 1000;
+            mMainContext.CurrViewer.Width = 1000;
         }
 
         public void New()

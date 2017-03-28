@@ -55,5 +55,19 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
             NLog.LogManager.GetCurrentClassLogger().Info("tmpBullet.Damage = {0}", tmpBullet.Damage);
         }
+
+        public override EntityAction DispatchExternalAction(string actionName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction actionName = {actionName}");
+
+            if(actionName == "fire")
+            {
+                Fire();
+
+                return SuccessEntityAction();
+            }
+
+            return ErrorEntityAction();
+        }
     }
 }

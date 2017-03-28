@@ -66,6 +66,9 @@ namespace SquaresWorkBench.SimpleGUI
         {
             AddCommand("open");
             AddCommand("close");
+            AddCommand("take");
+            AddCommand("release");
+            AddCommand("fire");
         }
 
         private int mCommandIndex = -1;

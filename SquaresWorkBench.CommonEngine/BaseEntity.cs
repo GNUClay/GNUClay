@@ -1033,7 +1033,7 @@ namespace SquaresWorkBench.CommonEngine
 
         protected virtual void IAmOn(BaseEntity entity)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("IAmOn {0} => {1}", Id, entity.Id);
+            //NLog.LogManager.GetCurrentClassLogger().Info("IAmOn {0} => {1}", Id, entity.Id);
         }
 
         public async void IAmOnEmit(BaseEntity entity)

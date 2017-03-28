@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SquaresWorkBench.CommonEngine
 {
@@ -215,7 +216,41 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT objectId = {objectId}  actionName = {actionName}");
 
+            if(actionName == "take")
+            {
+                return ExcecuteTakeAction(targetItem.VisibleEntity);
+            }
+
+            if(actionName == "release")
+            {
+                return ExcecuteReleaseAction(targetItem.VisibleEntity);
+            }
+
             return targetItem.VisibleEntity.DispatchExternalAction(actionName);
+        }
+
+        private EntityAction ExcecuteTakeAction(BaseEntity targetObject)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id}");
+
+            AddChild(targetObject);
+
+            targetObject.CurrAngle = CurrAngle;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.RelativePos = {targetObject.RelativePos}");
+
+            //targetObject.RelativePos = new Point(10, 0);?????
+
+            return SuccessEntityAction();
+        }
+
+        private EntityAction ExcecuteReleaseAction(BaseEntity targetObject)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id}");
+
+            RemoveChild(targetObject);
+
+            return SuccessEntityAction();
         }
 
         public void TSTExecuteCommand(string objectId, string actionName)
