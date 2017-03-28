@@ -16,7 +16,7 @@ namespace SquaresWorkBench.CommonEngine
 
     public class EntityAction : IToStringData
     {
-        EntityActionState State { get; set; } = EntityActionState.Executing;
+        public EntityActionState State { get; set; } = EntityActionState.Executing;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

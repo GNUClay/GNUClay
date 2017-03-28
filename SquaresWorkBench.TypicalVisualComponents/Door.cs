@@ -123,5 +123,24 @@ namespace SquaresWorkBench.TypicalVisualComponents
                 Destroy();
             }
         }
+
+        public override EntityAction DispatchExternalAction(string actionName)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction actionName = {actionName}");
+
+            if(actionName == "open")
+            {
+                Open();
+                return SuccessEntityAction();
+            }
+
+            if(actionName == "close")
+            {
+                Close();
+                return SuccessEntityAction();
+            }
+
+            return ErrorEntityAction();
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace SquaresWorkBench.CommonEngine
             {
                 mSimpleCamera = new Camera(this, CurrViewer.CurrRTree);
                 mSecondCamera = new Camera(this, CurrViewer.CurrRTree);
-                mSecondCamera.TSTDrawContext = CurrViewer.CurrCanvas;
+                //mSecondCamera.TSTDrawContext = CurrViewer.CurrCanvas;
             }
         }
 
@@ -201,7 +201,7 @@ namespace SquaresWorkBench.CommonEngine
 
             if(targetItem == null)
             {
-                return null;
+                return ErrorEntityAction();
             }
 
             var minDistance = targetItem.VisiblePoints.Min(p => p.Radius);
@@ -210,12 +210,12 @@ namespace SquaresWorkBench.CommonEngine
 
             if(minDistance > 20)
             {
-                return null;
+                return ErrorEntityAction();
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT objectId = {objectId}  actionName = {actionName}");
 
-            return null;
+            return targetItem.VisibleEntity.DispatchExternalAction(actionName);
         }
 
         public void TSTExecuteCommand(string objectId, string actionName)
