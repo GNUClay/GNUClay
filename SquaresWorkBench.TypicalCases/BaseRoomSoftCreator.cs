@@ -205,7 +205,7 @@ namespace SquaresWorkBench.TypicalCases
 
             mGun.CurrMainContext = scene.CurrContext;
 
-            mGun.CurrPos = new Point(100, 100);
+            mGun.CurrPos = new Point(200, 200);
 
             //mGnuClayHuman.AddChild(mGun);
 

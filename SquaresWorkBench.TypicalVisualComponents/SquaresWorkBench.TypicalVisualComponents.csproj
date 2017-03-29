@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadSquareHuman.cs" />
+    <Compile Include="BaseHuman.cs" />
     <Compile Include="BaseSquareHuman.cs" />
     <Compile Include="BaseRoom.cs" />
     <Compile Include="Block.cs" />

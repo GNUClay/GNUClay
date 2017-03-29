@@ -542,9 +542,18 @@ namespace SquaresWorkBench.CommonEngine
 
         private void UpdateChildrenLocations(double angleDif)
         {
-            foreach (var child in mChildren)
+            try
             {
-                child.UpdateLocationByPlatform(angleDif);
+                var targetChildren = mChildren.ToList();
+
+                foreach (var child in targetChildren)
+                {
+                    child.UpdateLocationByPlatform(angleDif);
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -777,6 +786,11 @@ namespace SquaresWorkBench.CommonEngine
             NSetCurrPos_Internales(tmpTargetPoint);
         }
 
+        protected Point GetCentralPos(double targetDistance = 10)
+        {
+            return SimpleMath.PolarToDecartByBasePos_D(CurrPolarAngle, targetDistance, CurrPos);
+        }
+
         private bool mIsHard = false;
 
         [PersistentKVPProperty]
@@ -979,12 +993,12 @@ namespace SquaresWorkBench.CommonEngine
 
         private void MoveRotateLeftBySession(double speedPerTick)
         {
-            NSetCurrAngle(CurrAngle - speedPerTick);
+            NSetCurrAngle(CurrAngle - speedPerTick * 2);
         }
 
         private void MoveRotateRightBySession(double speedPerTick)
         {
-            NSetCurrAngle(CurrAngle + speedPerTick);
+            NSetCurrAngle(CurrAngle + speedPerTick * 2);
         }
 
         private void RestoreAbsolutePosByRelativePos()
@@ -1102,6 +1116,8 @@ namespace SquaresWorkBench.CommonEngine
 
                 if (IsHard && entity.IsHard)
                 {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPostMoving GetType().FullName = {GetType().FullName} Id = {Id} entity.GetType().FullName = {entity.GetType().FullName} entity.Id = {entity.Id}");
+
                     if (CurrPlatform == null && entity.CurrPlatform == null)
                     {
                         if (IsMoving)
@@ -1210,6 +1226,16 @@ namespace SquaresWorkBench.CommonEngine
             {
                 entity.CurrPlatform = this;
             }
+        }
+
+        public bool IsChild(BaseEntity entity)
+        {
+            if (mChildren.Contains(entity))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void RemoveChild(BaseEntity entity)
@@ -1496,6 +1522,11 @@ namespace SquaresWorkBench.CommonEngine
         public bool IsT<T>() where T : BaseEntity
         {
             return this is T;
+        }
+
+        public virtual bool CanTaken()
+        {
+            return false;
         }
 
         public virtual EntityAction DispatchExternalAction(string actionName)

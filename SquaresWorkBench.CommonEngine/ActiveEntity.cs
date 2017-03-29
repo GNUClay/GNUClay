@@ -233,11 +233,32 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id}");
 
+            if(!targetObject.CanTaken())
+            {
+                return ErrorEntityAction();
+            }
+
+            if(IsChild(targetObject))
+            {
+                return ErrorEntityAction();
+            }
+
             AddChild(targetObject);
 
             targetObject.CurrAngle = CurrAngle;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.RelativePos = {targetObject.RelativePos}");
+
+            var newRelativePos = new Point(0, targetObject.RelativePos.Y);
+
+            //if (targetObject.RelativePos.X > 5)
+            //{
+            //    targetObject.RelativePos = new Point(5, targetObject.RelativePos.Y);
+            //}
+
+            targetObject.CurrPos = GetCentralPos();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction (2)targetObject.RelativePos = {targetObject.RelativePos}");
 
             //targetObject.RelativePos = new Point(10, 0);?????
 
@@ -247,6 +268,15 @@ namespace SquaresWorkBench.CommonEngine
         private EntityAction ExcecuteReleaseAction(BaseEntity targetObject)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id}");
+
+            if (!IsChild(targetObject))
+            {
+                return ErrorEntityAction();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction NEXT targetObject.Id = {targetObject.Id}");
+
+            targetObject.CurrPos = GetCentralPos(25);
 
             RemoveChild(targetObject);
 

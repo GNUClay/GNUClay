@@ -19,7 +19,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
             CurrentBrush = Brushes.Black;
 
-            Speed = 100;
+            Speed = 200;
         }
 
         protected override void OnCreateGeometry()

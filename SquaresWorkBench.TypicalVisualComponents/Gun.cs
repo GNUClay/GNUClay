@@ -13,7 +13,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Gun()
         {
-            IsHard = true;
+            IsHard = false;
             Opacity = 1;
 
             //CurrentBrush = System.Windows.Media.Brushes.Black;
@@ -54,6 +54,11 @@ namespace SquaresWorkBench.TypicalVisualComponents
             tmpBullet.GoDirection = GoDirectionFlag.Go;
 
             NLog.LogManager.GetCurrentClassLogger().Info("tmpBullet.Damage = {0}", tmpBullet.Damage);
+        }
+
+        public override bool CanTaken()
+        {
+            return true;
         }
 
         public override EntityAction DispatchExternalAction(string actionName)
