@@ -135,7 +135,7 @@ namespace SquaresWorkBench.SimpleGUI
             var objName = mObjectsDict[objSelIndex];
             var cmdName = mCommandsDict[cmdSelIndex];
 
-            mActiveEntityController?.ExecuteAction(objName, cmdName);
+            mActiveEntityController?.ExecuteCommand(objName, cmdName);
         }
 
         private void cbSpeed_SelectionChanged(object sender, SelectionChangedEventArgs e)

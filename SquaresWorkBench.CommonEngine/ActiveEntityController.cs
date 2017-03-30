@@ -20,16 +20,22 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            
+            //mEntity.GoDirection = GoDirectionFlag.Go;
 
-            mEntity.GoDirection = GoDirectionFlag.Go;
+            var result = mEntity.ExecuteCommand(new Command("go ahead"));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GoAhead result = {result}");
         }
 
         public void Stop()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Stop");
 
-            mEntity.GoDirection = GoDirectionFlag.Stop;
+            //mEntity.GoDirection = GoDirectionFlag.Stop;
+
+            var result = mEntity.ExecuteCommand(new Command("stop"));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Stop result = {result}");
         }
 
         public void GoLeft()
@@ -51,26 +57,42 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft");
 
-            mEntity.GoDirection = GoDirectionFlag.RotateLeft;
+            //mEntity.GoDirection = GoDirectionFlag.RotateLeft;
+
+            var result = mEntity.ExecuteCommand(new Command("rotate left"));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft result = {result}");
         }
 
         public void RotateRight()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
 
-            mEntity.GoDirection = GoDirectionFlag.RotateRight;
+            //mEntity.GoDirection = GoDirectionFlag.RotateRight;
+
+            var result = mEntity.ExecuteCommand(new Command("rotate right"));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight result = {result}");
         }
 
         public void SetSpeed(int speed)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed speed = {speed}");
 
-            mEntity.Speed = speed;
+            //mEntity.Speed = speed;
+
+            var command = new Command("set speed");
+
+            command.Params["value"] = speed;
+
+            var result = mEntity.ExecuteCommand(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed result = {result}");
         }
 
-        public void ExecuteAction(string objectId, string actionName)
+        public void ExecuteCommand(string objectId, string actionName)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteAction objectId = {objectId}  actionName = {actionName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand objectId = {objectId}  actionName = {actionName}");
 
             if (string.IsNullOrWhiteSpace(objectId))
             {
@@ -82,7 +104,9 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            mEntity.TSTExecuteCommand(objectId, actionName);
+            var result = mEntity.ExecuteCommand(new Command(actionName, objectId));
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
         }
     }
 }

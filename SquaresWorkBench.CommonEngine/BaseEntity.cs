@@ -1529,9 +1529,9 @@ namespace SquaresWorkBench.CommonEngine
             return false;
         }
 
-        public virtual EntityAction DispatchExternalAction(string actionName)
+        public virtual EntityAction DispatchExternalAction(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction actionName = {actionName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction command = {command}");
 
             return ErrorEntityAction();
         }

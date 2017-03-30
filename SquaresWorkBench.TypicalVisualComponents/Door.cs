@@ -124,8 +124,10 @@ namespace SquaresWorkBench.TypicalVisualComponents
             }
         }
 
-        public override EntityAction DispatchExternalAction(string actionName)
+        public override EntityAction DispatchExternalAction(Command command)
         {
+            var actionName = command.Name;
+
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction actionName = {actionName}");
 
             if(actionName == "open")

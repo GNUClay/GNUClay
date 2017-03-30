@@ -190,15 +190,20 @@ namespace SquaresWorkBench.CommonEngine
             return true;
         }
 
-        protected EntityAction ExcecuteAction(string objectId, string actionName)
+        public EntityAction ExecuteCommand(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction objectId = {objectId}  actionName = {actionName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand command = {command}");
+
+            if(string.IsNullOrWhiteSpace(command.Target))
+            {
+                return ExecuteSelfCommand(command);
+            }
 
             mSecondCamera.Scan();
 
             var result = mSecondCamera.Result;
 
-            var targetItem = result.FirstOrDefault(p => p.VisibleEntity.Id == objectId);
+            var targetItem = result.FirstOrDefault(p => p.VisibleEntity.Id == command.Target);
 
             if(targetItem == null)
             {
@@ -214,19 +219,26 @@ namespace SquaresWorkBench.CommonEngine
                 return ErrorEntityAction();
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT objectId = {objectId}  actionName = {actionName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT command = {command}");
 
-            if(actionName == "take")
+            if(command.Name == "take")
             {
                 return ExcecuteTakeAction(targetItem.VisibleEntity);
             }
 
-            if(actionName == "release")
+            if(command.Name == "release")
             {
                 return ExcecuteReleaseAction(targetItem.VisibleEntity);
             }
 
-            return targetItem.VisibleEntity.DispatchExternalAction(actionName);
+            return targetItem.VisibleEntity.DispatchExternalAction(command);
+        }
+
+        private EntityAction ExecuteSelfCommand(Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand command = {command}");
+
+            return ErrorEntityAction();
         }
 
         private EntityAction ExcecuteTakeAction(BaseEntity targetObject)
@@ -281,15 +293,6 @@ namespace SquaresWorkBench.CommonEngine
             RemoveChild(targetObject);
 
             return SuccessEntityAction();
-        }
-
-        public void TSTExecuteCommand(string objectId, string actionName)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTExecuteCommand objectId = {objectId}  actionName = {actionName}");
-
-            var result = ExcecuteAction(objectId, actionName);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTExecuteCommand result = {result}");
         }
     }
 }
