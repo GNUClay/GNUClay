@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public abstract class ActiveEntity : BaseEntity
+    public abstract class ActiveEntity : BaseEntity, IActiveEntity
     {
         protected ActiveEntity()
         {
@@ -62,8 +62,23 @@ namespace SquaresWorkBench.CommonEngine
         {
         }
 
-        protected virtual void OnSeen(List<VisibleResultItem> items)
+        private ILogicalEntity mLogicalEntity = null;
+
+        public void SetLogicalEntity(ILogicalEntity entity)
         {
+            if(mLogicalEntity == entity)
+            {
+                return;
+            }
+
+            mLogicalEntity = entity;
+
+            mLogicalEntity.SetEntity(this);
+        }
+
+        private void OnSeen(List<VisibleResultItem> items)
+        {
+            mLogicalEntity?.OnSeen(items);
         }
 
         private async void OnSeenAsync(List<VisibleResultItem> items)
@@ -90,7 +105,9 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            //mSimpleCamera.Scan();
+            mSimpleCamera.Scan();
+
+            OnSeenAsync(mSimpleCamera.Result);
 
             //OnSeen(mSimpleCamera.Result);
 
@@ -192,7 +209,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public EntityAction ExecuteCommand(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand commands = {command}");
 
             if(string.IsNullOrWhiteSpace(command.Target))
             {
@@ -232,11 +249,71 @@ namespace SquaresWorkBench.CommonEngine
             }
 
             return targetItem.VisibleEntity.DispatchExternalAction(command);
+
+            return ErrorEntityAction();
         }
 
         private EntityAction ExecuteSelfCommand(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand command = {command}");
+
+            var commandName = command.Name;
+
+            if(commandName == "go ahead")
+            {
+                GoDirection = GoDirectionFlag.Go;
+
+                return SuccessEntityAction();
+            }
+
+            if (commandName == "stop")
+            {
+                GoDirection = GoDirectionFlag.Stop;
+
+                return SuccessEntityAction();
+            }
+
+            if (commandName == "rotate left")
+            {
+                GoDirection = GoDirectionFlag.RotateLeft;
+
+                return SuccessEntityAction();
+            }
+
+            if (commandName == "rotate right")
+            {
+                GoDirection = GoDirectionFlag.RotateRight;
+
+                return SuccessEntityAction();
+            }
+
+            if (commandName == "set speed")
+            {
+                if(command.Params.ContainsKey("value"))
+                {
+                    var value = command.Params["value"];
+
+                    if(value == null)
+                    {
+                        return ErrorEntityAction();
+                    }
+
+                    try
+                    {
+                        Speed = Convert.ToDouble(value);
+
+                        return SuccessEntityAction();
+                    }
+                    catch(Exception e)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand e = {e}");
+
+                        return ErrorEntityAction();
+                    }
+                }
+
+                return ErrorEntityAction();
+            }
 
             return ErrorEntityAction();
         }

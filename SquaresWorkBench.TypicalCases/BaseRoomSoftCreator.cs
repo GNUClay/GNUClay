@@ -218,7 +218,12 @@ namespace SquaresWorkBench.TypicalCases
 
             existingsObjects.Add(new KeyValuePair<string, string>(mGun.Id, $"gun ({mGun.Id})"));
 
-            scene.CurrentActiveEntityController = new ActiveEntityController(mGnuClayHuman);
+            scene.CurrentActiveEntityController = new ActiveEntityController();
+
+            mGnuClayHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
+
             scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
         }
 

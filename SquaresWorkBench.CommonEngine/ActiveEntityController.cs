@@ -6,23 +6,15 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public class ActiveEntityController
+    public class ActiveEntityController: BaseLogicalEntity
     {
-        public ActiveEntityController(ActiveEntity entity)
-        {
-            mEntity = entity;
-        }
-
-        private ActiveEntity mEntity = null;
         public List<KeyValuePair<string, string>> ExistingObjectsList { get; set; } = new List<KeyValuePair<string, string>>();
 
         public void GoAhead()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            //mEntity.GoDirection = GoDirectionFlag.Go;
-
-            var result = mEntity.ExecuteCommand(new Command("go ahead"));
+            var result = ActiveEntity.ExecuteCommand(new Command("go ahead"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GoAhead result = {result}");
         }
@@ -31,9 +23,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Stop");
 
-            //mEntity.GoDirection = GoDirectionFlag.Stop;
-
-            var result = mEntity.ExecuteCommand(new Command("stop"));
+            var result = ActiveEntity.ExecuteCommand(new Command("stop"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Stop result = {result}");
         }
@@ -57,9 +47,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft");
 
-            //mEntity.GoDirection = GoDirectionFlag.RotateLeft;
-
-            var result = mEntity.ExecuteCommand(new Command("rotate left"));
+            var result = ActiveEntity.ExecuteCommand(new Command("rotate left"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft result = {result}");
         }
@@ -68,9 +56,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
 
-            //mEntity.GoDirection = GoDirectionFlag.RotateRight;
-
-            var result = mEntity.ExecuteCommand(new Command("rotate right"));
+            var result = ActiveEntity.ExecuteCommand(new Command("rotate right"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight result = {result}");
         }
@@ -85,7 +71,7 @@ namespace SquaresWorkBench.CommonEngine
 
             command.Params["value"] = speed;
 
-            var result = mEntity.ExecuteCommand(command);
+            var result = ActiveEntity.ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed result = {result}");
         }
@@ -104,9 +90,32 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            var result = mEntity.ExecuteCommand(new Command(actionName, objectId));
+            var result = ActiveEntity.ExecuteCommand(new Command(actionName, objectId));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
+        }
+
+        public override void OnSeen(List<VisibleResultItem> items)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+
+            if (items == null || items.Count == 0)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("Not Sees");
+
+                return;
+            }
+
+            foreach (var scanItem in items)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("-----");
+                NLog.LogManager.GetCurrentClassLogger().Info(scanItem.VisibleEntity.Id);
+
+                foreach (var tmpPoint in scanItem.VisiblePoints)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info("{0} Angle = {1} Radius = {2}", tmpPoint.TargetPoint, tmpPoint.Angle, tmpPoint.Radius);
+                }
+            }
         }
     }
 }

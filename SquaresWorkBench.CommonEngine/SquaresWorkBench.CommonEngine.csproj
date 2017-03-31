@@ -52,6 +52,7 @@
     <Compile Include="ActiveEntity.cs" />
     <Compile Include="ActiveEntityController.cs" />
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="BaseLogicalEntity.cs" />
     <Compile Include="BaseSoftCreator.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Command.cs" />
@@ -59,7 +60,9 @@
     <Compile Include="EntityAction.cs" />
     <Compile Include="EntityInfo.cs" />
     <Compile Include="GoDirectionFlag.cs" />
+    <Compile Include="IActiveEntity.cs" />
     <Compile Include="IBaseEntity.cs" />
+    <Compile Include="ILogicalEntity.cs" />
     <Compile Include="ISceneForSoftCreator.cs" />
     <Compile Include="ISceneSoftCreator.cs" />
     <Compile Include="MainContext.cs" />
