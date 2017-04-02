@@ -8,6 +8,32 @@ namespace SquaresWorkBench.CommonEngine
 {
     public class ActiveEntityController: BaseLogicalEntity
     {
+        public ActiveEntityController()
+        {
+            var filter = new CommandFilter();
+            filter.CommandName = "fire";
+            filter.Target = "gun";
+            filter.Handler = TSTFireGunExecute;
+
+            mCommandFiltersStorage.AddFilter();
+        }
+
+        private CommandFiltersStorage mCommandFiltersStorage = new CommandFiltersStorage();
+
+        private EntityAction TSTFireGunExecute(Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute command = {command}");
+
+            return null;
+        }
+
+        private EntityAction TstExecCmd(Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstExecCmd command = {command}");
+
+            return null;
+        }
+
         public List<KeyValuePair<string, string>> ExistingObjectsList { get; set; } = new List<KeyValuePair<string, string>>();
 
         public void GoAhead()
