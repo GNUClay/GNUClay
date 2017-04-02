@@ -23,7 +23,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public string Name { get; set; } = string.Empty;
         public string Target { get; set; } = string.Empty;
-        public Dictionary<string, object> Params = new Dictionary<string, object>();
+        public Dictionary<string, object> Params { get; set; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

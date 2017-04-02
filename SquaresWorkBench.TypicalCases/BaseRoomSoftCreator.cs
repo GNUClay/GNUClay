@@ -224,6 +224,10 @@ namespace SquaresWorkBench.TypicalCases
 
             NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
 
+            var roundHuman = new BaseHuman();
+            roundHuman.CurrMainContext = scene.CurrContext;
+            roundHuman.CurrPos = new Point(300, 300);
+
             scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
         }
 
