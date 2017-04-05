@@ -58,6 +58,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="CommandFilter.cs" />
     <Compile Include="CommandFiltersStorage.cs" />
+    <Compile Include="CommandsDispatcher.cs" />
     <Compile Include="CustomVisualHost.cs" />
     <Compile Include="EntityAction.cs" />
     <Compile Include="EntityInfo.cs" />

@@ -10,21 +10,31 @@ namespace SquaresWorkBench.CommonEngine
     {
         public ActiveEntityController()
         {
-            var filter = new CommandFilter();
+            var filter = new ActionCommandFilter();
             filter.CommandName = "fire";
             filter.Target = "gun";
             filter.Handler = TSTFireGunExecute;
 
-            mCommandFiltersStorage.AddFilter();
+            mCommandsDispatcher.AddFilter(filter);
+
+            var command = new Command();
+            command.Name = "fire";
+            command.Target = "gun";
+
+            var result = mCommandsDispatcher.Dipatch(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");
         }
 
-        private CommandFiltersStorage mCommandFiltersStorage = new CommandFiltersStorage();
-
+        private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
+        
         private EntityAction TSTFireGunExecute(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute command = {command}");
 
-            return null;
+            return new EntityAction() {
+                State = EntityActionState.EndSuccess
+            };
         }
 
         private EntityAction TstExecCmd(Command command)
