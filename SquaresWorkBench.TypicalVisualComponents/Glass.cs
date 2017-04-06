@@ -13,6 +13,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Glass()
         {
+            Class = "glass";
+
             IsHard = true;
 
             Opacity = 0;

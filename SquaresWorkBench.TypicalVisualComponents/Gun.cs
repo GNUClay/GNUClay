@@ -71,10 +71,10 @@ namespace SquaresWorkBench.TypicalVisualComponents
             {
                 Fire();
 
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
-            return ErrorEntityAction();
+            return EntityAction.CreateError(command);
         }
     }
 }

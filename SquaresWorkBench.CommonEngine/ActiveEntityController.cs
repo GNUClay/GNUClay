@@ -15,26 +15,36 @@ namespace SquaresWorkBench.CommonEngine
             filter.Target = "gun";
             filter.Handler = TSTFireGunExecute;
 
-            mCommandsDispatcher.AddFilter(filter);
+            AddFilter(filter);
 
-            var command = new Command();
+
+
+            /*var command = new Command();
             command.Name = "fire";
             command.Target = "gun";
 
-            var result = mCommandsDispatcher.Dipatch(command);
+            var result = ExecuteCommand(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");*/
         }
 
-        private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
-        
+        private string mMyCurrentGun = string.Empty;
+
         private EntityAction TSTFireGunExecute(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute mMyCurrentGun = {mMyCurrentGun}");
 
-            return new EntityAction() {
-                State = EntityActionState.EndSuccess
-            };
+            if(string.IsNullOrWhiteSpace(mMyCurrentGun))
+            {
+                return EntityAction.CreateError(command);
+            }
+
+            var newCommnad = new Command();
+            newCommnad.Name = command.Name;
+            newCommnad.Target = mMyCurrentGun;
+
+            return ExecuteCommand(newCommnad);
         }
 
         private EntityAction TstExecCmd(Command command)
@@ -50,7 +60,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            var result = ActiveEntity.ExecuteCommand(new Command("go ahead"));
+            var result = ExecuteCommand(new Command("go ahead"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GoAhead result = {result}");
         }
@@ -59,7 +69,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Stop");
 
-            var result = ActiveEntity.ExecuteCommand(new Command("stop"));
+            var result = ExecuteCommand(new Command("stop"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Stop result = {result}");
         }
@@ -83,7 +93,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft");
 
-            var result = ActiveEntity.ExecuteCommand(new Command("rotate left"));
+            var result = ExecuteCommand(new Command("rotate left"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft result = {result}");
         }
@@ -92,7 +102,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
 
-            var result = ActiveEntity.ExecuteCommand(new Command("rotate right"));
+            var result = ExecuteCommand(new Command("rotate right"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight result = {result}");
         }
@@ -107,7 +117,7 @@ namespace SquaresWorkBench.CommonEngine
 
             command.Params["value"] = speed;
 
-            var result = ActiveEntity.ExecuteCommand(command);
+            var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed result = {result}");
         }
@@ -126,14 +136,29 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            var result = ActiveEntity.ExecuteCommand(new Command(actionName, objectId));
+            var result = ExecuteCommand(new Command(actionName, objectId));
+
+            if(result.State == EntityActionState.EndSuccess)
+            {
+                if (actionName == "take")
+                {
+                    mMyCurrentGun = objectId;
+                }
+                else
+                {
+                    if(actionName == "release")
+                    {
+                        mMyCurrentGun = string.Empty;
+                    }
+                }
+            }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
         }
 
         public override void OnSeen(List<VisibleResultItem> items)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+            /*NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
             if (items == null || items.Count == 0)
             {
@@ -151,7 +176,7 @@ namespace SquaresWorkBench.CommonEngine
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info("{0} Angle = {1} Radius = {2}", tmpPoint.TargetPoint, tmpPoint.Angle, tmpPoint.Radius);
                 }
-            }
+            }*/
         }
     }
 }

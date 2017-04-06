@@ -16,6 +16,12 @@ namespace SquaresWorkBench.CommonEngine
 
     public class EntityAction : IToStringData
     {
+        public EntityAction(Command command)
+        {
+            Command = command;
+        }
+
+        public Command Command { get; set; } = null;
         public EntityActionState State { get; set; } = EntityActionState.Executing;
 
         /// <summary>
@@ -38,6 +44,25 @@ namespace SquaresWorkBench.CommonEngine
             tmpSb.AppendLine($"{nameof(State)} = {State}");
 
             return tmpSb.ToString();
+        }
+
+        public static EntityAction Create(Command command)
+        {
+            return new EntityAction(command);
+        }
+
+        public static EntityAction CreateSuccess(Command command)
+        {
+            var action = new EntityAction(command);
+            action.State = EntityActionState.EndSuccess;
+            return action;
+        }
+
+        public static EntityAction CreateError(Command command)
+        {
+            var action = new EntityAction(command);
+            action.State = EntityActionState.EndError;
+            return action;
         }
     }
 }

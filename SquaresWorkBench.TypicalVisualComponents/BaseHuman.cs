@@ -13,6 +13,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public BaseHuman()
         {
+            Class = "human";
+
             IsHard = true;
             Opacity = 1;
 

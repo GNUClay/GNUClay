@@ -13,6 +13,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Door()
         {
+            Class = "door";
+
             NSetClosed();
 
             Threshold = 50;
@@ -133,16 +135,16 @@ namespace SquaresWorkBench.TypicalVisualComponents
             if(actionName == "open")
             {
                 Open();
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
             if(actionName == "close")
             {
                 Close();
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
-            return ErrorEntityAction();
+            return EntityAction.CreateError(command);
         }
     }
 }

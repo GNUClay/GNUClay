@@ -224,7 +224,7 @@ namespace SquaresWorkBench.CommonEngine
 
             if(targetItem == null)
             {
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
             var minDistance = targetItem.VisiblePoints.Min(p => p.Radius);
@@ -233,24 +233,22 @@ namespace SquaresWorkBench.CommonEngine
 
             if(minDistance > 20)
             {
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT command = {command}");
 
             if(command.Name == "take")
             {
-                return ExcecuteTakeAction(targetItem.VisibleEntity);
+                return ExcecuteTakeAction(targetItem.VisibleEntity, command);
             }
 
             if(command.Name == "release")
             {
-                return ExcecuteReleaseAction(targetItem.VisibleEntity);
+                return ExcecuteReleaseAction(targetItem.VisibleEntity, command);
             }
 
             return targetItem.VisibleEntity.DispatchExternalAction(command);
-
-            return ErrorEntityAction();
         }
 
         private EntityAction ExecuteSelfCommand(Command command)
@@ -263,28 +261,28 @@ namespace SquaresWorkBench.CommonEngine
             {
                 GoDirection = GoDirectionFlag.Go;
 
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
             if (commandName == "stop")
             {
                 GoDirection = GoDirectionFlag.Stop;
 
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
             if (commandName == "rotate left")
             {
                 GoDirection = GoDirectionFlag.RotateLeft;
 
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
             if (commandName == "rotate right")
             {
                 GoDirection = GoDirectionFlag.RotateRight;
 
-                return SuccessEntityAction();
+                return EntityAction.CreateSuccess(command);
             }
 
             if (commandName == "set speed")
@@ -295,41 +293,41 @@ namespace SquaresWorkBench.CommonEngine
 
                     if(value == null)
                     {
-                        return ErrorEntityAction();
+                        return EntityAction.CreateError(command);
                     }
 
                     try
                     {
                         Speed = Convert.ToDouble(value);
 
-                        return SuccessEntityAction();
+                        return EntityAction.CreateSuccess(command);
                     }
                     catch(Exception e)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand e = {e}");
 
-                        return ErrorEntityAction();
+                        return EntityAction.CreateError(command);
                     }
                 }
 
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
-            return ErrorEntityAction();
+            return EntityAction.CreateError(command);
         }
 
-        private EntityAction ExcecuteTakeAction(BaseEntity targetObject)
+        private EntityAction ExcecuteTakeAction(BaseEntity targetObject, Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if(!targetObject.CanTaken())
             {
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
             if(IsChild(targetObject))
             {
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
             AddChild(targetObject);
@@ -351,16 +349,16 @@ namespace SquaresWorkBench.CommonEngine
 
             //targetObject.RelativePos = new Point(10, 0);?????
 
-            return SuccessEntityAction();
+            return EntityAction.CreateSuccess(command);
         }
 
-        private EntityAction ExcecuteReleaseAction(BaseEntity targetObject)
+        private EntityAction ExcecuteReleaseAction(BaseEntity targetObject, Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if (!IsChild(targetObject))
             {
-                return ErrorEntityAction();
+                return EntityAction.CreateError(command);
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction NEXT targetObject.Id = {targetObject.Id}");
@@ -369,7 +367,7 @@ namespace SquaresWorkBench.CommonEngine
 
             RemoveChild(targetObject);
 
-            return SuccessEntityAction();
+            return EntityAction.CreateSuccess(command);
         }
     }
 }

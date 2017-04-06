@@ -13,6 +13,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Bullet()
         {
+            Class = "bullet";
+
             IsHard = true;
 
             Opacity = 0;

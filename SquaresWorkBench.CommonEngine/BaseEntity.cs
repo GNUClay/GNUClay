@@ -40,6 +40,7 @@ namespace SquaresWorkBench.CommonEngine
 
         [PersistentKVPProperty]
         public string Id = string.Empty;
+        public string Class = string.Empty;
 
         private Dispatcher mCurrDispatcher = null;
 
@@ -1533,23 +1534,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction command = {command}");
 
-            return ErrorEntityAction();
-        }
-
-        protected EntityAction ErrorEntityAction()
-        {
-            return new EntityAction()
-            {
-                State = EntityActionState.EndError
-            };
-        }
-
-        protected EntityAction SuccessEntityAction()
-        {
-            return new EntityAction()
-            {
-                State = EntityActionState.EndSuccess
-            };
+            return EntityAction.CreateError(command);
         }
     }
 }

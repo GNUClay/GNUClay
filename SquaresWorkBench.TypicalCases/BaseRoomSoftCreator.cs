@@ -228,6 +228,8 @@ namespace SquaresWorkBench.TypicalCases
             roundHuman.CurrMainContext = scene.CurrContext;
             roundHuman.CurrPos = new Point(300, 300);
 
+            existingsObjects.Add(new KeyValuePair<string, string>("gun", "gun"));
+
             scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
         }
 

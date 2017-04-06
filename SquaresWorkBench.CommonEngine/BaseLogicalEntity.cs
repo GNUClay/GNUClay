@@ -25,5 +25,26 @@ namespace SquaresWorkBench.CommonEngine
         public virtual void OnSeen(List<VisibleResultItem> items)
         {
         }
+
+        private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
+
+        protected void AddFilter(ActionCommandFilter filter)
+        {
+            mCommandsDispatcher.AddFilter(filter);
+        }
+
+        protected EntityAction ExecuteCommand(Command command)
+        {
+            var dispatchedResult = mCommandsDispatcher.Dipatch(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
+
+            if(dispatchedResult == null)
+            {
+                return ActiveEntity.ExecuteCommand(command);
+            }
+
+            return dispatchedResult;
+        }
     }
 }
