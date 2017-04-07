@@ -18,8 +18,6 @@ namespace SquaresWorkBench.CommonEngine
         {
             Id = CreateNewId();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseEntity Id = {Id} FullName = `{GetType().FullName}`");
-
             var tmpPen = new Pen();
 
             tmpPen.Brush = Brushes.Black;
