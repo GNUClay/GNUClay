@@ -15,6 +15,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
         {
             Width = 50;
             Height = 50;
+
+            Class = "room";
         }
 
         protected override void OnCreateGeometry()

@@ -158,7 +158,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public override void OnSeen(List<VisibleResultItem> items)
         {
-            /*NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
             if (items == null || items.Count == 0)
             {
@@ -170,13 +170,13 @@ namespace SquaresWorkBench.CommonEngine
             foreach (var scanItem in items)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("-----");
-                NLog.LogManager.GetCurrentClassLogger().Info(scanItem.VisibleEntity.Id);
+                NLog.LogManager.GetCurrentClassLogger().Info($"Id = {scanItem.VisibleEntity.Id} Class = {scanItem.VisibleEntity.Class}");
 
                 foreach (var tmpPoint in scanItem.VisiblePoints)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("{0} Angle = {1} Radius = {2}", tmpPoint.TargetPoint, tmpPoint.Angle, tmpPoint.Radius);
+                    NLog.LogManager.GetCurrentClassLogger().Info($"TargetPoint = {tmpPoint.TargetPoint} Angle = {tmpPoint.Angle} Radius = {tmpPoint.Radius}");
                 }
-            }*/
+            }
         }
     }
 }
