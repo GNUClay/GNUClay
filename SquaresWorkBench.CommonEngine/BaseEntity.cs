@@ -18,6 +18,8 @@ namespace SquaresWorkBench.CommonEngine
         {
             Id = CreateNewId();
 
+            //NLog.LogManager.GetCurrentClassLogger().Info($"BaseEntity Id = {Id} FullName = `{GetType().FullName}`");
+
             var tmpPen = new Pen();
 
             tmpPen.Brush = Brushes.Black;
@@ -213,6 +215,8 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
+            //NLog.LogManager.GetCurrentClassLogger().Info($"UpdateView Id = {Id} Class = {Class} FullName = {GetType().FullName}");
+
             CurrDispatcher.Invoke(() =>
             {
                 OnCreateGeometry();
@@ -246,6 +250,11 @@ namespace SquaresWorkBench.CommonEngine
                 mDX = tmpCentralPoint.X;
                 mDY = tmpCentralPoint.Y;
             }
+        }
+
+        public bool ContainsPoint(Point point)
+        {
+            return mGeometry.FillContains(point);
         }
 
         private Brush mBrush = null;
@@ -419,6 +428,8 @@ namespace SquaresWorkBench.CommonEngine
 
         private void ImplementLocation(double angleDif = 0)
         {
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ImplementLocation Id = {Id} Class = {Class} FullName = {GetType().FullName}");
+
             if (CurrentGeometry == null)
             {
                 return;
@@ -1306,6 +1317,8 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
+            NLog.LogManager.GetCurrentClassLogger().Info($"Destroy Id = {Id} Class = {Class} FullName = {GetType().FullName}");
+
             mIsDestroyed = true;
 
             StopEntity();
@@ -1437,6 +1450,8 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
+        public bool IsPunch { get; set; }
+
         public void Hit(double damage)
         {
             if (damage < Threshold)
@@ -1451,6 +1466,9 @@ namespace SquaresWorkBench.CommonEngine
 
             Durability -= damage;
         }
+
+        public bool IsLivingBeing { get; set; }
+        public virtual bool Alive { get; set; }
 
         public EntityInfo CreateInfo()
         {

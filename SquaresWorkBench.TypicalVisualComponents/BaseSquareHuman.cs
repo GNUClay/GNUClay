@@ -16,6 +16,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             Class = "human";
             IsHard = true;
             Opacity = 1;
+            IsLivingBeing = true;
         }
 
         protected override void OnCreateGeometry()

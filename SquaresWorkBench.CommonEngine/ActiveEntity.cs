@@ -160,7 +160,7 @@ namespace SquaresWorkBench.CommonEngine
         private bool mAlive = true;
 
         [PersistentKVPProperty]
-        public bool Alive
+        public override bool Alive
         {
             get
             {

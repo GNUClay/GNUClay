@@ -17,6 +17,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
             IsHard = true;
             Opacity = 1;
+            IsLivingBeing = true;
 
             CurrentBrush = Brushes.Lime;
         }
@@ -35,6 +36,14 @@ namespace SquaresWorkBench.TypicalVisualComponents
             var line = new LineGeometry(new Point(Width/2, 0), ellipse.Center);
             tmpGeometryGroup.Children.Add(line);
             CurrentGeometry = tmpGeometryGroup;
+        }
+
+        protected override void OnSetAlive()
+        {
+            if (!Alive)
+            {
+                CurrentBrush = System.Windows.Media.Brushes.Black;
+            }
         }
     }
 }

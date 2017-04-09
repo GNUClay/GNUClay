@@ -16,6 +16,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
             Class = "block";
             IsHard = true;
             Opacity = 1;
+            Durability = 5000;
+            IsPunch = true;
 
             CurrentBrush = Brushes.Yellow;
         }

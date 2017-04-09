@@ -18,7 +18,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
             NSetClosed();
 
             Threshold = 50;
-            Durability = 200;
+            Durability = 100;
+            IsPunch = true; 
         }
 
         private Brush mClosedBrush = Brushes.Brown;

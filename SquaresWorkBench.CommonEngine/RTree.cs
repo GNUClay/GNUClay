@@ -431,5 +431,10 @@ namespace SquaresWorkBench.CommonEngine
 
             return tmpRez;
         }
+
+        public List<BaseEntity> GetEntitiesByPoint(Point point)
+        {
+            return GetEntitiesByRectAtPoint(point).Where(p => p.ContainsPoint(point)).ToList();
+        }
     }
 }
