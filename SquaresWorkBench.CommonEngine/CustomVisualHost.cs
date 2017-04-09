@@ -15,7 +15,7 @@ namespace SquaresWorkBench.CommonEngine
         public CustomVisualHost(DrawingVisual drawingVisual)
         {
             _child = drawingVisual;
-            this.AddVisualChild(_child);
+            AddVisualChild(_child);
         }
 
         public DrawingVisual Child

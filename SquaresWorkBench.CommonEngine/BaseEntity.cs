@@ -254,7 +254,14 @@ namespace SquaresWorkBench.CommonEngine
 
         public bool ContainsPoint(Point point)
         {
-            return mGeometry.FillContains(point);
+            var result = false;
+
+            mGeometry.Dispatcher.Invoke(() =>
+            {
+                result = mGeometry.FillContains(point);
+            }, DispatcherPriority.Background);
+
+            return result;
         }
 
         private Brush mBrush = null;

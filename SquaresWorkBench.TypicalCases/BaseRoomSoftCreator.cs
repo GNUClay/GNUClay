@@ -75,7 +75,7 @@ namespace SquaresWorkBench.TypicalCases
 
         protected Glass mWindowEntity_2 = null;
 
-        protected GnuClayHuman mGnuClayHuman = null;
+        protected BadSquareHuman mGnuClayHuman = null;
 
         protected override void OnRun(ISceneForSoftCreator scene)
         {
@@ -193,9 +193,9 @@ namespace SquaresWorkBench.TypicalCases
             mWindowEntity_2.RelativePos = new Point(55, -196.5);
             mWindowEntity_2.Width = 100;
 
-            mGnuClayHuman = new GnuClayHuman();
+            mGnuClayHuman = new BadSquareHuman();
             mGnuClayHuman.CurrMainContext = scene.CurrContext;
-            mGnuClayHuman.CurrPos = new Point(150, 150);
+            mGnuClayHuman.CurrPos = new Point(300, 300);
             //mGnuClayHuman.CurrPlatform = mRoom;
             //mGnuClayHuman.RelativePos = new Point(0, 0);
 
@@ -220,13 +220,15 @@ namespace SquaresWorkBench.TypicalCases
 
             scene.CurrentActiveEntityController = new ActiveEntityController();
 
-            mGnuClayHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
+            //mGnuClayHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
 
             var roundHuman = new BaseHuman();
             roundHuman.CurrMainContext = scene.CurrContext;
-            roundHuman.CurrPos = new Point(300, 300);
+            roundHuman.CurrPos = new Point(150, 150); 
+
+            roundHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
 
             existingsObjects.Add(new KeyValuePair<string, string>("gun", "gun"));
 

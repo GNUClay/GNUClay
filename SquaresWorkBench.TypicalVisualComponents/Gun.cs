@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,77 +49,74 @@ namespace SquaresWorkBench.TypicalVisualComponents
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Fire");
 
-            var speed = CurrPlatform.Speed;
-            CurrPlatform.Speed = 0;
+            var state = CurrPlatform.GoDirection;
+
+            CurrPlatform.GoDirection = GoDirectionFlag.Stop;
 
             TSTDrawContext = CurrViewer.CurrCanvas;
             var cornerPoint = new Point(TSTDrawContext.Width, TSTDrawContext.Height);
-
-            var tmpStopwatch = new Stopwatch();
-            tmpStopwatch.Start();
-
-            var tmpRadius = 0;
-
             var tmpInitialPoint = GetCentralPos(7);
             var tmpRadianAngle = SimpleMath.DegreesToRadians(CurrPolarAngle);
 
-            var tmpCosA = Math.Cos(tmpRadianAngle);
-            var tmpSinA = Math.Sin(tmpRadianAngle);
+            var task = new Task(() => {
+                var tmpRadius = 0;
 
-            var tmpProcessedList = new List<object>();
+                var tmpCosA = Math.Cos(tmpRadianAngle);
+                var tmpSinA = Math.Sin(tmpRadianAngle);
 
-            double tmpCurrentEnergy = 200;
+                var tmpProcessedList = new List<object>();
 
-            while (true)
-            {
-                tmpRadius++;
+                double tmpCurrentEnergy = 200;
 
-                var tmpDx = tmpRadius * tmpCosA;
-                var tmpDY = tmpRadius * tmpSinA;
+                var isRun = true;
 
-                var tmpTargetX = tmpInitialPoint.X + tmpDx;
-                var tmpTargetY = tmpInitialPoint.Y + tmpDY;
-
-                var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"Fire tmpTargetPos = {tmpTargetPos}");
-
-                if(IsTerminatePos(tmpTargetPos, cornerPoint))
+                while (isRun)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("Fire IsTerminatePos");
+                    tmpRadius += 2;
 
-                    break;
-                }
+                    var tmpDx = tmpRadius * tmpCosA;
+                    var tmpDY = tmpRadius * tmpSinA;
 
-                var targetEntities = CurrViewer.CurrRTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).ToList();
+                    var tmpTargetX = tmpInitialPoint.X + tmpDx;
+                    var tmpTargetY = tmpInitialPoint.Y + tmpDY;
 
-                DrawTSTLine(tmpInitialPoint, tmpTargetPos);
+                    var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
 
-                if (targetEntities.Count == 0)
-                {
-                    continue;
-                }
+                    if (IsTerminatePos(tmpTargetPos, cornerPoint))
+                    {
+                        break;
+                    }
 
-                foreach(var entity in targetEntities)
-                {
-                    if(tmpProcessedList.Contains(entity))
+                    var targetEntities = CurrViewer.CurrRTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).ToList();
+
+                    if (targetEntities.Count == 0)
                     {
                         continue;
                     }
 
-                    tmpProcessedList.Add(entity);
-
-                    if(!ProcessHit(entity, ref tmpCurrentEnergy))
+                    foreach (var entity in targetEntities)
                     {
-                        return;
+                        if (tmpProcessedList.Contains(entity))
+                        {
+                            continue;
+                        }
+
+                        tmpProcessedList.Add(entity);
+
+                        if (!ProcessHit(entity, ref tmpCurrentEnergy))
+                        {
+                            isRun = false;
+                            break;
+                        }
                     }
-                }             
-            }
+                }
 
-            CurrPlatform.Speed = speed;
+                //Thread.Sleep(50);
 
-            tmpStopwatch.Stop();
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Fire tmpStopwatch.Elapsed = {tmpStopwatch.Elapsed}");
+                CurrPlatform.GoDirection = state;
+            });
+
+            task.Start();
 
             /*var tmpBullet = new Bullet();
 
