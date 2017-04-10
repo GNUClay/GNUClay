@@ -10,5 +10,6 @@ namespace SquaresWorkBench.CommonEngine
     {
         EntityAction ExecuteCommand(Command command);
         void SetLogicalEntity(ILogicalEntity entity);
+        void DumpCoords();
     }
 }

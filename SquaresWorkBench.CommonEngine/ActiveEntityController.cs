@@ -178,5 +178,10 @@ namespace SquaresWorkBench.CommonEngine
                 }
             }*/
         }
+
+        public void DumpCoords()
+        {
+            ActiveEntity.DumpCoords();
+        }
     }
 }

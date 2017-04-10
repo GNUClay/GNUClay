@@ -149,5 +149,10 @@ namespace SquaresWorkBench.SimpleGUI
 
             mActiveEntityController?.SetSpeed(targetSpeed);
         }
+
+        private void btnGetCoords_Click(object sender, RoutedEventArgs e)
+        {
+            mActiveEntityController.DumpCoords();
+        }
     }
 }

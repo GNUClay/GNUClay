@@ -45,89 +45,93 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
         public Canvas TSTDrawContext = null;
 
+        private bool mIsFiring = false;
+        private object mFiringLockObj = new object();
+
         public void Fire()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Fire");
 
-            var state = CurrPlatform.GoDirection;
+            lock(mFiringLockObj)
+            {
+                if(mIsFiring)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info("Fire mIsFiring return;");
+                    return;
+                }
 
-            CurrPlatform.GoDirection = GoDirectionFlag.Stop;
+                mIsFiring = true;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("Fire Next");
+
+            //var state = CurrPlatform.GoDirection;
+
+            //CurrPlatform.GoDirection = GoDirectionFlag.Stop;
 
             TSTDrawContext = CurrViewer.CurrCanvas;
             var cornerPoint = new Point(TSTDrawContext.Width, TSTDrawContext.Height);
             var tmpInitialPoint = GetCentralPos(7);
             var tmpRadianAngle = SimpleMath.DegreesToRadians(CurrPolarAngle);
 
-            var task = new Task(() => {
-                var tmpRadius = 0;
+            var tmpRadius = 0;
 
-                var tmpCosA = Math.Cos(tmpRadianAngle);
-                var tmpSinA = Math.Sin(tmpRadianAngle);
+            var tmpCosA = Math.Cos(tmpRadianAngle);
+            var tmpSinA = Math.Sin(tmpRadianAngle);
 
-                var tmpProcessedList = new List<object>();
+            var tmpProcessedList = new List<object>();
 
-                double tmpCurrentEnergy = 200;
+            double tmpCurrentEnergy = 200;
 
-                var isRun = true;
+            var isRun = true;
 
-                while (isRun)
+            while (isRun)
+            {
+                tmpRadius += 2;
+
+                var tmpDx = tmpRadius * tmpCosA;
+                var tmpDY = tmpRadius * tmpSinA;
+
+                var tmpTargetX = tmpInitialPoint.X + tmpDx;
+                var tmpTargetY = tmpInitialPoint.Y + tmpDY;
+
+                var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
+
+                if (IsTerminatePos(tmpTargetPos, cornerPoint))
                 {
-                    tmpRadius += 2;
+                    break;
+                }
 
-                    var tmpDx = tmpRadius * tmpCosA;
-                    var tmpDY = tmpRadius * tmpSinA;
+                var targetEntities = CurrViewer.CurrRTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).ToList();
 
-                    var tmpTargetX = tmpInitialPoint.X + tmpDx;
-                    var tmpTargetY = tmpInitialPoint.Y + tmpDY;
+                if (targetEntities.Count == 0)
+                {
+                    continue;
+                }
 
-                    var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
-
-                    if (IsTerminatePos(tmpTargetPos, cornerPoint))
-                    {
-                        break;
-                    }
-
-                    var targetEntities = CurrViewer.CurrRTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).ToList();
-
-                    if (targetEntities.Count == 0)
+                foreach (var entity in targetEntities)
+                {
+                    if (tmpProcessedList.Contains(entity))
                     {
                         continue;
                     }
 
-                    foreach (var entity in targetEntities)
+                    tmpProcessedList.Add(entity);
+
+                    if (!ProcessHit(entity, ref tmpCurrentEnergy))
                     {
-                        if (tmpProcessedList.Contains(entity))
-                        {
-                            continue;
-                        }
-
-                        tmpProcessedList.Add(entity);
-
-                        if (!ProcessHit(entity, ref tmpCurrentEnergy))
-                        {
-                            isRun = false;
-                            break;
-                        }
+                        isRun = false;
+                        break;
                     }
                 }
+            }
 
-                //Thread.Sleep(50);
+            lock (mFiringLockObj)
+            {
+                mIsFiring = false;
+            }
 
-                CurrPlatform.GoDirection = state;
-            });
-
-            task.Start();
-
-            /*var tmpBullet = new Bullet();
-
-            tmpBullet.CurrPos = mFrontPoint;
-            tmpBullet.CurrAngle = CurrAngle;
-
-            tmpBullet.CurrMainContext = CurrMainContext;
-
-            tmpBullet.GoDirection = GoDirectionFlag.Go;
-
-            NLog.LogManager.GetCurrentClassLogger().Info("tmpBullet.Damage = {0}", tmpBullet.Damage);*/
+            NLog.LogManager.GetCurrentClassLogger().Info("End Fire");
         }
 
         private bool ProcessHit(BaseEntity targetEntity, ref double energy)

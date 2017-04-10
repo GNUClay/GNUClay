@@ -369,5 +369,10 @@ namespace SquaresWorkBench.CommonEngine
 
             return EntityAction.CreateSuccess(command);
         }
+
+        public void DumpCoords()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"DumpCoords CurrPos = {CurrPos}");
+        }
     }
 }

@@ -476,8 +476,10 @@ namespace SquaresWorkBench.CommonEngine
                     OnImplementLocationInDispatcher();
                 }, DispatcherPriority.Background);
             }
-            catch
+            catch(Exception e)
             {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ImplementLocation e = {e}");
+
                 return;
             }
 
@@ -561,19 +563,19 @@ namespace SquaresWorkBench.CommonEngine
 
         private void UpdateChildrenLocations(double angleDif)
         {
-            try
-            {
+            //try
+            //{
                 var targetChildren = mChildren.ToList();
 
                 foreach (var child in targetChildren)
                 {
                     child.UpdateLocationByPlatform(angleDif);
                 }
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
 
         public void UpdateLocationByPlatform(double angleDif)
@@ -1123,8 +1125,10 @@ namespace SquaresWorkBench.CommonEngine
                         return CurrentGeometry.FillContainsWithDetail(entity.CurrentGeometry);
                     });
                 }
-                catch
+                catch(Exception e)
                 {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPostMoving e = {e}");
+
                     return;
                 }
 
