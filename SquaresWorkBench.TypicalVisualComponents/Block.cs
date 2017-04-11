@@ -16,6 +16,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             Class = "block";
             IsHard = true;
             Opacity = 1;
+            Threshold = 5000;
             Durability = 5000;
             IsPunch = true;
 

@@ -36,12 +36,32 @@ namespace SquaresWorkBench.CommonEngine
             mMainContext = null;
         }
 
+        private double mWidth = 1000;
+
+        public double Width
+        {
+            get
+            {
+                return mWidth;
+            }
+        }
+
+        private double mHeight = 1000;
+
+        public double Height
+        {
+            get
+            {
+                return mHeight;
+            }
+        }
+
         private void NCreateMainContext()
         {
             mMainContext = new MainContext(mViever);
 
-            mMainContext.CurrViewer.Height = 1000;
-            mMainContext.CurrViewer.Width = 1000;
+            mMainContext.CurrViewer.Height = mHeight;
+            mMainContext.CurrViewer.Width = mWidth;
         }
 
         public void New()

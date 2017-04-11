@@ -1,5 +1,6 @@
 ﻿using SquaresWorkBench.CommonEngine;
 using SquaresWorkBench.TypicalCases;
+using SquaresWorkBench.TypicalVisualComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;

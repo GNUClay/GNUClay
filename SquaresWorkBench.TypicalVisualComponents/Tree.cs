@@ -9,20 +9,19 @@ using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class BaseHuman : ActiveEntity
+    public class Tree : ResizedEntity
     {
-        public BaseHuman()
+        public Tree()
         {
-            Class = "human";
+            Class = "tree";
 
-            IsHard = true;
+            Threshold = 50;
+            Durability = 100;
+            IsPunch = true;
             Opacity = 1;
-            IsLivingBeing = true;
 
             CurrentBrush = Brushes.Lime;
         }
-
-        protected double Width { get; set; } = 15;
 
         protected override void OnCreateGeometry()
         {
@@ -33,17 +32,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
             tmpGeometryGroup.Children.Add(ellipse);
 
-            var line = new LineGeometry(new Point(Width/2, 0), ellipse.Center);
-            tmpGeometryGroup.Children.Add(line);
             CurrentGeometry = tmpGeometryGroup;
-        }
-
-        protected override void OnSetAlive()
-        {
-            if (!Alive)
-            {
-                CurrentBrush = Brushes.Black;
-            }
         }
     }
 }

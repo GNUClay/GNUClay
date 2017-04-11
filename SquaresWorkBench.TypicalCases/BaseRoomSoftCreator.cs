@@ -11,8 +11,6 @@ namespace SquaresWorkBench.TypicalCases
 {
     public abstract class BaseRoomSoftCreator : BaseSoftCreator
     {
-        private ISceneForSoftCreator mScene = null;
-
         protected BaseRoom mRoom = null;
 
         protected Block mBlock_1 = null;
@@ -77,14 +75,12 @@ namespace SquaresWorkBench.TypicalCases
 
         protected BadSquareHuman mGnuClayHuman = null;
 
-        protected override void OnRun(ISceneForSoftCreator scene)
+        protected override void OnRun()
         {
             var existingsObjects = new List<KeyValuePair<string, string>>();
 
-            mScene = scene;
-
             mRoom = new BaseRoom();
-            mRoom.CurrMainContext = scene.CurrContext;
+            mRoom.CurrMainContext = Scene.CurrContext;
             mRoom.Height = 400;
             mRoom.Width = 400;
 
@@ -174,7 +170,7 @@ namespace SquaresWorkBench.TypicalCases
             mBlock_27.RelativePos = new Point(180, 196.5);
 
             mDoor = new Door();
-            mDoor.CurrMainContext = scene.CurrContext;
+            mDoor.CurrMainContext = Scene.CurrContext;
             mDoor.CurrPlatform = mRoom;
             mDoor.RelativePos = new Point(85, 196.5);
             mDoor.Width = 60;
@@ -182,19 +178,19 @@ namespace SquaresWorkBench.TypicalCases
             existingsObjects.Add(new KeyValuePair<string, string>(mDoor.Id, $"door ({mDoor.Id})"));
 
             mWindowEntity_1 = new Glass();
-            mWindowEntity_1.CurrMainContext = scene.CurrContext;
+            mWindowEntity_1.CurrMainContext = Scene.CurrContext;
             mWindowEntity_1.CurrPlatform = mRoom;
             mWindowEntity_1.RelativePos = new Point(-95, -196.5);
             mWindowEntity_1.Width = 100;
 
             mWindowEntity_2 = new Glass();
-            mWindowEntity_2.CurrMainContext = scene.CurrContext;
+            mWindowEntity_2.CurrMainContext = Scene.CurrContext;
             mWindowEntity_2.CurrPlatform = mRoom;
             mWindowEntity_2.RelativePos = new Point(55, -196.5);
             mWindowEntity_2.Width = 100;
 
             mGnuClayHuman = new BadSquareHuman();
-            mGnuClayHuman.CurrMainContext = scene.CurrContext;
+            mGnuClayHuman.CurrMainContext = Scene.CurrContext;
             mGnuClayHuman.CurrPos = new Point(300, 300);
             //mGnuClayHuman.CurrPlatform = mRoom;
             //mGnuClayHuman.RelativePos = new Point(0, 0);
@@ -203,7 +199,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //mGun.Id = "mGun";
 
-            mGun.CurrMainContext = scene.CurrContext;
+            mGun.CurrMainContext = Scene.CurrContext;
 
             mGun.CurrPos = new Point(140, 140);
 
@@ -212,33 +208,43 @@ namespace SquaresWorkBench.TypicalCases
             //mGun.RelativePos = new Point(0, -10);
 
             var badHuman = new BadSquareHuman();
-            badHuman.CurrMainContext = scene.CurrContext;
+            badHuman.CurrMainContext = Scene.CurrContext;
             badHuman.CurrPos = new Point(250, 500);
             badHuman.CurrAngle = 180;
 
             existingsObjects.Add(new KeyValuePair<string, string>(mGun.Id, $"gun ({mGun.Id})"));
 
-            scene.CurrentActiveEntityController = new ActiveEntityController();
+            Scene.CurrentActiveEntityController = new ActiveEntityController();
 
             //mGnuClayHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
 
             var roundHuman = new BaseHuman();
-            roundHuman.CurrMainContext = scene.CurrContext;
+            roundHuman.CurrMainContext = Scene.CurrContext;
             roundHuman.CurrPos = new Point(150, 150); 
 
-            roundHuman.SetLogicalEntity(scene.CurrentActiveEntityController);
+            roundHuman.SetLogicalEntity(Scene.CurrentActiveEntityController);
 
             existingsObjects.Add(new KeyValuePair<string, string>("gun", "gun"));
 
-            scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
+            Scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
+
+            var tree = new Tree();
+            tree.Width = 50;
+            tree.CurrMainContext = Scene.CurrContext;
+            tree.CurrPos = new Point(500, 500);
+
+            tree = new Tree();
+            tree.Width = 100;
+            tree.CurrMainContext = Scene.CurrContext;
+            tree.CurrPos = new Point(600, 600);
         }
 
         protected Block CreateBlock()
         {
             var tmpBlock = new Block();
-            tmpBlock.CurrMainContext = mScene.CurrContext;
+            tmpBlock.CurrMainContext = Scene.CurrContext;
             tmpBlock.CurrPlatform = mRoom;
             return tmpBlock;
         }

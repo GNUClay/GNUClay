@@ -11,16 +11,16 @@ namespace SquaresWorkBench.TypicalCases
 {
     public class TSTSoftCreator : BaseSoftCreator
     {
-        protected override void OnRun(ISceneForSoftCreator scene)
+        protected override void OnRun()
         {
             var mPlaceEntity = new PlaceEntity();
 
-            mPlaceEntity.CurrMainContext = scene.CurrContext;
+            mPlaceEntity.CurrMainContext = Scene.CurrContext;
             mPlaceEntity.CurrPos = new Point(200, 620);
 
             var mSimplePlatform = new SimplePlatform();
 
-            mSimplePlatform.CurrMainContext = scene.CurrContext;
+            mSimplePlatform.CurrMainContext = Scene.CurrContext;
 
 
             mSimplePlatform.CurrPos = new Point(600, 1100);
@@ -31,7 +31,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var mDoll_1 = new Block();
 
-            mDoll_1.CurrMainContext = scene.CurrContext;
+            mDoll_1.CurrMainContext = Scene.CurrContext;
 
 
             mDoll_1.CurrPlatform = mSimplePlatform;
@@ -42,7 +42,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var mGoodHuman = new GoodSquareHuman();
 
-            mGoodHuman.CurrMainContext = scene.CurrContext;
+            mGoodHuman.CurrMainContext = Scene.CurrContext;
 
             mGoodHuman.CurrPos = new Point(600, 900);
             //mGoodHuman.CurrPos = new Point(1600, 900);
@@ -55,7 +55,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var mBadHuman = new BadSquareHuman();
 
-            mBadHuman.CurrMainContext = scene.CurrContext;
+            mBadHuman.CurrMainContext = Scene.CurrContext;
 
             //mBadHuman.CurrPos = new Point(620, 1200);
 
@@ -81,7 +81,7 @@ namespace SquaresWorkBench.TypicalCases
             //NLog.LogManager.GetCurrentClassLogger().Info(mBadHuman.CurrentGeometry.Bounds);
 
             var badHuman = new BadSquareHuman();
-            badHuman.CurrMainContext = scene.CurrContext;
+            badHuman.CurrMainContext = Scene.CurrContext;
             badHuman.CurrPos = new Point(250, 500);
             badHuman.CurrAngle = 180;
             badHuman.Speed = 8;
@@ -91,7 +91,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var mDoor = new Door();
 
-            mDoor.CurrMainContext = scene.CurrContext;
+            mDoor.CurrMainContext = Scene.CurrContext;
 
             mDoor.CurrPos = new Point(600, 750);
             //mDoor.CurrPos = new Point(600, 850);
@@ -106,7 +106,7 @@ namespace SquaresWorkBench.TypicalCases
             var mWindowEntity = new Glass();
             //mWindowEntity.Id = "mWindowEntity";
 
-            mWindowEntity.CurrMainContext = scene.CurrContext;
+            mWindowEntity.CurrMainContext = Scene.CurrContext;
 
             mWindowEntity.Width = 100;
 
@@ -121,7 +121,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //mGun.Id = "mGun";
 
-            mGun.CurrMainContext = scene.CurrContext;
+            mGun.CurrMainContext = Scene.CurrContext;
 
             mGun.CurrPos = new Point(50, 50);
 

@@ -51,9 +51,11 @@
   <ItemGroup>
     <Compile Include="BadSquareHuman.cs" />
     <Compile Include="BaseHuman.cs" />
+    <Compile Include="BaseSoftCreator.cs" />
     <Compile Include="BaseSquareHuman.cs" />
     <Compile Include="BaseRoom.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="BorderBlock.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Glass.cs" />
     <Compile Include="GnuClayHuman.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="PlaceEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimplePlatform.cs" />
+    <Compile Include="Tree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
