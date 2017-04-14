@@ -15,7 +15,9 @@ namespace SquaresWorkBench.TypicalVisualComponents
         {
             Length = lenght;
 
-            Class = "border block";
+            Class.Add("border");
+            Class.Add("block");
+
             IsHard = true;
             Opacity = 1;
             Threshold = double.MaxValue;

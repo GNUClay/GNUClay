@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class GoodSquareHuman : BaseSquareHuman
+    public class WhiteSquareClayHuman: BaseSquareHuman
     {
-        public GoodSquareHuman()
+        public WhiteSquareClayHuman()
         {
-            CurrentBrush = Brushes.Lime;
+            Class.Add("white");
         }
     }
 }

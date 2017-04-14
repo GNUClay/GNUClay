@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public enum EntityActionState
+    public enum EntityActionStatus
     {
-        Executing,
-        EndSuccess,
-        EndError
+        Running,
+        Completed,
+        Faulted
     }
 
     public class EntityAction : IToStringData
@@ -22,7 +22,7 @@ namespace SquaresWorkBench.CommonEngine
         }
 
         public Command Command { get; set; } = null;
-        public EntityActionState State { get; set; } = EntityActionState.Executing;
+        public EntityActionStatus Status { get; set; } = EntityActionStatus.Running;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -41,7 +41,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(State)} = {State}");
+            tmpSb.AppendLine($"{nameof(Status)} = {Status}");
 
             return tmpSb.ToString();
         }
@@ -54,14 +54,14 @@ namespace SquaresWorkBench.CommonEngine
         public static EntityAction CreateSuccess(Command command)
         {
             var action = new EntityAction(command);
-            action.State = EntityActionState.EndSuccess;
+            action.Status = EntityActionStatus.Completed;
             return action;
         }
 
         public static EntityAction CreateError(Command command)
         {
             var action = new EntityAction(command);
-            action.State = EntityActionState.EndError;
+            action.Status = EntityActionStatus.Faulted;
             return action;
         }
     }

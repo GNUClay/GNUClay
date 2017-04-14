@@ -43,9 +43,19 @@ namespace SquaresWorkBench.TypicalVisualComponents
             mFrontPoint = SimpleMath.PolarToDecartByBasePos_D(CurrPolarAngle, DY + 4, CurrPos);
         }
 
+        private Point mCornerPoint = new Point();
+
+        protected override void OnSetViewer()
+        {
+            var w = CurrViewer.Width;
+            var h = CurrViewer.Height;
+
+            mCornerPoint = new Point(w, h);
+        }
+
         public Canvas TSTDrawContext = null;
 
-        private bool mIsFiring = false;
+        private volatile bool mIsFiring = false;
         private object mFiringLockObj = new object();
 
         public void Fire()
@@ -68,9 +78,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             //var state = CurrPlatform.GoDirection;
 
             //CurrPlatform.GoDirection = GoDirectionFlag.Stop;
-
-            TSTDrawContext = CurrViewer.CurrCanvas;
-            var cornerPoint = new Point(TSTDrawContext.Width, TSTDrawContext.Height);
+ 
             var tmpInitialPoint = GetCentralPos(7);
             var tmpRadianAngle = SimpleMath.DegreesToRadians(CurrPolarAngle);
 
@@ -83,9 +91,9 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
             double tmpCurrentEnergy = 200;
 
-            var isRun = true;
+            var rTree = CurrViewer.CurrRTree;
 
-            while (isRun)
+            while (true)
             {
                 tmpRadius += 2;
 
@@ -97,32 +105,33 @@ namespace SquaresWorkBench.TypicalVisualComponents
 
                 var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
 
-                if (IsTerminatePos(tmpTargetPos, cornerPoint))
+                if (IsTerminatePos(tmpTargetPos))
                 {
                     break;
                 }
 
-                var targetEntities = CurrViewer.CurrRTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).ToList();
+                var targetEntity = rTree.GetEntitiesByPoint(tmpTargetPos).Where(p => p.IsHard == true).FirstOrDefault();
 
-                if (targetEntities.Count == 0)
+                if (targetEntity == null)
                 {
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Fire targetEntity == nulltmpRadius = {tmpRadius}");
                     continue;
                 }
 
-                foreach (var entity in targetEntities)
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Fire tmpProcessedList.Contains(targetEntity) tmpRadius = {tmpRadius} targetEntity.Id = {targetEntity.Id} targetEntity.Class = {targetEntity.Class}");
+
+                if (tmpProcessedList.Contains(targetEntity))
                 {
-                    if (tmpProcessedList.Contains(entity))
-                    {
-                        continue;
-                    }
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Fire tmpProcessedList.Contains(targetEntity) tmpRadius = {tmpRadius}");
+                    continue;
+                }
 
-                    tmpProcessedList.Add(entity);
+                tmpProcessedList.Add(targetEntity);
 
-                    if (!ProcessHit(entity, ref tmpCurrentEnergy))
-                    {
-                        isRun = false;
-                        break;
-                    }
+                if (!ProcessHit(targetEntity, ref tmpCurrentEnergy))
+                {
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Fire !ProcessHit(targetEntity, ref tmpCurrentEnergy) tmpRadius = {tmpRadius}");
+                    break;
                 }
             }
 
@@ -176,7 +185,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             return true;
         }
 
-        private bool IsTerminatePos(Point point, Point cornerPoint)
+        private bool IsTerminatePos(Point point)
         {
             var x = point.X;
             var y = point.Y;
@@ -191,12 +200,12 @@ namespace SquaresWorkBench.TypicalVisualComponents
                 return true;
             }
 
-            if(x > cornerPoint.X)
+            if(x > mCornerPoint.X)
             {
                 return true;
             }
 
-            if(y > cornerPoint.Y)
+            if(y > mCornerPoint.Y)
             {
                 return true;
             }
@@ -240,7 +249,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             return true;
         }
 
-        public override EntityAction DispatchExternalAction(Command command)
+        public override void DispatchExternalAction(EntityAction actionResult, Command command)
         {
             var actionName = command.Name;
 
@@ -249,11 +258,11 @@ namespace SquaresWorkBench.TypicalVisualComponents
             if(actionName == "fire")
             {
                 Fire();
-
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
-            return EntityAction.CreateError(command);
+            actionResult.Status = EntityActionStatus.Faulted;
         }
     }
 }

@@ -73,7 +73,7 @@ namespace SquaresWorkBench.TypicalCases
 
         protected Glass mWindowEntity_2 = null;
 
-        protected BadSquareHuman mGnuClayHuman = null;
+        protected RedSquareHuman mGnuClayHuman = null;
 
         protected override void OnRun()
         {
@@ -189,7 +189,7 @@ namespace SquaresWorkBench.TypicalCases
             mWindowEntity_2.RelativePos = new Point(55, -196.5);
             mWindowEntity_2.Width = 100;
 
-            mGnuClayHuman = new BadSquareHuman();
+            mGnuClayHuman = new RedSquareHuman();
             mGnuClayHuman.CurrMainContext = Scene.CurrContext;
             mGnuClayHuman.CurrPos = new Point(300, 300);
             //mGnuClayHuman.CurrPlatform = mRoom;
@@ -207,7 +207,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //mGun.RelativePos = new Point(0, -10);
 
-            var badHuman = new BadSquareHuman();
+            var badHuman = new RedSquareHuman();
             badHuman.CurrMainContext = Scene.CurrContext;
             badHuman.CurrPos = new Point(250, 500);
             badHuman.CurrAngle = 180;
@@ -220,7 +220,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
 
-            var roundHuman = new BaseHuman();
+            var roundHuman = new BaseRoundHuman();
             roundHuman.CurrMainContext = Scene.CurrContext;
             roundHuman.CurrPos = new Point(150, 150); 
 

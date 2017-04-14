@@ -30,21 +30,22 @@ namespace SquaresWorkBench.CommonEngine
 
         private string mMyCurrentGun = string.Empty;
 
-        private EntityAction TSTFireGunExecute(Command command)
+        private void TSTFireGunExecute(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute command = {command}");
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute mMyCurrentGun = {mMyCurrentGun}");
 
             if(string.IsNullOrWhiteSpace(mMyCurrentGun))
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
-            var newCommnad = new Command();
-            newCommnad.Name = command.Name;
-            newCommnad.Target = mMyCurrentGun;
+            var newCommand = new Command();
+            newCommand.Name = command.Name;
+            newCommand.Target = mMyCurrentGun;
 
-            return ExecuteCommand(newCommnad);
+            ExecuteCommand(actionResult, newCommand);
         }
 
         private EntityAction TstExecCmd(Command command)
@@ -138,7 +139,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var result = ExecuteCommand(new Command(actionName, objectId));
 
-            if(result.State == EntityActionState.EndSuccess)
+            if(result.Status == EntityActionStatus.Completed)
             {
                 if (actionName == "take")
                 {

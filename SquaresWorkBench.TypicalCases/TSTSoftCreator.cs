@@ -40,7 +40,7 @@ namespace SquaresWorkBench.TypicalCases
             mDoll_1.RelativePos = new Point(-40, -80);
             mDoll_1.CurrAngle = 0;
 
-            var mGoodHuman = new GoodSquareHuman();
+            var mGoodHuman = new LimeSquareHuman();
 
             mGoodHuman.CurrMainContext = Scene.CurrContext;
 
@@ -53,7 +53,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //mSimplePlatform.AddChild(mGoodHuman);
 
-            var mBadHuman = new BadSquareHuman();
+            var mBadHuman = new RedSquareHuman();
 
             mBadHuman.CurrMainContext = Scene.CurrContext;
 
@@ -80,7 +80,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //NLog.LogManager.GetCurrentClassLogger().Info(mBadHuman.CurrentGeometry.Bounds);
 
-            var badHuman = new BadSquareHuman();
+            var badHuman = new RedSquareHuman();
             badHuman.CurrMainContext = Scene.CurrContext;
             badHuman.CurrPos = new Point(250, 500);
             badHuman.CurrAngle = 180;

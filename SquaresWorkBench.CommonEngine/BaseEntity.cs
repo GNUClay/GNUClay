@@ -42,8 +42,27 @@ namespace SquaresWorkBench.CommonEngine
 
         [PersistentKVPProperty]
         public string Id = string.Empty;
-        public string Class = string.Empty;
+        public List<string> Class = new List<string>();
+        public string ClassString
+        {
+            get
+            {
+                var sb = new StringBuilder();
 
+                foreach(var c in Class)
+                {
+                    if(string.IsNullOrWhiteSpace(c))
+                    {
+                        continue;
+                    }
+
+                    sb.Append($"{c} ");
+                }
+
+                return sb.ToString().Trim();
+            }
+        }
+    
         private Dispatcher mCurrDispatcher = null;
 
         public Dispatcher CurrDispatcher
@@ -172,10 +191,6 @@ namespace SquaresWorkBench.CommonEngine
 
         public virtual ActiveContext CurrActiveContext { get; set; }
 
-        protected virtual void OnSetMainContext()
-        {
-        }
-
         private DrawingVisual mDrawingVisual = null;
         private CustomVisualHost mVisualHost = null;
 
@@ -254,14 +269,16 @@ namespace SquaresWorkBench.CommonEngine
 
         public bool ContainsPoint(Point point)
         {
-            var result = false;
+            /*var result = false;
 
             mGeometry.Dispatcher.Invoke(() =>
             {
                 result = mGeometry.FillContains(point);
             }, DispatcherPriority.Background);
 
-            return result;
+            return result;*/
+
+            return mBound.Contains(point);
         }
 
         private Brush mBrush = null;
@@ -1559,11 +1576,11 @@ namespace SquaresWorkBench.CommonEngine
             return false;
         }
 
-        public virtual EntityAction DispatchExternalAction(Command command)
+        public virtual void DispatchExternalAction(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchExternalAction command = {command}");
 
-            return EntityAction.CreateError(command);
+            actionResult.Status = EntityActionStatus.Faulted;
         }
     }
 }

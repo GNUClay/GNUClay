@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class BadSquareHuman : BaseSquareHuman
+    public class RedSquareHuman : BaseSquareHuman
     {
-        public BadSquareHuman()
+        public RedSquareHuman()
         {
+            Class.Add("red");
+
             CurrentBrush = System.Windows.Media.Brushes.Red;
         }
 

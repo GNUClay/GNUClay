@@ -9,11 +9,12 @@ using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class BaseHuman : ActiveEntity
+    public class BaseRoundHuman : ActiveEntity
     {
-        public BaseHuman()
+        public BaseRoundHuman()
         {
-            Class = "human";
+            Class.Add("round");
+            Class.Add("human");
 
             IsHard = true;
             Opacity = 1;

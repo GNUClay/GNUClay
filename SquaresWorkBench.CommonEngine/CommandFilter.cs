@@ -71,7 +71,7 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public delegate EntityAction ActionCommandHandler(Command command);
+    public delegate void ActionCommandHandler(EntityAction actionResult, Command command);
 
     public class ActionCommandFilter: BaseCommandFilter
     {

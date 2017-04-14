@@ -21,6 +21,7 @@ namespace SquaresWorkBench.CommonEngine
             mRTree = new RTree(mCanvas);
         }
 
+        private object mLockObj = new object();
         private ScrollViewer mViever = null;
 
         private Canvas mCanvas = null;
@@ -29,7 +30,10 @@ namespace SquaresWorkBench.CommonEngine
         {
             get
             {
-                return mCanvas;
+                lock(mLockObj)
+                {
+                    return mCanvas;
+                }           
             }
         }
 
@@ -39,7 +43,10 @@ namespace SquaresWorkBench.CommonEngine
         {
             get
             {
-                return mRTree;
+                lock (mLockObj)
+                {
+                    return mRTree;
+                }        
             }
         }
 
@@ -47,21 +54,27 @@ namespace SquaresWorkBench.CommonEngine
         {
             get
             {
-                return mCanvas.Height;
+                lock (mLockObj)
+                {
+                    return mCanvas.Height;
+                }         
             }
 
             set
             {
-                if (mCanvas.Height == value)
+                lock (mLockObj)
                 {
-                    return;
+                    if (mCanvas.Height == value)
+                    {
+                        return;
+                    }
+
+                    mCanvas.Height = value;
+
+                    mRTree.Create();
+
+                    UpdateBound();
                 }
-
-                mCanvas.Height = value;
-
-                mRTree.Create();
-
-                UpdateBound();
             }
         }
 
@@ -69,21 +82,27 @@ namespace SquaresWorkBench.CommonEngine
         {
             get
             {
-                return mCanvas.Width;
+                lock (mLockObj)
+                {
+                    return mCanvas.Width;
+                }              
             }
 
             set
             {
-                if (mCanvas.Width == value)
+                lock (mLockObj)
                 {
-                    return;
+                    if (mCanvas.Width == value)
+                    {
+                        return;
+                    }
+
+                    mCanvas.Width = value;
+
+                    mRTree.Create();
+
+                    UpdateBound();
                 }
-
-                mCanvas.Width = value;
-
-                mRTree.Create();
-
-                UpdateBound();
             }
         }
 

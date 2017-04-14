@@ -35,16 +35,34 @@ namespace SquaresWorkBench.CommonEngine
 
         protected EntityAction ExecuteCommand(Command command)
         {
-            var dispatchedResult = mCommandsDispatcher.Dipatch(command);
+            var result = new EntityAction(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
+            NExecuteCommand(result, command);
 
-            if(dispatchedResult == null)
-            {
-                return ActiveEntity.ExecuteCommand(command);
-            }
+            return result;
+        }
 
-            return dispatchedResult;
+        protected EntityAction ExecuteCommand(EntityAction actionResult, Command command)
+        {
+            NExecuteCommand(actionResult, command);
+
+            return actionResult;
+        }
+
+        private void NExecuteCommand(EntityAction actionResult, Command command)
+        {
+            var task = new Task(() => {
+                var dispatchedResult = mCommandsDispatcher.Dipatch(actionResult);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
+
+                if (!dispatchedResult)
+                {
+                    ActiveEntity.ExecuteCommand(actionResult, command);
+                }
+            });
+
+            task.Start();
         }
     }
 }

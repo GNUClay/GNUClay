@@ -49,8 +49,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BadSquareHuman.cs" />
-    <Compile Include="BaseHuman.cs" />
+    <Compile Include="LimeRoundHuman.cs" />
+    <Compile Include="RedRoundHuman.cs" />
+    <Compile Include="RedSquareHuman.cs" />
+    <Compile Include="BaseRoundHuman.cs" />
     <Compile Include="BaseSoftCreator.cs" />
     <Compile Include="BaseSquareHuman.cs" />
     <Compile Include="BaseRoom.cs" />
@@ -58,8 +60,9 @@
     <Compile Include="BorderBlock.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Glass.cs" />
-    <Compile Include="GnuClayHuman.cs" />
-    <Compile Include="GoodSquareHuman.cs" />
+    <Compile Include="WhiteRoundHuman.cs" />
+    <Compile Include="WhiteSquareClayHuman.cs" />
+    <Compile Include="LimeSquareHuman.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="PlaceEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

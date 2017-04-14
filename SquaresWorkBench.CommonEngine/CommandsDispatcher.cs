@@ -13,16 +13,18 @@ namespace SquaresWorkBench.CommonEngine
             mCommandFiltersStorage.AddFilter(filter);
         }
 
-        public EntityAction Dipatch(Command command)
+        public bool Dipatch(EntityAction actionResult)
         {
-            var action = mCommandFiltersStorage.FindFilter(command);
+            var action = mCommandFiltersStorage.FindFilter(actionResult.Command);
 
             if(action == null)
             {
-                return null;
+                return false;
             }
 
-            return action.Handler(command);
+            action.Handler(actionResult, actionResult.Command);
+
+            return true;
         }
 
         private CommandFiltersStorage<ActionCommandFilter> mCommandFiltersStorage = new CommandFiltersStorage<ActionCommandFilter>();

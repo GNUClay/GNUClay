@@ -13,7 +13,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Door()
         {
-            Class = "door";
+            Class.Add("door");
 
             NSetClosed();
 
@@ -127,7 +127,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             }
         }
 
-        public override EntityAction DispatchExternalAction(Command command)
+        public override void DispatchExternalAction(EntityAction actionResult, Command command)
         {
             var actionName = command.Name;
 
@@ -136,16 +136,19 @@ namespace SquaresWorkBench.TypicalVisualComponents
             if(actionName == "open")
             {
                 Open();
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
             if(actionName == "close")
             {
                 Close();
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
-            return EntityAction.CreateError(command);
+            actionResult.Status = EntityActionStatus.Faulted;
+            return;
         }
     }
 }

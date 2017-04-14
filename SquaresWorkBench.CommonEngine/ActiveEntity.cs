@@ -207,13 +207,14 @@ namespace SquaresWorkBench.CommonEngine
             return true;
         }
 
-        public EntityAction ExecuteCommand(Command command)
+        public void ExecuteCommand(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand commands = {command}");
 
             if(string.IsNullOrWhiteSpace(command.Target))
             {
-                return ExecuteSelfCommand(command);
+                ExecuteSelfCommand(actionResult, command);
+                return;
             }
 
             mSecondCamera.Scan();
@@ -224,7 +225,8 @@ namespace SquaresWorkBench.CommonEngine
 
             if(targetItem == null)
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
             var minDistance = targetItem.VisiblePoints.Min(p => p.Radius);
@@ -233,25 +235,28 @@ namespace SquaresWorkBench.CommonEngine
 
             if(minDistance > 20)
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteAction NEXT command = {command}");
 
             if(command.Name == "take")
             {
-                return ExcecuteTakeAction(targetItem.VisibleEntity, command);
+                ExcecuteTakeAction(targetItem.VisibleEntity, actionResult, command);
+                return;
             }
 
             if(command.Name == "release")
             {
-                return ExcecuteReleaseAction(targetItem.VisibleEntity, command);
+                ExcecuteReleaseAction(targetItem.VisibleEntity, actionResult, command);
+                return;
             }
 
-            return targetItem.VisibleEntity.DispatchExternalAction(command);
+            targetItem.VisibleEntity.DispatchExternalAction(actionResult, command);
         }
 
-        private EntityAction ExecuteSelfCommand(Command command)
+        private void ExecuteSelfCommand(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand command = {command}");
 
@@ -261,28 +266,32 @@ namespace SquaresWorkBench.CommonEngine
             {
                 GoDirection = GoDirectionFlag.Go;
 
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
             if (commandName == "stop")
             {
                 GoDirection = GoDirectionFlag.Stop;
 
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
             if (commandName == "rotate left")
             {
                 GoDirection = GoDirectionFlag.RotateLeft;
 
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
             if (commandName == "rotate right")
             {
                 GoDirection = GoDirectionFlag.RotateRight;
 
-                return EntityAction.CreateSuccess(command);
+                actionResult.Status = EntityActionStatus.Completed;
+                return;
             }
 
             if (commandName == "set speed")
@@ -293,41 +302,47 @@ namespace SquaresWorkBench.CommonEngine
 
                     if(value == null)
                     {
-                        return EntityAction.CreateError(command);
+                        actionResult.Status = EntityActionStatus.Faulted;
+                        return;
                     }
 
                     try
                     {
                         Speed = Convert.ToDouble(value);
 
-                        return EntityAction.CreateSuccess(command);
+                        actionResult.Status = EntityActionStatus.Completed;
+                        return;
                     }
                     catch(Exception e)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSelfCommand e = {e}");
 
-                        return EntityAction.CreateError(command);
+                        actionResult.Status = EntityActionStatus.Faulted;
+                        return;
                     }
                 }
 
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
-            return EntityAction.CreateError(command);
+            actionResult.Status = EntityActionStatus.Faulted;
         }
 
-        private EntityAction ExcecuteTakeAction(BaseEntity targetObject, Command command)
+        private void ExcecuteTakeAction(BaseEntity targetObject, EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if(!targetObject.CanTaken())
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
             if(IsChild(targetObject))
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
             AddChild(targetObject);
@@ -349,16 +364,17 @@ namespace SquaresWorkBench.CommonEngine
 
             //targetObject.RelativePos = new Point(10, 0);?????
 
-            return EntityAction.CreateSuccess(command);
+            actionResult.Status = EntityActionStatus.Completed;
         }
 
-        private EntityAction ExcecuteReleaseAction(BaseEntity targetObject, Command command)
+        private void ExcecuteReleaseAction(BaseEntity targetObject, EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if (!IsChild(targetObject))
             {
-                return EntityAction.CreateError(command);
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction NEXT targetObject.Id = {targetObject.Id}");
@@ -367,7 +383,7 @@ namespace SquaresWorkBench.CommonEngine
 
             RemoveChild(targetObject);
 
-            return EntityAction.CreateSuccess(command);
+            actionResult.Status = EntityActionStatus.Completed;
         }
 
         public void DumpCoords()

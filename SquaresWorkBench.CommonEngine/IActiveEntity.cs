@@ -8,7 +8,7 @@ namespace SquaresWorkBench.CommonEngine
 {
     public interface IActiveEntity
     {
-        EntityAction ExecuteCommand(Command command);
+        void ExecuteCommand(EntityAction actionResult, Command command);
         void SetLogicalEntity(ILogicalEntity entity);
         void DumpCoords();
     }
