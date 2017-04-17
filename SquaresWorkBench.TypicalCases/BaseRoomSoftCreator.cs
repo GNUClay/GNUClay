@@ -220,7 +220,7 @@ namespace SquaresWorkBench.TypicalCases
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"mGnuClayHuman.Id = {mGnuClayHuman.Id}");
 
-            var roundHuman = new BaseRoundHuman();
+            var roundHuman = new LimeRoundHuman();
             roundHuman.CurrMainContext = Scene.CurrContext;
             roundHuman.CurrPos = new Point(150, 150); 
 

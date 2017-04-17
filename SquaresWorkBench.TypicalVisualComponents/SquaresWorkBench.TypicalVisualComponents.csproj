@@ -61,7 +61,7 @@
     <Compile Include="Door.cs" />
     <Compile Include="Glass.cs" />
     <Compile Include="WhiteRoundHuman.cs" />
-    <Compile Include="WhiteSquareClayHuman.cs" />
+    <Compile Include="WhiteSquareHuman.cs" />
     <Compile Include="LimeSquareHuman.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="PlaceEntity.cs" />

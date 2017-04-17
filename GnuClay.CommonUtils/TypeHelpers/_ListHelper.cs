@@ -9,6 +9,46 @@ namespace GnuClay.CommonUtils.TypeHelpers
 {
     public static class _ListHelper
     {
+        public static bool FullContains(this List<string> source, List<string> compararedItems)
+        {
+            foreach(var item in compararedItems)
+            {
+                if(!source.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static List<string> StringToList(this string value)
+        {
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                return new List<string>();
+            }
+
+            return value.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+
+        public static string ListToString(this List<string> list)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var c in list)
+            {
+                if (string.IsNullOrWhiteSpace(c))
+                {
+                    continue;
+                }
+
+                sb.Append($"{c} ");
+            }
+
+            return sb.ToString().Trim();
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsEmpty<T>(IEnumerable<T> list)
         {
@@ -22,14 +62,12 @@ namespace GnuClay.CommonUtils.TypeHelpers
 
         public static string _ToString<T>(IEnumerable<T> list)
         {
-            var tmpSb = new StringBuilder();
-
             if (list == null)
             {
-                tmpSb.AppendLine("null");
-
-                return tmpSb.ToString();
+                return "null";
             }
+
+            var tmpSb = new StringBuilder();
 
             foreach (var item in list)
             {
@@ -41,18 +79,14 @@ namespace GnuClay.CommonUtils.TypeHelpers
 
         public static string _ToString<T>(IEnumerable<T> list, string listName)
         {
-            var tmpSb = new StringBuilder();
-
             if (list == null)
             {
-                tmpSb.Append(listName);
-                tmpSb.AppendLine(" = null");
-
-                return tmpSb.ToString();
+                return $"{listName} = null";
             }
 
-            tmpSb.Append("Begin ");
-            tmpSb.AppendLine(listName);
+            var tmpSb = new StringBuilder();
+
+            tmpSb.AppendLine($"Begin {listName}");
 
             foreach (var item in list)
             {
@@ -66,8 +100,7 @@ namespace GnuClay.CommonUtils.TypeHelpers
                 }
             }
 
-            tmpSb.Append("End ");
-            tmpSb.AppendLine(listName);
+            tmpSb.AppendLine($"End {listName}");
 
             return tmpSb.ToString();
         }

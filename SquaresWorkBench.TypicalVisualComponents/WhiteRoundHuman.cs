@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    class WhiteRoundHuman
+    public class WhiteRoundHuman: BaseRoundHuman
     {
+        public WhiteRoundHuman()
+        {
+            Class.Add("white");
+        }
     }
 }

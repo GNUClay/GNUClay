@@ -9,9 +9,9 @@ using System.Windows.Media;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class BaseRoundHuman : ActiveEntity
+    public abstract class BaseRoundHuman : ActiveEntity
     {
-        public BaseRoundHuman()
+        protected BaseRoundHuman()
         {
             Class.Add("round");
             Class.Add("human");
@@ -19,8 +19,6 @@ namespace SquaresWorkBench.TypicalVisualComponents
             IsHard = true;
             Opacity = 1;
             IsLivingBeing = true;
-
-            CurrentBrush = Brushes.Lime;
         }
 
         protected double Width { get; set; } = 15;

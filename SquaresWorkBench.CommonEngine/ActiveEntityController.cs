@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using SquaresWorkBench.CommonEngine.TemporaryLogical;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,7 @@ namespace SquaresWorkBench.CommonEngine
             NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");*/
         }
 
+        private ObjectsRegistry mObjectsRegistry = new ObjectsRegistry();
         private string mMyCurrentGun = string.Empty;
 
         private void TSTFireGunExecute(EntityAction actionResult, Command command)
@@ -139,29 +142,42 @@ namespace SquaresWorkBench.CommonEngine
 
             var result = ExecuteCommand(new Command(actionName, objectId));
 
-            if(result.Status == EntityActionStatus.Completed)
-            {
+            //if(result.Status == EntityActionStatus.Completed)
+            //{
                 if (actionName == "take")
                 {
-                    mMyCurrentGun = objectId;
+                    if(mObjectsRegistry.Is(objectId, "gun"))
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand actionName == 'take' Yess mObjectsRegistry.Is(objectId, 'gun')");
+
+                        mMyCurrentGun = objectId;
+                    }             
                 }
                 else
                 {
                     if(actionName == "release")
                     {
+                    if (mObjectsRegistry.Is(objectId, "gun"))
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand actionName == 'release' Yess mObjectsRegistry.Is(objectId, 'gun')");
+
                         mMyCurrentGun = string.Empty;
                     }
+                        
+                    }
                 }
-            }
+            //}
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
         }
 
         public override void OnSeen(List<VisibleResultItem> items)
         {
-            /*NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
-            if (items == null || items.Count == 0)
+            RegObjects(items);
+
+            /*if (_ListHelper.IsEmpty(items))
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("Not Sees");
 
@@ -171,13 +187,28 @@ namespace SquaresWorkBench.CommonEngine
             foreach (var scanItem in items)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info("-----");
-                NLog.LogManager.GetCurrentClassLogger().Info($"Id = {scanItem.VisibleEntity.Id} Class = {scanItem.VisibleEntity.Class}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"Id = {scanItem.VisibleEntity.Id} Class = {scanItem.VisibleEntity.ClassString}");
 
                 foreach (var tmpPoint in scanItem.VisiblePoints)
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info($"TargetPoint = {tmpPoint.TargetPoint} Angle = {tmpPoint.Angle} Radius = {tmpPoint.Radius}");
                 }
             }*/
+        }
+
+        private void RegObjects(List<VisibleResultItem> items)
+        {
+            if(_ListHelper.IsEmpty(items))
+            {
+                return;
+            }
+
+            foreach (var scanItem in items)
+            {
+                var entity = scanItem.VisibleEntity;
+
+                mObjectsRegistry.RegObject(entity.Id, entity.Class);
+            }
         }
 
         public void DumpCoords()

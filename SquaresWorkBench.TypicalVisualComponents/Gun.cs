@@ -19,6 +19,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
             IsHard = false;
             Opacity = 1;
 
+            Class.Add("gun");
+
             //CurrentBrush = System.Windows.Media.Brushes.Black;
         }
 

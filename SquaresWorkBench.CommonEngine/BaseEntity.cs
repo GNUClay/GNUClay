@@ -47,19 +47,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             get
             {
-                var sb = new StringBuilder();
-
-                foreach(var c in Class)
-                {
-                    if(string.IsNullOrWhiteSpace(c))
-                    {
-                        continue;
-                    }
-
-                    sb.Append($"{c} ");
-                }
-
-                return sb.ToString().Trim();
+                return Class.ListToString();
             }
         }
     

@@ -79,6 +79,7 @@
     <Compile Include="SecondaryPropertyInfo.cs" />
     <Compile Include="SimpleMath.cs" />
     <Compile Include="SimpleViewer.cs" />
+    <Compile Include="TemporaryLogical\ObjectsRegistry.cs" />
     <Compile Include="UnaliveEntity.cs" />
     <Compile Include="ViewerInfo.cs" />
     <Compile Include="VisibleResultItem.cs" />
@@ -92,6 +93,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

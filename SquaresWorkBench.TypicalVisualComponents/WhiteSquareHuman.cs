@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalVisualComponents
 {
-    public class WhiteSquareClayHuman: BaseSquareHuman
+    public class WhiteSquareHuman: BaseSquareHuman
     {
-        public WhiteSquareClayHuman()
+        public WhiteSquareHuman()
         {
             Class.Add("white");
         }

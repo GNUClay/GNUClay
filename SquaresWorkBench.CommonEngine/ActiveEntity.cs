@@ -243,13 +243,13 @@ namespace SquaresWorkBench.CommonEngine
 
             if(command.Name == "take")
             {
-                ExcecuteTakeAction(targetItem.VisibleEntity, actionResult, command);
+                ExecuteTakeAction(targetItem.VisibleEntity, actionResult, command);
                 return;
             }
 
             if(command.Name == "release")
             {
-                ExcecuteReleaseAction(targetItem.VisibleEntity, actionResult, command);
+                ExecuteReleaseAction(targetItem.VisibleEntity, actionResult, command);
                 return;
             }
 
@@ -329,9 +329,9 @@ namespace SquaresWorkBench.CommonEngine
             actionResult.Status = EntityActionStatus.Faulted;
         }
 
-        private void ExcecuteTakeAction(BaseEntity targetObject, EntityAction actionResult, Command command)
+        private void ExecuteTakeAction(BaseEntity targetObject, EntityAction actionResult, Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.Id = {targetObject.Id} command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteTakeAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if(!targetObject.CanTaken())
             {
@@ -349,7 +349,7 @@ namespace SquaresWorkBench.CommonEngine
 
             targetObject.CurrAngle = CurrAngle;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction targetObject.RelativePos = {targetObject.RelativePos}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteTakeAction targetObject.RelativePos = {targetObject.RelativePos}");
 
             var newRelativePos = new Point(0, targetObject.RelativePos.Y);
 
@@ -360,16 +360,16 @@ namespace SquaresWorkBench.CommonEngine
 
             targetObject.CurrPos = GetCentralPos();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteTakeAction (2)targetObject.RelativePos = {targetObject.RelativePos}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteTakeAction (2)targetObject.RelativePos = {targetObject.RelativePos}");
 
             //targetObject.RelativePos = new Point(10, 0);?????
 
             actionResult.Status = EntityActionStatus.Completed;
         }
 
-        private void ExcecuteReleaseAction(BaseEntity targetObject, EntityAction actionResult, Command command)
+        private void ExecuteReleaseAction(BaseEntity targetObject, EntityAction actionResult, Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction targetObject.Id = {targetObject.Id} command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteReleaseAction targetObject.Id = {targetObject.Id} command = {command}");
 
             if (!IsChild(targetObject))
             {
@@ -377,7 +377,7 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExcecuteReleaseAction NEXT targetObject.Id = {targetObject.Id}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteReleaseAction NEXT targetObject.Id = {targetObject.Id}");
 
             targetObject.CurrPos = GetCentralPos(25);
 
