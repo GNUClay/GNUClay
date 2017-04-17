@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using SquaresWorkBench.CommonEngine.TemporaryLogical;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +24,48 @@ namespace SquaresWorkBench.CommonEngine
             ActiveEntity.SetLogicalEntity(this);
         }
 
-        public virtual void OnSeen(List<VisibleResultItem> items)
+        public void OnSeen(List<VisibleResultItem> items)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
+
+            RegObjects(items);
+
+            lock(mVisibleItemsLockObj)
+            {
+                mVisibleItems = items;
+            }
+        }
+
+        private object mVisibleItemsLockObj = new object();
+        private List<VisibleResultItem> mVisibleItems = new List<VisibleResultItem>();
+
+        protected List<VisibleResultItem> GetVisibleItems()
+        {
+            lock (mVisibleItemsLockObj)
+            {
+                return mVisibleItems;
+            }
+        }
+
+        protected ObjectsRegistry ObjectsRegistry = new ObjectsRegistry();
+
+        protected void RegObjects(List<VisibleResultItem> items)
+        {
+            if (_ListHelper.IsEmpty(items))
+            {
+                return;
+            }
+
+            foreach (var scanItem in items)
+            {
+                var entity = scanItem.VisibleEntity;
+
+                ObjectsRegistry.RegObject(entity.Id, entity.Class);
+            }
         }
 
         private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
-
+        
         protected void AddFilter(ActionCommandFilter filter)
         {
             mCommandsDispatcher.AddFilter(filter);

@@ -30,7 +30,6 @@ namespace SquaresWorkBench.CommonEngine
             NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");*/
         }
 
-        private ObjectsRegistry mObjectsRegistry = new ObjectsRegistry();
         private string mMyCurrentGun = string.Empty;
 
         private void TSTFireGunExecute(EntityAction actionResult, Command command)
@@ -142,40 +141,40 @@ namespace SquaresWorkBench.CommonEngine
 
             var result = ExecuteCommand(new Command(actionName, objectId));
 
-            //if(result.Status == EntityActionStatus.Completed)
-            //{
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result.OnComlplete actionName = '{actionName}' objectId = {objectId}");
+
                 if (actionName == "take")
                 {
-                    if(mObjectsRegistry.Is(objectId, "gun"))
+                    if (ObjectsRegistry.Is(objectId, "gun"))
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand actionName == 'take' Yess mObjectsRegistry.Is(objectId, 'gun')");
 
                         mMyCurrentGun = objectId;
-                    }             
+                    }
                 }
                 else
                 {
-                    if(actionName == "release")
+                    if (actionName == "release")
                     {
-                    if (mObjectsRegistry.Is(objectId, "gun"))
-                    {
-                        NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand actionName == 'release' Yess mObjectsRegistry.Is(objectId, 'gun')");
+                        if (ObjectsRegistry.Is(objectId, "gun"))
+                        {
+                            NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand actionName == 'release' Yess mObjectsRegistry.Is(objectId, 'gun')");
 
-                        mMyCurrentGun = string.Empty;
-                    }
-                        
+                            mMyCurrentGun = string.Empty;
+                        }
                     }
                 }
-            //}
+            });
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
         }
 
-        public override void OnSeen(List<VisibleResultItem> items)
+        /*public override void OnSeen(List<VisibleResultItem> items)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
-            RegObjects(items);
+            
 
             /*if (_ListHelper.IsEmpty(items))
             {
@@ -193,23 +192,8 @@ namespace SquaresWorkBench.CommonEngine
                 {
                     NLog.LogManager.GetCurrentClassLogger().Info($"TargetPoint = {tmpPoint.TargetPoint} Angle = {tmpPoint.Angle} Radius = {tmpPoint.Radius}");
                 }
-            }*/
-        }
-
-        private void RegObjects(List<VisibleResultItem> items)
-        {
-            if(_ListHelper.IsEmpty(items))
-            {
-                return;
             }
-
-            foreach (var scanItem in items)
-            {
-                var entity = scanItem.VisibleEntity;
-
-                mObjectsRegistry.RegObject(entity.Id, entity.Class);
-            }
-        }
+        }*/
 
         public void DumpCoords()
         {

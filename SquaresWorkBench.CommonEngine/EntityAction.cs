@@ -21,8 +21,86 @@ namespace SquaresWorkBench.CommonEngine
             Command = command;
         }
 
+        private object mLockObj = new object();
+
         public Command Command { get; set; } = null;
-        public EntityActionStatus Status { get; set; } = EntityActionStatus.Running;
+        private volatile EntityActionStatus mStatus = EntityActionStatus.Running;
+         
+        public EntityActionStatus Status {
+            get
+            {
+                lock(mLockObj)
+                {
+                    return mStatus;
+                }              
+            }
+
+            set
+            {
+                lock (mLockObj)
+                {
+                    if(mStatus == value)
+                    {
+                        return;
+                    }
+
+                    if(mStatus == EntityActionStatus.Running)
+                    {
+                        mStatus = value;
+
+                        switch(mStatus)
+                        {
+                            case EntityActionStatus.Completed:
+                                mCompletedEvent?.Invoke();
+                                break;
+
+                            case EntityActionStatus.Faulted:
+                                mCompletedEvent?.Invoke();
+                                break;
+                        }
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        private Action mCompletedEvent;
+        private Action mFaultedEvent;
+
+        public void OnComlplete(Action action)
+        {
+            lock(mLockObj)
+            {
+                switch(mStatus)
+                {
+                    case EntityActionStatus.Running:
+                        mCompletedEvent += action;
+                        break;
+
+                    case EntityActionStatus.Completed:
+                        action();
+                        break;
+                }
+            }
+        }
+
+        public void OnFail(Action action)
+        {
+            lock (mLockObj)
+            {
+                switch (mStatus)
+                {
+                    case EntityActionStatus.Running:
+                        mFaultedEvent += action;
+                        break;
+
+                    case EntityActionStatus.Completed:
+                        action();
+                        break;
+                }
+            }
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
