@@ -63,18 +63,43 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            var result = ExecuteCommand(new Command("go ahead"));
+            var command = new Command("go");
+            command.Params.Add("direction", "ahead");
+            command.Params.Add("speed", m___CurrSpeed);
+
+            var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GoAhead result = {result}");
+
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("GoAhead result.OnComlplete");
+            });
+
+            result.OnFail(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("GoAhead result.OnFail");
+            });
         }
+
+        private GoDirectionFlag m___CurrGoDirection = GoDirectionFlag.Stop;
+        private double m___CurrSpeed = 0; 
 
         public void Stop()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Stop");
 
+            m___CurrGoDirection = GoDirectionFlag.Stop;
+
             var result = ExecuteCommand(new Command("stop"));
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Stop result = {result}");
+
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("Stop result.OnComlplete");
+            });
+
+            result.OnFail(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("Stop result.OnFail");
+            });
         }
 
         public void GoLeft()
@@ -96,33 +121,97 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft");
 
-            var result = ExecuteCommand(new Command("rotate left"));
+            m___CurrGoDirection = GoDirectionFlag.RotateLeft;
+
+            var command = new Command("go");
+            command.Params.Add("direction", "rotate left");
+            command.Params.Add("speed", m___CurrSpeed);
+
+            var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft result = {result}");
+
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft result.OnComlplete");
+            });
+
+            result.OnFail(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft result.OnFail");
+            });
         }
 
         public void RotateRight()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RotateRight");
 
-            var result = ExecuteCommand(new Command("rotate right"));
+            m___CurrGoDirection = GoDirectionFlag.RotateRight;
+
+            var command = new Command("go");
+            command.Params.Add("direction", "rotate right");
+            command.Params.Add("speed", m___CurrSpeed);
+
+            var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight result = {result}");
+
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("RotateRight result.OnComlplete");
+            });
+
+            result.OnFail(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("RotateRight result.OnFail");
+            });
+        }
+
+        private string GetCurrGoDirectionAsString()
+        {
+            switch(m___CurrGoDirection)
+            {
+                case GoDirectionFlag.Go:
+                    return "ahead";
+
+                case GoDirectionFlag.RotateLeft:
+                    return "rotate left";
+
+                case GoDirectionFlag.RotateRight:
+                    return "rotate right";
+
+                default: throw new ArgumentOutOfRangeException(nameof(m___CurrGoDirection), m___CurrGoDirection, null);
+            }
         }
 
         public void SetSpeed(int speed)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed speed = {speed}");
 
+            m___CurrSpeed = speed;
+
+            if(m___CurrGoDirection == GoDirectionFlag.Stop)
+            {
+                return;
+            }
+
+            var command = new Command("go");
+            command.Params.Add("direction", GetCurrGoDirectionAsString());
+            command.Params.Add("speed", m___CurrSpeed);
+
             //mEntity.Speed = speed;
 
-            var command = new Command("set speed");
+            /*var command = new Command("set speed");
 
-            command.Params["value"] = speed;
+            command.Params["value"] = speed;*/
 
             var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed result = {result}");
+
+            result.OnComlplete(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("SetSpeed result.OnComlplete");
+            });
+
+            result.OnFail(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info("SetSpeed result.OnFail");
+            });
         }
 
         public void ExecuteCommand(string objectId, string actionName)
@@ -169,31 +258,6 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result = {result}");
         }
-
-        /*public override void OnSeen(List<VisibleResultItem> items)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
-
-            
-
-            /*if (_ListHelper.IsEmpty(items))
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("Not Sees");
-
-                return;
-            }
-
-            foreach (var scanItem in items)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info("-----");
-                NLog.LogManager.GetCurrentClassLogger().Info($"Id = {scanItem.VisibleEntity.Id} Class = {scanItem.VisibleEntity.ClassString}");
-
-                foreach (var tmpPoint in scanItem.VisiblePoints)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"TargetPoint = {tmpPoint.TargetPoint} Angle = {tmpPoint.Angle} Radius = {tmpPoint.Radius}");
-                }
-            }
-        }*/
 
         public void DumpCoords()
         {

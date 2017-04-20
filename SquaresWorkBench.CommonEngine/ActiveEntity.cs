@@ -262,7 +262,19 @@ namespace SquaresWorkBench.CommonEngine
 
             var commandName = command.Name;
 
-            if(commandName == "go ahead")
+            if(commandName == "go")
+            {
+                ExecuteGoAction(actionResult, command);
+                return;
+            }
+
+            if(commandName == "stop")
+            {
+                ExecuteStopAction(actionResult, command);
+                return;
+            }
+
+            /*if(commandName == "go ahead")
             {
                 GoDirection = GoDirectionFlag.Go;
 
@@ -324,9 +336,73 @@ namespace SquaresWorkBench.CommonEngine
 
                 actionResult.Status = EntityActionStatus.Faulted;
                 return;
-            }
+            }*/
 
             actionResult.Status = EntityActionStatus.Faulted;
+        }
+
+        private EntityAction mCurrentGoAction = null;
+
+        private void ExecuteGoAction(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGoAction actionResult = {actionResult} command = {command}");
+
+            mCurrentGoAction?.Cancel();
+
+            mCurrentGoAction = actionResult;
+
+            var speed = (double)command.Params["speed"];
+            var direction = (string)command.Params["direction"];
+
+            var directionFlag = GoDirectionFlagByString(direction);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGoAction speed = {speed} direction = {direction} directionFlag = {directionFlag}");
+
+            Speed = speed;
+            GoDirection = directionFlag;
+
+            while(actionResult.Status == EntityActionStatus.Running)
+            {
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ExecuteGoAction");
+        }
+
+        private void ExecuteStopAction(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteStopAction actionResult = {actionResult} command = {command}");
+
+            mCurrentGoAction?.Cancel();
+
+            mCurrentGoAction = actionResult;
+
+            GoDirection = GoDirectionFlag.Stop;
+
+            while (actionResult.Status == EntityActionStatus.Running)
+            {
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ExecuteStopAction");
+        }
+
+        public GoDirectionFlag GoDirectionFlagByString(string value)
+        {
+            if(value == "ahead")
+            {
+                return GoDirectionFlag.Go;
+            }
+
+            if(value == "rotate left")
+            {
+                return GoDirectionFlag.RotateLeft;
+            }
+
+            if(value == "rotate right")
+            {
+                return GoDirectionFlag.RotateRight;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(value), value, null);
         }
 
         private void ExecuteTakeAction(BaseEntity targetObject, EntityAction actionResult, Command command)

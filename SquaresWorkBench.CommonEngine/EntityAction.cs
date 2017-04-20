@@ -11,7 +11,8 @@ namespace SquaresWorkBench.CommonEngine
     {
         Running,
         Completed,
-        Faulted
+        Faulted,
+        Canceled
     }
 
     public class EntityAction : IToStringData
@@ -55,7 +56,11 @@ namespace SquaresWorkBench.CommonEngine
                                 break;
 
                             case EntityActionStatus.Faulted:
-                                mCompletedEvent?.Invoke();
+                                mFaultedEvent?.Invoke();
+                                break;
+
+                            case EntityActionStatus.Canceled:
+                                NLog.LogManager.GetCurrentClassLogger().Info("EntityActionStatus.Canceled Not Implemented Yet!!!!");
                                 break;
                         }
 
@@ -63,6 +68,11 @@ namespace SquaresWorkBench.CommonEngine
                     }
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            Status = EntityActionStatus.Canceled;
         }
 
         private Action mCompletedEvent;
