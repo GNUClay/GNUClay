@@ -75,8 +75,8 @@ namespace SquaresWorkBench.CommonEngine
             Status = EntityActionStatus.Canceled;
         }
 
-        private Action mCompletedEvent;
-        private Action mFaultedEvent;
+        private event Action mCompletedEvent;
+        private event Action mFaultedEvent;
 
         public void OnComlplete(Action action)
         {
@@ -85,11 +85,15 @@ namespace SquaresWorkBench.CommonEngine
                 switch(mStatus)
                 {
                     case EntityActionStatus.Running:
-                        mCompletedEvent += action;
+                        mCompletedEvent += async () => {
+                            await Task.Run(() => {
+                                action();
+                            });
+                        };
                         break;
 
                     case EntityActionStatus.Completed:
-                        action();
+                        Task.Run(() => { action(); });         
                         break;
                 }
             }
@@ -102,11 +106,17 @@ namespace SquaresWorkBench.CommonEngine
                 switch (mStatus)
                 {
                     case EntityActionStatus.Running:
-                        mFaultedEvent += action;
+                        mFaultedEvent += async () =>
+                        {
+                            await Task.Run(() =>
+                            {
+                                action();
+                            });
+                        }
                         break;
 
                     case EntityActionStatus.Completed:
-                        action();
+                        Task.Run(() => { action(); });
                         break;
                 }
             }
