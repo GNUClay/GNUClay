@@ -53,14 +53,19 @@ namespace SquaresWorkBench.CommonEngine
                         {
                             case EntityActionStatus.Completed:
                                 mCompletedEvent?.Invoke();
+                                mFinishedEvent?.Invoke();
+                                mFinishedWithOutFailEvent?.Invoke();
                                 break;
 
                             case EntityActionStatus.Faulted:
                                 mFaultedEvent?.Invoke();
+                                mFinishedEvent?.Invoke();
                                 break;
 
                             case EntityActionStatus.Canceled:
-                                NLog.LogManager.GetCurrentClassLogger().Info("EntityActionStatus.Canceled Not Implemented Yet!!!!");
+                                mCanceledEvent?.Invoke();
+                                mFinishedWithOutFailEvent?.Invoke();
+                                mFinishedEvent?.Invoke();
                                 break;
                         }
 
@@ -77,8 +82,11 @@ namespace SquaresWorkBench.CommonEngine
 
         private event Action mCompletedEvent;
         private event Action mFaultedEvent;
+        private event Action mCanceledEvent;
+        private event Action mFinishedEvent;
+        private event Action mFinishedWithOutFailEvent;
 
-        public void OnComlplete(Action action)
+        public void OnComlplete(Action<EntityAction> action)
         {
             lock(mLockObj)
             {
@@ -87,19 +95,19 @@ namespace SquaresWorkBench.CommonEngine
                     case EntityActionStatus.Running:
                         mCompletedEvent += async () => {
                             await Task.Run(() => {
-                                action();
+                                action(this);
                             });
                         };
                         break;
 
                     case EntityActionStatus.Completed:
-                        Task.Run(() => { action(); });         
+                        Task.Run(() => { action(this); });         
                         break;
                 }
             }
         }
 
-        public void OnFail(Action action)
+        public void OnFail(Action<EntityAction> action)
         {
             lock (mLockObj)
             {
@@ -110,13 +118,85 @@ namespace SquaresWorkBench.CommonEngine
                         {
                             await Task.Run(() =>
                             {
-                                action();
+                                action(this);
                             });
-                        }
+                        };
+                        break;
+
+                    case EntityActionStatus.Faulted:
+                        Task.Run(() => { action(this); });
+                        break;
+                }
+            }
+        }
+
+        public void OnCancel(Action<EntityAction> action)
+        {
+            lock (mLockObj)
+            {
+                switch (mStatus)
+                {
+                    case EntityActionStatus.Running:
+                        mCanceledEvent += async () =>
+                        {
+                            await Task.Run(() =>
+                            {
+                                action(this);
+                            });
+                        };
+                        break;
+
+                    case EntityActionStatus.Canceled:
+                        Task.Run(() => { action(this); });
+                        break;
+                }
+            }
+        }
+
+        public void OnFinish(Action<EntityAction> action)
+        {
+            lock (mLockObj)
+            {
+                switch (mStatus)
+                {
+                    case EntityActionStatus.Running:
+                        mFinishedEvent += async () =>
+                        {
+                            await Task.Run(() =>
+                            {
+                                action(this);
+                            });
+                        };
                         break;
 
                     case EntityActionStatus.Completed:
-                        Task.Run(() => { action(); });
+                    case EntityActionStatus.Faulted:
+                    case EntityActionStatus.Canceled:
+                        Task.Run(() => { action(this); });
+                        break;
+                }
+            }
+        }
+
+        public void OnFinishWithOutFail(Action<EntityAction> action)
+        {
+            lock (mLockObj)
+            {
+                switch (mStatus)
+                {
+                    case EntityActionStatus.Running:
+                        mFinishedWithOutFailEvent += async () =>
+                        {
+                            await Task.Run(() =>
+                            {
+                                action(this);
+                            });
+                        };
+                        break;
+
+                    case EntityActionStatus.Completed:
+                    case EntityActionStatus.Canceled:
+                        Task.Run(() => { action(this); });
                         break;
                 }
             }

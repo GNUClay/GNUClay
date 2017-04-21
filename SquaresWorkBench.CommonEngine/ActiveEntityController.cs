@@ -71,11 +71,11 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GoAhead result = {result}");
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("GoAhead result.OnComlplete");
             });
 
-            result.OnFail(() => {
+            result.OnFail((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("GoAhead result.OnFail");
             });
         }
@@ -93,11 +93,11 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Stop result = {result}");
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("Stop result.OnComlplete");
             });
 
-            result.OnFail(() => {
+            result.OnFail((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("Stop result.OnFail");
             });
         }
@@ -131,11 +131,11 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft result = {result}");
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft result.OnComlplete");
             });
 
-            result.OnFail(() => {
+            result.OnFail((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("RotateLeft result.OnFail");
             });
         }
@@ -154,11 +154,11 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight result = {result}");
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("RotateRight result.OnComlplete");
             });
 
-            result.OnFail(() => {
+            result.OnFail((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("RotateRight result.OnFail");
             });
         }
@@ -205,11 +205,11 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info($"SetSpeed result = {result}");
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("SetSpeed result.OnComlplete");
             });
 
-            result.OnFail(() => {
+            result.OnFail((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info("SetSpeed result.OnFail");
             });
         }
@@ -230,7 +230,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var result = ExecuteCommand(new Command(actionName, objectId));
 
-            result.OnComlplete(() => {
+            result.OnComlplete((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand result.OnComlplete actionName = '{actionName}' objectId = {objectId}");
 
                 if (actionName == "take")
