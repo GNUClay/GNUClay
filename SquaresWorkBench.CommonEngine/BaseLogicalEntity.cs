@@ -71,6 +71,8 @@ namespace SquaresWorkBench.CommonEngine
             mCommandsDispatcher.AddFilter(filter);
         }
 
+        private EntityActionNotificator mEntityActionNotificator = new EntityActionNotificator();
+
         protected EntityAction ExecuteCommand(Command command)
         {
             var result = new EntityAction(command);
@@ -87,9 +89,11 @@ namespace SquaresWorkBench.CommonEngine
             return actionResult;
         }
 
-        private void NExecuteCommand(EntityAction actionResult, Command command)
+        private async void NExecuteCommand(EntityAction actionResult, Command command)
         {
-            var task = new Task(() => {
+            await Task.Run(() => {
+                mEntityActionNotificator.AddEntityAction(actionResult);
+
                 var dispatchedResult = mCommandsDispatcher.Dipatch(actionResult);
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
@@ -99,8 +103,6 @@ namespace SquaresWorkBench.CommonEngine
                     ActiveEntity.ExecuteCommand(actionResult, command);
                 }
             });
-
-            task.Start();
         }
     }
 }
