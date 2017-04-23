@@ -27,6 +27,6 @@ namespace SquaresWorkBench.CommonEngine
             return true;
         }
 
-        private CommandFiltersStorage<ActionCommandFilter> mCommandFiltersStorage = new CommandFiltersStorage<ActionCommandFilter>();
+        private CommandFiltersStorage mCommandFiltersStorage = new CommandFiltersStorage();
     }
 }

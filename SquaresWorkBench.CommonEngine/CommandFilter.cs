@@ -43,7 +43,14 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public class BaseCommandFilter
+    public interface ICommandFilter
+    {
+        string CommandName { get; set; }
+        string Target { get; set; }
+        Dictionary<string, CommandFilterParam> Params { get; set; }
+    }
+
+    public class BaseCommandFilter: ICommandFilter
     {
         public string CommandName { get; set; } = string.Empty;
         public string Target { get; set; } = string.Empty;
@@ -89,7 +96,7 @@ namespace SquaresWorkBench.CommonEngine
 
     public delegate void EntityActionNotificatorHandler(EntityAction entityAction);
 
-    public class EntityActionNotificatorFilter
+    public class EntityActionNotificatorFilter: BaseCommandFilter
     {
         public EntityActionNotificatorHandler Handler { get; set; } = null;
 

@@ -63,7 +63,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("GoAhead");
 
-            var command = new Command("go");
+            var command = new Command("walk");
             command.Params.Add("direction", "ahead");
             command.Params.Add("speed", m___CurrSpeed);
 
@@ -123,7 +123,7 @@ namespace SquaresWorkBench.CommonEngine
 
             m___CurrGoDirection = GoDirectionFlag.RotateLeft;
 
-            var command = new Command("go");
+            var command = new Command("walk");
             command.Params.Add("direction", "rotate left");
             command.Params.Add("speed", m___CurrSpeed);
 
@@ -146,7 +146,7 @@ namespace SquaresWorkBench.CommonEngine
 
             m___CurrGoDirection = GoDirectionFlag.RotateRight;
 
-            var command = new Command("go");
+            var command = new Command("walk");
             command.Params.Add("direction", "rotate right");
             command.Params.Add("speed", m___CurrSpeed);
 
@@ -191,7 +191,7 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            var command = new Command("go");
+            var command = new Command("walk");
             command.Params.Add("direction", GetCurrGoDirectionAsString());
             command.Params.Add("speed", m___CurrSpeed);
 

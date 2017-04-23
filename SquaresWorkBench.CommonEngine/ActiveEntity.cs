@@ -262,9 +262,9 @@ namespace SquaresWorkBench.CommonEngine
 
             var commandName = command.Name;
 
-            if(commandName == "go")
+            if(commandName == "walk")
             {
-                ExecuteGoAction(actionResult, command);
+                ExecuteWalkAction(actionResult, command);
                 return;
             }
 
@@ -343,9 +343,9 @@ namespace SquaresWorkBench.CommonEngine
 
         private EntityAction mCurrentGoAction = null;
 
-        private void ExecuteGoAction(EntityAction actionResult, Command command)
+        private void ExecuteWalkAction(EntityAction actionResult, Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGoAction actionResult = {actionResult} command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(ExecuteWalkAction)} actionResult = {actionResult} command = {command}");
 
             mCurrentGoAction?.Cancel();
 
@@ -356,7 +356,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var directionFlag = GoDirectionFlagByString(direction);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGoAction speed = {speed} direction = {direction} directionFlag = {directionFlag}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(ExecuteWalkAction)} speed = {speed} direction = {direction} directionFlag = {directionFlag}");
 
             Speed = speed;
             GoDirection = directionFlag;
@@ -365,7 +365,7 @@ namespace SquaresWorkBench.CommonEngine
             {
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info("End ExecuteGoAction");
+            NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(ExecuteWalkAction)}");
         }
 
         private void ExecuteStopAction(EntityAction actionResult, Command command)
