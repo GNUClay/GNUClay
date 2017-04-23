@@ -12,7 +12,7 @@ namespace SquaresWorkBench.CommonEngine
         void BeginAddEntities();
         void EndAddEntities();
         MainContext CurrContext { get; }
-        ActiveEntityController CurrentActiveEntityController { get; set; }
+        object CurrentActiveEntityController { get; set; }
         double Width { get; }
         double Height { get; }
     }

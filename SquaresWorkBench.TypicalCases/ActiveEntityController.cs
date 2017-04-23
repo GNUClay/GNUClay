@@ -1,14 +1,13 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
-using SquaresWorkBench.CommonEngine.TemporaryLogical;
+﻿using SquaresWorkBench.CommonEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaresWorkBench.CommonEngine
+namespace SquaresWorkBench.TypicalCases
 {
-    public class ActiveEntityController: BaseLogicalEntity
+    public class ActiveEntityController : BaseLogicalEntity
     {
         public ActiveEntityController()
         {
@@ -37,7 +36,7 @@ namespace SquaresWorkBench.CommonEngine
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute command = {command}");
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFireGunExecute mMyCurrentGun = {mMyCurrentGun}");
 
-            if(string.IsNullOrWhiteSpace(mMyCurrentGun))
+            if (string.IsNullOrWhiteSpace(mMyCurrentGun))
             {
                 actionResult.Status = EntityActionStatus.Faulted;
                 return;
@@ -81,7 +80,7 @@ namespace SquaresWorkBench.CommonEngine
         }
 
         private GoDirectionFlag m___CurrGoDirection = GoDirectionFlag.Stop;
-        private double m___CurrSpeed = 0; 
+        private double m___CurrSpeed = 0;
 
         public void Stop()
         {
@@ -165,7 +164,7 @@ namespace SquaresWorkBench.CommonEngine
 
         private string GetCurrGoDirectionAsString()
         {
-            switch(m___CurrGoDirection)
+            switch (m___CurrGoDirection)
             {
                 case GoDirectionFlag.Go:
                     return "ahead";
@@ -186,7 +185,7 @@ namespace SquaresWorkBench.CommonEngine
 
             m___CurrSpeed = speed;
 
-            if(m___CurrGoDirection == GoDirectionFlag.Stop)
+            if (m___CurrGoDirection == GoDirectionFlag.Stop)
             {
                 return;
             }

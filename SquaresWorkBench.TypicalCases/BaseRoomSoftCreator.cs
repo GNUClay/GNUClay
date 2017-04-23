@@ -224,11 +224,11 @@ namespace SquaresWorkBench.TypicalCases
             roundHuman.CurrMainContext = Scene.CurrContext;
             roundHuman.CurrPos = new Point(150, 150); 
 
-            roundHuman.SetLogicalEntity(Scene.CurrentActiveEntityController);
+            roundHuman.SetLogicalEntity((ILogicalEntity)Scene.CurrentActiveEntityController);
 
             existingsObjects.Add(new KeyValuePair<string, string>("gun", "gun"));
 
-            Scene.CurrentActiveEntityController.ExistingObjectsList = existingsObjects;
+            ((ActiveEntityController)Scene.CurrentActiveEntityController).ExistingObjectsList = existingsObjects;
 
             var tree = new Tree();
             tree.Width = 50;

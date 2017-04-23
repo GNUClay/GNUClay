@@ -108,6 +108,6 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
-        public ActiveEntityController CurrentActiveEntityController { get; set; }
+        public object CurrentActiveEntityController { get; set; }
     }
 }

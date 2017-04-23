@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveEntity.cs" />
-    <Compile Include="ActiveEntityController.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseLogicalEntity.cs" />
     <Compile Include="Camera.cs" />
@@ -86,9 +85,17 @@
     <Compile Include="VisibleResultItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj">
+      <Project>{3976aff6-9fde-4cf1-9bae-2eccdc652afe}</Project>
+      <Name>GnuClay.CommonClientTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GnuClay.CommonUtils\GnuClay.CommonUtils.csproj">
       <Project>{c7e73b0f-e4df-4666-82d4-c0b311fcdd4d}</Project>
       <Name>GnuClay.CommonUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.Engine\GnuClay.Engine.csproj">
+      <Project>{85da149a-3309-415a-9815-cb4227c10b1c}</Project>
+      <Name>GnuClay.Engine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
