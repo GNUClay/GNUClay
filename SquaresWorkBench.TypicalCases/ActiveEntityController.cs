@@ -1,4 +1,6 @@
-﻿using SquaresWorkBench.CommonEngine;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.LocalHost;
+using SquaresWorkBench.CommonEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,8 @@ namespace SquaresWorkBench.TypicalCases
     {
         public ActiveEntityController()
         {
+            RegisterInheritances();
+
             var filter = new ActionCommandFilter();
             filter.CommandName = "fire";
             filter.Target = "gun";
@@ -27,6 +31,11 @@ namespace SquaresWorkBench.TypicalCases
             var result = ExecuteCommand(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");*/
+        }
+
+        private void RegisterInheritances()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RegisterInheritances Not Implemented Yet!!!!");
         }
 
         private string mMyCurrentGun = string.Empty;

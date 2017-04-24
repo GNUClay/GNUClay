@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.Inheritance;
+using GnuClay.CommonClientTypes.ResultTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,11 @@ namespace GnuClay.CommonClientTypes
         void Clear();
         bool IsDestroyed { get; }
         void Destroy();
+
+        void SetInheritance(ulong subKey, ulong superKey, double rank);
+        List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey);
+        double GetInheritanceRank(ulong subKey, ulong superKey);
+        List<InheritanceItem> LoadListOfSubClasses(ulong targetKey);
+        List<InheritanceItem> LoadAllInheritanceItems();
     }
 }

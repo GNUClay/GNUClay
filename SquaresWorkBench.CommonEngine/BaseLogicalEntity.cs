@@ -1,4 +1,6 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.LocalHost;
 using SquaresWorkBench.CommonEngine.TemporaryLogical;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,15 @@ namespace SquaresWorkBench.CommonEngine
 {
     public class BaseLogicalEntity: ILogicalEntity
     {
+        public BaseLogicalEntity()
+        {
+            mServerConnection = new GnuClayLocalServer();
+            mEntityConnection = mServerConnection.CreateEntity();
+        }
+
+        private IGnuClayServerConnection mServerConnection = null;
+        protected IGnuClayEntityConnection mEntityConnection = null;
+
         protected IActiveEntity ActiveEntity = null;
 
         public void SetEntity(IActiveEntity entity)
@@ -28,18 +39,25 @@ namespace SquaresWorkBench.CommonEngine
         {
             NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
 
-            RegObjects(items);
+            //RegObjects(items);
 
             lock(mVisibleItemsLockObj)
             {
-                mVisibleItems = items;
+                mVisibleItems = new List<LogicalVisibleResultItem>();
+
+                if (_ListHelper.IsEmpty(items))
+                {
+                    return;
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info("End OnSeen. Not Implemented Yet!!");
             }
         }
 
         private object mVisibleItemsLockObj = new object();
-        private List<VisibleResultItem> mVisibleItems = new List<VisibleResultItem>();
+        private List<LogicalVisibleResultItem> mVisibleItems = new List<LogicalVisibleResultItem>();
 
-        protected List<VisibleResultItem> GetVisibleItems()
+        protected List<LogicalVisibleResultItem> GetVisibleItems()
         {
             lock (mVisibleItemsLockObj)
             {
@@ -49,7 +67,7 @@ namespace SquaresWorkBench.CommonEngine
 
         protected ObjectsRegistry ObjectsRegistry = new ObjectsRegistry();
 
-        protected void RegObjects(List<VisibleResultItem> items)
+        /*protected void RegObjects(List<VisibleResultItem> items)
         {
             if (_ListHelper.IsEmpty(items))
             {
@@ -62,7 +80,7 @@ namespace SquaresWorkBench.CommonEngine
 
                 ObjectsRegistry.RegObject(entity.Id, entity.Class);
             }
-        }
+        }*/
 
         private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
         

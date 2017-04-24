@@ -66,6 +66,8 @@
     <Compile Include="ILogicalEntity.cs" />
     <Compile Include="ISceneForSoftCreator.cs" />
     <Compile Include="ISceneSoftCreator.cs" />
+    <Compile Include="LogicalObjectInfo.cs" />
+    <Compile Include="LogicalVisibleResultItem.cs" />
     <Compile Include="MainContext.cs" />
     <Compile Include="Movator.cs" />
     <Compile Include="PersistentKVPPropertyAttribute.cs" />
@@ -96,6 +98,10 @@
     <ProjectReference Include="..\GnuClay.Engine\GnuClay.Engine.csproj">
       <Project>{85da149a-3309-415a-9815-cb4227c10b1c}</Project>
       <Name>GnuClay.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GnuClay.LocalHost\GnuClay.LocalHost.csproj">
+      <Project>{AD8AD01B-3DB7-4002-AA2F-047B7F7C85EA}</Project>
+      <Name>GnuClay.LocalHost</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

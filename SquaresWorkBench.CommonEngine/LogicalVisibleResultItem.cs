@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public class VisiblePoint : IToStringData
+    public class LogicalVisibleResultItem
     {
-        public Point TargetPoint = new Point();
+        public LogicalObjectInfo VisibleEntity = null;
 
-        public double Radius = 0;
-        public double Angle = 0;
+        public List<VisiblePoint> VisiblePoints = new List<VisiblePoint>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -32,18 +30,10 @@ namespace SquaresWorkBench.CommonEngine
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(TargetPoint)} = {TargetPoint}");
-            tmpSb.AppendLine($"{nameof(Radius)} = {Radius}");
-            tmpSb.AppendLine($"{nameof(Angle)} = {Angle}");
+            tmpSb.AppendLine($"{nameof(VisibleEntity)} = {VisibleEntity}");
+            tmpSb.AppendLine(_ListHelper._ToString(VisiblePoints, nameof(VisiblePoints)));
 
             return tmpSb.ToString();
         }
-    }
-
-    public class VisibleResultItem
-    {
-        public BaseEntity VisibleEntity = null;
-
-        public List<VisiblePoint> VisiblePoints = new List<VisiblePoint>();
     }
 }

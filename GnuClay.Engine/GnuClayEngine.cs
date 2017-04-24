@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.Inheritance;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
@@ -349,6 +350,56 @@ namespace GnuClay.Engine
 
             var result = new SelectResult();
             return result;
+        }
+
+        public void SetInheritance(ulong subKey, ulong superKey, double rank)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank}");
+
+                mContext.InheritanceEngine.SetInheritance(superKey, superKey, rank, InheritanceAspect.WithOutClause);
+            }
+        }
+
+        public List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
+
+                return mContext.InheritanceEngine.LoadListOfSuperClasses(targetKey);
+            }
+        }
+
+        public double GetInheritanceRank(ulong subKey, ulong superKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
+
+                return mContext.InheritanceEngine.GetRank(subKey, superKey);
+            }
+        }
+
+        public List<InheritanceItem> LoadListOfSubClasses(ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
+
+                return mContext.InheritanceEngine.LoadListOfSubClasses(targetKey);
+            }
+        }
+
+        public List<InheritanceItem> LoadAllInheritanceItems()
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems ");
+
+                return mContext.InheritanceEngine.LoadAllItems();
+            }
         }
     }
 }

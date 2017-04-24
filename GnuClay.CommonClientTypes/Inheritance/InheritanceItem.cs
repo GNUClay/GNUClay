@@ -1,19 +1,16 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using GnuClay.CommonUtils.TypeHelpers;
 
-namespace SquaresWorkBench.CommonEngine
+namespace GnuClay.CommonClientTypes.Inheritance
 {
-    public class VisiblePoint : IToStringData
+    [Serializable]
+    public class InheritanceItem : IToStringData
     {
-        public Point TargetPoint = new Point();
-
-        public double Radius = 0;
-        public double Angle = 0;
+        public ulong SubKey = 0;
+        public ulong SuperKey = 0;
+        public double Rank = 0;
+        public int Distance = 0;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -32,18 +29,12 @@ namespace SquaresWorkBench.CommonEngine
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(TargetPoint)} = {TargetPoint}");
-            tmpSb.AppendLine($"{nameof(Radius)} = {Radius}");
-            tmpSb.AppendLine($"{nameof(Angle)} = {Angle}");
+            tmpSb.AppendLine($"{nameof(SubKey)} = {SubKey}");
+            tmpSb.AppendLine($"{nameof(SuperKey)} = {SuperKey}");
+            tmpSb.AppendLine($"{nameof(Rank)} = {Rank}");
+            tmpSb.AppendLine($"{nameof(Distance)} = {Distance}");
 
             return tmpSb.ToString();
         }
-    }
-
-    public class VisibleResultItem
-    {
-        public BaseEntity VisibleEntity = null;
-
-        public List<VisiblePoint> VisiblePoints = new List<VisiblePoint>();
     }
 }

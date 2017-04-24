@@ -63,6 +63,7 @@
     <Compile Include="Tasking\ActiveContext.cs" />
     <Compile Include="Tasking\ActiveObject.cs" />
     <Compile Include="TypeHelpers\IToStringData.cs" />
+    <Compile Include="TypeHelpers\NLogConfigurator.cs" />
     <Compile Include="TypeHelpers\_ListHelper.cs" />
     <Compile Include="TypeHelpers\_ObjectHelper.cs" />
     <Compile Include="TypeHelpers\_StringBuilderHelper.cs" />

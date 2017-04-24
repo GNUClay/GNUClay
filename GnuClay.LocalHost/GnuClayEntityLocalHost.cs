@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GnuClay.CommonClientTypes.ResultTypes;
 using System.IO;
 using System.IO.Compression;
+using GnuClay.CommonClientTypes.Inheritance;
 
 namespace GnuClay.LocalHost
 {
@@ -222,6 +223,56 @@ namespace GnuClay.LocalHost
         public void Dispose()
         {
             Destroy();
+        }
+
+        public void SetInheritance(ulong subKey, ulong superKey, double rank)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank}");
+
+                GnuClayEngine.SetInheritance(subKey, superKey, rank);
+            }           
+        }
+
+        public List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
+
+                return GnuClayEngine.LoadListOfSuperClasses(targetKey);
+            }
+        }
+
+        public double GetInheritanceRank(ulong subKey, ulong superKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
+
+                return GnuClayEngine.GetInheritanceRank(subKey, superKey);
+            }
+        }
+
+        public List<InheritanceItem> LoadListOfSubClasses(ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
+
+                return GnuClayEngine.LoadListOfSubClasses(targetKey);
+            }
+        }
+
+        public List<InheritanceItem> LoadAllInheritanceItems()
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems ");
+
+                return GnuClayEngine.LoadAllInheritanceItems();
+            }
         }
     }
 }
