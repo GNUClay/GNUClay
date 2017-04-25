@@ -13,9 +13,6 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         protected BaseRoundHuman()
         {
-            Class.Add("round");
-            Class.Add("human");
-
             IsHard = true;
             Opacity = 1;
             IsLivingBeing = true;

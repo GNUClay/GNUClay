@@ -11,7 +11,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public LimeRoundHuman()
         {
-            Class.Add("lime");
+            Class.Add("lime round human");
 
             CurrentBrush = Brushes.Lime;
         }

@@ -15,7 +15,6 @@ namespace SquaresWorkBench.TypicalVisualComponents
         {
             Length = lenght;
 
-            Class.Add("border");
             Class.Add("block");
 
             IsHard = true;

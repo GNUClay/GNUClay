@@ -11,7 +11,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public RedRoundHuman()
         {
-            Class.Add("red");
+            Class.Add("red round human");
 
             CurrentBrush = Brushes.Red;
         }

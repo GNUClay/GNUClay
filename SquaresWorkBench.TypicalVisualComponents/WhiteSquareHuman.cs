@@ -10,7 +10,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public WhiteSquareHuman()
         {
-            Class.Add("white");
+            Class.Add("white square human");
         }
     }
 }

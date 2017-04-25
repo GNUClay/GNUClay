@@ -23,6 +23,9 @@ namespace GnuClay.CommonClientTypes
         bool IsDestroyed { get; }
         void Destroy();
 
+        ulong GetKey(string val);
+        string GetValue(ulong key);
+
         void SetInheritance(ulong subKey, ulong superKey, double rank);
         List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey);
         double GetInheritanceRank(ulong subKey, ulong superKey);

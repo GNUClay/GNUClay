@@ -35,8 +35,6 @@ namespace GnuClay.Engine.LogicalStorage
             lock(mLockObj)
             {
                 mIsRunning = false;
-
-
             }
 
             while(true)

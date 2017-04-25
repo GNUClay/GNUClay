@@ -10,7 +10,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public RedSquareHuman()
         {
-            Class.Add("red");
+            Class.Add("red square human");
 
             CurrentBrush = System.Windows.Media.Brushes.Red;
         }

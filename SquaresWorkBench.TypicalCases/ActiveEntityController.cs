@@ -35,6 +35,33 @@ namespace SquaresWorkBench.TypicalCases
 
         private void RegisterInheritances()
         {
+            var humanKey = mEntityConnection.GetKey("human");
+
+            var roundHumanKey = mEntityConnection.GetKey("round human");
+            var squareHumanKey = mEntityConnection.GetKey("square human");
+
+            var limeHumanKey = mEntityConnection.GetKey("lime human");
+            var redHumanKey = mEntityConnection.GetKey("red human");
+            var whiteHumanKey = mEntityConnection.GetKey("while human");
+
+            var limeRoundHumanKey = mEntityConnection.GetKey("lime round human");
+            var redRoundHumanKey = mEntityConnection.GetKey("red round human");
+            var whiteRoundHumanKey = mEntityConnection.GetKey("white round human");
+
+            var limeSquareHumanKey = mEntityConnection.GetKey("lime square human");
+            var redSquareHumanKey = mEntityConnection.GetKey("red square human");
+            var whiteSquareHumanKey = mEntityConnection.GetKey("white square human");
+
+            var gunKey = mEntityConnection.GetKey("gun");
+
+            var glassKey = mEntityConnection.GetKey("glass");
+
+            var doorKey = mEntityConnection.GetKey("door");
+
+            var blockKey = mEntityConnection.GetKey("block");
+
+            var treeKey = mEntityConnection.GetKey("tree");
+
             NLog.LogManager.GetCurrentClassLogger().Info("RegisterInheritances Not Implemented Yet!!!!");
         }
 
