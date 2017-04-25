@@ -47,7 +47,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public void AddFilter(ActionCommandFilter filter)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var targetHashCode = filter.GetHashCode();
 
@@ -62,7 +62,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public ActionCommandFilter FindFilter(Command command)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             foreach(var item in mDict)
             {
@@ -91,7 +91,7 @@ namespace SquaresWorkBench.CommonEngine
     {
         public void AddFilter(ActionCommandFilter filter)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var targetName = filter.Target;
 
@@ -112,7 +112,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public ActionCommandFilter FindFilter(Command command)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             var targetName = command.Target;
 
@@ -140,7 +140,7 @@ namespace SquaresWorkBench.CommonEngine
     {
         public void AddFilter(ActionCommandFilter filter)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var commandName = filter.CommandName;
 
@@ -161,7 +161,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public ActionCommandFilter FindFilter(Command command)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             var commandName = command.Name;
 

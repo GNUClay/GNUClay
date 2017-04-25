@@ -16,7 +16,11 @@ namespace SquaresWorkBench.CommonEngine
         {
             mServerConnection = new GnuClayLocalServer();
             mEntityConnection = mServerConnection.CreateEntity();
+
+            mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
         }
+
+        protected CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         private IGnuClayServerConnection mServerConnection = null;
         protected IGnuClayEntityConnection mEntityConnection = null;
@@ -37,50 +41,71 @@ namespace SquaresWorkBench.CommonEngine
 
         public void OnSeen(List<VisibleResultItem> items)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("OnSeen");
-
-            //RegObjects(items);
-
             lock(mVisibleItemsLockObj)
             {
-                mVisibleItems = new List<LogicalVisibleResultItem>();
-
+                var result = new List<LogicalVisibleResultItem>();
+                
                 if (_ListHelper.IsEmpty(items))
                 {
+                    VisibleItems = result;
                     return;
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info("End OnSeen. Not Implemented Yet!!");
+                foreach (var scanItem in items)
+                {
+                    var entity = scanItem.VisibleEntity;
+                    var entityId = entity.Id;
+                    var entityKey = mEntityConnection.GetKey(entityId);
+
+                    foreach (var entityClassValue in entity.Class)
+                    {
+                        var classKey = mEntityConnection.GetKey(entityClassValue);
+                        var range = mEntityConnection.GetInheritanceRank(entityKey, classKey);
+
+                        if(range == 0)
+                        {
+                            mEntityConnection.SetInheritance(entityKey, classKey, 1);
+                        }
+                    }
+
+                    var item = new LogicalVisibleResultItem();
+                    var logicalEntityInfo = new LogicalObjectInfo();
+                    logicalEntityInfo.Key = entityKey;
+                    logicalEntityInfo.Name = entityId;
+
+                    item.VisibleEntity = logicalEntityInfo;
+                    item.VisiblePoints = scanItem.VisiblePoints;
+
+                    result.Add(item);
+                }
+
+                VisibleItems = result;
             }
         }
 
         private object mVisibleItemsLockObj = new object();
         private List<LogicalVisibleResultItem> mVisibleItems = new List<LogicalVisibleResultItem>();
-
-        protected List<LogicalVisibleResultItem> GetVisibleItems()
+        protected List<LogicalVisibleResultItem> VisibleItems
         {
-            lock (mVisibleItemsLockObj)
+            get
             {
-                return mVisibleItems;
+                lock (mVisibleItemsLockObj)
+                {
+                    return mVisibleItems;
+                }
+            }
+
+            set
+            {
+                lock (mVisibleItemsLockObj)
+                {
+                    mVisibleItems = value;
+                }
             }
         }
 
+        [Obsolete]
         protected ObjectsRegistry ObjectsRegistry = new ObjectsRegistry();
-
-        /*protected void RegObjects(List<VisibleResultItem> items)
-        {
-            if (_ListHelper.IsEmpty(items))
-            {
-                return;
-            }
-
-            foreach (var scanItem in items)
-            {
-                var entity = scanItem.VisibleEntity;
-
-                ObjectsRegistry.RegObject(entity.Id, entity.Class);
-            }
-        }*/
 
         private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
         

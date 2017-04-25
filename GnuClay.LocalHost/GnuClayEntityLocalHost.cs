@@ -88,13 +88,23 @@ namespace GnuClay.LocalHost
             }
         }
 
+        public ulong GetKey(string val)
+        {
+            lock (mLockObj)
+            {
+                ValidateIsDestroyed();
+
+                return GnuClayEngine.GetKey(val);
+            }
+        }
+
         public string GetValue(ulong key)
         {
             lock (mLockObj)
             {
                 ValidateIsDestroyed();
 
-                return GnuClayEngine.DataDictionary.GetValue(key);
+                return GnuClayEngine.GetValue(key);
             }        
         }
 
@@ -229,7 +239,7 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank}");
+                ValidateIsDestroyed();
 
                 GnuClayEngine.SetInheritance(subKey, superKey, rank);
             }           
@@ -239,7 +249,7 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
+                ValidateIsDestroyed();
 
                 return GnuClayEngine.LoadListOfSuperClasses(targetKey);
             }
@@ -249,7 +259,7 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
+                ValidateIsDestroyed();
 
                 return GnuClayEngine.GetInheritanceRank(subKey, superKey);
             }
@@ -259,7 +269,7 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
+                ValidateIsDestroyed();
 
                 return GnuClayEngine.LoadListOfSubClasses(targetKey);
             }
@@ -269,7 +279,7 @@ namespace GnuClay.LocalHost
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems ");
+                ValidateIsDestroyed();
 
                 return GnuClayEngine.LoadAllInheritanceItems();
             }

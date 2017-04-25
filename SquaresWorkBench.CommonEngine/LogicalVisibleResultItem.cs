@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public class LogicalVisibleResultItem
+    public class LogicalVisibleResultItem: IToStringData
     {
         public LogicalObjectInfo VisibleEntity = null;
 

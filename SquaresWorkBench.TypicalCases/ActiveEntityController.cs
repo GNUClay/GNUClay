@@ -14,6 +14,7 @@ namespace SquaresWorkBench.TypicalCases
         public ActiveEntityController()
         {
             RegisterInheritances();
+            RegisterTypes();
 
             var filter = new ActionCommandFilter();
             filter.CommandName = "fire";
@@ -22,7 +23,11 @@ namespace SquaresWorkBench.TypicalCases
 
             AddFilter(filter);
 
+            filter = new ActionCommandFilter();
+            filter.CommandName = "fooling";
+            filter.Handler = TSTFooling_1;
 
+            AddFilter(filter);
 
             /*var command = new Command();
             command.Name = "fire";
@@ -42,7 +47,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var limeHumanKey = mEntityConnection.GetKey("lime human");
             var redHumanKey = mEntityConnection.GetKey("red human");
-            var whiteHumanKey = mEntityConnection.GetKey("while human");
+            var whiteHumanKey = mEntityConnection.GetKey("white human");
 
             var limeRoundHumanKey = mEntityConnection.GetKey("lime round human");
             var redRoundHumanKey = mEntityConnection.GetKey("red round human");
@@ -62,7 +67,49 @@ namespace SquaresWorkBench.TypicalCases
 
             var treeKey = mEntityConnection.GetKey("tree");
 
-            NLog.LogManager.GetCurrentClassLogger().Info("RegisterInheritances Not Implemented Yet!!!!");
+            mEntityConnection.SetInheritance(roundHumanKey, humanKey, 1);
+            mEntityConnection.SetInheritance(squareHumanKey, humanKey, 1);
+
+            mEntityConnection.SetInheritance(limeHumanKey, humanKey, 1);
+            mEntityConnection.SetInheritance(redHumanKey, humanKey, 1);
+            mEntityConnection.SetInheritance(whiteHumanKey, humanKey, 1);
+
+            mEntityConnection.SetInheritance(limeRoundHumanKey, roundHumanKey, 1);
+            mEntityConnection.SetInheritance(limeRoundHumanKey, limeHumanKey, 1);
+            mEntityConnection.SetInheritance(redRoundHumanKey, roundHumanKey, 1);
+            mEntityConnection.SetInheritance(redRoundHumanKey, redHumanKey, 1);
+            mEntityConnection.SetInheritance(whiteRoundHumanKey, roundHumanKey, 1);
+            mEntityConnection.SetInheritance(whiteRoundHumanKey, whiteHumanKey, 1);
+
+            mEntityConnection.SetInheritance(limeSquareHumanKey, squareHumanKey, 1);
+            mEntityConnection.SetInheritance(limeSquareHumanKey, limeHumanKey, 1);
+            mEntityConnection.SetInheritance(redSquareHumanKey, squareHumanKey, 1);
+            mEntityConnection.SetInheritance(redSquareHumanKey, redHumanKey, 1);
+            mEntityConnection.SetInheritance(whiteSquareHumanKey, squareHumanKey, 1);
+            mEntityConnection.SetInheritance(whiteSquareHumanKey, whiteHumanKey, 1);
+        }
+
+        private void RegisterTypes()
+        {
+            mCSharpTypesRegistry.AddType(typeof(double), "number");
+            mCSharpTypesRegistry.AddType(typeof(decimal), "number");
+            mCSharpTypesRegistry.AddType(typeof(float), "number");
+            mCSharpTypesRegistry.AddType(typeof(short), "number");
+            mCSharpTypesRegistry.AddType(typeof(ushort), "number");
+            mCSharpTypesRegistry.AddType(typeof(int), "number");
+            mCSharpTypesRegistry.AddType(typeof(uint), "number");
+            mCSharpTypesRegistry.AddType(typeof(long), "number");
+            mCSharpTypesRegistry.AddType(typeof(ulong), "number");
+        }
+
+        private void TSTFooling_1(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_1 command = {command}");
+        }
+
+        private void TSTFooling_2(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_2 command = {command}");
         }
 
         private string mMyCurrentGun = string.Empty;

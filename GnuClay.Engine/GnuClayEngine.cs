@@ -352,13 +352,27 @@ namespace GnuClay.Engine
             return result;
         }
 
+        public ulong GetKey(string val)
+        {
+            lock (mLockObj)
+            {
+                return mContext.DataDictionary.GetKey(val);
+            }
+        }
+
+        public string GetValue(ulong key)
+        {
+            lock (mLockObj)
+            {
+                return mContext.DataDictionary.GetValue(key);
+            }
+        }
+
         public void SetInheritance(ulong subKey, ulong superKey, double rank)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetInheritance subKey = {subKey} superKey = {superKey} rank = {rank}");
-
-                mContext.InheritanceEngine.SetInheritance(superKey, superKey, rank, InheritanceAspect.WithOutClause);
+                mContext.InheritanceEngine.SetInheritance(subKey, superKey, rank, InheritanceAspect.WithOutClause);
             }
         }
 
@@ -366,8 +380,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSuperClasses targetKey = {targetKey}");
-
                 return mContext.InheritanceEngine.LoadListOfSuperClasses(targetKey);
             }
         }
@@ -376,8 +388,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank subKey = {subKey} superKey = {superKey}");
-
                 return mContext.InheritanceEngine.GetRank(subKey, superKey);
             }
         }
@@ -386,8 +396,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadListOfSubClasses targetKey = {targetKey}");
-
                 return mContext.InheritanceEngine.LoadListOfSubClasses(targetKey);
             }
         }
@@ -396,8 +404,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"LoadAllItems ");
-
                 return mContext.InheritanceEngine.LoadAllItems();
             }
         }
