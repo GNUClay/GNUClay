@@ -10,7 +10,7 @@ namespace SquaresWorkBench.CommonEngine
     public class CommandFilterParam
     {
         public bool IsAnyType { get; set; } = true;
-        public Type Type { get; set; } = null;
+        public ulong TypeKey { get; set; } = 0;
         public bool IsAnyValue { get; set; } = true;
         public object Value { get; set; } = null;
 
@@ -18,10 +18,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             var result = IsAnyType.GetHashCode();
 
-            if(Type != null)
-            {
-                result ^= Type.GetHashCode();
-            }
+            result ^= TypeKey.GetHashCode();
 
             result ^= IsAnyValue.GetHashCode();
 

@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.LocalHost;
 using SquaresWorkBench.CommonEngine;
 using System;
@@ -9,6 +10,34 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalCases
 {
+    public class FoolingGoal
+    {
+        public string Subject { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return _ObjectHelper.PrintJsonToStringInformation(this);
+        }
+    }
+
+    public class FoolingDistanceGoal
+    {
+        public double Distance { get; set; }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return _ObjectHelper.PrintJsonToStringInformation(this);
+        }
+    }
+
     public class ActiveEntityController : BaseLogicalEntity
     {
         public ActiveEntityController()
@@ -25,17 +54,53 @@ namespace SquaresWorkBench.TypicalCases
 
             filter = new ActionCommandFilter();
             filter.CommandName = "fooling";
+            var filterParameter = new CommandFilterParam();
+            filter.Params.Add("distance", filterParameter);
             filter.Handler = TSTFooling_1;
 
             AddFilter(filter);
 
-            /*var command = new Command();
-            command.Name = "fire";
-            command.Target = "gun";
+            filter = new ActionCommandFilter();
+            filter.CommandName = "fooling";
+
+            filterParameter = new CommandFilterParam();
+            filterParameter.TypeKey = mEntityConnection.GetKey("fooling goal");
+            filter.Params.Add("goal", filterParameter);
+
+            filter.Handler = TSTFooling_2;
+
+            AddFilter(filter);
+
+            filter = new ActionCommandFilter();
+            filter.CommandName = "fooling";
+
+            filterParameter = new CommandFilterParam();
+            filterParameter.TypeKey = mEntityConnection.GetKey("fooling distance goal");
+            filter.Params.Add("goal", filterParameter);
+
+            filter.Handler = TSTFooling_4;
+
+            AddFilter(filter);
+
+            filter = new ActionCommandFilter();
+            filter.CommandName = "fooling";
+            filter.Handler = TSTFooling_3;
+
+            AddFilter(filter);
+
+            var command = new Command();
+            command.Name = "fooling";
+            command.Params.Add("goal", new FoolingGoal() {
+                Subject = "Kyle"
+            });
 
             var result = ExecuteCommand(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");*/
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");
+
+            result.OnFinish((EntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"constructor result.OnFinish action = {action}");
+            });
         }
 
         private void RegisterInheritances()
@@ -100,16 +165,37 @@ namespace SquaresWorkBench.TypicalCases
             mCSharpTypesRegistry.AddType(typeof(uint), "number");
             mCSharpTypesRegistry.AddType(typeof(long), "number");
             mCSharpTypesRegistry.AddType(typeof(ulong), "number");
+
+            mCSharpTypesRegistry.AddType(typeof(FoolingGoal), "fooling goal");
+            mCSharpTypesRegistry.AddType(typeof(FoolingDistanceGoal), "fooling distance goal");
         }
 
         private void TSTFooling_1(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_1 command = {command}");
+
+            actionResult.Status = EntityActionStatus.Completed;
         }
 
         private void TSTFooling_2(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_2 command = {command}");
+
+            actionResult.Status = EntityActionStatus.Completed;
+        }
+
+        private void TSTFooling_3(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_3 command = {command}");
+
+            actionResult.Status = EntityActionStatus.Completed;
+        }
+
+        private void TSTFooling_4(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_4 command = {command}");
+
+            actionResult.Status = EntityActionStatus.Completed;
         }
 
         private string mMyCurrentGun = string.Empty;
