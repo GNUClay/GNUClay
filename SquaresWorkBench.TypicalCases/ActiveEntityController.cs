@@ -65,6 +65,7 @@ namespace SquaresWorkBench.TypicalCases
 
             filterParameter = new CommandFilterParam();
             filterParameter.TypeKey = mEntityConnection.GetKey("fooling goal");
+            filterParameter.IsAnyType = false;
             filter.Params.Add("goal", filterParameter);
 
             filter.Handler = TSTFooling_2;
@@ -76,6 +77,7 @@ namespace SquaresWorkBench.TypicalCases
 
             filterParameter = new CommandFilterParam();
             filterParameter.TypeKey = mEntityConnection.GetKey("fooling distance goal");
+            filterParameter.IsAnyType = false;
             filter.Params.Add("goal", filterParameter);
 
             filter.Handler = TSTFooling_4;

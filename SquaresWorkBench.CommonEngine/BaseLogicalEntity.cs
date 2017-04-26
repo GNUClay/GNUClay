@@ -18,6 +18,7 @@ namespace SquaresWorkBench.CommonEngine
             mEntityConnection = mServerConnection.CreateEntity();
 
             mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
+            mCommandsDispatcher = new CommandsDispatcher(mEntityConnection, mCSharpTypesRegistry);
         }
 
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
@@ -107,7 +108,7 @@ namespace SquaresWorkBench.CommonEngine
         [Obsolete]
         protected ObjectsRegistry ObjectsRegistry = new ObjectsRegistry();
 
-        private CommandsDispatcher mCommandsDispatcher = new CommandsDispatcher();
+        private CommandsDispatcher mCommandsDispatcher = null;
         
         protected void AddFilter(ActionCommandFilter filter)
         {
