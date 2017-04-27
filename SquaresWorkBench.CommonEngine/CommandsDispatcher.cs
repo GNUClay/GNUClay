@@ -13,7 +13,7 @@ namespace SquaresWorkBench.CommonEngine
     {
         public CommandsDispatcher(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
-            mCommandFiltersStorage = new CommandFiltersStorage(entityConnection, cSharpTypesRegistry);
+            mCommandFiltersStorage = new CommandFiltersStorage<ActionCommandFilter>(entityConnection, cSharpTypesRegistry);
         }
 
         public void AddFilter(ActionCommandFilter filter)
@@ -42,6 +42,6 @@ namespace SquaresWorkBench.CommonEngine
             return true;
         }
 
-        private CommandFiltersStorage mCommandFiltersStorage = null;
+        private CommandFiltersStorage<ActionCommandFilter> mCommandFiltersStorage = null;
     }
 }

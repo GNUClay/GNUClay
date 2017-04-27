@@ -217,7 +217,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var targetName = filter.Target;
 
-            CommandFiltersStorageTargetsFilter targetStorage = null;
+            CommandFiltersStorageTargetsFilter<T> targetStorage = null;
 
             if (mDict.ContainsKey(targetName))
             {
@@ -243,10 +243,10 @@ namespace SquaresWorkBench.CommonEngine
                 return mDict[targetName].FindFilter(command);
             }
 
-            return new List<ActionCommandFilter>();
+            return new List<T>();
         }
 
-        private Dictionary<string, CommandFiltersStorageTargetsFilter> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter>();
+        private Dictionary<string, CommandFiltersStorageTargetsFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter<T>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -269,13 +269,13 @@ namespace SquaresWorkBench.CommonEngine
         private IGnuClayEntityConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
-        public void AddFilter(ActionCommandFilter filter)
+        public void AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var commandName = filter.CommandName;
 
-            CommandFiltersStorageCommandFilter targetStorage = null;
+            CommandFiltersStorageCommandFilter<T> targetStorage = null;
 
             if (mDict.ContainsKey(commandName))
             {
@@ -283,14 +283,14 @@ namespace SquaresWorkBench.CommonEngine
             }
             else
             {
-                targetStorage = new CommandFiltersStorageCommandFilter(mEntityConnection, mCSharpTypesRegistry);
+                targetStorage = new CommandFiltersStorageCommandFilter<T>(mEntityConnection, mCSharpTypesRegistry);
                 mDict.Add(commandName, targetStorage);
             }
 
             targetStorage.AddFilter(filter);
         }
 
-        public List<ActionCommandFilter> FindFilter(Command command)
+        public List<T> FindFilter(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
@@ -301,10 +301,10 @@ namespace SquaresWorkBench.CommonEngine
                 return mDict[commandName].FindFilter(command);
             }
 
-            return new List<ActionCommandFilter>();
+            return new List<T>();
         } 
 
-        private Dictionary<string, CommandFiltersStorageCommandFilter> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter>();
+        private Dictionary<string, CommandFiltersStorageCommandFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
