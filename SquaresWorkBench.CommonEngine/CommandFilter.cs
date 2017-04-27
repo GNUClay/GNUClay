@@ -40,14 +40,7 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public interface ICommandFilter
-    {
-        string CommandName { get; set; }
-        string Target { get; set; }
-        Dictionary<string, CommandFilterParam> Params { get; set; }
-    }
-
-    public class BaseCommandFilter: ICommandFilter
+    public class BaseCommandFilter
     {
         public string CommandName { get; set; } = string.Empty;
         public string Target { get; set; } = string.Empty;

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public class CommandFiltersStorageParamsFilter
+    public class CommandFiltersStorageParamsFilter<T> where T: BaseCommandFilter
     {
-        public CommandFiltersStorageParamsFilter(ActionCommandFilter filter, IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageParamsFilter(T filter, IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mEntityConnection = entityConnection;
             mCSharpTypesRegistry = cSharpTypesRegistry;
@@ -20,9 +20,9 @@ namespace SquaresWorkBench.CommonEngine
 
         private IGnuClayEntityConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
-        private ActionCommandFilter mFilter = null;
+        private T mFilter = null;
 
-        public ActionCommandFilter Filter
+        public T Filter
         {
             get
             {
@@ -85,11 +85,32 @@ namespace SquaresWorkBench.CommonEngine
 
                         NLog.LogManager.GetCurrentClassLogger().Info($"GetRank rank = {rank}");
 
+                        if(rank == 0)
+                        {
+                            return 0;
+                        }
+
                         result *= rank;
                     }
                 }
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT NEXT result = {result}");
+
+                if(filterParam.IsAnyValue)
+                {
+                    result *= 0.1;
+                }
+                else
+                {
+                    if(targetCommandParam == filterParam.Value)
+                    {
+                        result *= 2;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GetRank result = {result}");
@@ -107,7 +128,7 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public class CommandFiltersStorageTargetsFilter
+    public class CommandFiltersStorageTargetsFilter<T> where T : BaseCommandFilter
     {
         public CommandFiltersStorageTargetsFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
@@ -118,9 +139,9 @@ namespace SquaresWorkBench.CommonEngine
         private IGnuClayEntityConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
-        private Dictionary<int, CommandFiltersStorageParamsFilter> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter>();
+        private Dictionary<int, CommandFiltersStorageParamsFilter<T>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T>>();
 
-        public void AddFilter(ActionCommandFilter filter)
+        public void AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -131,15 +152,15 @@ namespace SquaresWorkBench.CommonEngine
                 return;
             }
 
-            var targetStorage = new CommandFiltersStorageParamsFilter(filter, mEntityConnection, mCSharpTypesRegistry);
+            var targetStorage = new CommandFiltersStorageParamsFilter<T>(filter, mEntityConnection, mCSharpTypesRegistry);
             mDict.Add(targetHashCode, targetStorage);
         }
 
-        public ActionCommandFilter FindFilter(Command command)
+        public List<T> FindFilter(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
-            var targetFilters = new List<KeyValuePair<double, ActionCommandFilter>>();
+            var targetFilters = new List<KeyValuePair<double, T>>();
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter mDict.Count = {mDict.Count}");
 
@@ -156,12 +177,17 @@ namespace SquaresWorkBench.CommonEngine
                     continue;
                 }
 
-                targetFilters.Add(new KeyValuePair<double, ActionCommandFilter>(rank, value.Filter));
+                targetFilters.Add(new KeyValuePair<double, T>(rank, value.Filter));
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter NEXT targetFilters.Count = {targetFilters.Count}");
 
-            return null;
+            if(_ListHelper.IsEmpty(targetFilters))
+            {
+                return new List<T>();
+            }
+
+            return targetFilters.OrderByDescending(p => p.Key).Select(p => p.Value).ToList();
         }
 
         /// <summary>
@@ -174,7 +200,7 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public class CommandFiltersStorageCommandFilter
+    public class CommandFiltersStorageCommandFilter<T> where T : BaseCommandFilter
     {
         public CommandFiltersStorageCommandFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
@@ -185,7 +211,7 @@ namespace SquaresWorkBench.CommonEngine
         private IGnuClayEntityConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
-        public void AddFilter(ActionCommandFilter filter)
+        public void AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -199,14 +225,14 @@ namespace SquaresWorkBench.CommonEngine
             }
             else
             {
-                targetStorage = new CommandFiltersStorageTargetsFilter(mEntityConnection, mCSharpTypesRegistry);
+                targetStorage = new CommandFiltersStorageTargetsFilter<T>(mEntityConnection, mCSharpTypesRegistry);
                 mDict.Add(targetName, targetStorage);
             }
 
             targetStorage.AddFilter(filter);
         }
 
-        public ActionCommandFilter FindFilter(Command command)
+        public List<T> FindFilter(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
@@ -217,7 +243,7 @@ namespace SquaresWorkBench.CommonEngine
                 return mDict[targetName].FindFilter(command);
             }
 
-            return null;
+            return new List<ActionCommandFilter>();
         }
 
         private Dictionary<string, CommandFiltersStorageTargetsFilter> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter>();
@@ -232,7 +258,7 @@ namespace SquaresWorkBench.CommonEngine
         }
     }
 
-    public class CommandFiltersStorage
+    public class CommandFiltersStorage<T> where T : BaseCommandFilter
     {
         public CommandFiltersStorage(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
@@ -264,7 +290,7 @@ namespace SquaresWorkBench.CommonEngine
             targetStorage.AddFilter(filter);
         }
 
-        public ActionCommandFilter FindFilter(Command command)
+        public List<ActionCommandFilter> FindFilter(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
@@ -275,7 +301,7 @@ namespace SquaresWorkBench.CommonEngine
                 return mDict[commandName].FindFilter(command);
             }
 
-            return null;
+            return new List<ActionCommandFilter>();
         } 
 
         private Dictionary<string, CommandFiltersStorageCommandFilter> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter>();

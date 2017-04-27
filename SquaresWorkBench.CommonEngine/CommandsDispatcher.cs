@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using SquaresWorkBench.CommonEngine.TemporaryLogical;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,21 @@ namespace SquaresWorkBench.CommonEngine
 
         public bool Dipatch(EntityAction actionResult)
         {
-            var action = mCommandFiltersStorage.FindFilter(actionResult.Command);
+            var actionsList = mCommandFiltersStorage.FindFilter(actionResult.Command);
 
-            if(action == null)
+            if(_ListHelper.IsEmpty(actionsList))
             {
                 return false;
             }
 
-            action.Handler(actionResult, actionResult.Command);
+            var targetAction = actionsList.FirstOrDefault();
+
+            if(targetAction == null)
+            {
+                return false;
+            }
+
+            targetAction.Handler(actionResult, actionResult.Command);
 
             return true;
         }
