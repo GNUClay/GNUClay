@@ -2,6 +2,7 @@
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.LocalHost;
 using SquaresWorkBench.CommonEngine;
+using SquaresWorkBench.CommonEngine.TemporaryLogical;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,15 @@ namespace SquaresWorkBench.TypicalCases
             command.Params.Add("goal", new FoolingGoal() {
                 Subject = "Kyle"
             });
+
+            var eventsFilter = new EntityActionEventsFilter();
+            eventsFilter.CommandName = "fooling";
+            eventsFilter.IfCompleted = true;
+            eventsFilter.Handler += (EntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"constructor eventsFilter (fooling) Fired!!!!!! action = {action}");
+            };
+
+            mEntityActionNotificator.AddFilter(eventsFilter);
 
             var result = ExecuteCommand(command);
 

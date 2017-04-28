@@ -116,7 +116,7 @@ namespace SquaresWorkBench.CommonEngine
             mCommandsDispatcher.AddFilter(filter);
         }
 
-        private EntityActionNotificator mEntityActionNotificator = null;
+        protected EntityActionNotificator mEntityActionNotificator = null;
 
         protected EntityAction ExecuteCommand(Command command)
         {

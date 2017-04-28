@@ -8,9 +8,22 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 {
+    public delegate void ActionEventsNotificatorHandler(EntityAction action);
+
     public class EntityActionEventsFilter: BaseCommandFilter
     {
+        public bool IfCompleted { get; set; }
+        public bool IfFaulted { get; set; }
+        public bool IfCanceled { get; set; }
+        public bool IfFinished { get; set; }
+        public bool IfFinishedWithOutErrors { get; set; }
 
+        public event ActionEventsNotificatorHandler Handler;
+
+        public void Emit(EntityAction action)
+        {
+            Handler?.Invoke(action);
+        }
     }
 
     public class EntityActionNotificator
@@ -41,7 +54,40 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
                     return;
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"AddEntityAction NEXT entityAction.OnFinish action.Status = {action.Status} action.Command = {action.Command}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"AddEntityAction NEXT entityAction.OnFinish actionsList.Count = {actionsList.Count} action.Status = {action.Status} action.Command = {action.Command}");
+
+                var status = action.Status;
+
+                switch (status)
+                {
+                    case EntityActionStatus.Completed:
+                        actionsList = actionsList.Where(p => p.IfCompleted || p.IfFinished || p.IfFinishedWithOutErrors).ToList();
+                        break;
+
+                    case EntityActionStatus.Canceled:
+                        actionsList = actionsList.Where(p => p.IfCanceled || p.IfFinished || p.IfFinishedWithOutErrors).ToList();
+                        break;
+
+                    case EntityActionStatus.Faulted:
+                        actionsList = actionsList.Where(p => p.IfFaulted || p.IfFinished).ToList();
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(status), status, null);
+                }
+
+                if (_ListHelper.IsEmpty(actionsList))
+                {
+                    return;
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"AddEntityAction NEXT NEXT entityAction.OnFinish actionsList.Count = {actionsList.Count} action.Status = {action.Status} action.Command = {action.Command}");
+
+                foreach(var item in actionsList)
+                {
+                    Task.Run(() => {
+                        item.Emit(action);
+                    });
+                }
             });
         }
     }
