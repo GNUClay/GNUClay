@@ -19,6 +19,7 @@ namespace SquaresWorkBench.CommonEngine
 
             mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
             mCommandsDispatcher = new CommandsDispatcher(mEntityConnection, mCSharpTypesRegistry);
+            mEntityActionNotificator = new EntityActionNotificator(mEntityConnection, mCSharpTypesRegistry);
         }
 
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
@@ -115,7 +116,7 @@ namespace SquaresWorkBench.CommonEngine
             mCommandsDispatcher.AddFilter(filter);
         }
 
-        private EntityActionNotificator mEntityActionNotificator = new EntityActionNotificator();
+        private EntityActionNotificator mEntityActionNotificator = null;
 
         protected EntityAction ExecuteCommand(Command command)
         {
