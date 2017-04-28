@@ -67,36 +67,4 @@ namespace SquaresWorkBench.CommonEngine
             return _ObjectHelper.PrintJsonToStringInformation(this);
         }
     }
-
-    public delegate void ActionCommandHandler(EntityAction actionResult, Command command);
-
-    public class ActionCommandFilter: BaseCommandFilter
-    {
-        public ActionCommandHandler Handler { get; set; } = null;
-
-        /// <summary>
-        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
-        /// </summary>
-        /// <returns>The string representation of this instance.</returns>
-        public override string ToString()
-        {
-            return _ObjectHelper.PrintJsonToStringInformation(this);
-        }
-    }
-
-    public delegate void EntityActionNotificatorHandler(EntityAction entityAction);
-
-    public class EntityActionNotificatorFilter: BaseCommandFilter
-    {
-        public EntityActionNotificatorHandler Handler { get; set; } = null;
-
-        /// <summary>
-        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
-        /// </summary>
-        /// <returns>The string representation of this instance.</returns>
-        public override string ToString()
-        {
-            return _ObjectHelper.PrintJsonToStringInformation(this);
-        }
-    }
 }
