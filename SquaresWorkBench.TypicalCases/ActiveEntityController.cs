@@ -45,6 +45,7 @@ namespace SquaresWorkBench.TypicalCases
         {
             RegisterInheritances();
             RegisterTypes();
+            RegFactories();
 
             var filter = new ActionCommandFilter();
             filter.CommandName = "fire";
@@ -180,6 +181,12 @@ namespace SquaresWorkBench.TypicalCases
 
             mCSharpTypesRegistry.AddType(typeof(FoolingGoal), "fooling goal");
             mCSharpTypesRegistry.AddType(typeof(FoolingDistanceGoal), "fooling distance goal");
+        }
+
+        private void RegFactories()
+        {
+            AddProcessFactory<AntiCollideProcess>();
+            AddProcessFactory<WalkProcess>();
         }
 
         private void TSTFooling_1(EntityAction actionResult, Command command)

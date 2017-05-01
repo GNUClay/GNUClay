@@ -149,5 +149,16 @@ namespace SquaresWorkBench.CommonEngine
                 }
             });
         }
+
+        protected void AddProcessFactory<T>() where T: BaseLogicalProcess, new ()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(AddProcessFactory)} T.FullName = {typeof(T).FullName}");
+
+            var factoryInstance = new LogicalProcessFactory<T>(this);
+            factoryInstance.Register();
+            mProsessFactoriesList.Add(factoryInstance);
+        }
+
+        private List<BaseLogicalProcessFactory> mProsessFactoriesList = new List<BaseLogicalProcessFactory>();
     }
 }

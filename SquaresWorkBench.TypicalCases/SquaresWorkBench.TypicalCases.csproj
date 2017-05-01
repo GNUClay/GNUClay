@@ -50,10 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveEntityController.cs" />
+    <Compile Include="AntiCollideProcess.cs" />
     <Compile Include="BaseRoomSoftCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room_1_SoftCreator.cs" />
     <Compile Include="TSTSoftCreator.cs" />
+    <Compile Include="WalkProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

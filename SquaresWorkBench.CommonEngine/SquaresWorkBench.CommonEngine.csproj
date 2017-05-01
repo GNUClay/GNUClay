@@ -80,8 +80,11 @@
     <Compile Include="SecondaryPropertyInfo.cs" />
     <Compile Include="SimpleMath.cs" />
     <Compile Include="SimpleViewer.cs" />
+    <Compile Include="TemporaryLogical\BaseLogicalProcess.cs" />
+    <Compile Include="TemporaryLogical\BaseLogicalProcessFactory.cs" />
     <Compile Include="TemporaryLogical\CSharpTypesRegistry.cs" />
     <Compile Include="TemporaryLogical\EntityActionNotificator.cs" />
+    <Compile Include="TemporaryLogical\LogicalProcessFactory.cs" />
     <Compile Include="TemporaryLogical\ObjectsRegistry.cs" />
     <Compile Include="UnaliveEntity.cs" />
     <Compile Include="ViewerInfo.cs" />
