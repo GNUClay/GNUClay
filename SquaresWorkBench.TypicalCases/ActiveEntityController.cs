@@ -114,6 +114,8 @@ namespace SquaresWorkBench.TypicalCases
             result.OnFinish((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info($"constructor result.OnFinish action = {action}");
             });
+
+            mLogicalProcessFactoriesRegistry.StartAutomaticallyProcesses();
         }
 
         private void RegisterInheritances()

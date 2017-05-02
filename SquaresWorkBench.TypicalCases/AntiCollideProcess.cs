@@ -11,6 +11,7 @@ namespace SquaresWorkBench.TypicalCases
     public class AntiCollideProcess: BaseLogicalProcess
     {
         public AntiCollideProcess()
+            : base(StartupMode.Automatically)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
         }

@@ -16,5 +16,17 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
         protected BaseLogicalEntity LogicalEntity = null;
 
         public abstract void Register();
+
+        protected StartupMode mStartupMode = StartupMode.OnDemand;
+
+        public StartupMode StartupMode
+        {
+            get
+            {
+                return mStartupMode;
+            }
+        }
+
+        public 
     }
 }

@@ -84,6 +84,7 @@
     <Compile Include="TemporaryLogical\BaseLogicalProcessFactory.cs" />
     <Compile Include="TemporaryLogical\CSharpTypesRegistry.cs" />
     <Compile Include="TemporaryLogical\EntityActionNotificator.cs" />
+    <Compile Include="TemporaryLogical\LogicalProcessFactoriesRegistry.cs" />
     <Compile Include="TemporaryLogical\LogicalProcessFactory.cs" />
     <Compile Include="TemporaryLogical\ObjectsRegistry.cs" />
     <Compile Include="UnaliveEntity.cs" />

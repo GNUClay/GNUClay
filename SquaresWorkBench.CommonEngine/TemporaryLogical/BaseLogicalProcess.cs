@@ -6,11 +6,29 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 {
+    public enum StartupMode
+    {
+        Automatically,
+        OnDemand
+    }
+
     public abstract class BaseLogicalProcess
     {
-        protected BaseLogicalProcess()
+        protected BaseLogicalProcess(StartupMode startupMode)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
+            mStartupMode = startupMode;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor() {nameof(mStartupMode)} = {mStartupMode}");
+        }
+
+        private StartupMode mStartupMode = StartupMode.OnDemand;
+
+        public StartupMode StartupMode
+        {
+            get
+            {
+                return mStartupMode;
+            }
         }
 
         public BaseLogicalEntity LogicalEntity { get; set; }

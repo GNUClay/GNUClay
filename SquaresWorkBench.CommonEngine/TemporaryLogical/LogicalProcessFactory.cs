@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,18 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
             var instance = new T();
             instance.LogicalEntity = LogicalEntity;
+
+            mStartupMode = instance.StartupMode;
+
+            var filters = instance.GetFilters();
+
+            if(!_ListHelper.IsEmpty(filters))
+            {
+                foreach(var filter in filters)
+                {
+
+                }
+            }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Register)}");
         }

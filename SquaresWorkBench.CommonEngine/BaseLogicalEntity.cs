@@ -20,12 +20,26 @@ namespace SquaresWorkBench.CommonEngine
             mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
             mCommandsDispatcher = new CommandsDispatcher(mEntityConnection, mCSharpTypesRegistry);
             mEntityActionNotificator = new EntityActionNotificator(mEntityConnection, mCSharpTypesRegistry);
+            mLogicalProcessFactoriesRegistry = new LogicalProcessFactoriesRegistry(this);
         }
 
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         private IGnuClayServerConnection mServerConnection = null;
         protected IGnuClayEntityConnection mEntityConnection = null;
+
+        public IGnuClayEntityConnection EntityConnection
+        {
+            get
+            {
+                return mEntityConnection;
+            }
+        }
+
+        public ulong GetKey(string val)
+        {
+            return mEntityConnection.GetKey(val);
+        }
 
         protected IActiveEntity ActiveEntity = null;
 
@@ -150,15 +164,13 @@ namespace SquaresWorkBench.CommonEngine
             });
         }
 
-        protected void AddProcessFactory<T>() where T: BaseLogicalProcess, new ()
+        protected LogicalProcessFactoriesRegistry mLogicalProcessFactoriesRegistry = null;
+
+        protected void AddProcessFactory<T>() where T : BaseLogicalProcess, new()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(AddProcessFactory)} T.FullName = {typeof(T).FullName}");
 
-            var factoryInstance = new LogicalProcessFactory<T>(this);
-            factoryInstance.Register();
-            mProsessFactoriesList.Add(factoryInstance);
+            mLogicalProcessFactoriesRegistry.AddProcessFactory<T>();
         }
-
-        private List<BaseLogicalProcessFactory> mProsessFactoriesList = new List<BaseLogicalProcessFactory>();
     }
 }

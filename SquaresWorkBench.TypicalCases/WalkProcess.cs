@@ -11,6 +11,7 @@ namespace SquaresWorkBench.TypicalCases
     public class WalkProcess: BaseLogicalProcess
     {
         public WalkProcess()
+            : base(StartupMode.OnDemand)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
         }
@@ -18,6 +19,16 @@ namespace SquaresWorkBench.TypicalCases
         protected override void OnRegFilter()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(OnRegFilter)}");
+
+            var filter = new ActionCommandFilter();
+            filter.CommandName = "walk";
+
+            var filterParameter = new CommandFilterParam();
+            filterParameter.IsAnyType = false;
+
+            filter.Params.Add("distance", filterParameter);
+
+            AddFilter(filter);
         }
     }
 }
