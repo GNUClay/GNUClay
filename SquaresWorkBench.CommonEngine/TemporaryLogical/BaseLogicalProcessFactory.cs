@@ -27,6 +27,16 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
             }
         }
 
-        public 
+        protected string mName = string.Empty;
+
+        public string Name
+        {
+            get
+            {
+                return mName;
+            }
+        }
+
+        public abstract void StartAutomatically();
     }
 }

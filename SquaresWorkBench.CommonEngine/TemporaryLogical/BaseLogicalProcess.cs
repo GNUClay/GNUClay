@@ -14,11 +14,12 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
     public abstract class BaseLogicalProcess
     {
-        protected BaseLogicalProcess(StartupMode startupMode)
+        protected BaseLogicalProcess(StartupMode startupMode, string name)
         {
             mStartupMode = startupMode;
+            mName = name;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor() {nameof(mStartupMode)} = {mStartupMode}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor() {nameof(mStartupMode)} = {mStartupMode} mName = {mName}");
         }
 
         private StartupMode mStartupMode = StartupMode.OnDemand;
@@ -28,6 +29,16 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
             get
             {
                 return mStartupMode;
+            }
+        }
+
+        private string mName = string.Empty;
+
+        public string Name
+        {
+            get
+            {
+                return mName;
             }
         }
 

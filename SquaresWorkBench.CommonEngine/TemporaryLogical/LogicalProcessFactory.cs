@@ -22,6 +22,7 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
             instance.LogicalEntity = LogicalEntity;
 
             mStartupMode = instance.StartupMode;
+            mName = instance.Name;
 
             var filters = instance.GetFilters();
 
@@ -29,7 +30,7 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
             {
                 foreach(var filter in filters)
                 {
-
+                    throw new NotImplementedException();
                 }
             }
 

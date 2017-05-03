@@ -40,10 +40,8 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
             foreach(var process in targetProcesses)
             {
-
-            }
-
-            throw new NotImplementedException();
+                process.StartAutomatically();
+            }            
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(StartAutomaticallyProcesses)}");
         }
