@@ -11,7 +11,7 @@ namespace SquaresWorkBench.TypicalCases
     public class WalkProcess: BaseLogicalProcess
     {
         public WalkProcess()
-            : base(StartupMode.OnDemand)
+            : base(StartupMode.OnDemand, "walk")
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
         }

@@ -30,11 +30,40 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
             {
                 foreach(var filter in filters)
                 {
-                    throw new NotImplementedException();
+                    filter.Handler = Start;
+                    filter.CommandName = mName;
+
+                    LogicalEntity.AddFilter(filter);
                 }
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Register)}");
+        }
+
+        public override void StartAutomatically()
+        {
+            Task.Run(() => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(StartAutomatically)}");
+
+                var command = new Command();
+                command.Name = Name;
+
+                var actionResult = new EntityAction(command);
+
+                Start(actionResult, command);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(StartAutomatically)}");
+            });
+        }
+
+        private void Start(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command}");
+
+            /*while(true)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command} !!!!!!!!!!!!!");
+            }*/
         }
     }
 }

@@ -125,7 +125,7 @@ namespace SquaresWorkBench.CommonEngine
 
         private CommandsDispatcher mCommandsDispatcher = null;
         
-        protected void AddFilter(ActionCommandFilter filter)
+        public void AddFilter(ActionCommandFilter filter)
         {
             mCommandsDispatcher.AddFilter(filter);
         }
