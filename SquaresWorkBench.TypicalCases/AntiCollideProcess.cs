@@ -15,5 +15,17 @@ namespace SquaresWorkBench.TypicalCases
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
         }
+
+        protected override void Main()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Main");
+
+            /*while(true)
+{
+    NLog.LogManager.GetCurrentClassLogger().Info($"Main actionResult.Status = {actionResult.Status}  command = {command} !!!!!!!!!!!!!");
+}*/
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Main");
+        }
     }
 }

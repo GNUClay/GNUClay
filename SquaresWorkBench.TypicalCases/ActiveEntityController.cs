@@ -92,6 +92,12 @@ namespace SquaresWorkBench.TypicalCases
 
             AddFilter(filter);
 
+            filter = new ActionCommandFilter();
+            filter.CommandName = "walk";
+            filter.Handler = TSTFooling_5;
+
+            AddFilter(filter);
+
             var command = new Command();
             command.Name = "fooling";
             command.Params.Add("goal", new FoolingGoal() {
@@ -116,6 +122,19 @@ namespace SquaresWorkBench.TypicalCases
             });
 
             mLogicalProcessFactoriesRegistry.StartAutomaticallyProcesses();
+
+            command = new Command();
+            command.Name = "walk";
+            command.Params.Add("distance", (double)10);
+            command.Params.Add("speed", (double)5);
+
+            result = ExecuteCommand(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result (2) = {result}");
+
+            result.OnFinish((EntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) result.OnFinish action = {action}");
+            });
         }
 
         private void RegisterInheritances()
@@ -183,6 +202,8 @@ namespace SquaresWorkBench.TypicalCases
 
             mCSharpTypesRegistry.AddType(typeof(FoolingGoal), "fooling goal");
             mCSharpTypesRegistry.AddType(typeof(FoolingDistanceGoal), "fooling distance goal");
+
+            mCSharpTypesRegistry.AddType<Side>("side");
         }
 
         private void RegFactories()
@@ -215,6 +236,13 @@ namespace SquaresWorkBench.TypicalCases
         private void TSTFooling_4(EntityAction actionResult, Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_4 command = {command}");
+
+            actionResult.Status = EntityActionStatus.Completed;
+        }
+
+        private void TSTFooling_5(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTFooling_5 command = {command}");
 
             actionResult.Status = EntityActionStatus.Completed;
         }

@@ -63,5 +63,34 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
         {
             mFiltersList.Add(filter);
         }
+
+        protected EntityAction CurrentEntityAction = null;
+        protected Command CurrentCommand = null;
+
+        public void Start(EntityAction actionResult, Command command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command}");
+
+            CurrentCommand = command;
+            CurrentEntityAction = actionResult;
+
+            OnStart();
+            Main();
+            OnStop();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command}");
+        }
+
+        protected virtual void OnStart()
+        {
+        }
+
+        protected virtual void Main()
+        {
+        } 
+        
+        protected virtual void OnStop()
+        {
+        } 
     }
 }

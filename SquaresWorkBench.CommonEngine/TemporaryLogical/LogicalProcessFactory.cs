@@ -60,10 +60,9 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command}");
 
-            /*while(true)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} actionResult.Status = {actionResult.Status}  command = {command} !!!!!!!!!!!!!");
-            }*/
+            var instance = new T();
+            instance.LogicalEntity = LogicalEntity;
+            instance.Start(actionResult, command);
         }
     }
 }

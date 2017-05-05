@@ -16,6 +16,11 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
         private IGnuClayEntityConnection mEntityConnection = null;
 
+        public void AddType<T>(string typeName)
+        {
+            AddType(typeof(T), typeName);
+        }
+
         public void AddType(Type type, string typeName)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddType type = `{type.FullName}` typeName = `{typeName}`");
