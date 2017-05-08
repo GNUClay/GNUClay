@@ -109,5 +109,21 @@ namespace SquaresWorkBench.CommonEngine
         }
 
         public object CurrentActiveEntityController { get; set; }
+
+        public List<KeyValuePair<string, string>> ExistingObjectsList { get; set; } = new List<KeyValuePair<string, string>>();
+        public List<string> ExistingClassesList = new List<string>();
+
+        public void AddExistingEntity(BaseEntity entity)
+        {
+            var id = entity.Id;
+            var classStr = entity.ClassString;
+
+            ExistingObjectsList.Add(new KeyValuePair<string, string>(id, $"{classStr} {id}"));
+
+            if(ExistingClassesList.Contains(classStr))
+            {
+                ExistingClassesList.Add(classStr);
+            }
+        }
     }
 }

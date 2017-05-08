@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandController.cs" />
     <Compile Include="SceneWindow.xaml.cs">
       <DependentUpon>SceneWindow.xaml</DependentUpon>
     </Compile>

@@ -15,5 +15,6 @@ namespace SquaresWorkBench.CommonEngine
         object CurrentActiveEntityController { get; set; }
         double Width { get; }
         double Height { get; }
+        void AddExistingEntity(BaseEntity entity);
     }
 }

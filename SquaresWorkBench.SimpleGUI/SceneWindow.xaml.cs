@@ -19,131 +19,23 @@ namespace SquaresWorkBench.SimpleGUI
 
             sceneCreator.Run(mScene);
 
+            mCommandController = new CommandController(mScene);
+
             mActiveEntityController = (ActiveEntityController)mScene.CurrentActiveEntityController;
 
-            InitObjectsList();
-            InitCommadsList();
+            mCommandController.ActiveEntityController = mActiveEntityController;
+
+            mCommandController.SpeedComboBox = cbSpeed;
+            mCommandController.ObjectsComboBox = cbExistingsObjects;
+            mCommandController.CommandsForObjectsComboBox = cbActions;
+            mCommandController.RunCommandForObjectButton = btnRun;
+            mCommandController.StopButton = btnStop;
+            mCommandController.DumpCoordsButton = btnGetCoords;
+            mCommandController.WalkToGoalButton = btnWalkToGoal;
         }
 
         private Scene mScene = null;
+        private CommandController mCommandController = null;
         private ActiveEntityController mActiveEntityController = null;
-
-        private void InitObjectsList()
-        {
-            if (mActiveEntityController != null)
-            {
-                var objList = mActiveEntityController.ExistingObjectsList;
-
-                var objIndex = -1;
-
-                foreach (var objItem in objList)
-                {
-                    var cbItem = new ComboBoxItem();
-                    cbItem.Content = objItem.Value;
-
-                    cbExistingsObjects.Items.Add(cbItem);
-
-                    objIndex++;
-
-                    mObjectsDict[objIndex] = objItem.Key;
-                }
-            }
-        }
-
-        private Dictionary<int, string> mObjectsDict = new Dictionary<int, string>();
-        private Dictionary<int, string> mCommandsDict = new Dictionary<int, string>();
-
-        private void InitCommadsList()
-        {
-            AddCommand("open");
-            AddCommand("close");
-            AddCommand("take");
-            AddCommand("release");
-            AddCommand("fire");
-        }
-
-        private int mCommandIndex = -1;
-
-        private void AddCommand(string name)
-        {
-            mCommandIndex++;
-
-            var cbItem = new ComboBoxItem();
-            cbItem.Content = name;
-
-            cbActions.Items.Add(cbItem);
-
-            mCommandsDict[mCommandIndex] = name;
-        }
-
-        private void btnGoAhead_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.GoAhead();
-        }
-
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.Stop();
-        }
-
-        private void btnGoLeft_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.GoLeft();
-        }
-
-        private void btnGoRigth_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.GoRight();
-        }
-
-        private void btnGoBack_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.GoBack();
-        }
-
-        private void btnRotateLeft_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.RotateLeft();
-        }
-
-        private void btnRotateRight_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController?.RotateRight();
-        }
-
-        private void btnRun_Click(object sender, RoutedEventArgs e)
-        {
-            var objSelIndex = cbExistingsObjects.SelectedIndex;
-            var cmdSelIndex = cbActions.SelectedIndex;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"btnRun_Click objSelIndex = {objSelIndex} cmdSelIndex = {cmdSelIndex}");
-
-            if(objSelIndex == -1 || cmdSelIndex == -1)
-            {
-                return;
-            }
-
-            var objName = mObjectsDict[objSelIndex];
-            var cmdName = mCommandsDict[cmdSelIndex];
-
-            mActiveEntityController?.ExecuteCommand(objName, cmdName);
-        }
-
-        private void cbSpeed_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var targetSpeed = cbSpeed.SelectedIndex + 1;
-
-            if(targetSpeed == 0)
-            {
-                return;
-            }
-
-            mActiveEntityController?.SetSpeed(targetSpeed);
-        }
-
-        private void btnGetCoords_Click(object sender, RoutedEventArgs e)
-        {
-            mActiveEntityController.DumpCoords();
-        }
     }
 }
