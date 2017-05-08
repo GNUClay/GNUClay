@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SquaresWorkBench.SimpleGUI"
         mc:Ignorable="d"
-        Title="SceneWindow" Height="388.537" Width="564.46" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="SceneWindow" Height="633.224" Width="564.46" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <DockPanel Margin="0">
-            <Grid Height="358" VerticalAlignment="Top" Width="197">
+            <Grid Width="197" Margin="0,0,0,10">
                 <Button x:Name="btnGoAhead" Content="▲" HorizontalAlignment="Left" Margin="66,28,0,0" VerticalAlignment="Top" Width="20" Height="20" ToolTip="Go ahead" Click="btnGoAhead_Click"/>
                 <Button x:Name="btnGoLeft" Content="◀" HorizontalAlignment="Left" Margin="38,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go left" Height="20" Click="btnGoLeft_Click" IsEnabled="False"/>
                 <Button x:Name="btnStop" Content="⛒" HorizontalAlignment="Left" Margin="66,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Stop" Height="20" Click="btnStop_Click"/>
                 <Button x:Name="btnGoRigth" Content="▶" HorizontalAlignment="Left" Margin="91,54,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go rigth" Height="20" Click="btnGoRigth_Click" IsEnabled="False"/>
                 <Button x:Name="btnGoBack" Content="▼" HorizontalAlignment="Left" Margin="66,79,0,0" VerticalAlignment="Top" Width="20" ToolTip="Go back" Height="20" Click="btnGoBack_Click" IsEnabled="False"/>
-                <ComboBox x:Name="cbExistingsObjects" Margin="0,165,0,171"/>
+                <ComboBox x:Name="cbExistingsObjects" Margin="0,165,0,0" Height="22" VerticalAlignment="Top"/>
                 <Button x:Name="btnRotateLeft" Content="↶" HorizontalAlignment="Left" Margin="38,29,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate left" Height="20" Click="btnRotateLeft_Click"/>
                 <Button x:Name="btnRun" Content="Run Action!" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" Width="75" Click="btnRun_Click"/>
                 <Button x:Name="btnRotateRight" Content="↷" HorizontalAlignment="Left" Margin="91,28,0,0" VerticalAlignment="Top" Width="20" ToolTip="Rotate right" Click="btnRotateRight_Click" Height="20"/>
@@ -32,6 +32,9 @@
                     <ComboBoxItem Content="10"/>
                 </ComboBox>
                 <Button x:Name="btnGetCoords" Content="Button" HorizontalAlignment="Left" Margin="11,260,0,0" VerticalAlignment="Top" Width="75" Click="btnGetCoords_Click"/>
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="38,326,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="38,371,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" Margin="38,416,0,0" VerticalAlignment="Top" Width="120"/>
             </Grid>
             <Grid>
                 <ScrollViewer x:Name="mSw" Margin="0,10" HorizontalScrollBarVisibility="Visible"/>

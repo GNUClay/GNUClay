@@ -15,7 +15,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
         {
             Length = lenght;
 
-            Class.Add("block");
+            AddClass("block");
 
             IsHard = true;
             Opacity = 1;

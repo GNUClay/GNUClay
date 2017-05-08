@@ -13,7 +13,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Door()
         {
-            Class.Add("door");
+            AddClass("door");
 
             NSetClosed();
 

@@ -32,6 +32,8 @@ namespace SquaresWorkBench.CommonEngine
 
             mVisualHost = new CustomVisualHost(mDrawingVisual);
 
+            CreateAutoToolTip();
+
             CalculateTargetPolarAngle();
         }
 
@@ -40,9 +42,50 @@ namespace SquaresWorkBench.CommonEngine
             return $"#{Guid.NewGuid().ToString("D")}";
         }
 
+        private string mId = string.Empty;
+
         [PersistentKVPProperty]
-        public string Id = string.Empty;
-        public List<string> Class = new List<string>();
+        public string Id
+        {
+            get
+            {
+                return mId;
+            }
+
+            set
+            {
+                if(mId == value)
+                {
+                    return;
+                }
+
+                mId = value;
+
+                CreateAutoToolTip();
+            }
+        }
+
+        private List<string> mClass = new List<string>();
+        public void AddClass(string value)
+        {
+            if(mClass.Contains(value))
+            {
+                return;
+            }
+
+            mClass.Add(value);
+
+            CreateAutoToolTip();
+        }
+
+        public List<string> Class
+        {
+            get
+            {
+                return mClass.ToList();
+            }
+        }
+
         public string ClassString
         {
             get
@@ -51,6 +94,14 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
     
+        private void CreateAutoToolTip()
+        {
+            if(mVisualHost != null)
+            {
+                mVisualHost.ToolTip = $"{ClassString} {Id}";
+            }        
+        }
+
         private Dispatcher mCurrDispatcher = null;
 
         public Dispatcher CurrDispatcher

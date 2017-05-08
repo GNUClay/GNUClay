@@ -13,7 +13,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Tree()
         {
-            Class.Add("tree");
+            AddClass("tree");
 
             Threshold = 50;
             Durability = 100;

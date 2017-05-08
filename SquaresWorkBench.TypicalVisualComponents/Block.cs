@@ -13,7 +13,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
     {
         public Block()
         {
-            Class.Add("block");
+            AddClass("block");
 
             IsHard = true;
             Opacity = 1;
