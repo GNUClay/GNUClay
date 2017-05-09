@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalCases
 {
-    public class WalkProcess: BaseLogicalProcess
+    public class WalkProcess: BaseLogicalProcess 
     {
         public WalkProcess()
             : base(StartupMode.OnDemand, "walk")
@@ -23,14 +23,16 @@ namespace SquaresWorkBench.TypicalCases
             var filter = new ActionCommandFilter();
             filter.CommandName = "walk";
 
+            var numberKey = LogicalEntity.GetKey("number");
+
             var filterParameter = new CommandFilterParam();
             filterParameter.IsAnyType = false;
-            filterParameter.TypeKey = LogicalEntity.GetKey("number");
+            filterParameter.TypeKey = numberKey;
             filter.Params.Add("distance", filterParameter);
 
             filterParameter = new CommandFilterParam();
             filterParameter.IsAnyType = false;
-            filterParameter.TypeKey = LogicalEntity.GetKey("number");
+            filterParameter.TypeKey = numberKey;
             filter.Params.Add("speed", filterParameter);
 
             filterParameter = new CommandFilterParam();

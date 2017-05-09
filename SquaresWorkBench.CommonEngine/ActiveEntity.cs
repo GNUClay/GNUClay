@@ -351,8 +351,29 @@ namespace SquaresWorkBench.CommonEngine
 
             mCurrentGoAction = actionResult;
 
-            var speed = (double)command.Params["speed"];
-            var direction = (string)command.Params["direction"];
+            double speed = 0;
+
+            if(command.Params.ContainsKey("speed"))
+            {
+                speed = (double)command.Params["speed"];
+            }
+            else
+            {
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
+            }
+
+            string direction = string.Empty;
+
+            if(command.Params.ContainsKey("direction"))
+            {
+                direction = (string)command.Params["direction"];
+            }
+            else
+            {
+                actionResult.Status = EntityActionStatus.Faulted;
+                return;
+            }
 
             var directionFlag = GoDirectionFlagByString(direction);
 

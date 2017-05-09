@@ -57,6 +57,9 @@
     <Compile Include="Side.cs" />
     <Compile Include="TSTSoftCreator.cs" />
     <Compile Include="WalkProcess.cs" />
+    <Compile Include="WalkToGoalProcess.cs" />
+    <Compile Include="WalkToInvisibleGoalProcess.cs" />
+    <Compile Include="WalkToVisibleGoalProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

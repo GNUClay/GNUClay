@@ -47,94 +47,94 @@ namespace SquaresWorkBench.TypicalCases
             RegisterTypes();
             RegFactories();
 
-            var filter = new ActionCommandFilter();
-            filter.CommandName = "fire";
-            filter.Target = "gun";
-            filter.Handler = TSTFireGunExecute;
+            //var filter = new ActionCommandFilter();
+            //filter.CommandName = "fire";
+            //filter.Target = "gun";
+            //filter.Handler = TSTFireGunExecute;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            filter = new ActionCommandFilter();
-            filter.CommandName = "fooling";
-            var filterParameter = new CommandFilterParam();
-            filter.Params.Add("distance", filterParameter);
-            filter.Handler = TSTFooling_1;
+            //filter = new ActionCommandFilter();
+            //filter.CommandName = "fooling";
+            //var filterParameter = new CommandFilterParam();
+            //filter.Params.Add("distance", filterParameter);
+            //filter.Handler = TSTFooling_1;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            filter = new ActionCommandFilter();
-            filter.CommandName = "fooling";
+            //filter = new ActionCommandFilter();
+            //filter.CommandName = "fooling";
 
-            filterParameter = new CommandFilterParam();
-            filterParameter.TypeKey = mEntityConnection.GetKey("fooling goal");
-            filterParameter.IsAnyType = false;
-            filter.Params.Add("goal", filterParameter);
+            //filterParameter = new CommandFilterParam();
+            //filterParameter.TypeKey = mEntityConnection.GetKey("fooling goal");
+            //filterParameter.IsAnyType = false;
+            //filter.Params.Add("goal", filterParameter);
 
-            filter.Handler = TSTFooling_2;
+            //filter.Handler = TSTFooling_2;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            filter = new ActionCommandFilter();
-            filter.CommandName = "fooling";
+            //filter = new ActionCommandFilter();
+            //filter.CommandName = "fooling";
 
-            filterParameter = new CommandFilterParam();
-            filterParameter.TypeKey = mEntityConnection.GetKey("fooling distance goal");
-            filterParameter.IsAnyType = false;
-            filter.Params.Add("goal", filterParameter);
+            //filterParameter = new CommandFilterParam();
+            //filterParameter.TypeKey = mEntityConnection.GetKey("fooling distance goal");
+            //filterParameter.IsAnyType = false;
+            //filter.Params.Add("goal", filterParameter);
 
-            filter.Handler = TSTFooling_4;
+            //filter.Handler = TSTFooling_4;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            filter = new ActionCommandFilter();
-            filter.CommandName = "fooling";
-            filter.Handler = TSTFooling_3;
+            //filter = new ActionCommandFilter();
+            //filter.CommandName = "fooling";
+            //filter.Handler = TSTFooling_3;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            filter = new ActionCommandFilter();
-            filter.CommandName = "walk";
-            filter.Handler = TSTFooling_5;
+            //filter = new ActionCommandFilter();
+            //filter.CommandName = "walk";
+            //filter.Handler = TSTFooling_5;
 
-            AddFilter(filter);
+            //AddFilter(filter);
 
-            var command = new Command();
-            command.Name = "fooling";
-            command.Params.Add("goal", new FoolingGoal() {
-                Subject = "Kyle"
-            });
+            //var command = new Command();
+            //command.Name = "fooling";
+            //command.Params.Add("goal", new FoolingGoal() {
+            //    Subject = "Kyle"
+            //});
 
-            var eventsFilter = new EntityActionEventsFilter();
-            eventsFilter.CommandName = "fooling";
-            eventsFilter.IfCompleted = true;
-            eventsFilter.Handler += (EntityAction action) => {
-                NLog.LogManager.GetCurrentClassLogger().Info($"constructor eventsFilter (fooling) Fired!!!!!! action = {action}");
-            };
+            //var eventsFilter = new EntityActionEventsFilter();
+            //eventsFilter.CommandName = "fooling";
+            //eventsFilter.IfCompleted = true;
+            //eventsFilter.Handler += (EntityAction action) => {
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"constructor eventsFilter (fooling) Fired!!!!!! action = {action}");
+            //};
 
-            mEntityActionNotificator.AddFilter(eventsFilter);
+            //mEntityActionNotificator.AddFilter(eventsFilter);
 
-            var result = ExecuteCommand(command);
+            //var result = ExecuteCommand(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"constructor result = {result}");
 
-            result.OnFinish((EntityAction action) => {
-                NLog.LogManager.GetCurrentClassLogger().Info($"constructor result.OnFinish action = {action}");
-            });
+            //result.OnFinish((EntityAction action) => {
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"constructor result.OnFinish action = {action}");
+            //});
 
-            mLogicalProcessFactoriesRegistry.StartAutomaticallyProcesses();
+            //mLogicalProcessFactoriesRegistry.StartAutomaticallyProcesses();
 
-            command = new Command();
-            command.Name = "walk";
-            command.Params.Add("distance", (double)10);
-            command.Params.Add("speed", (double)5);
+            //command = new Command();
+            //command.Name = "walk";
+            //command.Params.Add("distance", (double)10);
+            //command.Params.Add("speed", (double)5);
 
-            result = ExecuteCommand(command);
+            //result = ExecuteCommand(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor result (2) = {result}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"constructor result (2) = {result}");
 
-            result.OnFinish((EntityAction action) => {
-                NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) result.OnFinish action = {action}");
-            });
+            //result.OnFinish((EntityAction action) => {
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) result.OnFinish action = {action}");
+            //});
         }
 
         private void RegisterInheritances()
@@ -200,6 +200,8 @@ namespace SquaresWorkBench.TypicalCases
             mCSharpTypesRegistry.AddType(typeof(long), "number");
             mCSharpTypesRegistry.AddType(typeof(ulong), "number");
 
+            mCSharpTypesRegistry.AddType(typeof(string), "string");
+
             mCSharpTypesRegistry.AddType(typeof(FoolingGoal), "fooling goal");
             mCSharpTypesRegistry.AddType(typeof(FoolingDistanceGoal), "fooling distance goal");
 
@@ -210,6 +212,9 @@ namespace SquaresWorkBench.TypicalCases
         {
             AddProcessFactory<AntiCollideProcess>();
             AddProcessFactory<WalkProcess>();
+            AddProcessFactory<WalkToVisibleGoalProcess>();
+            AddProcessFactory<WalkToInvisibleGoalProcess>();
+            AddProcessFactory<WalkToGoalProcess>();
         }
 
         private void TSTFooling_1(EntityAction actionResult, Command command)
