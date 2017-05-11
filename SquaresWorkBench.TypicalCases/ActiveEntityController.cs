@@ -212,8 +212,8 @@ namespace SquaresWorkBench.TypicalCases
         {
             AddProcessFactory<AntiCollideProcess>();
             AddProcessFactory<WalkProcess>();
-            AddProcessFactory<WalkToVisibleGoalProcess>();
-            AddProcessFactory<WalkToInvisibleGoalProcess>();
+            AddProcessFactory<WalkToAvailableGoalProcess>();
+            AddProcessFactory<WalkToUnavailableGoalProcess>();
             AddProcessFactory<WalkToGoalProcess>();
         }
 

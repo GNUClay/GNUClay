@@ -32,17 +32,17 @@ namespace SquaresWorkBench.CommonEngine
 
         public double GetRank(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command = {command}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetRank mFilter.Params.Count = {mFilter.Params.Count}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command.Params.Count = {command.Params.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank mFilter.Params.Count = {mFilter.Params.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command.Params.Count = {command.Params.Count}");
 
             if(_ListHelper.IsEmpty(mFilter.Params))
             {
                 return 0.01;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info("GetRank NEXT");
+            //NLog.LogManager.GetCurrentClassLogger().Info("GetRank NEXT");
 
             var commandParams = command.Params;
 
@@ -51,7 +51,7 @@ namespace SquaresWorkBench.CommonEngine
             foreach (var filterParamKVP in mFilter.Params)
             {
                 var paramName = filterParamKVP.Key;
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank paramName = {paramName}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank paramName = {paramName}");
 
                 if(!commandParams.ContainsKey(paramName))
                 {
@@ -62,8 +62,8 @@ namespace SquaresWorkBench.CommonEngine
 
                 var filterParam = filterParamKVP.Value;
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank targetCommandParam = {targetCommandParam}");
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank filterParam = {filterParam}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank targetCommandParam = {targetCommandParam}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank filterParam = {filterParam}");
 
                 if (filterParam.IsAnyType)
                 {
@@ -73,7 +73,7 @@ namespace SquaresWorkBench.CommonEngine
                 {
                     var commandParamTypeKey = mCSharpTypesRegistry.GetTypeKey(targetCommandParam);
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"GetRank commandParamTypeKey = {commandParamTypeKey}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank commandParamTypeKey = {commandParamTypeKey}");
 
                     if(commandParamTypeKey == filterParam.TypeKey)
                     {
@@ -83,7 +83,7 @@ namespace SquaresWorkBench.CommonEngine
                     {
                         var rank = mEntityConnection.GetInheritanceRank(commandParamTypeKey, filterParam.TypeKey);
 
-                        NLog.LogManager.GetCurrentClassLogger().Info($"GetRank rank = {rank}");
+                        //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank rank = {rank}");
 
                         if(rank == 0)
                         {
@@ -94,7 +94,7 @@ namespace SquaresWorkBench.CommonEngine
                     }
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT NEXT result = {result}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT NEXT result = {result}");
 
                 if(filterParam.IsAnyValue)
                 {
@@ -113,7 +113,7 @@ namespace SquaresWorkBench.CommonEngine
                 }
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetRank result = {result}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank result = {result}");
 
             return result;
         }
@@ -143,7 +143,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public void AddFilter(T filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var targetHashCode = filter.GetHashCode();
 
@@ -158,11 +158,11 @@ namespace SquaresWorkBench.CommonEngine
 
         public List<T> FindFilter(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             var targetFilters = new List<KeyValuePair<double, T>>();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter mDict.Count = {mDict.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter mDict.Count = {mDict.Count}");
 
             foreach (var item in mDict)
             {
@@ -170,7 +170,7 @@ namespace SquaresWorkBench.CommonEngine
 
                 var rank = value.GetRank(command);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter rank = {rank}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter rank = {rank}");
 
                 if(rank == 0)
                 {
@@ -180,7 +180,7 @@ namespace SquaresWorkBench.CommonEngine
                 targetFilters.Add(new KeyValuePair<double, T>(rank, value.Filter));
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter NEXT targetFilters.Count = {targetFilters.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter NEXT targetFilters.Count = {targetFilters.Count}");
 
             if(_ListHelper.IsEmpty(targetFilters))
             {
@@ -213,7 +213,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public void AddFilter(T filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var targetName = filter.Target;
 
@@ -234,7 +234,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public List<T> FindFilter(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             var targetName = command.Target;
 
@@ -271,7 +271,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public void AddFilter(T filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
             var commandName = filter.CommandName;
 
@@ -292,7 +292,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public List<T> FindFilter(Command command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
             var commandName = command.Name;
 

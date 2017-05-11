@@ -54,41 +54,51 @@ namespace SquaresWorkBench.TypicalCases
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Main Speed = {Speed} Goal = {Goal}");
 
-            var walkToVisibleGoalCommand = new Command();
+            var walkToAvailableGoalCommand = new Command();
 
 
-            walkToVisibleGoalCommand.Name = "walk to visible goal";
-            walkToVisibleGoalCommand.Params = CurrentCommand.Params.ToDictionary(p => p.Key, p => p.Value);
+            walkToAvailableGoalCommand.Name = "walk to available goal";
+            walkToAvailableGoalCommand.Params = CurrentCommand.Params.ToDictionary(p => p.Key, p => p.Value);
 
-            var walkToVisibleGoalResult = LogicalEntity.ExecuteCommand(walkToVisibleGoalCommand);
+            var walkToVisibleGoalResult = LogicalEntity.ExecuteCommand(walkToAvailableGoalCommand);
 
             walkToVisibleGoalResult.OnFinish((EntityAction action) => {
                 var status = action.Status;
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"Main walkToVisibleGoalResult.OnFinish status = {status}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"Main walkToAvailableGoalResult.OnFinish status = {status}");
 
-                /*switch ()
+                switch (status)
                 {
+                    case EntityActionStatus.Completed:
+                        CurrentEntityAction.Status = EntityActionStatus.Completed;
+                        break;
 
-                }*/
+                    case EntityActionStatus.Faulted:
+                        var walkToUnavailableGoalCommand = new Command();
+                        walkToUnavailableGoalCommand.Name = "walk to unavailable goal";
+                        walkToUnavailableGoalCommand.Params = CurrentCommand.Params.ToDictionary(p => p.Key, p => p.Value);
+
+                        var walkToUnavailableGoalResult = LogicalEntity.ExecuteCommand(walkToUnavailableGoalCommand);
+
+                        walkToUnavailableGoalResult.OnFinish((EntityAction action_1) => {
+                            NLog.LogManager.GetCurrentClassLogger().Info($"Main walkToUnavailableGoalResult.OnFinish status = {status}");
+
+                            var status_2 = action_1.Status;
+
+                            switch(status_2)
+                            {
+                                case EntityActionStatus.Completed:
+                                    CurrentEntityAction.Status = EntityActionStatus.Completed;
+                                    break;
+
+                                case EntityActionStatus.Faulted:
+                                    CurrentEntityAction.Status = EntityActionStatus.Faulted;
+                                    break;
+                            }
+                        });
+                        break;
+                }
             });
-
-            /*var isVisible = LogicalEntity.IsVisible(Goal);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main isVisible = {isVisible}");
-
-            if(isVisible)
-            {
-                CurrentCommand.Name = "walk to visible goal";
-
-                LogicalEntity.ExecuteCommand(CurrentEntityAction, CurrentCommand);
-
-                return;
-            }
-
-            CurrentCommand.Name = "walk to invisible goal";
-
-            LogicalEntity.ExecuteCommand(CurrentEntityAction, CurrentCommand);*/
         }
     }
 }

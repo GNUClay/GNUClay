@@ -58,8 +58,8 @@
     <Compile Include="TSTSoftCreator.cs" />
     <Compile Include="WalkProcess.cs" />
     <Compile Include="WalkToGoalProcess.cs" />
-    <Compile Include="WalkToInvisibleGoalProcess.cs" />
-    <Compile Include="WalkToVisibleGoalProcess.cs" />
+    <Compile Include="WalkToUnavailableGoalProcess.cs" />
+    <Compile Include="WalkToAvailableGoalProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

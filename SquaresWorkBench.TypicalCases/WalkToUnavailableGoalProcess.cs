@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.TypicalCases
 {
-    public class WalkToVisibleGoalProcess : BaseLogicalProcess
+    public class WalkToUnavailableGoalProcess : BaseLogicalProcess
     {
-        public WalkToVisibleGoalProcess()
-            : base(StartupMode.OnDemand, "walk to visible goal")
+        public WalkToUnavailableGoalProcess()
+            : base(StartupMode.OnDemand, "walk to unavailable goal")
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor()");
         }
@@ -21,7 +21,7 @@ namespace SquaresWorkBench.TypicalCases
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(OnRegFilter)}");
 
             var filter = new ActionCommandFilter();
-            filter.CommandName = "walk";
+            filter.CommandName = Name;
 
             var numberKey = LogicalEntity.GetKey("number");
             var stringKey = LogicalEntity.GetKey("string");
@@ -39,40 +39,11 @@ namespace SquaresWorkBench.TypicalCases
             AddFilter(filter);
         }
 
-        private double Speed = 0;
-        private string Goal = string.Empty;
-
-        protected override void OnStart()
-        {
-            var paramsDict = CurrentCommand.Params;
-
-            Speed = (double)paramsDict["speed"];
-            Goal = (string)paramsDict["goal"];
-        }
-
         protected override void Main()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main Speed = {Speed} Goal = {Goal}");
-
-            var n = 0;
-
-            while(true)
-            {
-                n++;
-
-                if(n == 2)
-                {
-                    break;
-                }
-
-                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"Main n = {n} targetVisibleItem = {targetVisibleItem}");
-            }
+            NLog.LogManager.GetCurrentClassLogger().Info("Main");
 
             CurrentEntityAction.Status = EntityActionStatus.Faulted;
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End Main");
         }
     }
 }
