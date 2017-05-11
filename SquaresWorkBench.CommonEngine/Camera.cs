@@ -179,7 +179,7 @@ namespace SquaresWorkBench.CommonEngine
                 var tmpVisiblePoint = new VisiblePoint();
                 tmpVisiblePoint.TargetPoint = tmpTargetPos;
                 tmpVisiblePoint.Radius = radius;
-                tmpVisiblePoint.Angle = angle;
+                tmpVisiblePoint.Angle = angle + 90;
 
                 tmpCurrVisibleResultItem.VisiblePoints.Add(tmpVisiblePoint);
 

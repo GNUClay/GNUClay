@@ -60,10 +60,12 @@ namespace SquaresWorkBench.CommonEngine
             lock(mVisibleItemsLockObj)
             {
                 var result = new List<LogicalVisibleResultItem>();
-                
+                var resultDict = new Dictionary<string, LogicalVisibleResultItem>();
+
                 if (_ListHelper.IsEmpty(items))
                 {
                     VisibleItems = result;
+                    VisibleItemsDict = resultDict;
                     return;
                 }
 
@@ -93,14 +95,18 @@ namespace SquaresWorkBench.CommonEngine
                     item.VisiblePoints = scanItem.VisiblePoints;
 
                     result.Add(item);
+                    resultDict[entityId] = item;
                 }
 
                 VisibleItems = result;
+                VisibleItemsDict = resultDict;
             }
         }
 
         private object mVisibleItemsLockObj = new object();
         private List<LogicalVisibleResultItem> mVisibleItems = new List<LogicalVisibleResultItem>();
+        private Dictionary<string, LogicalVisibleResultItem> mVisibleItemsDict = new Dictionary<string, LogicalVisibleResultItem>();
+
         protected List<LogicalVisibleResultItem> VisibleItems
         {
             get
@@ -120,6 +126,49 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
+        protected Dictionary<string, LogicalVisibleResultItem> VisibleItemsDict
+        {
+            get
+            {
+                lock (mVisibleItemsLockObj)
+                {
+                    return mVisibleItemsDict;
+                }                
+            }
+
+            set
+            {
+                lock (mVisibleItemsLockObj)
+                {
+                    mVisibleItemsDict = value;
+                }
+            }
+        }
+
+        public LogicalVisibleResultItem GetVisibleResultItem(string id)
+        {
+            var visibleDict = VisibleItemsDict;
+
+            if (visibleDict.ContainsKey(id))
+            {
+                return visibleDict[id];
+            }
+
+            return null;
+        }
+
+        public bool IsVisible(string id)
+        {
+            var visibleDict = VisibleItemsDict;
+
+            if (visibleDict.ContainsKey(id))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         [Obsolete]
         protected ObjectsRegistry ObjectsRegistry = new ObjectsRegistry();
 
@@ -132,7 +181,7 @@ namespace SquaresWorkBench.CommonEngine
 
         protected EntityActionNotificator mEntityActionNotificator = null;
 
-        protected EntityAction ExecuteCommand(Command command)
+        public EntityAction ExecuteCommand(Command command)
         {
             var result = new EntityAction(command);
 
@@ -141,7 +190,7 @@ namespace SquaresWorkBench.CommonEngine
             return result;
         }
 
-        protected EntityAction ExecuteCommand(EntityAction actionResult, Command command)
+        public EntityAction ExecuteCommand(EntityAction actionResult, Command command)
         {
             NExecuteCommand(actionResult, command);
 

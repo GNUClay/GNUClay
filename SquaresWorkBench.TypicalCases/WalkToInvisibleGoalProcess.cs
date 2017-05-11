@@ -42,6 +42,8 @@ namespace SquaresWorkBench.TypicalCases
         protected override void Main()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main");
+
+            CurrentEntityAction.Status = EntityActionStatus.Faulted;
         }
     }
 }

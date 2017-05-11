@@ -39,9 +39,40 @@ namespace SquaresWorkBench.TypicalCases
             AddFilter(filter);
         }
 
+        private double Speed = 0;
+        private string Goal = string.Empty;
+
+        protected override void OnStart()
+        {
+            var paramsDict = CurrentCommand.Params;
+
+            Speed = (double)paramsDict["speed"];
+            Goal = (string)paramsDict["goal"];
+        }
+
         protected override void Main()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Main");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main Speed = {Speed} Goal = {Goal}");
+
+            var n = 0;
+
+            while(true)
+            {
+                n++;
+
+                if(n == 2)
+                {
+                    break;
+                }
+
+                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"Main n = {n} targetVisibleItem = {targetVisibleItem}");
+            }
+
+            CurrentEntityAction.Status = EntityActionStatus.Faulted;
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Main");
         }
     }
 }
