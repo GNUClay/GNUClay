@@ -102,7 +102,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var targetPointsList = targetVisibleItem.VisiblePoints;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal targetPointsList = {targetPointsList.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle targetPointsList = {_ListHelper._ToString(targetPointsList)}");
 
             var minDistance = targetPointsList.Min(p => p.Radius);
 
@@ -116,7 +116,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var minDistanceForMinAngle = itemsForMinDistance.Min(p => p.Angle);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal minDistance = {minDistance} minDistanceForMinAngle = {minDistanceForMinAngle}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle minDistance = {minDistance} minDistanceForMinAngle = {minDistanceForMinAngle}");
 
             CurrentEntityAction.Status = EntityActionStatus.Faulted;
         }
@@ -126,25 +126,86 @@ namespace SquaresWorkBench.TypicalCases
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchTargetAngle Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle}");
         }
 
-        private int 
+        private double mRemainingDistance = double.NaN;
+
+        private void FindRemainingDistance()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance Speed = {Speed} Goal = {Goal}");
+
+            var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
+
+            var targetPointsList = targetVisibleItem.VisiblePoints;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetPointsList = {_ListHelper._ToString(targetPointsList)}");
+
+            mRemainingDistance = targetPointsList.Where(p => p.Angle == 0).Min(p => p.Radius);          
+        }
+
+        private void WalkDirectly()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"WalkDirectly Speed = {Speed} Goal = {Goal}");
+        }
+
+        private void RotateRight()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight Speed = {Speed} Goal = {Goal}");
+        }
+
+        private void RotateLeft()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft Speed = {Speed} Goal = {Goal}");
+        }
+
+        private void Stop()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Stop Speed = {Speed} Goal = {Goal}");
+        }
+
+        private bool mIsWalking = false;
+        private double mMinDistance = 2;
+
+        private void DispatchRemainingDistance()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance Speed = {Speed} Goal = {Goal} mRemainingDistance = {mRemainingDistance}");
+
+            if(mRemainingDistance >= mMinDistance)
+            {
+                if(!mIsWalking)
+                {
+                    WalkDirectly();
+                    mIsWalking = true;
+                }
+            }
+            else
+            {
+                if(mIsWalking)
+                {
+                    Stop();
+                    mIsWalking = false;
+                }
+            }
+
+            CurrentEntityAction.Status = EntityActionStatus.Faulted;
+        }
 
         private void GoToGoal()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal Speed = {Speed} Goal = {Goal}");
 
-            var n = 0;
-
             while (true)
             {
-                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
+                FindRemainingDistance();
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal n = {n} targetVisibleItem = {targetVisibleItem}");
-
-                n++;
-
-                if (n == 2)
+                if (CurrentEntityAction.Status != EntityActionStatus.Running)
                 {
-                    break;
+                    return;
+                }
+
+                DispatchRemainingDistance();
+
+                if (CurrentEntityAction.Status != EntityActionStatus.Running)
+                {
+                    return;
                 }
             }
         }
