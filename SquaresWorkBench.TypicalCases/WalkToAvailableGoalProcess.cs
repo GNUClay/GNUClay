@@ -1,4 +1,5 @@
-﻿using SquaresWorkBench.CommonEngine;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using SquaresWorkBench.CommonEngine;
 using SquaresWorkBench.CommonEngine.TemporaryLogical;
 using System;
 using System.Collections.Generic;
@@ -65,11 +66,87 @@ namespace SquaresWorkBench.TypicalCases
         private void RotateToGoal()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateToGoal Speed = {Speed} Goal = {Goal}");
+
+            while (true)
+            {
+                FindTargetAngle();
+
+                if (CurrentEntityAction.Status != EntityActionStatus.Running)
+                {
+                    return;
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"RotateToGoal Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle}");
+
+                if (mTargetAngle == 0)
+                {
+                    return;
+                }
+
+                DispatchTargetAngle();
+
+                if (CurrentEntityAction.Status != EntityActionStatus.Running)
+                {
+                    return;
+                }
+            }
         }
+
+        private double mTargetAngle = double.NaN;
+
+        private void FindTargetAngle()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle Speed = {Speed} Goal = {Goal}");
+
+            var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
+
+            var targetPointsList = targetVisibleItem.VisiblePoints;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal targetPointsList = {targetPointsList.ToJson()}");
+
+            var minDistance = targetPointsList.Min(p => p.Radius);
+
+            var itemsForMinDistance = targetPointsList.Where(p => p.Radius == minDistance).ToList();
+
+            if(itemsForMinDistance.Any(p => p.Angle == 0))
+            {
+                mTargetAngle = 0;
+                return;
+            }
+
+            var minDistanceForMinAngle = itemsForMinDistance.Min(p => p.Angle);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal minDistance = {minDistance} minDistanceForMinAngle = {minDistanceForMinAngle}");
+
+            CurrentEntityAction.Status = EntityActionStatus.Faulted;
+        }
+
+        private void DispatchTargetAngle()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchTargetAngle Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle}");
+        }
+
+        private int 
 
         private void GoToGoal()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal Speed = {Speed} Goal = {Goal}");
+
+            var n = 0;
+
+            while (true)
+            {
+                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal n = {n} targetVisibleItem = {targetVisibleItem}");
+
+                n++;
+
+                if (n == 2)
+                {
+                    break;
+                }
+            }
         }
 
         protected override void Main()
@@ -83,25 +160,21 @@ namespace SquaresWorkBench.TypicalCases
                 return;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main NEXT Speed = {Speed} Goal = {Goal}");
+            RotateToGoal();
 
-            var n = 0;
-
-            while(true)
+            if (CurrentEntityAction.Status != EntityActionStatus.Running)
             {
-                n++;
-
-                if(n == 2)
-                {
-                    break;
-                }
-
-                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"Main n = {n} targetVisibleItem = {targetVisibleItem}");
+                return;
             }
 
-            CurrentEntityAction.Status = EntityActionStatus.Faulted;
+            if (CurrentEntityAction.Status != EntityActionStatus.Running)
+            {
+                return;
+            }
+
+            GoToGoal();
+
+            CurrentEntityAction.Status = EntityActionStatus.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Main");
         }
