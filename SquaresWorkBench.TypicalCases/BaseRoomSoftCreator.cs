@@ -285,7 +285,8 @@ namespace SquaresWorkBench.TypicalCases
 
             var roundHuman = new LimeRoundHuman();
             roundHuman.CurrMainContext = Scene.CurrContext;
-            roundHuman.CurrPos = new Point(150, 150); 
+            //roundHuman.CurrPos = new Point(100, 150); 
+            roundHuman.CurrPos = new Point(150, 150);
 
             roundHuman.SetLogicalEntity((ILogicalEntity)Scene.CurrentActiveEntityController);
 

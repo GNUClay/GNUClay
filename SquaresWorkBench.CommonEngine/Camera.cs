@@ -24,7 +24,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public void Scan()
         {
-            mInitialPoint = mEntity.CurrPos;
+            mInitialPoint = mEntity.GetCentralPos(8); //mEntity.CurrPos;
 
             mInitialAngle = mEntity.CurrPolarAngle;
 

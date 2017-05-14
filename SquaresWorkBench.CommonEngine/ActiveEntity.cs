@@ -111,7 +111,7 @@ namespace SquaresWorkBench.CommonEngine
 
             //OnSeen(mSimpleCamera.Result);
 
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
         }
 
         private void ActiveRunning()

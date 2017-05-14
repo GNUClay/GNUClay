@@ -863,7 +863,7 @@ namespace SquaresWorkBench.CommonEngine
             NSetCurrPos_Internales(tmpTargetPoint);
         }
 
-        protected Point GetCentralPos(double targetDistance = 10)
+        public Point GetCentralPos(double targetDistance = 10)
         {
             return SimpleMath.PolarToDecartByBasePos_D(CurrPolarAngle, targetDistance, CurrPos);
         }

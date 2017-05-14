@@ -130,7 +130,7 @@ namespace SquaresWorkBench.TypicalCases
 
         private void FindRemainingDistance()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance Speed = {Speed} Goal = {Goal}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance Speed = {Speed} Goal = {Goal} mRemainingDistance (old) = {mRemainingDistance}");
 
             var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
 
@@ -144,36 +144,89 @@ namespace SquaresWorkBench.TypicalCases
         private void WalkDirectly()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"WalkDirectly Speed = {Speed} Goal = {Goal}");
+
+            var command = new Command("walk");
+            command.Params.Add("direction", "ahead");
+            command.Params.Add("speed", mTargetSpeed);
+
+            var result = LogicalEntity.ExecuteCommand(command);
         }
 
         private void RotateRight()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateRight Speed = {Speed} Goal = {Goal}");
+
+            var command = new Command("walk");
+            command.Params.Add("direction", "rotate right");
+            command.Params.Add("speed", Speed);
+
+            var result = LogicalEntity.ExecuteCommand(command);
         }
 
         private void RotateLeft()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RotateLeft Speed = {Speed} Goal = {Goal}");
+
+            var command = new Command("walk");
+            command.Params.Add("direction", "rotate left");
+            command.Params.Add("speed", Speed);
+
+            var result = LogicalEntity.ExecuteCommand(command);
         }
 
         private void Stop()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Stop Speed = {Speed} Goal = {Goal}");
+
+            var result = LogicalEntity.ExecuteCommand(new Command("stop"));
         }
 
         private bool mIsWalking = false;
         private double mMinDistance = 2;
+        private double mTargetSpeed = double.NaN;
 
         private void DispatchRemainingDistance()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance Speed = {Speed} Goal = {Goal} mRemainingDistance = {mRemainingDistance}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance Speed = {Speed} Goal = {Goal} mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance} mMinDistance = {mMinDistance}");
 
-            if(mRemainingDistance >= mMinDistance)
+            if(mRemainingDistance > mMinDistance)
             {
                 if(!mIsWalking)
                 {
                     WalkDirectly();
                     mIsWalking = true;
+                    return;
+                }
+
+                if(mRemainingDistance < 15)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance mRemainingDistance < 15 mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance}");
+
+                    if (mRemainingDistance > 10 && mTargetSpeed > 5)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance mRemainingDistance > 10 && mTargetSpeed > 5 mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance}");
+                        mTargetSpeed = 5;
+                        WalkDirectly();
+                        return;
+                    }
+
+                    if(mRemainingDistance > 6 && mTargetSpeed > 2)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance mRemainingDistance > 5 && mTargetSpeed > 2 mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance}");
+
+                        mTargetSpeed = 2;
+                        WalkDirectly();
+                        return;
+                    }
+
+                    if(mRemainingDistance > 4 && mTargetSpeed > 1)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance mRemainingDistance > 3 && mTargetSpeed > 1 mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance}");
+
+                        mTargetSpeed = 1;
+                        WalkDirectly();
+                        return;
+                    }
                 }
             }
             else
@@ -182,15 +235,17 @@ namespace SquaresWorkBench.TypicalCases
                 {
                     Stop();
                     mIsWalking = false;
+
+                    CurrentEntityAction.Status = EntityActionStatus.Completed;
                 }
             }
-
-            CurrentEntityAction.Status = EntityActionStatus.Faulted;
         }
 
         private void GoToGoal()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GoToGoal Speed = {Speed} Goal = {Goal}");
+
+            mTargetSpeed = Speed;
 
             while (true)
             {
