@@ -78,12 +78,12 @@ namespace SquaresWorkBench.TypicalCases
 
                 NLog.LogManager.GetCurrentClassLogger().Info($"RotateToGoal Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle}");
 
+                DispatchTargetAngle();
+
                 if (mTargetAngle == 0)
                 {
                     return;
                 }
-
-                DispatchTargetAngle();
 
                 if (CurrentEntityAction.Status != EntityActionStatus.Running)
                 {
@@ -102,7 +102,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var targetPointsList = targetVisibleItem.VisiblePoints;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle targetPointsList = {_ListHelper._ToString(targetPointsList)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle targetPointsList = {_ListHelper._ToString(targetPointsList)}");
 
             var minDistance = targetPointsList.Min(p => p.Radius);
 
@@ -114,16 +114,50 @@ namespace SquaresWorkBench.TypicalCases
                 return;
             }
 
-            var minDistanceForMinAngle = itemsForMinDistance.Min(p => p.Angle);
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle itemsForMinDistance = {_ListHelper._ToString(itemsForMinDistance)}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle minDistance = {minDistance} minDistanceForMinAngle = {minDistanceForMinAngle}");
+            if(itemsForMinDistance.All(p => p.Angle > 0))
+            {
+                mTargetAngle = itemsForMinDistance.Min(p => p.Angle);
+                return;
+            }
 
-            CurrentEntityAction.Status = EntityActionStatus.Faulted;
+            mTargetAngle = itemsForMinDistance.Max(p => p.Angle);
         }
+
+        private bool mIsRotating = false;
 
         private void DispatchTargetAngle()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchTargetAngle Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle}");
+
+            if(mTargetAngle == 0)
+            {
+                if(mIsRotating)
+                {
+                    mIsRotating = false;
+                    mTargetSpeed = Speed;
+                    Stop();
+                    return;
+                }
+            }
+
+            if(mIsRotating)
+            {
+                return;
+            }
+
+            mIsRotating = true;
+
+            mTargetSpeed = 1;
+
+            if (mTargetAngle > 0)
+            {
+                RotateRight();
+                return;
+            }
+
+            RotateLeft();
         }
 
         private double mRemainingDistance = double.NaN;
@@ -136,9 +170,9 @@ namespace SquaresWorkBench.TypicalCases
 
             var targetPointsList = targetVisibleItem.VisiblePoints;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetPointsList = {_ListHelper._ToString(targetPointsList)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetPointsList = {_ListHelper._ToString(targetPointsList)}");
 
-            mRemainingDistance = targetPointsList.Where(p => p.Angle == 0).Min(p => p.Radius);          
+            mRemainingDistance = targetPointsList.Where(p => p.Angle == 0).Min(p => p.Radius) - mMinDistance;          
         }
 
         private void WalkDirectly()
@@ -158,7 +192,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var command = new Command("walk");
             command.Params.Add("direction", "rotate right");
-            command.Params.Add("speed", Speed);
+            command.Params.Add("speed", mTargetSpeed);
 
             var result = LogicalEntity.ExecuteCommand(command);
         }
@@ -169,7 +203,7 @@ namespace SquaresWorkBench.TypicalCases
 
             var command = new Command("walk");
             command.Params.Add("direction", "rotate left");
-            command.Params.Add("speed", Speed);
+            command.Params.Add("speed", mTargetSpeed);
 
             var result = LogicalEntity.ExecuteCommand(command);
         }
@@ -182,14 +216,14 @@ namespace SquaresWorkBench.TypicalCases
         }
 
         private bool mIsWalking = false;
-        private double mMinDistance = 2;
+        private double mMinDistance = 5;
         private double mTargetSpeed = double.NaN;
 
         private void DispatchRemainingDistance()
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchRemainingDistance Speed = {Speed} Goal = {Goal} mTargetSpeed = {mTargetSpeed} mRemainingDistance = {mRemainingDistance} mMinDistance = {mMinDistance}");
 
-            if(mRemainingDistance > mMinDistance)
+            if(mRemainingDistance > 0)
             {
                 if(!mIsWalking)
                 {

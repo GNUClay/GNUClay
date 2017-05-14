@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ namespace SquaresWorkBench.CommonEngine
 
         public void Scan()
         {
+            //var tmpStopWatch = new Stopwatch();
+            //tmpStopWatch.Start();
+
             mInitialPoint = mEntity.GetCentralPos(8); //mEntity.CurrPos;
 
             mInitialAngle = mEntity.CurrPolarAngle;
@@ -61,6 +65,9 @@ namespace SquaresWorkBench.CommonEngine
 
                 if (!NextPosition())
                 {
+                    //tmpStopWatch.Stop();
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Scan {tmpStopWatch.Elapsed}");
+
                     return;
                 }
             } while (true);
@@ -122,8 +129,6 @@ namespace SquaresWorkBench.CommonEngine
 
             foreach (var entity in tmpEntities)
             {
-                //NLog.LogManager.GetCurrentClassLogger().Info(entity.Id);
-
                 var tmpR = entity.Bound.Contains(tmpTargetPos);
 
                 if (!tmpR)
@@ -149,6 +154,11 @@ namespace SquaresWorkBench.CommonEngine
                 {
                     continue;
                 }
+
+                //if (entity.ClassString == "glass" && (angle + 90) == 0)
+                //{
+                //    NLog.LogManager.GetCurrentClassLogger().Info($"Id = {entity.Id} Class = {entity.ClassString} radius = {radius} angle = {angle + 90}");
+                //}
 
                 if (mDetectedEntitiesList.Contains(entity))
                 {
