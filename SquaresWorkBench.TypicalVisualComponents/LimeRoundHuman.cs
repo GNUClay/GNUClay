@@ -14,6 +14,8 @@ namespace SquaresWorkBench.TypicalVisualComponents
             AddClass("lime round human");
 
             CurrentBrush = Brushes.Lime;
+
+            EnabledScan = true;
         }
     }
 }

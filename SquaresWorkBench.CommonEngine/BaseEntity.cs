@@ -1070,12 +1070,12 @@ namespace SquaresWorkBench.CommonEngine
 
         private void MoveRotateLeftBySession(double speedPerTick)
         {
-            NSetCurrAngle(CurrAngle - speedPerTick * 2);
+            NSetCurrAngle(CurrAngle - speedPerTick);
         }
 
         private void MoveRotateRightBySession(double speedPerTick)
         {
-            NSetCurrAngle(CurrAngle + speedPerTick * 2);
+            NSetCurrAngle(CurrAngle + speedPerTick);
         }
 
         private void RestoreAbsolutePosByRelativePos()
@@ -1144,9 +1144,9 @@ namespace SquaresWorkBench.CommonEngine
             return tmpT;
         }
 
-        public virtual void Scan()
+        /*public virtual void Scan()
         {
-        }
+        }*/
 
         public virtual void ActivateEntity()
         {

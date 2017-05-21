@@ -98,9 +98,16 @@ namespace SquaresWorkBench.CommonEngine
             return tmpT;
         }
 
+        public bool EnabledScan { get; set; } = false;
+
         private void NRun()
         {
             if (mSimpleCamera == null)
+            {
+                return;
+            }
+
+            if(!EnabledScan)
             {
                 return;
             }
@@ -114,15 +121,15 @@ namespace SquaresWorkBench.CommonEngine
             //Thread.Sleep(500);
         }
 
-        private void ActiveRunning()
+        /*private void ActiveRunning()
         {
             while (true)
             {
                 NRun();
             }
-        }
+        }*/
 
-        public override void Scan()
+        /*public override void Scan()
         {
             if (mSimpleCamera == null)
             {
@@ -139,7 +146,7 @@ namespace SquaresWorkBench.CommonEngine
             NLog.LogManager.GetCurrentClassLogger().Info("End Scan");
 
             OnSeen(mSimpleCamera.Result);
-        }
+        }*/
 
         protected override void CollideWith(BaseEntity entity)
         {
