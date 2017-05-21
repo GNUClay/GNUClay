@@ -14,7 +14,7 @@ namespace SquaresWorkBench.CommonEngine
         protected ActiveEntity()
         {
             mActiveObject = new ActiveObject();
-            mActiveObject.Priority = ThreadPriority.Highest;
+            mActiveObject.Priority = ThreadPriority.Normal;
             mActiveObject.RunAction = NRun;
         }
 

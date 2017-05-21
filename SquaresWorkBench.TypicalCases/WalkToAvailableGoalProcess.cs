@@ -80,10 +80,10 @@ namespace SquaresWorkBench.TypicalCases
 
                 DispatchTargetAngle();
 
-                if (mAbsTargetAngle < 0.5)
+                if (mAbsTargetAngle < 2)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"RotateToGoal mTargetAngle = {mTargetAngle} mAbsTargetAngle < 0.5");
-                    CurrentEntityAction.Status = EntityActionStatus.Completed;
+                    NLog.LogManager.GetCurrentClassLogger().Info($"RotateToGoal mTargetAngle = {mTargetAngle} mAbsTargetAngle < 2");
+                    
                     return;
                 }
 
@@ -103,26 +103,45 @@ namespace SquaresWorkBench.TypicalCases
 
             var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
 
-            var targetPointsList = targetVisibleItem.VisiblePoints;
+            NLog.LogManager.GetCurrentClassLogger().Info($"targetVisibleItem.VisiblePoints.Count = {targetVisibleItem.VisiblePoints.Count}");
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle targetPointsList = {_ListHelper._ToString(targetPointsList)}");
-
-            if(_ListHelper.IsEmpty(targetPointsList))
+            try
             {
-                Stop();
-                NLog.LogManager.GetCurrentClassLogger().Info("FindTargetAngle _ListHelper.IsEmpty(targetPointsList)");
-                CurrentEntityAction.Status = EntityActionStatus.Faulted;
-                return;
+                var targetPointsList = targetVisibleItem.VisiblePoints;
+
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle targetPointsList = {_ListHelper._ToString(targetPointsList)}");
+
+                if (_ListHelper.IsEmpty(targetPointsList))
+                {
+                    Stop();
+                    NLog.LogManager.GetCurrentClassLogger().Info("FindTargetAngle _ListHelper.IsEmpty(targetPointsList)");
+                    CurrentEntityAction.Status = EntityActionStatus.Faulted;
+                    return;
+                }
+
+                //var minDistance = targetPointsList.Min(p => p.Radius);
+
+                var minAngle = targetPointsList.Min(p => p.Angle);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle minAngle = {minAngle}");
+
+                var angles = targetPointsList.Select(p => p.Angle).Distinct().ToList();
+
+                //var itemsForMinAngle = targetPointsList.Where(p => p.Angle == minAngle).Select(p => p.Radius).ToList();
+
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle itemsForMinAngle = {_ListHelper._ToString(itemsForMinAngle)}");
+
+                //var itemsForMinDistance = targetPointsList.Where(p => p.Radius == minDistance).Select(p => p.Angle).ToList();
+
+                //mTargetAngle = NearerToZero(itemsForMinDistance);
+                //mTargetAngle = minAngle;
+                mTargetAngle = NearerToZero(angles);
+                mAbsTargetAngle = Math.Abs(mTargetAngle);
             }
-
-            var minDistance = targetPointsList.Min(p => p.Radius);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle minDistance = {minDistance}");
-
-            var itemsForMinDistance = targetPointsList.Where(p => p.Radius == minDistance).Select(p => p.Angle).ToList();
-
-            mTargetAngle = NearerToZero(itemsForMinDistance);
-            mAbsTargetAngle = Math.Abs(mTargetAngle);
+            catch
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("FindTargetAngle catch");
+            }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FindTargetAngle NEXT mTargetAngle = {mTargetAngle} mAbsTargetAngle = {mAbsTargetAngle}");                 
         }
@@ -158,7 +177,7 @@ namespace SquaresWorkBench.TypicalCases
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchTargetAngle Speed = {Speed} Goal = {Goal} mTargetAngle = {mTargetAngle} Math.Round(mTargetAngle) = {Math.Round(mTargetAngle)} Math.Floor(mTargetAngle) = {Math.Floor(mTargetAngle)} mAbsTargetAngle = {mAbsTargetAngle}");
 
-            if(mAbsTargetAngle < 0.5)
+            if(mAbsTargetAngle <= 2)
             {
                 if(mIsRotating)
                 {
@@ -178,13 +197,13 @@ namespace SquaresWorkBench.TypicalCases
 
             mTargetSpeed = 0.5;
 
-            if (mTargetAngle > 0.5)
+            if (mTargetAngle >= 2)
             {
                 RotateRight();
                 return;
             }
 
-            if(mTargetAngle < -0.5)
+            if(mTargetAngle <= -2)
             {
                 RotateLeft();
                 return;
@@ -197,24 +216,31 @@ namespace SquaresWorkBench.TypicalCases
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance Speed = {Speed} Goal = {Goal} mRemainingDistance (old) = {mRemainingDistance} mTargetAngle = {mTargetAngle}");
 
-            var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
-
-            var targetPointsList = targetVisibleItem.VisiblePoints;
-
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetPointsList = {_ListHelper._ToString(targetPointsList)}");
-
-            var targetAnglePointsList = targetPointsList.Where(p => Math.Abs(p.Angle) < 0.5).ToList();
-
-            if(_ListHelper.IsEmpty(targetAnglePointsList))
+            try
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetAnglePointsList = {_ListHelper._ToString(targetAnglePointsList)}");
+                var targetVisibleItem = LogicalEntity.GetVisibleResultItem(Goal);
 
-                mRemainingDistance = 0;//tmp
+                var targetPointsList = targetVisibleItem.VisiblePoints;
 
-                return;
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetPointsList = {_ListHelper._ToString(targetPointsList)}");
+
+                //var targetAnglePointsList = targetPointsList.Where(p => Math.Abs(p.Angle) < 0.5).ToList();
+
+                //if(_ListHelper.IsEmpty(targetAnglePointsList))
+                //{
+                //    NLog.LogManager.GetCurrentClassLogger().Info($"FindRemainingDistance targetAnglePointsList = {_ListHelper._ToString(targetAnglePointsList)}");
+
+                //    mRemainingDistance = 0;//tmp
+
+                //    return;
+                //}
+
+                mRemainingDistance = targetPointsList.Min(p => p.Radius) - mMinDistance;
             }
-
-            mRemainingDistance = targetAnglePointsList.Min(p => p.Radius) - mMinDistance;          
+            catch
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("FindRemainingDistance catch");
+            }       
         }
 
         private void WalkDirectly()
@@ -353,11 +379,6 @@ namespace SquaresWorkBench.TypicalCases
             }
 
             RotateToGoal();
-
-            if (CurrentEntityAction.Status != EntityActionStatus.Running)
-            {
-                return;
-            }
 
             if (CurrentEntityAction.Status != EntityActionStatus.Running)
             {

@@ -427,6 +427,11 @@ namespace SquaresWorkBench.CommonEngine
 
             set
             {
+                if(mCurrAngle == value)
+                {
+                    return;
+                }
+
                 NSetCurrAngle(value);
 
                 mOldAngle = value;
@@ -474,6 +479,8 @@ namespace SquaresWorkBench.CommonEngine
             mOldAngle = mCurrAngle;
 
             mCurrAngle = value;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NSetCurrAngle mCurrAngle = {mCurrAngle}");
 
             mCurrPolarAngle = ConvertScreenAngleToPolarAngle(mCurrAngle);
 
@@ -912,6 +919,13 @@ namespace SquaresWorkBench.CommonEngine
 
         public double SpeedPerTick(double multiplier)
         {
+            NLog.LogManager.GetCurrentClassLogger().Info($"SpeedPerTick mSpeed = {mSpeed} multiplier = {multiplier}");
+
+            if(multiplier == 0)
+            {
+                return 0;
+            }
+
             return mSpeed / multiplier;
         }
 
@@ -1036,6 +1050,13 @@ namespace SquaresWorkBench.CommonEngine
         public void MoveBySession(double multiplier)
         {
             var speedPerTick = SpeedPerTick(multiplier);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"MoveBySession speedPerTick = {speedPerTick}");
+
+            if(speedPerTick == 0)
+            {
+                return;
+            }
 
             switch (GoDirection)
             {

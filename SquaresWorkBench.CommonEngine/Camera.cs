@@ -76,6 +76,8 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
+        private object mLockObj = new object();
+
         private void ScanTick(double radius, double angle, double cosA, double sinA, List<BaseEntity> detectedEntitiesList, ref bool resetRay)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"ScanTick radius = {radius} angle = {angle} cosA = {cosA} sinA = {sinA}");
@@ -113,19 +115,22 @@ namespace SquaresWorkBench.CommonEngine
 
                 VisibleResultItem tmpCurrVisibleResultItem = null;
 
-                if (mResultDict.ContainsKey(entity))
+                lock(mLockObj)
                 {
-                    tmpCurrVisibleResultItem = mResultDict[entity];
-                }
-                else
-                {
-                    tmpCurrVisibleResultItem = new VisibleResultItem();
+                    if (mResultDict.ContainsKey(entity))
+                    {
+                        tmpCurrVisibleResultItem = mResultDict[entity];
+                    }
+                    else
+                    {
+                        tmpCurrVisibleResultItem = new VisibleResultItem();
 
-                    mResult.Add(tmpCurrVisibleResultItem);
+                        mResult.Add(tmpCurrVisibleResultItem);
 
-                    mResultDict.Add(entity, tmpCurrVisibleResultItem);
+                        mResultDict.Add(entity, tmpCurrVisibleResultItem);
 
-                    tmpCurrVisibleResultItem.VisibleEntity = entity;
+                        tmpCurrVisibleResultItem.VisibleEntity = entity;
+                    }
                 }
 
                 var tmpVisiblePoint = new VisiblePoint();
@@ -135,8 +140,11 @@ namespace SquaresWorkBench.CommonEngine
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"radius = {radius} distance = {GetDecartDistance(tmpTargetPos)} angle = {angle + 90} Id = {entity.Id} Class = {entity.ClassString}");
 
-                tmpCurrVisibleResultItem.VisiblePoints.Add(tmpVisiblePoint);
-
+                lock(mLockObj)
+                {
+                    tmpCurrVisibleResultItem.VisiblePoints.Add(tmpVisiblePoint);
+                }
+                
                 if (entity.Opacity == 1)
                 {
                     resetRay = true;
@@ -257,7 +265,7 @@ namespace SquaresWorkBench.CommonEngine
 
             var tmpCurrAngle = mAngleA;
 
-            var tmpCurrAngleStep = 1;
+            var tmpCurrAngleStep = 1D;
 
             while (true)
             {
@@ -269,21 +277,21 @@ namespace SquaresWorkBench.CommonEngine
 
                 if (tmpCurrAngle > mAngleA && tmpCurrAngle < mAngleB)
                 {
-                    tmpCurrAngleStep = 2;
+                    tmpCurrAngleStep = 1;
 
                     continue;
                 }
 
                 if (tmpCurrAngle >= mAngleB && tmpCurrAngle <= mAngleC)
                 {
-                    tmpCurrAngleStep = 1;
+                    tmpCurrAngleStep = 0.5;
 
                     continue;
                 }
 
                 if (tmpCurrAngle > mAngleC && tmpCurrAngle < mAngleD)
                 {
-                    tmpCurrAngleStep = 2;
+                    tmpCurrAngleStep = 1;
 
                     continue;
                 }
