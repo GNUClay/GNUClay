@@ -16,6 +16,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             CurrentBrush = Brushes.Lime;
 
             EnabledScan = true;
+            EnableLoging = true;
         }
     }
 }

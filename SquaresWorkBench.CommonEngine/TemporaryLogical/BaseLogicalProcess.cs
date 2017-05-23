@@ -44,6 +44,19 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
         public BaseLogicalEntity LogicalEntity { get; set; }
 
+        protected bool EnableLoging
+        {
+            get
+            {
+                if(LogicalEntity == null)
+                {
+                    return false;
+                }
+
+                return LogicalEntity.EnableLoging;
+            }
+        }
+
         private List<ActionCommandFilter> mFiltersList = null;
 
         public List<ActionCommandFilter> GetFilters()

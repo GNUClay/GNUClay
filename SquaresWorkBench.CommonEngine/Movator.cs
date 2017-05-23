@@ -129,6 +129,11 @@ namespace SquaresWorkBench.CommonEngine
 
             var tmpPartOfSecond = 1000 / tmpFrameTime;
 
+            if(tmpPartOfSecond == 0)
+            {
+                return;
+            }
+
             foreach (var entity in tmpTargetList)
             {
                 entity.MoveBySession(tmpPartOfSecond);

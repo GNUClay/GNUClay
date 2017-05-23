@@ -64,7 +64,7 @@
     <Compile Include="IActiveEntity.cs" />
     <Compile Include="IBaseEntity.cs" />
     <Compile Include="ILogicalEntity.cs" />
-    <Compile Include="ISceneForSoftCreator.cs" />
+    <Compile Include="IScene.cs" />
     <Compile Include="ISceneSoftCreator.cs" />
     <Compile Include="LogicalObjectInfo.cs" />
     <Compile Include="LogicalVisibleResultItem.cs" />

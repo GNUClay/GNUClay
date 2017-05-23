@@ -7,7 +7,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
 {
     public abstract class BaseSoftCreator : ISceneSoftCreator
     {
-        public void Run(ISceneForSoftCreator scene)
+        public void Run(IScene scene)
         {
             Scene = scene;
 
@@ -21,7 +21,7 @@ namespace SquaresWorkBench.TypicalVisualComponents
             Scene.EndAddEntities();
         }
 
-        protected ISceneForSoftCreator Scene = null;
+        protected IScene Scene = null;
 
         private void CreateBorder()
         {

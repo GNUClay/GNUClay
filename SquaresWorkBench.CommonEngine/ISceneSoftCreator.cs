@@ -8,6 +8,6 @@ namespace SquaresWorkBench.CommonEngine
 {
     public interface ISceneSoftCreator
     {
-        void Run(ISceneForSoftCreator scene);
+        void Run(IScene scene);
     }
 }

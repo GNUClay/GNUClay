@@ -23,6 +23,8 @@ namespace SquaresWorkBench.CommonEngine
             mLogicalProcessFactoriesRegistry = new LogicalProcessFactoriesRegistry(this);
         }
 
+        public bool EnableLoging { get; set; } = false;
+
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         private IGnuClayServerConnection mServerConnection = null;

@@ -919,7 +919,7 @@ namespace SquaresWorkBench.CommonEngine
 
         public double SpeedPerTick(double multiplier)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SpeedPerTick mSpeed = {mSpeed} multiplier = {multiplier}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"SpeedPerTick mSpeed = {mSpeed} multiplier = {multiplier}");
 
             if(multiplier == 0)
             {
@@ -1051,7 +1051,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             var speedPerTick = SpeedPerTick(multiplier);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"MoveBySession speedPerTick = {speedPerTick}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"MoveBySession speedPerTick = {speedPerTick}");
 
             if(speedPerTick == 0)
             {

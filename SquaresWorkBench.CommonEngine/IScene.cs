@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public interface ISceneForSoftCreator
+    public interface IScene
     {
         void New();
         void BeginAddEntities();
         void EndAddEntities();
+        void Start();
+        void Stop();
         MainContext CurrContext { get; }
         object CurrentActiveEntityController { get; set; }
         double Width { get; }

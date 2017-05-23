@@ -15,13 +15,13 @@ namespace SquaresWorkBench.CommonEngine
 {
     public class Camera
     {
-        public Camera(BaseEntity entity, RTree rTree)
+        public Camera(ActiveEntity entity, RTree rTree)
         {
             mEntity = entity;
             mRTree = rTree;
         }
 
-        private BaseEntity mEntity = null;
+        private ActiveEntity mEntity = null;
 
         private RTree mRTree = null;
 
@@ -30,7 +30,14 @@ namespace SquaresWorkBench.CommonEngine
         public void Scan()
         {
             var tmpStopWatch = new Stopwatch();
-            tmpStopWatch.Start();
+
+            if (mEntity.EnableLoging)
+            {
+                tmpStopWatch.Start();
+            }
+
+            mResult = new List<VisibleResultItem>();
+            mResultDict = new Dictionary<BaseEntity, VisibleResultItem>();
 
             var targetAngles = GetTargetAngles();
 
@@ -38,8 +45,11 @@ namespace SquaresWorkBench.CommonEngine
                 ProcessAngle(angle);
             });
 
-            tmpStopWatch.Stop();
-            NLog.LogManager.GetCurrentClassLogger().Info($"Scan {tmpStopWatch.Elapsed}");
+            if (mEntity.EnableLoging)
+            {
+                tmpStopWatch.Stop();
+                NLog.LogManager.GetCurrentClassLogger().Info($"Scan {tmpStopWatch.Elapsed}");
+            }
         }
 
         private void ProcessAngle(double angle)
@@ -152,104 +162,6 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
-        /*
-         private void OldScanTick(double radius, double angle, double cosA, double sinA, int index)
-        {
-            var tmpDx = radius * cosA;
-            var tmpDY = radius * sinA;
-
-            var tmpTargetX = mInitialPoint.X + tmpDx;
-
-            var tmpTargetY = mInitialPoint.Y + tmpDY;
-
-            var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
-
-            DrawTSTLine(tmpTargetPos);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("mEntitiesList.Count = {0}", mEntitiesList.Count);
-
-            var tmpEntities = RTreeHelper.DistinctAndWithOut(mRTree.GetEntitiesByRectAtPoint(tmpTargetPos), mEntity);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("tmpEntities.Count = {0}", tmpEntities.Count);
-
-            foreach (var entity in tmpEntities)
-            {
-                //var tmpR = false;
-                     
-                var tmpR = entity.Bound.Contains(tmpTargetPos);
-
-                if (!tmpR)
-                {
-                    continue;
-                }
-
-                //NLog.LogManager.GetCurrentClassLogger().Info(entity.Id);
-
-                //try
-                //{
-                //    tmpR = entity.CurrentGeometry.Dispatcher.Invoke(() =>
-                //    {
-                //        return entity.CurrentGeometry.FillContains(tmpTargetPos);
-                //    }, DispatcherPriority.Send);
-                //}
-                //catch
-                //{
-                //    return;
-                //}
-
-                //if (!tmpR)
-                //{
-                //    continue;
-                //}
-
-                //if (entity.ClassString == "glass" && (angle + 90) == 0)
-                //{
-                //    NLog.LogManager.GetCurrentClassLogger().Info($"Id = {entity.Id} Class = {entity.ClassString} radius = {radius} angle = {angle + 90}");
-                //}
-
-                if (mDetectedEntitiesList.Contains(entity))
-                {
-                    continue;
-                }
-
-                //NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetPos);
-
-                mDetectedEntitiesList.Add(entity);
-
-                VisibleResultItem tmpCurrVisibleResultItem = null;
-
-                if (mResultDict.ContainsKey(entity))
-                {
-                    tmpCurrVisibleResultItem = mResultDict[entity];
-                }
-                else
-                {
-                    tmpCurrVisibleResultItem = new VisibleResultItem();
-
-                    mResult.Add(tmpCurrVisibleResultItem);
-
-                    mResultDict.Add(entity, tmpCurrVisibleResultItem);
-
-                    tmpCurrVisibleResultItem.VisibleEntity = entity;
-                }
-
-                var tmpVisiblePoint = new VisiblePoint();
-                tmpVisiblePoint.TargetPoint = tmpTargetPos;
-                tmpVisiblePoint.Radius = radius;
-                tmpVisiblePoint.Angle = angle + 90;
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"[{index}] radius = {radius} distance = {GetDecartDistance(tmpTargetPos)} angle = {angle + 90} Id = {entity.Id} Class = {entity.ClassString}");
-
-                tmpCurrVisibleResultItem.VisiblePoints.Add(tmpVisiblePoint);
-
-                if (entity.Opacity == 1)
-                {
-                    mResetRay = true;
-                }
-            }
-        }       
-        */
-
         private List<double> GetTargetAngles()
         {
             mInitialPoint = mEntity.GetCentralPos(8);
@@ -300,62 +212,6 @@ namespace SquaresWorkBench.CommonEngine
             }          
         }
 
-        public void OldScan()
-        {
-            var tmpStopWatch = new Stopwatch();
-            tmpStopWatch.Start();
-
-            mCurrIndex++;
-
-            var index = mCurrIndex;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin Scan [{index}] {GetHashCode()}");
-
-            mInitialPoint = mEntity.GetCentralPos(8); //mEntity.CurrPos;
-
-            mInitialAngle = mEntity.CurrPolarAngle;
-
-            mAngleA = mInitialAngle - 45;
-            mAngleB = mInitialAngle - 15;
-            mAngleC = mInitialAngle + 15;
-            mAngleD = mInitialAngle + 45;
-            
-            //mAngleA = mInitialAngle;
-            //mAngleB = mInitialAngle;
-            //mAngleC = mInitialAngle;
-            //mAngleD = mInitialAngle;
-
-            mCurrAngle = mAngleA;
-
-            var tmpRadianAngle = SimpleMath.DegreesToRadians(mCurrAngle);
-
-            mCosA = Math.Cos(tmpRadianAngle);
-
-            mSinA = Math.Sin(tmpRadianAngle);
-
-            mCurrRadius = 1;
-
-            mCurrAngleStep = 1;
-
-            mDetectedEntitiesList = new List<BaseEntity>();
-
-            mResult = new List<VisibleResultItem>();
-            mResultDict = new Dictionary<BaseEntity, VisibleResultItem>();
-
-            do
-            {
-                OldScanTick(mCurrRadius, mCurrAngle, mCosA, mSinA, index);
-
-                if (!OldNextPosition())
-                {
-                    tmpStopWatch.Stop();
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Scan [{index}] {tmpStopWatch.Elapsed}");
-
-                    return;
-                }
-            } while (true);
-        }
-
         private Point mInitialPoint = new Point();
 
         private double mInitialAngle = 0;
@@ -391,161 +247,9 @@ namespace SquaresWorkBench.CommonEngine
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OldScanTick(double radius, double angle, double cosA, double sinA, int index)
-        {
-            var tmpDx = radius * cosA;
-            var tmpDY = radius * sinA;
-
-            var tmpTargetX = mInitialPoint.X + tmpDx;
-
-            var tmpTargetY = mInitialPoint.Y + tmpDY;
-
-            var tmpTargetPos = new Point(tmpTargetX, tmpTargetY);
-
-            DrawTSTLine(tmpTargetPos);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("mEntitiesList.Count = {0}", mEntitiesList.Count);
-
-            var tmpEntities = RTreeHelper.DistinctAndWithOut(mRTree.GetEntitiesByRectAtPoint(tmpTargetPos), mEntity);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("tmpEntities.Count = {0}", tmpEntities.Count);
-
-            foreach (var entity in tmpEntities)
-            {
-                //var tmpR = false;
-                     
-                var tmpR = entity.Bound.Contains(tmpTargetPos);
-
-                if (!tmpR)
-                {
-                    continue;
-                }
-
-                //NLog.LogManager.GetCurrentClassLogger().Info(entity.Id);
-
-                //try
-                //{
-                //    tmpR = entity.CurrentGeometry.Dispatcher.Invoke(() =>
-                //    {
-                //        return entity.CurrentGeometry.FillContains(tmpTargetPos);
-                //    }, DispatcherPriority.Send);
-                //}
-                //catch
-                //{
-                //    return;
-                //}
-
-                //if (!tmpR)
-                //{
-                //    continue;
-                //}
-
-                //if (entity.ClassString == "glass" && (angle + 90) == 0)
-                //{
-                //    NLog.LogManager.GetCurrentClassLogger().Info($"Id = {entity.Id} Class = {entity.ClassString} radius = {radius} angle = {angle + 90}");
-                //}
-
-                if (mDetectedEntitiesList.Contains(entity))
-                {
-                    continue;
-                }
-
-                //NLog.LogManager.GetCurrentClassLogger().Info(tmpTargetPos);
-
-                mDetectedEntitiesList.Add(entity);
-
-                VisibleResultItem tmpCurrVisibleResultItem = null;
-
-                if (mResultDict.ContainsKey(entity))
-                {
-                    tmpCurrVisibleResultItem = mResultDict[entity];
-                }
-                else
-                {
-                    tmpCurrVisibleResultItem = new VisibleResultItem();
-
-                    mResult.Add(tmpCurrVisibleResultItem);
-
-                    mResultDict.Add(entity, tmpCurrVisibleResultItem);
-
-                    tmpCurrVisibleResultItem.VisibleEntity = entity;
-                }
-
-                var tmpVisiblePoint = new VisiblePoint();
-                tmpVisiblePoint.TargetPoint = tmpTargetPos;
-                tmpVisiblePoint.Radius = radius;
-                tmpVisiblePoint.Angle = angle + 90;
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"[{index}] radius = {radius} distance = {GetDecartDistance(tmpTargetPos)} angle = {angle + 90} Id = {entity.Id} Class = {entity.ClassString}");
-
-                tmpCurrVisibleResultItem.VisiblePoints.Add(tmpVisiblePoint);
-
-                if (entity.Opacity == 1)
-                {
-                    mResetRay = true;
-                }
-            }
-        }
-
         private double GetDecartDistance(Point p)
         {
             return Math.Sqrt(Math.Pow(mInitialPoint.X - p.X, 2) + Math.Pow(mInitialPoint.Y - p.Y, 2));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool OldNextPosition()
-        {
-            mCurrRadius += 1;
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("mCurrRadius = {0}", mCurrRadius);
-
-            if (mCurrRadius <= EndRadius)
-            {
-                if (!mResetRay)
-                {
-                    return true;
-                }
-            }
-
-            mResetRay = false;
-
-            mCurrRadius = 1;
-
-            mDetectedEntitiesList = new List<BaseEntity>();
-
-            mCurrAngle += mCurrAngleStep;
-
-            var tmpRadianAngle = SimpleMath.DegreesToRadians(mCurrAngle);
-
-            mCosA = Math.Cos(tmpRadianAngle);
-
-            mSinA = Math.Sin(tmpRadianAngle);
-
-            //NLog.LogManager.GetCurrentClassLogger().Info("mCurrAngle = {0}", mCurrAngle);
-
-            if (mCurrAngle > mAngleA && mCurrAngle < mAngleB)
-            {
-                mCurrAngleStep = 2;
-
-                return true;
-            }
-
-            if (mCurrAngle >= mAngleB && mCurrAngle <= mAngleC)
-            {
-                mCurrAngleStep = 1;
-
-                return true;
-            }
-
-            if (mCurrAngle > mAngleC && mCurrAngle < mAngleD)
-            {
-                mCurrAngleStep = 2;
-
-                return true;
-            }
-
-            return false;
         }
 
         public Canvas TSTDrawContext = null;

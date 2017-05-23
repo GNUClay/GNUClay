@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace SquaresWorkBench.CommonEngine
 {
-    public class Scene : IDisposable, ISceneForSoftCreator
+    public class Scene : IDisposable, IScene
     {
         public Scene(ScrollViewer viewer)
         {
@@ -82,15 +82,14 @@ namespace SquaresWorkBench.CommonEngine
 
         public void BeginAddEntities()
         {
-            if (mMainContext == null)
-            {
-                return;
-            }
-
-            mMainContext.CurrActiveContext.StopAll();
+            Stop();
         }
 
         public void EndAddEntities()
+        {
+        }
+
+        public void Start()
         {
             if (mMainContext == null)
             {
@@ -98,6 +97,16 @@ namespace SquaresWorkBench.CommonEngine
             }
 
             mMainContext.CurrActiveContext.ActivateAll();
+        }
+
+        public void Stop()
+        {
+            if (mMainContext == null)
+            {
+                return;
+            }
+
+            mMainContext.CurrActiveContext.StopAll();
         }
 
         public MainContext CurrContext

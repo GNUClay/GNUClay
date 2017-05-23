@@ -74,6 +74,7 @@ namespace SquaresWorkBench.CommonEngine
             mLogicalEntity = entity;
 
             mLogicalEntity.SetEntity(this);
+            mLogicalEntity.EnableLoging = EnableLoging;
         }
 
         private void OnSeen(List<VisibleResultItem> items)
@@ -98,16 +99,34 @@ namespace SquaresWorkBench.CommonEngine
             return tmpT;
         }
 
-        public bool EnabledScan { get; set; } = false;
+        private bool mEnableLoging = false;
+
+        public bool EnableLoging
+        {
+            get
+            {
+                return mEnableLoging;
+            }
+
+            set
+            {
+                if(mEnableLoging == value)
+                {
+                    return;
+                }
+
+                mEnableLoging = value;
+
+                if(mLogicalEntity != null)
+                {
+                    mLogicalEntity.EnableLoging = mEnableLoging;
+                }
+            }
+        }
 
         private void NRun()
         {
             if (mSimpleCamera == null)
-            {
-                return;
-            }
-
-            if(!EnabledScan)
             {
                 return;
             }

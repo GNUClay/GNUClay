@@ -10,5 +10,6 @@ namespace SquaresWorkBench.CommonEngine
     {
         void SetEntity(IActiveEntity entity);
         void OnSeen(List<VisibleResultItem> items);
+        bool EnableLoging { get; set; }
     }
 }
