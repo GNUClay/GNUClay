@@ -51,6 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\LogicalProcess.cs" />
+    <Compile Include="Actors\LogicalProcessFactory.cs" />
+    <Compile Include="Actors\StartupMode.cs" />
+    <Compile Include="Actors\TstActorsRunner.cs" />
     <Compile Include="BaseRunner.cs" />
     <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LocalHostExecuting\LocalHostRunner.cs" />
