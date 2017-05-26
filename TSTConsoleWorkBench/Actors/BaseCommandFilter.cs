@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaresWorkBench.CommonEngine
+namespace TSTConsoleWorkBench.Actors
 {
     public class CommandFilterParam
     {
@@ -22,7 +22,7 @@ namespace SquaresWorkBench.CommonEngine
 
             result ^= IsAnyValue.GetHashCode();
 
-            if(Value != null)
+            if (Value != null)
             {
                 result ^= Value.GetHashCode();
             }
@@ -50,7 +50,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             var result = 0;
 
-            foreach(var item in Params)
+            foreach (var item in Params)
             {
                 result ^= item.Value.GetHashCode();
             }

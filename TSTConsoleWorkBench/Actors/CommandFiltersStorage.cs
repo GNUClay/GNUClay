@@ -1,15 +1,12 @@
-﻿using GnuClay.CommonClientTypes;
-using GnuClay.CommonUtils.TypeHelpers;
-using SquaresWorkBench.CommonEngine.TemporaryLogical;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SquaresWorkBench.CommonEngine
+namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandFiltersStorageParamsFilter<T> where T: BaseCommandFilter
+    public class CommandFiltersStorageParamsFilter<T> where T : BaseCommandFilter
     {
         public CommandFiltersStorageParamsFilter(T filter, IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
@@ -37,7 +34,7 @@ namespace SquaresWorkBench.CommonEngine
             //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank mFilter.Params.Count = {mFilter.Params.Count}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command.Params.Count = {command.Params.Count}");
 
-            if(_ListHelper.IsEmpty(mFilter.Params))
+            if (_ListHelper.IsEmpty(mFilter.Params))
             {
                 return 0.01;
             }
@@ -53,7 +50,7 @@ namespace SquaresWorkBench.CommonEngine
                 var paramName = filterParamKVP.Key;
                 //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank paramName = {paramName}");
 
-                if(!commandParams.ContainsKey(paramName))
+                if (!commandParams.ContainsKey(paramName))
                 {
                     return 0;
                 }
@@ -75,7 +72,7 @@ namespace SquaresWorkBench.CommonEngine
 
                     //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank commandParamTypeKey = {commandParamTypeKey}");
 
-                    if(commandParamTypeKey == filterParam.TypeKey)
+                    if (commandParamTypeKey == filterParam.TypeKey)
                     {
                         result *= 2;
                     }
@@ -85,7 +82,7 @@ namespace SquaresWorkBench.CommonEngine
 
                         //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank rank = {rank}");
 
-                        if(rank == 0)
+                        if (rank == 0)
                         {
                             return 0;
                         }
@@ -96,13 +93,13 @@ namespace SquaresWorkBench.CommonEngine
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank NEXT NEXT result = {result}");
 
-                if(filterParam.IsAnyValue)
+                if (filterParam.IsAnyValue)
                 {
                     result *= 0.1;
                 }
                 else
                 {
-                    if(targetCommandParam == filterParam.Value)
+                    if (targetCommandParam == filterParam.Value)
                     {
                         result *= 2;
                     }
@@ -172,7 +169,7 @@ namespace SquaresWorkBench.CommonEngine
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter rank = {rank}");
 
-                if(rank == 0)
+                if (rank == 0)
                 {
                     continue;
                 }
@@ -182,7 +179,7 @@ namespace SquaresWorkBench.CommonEngine
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter NEXT targetFilters.Count = {targetFilters.Count}");
 
-            if(_ListHelper.IsEmpty(targetFilters))
+            if (_ListHelper.IsEmpty(targetFilters))
             {
                 return new List<T>();
             }
@@ -256,7 +253,7 @@ namespace SquaresWorkBench.CommonEngine
         {
             return _ObjectHelper.PrintJsonToStringInformation(this);
         }
-    } 
+    }
 
     public class CommandFiltersStorage<T> where T : BaseCommandFilter
     {
@@ -302,7 +299,7 @@ namespace SquaresWorkBench.CommonEngine
             }
 
             return new List<T>();
-        } 
+        }
 
         private Dictionary<string, CommandFiltersStorageCommandFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T>>();
 

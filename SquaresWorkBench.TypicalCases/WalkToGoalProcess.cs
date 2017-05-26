@@ -56,7 +56,6 @@ namespace SquaresWorkBench.TypicalCases
 
             var walkToAvailableGoalCommand = new Command();
 
-
             walkToAvailableGoalCommand.Name = "walk to available goal";
             walkToAvailableGoalCommand.Params = CurrentCommand.Params.ToDictionary(p => p.Key, p => p.Value);
 
