@@ -58,6 +58,7 @@
     <Compile Include="Actors\CommandsDispatcher.cs" />
     <Compile Include="Actors\CSharpTypesRegistry.cs" />
     <Compile Include="Actors\EntityAction.cs" />
+    <Compile Include="Actors\EntityActionNotificator.cs" />
     <Compile Include="Actors\IContextOfLogicalProcesses.cs" />
     <Compile Include="Actors\LogicalProcess.cs" />
     <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />

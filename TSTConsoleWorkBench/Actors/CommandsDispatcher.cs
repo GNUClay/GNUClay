@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandsDispatcher
+    public class CommandsDispatcher<C>
+        where C : IContextOfLogicalProcesses
     {
-        public CommandsDispatcher(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandsDispatcher(C context)
         {
-            mCommandFiltersStorage = new CommandFiltersStorage<ActionCommandFilter>(entityConnection, cSharpTypesRegistry);
+            mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter, C>(context);
         }
 
         public void AddFilter(CommandFilter filter)
@@ -20,9 +21,9 @@ namespace TSTConsoleWorkBench.Actors
             mCommandFiltersStorage.AddFilter(filter);
         }
 
-        public bool Dipatch(EntityAction actionResult)
+        public bool Dipatch(EntityAction action)
         {
-            var actionsList = mCommandFiltersStorage.FindFilter(actionResult.Command);
+            var actionsList = mCommandFiltersStorage.FindFilter(action.Command);
 
             if (_ListHelper.IsEmpty(actionsList))
             {
@@ -36,11 +37,11 @@ namespace TSTConsoleWorkBench.Actors
                 return false;
             }
 
-            targetAction.Handler(actionResult, actionResult.Command);
+            targetAction.Handler(action);
 
             return true;
         }
 
-        private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
+        private CommandFiltersStorage<CommandFilter, C> mCommandFiltersStorage = null;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandFiltersStorageParamsFilter<T> where T : BaseCommandFilter
+    public class CommandFiltersStorageParamsFilter<T, C> 
+        where T : BaseCommandFilter
+        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageParamsFilter(T filter, IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageParamsFilter(T filter, C context)
         {
-            mEntityConnection = entityConnection;
-            mCSharpTypesRegistry = cSharpTypesRegistry;
+            Context = context;
             mFilter = filter;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
-        private CSharpTypesRegistry mCSharpTypesRegistry = null;
+        private C Context = default(C);
         private T mFilter = null;
 
         public T Filter
@@ -68,7 +70,7 @@ namespace TSTConsoleWorkBench.Actors
                 }
                 else
                 {
-                    var commandParamTypeKey = mCSharpTypesRegistry.GetTypeKey(targetCommandParam);
+                    var commandParamTypeKey = Context.GetTypeKey(targetCommandParam);// 
 
                     //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank commandParamTypeKey = {commandParamTypeKey}");
 
@@ -78,7 +80,7 @@ namespace TSTConsoleWorkBench.Actors
                     }
                     else
                     {
-                        var rank = mEntityConnection.GetInheritanceRank(commandParamTypeKey, filterParam.TypeKey);
+                        var rank = Context.GetTypeInheritanceRank(commandParamTypeKey, filterParam.TypeKey);
 
                         //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank rank = {rank}");
 
@@ -125,18 +127,17 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageTargetsFilter<T> where T : BaseCommandFilter
+    public class CommandFiltersStorageTargetsFilter<T, C> 
+        where T : BaseCommandFilter
+        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageTargetsFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageTargetsFilter(C context)
         {
-            mEntityConnection = entityConnection;
-            mCSharpTypesRegistry = cSharpTypesRegistry;
+            Context = context;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
-        private CSharpTypesRegistry mCSharpTypesRegistry = null;
-
-        private Dictionary<int, CommandFiltersStorageParamsFilter<T>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T>>();
+        private C Context = default(C);
+        private Dictionary<int, CommandFiltersStorageParamsFilter<T, C>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T, C>>();
 
         public void AddFilter(T filter)
         {
@@ -149,7 +150,7 @@ namespace TSTConsoleWorkBench.Actors
                 return;
             }
 
-            var targetStorage = new CommandFiltersStorageParamsFilter<T>(filter, mEntityConnection, mCSharpTypesRegistry);
+            var targetStorage = new CommandFiltersStorageParamsFilter<T, C>(filter, Context);
             mDict.Add(targetHashCode, targetStorage);
         }
 
@@ -197,16 +198,16 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageCommandFilter<T> where T : BaseCommandFilter
+    public class CommandFiltersStorageCommandFilter<T, C> 
+        where T : BaseCommandFilter
+        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageCommandFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageCommandFilter(C context)
         {
-            mEntityConnection = entityConnection;
-            mCSharpTypesRegistry = cSharpTypesRegistry;
+            Context = context;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
-        private CSharpTypesRegistry mCSharpTypesRegistry = null;
+        private C Context = default(C); 
 
         public void AddFilter(T filter)
         {
@@ -214,7 +215,7 @@ namespace TSTConsoleWorkBench.Actors
 
             var targetName = filter.Target;
 
-            CommandFiltersStorageTargetsFilter<T> targetStorage = null;
+            CommandFiltersStorageTargetsFilter<T, C> targetStorage = null;
 
             if (mDict.ContainsKey(targetName))
             {
@@ -222,7 +223,7 @@ namespace TSTConsoleWorkBench.Actors
             }
             else
             {
-                targetStorage = new CommandFiltersStorageTargetsFilter<T>(mEntityConnection, mCSharpTypesRegistry);
+                targetStorage = new CommandFiltersStorageTargetsFilter<T, C>(Context);
                 mDict.Add(targetName, targetStorage);
             }
 
@@ -243,7 +244,7 @@ namespace TSTConsoleWorkBench.Actors
             return new List<T>();
         }
 
-        private Dictionary<string, CommandFiltersStorageTargetsFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter<T>>();
+        private Dictionary<string, CommandFiltersStorageTargetsFilter<T, C>> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter<T, C>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -255,16 +256,16 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorage<T> where T : BaseCommandFilter
+    public class CommandFiltersStorage<T, C> 
+        where T : BaseCommandFilter
+        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorage(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorage(C context)
         {
-            mEntityConnection = entityConnection;
-            mCSharpTypesRegistry = cSharpTypesRegistry;
+            Context = context;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
-        private CSharpTypesRegistry mCSharpTypesRegistry = null;
+        private C Context = default(C);
 
         public void AddFilter(T filter)
         {
@@ -272,7 +273,7 @@ namespace TSTConsoleWorkBench.Actors
 
             var commandName = filter.CommandName;
 
-            CommandFiltersStorageCommandFilter<T> targetStorage = null;
+            CommandFiltersStorageCommandFilter<T, C> targetStorage = null;
 
             if (mDict.ContainsKey(commandName))
             {
@@ -280,7 +281,7 @@ namespace TSTConsoleWorkBench.Actors
             }
             else
             {
-                targetStorage = new CommandFiltersStorageCommandFilter<T>(mEntityConnection, mCSharpTypesRegistry);
+                targetStorage = new CommandFiltersStorageCommandFilter<T, C>(Context);
                 mDict.Add(commandName, targetStorage);
             }
 
@@ -301,7 +302,7 @@ namespace TSTConsoleWorkBench.Actors
             return new List<T>();
         }
 
-        private Dictionary<string, CommandFiltersStorageCommandFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T>>();
+        private Dictionary<string, CommandFiltersStorageCommandFilter<T, C>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T, C>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

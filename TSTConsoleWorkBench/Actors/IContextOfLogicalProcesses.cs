@@ -10,5 +10,7 @@ namespace TSTConsoleWorkBench.Actors
     {
         void AddFilter(CommandFilter filter);
         ulong GetKey(string val);
+        ulong GetTypeKey(object value);
+        double GetTypeInheritanceRank(ulong subKey, ulong superKey);
     }
 }

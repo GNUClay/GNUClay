@@ -62,6 +62,11 @@ namespace TSTConsoleWorkBench.Actors
             Main();
             OnStop();
 
+            if(CurrentEntityAction.Status == EntityActionStatus.Running)
+            {
+                CurrentEntityAction.Status = EntityActionStatus.Completed;
+            }
+
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Start)} action.Status = {action.Status}");
         }
 

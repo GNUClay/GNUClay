@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
@@ -23,6 +24,17 @@ namespace TSTConsoleWorkBench.Actors
 
             var tmpLogicalProcesesFactoresRegistry = new LogicalProcessFactoriesRegistry<TstContext>(tmpContext);
             tmpLogicalProcesesFactoresRegistry.AddFactory<TstProcess_1>();
+
+            var command = new Command();
+            command.Name = "TstProcess_1";
+
+            var result = tmpContext.ExecuteCommand(command);
+
+            result.OnFinish((EntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 result.OnFinish result = {result}");
+            });
+
+            Thread.Sleep(10000);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Case_1");
         }

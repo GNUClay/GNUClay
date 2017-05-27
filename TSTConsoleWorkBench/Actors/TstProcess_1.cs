@@ -28,7 +28,7 @@ namespace TSTConsoleWorkBench.Actors
             filterParameter.IsAnyType = false;
             filterParameter.TypeKey = stringKey;
             filter.Params.Add("goal", filterParameter);
-
+             
             filterParameter = new CommandFilterParam();
             filterParameter.IsAnyType = false;
             filterParameter.TypeKey = numberKey;
