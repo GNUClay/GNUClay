@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\BaseCommandFilter.cs" />
+    <Compile Include="Actors\Blackboard.cs" />
     <Compile Include="Actors\Command.cs" />
     <Compile Include="Actors\CommandFilter.cs" />
     <Compile Include="Actors\CommandFiltersStorage.cs" />
