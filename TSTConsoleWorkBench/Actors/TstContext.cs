@@ -50,6 +50,16 @@ namespace TSTConsoleWorkBench.Actors
             return mEntityConnection.GetInheritanceRank(subKey, superKey);
         }
 
+        private Blackboard mBlackboard = new Blackboard();
+
+        public Blackboard Blackboard
+        {
+            get
+            {
+                return mBlackboard;
+            }
+        }
+
         private CommandsDispatcher<TstContext> mCommandsDispatcher = null;
 
         public void AddFilter(CommandFilter filter)

@@ -12,5 +12,6 @@ namespace TSTConsoleWorkBench.Actors
         ulong GetKey(string val);
         ulong GetTypeKey(object value);
         double GetTypeInheritanceRank(ulong subKey, ulong superKey);
+        Blackboard Blackboard { get; }
     }
 }
