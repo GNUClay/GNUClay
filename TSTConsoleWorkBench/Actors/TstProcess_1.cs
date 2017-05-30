@@ -40,6 +40,8 @@ namespace TSTConsoleWorkBench.Actors
         protected override void Main()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main");
+
+            throw new Exception($"Main error");
         }
     }
 }

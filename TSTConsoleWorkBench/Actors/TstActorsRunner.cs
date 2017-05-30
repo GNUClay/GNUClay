@@ -12,8 +12,8 @@ namespace TSTConsoleWorkBench.Actors
         public void Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Run");
-            //Case_1();
-            Case_2();
+            Case_1();
+            //Case_2();
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 

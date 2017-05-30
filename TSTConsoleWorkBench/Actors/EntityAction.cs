@@ -76,6 +76,10 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
+        public string Name { get; set; } = string.Empty;
+        public ulong NameKey { get; set; }
+        public Exception Exception { get; set; }
+
         public void Cancel()
         {
             Status = EntityActionStatus.Canceled;
@@ -221,6 +225,10 @@ namespace TSTConsoleWorkBench.Actors
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine($"{nameof(Status)} = {Status}");
+            tmpSb.AppendLine($"{nameof(Command)} = {Command}");
+            tmpSb.AppendLine($"{nameof(Name)} = {Name}");
+            tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
+            tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
 
             return tmpSb.ToString();
         }

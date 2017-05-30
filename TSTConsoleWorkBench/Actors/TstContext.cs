@@ -72,6 +72,8 @@ namespace TSTConsoleWorkBench.Actors
         public EntityAction ExecuteCommand(Command command)
         {
             var result = new EntityAction(command);
+            result.Name = Guid.NewGuid().ToString("D");
+            result.NameKey = mEntityConnection.GetKey(result.Name);
 
             NExecuteCommand(result);
 
@@ -88,16 +90,23 @@ namespace TSTConsoleWorkBench.Actors
         private async void NExecuteCommand(EntityAction action)
         {
             await Task.Run(() => {
-                mEntityActionNotificator.AddEntityAction(action);
-
-                var dispatchedResult = mCommandsDispatcher.Dipatch(action);
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
-
-                if (!dispatchedResult)
+                try
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand !dispatchedResult No Dispatch");
-                    //ActiveEntity.ExecuteCommand(actionResult);
+                    mEntityActionNotificator.AddEntityAction(action);
+
+                    var dispatchedResult = mCommandsDispatcher.Dipatch(action);
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteCommand dispatchedResult = {dispatchedResult}");
+
+                    if (!dispatchedResult)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand !dispatchedResult No Dispatch");
+                        //ActiveEntity.ExecuteCommand(actionResult);
+                    }
+                }
+                catch (Exception e){
+                    action.Exception = e;
+                    action.Status = EntityActionStatus.Faulted;
                 }
             });
         }
