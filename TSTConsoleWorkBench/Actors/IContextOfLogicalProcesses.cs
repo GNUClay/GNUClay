@@ -13,5 +13,8 @@ namespace TSTConsoleWorkBench.Actors
         ulong GetTypeKey(object value);
         double GetTypeInheritanceRank(ulong subKey, ulong superKey);
         Blackboard Blackboard { get; }
+        EntityAction ExecuteCommand(Command command);
+        EntityAction ExecuteCommand(Command command, EntityAction parent);
+        EntityAction ExecuteCommand(EntityAction action);
     }
 }

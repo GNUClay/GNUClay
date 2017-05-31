@@ -65,9 +65,11 @@
     <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />
     <Compile Include="Actors\LogicalProcessFactory.cs" />
     <Compile Include="Actors\StartupMode.cs" />
+    <Compile Include="Actors\StopLogicalProcess.cs" />
     <Compile Include="Actors\TstActorsRunner.cs" />
     <Compile Include="Actors\TstContext.cs" />
     <Compile Include="Actors\TstProcess_1.cs" />
+    <Compile Include="Actors\WalkLogicalProcess.cs" />
     <Compile Include="BaseRunner.cs" />
     <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LocalHostExecuting\LocalHostRunner.cs" />

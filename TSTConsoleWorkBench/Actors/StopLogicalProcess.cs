@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class TstProcess_1: LogicalProcess<TstContext>
+    public class StopLogicalProcess : LogicalProcess<TstContext>
     {
-        public TstProcess_1()
-            : base(StartupMode.OnDemand, "tstProcess")
+        public StopLogicalProcess()
+            : base(StartupMode.OnDemand, "stop")
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
@@ -20,7 +19,7 @@ namespace TSTConsoleWorkBench.Actors
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(OnRegFilter)}");
 
             var filter = new CommandFilter();
-            filter.CommandName = "tstProcess";
+            filter.CommandName = "stop";
 
             /*var numberKey = Context.GetKey("number");
             var stringKey = Context.GetKey("string");
@@ -41,22 +40,6 @@ namespace TSTConsoleWorkBench.Actors
         protected override void Main()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main");
-
-            var command = new Command();
-            command.Name = "walk";
-
-            var walkResult = Context.ExecuteCommand(command, CurrentEntityAction);
-
-            Thread.Sleep(1000);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main walkResult = {walkResult}");
-
-            while (walkResult.Status == EntityActionStatus.Running)
-            {
-
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("Main NEXT");
 
             //throw new Exception($"Main error");
         }

@@ -207,6 +207,90 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
+        public EntityAction Parent
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mParent;
+                }
+            }
+
+            set
+            {
+                lock (mLockObj)
+                {
+                    if(mParent == value)
+                    {
+                        return;
+                    }
+
+                    if(mParent != null)
+                    {
+                        mParent.RemoveChild(this);
+                    }
+
+                    mParent = value;
+
+                    if(mParent != null)
+                    {
+                        mParent.AddChild(this);
+                    }
+                }
+            }
+        }
+
+        public List<EntityAction> Children
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mChildren;
+                }
+            }
+        }
+
+        public void AddChild(EntityAction child)
+        {
+            lock (mLockObj)
+            {
+                if(mChildren.Contains(child))
+                {
+                    return;
+                }
+
+                mChildren.Add(child);
+
+                if(child.Parent != this)
+                {
+                    child.Parent = this;
+                }
+            }
+        }
+
+        public void RemoveChild(EntityAction child)
+        {
+            lock (mLockObj)
+            {
+                if (!mChildren.Contains(child))
+                {
+                    return;
+                }
+
+                mChildren.Remove(child);
+
+                if(child.Parent == this)
+                {
+                    child.Parent = null;
+                }      
+            }
+        }
+
+        private EntityAction mParent = null;
+        private List<EntityAction> mChildren = new List<EntityAction>();
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>
@@ -229,6 +313,8 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(Name)} = {Name}");
             tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
             tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
+            tmpSb.AppendLine($"{nameof(Parent)} = {Parent}");
+            tmpSb.AppendLine($"{nameof(Children)} = {_ListHelper._ToString(Children)}");
 
             return tmpSb.ToString();
         }

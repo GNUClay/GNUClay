@@ -25,9 +25,11 @@ namespace TSTConsoleWorkBench.Actors
 
             var tmpLogicalProcesesFactoresRegistry = new LogicalProcessFactoriesRegistry<TstContext>(tmpContext);
             tmpLogicalProcesesFactoresRegistry.AddFactory<TstProcess_1>();
+            tmpLogicalProcesesFactoresRegistry.AddFactory<WalkLogicalProcess>();
+            tmpLogicalProcesesFactoresRegistry.AddFactory<StopLogicalProcess>();
 
             var command = new Command();
-            command.Name = "TstProcess_1";
+            command.Name = "tstProcess";
 
             var result = tmpContext.ExecuteCommand(command);
 
