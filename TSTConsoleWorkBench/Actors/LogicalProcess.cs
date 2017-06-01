@@ -17,16 +17,19 @@ namespace TSTConsoleWorkBench.Actors
 
     public class LogicalProcess<T>: ILogicalProcess<T>
     {
-        public LogicalProcess(StartupMode startupMode, string name)
+        public LogicalProcess(StartupMode startupMode, string name, bool isAutoCanceled)
         {
             StartupMode = startupMode;
             Name = name;
+            IsAutoCanceled = isAutoCanceled;
         }
 
         public T Context { get; set; }
 
         public StartupMode StartupMode { get; set;}
         public string Name { get; set; }
+
+        public bool IsAutoCanceled { get; set; }
 
         private List<CommandFilter> mFiltersList = null;
 
@@ -54,6 +57,8 @@ namespace TSTConsoleWorkBench.Actors
         public void Start(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} action.Status = {action.Status}");
+
+            action.IsAutoCanceled = IsAutoCanceled;
 
             CurrentCommand = action.Command;
             CurrentEntityAction = action;

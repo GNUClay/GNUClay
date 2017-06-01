@@ -74,15 +74,15 @@ namespace TSTConsoleWorkBench.Actors
             return ExecuteCommand(command, null);
         }
 
-        public EntityAction ExecuteCommand(Command command, EntityAction parent)
+        public EntityAction ExecuteCommand(Command command, EntityAction initiator)
         {
             var result = new EntityAction(command);
             result.Name = Guid.NewGuid().ToString("D");
             result.NameKey = mEntityConnection.GetKey(result.Name);
 
-            if(parent != null)
+            if(initiator != null)
             {
-                result.Parent = parent;
+                result.Initiator = initiator;
             }
 
             NExecuteCommand(result);

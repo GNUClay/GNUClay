@@ -64,6 +64,8 @@ namespace TSTConsoleWorkBench.Actors
                                 break;
 
                             case EntityActionStatus.Canceled:
+                                AutoCancelInitiatedProcesses();
+
                                 mCanceledEvent?.Invoke();
                                 mFinishedWithOutFailEvent?.Invoke();
                                 mFinishedEvent?.Invoke();
@@ -207,13 +209,13 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public EntityAction Parent
+        public EntityAction Initiator
         {
             get
             {
                 lock (mLockObj)
                 {
-                    return mParent;
+                    return mInitiator;
                 }
             }
 
@@ -221,75 +223,94 @@ namespace TSTConsoleWorkBench.Actors
             {
                 lock (mLockObj)
                 {
-                    if(mParent == value)
+                    if(mInitiator == value)
                     {
                         return;
                     }
 
-                    if(mParent != null)
+                    if(mInitiator != null)
                     {
-                        mParent.RemoveChild(this);
+                        mInitiator.RemoveInitiatedAction(this);
                     }
 
-                    mParent = value;
+                    mInitiator = value;
 
-                    if(mParent != null)
+                    if(mInitiator != null)
                     {
-                        mParent.AddChild(this);
+                        mInitiator.AddInitiatedAction(this);
                     }
                 }
             }
         }
 
-        public List<EntityAction> Children
+        public List<EntityAction> InitiatedActions
         {
             get
             {
                 lock (mLockObj)
                 {
-                    return mChildren;
+                    return mInitiatedActions;
                 }
             }
         }
 
-        public void AddChild(EntityAction child)
+        public void AddInitiatedAction(EntityAction initiatedAction)
         {
             lock (mLockObj)
             {
-                if(mChildren.Contains(child))
+                if(mInitiatedActions.Contains(initiatedAction))
                 {
                     return;
                 }
 
-                mChildren.Add(child);
+                mInitiatedActions.Add(initiatedAction);
 
-                if(child.Parent != this)
+                if(initiatedAction.Initiator != this)
                 {
-                    child.Parent = this;
+                    initiatedAction.Initiator = this;
                 }
             }
         }
 
-        public void RemoveChild(EntityAction child)
+        public void RemoveInitiatedAction(EntityAction initiatedAction)
         {
             lock (mLockObj)
             {
-                if (!mChildren.Contains(child))
+                if (!mInitiatedActions.Contains(initiatedAction))
                 {
                     return;
                 }
 
-                mChildren.Remove(child);
+                mInitiatedActions.Remove(initiatedAction);
 
-                if(child.Parent == this)
+                if(initiatedAction.Initiator == this)
                 {
-                    child.Parent = null;
+                    initiatedAction.Initiator = null;
                 }      
             }
         }
 
-        private EntityAction mParent = null;
-        private List<EntityAction> mChildren = new List<EntityAction>();
+        private EntityAction mInitiator = null;
+        private List<EntityAction> mInitiatedActions = new List<EntityAction>();
+
+        public bool IsAutoCanceled = true;
+
+        private async void AutoCancelInitiatedProcesses()
+        {
+            await Task.Run(() => {
+                var initiatedActionsList = InitiatedActions.ToList();
+
+                foreach (var initiatedAction in initiatedActionsList)
+                {
+                    if(initiatedAction.IsAutoCanceled)
+                    {
+                        Task.Run(() => {
+                            initiatedAction.Cancel();
+                        });                      
+                    }
+                }
+            });
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -313,8 +334,22 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(Name)} = {Name}");
             tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
             tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
-            tmpSb.AppendLine($"{nameof(Parent)} = {Parent}");
-            tmpSb.AppendLine($"{nameof(Children)} = {_ListHelper._ToString(Children)}");
+            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator?.DisplaySmallInfo()}");
+            tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
+
+            return tmpSb.ToString();
+        }
+
+        public string DisplaySmallInfo()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.AppendLine($"{nameof(Status)} = {Status}");
+            tmpSb.AppendLine($"{nameof(Command)} = {Command}");
+            tmpSb.AppendLine($"{nameof(Name)} = {Name}");
+            tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
+            tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
+            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
 
             return tmpSb.ToString();
         }

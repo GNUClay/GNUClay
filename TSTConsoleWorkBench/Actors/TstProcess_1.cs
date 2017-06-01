@@ -40,23 +40,29 @@ namespace TSTConsoleWorkBench.Actors
 
         protected override void Main()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Main");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
 
             var command = new Command();
             command.Name = "walk";
 
             var walkResult = Context.ExecuteCommand(command, CurrentEntityAction);
 
+            command = new Command();
+            command.Name = "stop";
+
+            var stopResult = Context.ExecuteCommand(command, CurrentEntityAction);
+
             Thread.Sleep(1000);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main walkResult = {walkResult}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction = {CurrentEntityAction}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main walkResult = {walkResult}");
 
-            while (walkResult.Status == EntityActionStatus.Running)
+            while (CurrentEntityAction.Status == EntityActionStatus.Running)
             {
 
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info("Main NEXT");
+            NLog.LogManager.GetCurrentClassLogger().Info($"End Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
 
             //throw new Exception($"Main error");
         }

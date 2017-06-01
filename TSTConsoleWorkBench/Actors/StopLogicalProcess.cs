@@ -39,7 +39,14 @@ namespace TSTConsoleWorkBench.Actors
 
         protected override void Main()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Main");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
+
+            while (CurrentEntityAction.Status == EntityActionStatus.Running)
+            {
+
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
 
             //throw new Exception($"Main error");
         }

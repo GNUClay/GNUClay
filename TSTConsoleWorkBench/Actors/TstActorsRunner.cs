@@ -39,6 +39,10 @@ namespace TSTConsoleWorkBench.Actors
 
             Thread.Sleep(10000);
 
+            result.Cancel();
+
+            Thread.Sleep(10000);
+
             NLog.LogManager.GetCurrentClassLogger().Info("End Case_1");
         }
 
