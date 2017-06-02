@@ -15,6 +15,8 @@ namespace TSTConsoleWorkBench.Actors
         Canceled
     }
 
+    public delegate void OnClarifyParams(List<CommandFilterParam> paramsList);
+
     public class EntityAction : IToStringData
     {
         public EntityAction(Command command)
@@ -310,6 +312,72 @@ namespace TSTConsoleWorkBench.Actors
                     }
                 }
             });
+        }
+
+        private OnClarifyParams mOnClarifyParamsByInitiatedActions = null;
+
+        public void SetOnClarifyParamsByInitiatedActions(OnClarifyParams callBack)
+        {
+            lock(mLockObj)
+            {
+                mOnClarifyParamsByInitiatedActions = callBack;
+            }
+        }
+
+        public void ResetOnClarifyParamsByInitiatedActions()
+        {
+            lock (mLockObj)
+            {
+                mOnClarifyParamsByInitiatedActions = null;
+            }
+        }
+
+        public void ClarifyParamsByInitiatedActions(CommandFilterParam param)
+        {
+            ClarifyParamsByInitiatedActions(new List<CommandFilterParam>() { param });
+        }
+
+        public void ClarifyParamsByInitiatedActions(List<CommandFilterParam> paramsList)
+        {
+            lock (mLockObj)
+            {
+                Task.Run(() => {
+                    mOnClarifyParamsByInitiatedActions?.Invoke(paramsList);
+                });
+            }
+        }
+
+        private OnClarifyParams mOnClarifyParamsByInitiator = null;
+
+        public void SetOnClarifyParamsByInitiator(OnClarifyParams callBack)
+        {
+            lock (mLockObj)
+            {
+                mOnClarifyParamsByInitiator = callBack;
+            }
+        }
+
+        public void ResetOnClarifyParamsByInitiator()
+        {
+            lock (mLockObj)
+            {
+                mOnClarifyParamsByInitiator = null;
+            }
+        }
+
+        public void ClarifyParamsByInitiator(CommandFilterParam param)
+        {
+            ClarifyParamsByInitiator(new List<CommandFilterParam>() { param });
+        }
+
+        public void ClarifyParamsByInitiator(List<CommandFilterParam> paramsList)
+        {
+            lock (mLockObj)
+            {
+                Task.Run(() => {
+                    mOnClarifyParamsByInitiator?.Invoke(paramsList);
+                });
+            }
         }
 
         /// <summary>

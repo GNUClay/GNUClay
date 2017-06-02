@@ -9,7 +9,9 @@ namespace TSTConsoleWorkBench.Actors
     public class StopLogicalProcess : LogicalProcess<TstContext>
     {
         public StopLogicalProcess()
-            : base(StartupMode.OnDemand, "stop")
+            : base(new LogicalProcessOptions() {
+                Name = "stop"
+            })
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }

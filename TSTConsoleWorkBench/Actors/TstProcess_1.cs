@@ -10,7 +10,9 @@ namespace TSTConsoleWorkBench.Actors
     public class TstProcess_1: LogicalProcess<TstContext>
     {
         public TstProcess_1()
-            : base(StartupMode.OnDemand, "tstProcess")
+            : base(new LogicalProcessOptions() {
+                Name = "tstProcess"
+            })
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }

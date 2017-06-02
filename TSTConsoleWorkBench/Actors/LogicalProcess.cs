@@ -17,11 +17,11 @@ namespace TSTConsoleWorkBench.Actors
 
     public class LogicalProcess<T>: ILogicalProcess<T>
     {
-        public LogicalProcess(StartupMode startupMode, string name, bool isAutoCanceled)
+        public LogicalProcess(LogicalProcessOptions options)
         {
-            StartupMode = startupMode;
-            Name = name;
-            IsAutoCanceled = isAutoCanceled;
+            StartupMode = options.StartupMode;
+            Name = options.Name;
+            IsAutoCanceled = options.IsAutoCanceled;
         }
 
         public T Context { get; set; }

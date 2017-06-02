@@ -64,6 +64,7 @@
     <Compile Include="Actors\LogicalProcess.cs" />
     <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />
     <Compile Include="Actors\LogicalProcessFactory.cs" />
+    <Compile Include="Actors\LogicalProcessOptions.cs" />
     <Compile Include="Actors\StartupMode.cs" />
     <Compile Include="Actors\StopLogicalProcess.cs" />
     <Compile Include="Actors\TstActorsRunner.cs" />

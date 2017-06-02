@@ -9,7 +9,9 @@ namespace TSTConsoleWorkBench.Actors
     public class WalkLogicalProcess : LogicalProcess<TstContext>
     {
         public WalkLogicalProcess()
-            : base(StartupMode.OnDemand, "walk")
+            : base(new LogicalProcessOptions() {
+                Name = "walk"
+            })
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
