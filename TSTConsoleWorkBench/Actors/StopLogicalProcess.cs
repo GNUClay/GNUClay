@@ -10,7 +10,8 @@ namespace TSTConsoleWorkBench.Actors
     {
         public StopLogicalProcess()
             : base(new LogicalProcessOptions() {
-                Name = "stop"
+                Name = "stop",
+                ExclusiveGroup = "walk_asm"
             })
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");

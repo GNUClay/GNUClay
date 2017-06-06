@@ -380,6 +380,45 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
+        private ulong mExclusiveGroupKey = 0;
+        private ulong mOldExclusiveGroupKey = 0;
+        public ulong ExclusiveGroupKey
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mExclusiveGroupKey;
+                }
+            }
+
+            set
+            {
+                lock (mLockObj)
+                {
+                    if (mExclusiveGroupKey == value)
+                    {
+                        return;
+                    }
+
+                    f
+                }
+            }
+        }
+
+        public ulong OldExclusiveGroupKey
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mOldExclusiveGroupKey;
+                }
+            }
+        }
+
+        public event Action OnChangeExclusiveGroupKey;
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

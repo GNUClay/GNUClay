@@ -12,6 +12,7 @@ namespace TSTConsoleWorkBench.Actors
         public StartupMode StartupMode { get; set; } = StartupMode.OnDemand;
         public string Name { get; set; } = string.Empty;
         public bool IsAutoCanceled { get; set; } = true;
+        public string ExclusiveGroup { get; set; } = string.Empty;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

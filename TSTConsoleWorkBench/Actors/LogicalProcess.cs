@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace TSTConsoleWorkBench.Actors
 {
     public interface ILogicalProcess<T>
+        where T: IContextOfLogicalProcesses
     {
         T Context { get; set; }
         StartupMode StartupMode { get; }
@@ -16,22 +17,26 @@ namespace TSTConsoleWorkBench.Actors
     }
 
     public class LogicalProcess<T>: ILogicalProcess<T>
+        where T : IContextOfLogicalProcesses
     {
         public LogicalProcess(LogicalProcessOptions options)
         {
             StartupMode = options.StartupMode;
             Name = options.Name;
             IsAutoCanceled = options.IsAutoCanceled;
+            ExclusiveGroup = options.ExclusiveGroup;
         }
 
         public T Context { get; set; }
 
-        public StartupMode StartupMode { get; set;}
-        public string Name { get; set; }
+        public StartupMode StartupMode { get; private set;}
+        public string Name { get; private set; }
 
-        public bool IsAutoCanceled { get; set; }
+        public bool IsAutoCanceled { get; private set; }
 
         private List<CommandFilter> mFiltersList = null;
+
+        public string ExclusiveGroup { get; private set; } = string.Empty;
 
         public List<CommandFilter> GetFilters()
         {
@@ -60,6 +65,11 @@ namespace TSTConsoleWorkBench.Actors
 
             action.IsAutoCanceled = IsAutoCanceled;
 
+            if(!string.IsNullOrWhiteSpace(ExclusiveGroup))
+            {
+                action.ExclusiveGroupKey = Context.GetKey(ExclusiveGroup);
+            }
+            
             CurrentCommand = action.Command;
             CurrentEntityAction = action;
 
