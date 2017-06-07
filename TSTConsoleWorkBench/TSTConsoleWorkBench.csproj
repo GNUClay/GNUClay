@@ -62,6 +62,7 @@
     <Compile Include="Actors\EntityActionNotificator.cs" />
     <Compile Include="Actors\IContextOfLogicalProcesses.cs" />
     <Compile Include="Actors\LogicalProcess.cs" />
+    <Compile Include="Actors\ExclusiveGroupProcessesManager.cs" />
     <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />
     <Compile Include="Actors\LogicalProcessFactory.cs" />
     <Compile Include="Actors\LogicalProcessOptions.cs" />

@@ -27,6 +27,8 @@ namespace TSTConsoleWorkBench.Actors
         private IGnuClayServerConnection mServerConnection = null;
         protected IGnuClayEntityConnection mEntityConnection = null;
 
+        private ExclusiveGroupProcessesManager mLogicalProcessesManager = new ExclusiveGroupProcessesManager();
+
         public IGnuClayEntityConnection EntityConnection
         {
             get
@@ -123,12 +125,14 @@ namespace TSTConsoleWorkBench.Actors
 
         protected LogicalProcessFactoriesRegistry<TstContext> mLogicalProcessFactoriesRegistry = null;
 
-        protected void AddProcessFactory<T>()
-            where T : ILogicalProcess<TstContext>, new()
+        public void SetExclusiveGroupProcess(EntityAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(AddProcessFactory)} T.FullName = {typeof(T).FullName}");
+            mLogicalProcessesManager.SetExclusiveGroupProcess(action);
+        }
 
-            mLogicalProcessFactoriesRegistry.AddFactory<T>();
+        public void RemoveExclusiveGroupProcess(EntityAction action)
+        {
+            mLogicalProcessesManager.RemoveExclusiveGroupProcess(action);
         }
 
         public void GoToMarket()

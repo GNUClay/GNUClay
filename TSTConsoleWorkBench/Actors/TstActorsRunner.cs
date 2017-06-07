@@ -39,6 +39,7 @@ namespace TSTConsoleWorkBench.Actors
 
             Thread.Sleep(10000);
 
+            NLog.LogManager.GetCurrentClassLogger().Info("Case_1 result.Cancel()");
             result.Cancel();
 
             Thread.Sleep(10000);

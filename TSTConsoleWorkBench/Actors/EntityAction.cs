@@ -380,44 +380,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        private ulong mExclusiveGroupKey = 0;
-        private ulong mOldExclusiveGroupKey = 0;
-        public ulong ExclusiveGroupKey
-        {
-            get
-            {
-                lock (mLockObj)
-                {
-                    return mExclusiveGroupKey;
-                }
-            }
-
-            set
-            {
-                lock (mLockObj)
-                {
-                    if (mExclusiveGroupKey == value)
-                    {
-                        return;
-                    }
-
-                    f
-                }
-            }
-        }
-
-        public ulong OldExclusiveGroupKey
-        {
-            get
-            {
-                lock (mLockObj)
-                {
-                    return mOldExclusiveGroupKey;
-                }
-            }
-        }
-
-        public event Action OnChangeExclusiveGroupKey;
+        public ulong ExclusiveGroupKey { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -441,6 +404,7 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(Name)} = {Name}");
             tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
             tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
+            tmpSb.AppendLine($"{nameof(ExclusiveGroupKey)} = {ExclusiveGroupKey}");
             tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator?.DisplaySmallInfo()}");
             tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
 
@@ -456,6 +420,7 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(Name)} = {Name}");
             tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
             tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
+            tmpSb.AppendLine($"{nameof(ExclusiveGroupKey)} = {ExclusiveGroupKey}");
             tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
 
             return tmpSb.ToString();

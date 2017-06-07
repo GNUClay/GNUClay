@@ -25,6 +25,11 @@ namespace TSTConsoleWorkBench.Actors
             Name = options.Name;
             IsAutoCanceled = options.IsAutoCanceled;
             ExclusiveGroup = options.ExclusiveGroup;
+
+            if(!string.IsNullOrWhiteSpace(ExclusiveGroup))
+            {
+                HasExclusiveGroup = true;
+            }
         }
 
         public T Context { get; set; }
@@ -36,6 +41,7 @@ namespace TSTConsoleWorkBench.Actors
 
         private List<CommandFilter> mFiltersList = null;
 
+        public bool HasExclusiveGroup { get; private set; }
         public string ExclusiveGroup { get; private set; } = string.Empty;
 
         public List<CommandFilter> GetFilters()
@@ -65,9 +71,11 @@ namespace TSTConsoleWorkBench.Actors
 
             action.IsAutoCanceled = IsAutoCanceled;
 
-            if(!string.IsNullOrWhiteSpace(ExclusiveGroup))
+            if(HasExclusiveGroup)
             {
                 action.ExclusiveGroupKey = Context.GetKey(ExclusiveGroup);
+
+                Context.SetExclusiveGroupProcess(action);
             }
             
             CurrentCommand = action.Command;
@@ -80,6 +88,11 @@ namespace TSTConsoleWorkBench.Actors
             if(CurrentEntityAction.Status == EntityActionStatus.Running)
             {
                 CurrentEntityAction.Status = EntityActionStatus.Completed;
+            }
+
+            if(HasExclusiveGroup)
+            {
+                Context.RemoveExclusiveGroupProcess(action);
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Start)} action.Status = {action.Status}");
