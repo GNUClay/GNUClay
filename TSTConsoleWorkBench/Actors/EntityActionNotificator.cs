@@ -26,15 +26,14 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class EntityActionNotificator<C>
-        where C : IContextOfLogicalProcesses
+    public class EntityActionNotificator
     {
-        public EntityActionNotificator(C context)
+        public EntityActionNotificator(IContextOfLogicalProcesses context)
         {
-            mCommandFiltersStorage = new CommandFiltersStorage<EntityActionEventsFilter, C>(context);
+            mCommandFiltersStorage = new CommandFiltersStorage<EntityActionEventsFilter>(context);
         }
 
-        private CommandFiltersStorage<EntityActionEventsFilter, C> mCommandFiltersStorage = null;
+        private CommandFiltersStorage<EntityActionEventsFilter> mCommandFiltersStorage = null;
 
         public void AddFilter(EntityActionEventsFilter filter)
         {

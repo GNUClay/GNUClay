@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandsDispatcher<C>
-        where C : IContextOfLogicalProcesses
+    public class CommandsDispatcher
     {
-        public CommandsDispatcher(C context)
+        public CommandsDispatcher(IContextOfLogicalProcesses context)
         {
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter, C>(context);
         }

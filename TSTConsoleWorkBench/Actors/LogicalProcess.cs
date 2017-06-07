@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public interface ILogicalProcess<T>
-        where T: IContextOfLogicalProcesses
+    public interface ILogicalProcess 
     {
-        T Context { get; set; }
+        IContextOfLogicalProcesses Context { get; set; }
         StartupMode StartupMode { get; }
         string Name { get; }
         List<CommandFilter> GetFilters();
         void Start(EntityAction action);
     }
 
-    public class LogicalProcess<T>: ILogicalProcess<T>
-        where T : IContextOfLogicalProcesses
+    public class LogicalProcess: ILogicalProcess
     {
         public LogicalProcess(LogicalProcessOptions options)
         {
@@ -32,8 +30,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public T Context { get; set; }
-
+        public IContextOfLogicalProcesses Context { get; set; }
         public StartupMode StartupMode { get; private set;}
         public string Name { get; private set; }
 

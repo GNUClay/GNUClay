@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class ContextOfLogicalProcesses
+    public class ContextOfLogicalProcesses: IContextOfLogicalProcesses
     {
+        public ContextOfLogicalProcesses()
+        {
+
+        }
     }
 }

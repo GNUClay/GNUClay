@@ -9,7 +9,7 @@ using TSTConsoleWorkBench.Actors;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class TstContext: IContextOfLogicalProcesses
+    public class TstContext: ICommonClassOfLogicalProcesses
     {
         public TstContext()
         {

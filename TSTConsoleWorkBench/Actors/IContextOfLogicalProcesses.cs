@@ -21,4 +21,9 @@ namespace TSTConsoleWorkBench.Actors
         void SetProcessAsCurrent(EntityAction action);
         void RemoveProcessAsCurrent(EntityAction action);
     }
+
+    public interface ICommonClassOfLogicalProcesses
+    {
+        IContextOfLogicalProcesses Context { get; }
+    }
 }

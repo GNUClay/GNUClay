@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandFiltersStorageParamsFilter<T, C> 
+    public class CommandFiltersStorageParamsFilter<T> 
         where T : BaseCommandFilter
-        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageParamsFilter(T filter, C context)
+        public CommandFiltersStorageParamsFilter(T filter, IContextOfLogicalProcesses context)
         {
             Context = context;
             mFilter = filter;
         }
 
-        private C Context = default(C);
+        private IContextOfLogicalProcesses Context = null;
         private T mFilter = null;
 
         public T Filter
@@ -127,11 +126,10 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageTargetsFilter<T, C> 
+    public class CommandFiltersStorageTargetsFilter<T> 
         where T : BaseCommandFilter
-        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageTargetsFilter(C context)
+        public CommandFiltersStorageTargetsFilter(IContextOfLogicalProcesses context)
         {
             Context = context;
         }
@@ -198,11 +196,10 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageCommandFilter<T, C> 
+    public class CommandFiltersStorageCommandFilter<T> 
         where T : BaseCommandFilter
-        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorageCommandFilter(C context)
+        public CommandFiltersStorageCommandFilter(IContextOfLogicalProcesses context)
         {
             Context = context;
         }
@@ -256,11 +253,10 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorage<T, C> 
+    public class CommandFiltersStorage<T> 
         where T : BaseCommandFilter
-        where C : IContextOfLogicalProcesses
     {
-        public CommandFiltersStorage(C context)
+        public CommandFiltersStorage(IContextOfLogicalProcesses context)
         {
             Context = context;
         }
