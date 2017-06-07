@@ -28,6 +28,7 @@ namespace TSTConsoleWorkBench.Actors
         protected IGnuClayEntityConnection mEntityConnection = null;
 
         private ExclusiveGroupProcessesManager mLogicalProcessesManager = new ExclusiveGroupProcessesManager();
+        private CurrentEntityActionsManager mCurrentEntityActionsManager = new CurrentEntityActionsManager();
 
         public IGnuClayEntityConnection EntityConnection
         {
@@ -133,6 +134,16 @@ namespace TSTConsoleWorkBench.Actors
         public void RemoveExclusiveGroupProcess(EntityAction action)
         {
             mLogicalProcessesManager.RemoveExclusiveGroupProcess(action);
+        }
+
+        public void SetProcessAsCurrent(EntityAction action)
+        {
+            mCurrentEntityActionsManager.SetProcessAsCurrent(action);
+        }
+
+        public void RemoveProcessAsCurrent(EntityAction action)
+        {
+            mCurrentEntityActionsManager.RemoveProcessAsCurrent(action);
         }
 
         public void GoToMarket()

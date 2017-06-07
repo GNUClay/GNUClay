@@ -57,7 +57,9 @@
     <Compile Include="Actors\CommandFilter.cs" />
     <Compile Include="Actors\CommandFiltersStorage.cs" />
     <Compile Include="Actors\CommandsDispatcher.cs" />
+    <Compile Include="Actors\ContextOfLogicalProcesses.cs" />
     <Compile Include="Actors\CSharpTypesRegistry.cs" />
+    <Compile Include="Actors\CurrentEntityActionsManager.cs" />
     <Compile Include="Actors\EntityAction.cs" />
     <Compile Include="Actors\EntityActionNotificator.cs" />
     <Compile Include="Actors\IContextOfLogicalProcesses.cs" />

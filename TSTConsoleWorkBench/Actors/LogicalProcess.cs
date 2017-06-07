@@ -81,6 +81,8 @@ namespace TSTConsoleWorkBench.Actors
             CurrentCommand = action.Command;
             CurrentEntityAction = action;
 
+            Context.SetProcessAsCurrent(CurrentEntityAction);
+
             OnStart();
             Main();
             OnStop();
@@ -94,6 +96,8 @@ namespace TSTConsoleWorkBench.Actors
             {
                 Context.RemoveExclusiveGroupProcess(action);
             }
+
+            Context.RemoveProcessAsCurrent(CurrentEntityAction);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End {nameof(Start)} action.Status = {action.Status}");
         }

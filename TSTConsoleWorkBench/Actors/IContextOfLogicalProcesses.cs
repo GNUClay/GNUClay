@@ -18,5 +18,7 @@ namespace TSTConsoleWorkBench.Actors
         EntityAction ExecuteCommand(EntityAction action);
         void SetExclusiveGroupProcess(EntityAction action);
         void RemoveExclusiveGroupProcess(EntityAction action);
+        void SetProcessAsCurrent(EntityAction action);
+        void RemoveProcessAsCurrent(EntityAction action);
     }
 }
