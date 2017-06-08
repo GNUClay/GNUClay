@@ -134,8 +134,8 @@ namespace TSTConsoleWorkBench.Actors
             Context = context;
         }
 
-        private C Context = default(C);
-        private Dictionary<int, CommandFiltersStorageParamsFilter<T, C>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T, C>>();
+        private IContextOfLogicalProcesses Context = null;
+        private Dictionary<int, CommandFiltersStorageParamsFilter<T>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T>>();
 
         public void AddFilter(T filter)
         {
@@ -148,7 +148,7 @@ namespace TSTConsoleWorkBench.Actors
                 return;
             }
 
-            var targetStorage = new CommandFiltersStorageParamsFilter<T, C>(filter, Context);
+            var targetStorage = new CommandFiltersStorageParamsFilter<T>(filter, Context);
             mDict.Add(targetHashCode, targetStorage);
         }
 
@@ -204,7 +204,7 @@ namespace TSTConsoleWorkBench.Actors
             Context = context;
         }
 
-        private C Context = default(C); 
+        private IContextOfLogicalProcesses Context = null; 
 
         public void AddFilter(T filter)
         {
@@ -212,7 +212,7 @@ namespace TSTConsoleWorkBench.Actors
 
             var targetName = filter.Target;
 
-            CommandFiltersStorageTargetsFilter<T, C> targetStorage = null;
+            CommandFiltersStorageTargetsFilter<T> targetStorage = null;
 
             if (mDict.ContainsKey(targetName))
             {
@@ -220,7 +220,7 @@ namespace TSTConsoleWorkBench.Actors
             }
             else
             {
-                targetStorage = new CommandFiltersStorageTargetsFilter<T, C>(Context);
+                targetStorage = new CommandFiltersStorageTargetsFilter<T>(Context);
                 mDict.Add(targetName, targetStorage);
             }
 
@@ -241,7 +241,7 @@ namespace TSTConsoleWorkBench.Actors
             return new List<T>();
         }
 
-        private Dictionary<string, CommandFiltersStorageTargetsFilter<T, C>> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter<T, C>>();
+        private Dictionary<string, CommandFiltersStorageTargetsFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageTargetsFilter<T>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -261,7 +261,7 @@ namespace TSTConsoleWorkBench.Actors
             Context = context;
         }
 
-        private C Context = default(C);
+        private IContextOfLogicalProcesses Context = null;
 
         public void AddFilter(T filter)
         {
@@ -269,7 +269,7 @@ namespace TSTConsoleWorkBench.Actors
 
             var commandName = filter.CommandName;
 
-            CommandFiltersStorageCommandFilter<T, C> targetStorage = null;
+            CommandFiltersStorageCommandFilter<T> targetStorage = null;
 
             if (mDict.ContainsKey(commandName))
             {
@@ -277,7 +277,7 @@ namespace TSTConsoleWorkBench.Actors
             }
             else
             {
-                targetStorage = new CommandFiltersStorageCommandFilter<T, C>(Context);
+                targetStorage = new CommandFiltersStorageCommandFilter<T>(Context);
                 mDict.Add(commandName, targetStorage);
             }
 
@@ -298,7 +298,7 @@ namespace TSTConsoleWorkBench.Actors
             return new List<T>();
         }
 
-        private Dictionary<string, CommandFiltersStorageCommandFilter<T, C>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T, C>>();
+        private Dictionary<string, CommandFiltersStorageCommandFilter<T>> mDict = new Dictionary<string, CommandFiltersStorageCommandFilter<T>>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

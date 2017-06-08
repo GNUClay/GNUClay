@@ -17,9 +17,9 @@ namespace TSTConsoleWorkBench.Actors
             mEntityConnection = mServerConnection.CreateEntity();
 
             mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
-            mCommandsDispatcher = new CommandsDispatcher<TstContext>(this);
-            mEntityActionNotificator = new EntityActionNotificator<TstContext>(this);
-            mLogicalProcessFactoriesRegistry = new LogicalProcessFactoriesRegistry<TstContext>(this);
+            mCommandsDispatcher = new CommandsDispatcher(this);
+            mEntityActionNotificator = new EntityActionNotificator(this);
+            mLogicalProcessFactoriesRegistry = new LogicalProcessFactoriesRegistry(this);
         }
 
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
@@ -63,14 +63,14 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        private CommandsDispatcher<TstContext> mCommandsDispatcher = null;
+        private CommandsDispatcher mCommandsDispatcher = null;
 
         public void AddFilter(CommandFilter filter)
         {
             mCommandsDispatcher.AddFilter(filter);
         }
 
-        protected EntityActionNotificator<TstContext> mEntityActionNotificator = null;
+        protected EntityActionNotificator mEntityActionNotificator = null;
 
         public EntityAction ExecuteCommand(Command command)
         {
@@ -124,7 +124,7 @@ namespace TSTConsoleWorkBench.Actors
             });
         }
 
-        protected LogicalProcessFactoriesRegistry<TstContext> mLogicalProcessFactoriesRegistry = null;
+        protected LogicalProcessFactoriesRegistry mLogicalProcessFactoriesRegistry = null;
 
         public void SetExclusiveGroupProcess(EntityAction action)
         {

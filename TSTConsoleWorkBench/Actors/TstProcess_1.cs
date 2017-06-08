@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class TstProcess_1: LogicalProcess<TstContext>
+    public class TstProcess_1: LogicalProcessWithCommonClass<TstContext>
     {
         public TstProcess_1()
             : base(new LogicalProcessOptions() {

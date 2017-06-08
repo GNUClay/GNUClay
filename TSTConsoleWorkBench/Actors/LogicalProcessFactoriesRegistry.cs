@@ -7,24 +7,36 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class LogicalProcessFactoriesRegistry<C>
-        where C : IContextOfLogicalProcesses
+    public class LogicalProcessFactoriesRegistry
     {
-        public LogicalProcessFactoriesRegistry(C context)
+        public LogicalProcessFactoriesRegistry(IContextOfLogicalProcesses context)
         {
             Context = context;
         }
 
-        private C Context = default(C);
+        private IContextOfLogicalProcesses Context = null;
 
-        public void AddFactory<T>() 
-            where T: ILogicalProcess<C>, new ()
+        public void AddFactory<T>()
+            where T : ILogicalProcess, new()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("AddFactory");
+
+            NAddFactory(new LogicalProcessFactory<T>(Context));
+        }
+
+        public void AddFactory<T, C>(C instanceOfCommonClass) 
+            where T: ILogicalProcessWithCommonClass<C>, new()
+            where C: ICommonClassOfLogicalProcesses
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFactory typeof(T).FullName = {typeof(T).FullName}");
 
-            var factoryInstance = new LogicalProcessFactory<T, C>(Context);
-            factoryInstance.Register();
-            mProsessFactoriesList.Add(factoryInstance);
+            NAddFactory(new LogicalProcessFactoryWithCommonClassFactory<T, C>(Context, instanceOfCommonClass));           
+        }
+
+        private void NAddFactory(ILogicalProcessFactory factory)
+        {
+            factory.Register();
+            mProsessFactoriesList.Add(factory);
         }
 
         private List<ILogicalProcessFactory> mProsessFactoriesList = new List<ILogicalProcessFactory>();

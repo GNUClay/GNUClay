@@ -12,7 +12,7 @@ namespace TSTConsoleWorkBench.Actors
     {
         public CommandsDispatcher(IContextOfLogicalProcesses context)
         {
-            mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter, C>(context);
+            mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(context);
         }
 
         public void AddFilter(CommandFilter filter)
@@ -41,6 +41,6 @@ namespace TSTConsoleWorkBench.Actors
             return true;
         }
 
-        private CommandFiltersStorage<CommandFilter, C> mCommandFiltersStorage = null;
+        private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
     }
 }

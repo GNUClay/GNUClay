@@ -11,18 +11,18 @@ namespace TSTConsoleWorkBench.Actors
     {
         StartupMode StartupMode { get; }
         void StartAutomatically();
+        void Register();
     }
 
-    public class LogicalProcessFactory<T, C>: ILogicalProcessFactory 
-        where T: ILogicalProcess<C>, new()
-        where C: IContextOfLogicalProcesses
+    public class LogicalProcessFactory<T>: ILogicalProcessFactory 
+        where T: ILogicalProcess, new()
     {
-        public LogicalProcessFactory(C context)
+        public LogicalProcessFactory(IContextOfLogicalProcesses context)
         {
             Context = context;
         }
 
-        private C Context = default(C);
+        private IContextOfLogicalProcesses Context = null;
 
         private StartupMode mStartupMode = StartupMode.OnDemand;
 
