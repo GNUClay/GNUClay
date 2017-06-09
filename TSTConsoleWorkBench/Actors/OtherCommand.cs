@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class Command: ICommand
+    public class OtherCommand: ICommand
     {
-        public Command() { }
-        public Command(string name)
+        public OtherCommand() { }
+        public OtherCommand(string name)
         {
             Name = name;
         }
 
-        public Command(string name, string target)
+        public OtherCommand(string name, string target)
         {
             Name = name;
             Target = target;

@@ -9,7 +9,7 @@ namespace TSTConsoleWorkBench.Actors
     public interface ILogicalProcessWithCommonClass<T>: ILogicalProcess
         where T : ICommonClassOfLogicalProcesses
     {
-
+        T InstanceOfCommonClass { get; set; }
     }
 
     public class LogicalProcessWithCommonClass<T>: LogicalProcess, ILogicalProcessWithCommonClass<T>
@@ -20,6 +20,20 @@ namespace TSTConsoleWorkBench.Actors
         {
         }
 
+        private T mInstanceOfCommonClass = default(T);
 
+        public T InstanceOfCommonClass
+        {
+            get
+            {
+                return mInstanceOfCommonClass;
+            }
+
+            set
+            {
+                mInstanceOfCommonClass = value;
+                Context = mInstanceOfCommonClass.Context;
+            }
+        }
     }
 }

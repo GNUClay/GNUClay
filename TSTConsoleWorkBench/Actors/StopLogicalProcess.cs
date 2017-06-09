@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class StopLogicalProcess : LogicalProcessWithCommonClass<TstContext>
+    public class StopLogicalProcess : LogicalProcessWithCommonClass<TstPrimaryCommonClass>
     {
         public StopLogicalProcess()
             : base(new LogicalProcessOptions() {

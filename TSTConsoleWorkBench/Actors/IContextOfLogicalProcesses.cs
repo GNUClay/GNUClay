@@ -14,7 +14,7 @@ namespace TSTConsoleWorkBench.Actors
         double GetTypeInheritanceRank(ulong subKey, ulong superKey);
         Blackboard Blackboard { get; }
         EntityAction ExecuteCommand(Command command);
-        EntityAction ExecuteCommand(Command command, EntityAction parent);
+        EntityAction ExecuteCommand(Command command, EntityAction initiator);
         EntityAction ExecuteCommand(EntityAction action);
         void SetExclusiveGroupProcess(EntityAction action);
         void RemoveExclusiveGroupProcess(EntityAction action);

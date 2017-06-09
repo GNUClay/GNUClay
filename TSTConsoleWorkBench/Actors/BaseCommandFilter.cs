@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class CommandFilterParam
+    public class CommandFilterParam: ICommandFilterParam
     {
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; } = 0;

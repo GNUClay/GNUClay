@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class TstProcess_1: LogicalProcessWithCommonClass<TstPrimaryCommonClass>
+    public class LogicalProcessWithOutCommonClass: LogicalProcess
     {
-        public TstProcess_1()
-            : base(new LogicalProcessOptions() {
-                Name = "tstProcess"
+        public LogicalProcessWithOutCommonClass()
+            : base(new LogicalProcessOptions()
+            {
+                Name = "alone"
             })
         {
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
@@ -22,7 +22,7 @@ namespace TSTConsoleWorkBench.Actors
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(OnRegFilter)}");
 
             var filter = new CommandFilter();
-            filter.CommandName = "tstProcess";
+            filter.CommandName = "alone";
 
             /*var numberKey = Context.GetKey("number");
             var stringKey = Context.GetKey("string");
@@ -44,29 +44,12 @@ namespace TSTConsoleWorkBench.Actors
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
 
-            InstanceOfCommonClass.GoToMarket();
+            //while (CurrentEntityAction.Status == EntityActionStatus.Running)
+            //{
 
-            var command = new Command();
-            command.Name = "walk";
+            //}
 
-            var walkResult = Context.ExecuteCommand(command, CurrentEntityAction);
-
-            command = new Command();
-            command.Name = "stop";
-
-            var stopResult = Context.ExecuteCommand(command, CurrentEntityAction);
-
-            Thread.Sleep(1000);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction = {CurrentEntityAction}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Main walkResult = {walkResult}");
-
-            while (CurrentEntityAction.Status == EntityActionStatus.Running)
-            {
-
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"End Main CurrentEntityAction.Status = {CurrentEntityAction.Status}");
 
             //throw new Exception($"Main error");
         }

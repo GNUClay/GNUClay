@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class EntityAction : IEntityAction, IToStringData
+    public class OtherEntityAction : IEntityAction, IToStringData
     {
-        public EntityAction(Command command)
+        public OtherEntityAction(OtherCommand command)
         {
             Command = command;
         }
 
         private object mLockObj = new object();
 
-        public Command Command { get; set; } = null;
+        public OtherCommand Command { get; set; } = null;
         private volatile EntityActionStatus mStatus = EntityActionStatus.Running;
 
         public EntityActionStatus Status
@@ -85,7 +85,7 @@ namespace TSTConsoleWorkBench.Actors
         private event Action mFinishedEvent;
         private event Action mFinishedWithOutFailEvent;
 
-        public void OnComlplete(Action<EntityAction> action)
+        public void OnComlplete(Action<OtherEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -106,7 +106,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFail(Action<EntityAction> action)
+        public void OnFail(Action<OtherEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -129,7 +129,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnCancel(Action<EntityAction> action)
+        public void OnCancel(Action<OtherEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -152,7 +152,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFinish(Action<EntityAction> action)
+        public void OnFinish(Action<OtherEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -177,7 +177,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFinishWithOutFail(Action<EntityAction> action)
+        public void OnFinishWithOutFail(Action<OtherEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -201,7 +201,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public EntityAction Initiator
+        public OtherEntityAction Initiator
         {
             get
             {
@@ -215,19 +215,19 @@ namespace TSTConsoleWorkBench.Actors
             {
                 lock (mLockObj)
                 {
-                    if(mInitiator == value)
+                    if (mInitiator == value)
                     {
                         return;
                     }
 
-                    if(mInitiator != null)
+                    if (mInitiator != null)
                     {
                         mInitiator.RemoveInitiatedAction(this);
                     }
 
                     mInitiator = value;
 
-                    if(mInitiator != null)
+                    if (mInitiator != null)
                     {
                         mInitiator.AddInitiatedAction(this);
                     }
@@ -235,7 +235,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public List<EntityAction> InitiatedActions
+        public List<OtherEntityAction> InitiatedActions
         {
             get
             {
@@ -246,25 +246,25 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void AddInitiatedAction(EntityAction initiatedAction)
+        public void AddInitiatedAction(OtherEntityAction initiatedAction)
         {
             lock (mLockObj)
             {
-                if(mInitiatedActions.Contains(initiatedAction))
+                if (mInitiatedActions.Contains(initiatedAction))
                 {
                     return;
                 }
 
                 mInitiatedActions.Add(initiatedAction);
 
-                if(initiatedAction.Initiator != this)
+                if (initiatedAction.Initiator != this)
                 {
                     initiatedAction.Initiator = this;
                 }
             }
         }
 
-        public void RemoveInitiatedAction(EntityAction initiatedAction)
+        public void RemoveInitiatedAction(OtherEntityAction initiatedAction)
         {
             lock (mLockObj)
             {
@@ -275,15 +275,15 @@ namespace TSTConsoleWorkBench.Actors
 
                 mInitiatedActions.Remove(initiatedAction);
 
-                if(initiatedAction.Initiator == this)
+                if (initiatedAction.Initiator == this)
                 {
                     initiatedAction.Initiator = null;
-                }      
+                }
             }
         }
 
-        private EntityAction mInitiator = null;
-        private List<EntityAction> mInitiatedActions = new List<EntityAction>();
+        private OtherEntityAction mInitiator = null;
+        private List<OtherEntityAction> mInitiatedActions = new List<OtherEntityAction>();
 
         public bool IsAutoCanceled = true;
 
@@ -294,11 +294,11 @@ namespace TSTConsoleWorkBench.Actors
 
                 foreach (var initiatedAction in initiatedActionsList)
                 {
-                    if(initiatedAction.IsAutoCanceled)
+                    if (initiatedAction.IsAutoCanceled)
                     {
                         Task.Run(() => {
                             initiatedAction.Cancel();
-                        });                      
+                        });
                     }
                 }
             });
@@ -308,7 +308,7 @@ namespace TSTConsoleWorkBench.Actors
 
         public void SetOnClarifyParamsByInitiatedActions(OnClarifyParams callBack)
         {
-            lock(mLockObj)
+            lock (mLockObj)
             {
                 mOnClarifyParamsByInitiatedActions = callBack;
             }
@@ -416,21 +416,21 @@ namespace TSTConsoleWorkBench.Actors
             return tmpSb.ToString();
         }
 
-        public static EntityAction Create(Command command)
+        public static OtherEntityAction Create(OtherCommand command)
         {
-            return new EntityAction(command);
+            return new OtherEntityAction(command);
         }
 
-        public static EntityAction CreateSuccess(Command command)
+        public static OtherEntityAction CreateSuccess(OtherCommand command)
         {
-            var action = new EntityAction(command);
+            var action = new OtherEntityAction(command);
             action.Status = EntityActionStatus.Completed;
             return action;
         }
 
-        public static EntityAction CreateError(Command command)
+        public static OtherEntityAction CreateError(OtherCommand command)
         {
-            var action = new EntityAction(command);
+            var action = new OtherEntityAction(command);
             action.Status = EntityActionStatus.Faulted;
             return action;
         }

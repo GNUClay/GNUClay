@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public class WalkLogicalProcess : LogicalProcessWithCommonClass<TstContext>
+    public class WalkLogicalProcess : LogicalProcessWithCommonClass<TstPrimaryCommonClass>
     {
         public WalkLogicalProcess()
             : base(new LogicalProcessOptions() {

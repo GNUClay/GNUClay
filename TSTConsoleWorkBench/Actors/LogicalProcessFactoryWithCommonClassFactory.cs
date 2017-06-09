@@ -13,6 +13,18 @@ namespace TSTConsoleWorkBench.Actors
         public LogicalProcessFactoryWithCommonClassFactory(IContextOfLogicalProcesses context, C instanceOfCommonClass)
             : base(context)
         {
+            mInstanceOfCommonClass = instanceOfCommonClass;
+        }
+
+        private C mInstanceOfCommonClass = default(C);
+
+        protected override void Start(EntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} action.Status = {action.Status}");
+
+            var instance = new T();
+            instance.InstanceOfCommonClass = mInstanceOfCommonClass;
+            instance.Start(action);
         }
     }
 }

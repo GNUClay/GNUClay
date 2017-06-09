@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.LocalHost;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,21 +22,44 @@ namespace TSTConsoleWorkBench.Actors
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Case_1");
 
-            var tmpContext = new TstContext();
+            var tmpServerConnection = new GnuClayLocalServer();
+            var tmpEntityConnection = tmpServerConnection.CreateEntity();
 
-            var tmpLogicalProcesesFactoresRegistry = new LogicalProcessFactoriesRegistry<TstContext>(tmpContext);
-            tmpLogicalProcesesFactoresRegistry.AddFactory<TstProcess_1>();
-            tmpLogicalProcesesFactoresRegistry.AddFactory<WalkLogicalProcess>();
-            tmpLogicalProcesesFactoresRegistry.AddFactory<StopLogicalProcess>();
+            var tmpContextOfLogicalProcesses = new ContextOfLogicalProcesses(tmpEntityConnection);
+
+            var tmpCommonClass = new TstPrimaryCommonClass(tmpContextOfLogicalProcesses);
+            var tmpSecondaryCommonClass = new TstSecondaryCommonClass(tmpContextOfLogicalProcesses);
+
+            var tmpLogicalProcesesFactoresRegistry = new LogicalProcessFactoriesRegistry(tmpCommonClass.Context);
+            tmpLogicalProcesesFactoresRegistry.AddFactory<TstProcess_1, TstPrimaryCommonClass>(tmpCommonClass);
+            tmpLogicalProcesesFactoresRegistry.AddFactory<WalkLogicalProcess, TstPrimaryCommonClass>(tmpCommonClass);
+            tmpLogicalProcesesFactoresRegistry.AddFactory<StopLogicalProcess, TstPrimaryCommonClass>(tmpCommonClass);
+            tmpLogicalProcesesFactoresRegistry.AddFactory<SecondaryCommonClassLogicalProcess, TstSecondaryCommonClass>(tmpSecondaryCommonClass);
+            tmpLogicalProcesesFactoresRegistry.AddFactory<LogicalProcessWithOutCommonClass>();
+
+            var otherCommand = new OtherCommand();
+            otherCommand.Name = "other";
+
+            var otherEntityAction = new OtherEntityAction(otherCommand);
 
             var command = new Command();
             command.Name = "tstProcess";
 
-            var result = tmpContext.ExecuteCommand(command);
+            var result = tmpCommonClass.Context.ExecuteCommand(command/*, otherEntityAction*/);
 
             result.OnFinish((EntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 result.OnFinish result = {result}");
             });
+
+            command = new Command();
+            command.Name = "alone";
+
+            tmpCommonClass.Context.ExecuteCommand(command);
+
+            command = new Command();
+            command.Name = "second";
+
+            tmpCommonClass.Context.ExecuteCommand(command);
 
             Thread.Sleep(10000);
 
