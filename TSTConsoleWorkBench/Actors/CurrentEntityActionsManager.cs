@@ -8,11 +8,11 @@ namespace TSTConsoleWorkBench.Actors
 {
     public class CurrentEntityActionsManager
     {
-        public void SetProcessAsCurrent(EntityAction action)
+        public void SetProcessAsCurrent(IEntityAction action)
         {
             lock(mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetProcessAsCurrent action = {action}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetProcessAsCurrent");
 
                 if(mCurrentActions.Contains(action))
                 {
@@ -23,11 +23,11 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void RemoveProcessAsCurrent(EntityAction action)
+        public void RemoveProcessAsCurrent(IEntityAction action)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveProcessAsCurrent action = {action}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveProcessAsCurrent");
 
                 if (mCurrentActions.Contains(action))
                 {
@@ -37,6 +37,6 @@ namespace TSTConsoleWorkBench.Actors
         }
 
         private object mLockObj = new object();
-        private List<EntityAction> mCurrentActions = new List<EntityAction>();
+        private List<IEntityAction> mCurrentActions = new List<IEntityAction>();
     }
 }

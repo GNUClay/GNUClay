@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
+    public delegate void OnFiledDispatchOfCommand(IEntityAction command);
+
     public interface IContextOfLogicalProcesses
     {
         void AddFilter(CommandFilter filter);
@@ -13,13 +15,14 @@ namespace TSTConsoleWorkBench.Actors
         ulong GetTypeKey(object value);
         double GetTypeInheritanceRank(ulong subKey, ulong superKey);
         Blackboard Blackboard { get; }
-        EntityAction ExecuteCommand(Command command);
-        EntityAction ExecuteCommand(Command command, EntityAction initiator);
-        EntityAction ExecuteCommand(EntityAction action);
-        void SetExclusiveGroupProcess(EntityAction action);
-        void RemoveExclusiveGroupProcess(EntityAction action);
-        void SetProcessAsCurrent(EntityAction action);
-        void RemoveProcessAsCurrent(EntityAction action);
+        IEntityAction ExecuteCommand(ICommand command);
+        IEntityAction ExecuteCommand(ICommand command, IEntityAction initiator);
+        IEntityAction ExecuteCommand(IEntityAction action);
+        void SetExclusiveGroupProcess(IEntityAction action);
+        void RemoveExclusiveGroupProcess(IEntityAction action);
+        void SetProcessAsCurrent(IEntityAction action);
+        void RemoveProcessAsCurrent(IEntityAction action);
+        void SetFiledDispatchOfCommandHandler(OnFiledDispatchOfCommand handler);
     }
 
     public interface ICommonClassOfLogicalProcesses

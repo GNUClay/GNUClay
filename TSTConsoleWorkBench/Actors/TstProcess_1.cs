@@ -58,7 +58,7 @@ namespace TSTConsoleWorkBench.Actors
 
             Thread.Sleep(1000);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction = {CurrentEntityAction}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main CurrentEntityAction = {CurrentEntityAction}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"Main walkResult = {walkResult}");
 
             while (CurrentEntityAction.Status == EntityActionStatus.Running)

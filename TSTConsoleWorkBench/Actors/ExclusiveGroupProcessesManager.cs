@@ -8,11 +8,11 @@ namespace TSTConsoleWorkBench.Actors
 {
     public class ExclusiveGroupProcessesManager
     {
-        public void SetExclusiveGroupProcess(EntityAction action)
+        public void SetExclusiveGroupProcess(IEntityAction action)
         {
             lock(mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetExclusiveGroupProcess action = {action}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetExclusiveGroupProcess");
 
                 var exclusiveGroupKey = action.ExclusiveGroupKey;
 
@@ -40,11 +40,11 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void RemoveExclusiveGroupProcess(EntityAction action)
+        public void RemoveExclusiveGroupProcess(IEntityAction action)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveExclusiveGroupProcess action = {action}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveExclusiveGroupProcess");
 
                 var exclusiveGroupKey = action.ExclusiveGroupKey;
 
@@ -67,6 +67,6 @@ namespace TSTConsoleWorkBench.Actors
         }
 
         private object mLockObj = new object();
-        private Dictionary<ulong, EntityAction> mExclusiveGroupProcessDict = new Dictionary<ulong, EntityAction>();
+        private Dictionary<ulong, IEntityAction> mExclusiveGroupProcessDict = new Dictionary<ulong, IEntityAction>();
     }
 }

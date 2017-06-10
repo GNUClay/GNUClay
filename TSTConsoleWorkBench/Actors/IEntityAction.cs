@@ -24,9 +24,25 @@ namespace TSTConsoleWorkBench.Actors
         ulong NameKey { get; set; }
         Exception Exception { get; set; }
         void Cancel();
-        void OnComlplete(Action<EntityAction> action);
-        void OnFail(Action<EntityAction> action);
-        void OnCancel(Action<EntityAction> action);
-        void OnFinish(Action<EntityAction> action);
+        void OnComlplete(Action<IEntityAction> action);
+        void OnFail(Action<IEntityAction> action);
+        void OnCancel(Action<IEntityAction> action);
+        void OnFinish(Action<IEntityAction> action);
+        void OnFinishWithOutFail(Action<IEntityAction> action);
+        IEntityAction Initiator { get; set; }
+        List<IEntityAction> InitiatedActions { get; }
+        void AddInitiatedAction(IEntityAction initiatedAction);
+        void RemoveInitiatedAction(IEntityAction initiatedAction);
+        bool IsAutoCanceled { get; set; }
+        void SetOnClarifyParamsByInitiatedActions(OnClarifyParams callBack);
+        void ResetOnClarifyParamsByInitiatedActions();
+        void ClarifyParamsByInitiatedActions(ICommandFilterParam param);
+        void ClarifyParamsByInitiatedActions(List<ICommandFilterParam> paramsList);
+        void SetOnClarifyParamsByInitiator(OnClarifyParams callBack);
+        void ResetOnClarifyParamsByInitiator();
+        void ClarifyParamsByInitiator(ICommandFilterParam param);
+        void ClarifyParamsByInitiator(List<ICommandFilterParam> paramsList);
+        ulong ExclusiveGroupKey { get; set; }
+        string DisplaySmallInfo();
     }
 }

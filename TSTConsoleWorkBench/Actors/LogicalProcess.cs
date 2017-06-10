@@ -12,7 +12,7 @@ namespace TSTConsoleWorkBench.Actors
         StartupMode StartupMode { get; }
         string Name { get; }
         List<CommandFilter> GetFilters();
-        void Start(EntityAction action);
+        void Start(IEntityAction action);
     }
 
     public class LogicalProcess: ILogicalProcess
@@ -59,10 +59,10 @@ namespace TSTConsoleWorkBench.Actors
             mFiltersList.Add(filter);
         }
 
-        protected EntityAction CurrentEntityAction = null;
-        protected Command CurrentCommand = null;
+        protected IEntityAction CurrentEntityAction = null;
+        protected ICommand CurrentCommand = null;
 
-        public void Start(EntityAction action)
+        public void Start(IEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} action.Status = {action.Status}");
 

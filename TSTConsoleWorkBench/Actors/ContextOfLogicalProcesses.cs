@@ -56,12 +56,12 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public EntityAction ExecuteCommand(Command command)
+        public IEntityAction ExecuteCommand(ICommand command)
         {
             return ExecuteCommand(command, null);
         }
 
-        public EntityAction ExecuteCommand(Command command, EntityAction initiator)
+        public IEntityAction ExecuteCommand(ICommand command, IEntityAction initiator)
         {
             var result = new EntityAction(command);
             result.Name = Guid.NewGuid().ToString("D");
@@ -77,14 +77,14 @@ namespace TSTConsoleWorkBench.Actors
             return result;
         }
 
-        public EntityAction ExecuteCommand(EntityAction action)
+        public IEntityAction ExecuteCommand(IEntityAction action)
         {
             NExecuteCommand(action);
 
             return action;
         }
 
-        private async void NExecuteCommand(EntityAction action)
+        private async void NExecuteCommand(IEntityAction action)
         {
             await Task.Run(() => {
                 try
@@ -97,8 +97,9 @@ namespace TSTConsoleWorkBench.Actors
 
                     if (!dispatchedResult)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info("ExecuteCommand !dispatchedResult No Dispatch");
-                        //ActiveEntity.ExecuteCommand(actionResult);
+                        Task.Run(() => {
+                            mOnFiledDispatchOfCommandHandler?.Invoke(action);
+                        });
                     }
                 }
                 catch (Exception e)
@@ -109,24 +110,31 @@ namespace TSTConsoleWorkBench.Actors
             });
         }
 
-        public void SetExclusiveGroupProcess(EntityAction action)
+        public void SetExclusiveGroupProcess(IEntityAction action)
         {
             mLogicalProcessesManager.SetExclusiveGroupProcess(action);
         }
 
-        public void RemoveExclusiveGroupProcess(EntityAction action)
+        public void RemoveExclusiveGroupProcess(IEntityAction action)
         {
             mLogicalProcessesManager.RemoveExclusiveGroupProcess(action);
         }
 
-        public void SetProcessAsCurrent(EntityAction action)
+        public void SetProcessAsCurrent(IEntityAction action)
         {
             mCurrentEntityActionsManager.SetProcessAsCurrent(action);
         }
 
-        public void RemoveProcessAsCurrent(EntityAction action)
+        public void RemoveProcessAsCurrent(IEntityAction action)
         {
             mCurrentEntityActionsManager.RemoveProcessAsCurrent(action);
+        }
+
+        private OnFiledDispatchOfCommand mOnFiledDispatchOfCommandHandler = null;
+
+        public void SetFiledDispatchOfCommandHandler(OnFiledDispatchOfCommand handler)
+        {
+            mOnFiledDispatchOfCommandHandler = handler;
         }
     }
 }

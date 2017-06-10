@@ -86,7 +86,7 @@ namespace TSTConsoleWorkBench.Actors
             });
         }
 
-        protected virtual void Start(EntityAction action)
+        protected virtual void Start(IEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} action.Status = {action.Status}");
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public delegate void CommandHandler(EntityAction action);
+    public delegate void CommandHandler(IEntityAction action);
 
     public class CommandFilter : BaseCommandFilter
     {

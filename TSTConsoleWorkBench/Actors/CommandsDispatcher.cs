@@ -20,7 +20,7 @@ namespace TSTConsoleWorkBench.Actors
             mCommandFiltersStorage.AddFilter(filter);
         }
 
-        public bool Dipatch(EntityAction action)
+        public bool Dipatch(IEntityAction action)
         {
             var actionsList = mCommandFiltersStorage.FindFilter(action.Command);
 

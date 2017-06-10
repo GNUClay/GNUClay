@@ -11,6 +11,7 @@ namespace TSTConsoleWorkBench.Actors
         public TstSecondaryCommonClass(IContextOfLogicalProcesses context)
         {
             mContextOfLogicalProcesses = context;
+            mContextOfLogicalProcesses.SetFiledDispatchOfCommandHandler(OnFiledDispatchOfCommand);
         }
 
         private IContextOfLogicalProcesses mContextOfLogicalProcesses = null;
@@ -26,6 +27,11 @@ namespace TSTConsoleWorkBench.Actors
         public void RunFakeUnity3DHost()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RunFakeUnity3DHost");
+        }
+
+        private void OnFiledDispatchOfCommand(IEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnFiledDispatchOfCommand action.Command = {action.Command}");
         }
     }
 }

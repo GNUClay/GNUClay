@@ -45,10 +45,10 @@ namespace TSTConsoleWorkBench.Actors
             var command = new Command();
             command.Name = "tstProcess";
 
-            var result = tmpCommonClass.Context.ExecuteCommand(command/*, otherEntityAction*/);
+            var result = tmpCommonClass.Context.ExecuteCommand(command, otherEntityAction);
 
-            result.OnFinish((EntityAction action) => {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 result.OnFinish result = {result}");
+            result.OnFinish((IEntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 result.OnFinish");
             });
 
             command = new Command();
@@ -58,6 +58,11 @@ namespace TSTConsoleWorkBench.Actors
 
             command = new Command();
             command.Name = "second";
+
+            tmpCommonClass.Context.ExecuteCommand(command);
+
+            command = new Command();
+            command.Name = "fire";
 
             tmpCommonClass.Context.ExecuteCommand(command);
 

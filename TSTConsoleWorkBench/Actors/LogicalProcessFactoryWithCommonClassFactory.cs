@@ -18,7 +18,7 @@ namespace TSTConsoleWorkBench.Actors
 
         private C mInstanceOfCommonClass = default(C);
 
-        protected override void Start(EntityAction action)
+        protected override void Start(IEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(Start)} action.Status = {action.Status}");
 

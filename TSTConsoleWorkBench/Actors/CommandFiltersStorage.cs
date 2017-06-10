@@ -28,7 +28,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public double GetRank(Command command)
+        public double GetRank(ICommand command)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command = {command}");
 
@@ -152,7 +152,7 @@ namespace TSTConsoleWorkBench.Actors
             mDict.Add(targetHashCode, targetStorage);
         }
 
-        public List<T> FindFilter(Command command)
+        public List<T> FindFilter(ICommand command)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
@@ -227,7 +227,7 @@ namespace TSTConsoleWorkBench.Actors
             targetStorage.AddFilter(filter);
         }
 
-        public List<T> FindFilter(Command command)
+        public List<T> FindFilter(ICommand command)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 
@@ -284,7 +284,7 @@ namespace TSTConsoleWorkBench.Actors
             targetStorage.AddFilter(filter);
         }
 
-        public List<T> FindFilter(Command command)
+        public List<T> FindFilter(ICommand command)
         {
             //NLog.LogManager.GetCurrentClassLogger().Info($"FindFilter command = {command}");
 

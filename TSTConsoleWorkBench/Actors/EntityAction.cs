@@ -9,14 +9,14 @@ namespace TSTConsoleWorkBench.Actors
 {
     public class EntityAction : IEntityAction, IToStringData
     {
-        public EntityAction(Command command)
+        public EntityAction(ICommand command)
         {
             Command = command;
         }
 
         private object mLockObj = new object();
 
-        public Command Command { get; set; } = null;
+        public ICommand Command { get; set; } = null;
         private volatile EntityActionStatus mStatus = EntityActionStatus.Running;
 
         public EntityActionStatus Status
@@ -85,7 +85,7 @@ namespace TSTConsoleWorkBench.Actors
         private event Action mFinishedEvent;
         private event Action mFinishedWithOutFailEvent;
 
-        public void OnComlplete(Action<EntityAction> action)
+        public void OnComlplete(Action<IEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -106,7 +106,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFail(Action<EntityAction> action)
+        public void OnFail(Action<IEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -129,7 +129,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnCancel(Action<EntityAction> action)
+        public void OnCancel(Action<IEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -152,7 +152,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFinish(Action<EntityAction> action)
+        public void OnFinish(Action<IEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -177,7 +177,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void OnFinishWithOutFail(Action<EntityAction> action)
+        public void OnFinishWithOutFail(Action<IEntityAction> action)
         {
             lock (mLockObj)
             {
@@ -201,7 +201,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public EntityAction Initiator
+        public IEntityAction Initiator
         {
             get
             {
@@ -235,7 +235,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public List<EntityAction> InitiatedActions
+        public List<IEntityAction> InitiatedActions
         {
             get
             {
@@ -246,7 +246,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void AddInitiatedAction(EntityAction initiatedAction)
+        public void AddInitiatedAction(IEntityAction initiatedAction)
         {
             lock (mLockObj)
             {
@@ -264,7 +264,7 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void RemoveInitiatedAction(EntityAction initiatedAction)
+        public void RemoveInitiatedAction(IEntityAction initiatedAction)
         {
             lock (mLockObj)
             {
@@ -282,10 +282,10 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        private EntityAction mInitiator = null;
-        private List<EntityAction> mInitiatedActions = new List<EntityAction>();
+        private IEntityAction mInitiator = null;
+        private List<IEntityAction> mInitiatedActions = new List<IEntityAction>();
 
-        public bool IsAutoCanceled = true;
+        public bool IsAutoCanceled { get; set; } = true;
 
         private async void AutoCancelInitiatedProcesses()
         {
@@ -322,12 +322,12 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void ClarifyParamsByInitiatedActions(CommandFilterParam param)
+        public void ClarifyParamsByInitiatedActions(ICommandFilterParam param)
         {
-            ClarifyParamsByInitiatedActions(new List<CommandFilterParam>() { param });
+            ClarifyParamsByInitiatedActions(new List<ICommandFilterParam>() { param });
         }
 
-        public void ClarifyParamsByInitiatedActions(List<CommandFilterParam> paramsList)
+        public void ClarifyParamsByInitiatedActions(List<ICommandFilterParam> paramsList)
         {
             lock (mLockObj)
             {
@@ -355,12 +355,12 @@ namespace TSTConsoleWorkBench.Actors
             }
         }
 
-        public void ClarifyParamsByInitiator(CommandFilterParam param)
+        public void ClarifyParamsByInitiator(ICommandFilterParam param)
         {
-            ClarifyParamsByInitiator(new List<CommandFilterParam>() { param });
+            ClarifyParamsByInitiator(new List<ICommandFilterParam>() { param });
         }
 
-        public void ClarifyParamsByInitiator(List<CommandFilterParam> paramsList)
+        public void ClarifyParamsByInitiator(List<ICommandFilterParam> paramsList)
         {
             lock (mLockObj)
             {
@@ -414,25 +414,6 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
 
             return tmpSb.ToString();
-        }
-
-        public static EntityAction Create(Command command)
-        {
-            return new EntityAction(command);
-        }
-
-        public static EntityAction CreateSuccess(Command command)
-        {
-            var action = new EntityAction(command);
-            action.Status = EntityActionStatus.Completed;
-            return action;
-        }
-
-        public static EntityAction CreateError(Command command)
-        {
-            var action = new EntityAction(command);
-            action.Status = EntityActionStatus.Faulted;
-            return action;
         }
     }
 }

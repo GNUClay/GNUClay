@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.Actors
 {
-    public delegate void ActionEventsNotificatorHandler(EntityAction action);
+    public delegate void ActionEventsNotificatorHandler(IEntityAction action);
 
     public class EntityActionEventsFilter : BaseCommandFilter
     {
@@ -20,7 +20,7 @@ namespace TSTConsoleWorkBench.Actors
 
         public event ActionEventsNotificatorHandler Handler;
 
-        public void Emit(EntityAction action)
+        public void Emit(IEntityAction action)
         {
             Handler?.Invoke(action);
         }
@@ -40,11 +40,11 @@ namespace TSTConsoleWorkBench.Actors
             mCommandFiltersStorage.AddFilter(filter);
         }
 
-        public void AddEntityAction(EntityAction entityAction)
+        public void AddEntityAction(IEntityAction entityAction)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddEntityAction entityAction.Command = {entityAction.Command}");
 
-            entityAction.OnFinish((EntityAction action) => {
+            entityAction.OnFinish((IEntityAction action) => {
                 NLog.LogManager.GetCurrentClassLogger().Info($"AddEntityAction entityAction.OnFinish action.Status = {action.Status} action.Command = {action.Command}");
 
                 var actionsList = mCommandFiltersStorage.FindFilter(entityAction.Command);

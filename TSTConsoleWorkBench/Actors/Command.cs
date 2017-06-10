@@ -33,5 +33,29 @@ namespace TSTConsoleWorkBench.Actors
         {
             return _ObjectHelper.PrintJsonToStringInformation(this);
         }
+
+        public override int GetHashCode()
+        {
+            var result = 0;
+
+            if(!string.IsNullOrWhiteSpace(Name))
+            {
+
+            }
+
+            if (!string.IsNullOrWhiteSpace(Target))
+            {
+
+            }
+
+            if (Params != null)
+            {
+
+            }
+
+            //throw new NotImplementedException();
+
+            return base.GetHashCode();
+        }
     }
 }
