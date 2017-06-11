@@ -1,13 +1,14 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonUtils.Actors;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public class Command: ICommand
+    public class Command : ICommand
     {
         public Command() { }
         public Command(string name)
@@ -50,13 +51,13 @@ namespace TSTConsoleWorkBench.Actors
 
             if (Params != null)
             {
-                foreach(var paramItem in Params)
+                foreach (var paramItem in Params)
                 {
                     result ^= paramItem.Key.GetHashCode();
 
                     var paramValue = paramItem.Value;
 
-                    if(paramValue != null)
+                    if (paramValue != null)
                     {
                         result ^= paramValue.GetHashCode();
                     }

@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalCas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.SimpleGUI", "SquaresWorkBench.SimpleGUI\SquaresWorkBench.SimpleGUI.csproj", "{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.Actors", "SquaresWorkBench.Actors\SquaresWorkBench.Actors.csproj", "{1979822C-6F85-4A4A-A126-D687F7CC76F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +110,6 @@ Global
 		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
 		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
 		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
+		{1979822C-6F85-4A4A-A126-D687F7CC76F9} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
 	EndGlobalSection
 EndGlobal

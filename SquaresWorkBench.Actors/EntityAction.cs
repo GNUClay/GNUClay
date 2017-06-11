@@ -1,11 +1,12 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonUtils.Actors;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
     public class EntityAction : IEntityAction, IToStringData
     {
@@ -215,19 +216,19 @@ namespace TSTConsoleWorkBench.Actors
             {
                 lock (mLockObj)
                 {
-                    if(mInitiator == value)
+                    if (mInitiator == value)
                     {
                         return;
                     }
 
-                    if(mInitiator != null)
+                    if (mInitiator != null)
                     {
                         mInitiator.RemoveInitiatedAction(this);
                     }
 
                     mInitiator = value;
 
-                    if(mInitiator != null)
+                    if (mInitiator != null)
                     {
                         mInitiator.AddInitiatedAction(this);
                     }
@@ -250,14 +251,14 @@ namespace TSTConsoleWorkBench.Actors
         {
             lock (mLockObj)
             {
-                if(mInitiatedActions.Contains(initiatedAction))
+                if (mInitiatedActions.Contains(initiatedAction))
                 {
                     return;
                 }
 
                 mInitiatedActions.Add(initiatedAction);
 
-                if(initiatedAction.Initiator != this)
+                if (initiatedAction.Initiator != this)
                 {
                     initiatedAction.Initiator = this;
                 }
@@ -275,10 +276,10 @@ namespace TSTConsoleWorkBench.Actors
 
                 mInitiatedActions.Remove(initiatedAction);
 
-                if(initiatedAction.Initiator == this)
+                if (initiatedAction.Initiator == this)
                 {
                     initiatedAction.Initiator = null;
-                }      
+                }
             }
         }
 
@@ -294,11 +295,11 @@ namespace TSTConsoleWorkBench.Actors
 
                 foreach (var initiatedAction in initiatedActionsList)
                 {
-                    if(initiatedAction.IsAutoCanceled)
+                    if (initiatedAction.IsAutoCanceled)
                     {
                         Task.Run(() => {
                             initiatedAction.Cancel();
-                        });                      
+                        });
                     }
                 }
             });
@@ -308,7 +309,7 @@ namespace TSTConsoleWorkBench.Actors
 
         public void SetOnClarifyParamsByInitiatedActions(OnClarifyParams callBack)
         {
-            lock(mLockObj)
+            lock (mLockObj)
             {
                 mOnClarifyParamsByInitiatedActions = callBack;
             }

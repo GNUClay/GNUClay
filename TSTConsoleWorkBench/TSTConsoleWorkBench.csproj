@@ -53,19 +53,14 @@
   <ItemGroup>
     <Compile Include="Actors\BaseCommandFilter.cs" />
     <Compile Include="Actors\Blackboard.cs" />
-    <Compile Include="Actors\Command.cs" />
     <Compile Include="Actors\CommandFilter.cs" />
     <Compile Include="Actors\CommandFiltersStorage.cs" />
     <Compile Include="Actors\CommandsDispatcher.cs" />
     <Compile Include="Actors\ContextOfLogicalProcesses.cs" />
     <Compile Include="Actors\CSharpTypesRegistry.cs" />
     <Compile Include="Actors\CurrentEntityActionsManager.cs" />
-    <Compile Include="Actors\EntityAction.cs" />
     <Compile Include="Actors\EntityActionNotificator.cs" />
-    <Compile Include="Actors\ICommand.cs" />
-    <Compile Include="Actors\ICommandFilterParam.cs" />
     <Compile Include="Actors\IContextOfLogicalProcesses.cs" />
-    <Compile Include="Actors\IEntityAction.cs" />
     <Compile Include="Actors\LogicalProcess.cs" />
     <Compile Include="Actors\ExclusiveGroupProcessesManager.cs" />
     <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />
@@ -129,6 +124,10 @@
     <ProjectReference Include="..\GnuClay.TextCGParser\GnuClay.TextCGParser.csproj">
       <Project>{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}</Project>
       <Name>GnuClay.TextCGParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquaresWorkBench.Actors\SquaresWorkBench.Actors.csproj">
+      <Project>{1979822c-6f85-4a4a-a126-d687f7cc76f9}</Project>
+      <Name>SquaresWorkBench.Actors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

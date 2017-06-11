@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace GnuClay.CommonUtils.Actors
 {
     public enum EntityActionStatus
     {
