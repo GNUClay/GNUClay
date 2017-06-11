@@ -43,6 +43,5 @@ namespace TSTConsoleWorkBench.Actors
         void ClarifyParamsByInitiator(ICommandFilterParam param);
         void ClarifyParamsByInitiator(List<ICommandFilterParam> paramsList);
         ulong ExclusiveGroupKey { get; set; }
-        string DisplaySmallInfo();
     }
 }

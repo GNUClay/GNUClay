@@ -395,23 +395,8 @@ namespace TSTConsoleWorkBench.Actors
             tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
             tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
             tmpSb.AppendLine($"{nameof(ExclusiveGroupKey)} = {ExclusiveGroupKey}");
-            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator?.DisplaySmallInfo()}");
-            tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
-
-            return tmpSb.ToString();
-        }
-
-        public string DisplaySmallInfo()
-        {
-            var tmpSb = new StringBuilder();
-
-            tmpSb.AppendLine($"{nameof(Status)} = {Status}");
-            tmpSb.AppendLine($"{nameof(Command)} = {Command}");
-            tmpSb.AppendLine($"{nameof(Name)} = {Name}");
-            tmpSb.AppendLine($"{nameof(NameKey)} = {NameKey}");
-            tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
-            tmpSb.AppendLine($"{nameof(ExclusiveGroupKey)} = {ExclusiveGroupKey}");
-            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
+            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator?.NameKey}");
+            tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions.Select(p => p.NameKey))}");
 
             return tmpSb.ToString();
         }

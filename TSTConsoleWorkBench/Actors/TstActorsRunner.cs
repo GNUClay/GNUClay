@@ -15,7 +15,8 @@ namespace TSTConsoleWorkBench.Actors
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Run");
             Case_1();
             //Case_2();
-            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+            //ComparareCommands();
+            NLog.LogManager.GetCurrentClassLogger().Info("End Run"); 
         }
 
         private void Case_1()
@@ -52,6 +53,11 @@ namespace TSTConsoleWorkBench.Actors
             });
 
             command = new Command();
+            command.Name = "other";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 ");
+
+            command = new Command();
             command.Name = "alone";
 
             tmpCommonClass.Context.ExecuteCommand(command);
@@ -70,6 +76,17 @@ namespace TSTConsoleWorkBench.Actors
 
             NLog.LogManager.GetCurrentClassLogger().Info("Case_1 result.Cancel()");
             result.Cancel();
+
+            Thread.Sleep(10000);
+
+            command = new Command();
+            command.Name = "tstProcess";
+
+            result = tmpCommonClass.Context.ExecuteCommand(command, otherEntityAction);
+
+            result.OnFinish((IEntityAction action) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Case_1 result.OnFinish (2)");
+            });
 
             Thread.Sleep(10000);
 
@@ -132,6 +149,29 @@ namespace TSTConsoleWorkBench.Actors
             tmpBlackBoard.SetValue(targetKey, 14);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Case_2");
+        }
+
+        private void ComparareCommands()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ComparareCommands");
+
+            var command_1 = new Command();
+            command_1.Name = "first";
+            command_1.Target = "second";
+
+            command_1.Params = new Dictionary<string, object>();
+            command_1.Params["param"] = 1;
+
+            var command_2 = new Command();
+            command_2.Name = "first";
+            command_2.Target = "second";
+
+            command_2.Params = new Dictionary<string, object>();
+            command_2.Params["param"] = 1;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ComparareCommands command_1.GetHashCode() == command_2.GetHashCode() = {command_1.GetHashCode() == command_2.GetHashCode()}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ComparareCommands");
         }
     }
 }

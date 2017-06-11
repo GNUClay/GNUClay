@@ -38,24 +38,32 @@ namespace TSTConsoleWorkBench.Actors
         {
             var result = 0;
 
-            if(!string.IsNullOrWhiteSpace(Name))
+            if (!string.IsNullOrWhiteSpace(Name))
             {
-
+                result ^= Name.GetHashCode();
             }
 
             if (!string.IsNullOrWhiteSpace(Target))
             {
-
+                result ^= Target.GetHashCode();
             }
 
             if (Params != null)
             {
+                foreach(var paramItem in Params)
+                {
+                    result ^= paramItem.Key.GetHashCode();
 
+                    var paramValue = paramItem.Value;
+
+                    if(paramValue != null)
+                    {
+                        result ^= paramValue.GetHashCode();
+                    }
+                }
             }
 
-            //throw new NotImplementedException();
-
-            return base.GetHashCode();
+            return result;
         }
     }
 }
