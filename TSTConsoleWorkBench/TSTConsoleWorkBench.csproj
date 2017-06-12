@@ -51,28 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\BaseCommandFilter.cs" />
-    <Compile Include="Actors\Blackboard.cs" />
-    <Compile Include="Actors\CommandFilter.cs" />
-    <Compile Include="Actors\CommandFiltersStorage.cs" />
-    <Compile Include="Actors\CommandsDispatcher.cs" />
-    <Compile Include="Actors\ContextOfLogicalProcesses.cs" />
-    <Compile Include="Actors\CSharpTypesRegistry.cs" />
-    <Compile Include="Actors\CurrentEntityActionsManager.cs" />
-    <Compile Include="Actors\EntityActionNotificator.cs" />
-    <Compile Include="Actors\IContextOfLogicalProcesses.cs" />
-    <Compile Include="Actors\LogicalProcess.cs" />
-    <Compile Include="Actors\ExclusiveGroupProcessesManager.cs" />
-    <Compile Include="Actors\LogicalProcessFactoriesRegistry.cs" />
-    <Compile Include="Actors\LogicalProcessFactory.cs" />
-    <Compile Include="Actors\LogicalProcessFactoryWithCommonClassFactory.cs" />
-    <Compile Include="Actors\LogicalProcessOptions.cs" />
-    <Compile Include="Actors\LogicalProcessWithCommonClass.cs" />
     <Compile Include="Actors\LogicalProcessWithOutCommonClass.cs" />
     <Compile Include="Actors\OtherCommand.cs" />
     <Compile Include="Actors\OtherEntityAction.cs" />
     <Compile Include="Actors\SecondaryCommonClassLogicalProcess.cs" />
-    <Compile Include="Actors\StartupMode.cs" />
     <Compile Include="Actors\StopLogicalProcess.cs" />
     <Compile Include="Actors\TstActorsRunner.cs" />
     <Compile Include="Actors\TstPrimaryCommonClass.cs" />

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.Actors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public interface ILogicalProcess 
+    public interface ILogicalProcess
     {
         IContextOfLogicalProcesses Context { get; set; }
         StartupMode StartupMode { get; }
@@ -15,7 +16,7 @@ namespace TSTConsoleWorkBench.Actors
         void Start(IEntityAction action);
     }
 
-    public class LogicalProcess: ILogicalProcess
+    public class LogicalProcess : ILogicalProcess
     {
         public LogicalProcess(LogicalProcessOptions options)
         {
@@ -24,14 +25,14 @@ namespace TSTConsoleWorkBench.Actors
             IsAutoCanceled = options.IsAutoCanceled;
             ExclusiveGroup = options.ExclusiveGroup;
 
-            if(!string.IsNullOrWhiteSpace(ExclusiveGroup))
+            if (!string.IsNullOrWhiteSpace(ExclusiveGroup))
             {
                 HasExclusiveGroup = true;
             }
         }
 
         public IContextOfLogicalProcesses Context { get; set; }
-        public StartupMode StartupMode { get; private set;}
+        public StartupMode StartupMode { get; private set; }
         public string Name { get; private set; }
 
         public bool IsAutoCanceled { get; private set; }
@@ -68,13 +69,13 @@ namespace TSTConsoleWorkBench.Actors
 
             action.IsAutoCanceled = IsAutoCanceled;
 
-            if(HasExclusiveGroup)
+            if (HasExclusiveGroup)
             {
                 action.ExclusiveGroupKey = Context.GetKey(ExclusiveGroup);
 
                 Context.SetExclusiveGroupProcess(action);
             }
-            
+
             CurrentCommand = action.Command;
             CurrentEntityAction = action;
 
@@ -84,12 +85,12 @@ namespace TSTConsoleWorkBench.Actors
             Main();
             OnStop();
 
-            if(CurrentEntityAction.Status == EntityActionStatus.Running)
+            if (CurrentEntityAction.Status == EntityActionStatus.Running)
             {
                 CurrentEntityAction.Status = EntityActionStatus.Completed;
             }
 
-            if(HasExclusiveGroup)
+            if (HasExclusiveGroup)
             {
                 Context.RemoveExclusiveGroupProcess(action);
             }

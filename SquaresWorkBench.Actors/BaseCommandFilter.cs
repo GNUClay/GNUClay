@@ -1,13 +1,14 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonUtils.Actors;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public class CommandFilterParam: ICommandFilterParam
+    public class CommandFilterParam : ICommandFilterParam
     {
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; } = 0;

@@ -1,13 +1,14 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public class ContextOfLogicalProcesses: IContextOfLogicalProcesses
+    public class ContextOfLogicalProcesses : IContextOfLogicalProcesses
     {
         public ContextOfLogicalProcesses(IGnuClayEntityConnection entityConnection)
         {

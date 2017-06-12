@@ -1,16 +1,17 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.Actors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
     public class ExclusiveGroupProcessesManager
     {
         public void SetExclusiveGroupProcess(IEntityAction action)
         {
-            lock(mLockObj)
+            lock (mLockObj)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"SetExclusiveGroupProcess");
 
@@ -24,7 +25,7 @@ namespace TSTConsoleWorkBench.Actors
 
                     var targetEntityAction = mExclusiveGroupProcessDict[exclusiveGroupKey];
 
-                    if(targetEntityAction == action)
+                    if (targetEntityAction == action)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("SetExclusiveGroupProcess targetEntityAction == action");
 
@@ -56,7 +57,7 @@ namespace TSTConsoleWorkBench.Actors
 
                     var targetEntityAction = mExclusiveGroupProcessDict[exclusiveGroupKey];
 
-                    if(targetEntityAction == action)
+                    if (targetEntityAction == action)
                     {
                         NLog.LogManager.GetCurrentClassLogger().Info("RemoveExclusiveGroupProcess targetEntityAction == action");
 

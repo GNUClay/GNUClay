@@ -1,18 +1,18 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonUtils.Actors;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public class LogicalProcessOptions
+    public delegate void CommandHandler(IEntityAction action);
+
+    public class CommandFilter : BaseCommandFilter
     {
-        public StartupMode StartupMode { get; set; } = StartupMode.OnDemand;
-        public string Name { get; set; } = string.Empty;
-        public bool IsAutoCanceled { get; set; } = true;
-        public string ExclusiveGroup { get; set; } = string.Empty;
+        public CommandHandler Handler { get; set; } = null;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

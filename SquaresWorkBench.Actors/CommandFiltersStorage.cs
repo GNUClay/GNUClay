@@ -1,4 +1,4 @@
-﻿using GnuClay.CommonClientTypes;
+﻿using GnuClay.CommonUtils.Actors;
 using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
-    public class CommandFiltersStorageParamsFilter<T> 
+    public class CommandFiltersStorageParamsFilter<T>
         where T : BaseCommandFilter
     {
         public CommandFiltersStorageParamsFilter(T filter, IContextOfLogicalProcesses context)
@@ -126,7 +126,7 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageTargetsFilter<T> 
+    public class CommandFiltersStorageTargetsFilter<T>
         where T : BaseCommandFilter
     {
         public CommandFiltersStorageTargetsFilter(IContextOfLogicalProcesses context)
@@ -196,7 +196,7 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorageCommandFilter<T> 
+    public class CommandFiltersStorageCommandFilter<T>
         where T : BaseCommandFilter
     {
         public CommandFiltersStorageCommandFilter(IContextOfLogicalProcesses context)
@@ -204,7 +204,7 @@ namespace TSTConsoleWorkBench.Actors
             Context = context;
         }
 
-        private IContextOfLogicalProcesses Context = null; 
+        private IContextOfLogicalProcesses Context = null;
 
         public void AddFilter(T filter)
         {
@@ -253,7 +253,7 @@ namespace TSTConsoleWorkBench.Actors
         }
     }
 
-    public class CommandFiltersStorage<T> 
+    public class CommandFiltersStorage<T>
         where T : BaseCommandFilter
     {
         public CommandFiltersStorage(IContextOfLogicalProcesses context)

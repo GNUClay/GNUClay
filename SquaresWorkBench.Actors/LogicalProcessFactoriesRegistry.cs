@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
     public class LogicalProcessFactoriesRegistry
     {
@@ -24,13 +24,13 @@ namespace TSTConsoleWorkBench.Actors
             NAddFactory(new LogicalProcessFactory<T>(Context));
         }
 
-        public void AddFactory<T, C>(C instanceOfCommonClass) 
-            where T: ILogicalProcessWithCommonClass<C>, new()
-            where C: ICommonClassOfLogicalProcesses
+        public void AddFactory<T, C>(C instanceOfCommonClass)
+            where T : ILogicalProcessWithCommonClass<C>, new()
+            where C : ICommonClassOfLogicalProcesses
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFactory typeof(T).FullName = {typeof(T).FullName}");
 
-            NAddFactory(new LogicalProcessFactoryWithCommonClassFactory<T, C>(Context, instanceOfCommonClass));           
+            NAddFactory(new LogicalProcessFactoryWithCommonClassFactory<T, C>(Context, instanceOfCommonClass));
         }
 
         private void NAddFactory(ILogicalProcessFactory factory)

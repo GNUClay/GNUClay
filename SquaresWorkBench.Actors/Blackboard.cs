@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.Actors
+namespace SquaresWorkBench.Actors
 {
     public delegate void OnChangeBlackboardCell(ulong key);
     public delegate void OnChangeBlackboardCellWithValue(ulong key, object value);
@@ -14,7 +14,7 @@ namespace TSTConsoleWorkBench.Actors
         private object mLockObj = new object();
         private Dictionary<ulong, object> mValuesDict = new Dictionary<ulong, object>();
 
-        public object this [ulong key]
+        public object this[ulong key]
         {
             get
             {

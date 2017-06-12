@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.LocalHost;
+using SquaresWorkBench.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
