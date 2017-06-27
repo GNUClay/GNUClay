@@ -33,7 +33,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mActiveObject.IsShouldAutoActivateOnBeginning = true;
             mActiveObject.Run();
 
-            /*while (mCurrentCommand != null)
+            while (mCurrentCommand != null)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"Run Item {mCurrentCommand.ToDbgString()}");
                 
@@ -55,7 +55,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 }
 
                 NLog.LogManager.GetCurrentClassLogger().Info(mCurrentFunction.ValueStackToDbgString());
-            }*/
+            }
         }
 
         private void NRun()

@@ -20,8 +20,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
+                RunMiddleScript();
                 //RunScriptsCommands();
-                RunAST();
+                //RunAST();
             }
             catch (Exception e)
             {
@@ -188,6 +189,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
 
             tmpInternalThreadExecutor.Run();
+        }
+
+        private void RunMiddleScript()
+        {
+            var tmpCodeFrame = new FunctionModel();
+            var tmpCommand = new ScriptCommand();
+
+
+
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                     return $"{OperationCode}: {Key}";
 
                 case OperationCode.Call:
-                    return $"{OperationCode}: {Key}";
+                    return $"{OperationCode}";
 
                 //case OperationCode.PushEntity:
                 //    return $"{OperationCode}: {Key}";
