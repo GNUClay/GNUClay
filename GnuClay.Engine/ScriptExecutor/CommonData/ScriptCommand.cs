@@ -31,8 +31,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallBinOp:
                     return $"{OperationCode}: {Key}";
 
-                case OperationCode.CallMethod:
-                    return $"{OperationCode}: {Key} {ArgsCount}";
+                case OperationCode.Call:
+                    return $"{OperationCode}: {Key}";
 
                 //case OperationCode.PushEntity:
                 //    return $"{OperationCode}: {Key}";
