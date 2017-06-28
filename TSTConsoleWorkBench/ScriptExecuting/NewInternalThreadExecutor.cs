@@ -21,8 +21,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public void Run()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mCurrentFunction.ToDbgString = {mCurrentFunction.ToDbgString()}");
 
-            while(mIsRun)
+            while (mIsRun)
             {
                 NRun();
             }
@@ -65,77 +66,100 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             switch(operationCode)
             {
                 case OperationCode.Nop:
-                    return OperationCode.ToString();
+                    ProcessNop();
+                    break;
 
                 case OperationCode.PushConst:
-                    return $"{OperationCode}: {Key} {Value}";
+                    ProcessPushConst();
+                    break;
 
                 case OperationCode.PushEntity:
-                    return $"{OperationCode}: {Key}";
+                    ProcessPushEntity();
+                    break;
 
                 case OperationCode.PushProp:
-                    return $"{OperationCode}: {Key}";
+                    ProcessPushProp();
+                    break;
 
                 case OperationCode.PushVar:
-                    return $"{OperationCode}: {Key}";
+                    ProcessPushVar();
+                    break;
 
                 case OperationCode.PushValFromProp:
-                    return $"{OperationCode}: {Key}";
+                    ProcessPushValFromProp();
+                    break;
 
                 case OperationCode.PushValFromVal:
-                    return $"{OperationCode}: {Key}";
+                    ProcessPushValFromVal();
+                    break;
 
                 case OperationCode.SetValToProp:
-                    return $"{OperationCode}: {Key}";
+                    ProcessSetValToProp();
+                    break;
 
                 case OperationCode.SetValToVar:
-                    return $"{OperationCode}: {Key}";
+                    ProcessSetValToVar();
+                    break;
 
                 case OperationCode.BeginCall:
-                    return $"{OperationCode}";
+                    ProcessBeginCall();
+                    break;
 
                 case OperationCode.BeginCallMethod:
-                    return $"{OperationCode}: {Key}";
+                    ProcessBeginCallMethod();
+                    break;
 
                 case OperationCode.BeginCallMethodOfPrevEntity:
-                    return $"{OperationCode}: {Key}";
+                    ProcessBeginCallMethodOfPrevEntity();
+                    break;
 
                 case OperationCode.SetTarget:
-                    return $"{OperationCode}";
+                    ProcessSetTarget();
+                    break;
 
                 case OperationCode.SetParamName:
-                    return $"{OperationCode}";
+                    ProcessSetParamName();
+                    break;
 
                 case OperationCode.SetParamVal:
-                    return $"{OperationCode}";
+                    ProcessSetParamVal();
+                    break;
 
                 case OperationCode.CallUnOp:
-                    return $"{OperationCode}: {Key}";
+                    ProcessCallUnOp();
+                    break;
 
                 case OperationCode.CallBinOp:
-                    return $"{OperationCode}: {Key}";
+                    ProcessCallBinOp();
+                    break;
 
                 case OperationCode.Call:
-                    return $"{OperationCode}";
+                    ProcessCall();
+                    break;
 
                 case OperationCode.CallByPos:
-                    return $"{OperationCode}";
+                    ProcessCallByPos();
+                    break;
 
                 case OperationCode.JumpIfFalse:
-                    return $"{OperationCode}: {Key}";
+                    ProcessJumpIfFalse();
+                    break;
 
                 case OperationCode.Jump:
-                    return $"{OperationCode}: {Key}";
+                    ProcessJump();
+                    break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(operationCode), operationCode, null);
             }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NRun mCurrentFunction.ToDbgString = {mCurrentFunction.ToDbgString()}");
         }
 
         private void ProcessNop()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessNop");
 
-            throw new NotImplementedException();
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessNop");
         }
@@ -153,7 +177,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushEntity");
 
-            throw new NotImplementedException();
+            var value = new NewEntityValue(mCurrentCommand.Key);
+            mCurrentFunction.ValuesStack.Push(value);
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushEntity");
         }
@@ -225,7 +252,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethod");
 
-            throw new NotImplementedException();
+            mCurrentFunction.FunctionKey = mCurrentCommand.Key;
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethod");
         }

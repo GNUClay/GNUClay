@@ -31,5 +31,27 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 return mFunction[lineNumber];
             }
         }
+
+        public Stack<INewValue> ValuesStack { get; set; } = new Stack<INewValue>();
+
+        public ulong FunctionKey { get; set; }
+
+        public string ToDbgString()
+        {
+            var tmpSb = new StringBuilder();
+
+            tmpSb.AppendLine("Begin ValuesStack");
+
+            foreach (var val in ValuesStack)
+            {
+                tmpSb.AppendLine(val.ToString());
+            }
+
+            tmpSb.AppendLine("End ValuesStack");
+
+            tmpSb.AppendLine($"{nameof(FunctionKey)} {FunctionKey}");
+
+            return tmpSb.ToString();
+        }
     }
 }

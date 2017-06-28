@@ -20,7 +20,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             switch (OperationCode)
             {
                 case OperationCode.Nop:
-                    return OperationCode.ToString();
+                    return $"{OperationCode}";
 
                 case OperationCode.PushConst:
                     return $"{OperationCode}: {Key} {Value}";
