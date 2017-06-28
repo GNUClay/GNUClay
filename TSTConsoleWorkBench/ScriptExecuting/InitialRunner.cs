@@ -193,14 +193,105 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private void RunMiddleScript()
         {
+            var openKey = GnuClayEngine.DataDictionary.GetKey("open");
+            var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
+            var keyKey = GnuClayEngine.DataDictionary.GetKey("key");
+            var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            var resultVarKey = GnuClayEngine.DataDictionary.GetKey("$result");
+            var plusKey = GnuClayEngine.DataDictionary.GetKey("+");
+            var result_2_VarKey = GnuClayEngine.DataDictionary.GetKey("$result2");
+            var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
+            var logKey = GnuClayEngine.DataDictionary.GetKey("log");
+
             var tmpCodeFrame = new FunctionModel();
+
             var tmpCommand = new ScriptCommand();
-
-
+            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.Key = openKey;
 
             tmpCodeFrame.AddCommand(tmpCommand);
 
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = keyKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetValToVar;
+            tmpCommand.Key = resultVarKey;
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = plusKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetValToVar;
+            tmpCommand.Key = result_2_VarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = consoleKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethodOfPrevEntity;
+            tmpCommand.Key = logKey;
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushValFromVal;
+            tmpCommand.Key = result_2_VarKey;
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallByPos;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+
+            var context = new NewGnuClayThreadExecutionContext();
+            context.MainContext = GnuClayEngine.Context;
+            var tmpNewInternalThreadExecutor = new NewInternalThreadExecutor(tmpCodeFrame, context);
+            tmpNewInternalThreadExecutor.Run();
         }
     }
 }

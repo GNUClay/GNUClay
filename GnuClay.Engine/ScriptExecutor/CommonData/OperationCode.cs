@@ -67,17 +67,25 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         BeginCallMethod,
 
         /// <summary>
-        /// Put current value from stack to special register as target of function.
+        /// Begin calling of the method of the previous entity.
+        /// </summary>
+        BeginCallMethodOfPrevEntity,
+
+        /// <summary>
+        /// Put current value from the stack to special register as target of function.
         /// </summary>
         SetTarget,
 
         /// <summary>
-        /// Put values from stack to current named parameter. 
-        /// А current value of the stack will a value of the named parameter.
-        /// A previous value of the stack will a name of the named parameter.
+        /// Put param name from the stack to special register.
         /// </summary>
-        SetParam,
+        SetParamName,
 
+        /// <summary>
+        /// Put param value from the stack to special register.
+        /// </summary>
+        SetParamVal,
+       
         /// <summary>
         /// Call unary operator.
         /// </summary>
@@ -96,6 +104,16 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Call function or method by positioned params.
         /// </summary>
-        CallByPos
+        CallByPos,
+
+        /// <summary>
+        /// Jump to line of code if current value of the stack is false.
+        /// </summary>
+        JumpIfFalse,
+
+        /// <summary>
+        /// Jump to line of code.
+        /// </summary>
+        Jump
     }
 }

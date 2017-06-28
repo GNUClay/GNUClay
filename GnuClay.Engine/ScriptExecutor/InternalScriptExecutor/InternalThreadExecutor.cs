@@ -32,30 +32,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mActiveObject.RunAction = NRun;
             mActiveObject.IsShouldAutoActivateOnBeginning = true;
             mActiveObject.Run();
-
-            while (mCurrentCommand != null)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Run Item {mCurrentCommand.ToDbgString()}");
-                
-                switch (mCurrentCommand.OperationCode)
-                {
-                    case OperationCode.Nop:
-                        mCurrentCommand = mCurrentCommand.Next;
-                        break;
-
-                    case OperationCode.PushConst:
-                        ProsessPushConst();
-                        break;
-
-                    case OperationCode.CallBinOp:
-                        ProcessCallBinOp();
-                        break;
-
-                    default: throw new ArgumentOutOfRangeException(nameof(mCurrentCommand.OperationCode), $"Unknown OperationCode `{mCurrentCommand.OperationCode}`.");
-                }
-
-                NLog.LogManager.GetCurrentClassLogger().Info(mCurrentFunction.ValueStackToDbgString());
-            }
         }
 
         private void NRun()

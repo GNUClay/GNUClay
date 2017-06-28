@@ -35,7 +35,7 @@ namespace GnuClay.CommonUtils.Tasking
                 }
             }
         }
-
+        
         public void RemoveChild(ActiveObject child)
         {
             lock (mLockObj)

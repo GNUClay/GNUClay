@@ -10,12 +10,9 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     public class ScriptCommand : IToStringData
     {
         public OperationCode OperationCode = OperationCode.Nop;
-
-        public ulong Key = 0;
-        public int ArgsCount = 0;
-
         public ScriptCommand Next = null;
 
+        public ulong Key = 0;
         public object Value = null;
 
         public string ToDbgString()
@@ -28,19 +25,64 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.PushConst:
                     return $"{OperationCode}: {Key} {Value}";
 
+                case OperationCode.PushEntity:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.PushProp:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.PushVar:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.PushValFromProp:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.PushValFromVal:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.SetValToProp:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.SetValToVar:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.BeginCall:
+                    return $"{OperationCode}";
+
+                case OperationCode.BeginCallMethod:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.BeginCallMethodOfPrevEntity:
+                    return $"{OperationCode}: {Key}";
+
+                case OperationCode.SetTarget:
+                    return $"{OperationCode}";
+
+                case OperationCode.SetParamName:
+                    return $"{OperationCode}";
+
+                case OperationCode.SetParamVal:
+                    return $"{OperationCode}";
+
+                case OperationCode.CallUnOp:
+                    return $"{OperationCode}: {Key}";
+
                 case OperationCode.CallBinOp:
                     return $"{OperationCode}: {Key}";
 
                 case OperationCode.Call:
                     return $"{OperationCode}";
 
-                //case OperationCode.PushEntity:
-                //    return $"{OperationCode}: {Key}";
+                case OperationCode.CallByPos:
+                    return $"{OperationCode}";
 
-                //case OperationCode.SetProp:
-                //    return $"{OperationCode}: {Key}";
+                case OperationCode.JumpIfFalse:
+                    return $"{OperationCode}: {Key}";
 
-                default: throw new ArgumentOutOfRangeException(nameof(OperationCode), $"Unknown OperationCode `{OperationCode}`.");
+                case OperationCode.Jump:
+                    return $"{OperationCode}: {Key}";
+
+                default: throw new ArgumentOutOfRangeException(nameof(OperationCode), OperationCode, null);
             }
         }
 
