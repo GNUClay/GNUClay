@@ -34,7 +34,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public Stack<INewValue> ValuesStack { get; set; } = new Stack<INewValue>();
 
+        public void BeginCall()
+        {
+            FunctionKey = 0;
+            Target = 0;
+            IsCalledByNamedParameters = null;
+        }
+
         public ulong FunctionKey { get; set; }
+        public ulong Target { get; set; }
+        public bool? IsCalledByNamedParameters = null;
+        public bool? IsSetParamName = false;
 
         public string ToDbgString()
         {
@@ -50,6 +60,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpSb.AppendLine("End ValuesStack");
 
             tmpSb.AppendLine($"{nameof(FunctionKey)} {FunctionKey}");
+            tmpSb.AppendLine($"{nameof(Target)} {Target}");
+            tmpSb.AppendLine($"{nameof(IsCalledByNamedParameters)} {IsCalledByNamedParameters}");
+            tmpSb.AppendLine($"{nameof(IsSetParamName)} {IsSetParamName}");
 
             return tmpSb.ToString();
         }

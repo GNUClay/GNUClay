@@ -243,6 +243,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCall");
 
+            mCurrentFunction.BeginCall();
+
             throw new NotImplementedException();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCall");
@@ -252,6 +254,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethod");
 
+            mCurrentFunction.BeginCall();
             mCurrentFunction.FunctionKey = mCurrentCommand.Key;
             mCurrentCommand = mCurrentCommand.Next;
 
@@ -262,6 +265,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethodOfPrevEntity");
 
+            mCurrentFunction.BeginCall();
+
+
             throw new NotImplementedException();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethodOfPrevEntity");
@@ -271,7 +277,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetTarget");
 
-            throw new NotImplementedException();
+            var targetValue = mCurrentFunction.ValuesStack.Pop();
+            mCurrentFunction.Target = targetValue.TypeKey;
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetTarget");
         }
@@ -279,6 +288,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private void ProcessSetParamName()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamName");
+
+            if(mCurrentFunction.IsCalledByNamedParameters == null)
+            {
+                mCurrentFunction.IsCalledByNamedParameters = true;
+            }
+            else
+            {
+                if(!mCurrentFunction.IsCalledByNamedParameters.Value)
+                {
+                    throw new NotSupportedException();
+                }
+            }
 
             throw new NotImplementedException();
 
@@ -288,6 +309,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private void ProcessSetParamVal()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamVal");
+
+            if (mCurrentFunction.IsCalledByNamedParameters == null)
+            {
+                mCurrentFunction.IsCalledByNamedParameters = false;
+            }
+            else
+            {
+                if(mCurrentFunction.IsCalledByNamedParameters.Value)
+                {
+                    throw new NotSupportedException();
+                }
+            }
 
             throw new NotImplementedException();
 
