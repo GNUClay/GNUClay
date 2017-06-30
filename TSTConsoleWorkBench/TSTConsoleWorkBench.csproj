@@ -74,10 +74,14 @@
     <Compile Include="ScriptExecuting\INewCallAction.cs" />
     <Compile Include="ScriptExecuting\INewValue.cs" />
     <Compile Include="ScriptExecuting\InitialRunner.cs" />
+    <Compile Include="ScriptExecuting\NewConstValue.cs" />
     <Compile Include="ScriptExecuting\NewEntityValue.cs" />
+    <Compile Include="ScriptExecuting\NewFunctionProvider.cs" />
     <Compile Include="ScriptExecuting\NewGnuClayThreadExecutionContext.cs" />
     <Compile Include="ScriptExecuting\NewInternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecuting\NewInternalThreadExecutor.cs" />
+    <Compile Include="ScriptExecuting\NewNamedParamInfo.cs" />
+    <Compile Include="ScriptExecuting\NewPositionParamInfo.cs" />
     <Compile Include="ScriptExecuting\TstValue.cs" />
     <Compile Include="ScriptExecuting\TSTValueProvider.cs" />
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />

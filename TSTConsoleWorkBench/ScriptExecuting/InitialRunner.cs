@@ -290,6 +290,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var context = new NewGnuClayThreadExecutionContext();
             context.MainContext = GnuClayEngine.Context;
+
+            var functionProvider = new NewFunctionProvider(context.MainContext);
+            context.NewFunctionProvider = functionProvider;
+
             var tmpNewInternalThreadExecutor = new NewInternalThreadExecutor(tmpCodeFrame, context);
             tmpNewInternalThreadExecutor.Run();
         }

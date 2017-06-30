@@ -37,9 +37,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         private Stack<NewInternalFunctionExecutionModel> mCallStack = new Stack<NewInternalFunctionExecutionModel>();
-
         private NewInternalFunctionExecutionModel mCurrentFunction = null;
-
         private ScriptCommand mCurrentCommand = null;
 
         private void SetFunction(FunctionModel function)
@@ -168,7 +166,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushConst");
 
-            throw new NotImplementedException();
+            var value = new NewConstValue(mCurrentCommand.Key, mCurrentCommand.Value);
+            mCurrentFunction.ValuesStack.Push(value);
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushConst");
         }
@@ -292,6 +292,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             if(mCurrentFunction.IsCalledByNamedParameters == null)
             {
                 mCurrentFunction.IsCalledByNamedParameters = true;
+                mCurrentFunction.IsSetParamName = true;
             }
             else
             {
@@ -299,9 +300,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 {
                     throw new NotSupportedException();
                 }
+
+                if(mCurrentFunction.IsSetParamName.Value)
+                {
+                    throw new NotSupportedException();
+                }
+
+                mCurrentFunction.IsSetParamName = true;
             }
 
-            throw new NotImplementedException();
+            var tmpVal = mCurrentFunction.ValuesStack.Pop();
+            mCurrentFunction.CurrentParamName = tmpVal;
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamName");
         }
@@ -316,13 +327,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
             else
             {
-                if(mCurrentFunction.IsCalledByNamedParameters.Value)
+                if(!mCurrentFunction.IsCalledByNamedParameters.Value && mCurrentFunction.IsSetParamName.Value)
                 {
                     throw new NotSupportedException();
                 }
             }
 
-            throw new NotImplementedException();
+            mCurrentFunction.IsSetParamName = false;
+
+            var tmpVal = mCurrentFunction.ValuesStack.Pop();
+            mCurrentFunction.CurrentParamValue = tmpVal;
+
+            mCurrentFunction.ProcessParam();
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamVal");
         }
