@@ -36,13 +36,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public void BeginCall()
         {
-            FunctionKey = 0;
+            FunctionKey = null;
             Target = 0;
             IsCalledByNamedParameters = null;
             CurrentPositionOfParam = -1;
         }
 
-        public ulong FunctionKey { get; set; }
+        public INewValue FunctionKey { get; set; }
         public ulong Target { get; set; }
 
         private bool? mIsCalledByNamedParameters = null;
@@ -70,7 +70,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     }
                     else
                     {
-                        PositionParams = new List<NewPositionParamInfo>();
+                        PositionedParams = new List<NewPositionParamInfo>();
                     }
                 }
             }
@@ -81,7 +81,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public INewValue CurrentParamValue { get; set; }
 
         public List<NewNamedParamInfo> NamedParams { get; set; }
-        public List<NewPositionParamInfo> PositionParams { get; set; }
+        public List<NewPositionParamInfo> PositionedParams { get; set; }
         public int CurrentPositionOfParam = -1;
 
         public void ProcessParam()
@@ -105,7 +105,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpPositiondedParamInfo.ParamValue = CurrentParamValue;
             tmpPositiondedParamInfo.Position = CurrentPositionOfParam;
 
-            PositionParams.Add(tmpPositiondedParamInfo);
+            PositionedParams.Add(tmpPositiondedParamInfo);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessParam");
         }
@@ -146,20 +146,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 tmpSb.AppendLine($"End {nameof(NamedParams)}");
             }
 
-            if(PositionParams == null)
+            if(PositionedParams == null)
             {
-                tmpSb.AppendLine($"{nameof(PositionParams)} = null");
+                tmpSb.AppendLine($"{nameof(PositionedParams)} = null");
             }
             else
             {
-                tmpSb.AppendLine($"Begin {nameof(PositionParams)}");
+                tmpSb.AppendLine($"Begin {nameof(PositionedParams)}");
 
-                foreach (var item in PositionParams)
+                foreach (var item in PositionedParams)
                 {
                     tmpSb.AppendLine($"item = {item}");
                 }
 
-                tmpSb.AppendLine($"End {nameof(PositionParams)}");
+                tmpSb.AppendLine($"End {nameof(PositionedParams)}");
             }
 
             tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");

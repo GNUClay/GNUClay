@@ -10,6 +10,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewGnuClayThreadExecutionContext
     {
         public GnuClayEngineComponentContext MainContext = null;
-        public NewFunctionProvider NewFunctionProvider = null;
+        public NewFunctionsEngine NewFunctionProvider = null;
     }
 }
