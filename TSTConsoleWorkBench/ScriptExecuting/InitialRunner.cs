@@ -246,6 +246,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.SetValToVar;
             tmpCommand.Key = resultVarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.PushConst;
@@ -291,12 +292,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var mainContext = GnuClayEngine.Context;
 
             var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context);
-
-            var context = new NewGnuClayThreadExecutionContext();
-            context.NewFunctionEngine = functionProvider;
-
-            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(tmpCodeFrame, context, context);
-            tmpNewInternalThreadExecutor.Run();
+            functionProvider.CallCodeFrame(tmpCodeFrame);
         }
     }
 }

@@ -48,6 +48,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             Target = 0;
             IsCalledByNamedParameters = null;
             CurrentPositionOfParam = -1;
+            NamedParams = null;
+            PositionedParams = null;
         }
 
         public INewValue CurrentHolder { get; set; }
@@ -172,7 +174,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
 
             tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");
-            
+
+            tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
+
             return tmpSb.ToString();
         }
 
@@ -383,7 +387,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetValToVar");
 
-            throw new NotImplementedException();
+            var varKey = mCurrentCommand.Key;
+            var tmpValue = ValuesStack.Peek();
+
+            mExecutionContext.ContextOfVariables.SetValue(varKey, tmpValue);
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetValToVar");
         }
@@ -472,6 +481,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamVal");
 
+            NProcessSetParamVal();
+
+            mCurrentCommand = mCurrentCommand.Next;
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamVal");
+        }
+
+        private void NProcessSetParamVal()
+        {
             if (IsCalledByNamedParameters == null)
             {
                 IsCalledByNamedParameters = false;
@@ -490,17 +508,21 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             CurrentParamValue = tmpVal;
 
             NProcessParam();
-
-            mCurrentCommand = mCurrentCommand.Next;
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamVal");
         }
 
         private void ProcessCallUnOp()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallUnOp");
 
-            throw new NotImplementedException();
+            NBeginCall();
+
+            NProcessSetParamVal();
+
+            CurrentFunction = new NewEntityValue(mCurrentCommand.Key);
+
+            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+
+            PostProcessCall(resultOfCalling);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallUnOp");
         }
@@ -509,7 +531,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallBinOp");
 
-            throw new NotImplementedException();
+            NBeginCall();
+
+            NProcessSetParamVal();
+
+            NProcessSetParamVal();
+
+            CurrentFunction = new NewEntityValue(mCurrentCommand.Key);
+
+            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+
+            PostProcessCall(resultOfCalling);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallBinOp");
         }
@@ -518,7 +550,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCall");
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByNamedParameters(CurrentFunction, CurrentHolder, Target, NamedParams);
+            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByNamedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, NamedParams);
 
             PostProcessCall(resultOfCalling);
 
@@ -529,7 +561,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
 
             PostProcessCall(resultOfCalling);
 
@@ -541,7 +573,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");
             NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall resultOfCalling = {resultOfCalling}");
 
-            throw new NotImplementedException();
+            if(!resultOfCalling.Success)
+            {
+                throw new NotImplementedException();
+
+                //return;
+            }
+
+            ValuesStack.Push(resultOfCalling.Result);
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall");
         }
