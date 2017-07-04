@@ -17,10 +17,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private GnuClayEngineComponentContext mContext = null;
 
-        public NewResultOfCalling CallByNamedParameters(INewValue function, INewValue holder, List<NewNamedParamInfo> namedParams)
+        public NewResultOfCalling CallByNamedParameters(NewGnuClayThreadExecutionContext executionContext, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters holder = {holder}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
 
             var result = new NewResultOfCalling();
@@ -30,10 +31,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
-        public NewResultOfCalling CallByPositionedParameters(INewValue function, INewValue holder, List<NewPositionParamInfo> positionedParams)
+        public NewResultOfCalling CallByPositionedParameters(INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters holder = {holder}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
 
             var result = new NewResultOfCalling();
@@ -43,10 +45,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
-        public NewResultOfCalling CallAsyncByNamedParameters(INewValue function, INewValue holder, List<NewNamedParamInfo> namedParams)
+        public NewResultOfCalling CallAsyncByNamedParameters(INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters holder = {holder}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
 
             var result = new NewResultOfCalling();
@@ -56,10 +59,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
-        public NewResultOfCalling CallAsyncByPositionedParameters(INewValue function, INewValue holder, List<NewPositionParamInfo> positionedParams)
+        public NewResultOfCalling CallAsyncByPositionedParameters(INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters holder = {holder}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
 
             var result = new NewResultOfCalling();

@@ -75,11 +75,11 @@
     <Compile Include="ScriptExecuting\INewValue.cs" />
     <Compile Include="ScriptExecuting\InitialRunner.cs" />
     <Compile Include="ScriptExecuting\NewConstValue.cs" />
+    <Compile Include="ScriptExecuting\NewContextOfVariables.cs" />
     <Compile Include="ScriptExecuting\NewEntityValue.cs" />
     <Compile Include="ScriptExecuting\NewFunctionsEngine.cs" />
     <Compile Include="ScriptExecuting\NewGnuClayThreadExecutionContext.cs" />
     <Compile Include="ScriptExecuting\NewInternalFunctionExecutionModel.cs" />
-    <Compile Include="ScriptExecuting\NewInternalThreadExecutor.cs" />
     <Compile Include="ScriptExecuting\NewNamedParamInfo.cs" />
     <Compile Include="ScriptExecuting\NewPositionParamInfo.cs" />
     <Compile Include="ScriptExecuting\NewResultOfCalling.cs" />

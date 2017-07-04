@@ -288,13 +288,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
+            var mainContext = GnuClayEngine.Context;
+
+            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context);
+
             var context = new NewGnuClayThreadExecutionContext();
-            context.MainContext = GnuClayEngine.Context;
+            context.NewFunctionEngine = functionProvider;
 
-            var functionProvider = new NewFunctionsEngine(context.MainContext);
-            context.NewFunctionProvider = functionProvider;
-
-            var tmpNewInternalThreadExecutor = new NewInternalThreadExecutor(tmpCodeFrame, context);
+            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(tmpCodeFrame, context, context);
             tmpNewInternalThreadExecutor.Run();
         }
     }

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public enum KindOfFunction
-    {
-        Undefined,
-        UserDefined,
-        Remote,
-        Threaded
-    }
-
-    public enum KindOfCall
-    {
-        Sync,
-        Async
-    }
-
     public class NewResultOfCalling
     {
+        public bool Success { get; set; }
+        public INewValue Result { get; set; }
+        public INewValue Exception { get; set; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"{nameof(Success)} = {Success}");
+            sb.AppendLine($"{nameof(Result)} = {Result}");
+            sb.AppendLine($"{nameof(Exception)} = {Exception}");
+
+            return sb.ToString();
+        }
     }
 }
