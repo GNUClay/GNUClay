@@ -10,9 +10,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewInternalFunctionExecutionModel
     {
-        public NewInternalFunctionExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext,  NewGnuClayThreadExecutionContext executionContext)
+        public NewInternalFunctionExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex,  NewGnuClayThreadExecutionContext executionContext)
         {
             mMainContext = mainContext;
+            mAdditionalContext = additionalContex;
             mExecutionContext = executionContext;
             mFunction = source;
 
@@ -20,6 +21,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
+        private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
         private NewGnuClayThreadExecutionContext mExecutionContext = null;
         private FunctionModel mFunction = null;
 
@@ -520,7 +522,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             CurrentFunction = new NewEntityValue(mCurrentCommand.Key);
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
 
             PostProcessCall(resultOfCalling);
 
@@ -539,7 +541,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             CurrentFunction = new NewEntityValue(mCurrentCommand.Key);
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
 
             PostProcessCall(resultOfCalling);
 
@@ -550,7 +552,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCall");
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByNamedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, NamedParams);
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallByNamedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, NamedParams);
 
             PostProcessCall(resultOfCalling);
 
@@ -561,7 +563,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
 
-            var resultOfCalling = mExecutionContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
 
             PostProcessCall(resultOfCalling);
 

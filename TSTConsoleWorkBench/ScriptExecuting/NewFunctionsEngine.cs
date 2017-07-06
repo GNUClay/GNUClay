@@ -14,17 +14,21 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public NewFunctionsEngine(GnuClayEngineComponentContext context)
         {
             mContext = context;
+            mAdditionalContext = new NewAdditionalGnuClayEngineComponentContext();
+            mAdditionalContext.NewFunctionEngine = this;
+            mCommandFiltersStorage = new NewCommandFiltersStorage<NewCommandFilter>(mContext, mAdditionalContext);
         }
 
         private GnuClayEngineComponentContext mContext = null;
+        private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+        private NewCommandFiltersStorage<NewCommandFilter> mCommandFiltersStorage = null;
 
         public void CallCodeFrame(FunctionModel source)
         {
             var context = new NewGnuClayThreadExecutionContext();
-            context.NewFunctionEngine = this;
             context.ContextOfVariables = new NewContextOfVariables();
 
-            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, context);
+            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, context);
             tmpNewInternalThreadExecutor.Run();
         }
 
@@ -87,6 +91,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("End CallAsyncByPositionedParameters");
 
             return result;
+        }
+
+        private object mFiltersLockObj = new object();
+
+        public void AddFilter(NewCommandFilter filter)
+        {
+            lock(mFiltersLockObj)
+            {
+                mCommandFiltersStorage.AddFilter(filter);
+            }
         }
     }
 }
