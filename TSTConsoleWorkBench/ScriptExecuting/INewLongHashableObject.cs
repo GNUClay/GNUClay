@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public interface INewValue: INewLongHashableObject
+    public interface INewLongHashableObject
     {
-        ulong TypeKey { get; }
+        ulong GetLongHashCode();
     }
 }

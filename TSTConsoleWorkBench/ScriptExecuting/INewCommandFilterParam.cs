@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public interface INewCommandFilterParam
+    public interface INewCommandFilterParam: INewLongHashableObject
     {
         bool IsAnyType { get; set; }
         ulong TypeKey { get; set; }

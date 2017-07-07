@@ -73,10 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptExecuting\INewCallAction.cs" />
     <Compile Include="ScriptExecuting\INewCommandFilterParam.cs" />
+    <Compile Include="ScriptExecuting\INewLongHashableObject.cs" />
     <Compile Include="ScriptExecuting\INewValue.cs" />
     <Compile Include="ScriptExecuting\InitialRunner.cs" />
     <Compile Include="ScriptExecuting\NewAdditionalGnuClayEngineComponentContext.cs" />
     <Compile Include="ScriptExecuting\NewBaseCommandFilter.cs" />
+    <Compile Include="ScriptExecuting\NewCommand.cs" />
     <Compile Include="ScriptExecuting\NewCommandFilter.cs" />
     <Compile Include="ScriptExecuting\NewCommandFilterParam.cs" />
     <Compile Include="ScriptExecuting\NewCommandFiltersStorage.cs" />

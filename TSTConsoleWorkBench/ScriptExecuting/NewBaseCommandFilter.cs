@@ -7,12 +7,24 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public class NewBaseCommandFilter
+    public class NewBaseCommandFilter: INewLongHashableObject
     {
         public ulong FunctionKey { get; set; }
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }
         public Dictionary<ulong, NewCommandFilterParam> Params { get; set; } = new Dictionary<ulong, NewCommandFilterParam>();
+
+        public ulong GetLongHashCode()
+        {
+            ulong result = 0;
+
+            foreach (var item in Params)
+            {
+                result ^= item.Value.GetLongHashCode();
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
