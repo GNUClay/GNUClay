@@ -1,6 +1,8 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mAdditionalContext.NewFunctionEngine = this;
             mCommandFiltersStorage = new NewCommandFiltersStorage<NewCommandFilter>(mContext, mAdditionalContext);
 
+            var universalTypeKey = mContext.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
+
             mSelfKey = mContext.DataDictionary.GetKey(mSelfName);
+
+            mContext.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1 , InheritanceAspect.WithOutClause);
 
             mSelfValue = new NewEntityValue(mSelfKey);
         }
@@ -55,6 +61,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var entityAction = CreateEntityAction(command);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+
+            InvokeEntityAction(entityAction);
 
             throw new NotImplementedException();
 
@@ -189,6 +197,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return entityAction;
         }
 
+        private void InvokeEntityAction(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction action = {action}");
+
+            var targetExecutorsList = FindExecutors(action.Command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutorsList.Count = {targetExecutorsList.Count}");
+
+            throw new NotImplementedException();
+        }
+
         private object mFiltersLockObj = new object();
 
         public void AddFilter(NewCommandFilter filter)
@@ -196,6 +215,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             lock(mFiltersLockObj)
             {
                 mCommandFiltersStorage.AddFilter(filter);
+            }
+        }
+
+        private List<NewCommandFilter> FindExecutors(NewCommand command)
+        {
+            lock (mFiltersLockObj)
+            {
+                return mCommandFiltersStorage.FindExecutors(command);
             }
         }
     }

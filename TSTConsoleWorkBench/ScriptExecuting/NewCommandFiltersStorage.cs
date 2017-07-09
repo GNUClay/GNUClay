@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.InternalCommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +132,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             targetStorage.AddFilter(filter);
         }
 
+        public List<T> FindExecutors(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
+
+            throw new NotImplementedException();
+        }
+
         private Dictionary<ulong, NewCommandFiltersStorageByFunction<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByFunction<T>>();
     }
 
@@ -165,6 +173,84 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
 
             targetStorage.AddFilter(filter);
+        }
+
+        private class ExecutorsQueueItem
+        {
+            public double Rank { get; set; }
+            public ulong TypeKey { get; set; }
+
+            /// <summary>
+            /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+            /// </summary>
+            /// <returns>The string representation of this instance.</returns>
+            public override string ToString()
+            {
+                var tmpSb = new StringBuilder();
+
+                tmpSb.AppendLine($"{nameof(Rank)} = {Rank}");
+                tmpSb.AppendLine($"{nameof(TypeKey)} = {TypeKey}");
+
+                return tmpSb.ToString();
+            }
+        }
+
+        public List<T> FindExecutors(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
+
+            var holderKey = command.Holder.TypeKey;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderKey = {holderKey}");
+
+            var tmpObjectsList = new List<ExecutorsQueueItem>();
+
+            tmpObjectsList.Add(new ExecutorsQueueItem() {
+                TypeKey = holderKey,
+                Rank = 2
+            });
+
+            var tmpInheritanceList = mMainContext.InheritanceEngine.LoadListOfSuperClasses(holderKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpInheritanceList.Count = {tmpInheritanceList.Count}");
+
+            foreach (var tmpInheritanceItem in tmpInheritanceList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpInheritanceItem = {tmpInheritanceItem}");
+
+                tmpObjectsList.Add(new ExecutorsQueueItem()
+                {
+                    TypeKey = tmpInheritanceItem.SuperKey,
+                    Rank = tmpInheritanceItem.Rank * tmpInheritanceItem.Distance
+                });
+            }
+
+            tmpObjectsList = tmpObjectsList.OrderByDescending(p => p.Rank).ToList();
+
+            var result = new List<T>();
+
+            foreach(var item in tmpObjectsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors item = {item}");
+
+                var key = item.TypeKey;
+
+                if (mDict.ContainsKey(key))
+                {
+                    var tmpItems = mDict[key].FindExecutors(command);
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpItems.Count = {tmpItems.Count}");
+
+                    if(_ListHelper.IsEmpty(tmpItems))
+                    {
+                        continue;
+                    }
+
+                    result.AddRange(tmpItems);
+                }
+            }
+
+            return result;
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByHolder<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByHolder<T>>();
