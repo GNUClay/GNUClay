@@ -23,6 +23,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
+        public ulong GetLongHashCode()
+        {
+            return mTypeKey;
+        }
+
         public override string ToString()
         {
             return $"EntityValue {nameof(TypeKey)} = {TypeKey}";

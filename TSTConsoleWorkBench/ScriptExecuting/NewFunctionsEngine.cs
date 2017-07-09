@@ -17,11 +17,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mAdditionalContext = new NewAdditionalGnuClayEngineComponentContext();
             mAdditionalContext.NewFunctionEngine = this;
             mCommandFiltersStorage = new NewCommandFiltersStorage<NewCommandFilter>(mContext, mAdditionalContext);
+
+            mSelfKey = mContext.DataDictionary.GetKey(mSelfName);
+
+            mSelfValue = new NewEntityValue(mSelfKey);
         }
 
         private GnuClayEngineComponentContext mContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
         private NewCommandFiltersStorage<NewCommandFilter> mCommandFiltersStorage = null;
+
+        private string mSelfName = "self";
+        private ulong mSelfKey = 0;
+
+        private INewValue mSelfValue = null;
 
         public void CallCodeFrame(FunctionModel source)
         {
@@ -39,6 +48,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
 
+            var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters command = {command}");
+
+            var entityAction = CreateEntityAction(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+
+            throw new NotImplementedException();
+
             var result = new NewResultOfCalling();
             result.Success = true;//tmp
             result.Result = new NewEntityValue(15);//tmp
@@ -54,6 +73,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters holder = {holder}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
+
+            var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters command = {command}");
+
+            var entityAction = CreateEntityAction(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+
+            throw new NotImplementedException();
 
             var result = new NewResultOfCalling();
             result.Success = true;//tmp
@@ -71,6 +100,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
 
+            var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters command = {command}");
+
+            var entityAction = CreateEntityAction(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+
             var result = new NewResultOfCalling();
 
 
@@ -86,11 +123,70 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
 
+            var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters command = {command}");
+
+            var entityAction = CreateEntityAction(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+
             var result = new NewResultOfCalling();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End CallAsyncByPositionedParameters");
 
             return result;
+        }
+
+        private NewCommand CreateCommandByNamedParameters(NewGnuClayThreadExecutionContext executionContext, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
+        {
+            var command = new NewCommand();
+            command.ExecutionContext = executionContext;
+            command.Function = function;
+
+            if(holder == null)
+            {
+                holder = mSelfValue;
+            }
+
+            command.Holder = holder;
+            command.TargetKey = targetKey;
+
+            command.IsCallByNamedParams = true;
+
+            command.NamedParams = namedParams;
+
+            return command;
+        }
+
+        private NewCommand CreateCommandByPositionedParameters(NewGnuClayThreadExecutionContext executionContext, INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
+        {
+            var command = new NewCommand();
+            command.ExecutionContext = executionContext;
+            command.Function = function;
+
+            if (holder == null)
+            {
+                holder = mSelfValue;
+            }
+
+            command.Holder = holder;
+            command.TargetKey = targetKey;
+
+            command.IsCallByNamedParams = false;
+
+            command.PositionedParams = positionedParams;
+
+            return command;
+        }
+
+        private NewEntityAction CreateEntityAction(NewCommand command)
+        {
+            var name = Guid.NewGuid().ToString("D");
+            var key = mContext.DataDictionary.GetKey(name);
+            var entityAction = new NewEntityAction(name, key, command);
+
+            return entityAction;
         }
 
         private object mFiltersLockObj = new object();

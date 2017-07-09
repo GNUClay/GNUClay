@@ -26,6 +26,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private object mValue = null;
 
+        public ulong GetLongHashCode()
+        {
+            var result = mTypeKey;
+
+            if(mValue != null)
+            {
+                result ^= (ulong)mValue.GetHashCode();
+            }
+
+            return result;
+        }
+
         public override string ToString()
         {
             return $"ConstValue {nameof(TypeKey)} = {TypeKey}; {nameof(mValue)} = {mValue}";

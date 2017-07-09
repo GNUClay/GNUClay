@@ -12,6 +12,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public NewGnuClayThreadExecutionContext ExecutionContext { get; set; }
         public INewValue Function { get; set; }
         public INewValue Holder { get; set; }
+        public ulong TargetKey { get; set; }
         public List<NewPositionParamInfo> PositionedParams { get; set; }
         public List<NewNamedParamInfo> NamedParams { get; set; }
         public bool IsCallByNamedParams { get; set; }
@@ -27,35 +28,33 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public ulong GetLongHashCode()
         {
-            var result = 0;
+            ulong result = 0;
 
             if(Function != null)
             {
-                result ^= Function.GetHashCode();
+                result ^= Function.GetLongHashCode();
             }
 
-            if (!string.IsNullOrWhiteSpace(Name))
+            if(Holder != null)
             {
-                result ^= Name.GetHashCode();
+                result ^= Holder.GetLongHashCode();
             }
 
-            if (!string.IsNullOrWhiteSpace(Target))
-            {
-                result ^= Target.GetHashCode();
-            }
+            result ^= TargetKey;
 
-            if (Params != null)
+            if(PositionedParams != null)
             {
-                foreach (var paramItem in Params)
+                foreach (var paramItem in PositionedParams)
                 {
-                    result ^= paramItem.Key.GetHashCode();
+                    result ^= paramItem.GetLongHashCode();
+                }
+            }
 
-                    var paramValue = paramItem.Value;
-
-                    if (paramValue != null)
-                    {
-                        result ^= paramValue.GetHashCode();
-                    }
+            if(NamedParams != null)
+            {
+                foreach (var paramItem in NamedParams)
+                {
+                    result ^= paramItem.GetLongHashCode();
                 }
             }
 

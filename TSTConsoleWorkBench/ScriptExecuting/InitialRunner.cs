@@ -203,6 +203,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
             var logKey = GnuClayEngine.DataDictionary.GetKey("log");
 
+            var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
+
+            var filter = new NewCommandFilter();
+            filter.Handler = FakeOpen;
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = openKey;
+            filter.TargetKey = doorKey;
+
+            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context);
+
+            functionProvider.AddFilter(filter);
+
             var tmpCodeFrame = new FunctionModel();
 
             var tmpCommand = new ScriptCommand();
@@ -289,10 +301,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
-            var mainContext = GnuClayEngine.Context;
-
-            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context);
             functionProvider.CallCodeFrame(tmpCodeFrame);
+        }
+
+        private void FakeOpen(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeOpen action = {action}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
         }
     }
 }

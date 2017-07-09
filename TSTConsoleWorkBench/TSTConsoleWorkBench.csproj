@@ -84,6 +84,8 @@
     <Compile Include="ScriptExecuting\NewCommandFiltersStorage.cs" />
     <Compile Include="ScriptExecuting\NewConstValue.cs" />
     <Compile Include="ScriptExecuting\NewContextOfVariables.cs" />
+    <Compile Include="ScriptExecuting\NewEntityAction.cs" />
+    <Compile Include="ScriptExecuting\NewEntityActionState.cs" />
     <Compile Include="ScriptExecuting\NewEntityValue.cs" />
     <Compile Include="ScriptExecuting\NewFunctionsEngine.cs" />
     <Compile Include="ScriptExecuting\NewGnuClayThreadExecutionContext.cs" />
