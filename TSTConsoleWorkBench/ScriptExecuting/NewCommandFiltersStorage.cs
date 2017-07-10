@@ -30,6 +30,41 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 return mFilter;
             }
         }
+
+        public double GetRank(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command = {command}");
+
+            if(command.IsCallByNamedParams)
+            {
+                return GetNamedRank(command);
+            }
+
+            return GetPositionedRank(command);
+        }
+
+        private double GetNamedRank(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank command = {command}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank mFilter.Params.Count = {mFilter.Params.Count}");
+
+            if (_ListHelper.IsEmpty(mFilter.Params))
+            {
+                return 0.01;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("GetNamedRank NEXT");
+
+            throw new NotImplementedException();
+        }
+
+        private double GetPositionedRank(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
+
+            throw new NotImplementedException();
+        }
     }
 
     public class NewCommandFiltersStorageByTarget<T>
@@ -57,6 +92,40 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var targetStorage = new NewCommandFiltersStorageByParams<T>(filter, mMainContext, mAdditionalContext);
             mDict.Add(targetHashCode, targetStorage);
+        }
+
+        public List<T> FindExecutors(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
+
+            var targetFilters = new List<KeyValuePair<double, T>>();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors mDict.Count = {mDict.Count}");
+
+            foreach (var item in mDict)
+            {
+                var value = item.Value;
+
+                var rank = value.GetRank(command);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors rank = {rank}");
+
+                if (rank == 0)
+                {
+                    continue;
+                }
+
+                targetFilters.Add(new KeyValuePair<double, T>(rank, value.Filter));
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors NEXT targetFilters.Count = {targetFilters.Count}");
+
+            if (_ListHelper.IsEmpty(targetFilters))
+            {
+                return new List<T>();
+            }
+
+            return targetFilters.OrderByDescending(p => p.Key).Select(p => p.Value).ToList();
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByParams<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByParams<T>>();
@@ -94,6 +163,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
 
             targetStorage.AddFilter(filter);
+        }
+
+        public List<T> FindExecutors(NewCommand command)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
+
+            var targetKey = command.TargetKey;
+
+            if (mDict.ContainsKey(targetKey))
+            {
+                return mDict[targetKey].FindExecutors(command);
+            }
+
+            return new List<T>();
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByTarget<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByTarget<T>>();
@@ -136,7 +219,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
 
-            throw new NotImplementedException();
+            var functionKey = command.Function.TypeKey;
+
+            if (mDict.ContainsKey(functionKey))
+            {
+                return mDict[functionKey].FindExecutors(command);
+            }
+
+            return new List<T>();
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByFunction<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByFunction<T>>();

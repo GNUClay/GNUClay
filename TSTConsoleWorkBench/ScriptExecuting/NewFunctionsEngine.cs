@@ -205,7 +205,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutorsList.Count = {targetExecutorsList.Count}");
 
-            throw new NotImplementedException();
+            if(_ListHelper.IsEmpty(targetExecutorsList))
+            {
+                throw new NotImplementedException();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction NEXT action = {action}");
+
+            var targetAction = targetExecutorsList.FirstOrDefault();
+
+            targetAction.Handler.Invoke(action);
         }
 
         private object mFiltersLockObj = new object();
