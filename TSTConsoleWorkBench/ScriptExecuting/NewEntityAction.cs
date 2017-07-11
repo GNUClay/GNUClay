@@ -47,6 +47,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
+        public INewValue Result { get; set; }
+        public INewValue Exception { get; set; }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>
@@ -58,7 +61,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpSb.AppendLine($"{nameof(Name)} = {Name }");
             tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine($"{nameof(Command)} = {Command}");
-            tmpSb.AppendLine($"{nameof(State)} = {State}");
+            tmpSb.AppendLine($"{nameof(Result)} = {Result }");
+            tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
 
             return tmpSb.ToString();
         }

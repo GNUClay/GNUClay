@@ -52,6 +52,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             CurrentPositionOfParam = -1;
             NamedParams = null;
             PositionedParams = null;
+            CurrentParamName = null;
+            CurrentParamValue = null;
         }
 
         public INewValue CurrentHolder { get; set; }
@@ -136,6 +138,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             tmpSb.AppendLine("End ValuesStack");
 
+            tmpSb.AppendLine($"{nameof(CurrentHolder)} = {CurrentHolder}");
             tmpSb.AppendLine($"{nameof(CurrentFunction)} = {CurrentFunction}");
             tmpSb.AppendLine($"{nameof(Target)} = {Target}");
             tmpSb.AppendLine($"{nameof(IsCalledByNamedParameters)} = {IsCalledByNamedParameters}");
@@ -242,8 +245,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     ProcessPushValFromProp();
                     break;
 
-                case OperationCode.PushValFromVal:
-                    ProcessPushValFromVal();
+                case OperationCode.PushValFromVar:
+                    ProcessPushValFromVar();
                     break;
 
                 case OperationCode.SetValToProp:
@@ -367,13 +370,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromProp");
         }
 
-        private void ProcessPushValFromVal()
+        private void ProcessPushValFromVar()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromVal");
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromVar");
 
-            throw new NotImplementedException();
+            var varKey = mCurrentCommand.Key;
 
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromVal");
+            var tmpValue = mExecutionContext.ContextOfVariables.GetValue(varKey);
+
+            ValuesStack.Push(tmpValue);
+
+            mCurrentCommand = mCurrentCommand.Next;
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromVar");
         }
 
         private void ProcessSetValToProp()
@@ -430,7 +439,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NBeginCall();
 
-            throw new NotImplementedException();
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
+
+            CurrentHolder = ValuesStack.Pop();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
+
+            var functionValue = new NewEntityValue(mCurrentCommand.Key);
+
+            CurrentFunction = functionValue;
+
+            mCurrentCommand = mCurrentCommand.Next;
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethodOfPrevEntity");
         }

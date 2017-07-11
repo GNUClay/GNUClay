@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public class NewAdditionalGnuClayEngineComponentContext
+    public class NewConstTypeProvider
     {
-        public NewFunctionsEngine NewFunctionEngine = null;
-        public NewConstTypeProvider ConstTypeProvider = null;
     }
 }

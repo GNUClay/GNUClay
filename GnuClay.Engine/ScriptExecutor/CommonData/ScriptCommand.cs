@@ -37,7 +37,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.PushValFromProp:
                     return $"{OperationCode}: {Key}";
 
-                case OperationCode.PushValFromVal:
+                case OperationCode.PushValFromVar:
                     return $"{OperationCode}: {Key}";
 
                 case OperationCode.SetValToProp:

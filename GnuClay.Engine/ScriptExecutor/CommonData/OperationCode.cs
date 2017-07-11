@@ -44,7 +44,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Push value of variable to the stack.
         /// </summary>
-        PushValFromVal,
+        PushValFromVar,
 
         /// <summary>
         /// Set value from the stack to the property.

@@ -63,7 +63,69 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
 
-            throw new NotImplementedException();
+            var tmpCommandParams = command.PositionedParams;
+            var tmpFilterParams = mFilter.Params;
+
+            if (tmpCommandParams.Count > tmpFilterParams.Count)
+            {
+                return 0;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank NEXT command = {command}");
+
+            var tmpCommandParamsEnumerator = tmpCommandParams.GetEnumerator();
+            var tmpFilterParamsEnumerator = tmpFilterParams.GetEnumerator();
+
+            var tmpExistsParams = true;
+
+            double result = 1;
+
+            while (tmpFilterParamsEnumerator.MoveNext())
+            {
+                var tmpFilterParam = tmpFilterParamsEnumerator.Current.Value;
+
+                if (tmpExistsParams)
+                {
+                    if(tmpCommandParamsEnumerator.MoveNext())
+                    {
+                        var tmpCommandParam = tmpCommandParamsEnumerator.Current;
+
+                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParam = {tmpFilterParam}");
+                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParam = {tmpCommandParam}");
+
+                        if(tmpFilterParam.IsAnyType)
+                        {
+                            result *= 0.1;
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        if(tmpFilterParam.IsAnyValue)
+                        {
+                            result *= 0.1;
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                    else
+                    {
+                        tmpExistsParams = false;
+                        throw new NotImplementedException();
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank result = {result}");
+
+            return result;
         }
     }
 
@@ -134,10 +196,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewCommandFiltersStorageByFunction<T>
         where T : NewBaseCommandFilter
     {
-        public NewCommandFiltersStorageByFunction(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex)
+        public NewCommandFiltersStorageByFunction(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
         {
             mMainContext = mainContext;
-            mAdditionalContext = additionalContex;
+            mAdditionalContext = additionalContext;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
@@ -292,6 +354,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var holderKey = command.Holder.TypeKey;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderKey = {holderKey}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderName = {mMainContext.DataDictionary.GetValue(holderKey)} functionName = {mMainContext.DataDictionary.GetValue(command.Function.TypeKey)}");
 
             var tmpObjectsList = new List<ExecutorsQueueItem>();
 

@@ -15,6 +15,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mVariablesDict[variableKey] = value;
         }
 
+        public INewValue GetValue(ulong variableKey)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetValue variableKey = {variableKey}");
+
+            return mVariablesDict[variableKey];
+        }
+
         private Dictionary<ulong, INewValue> mVariablesDict = new Dictionary<ulong, INewValue>(); 
 
         public string ToDbgString()

@@ -203,7 +203,21 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
             var logKey = GnuClayEngine.DataDictionary.GetKey("log");
 
+            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
+            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+
+            var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
+
             var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
+
+            var additionalContext = new NewAdditionalGnuClayEngineComponentContext();
+
+            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context, additionalContext);
+
+            additionalContext.NewFunctionEngine = functionProvider;
+
+            var constTypeProvider = new NewConstTypeProvider(GnuClayEngine.Context, additionalContext);
+            additionalContext.ConstTypeProvider = constTypeProvider;
 
             var filter = new NewCommandFilter();
             filter.Handler = FakeOpen;
@@ -211,7 +225,30 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             filter.FunctionKey = openKey;
             filter.TargetKey = doorKey;
 
-            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context);
+            functionProvider.AddFilter(filter);
+
+            filter = new NewCommandFilter();
+            filter.Handler = FakeAddOperator;
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = plusKey;
+            filter.TargetKey = 0;
+
+            filter.Params.Add(param_1_Key, new NewCommandFilterParam() {
+            });
+
+            filter.Params.Add(param_2_Key, new NewCommandFilterParam() {
+            });
+
+            functionProvider.AddFilter(filter);
+
+            filter = new NewCommandFilter();
+            filter.Handler = FakeConsoleLog;
+            filter.HolderKey = consoleKey;
+            filter.FunctionKey = logKey;
+
+            filter.Params.Add(messageParamKey, new NewCommandFilterParam()
+            {
+            });
 
             functionProvider.AddFilter(filter);
 
@@ -220,7 +257,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.BeginCallMethod;
             tmpCommand.Key = openKey;
-
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -290,10 +326,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.BeginCallMethodOfPrevEntity;
             tmpCommand.Key = logKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.PushValFromVal;
+            tmpCommand.OperationCode = OperationCode.PushValFromVar;
             tmpCommand.Key = result_2_VarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.CallByPos;
@@ -308,7 +350,30 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeOpen action = {action}");
 
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
+        }
+
+        private void FakeAddOperator(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
+
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAddOperator action = {action}");
+        }
+
+        private void FakeConsoleLog(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeConsoleLog action = {action}");
+
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeConsoleLog action = {action}");
         }
     }
 }
