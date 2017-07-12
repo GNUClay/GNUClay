@@ -99,7 +99,25 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                         }
                         else
                         {
-                            throw new NotImplementedException();
+                            var tmpCommandParamTypeKey = tmpCommandParam.ParamValue.TypeKey;
+                            var tmpFilterParamTypeKey = tmpFilterParam.TypeKey;
+
+                            if (tmpCommandParamTypeKey == tmpFilterParamTypeKey)
+                            {
+                                result *= 2;
+                                continue;
+                            }
+
+                            var rank = mMainContext.InheritanceEngine.GetRank(tmpCommandParamTypeKey, tmpFilterParamTypeKey);
+
+                            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank rank = {rank}");
+
+                            if (rank == 0)
+                            {
+                                return 0;
+                            }
+
+                            result *= rank;
                         }
 
                         if(tmpFilterParam.IsAnyValue)
@@ -132,10 +150,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewCommandFiltersStorageByTarget<T>
         where T : NewBaseCommandFilter
     {
-        public NewCommandFiltersStorageByTarget(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex)
+        public NewCommandFiltersStorageByTarget(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
         {
             mMainContext = mainContext;
-            mAdditionalContext = additionalContex;
+            mAdditionalContext = additionalContext;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;

@@ -12,6 +12,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             mTypeKey = typeKey;
             mValue = value;
+            OriginalValue = (double)(mValue);
         }
 
         private ulong mTypeKey = 0;
@@ -25,6 +26,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         private object mValue = null;
+        public double OriginalValue = 0;
 
         public ulong GetLongHashCode()
         {

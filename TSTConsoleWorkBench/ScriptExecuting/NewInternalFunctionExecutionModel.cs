@@ -297,6 +297,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     ProcessCallByPos();
                     break;
 
+                case OperationCode.CallAsync:
+                    ProcessCallAsync();
+                    break;
+
+                case OperationCode.CallAsyncByPos:
+                    ProcessCallAsyncByPos();
+                    break;
+
                 case OperationCode.JumpIfFalse:
                     ProcessJumpIfFalse();
                     break;
@@ -324,7 +332,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushConst");
 
-            var value = new NewConstValue(mCurrentCommand.Key, mCurrentCommand.Value);
+            var value = mAdditionalContext.ConstTypeProvider.CreateConstValue(mCurrentCommand.Key, mCurrentCommand.Value);
             ValuesStack.Push(value);
             mCurrentCommand = mCurrentCommand.Next;
 
@@ -587,6 +595,28 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             PostProcessCall(resultOfCalling);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallByPos");
+        }
+
+        private void ProcessCallAsync()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsync");
+
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallAsyncByNamedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, NamedParams);
+
+            PostProcessCall(resultOfCalling);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsync");
+        }
+
+        private void ProcessCallAsyncByPos()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsyncByPos");
+
+            var resultOfCalling = mAdditionalContext.NewFunctionEngine.CallAsyncByPositionedParameters(mExecutionContext, CurrentFunction, CurrentHolder, Target, PositionedParams);
+
+            PostProcessCall(resultOfCalling);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsyncByPos");
         }
 
         private void PostProcessCall(NewResultOfCalling resultOfCalling)

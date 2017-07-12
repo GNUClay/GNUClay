@@ -97,14 +97,24 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         CallBinOp,
 
         /// <summary>
-        /// Call function or method by named params.
+        /// Call synchronously function or method by named params.
         /// </summary>
         Call,
 
         /// <summary>
-        /// Call function or method by positioned params.
+        /// Call synchronously function or method by positioned params.
         /// </summary>
         CallByPos,
+
+        /// <summary>
+        /// Call asynchronously function or method by named params.
+        /// </summary>
+        CallAsync,
+
+        /// <summary>
+        /// Call asynchronously function or method by positioned params.
+        /// </summary>
+        CallAsyncByPos,
 
         /// <summary>
         /// Jump to line of code if current value of the stack is false.

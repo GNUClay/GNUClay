@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public class NewEntityAction
+    public class NewEntityAction: INewValue
     {
-        public NewEntityAction(string name, ulong key, NewCommand command)
+        public NewEntityAction(string name, ulong key, NewCommand command, ulong typeKey)
         {
             Name = name;
             Key = key;
             Command = command;
+            TypeKey = typeKey;
         }
 
         private object mLockObj = new object();
+
+        public ulong TypeKey { get; private set; }
 
         public string Name { get; private set; }
         public ulong Key { get; private set; }
@@ -49,6 +52,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public INewValue Result { get; set; }
         public INewValue Exception { get; set; }
+
+        public ulong GetLongHashCode()
+        {
+            return Key;
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

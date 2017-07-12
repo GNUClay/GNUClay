@@ -191,6 +191,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpInternalThreadExecutor.Run();
         }
 
+        private NewAdditionalGnuClayEngineComponentContext additionalContext = null;
+
         private void RunMiddleScript()
         {
             var openKey = GnuClayEngine.DataDictionary.GetKey("open");
@@ -210,14 +212,23 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
 
-            var additionalContext = new NewAdditionalGnuClayEngineComponentContext();
+            var mainContext = GnuClayEngine.Context;
 
-            var functionProvider = new NewFunctionsEngine(GnuClayEngine.Context, additionalContext);
+            additionalContext = new NewAdditionalGnuClayEngineComponentContext();
+
+            var functionProvider = new NewFunctionsEngine(mainContext, additionalContext);
 
             additionalContext.NewFunctionEngine = functionProvider;
 
-            var constTypeProvider = new NewConstTypeProvider(GnuClayEngine.Context, additionalContext);
+            var constTypeProvider = new NewConstTypeProvider();
             additionalContext.ConstTypeProvider = constTypeProvider;
+
+            var numberProvider = new NewNumberProvider(mainContext, additionalContext);
+
+            constTypeProvider.AddProvider(numberProvider);
+
+            var exceptionsFactory = new NewExceptionsFactory(mainContext, additionalContext);
+            additionalContext.ExceptionsFactory = exceptionsFactory;
 
             var filter = new NewCommandFilter();
             filter.Handler = FakeOpen;
@@ -234,9 +245,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             filter.TargetKey = 0;
 
             filter.Params.Add(param_1_Key, new NewCommandFilterParam() {
+                IsAnyType = false,
+                TypeKey = numberKey
             });
 
             filter.Params.Add(param_2_Key, new NewCommandFilterParam() {
+                IsAnyType = false,
+                TypeKey = numberKey
             });
 
             functionProvider.AddFilter(filter);
@@ -338,7 +353,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.CallByPos;
+            tmpCommand.OperationCode = OperationCode.CallAsyncByPos;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
@@ -360,7 +375,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            var actionCommand = action.Command;
+
+            var tmpParam_1 = (NewNumberValue)actionCommand.PositionedParams[0].ParamValue;
+            var tmpParam_2 = (NewNumberValue)actionCommand.PositionedParams[1].ParamValue;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_1 = {tmpParam_1}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_2 = {tmpParam_2}");
+
+            action.Result = additionalContext.ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
+
             action.State = NewEntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAddOperator action = {action}");

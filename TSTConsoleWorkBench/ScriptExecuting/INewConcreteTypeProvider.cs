@@ -8,6 +8,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public interface INewConcreteTypeProvider
     {
+        ulong TypeKey { get; }
         INewValue CreateConstValue(ulong typeKey, object value);
     }
 }

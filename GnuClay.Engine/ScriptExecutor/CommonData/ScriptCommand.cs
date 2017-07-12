@@ -76,6 +76,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallByPos:
                     return $"{OperationCode}";
 
+                case OperationCode.CallAsync:
+                    return $"{OperationCode}";
+
+                case OperationCode.CallAsyncByPos:
+                    return $"{OperationCode}";
+
                 case OperationCode.JumpIfFalse:
                     return $"{OperationCode}: {Key}";
 

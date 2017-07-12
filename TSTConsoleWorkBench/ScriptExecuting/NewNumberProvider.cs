@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContext;
+
+            TypeKey = mMainContext.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+
+        public ulong TypeKey { get; private set; }
 
         public INewValue CreateConstValue(ulong typeKey, object value)
         {

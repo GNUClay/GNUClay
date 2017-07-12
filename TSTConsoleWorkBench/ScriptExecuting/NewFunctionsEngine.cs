@@ -16,7 +16,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public NewFunctionsEngine(GnuClayEngineComponentContext context, NewAdditionalGnuClayEngineComponentContext additionalContext)
         {
             mContext = context;
-            mAdditionalContext = additionalContext
+            mAdditionalContext = additionalContext;
 
             mCommandFiltersStorage = new NewCommandFiltersStorage<NewCommandFilter>(mContext, mAdditionalContext);
 
@@ -27,6 +27,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mContext.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1 , InheritanceAspect.WithOutClause);
 
             mSelfValue = new NewEntityValue(mSelfKey);
+
+            mEntityActionTypeKey = mContext.DataDictionary.GetKey(mEntityActionTypeName);
+
+            mContext.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
         }
 
         private GnuClayEngineComponentContext mContext = null;
@@ -37,6 +41,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private ulong mSelfKey = 0;
 
         private INewValue mSelfValue = null;
+
+        private string mEntityActionTypeName = "EntityAction";
+        private ulong mEntityActionTypeKey = 0;
 
         public void CallCodeFrame(FunctionModel source)
         {
@@ -116,9 +123,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             command.Holder = holder;
             command.TargetKey = targetKey;
-
             command.IsCallByNamedParams = true;
-
             command.NamedParams = namedParams;
 
             return command;
@@ -137,9 +142,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             command.Holder = holder;
             command.TargetKey = targetKey;
-
             command.IsCallByNamedParams = false;
-
             command.PositionedParams = positionedParams;
 
             return command;
@@ -149,7 +152,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             var name = Guid.NewGuid().ToString("D");
             var key = mContext.DataDictionary.GetKey(name);
-            var entityAction = new NewEntityAction(name, key, command);
+            var entityAction = new NewEntityAction(name, key, command, mEntityActionTypeKey);
 
             return entityAction;
         }
@@ -180,7 +183,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var entityAction = CreateEntityAction(command);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSyncCall entityAction = {entityAction}");
 
             InvokeEntityAction(entityAction);
 
@@ -205,7 +208,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 throw new NotImplementedException();
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"End CallByNamedParameters result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"End ProcessSyncCall result = {result}");
 
             return result;
         }
@@ -214,7 +217,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall command = {command}");
 
-            throw new NotImplementedException();
+            var entityAction = CreateEntityAction(command);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall entityAction = {entityAction}");
+
+            InvokeEntityAction(entityAction);
+
+            var result = new NewResultOfCalling();
+            result.Success = true;
+            result.Result = entityAction;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End ProcessAsyncCall result = {result}");
+
+            return result;
         }
 
         private object mFiltersLockObj = new object();

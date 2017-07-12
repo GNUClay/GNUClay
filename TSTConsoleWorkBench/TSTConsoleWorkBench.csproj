@@ -71,6 +71,7 @@
     <Compile Include="ParserExecuting\ParserRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptExecuting\NewExceptionValue.cs" />
     <Compile Include="ScriptExecuting\INewCallAction.cs" />
     <Compile Include="ScriptExecuting\INewCommandFilterParam.cs" />
     <Compile Include="ScriptExecuting\INewConcreteTypeProvider.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="ScriptExecuting\NewEntityAction.cs" />
     <Compile Include="ScriptExecuting\NewEntityActionState.cs" />
     <Compile Include="ScriptExecuting\NewEntityValue.cs" />
+    <Compile Include="ScriptExecuting\NewExceptionsFactory.cs" />
     <Compile Include="ScriptExecuting\NewFunctionsEngine.cs" />
     <Compile Include="ScriptExecuting\NewGnuClayThreadExecutionContext.cs" />
     <Compile Include="ScriptExecuting\NewInternalFunctionExecutionModel.cs" />
