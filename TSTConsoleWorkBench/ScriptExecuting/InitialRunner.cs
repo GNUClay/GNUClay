@@ -195,9 +195,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private void RunMiddleScript()
         {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin RunMiddleScript");
+
             var openKey = GnuClayEngine.DataDictionary.GetKey("open");
             var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
-            var keyKey = GnuClayEngine.DataDictionary.GetKey("key");
+            var keyKey = GnuClayEngine.DataDictionary.GetKey("$key");
             var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
             var resultVarKey = GnuClayEngine.DataDictionary.GetKey("$result");
             var plusKey = GnuClayEngine.DataDictionary.GetKey("+");
@@ -227,8 +229,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             constTypeProvider.AddProvider(numberProvider);
 
-            var exceptionsFactory = new NewExceptionsFactory(mainContext, additionalContext);
-            additionalContext.ExceptionsFactory = exceptionsFactory;
+            var errorsFactory = new NewErrorsFactory(mainContext, additionalContext);
+            additionalContext.ErrorsFactory = errorsFactory;
+
+            var userDefinedFunctionsStorage = new NewUserDefinedFunctionsStorage(mainContext, additionalContext);
+            additionalContext.UserDefinedFunctionsStorage = userDefinedFunctionsStorage;
+
+            var remoteFunctionsStorage = new NewRemoteFunctionsStorage(mainContext, additionalContext);
+            additionalContext.RemoteFunctionsStorage = remoteFunctionsStorage;
 
             var filter = new NewCommandFilter();
             filter.Handler = FakeOpen;
@@ -266,6 +274,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             });
 
             functionProvider.AddFilter(filter);
+
+            var tmpUserDefinedCodeFrame = new FunctionModel();
+
 
             var tmpCodeFrame = new FunctionModel();
 
@@ -359,6 +370,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
             functionProvider.CallCodeFrame(tmpCodeFrame);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End RunMiddleScript");
         }
 
         private void FakeOpen(NewEntityAction action)

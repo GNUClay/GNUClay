@@ -88,6 +88,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.Jump:
                     return $"{OperationCode}: {Key}";
 
+                case OperationCode.Return:
+                    return $"{OperationCode}";
+
+                case OperationCode.ReturnValue:
+                    return $"{OperationCode}";
+
                 default: throw new ArgumentOutOfRangeException(nameof(OperationCode), OperationCode, null);
             }
         }

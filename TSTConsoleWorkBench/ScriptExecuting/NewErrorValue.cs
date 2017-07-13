@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public class NewExceptionValue: INewValue
+    public class NewErrorValue: INewValue
     {
-        public NewExceptionValue(ulong typeKey)
+        public NewErrorValue(ulong typeKey)
         {
             mTypeKey = typeKey;
         }
@@ -28,9 +28,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return mTypeKey;
         }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"ExceptionValue {nameof(TypeKey)} = {TypeKey}";
+            return $"Error {nameof(TypeKey)} = {TypeKey}";
         }
     }
 }

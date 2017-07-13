@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         public INewValue Result { get; set; }
-        public INewValue Exception { get; set; }
+        public INewValue Error { get; set; }
+
+        public ulong Initiator { get;  set; }
+        public List<ulong> InitiatedActions { get; set; } = new List<ulong>();
 
         public ulong GetLongHashCode()
         {
@@ -70,7 +74,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine($"{nameof(Command)} = {Command}");
             tmpSb.AppendLine($"{nameof(Result)} = {Result }");
-            tmpSb.AppendLine($"{nameof(Exception)} = {Exception}");
+            tmpSb.AppendLine($"{nameof(Error)} = {Error}");
+            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
+            tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
 
             return tmpSb.ToString();
         }

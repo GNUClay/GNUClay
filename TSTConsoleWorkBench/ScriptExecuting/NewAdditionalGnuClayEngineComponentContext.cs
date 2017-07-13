@@ -10,6 +10,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     {
         public NewFunctionsEngine NewFunctionEngine = null;
         public NewConstTypeProvider ConstTypeProvider = null;
-        public NewExceptionsFactory ExceptionsFactory = null;
+        public NewErrorsFactory ErrorsFactory = null;
+        public NewRemoteFunctionsStorage RemoteFunctionsStorage = null;
+        public NewUserDefinedFunctionsStorage UserDefinedFunctionsStorage = null;
     }
 }

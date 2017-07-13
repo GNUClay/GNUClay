@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
-    public class NewExceptionsFactory
+    public class NewRemoteFunctionsStorage
     {
-        public NewExceptionsFactory(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
+        public NewRemoteFunctionsStorage(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContext;

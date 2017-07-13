@@ -124,6 +124,16 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Jump to line of code.
         /// </summary>
-        Jump
+        Jump,
+
+        /// <summary>
+        /// Return from the function.
+        /// </summary>
+        Return,
+
+        /// <summary>
+        /// Return a value from the function.
+        /// </summary>
+        ReturnValue
     }
 }

@@ -40,6 +40,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return $"NumberValue {nameof(TypeKey)} = {TypeKey}; {nameof(mValue)} = {mValue}";
