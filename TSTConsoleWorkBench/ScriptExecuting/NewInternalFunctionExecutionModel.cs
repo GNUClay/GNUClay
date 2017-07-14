@@ -217,6 +217,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mEntityAction.Error = error;
         }
 
+        private void ExitWithResult(INewValue result)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result}");
+
+            mIsRun = false;
+            mEntityAction.State = NewEntityActionState.Completed;
+            mEntityAction.Result = result;
+        }
+
         private ScriptCommand mCurrentCommand = null;
 
         private void NRun()
@@ -680,7 +689,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturn");
 
-            throw new NotImplementedException();
+            Exit();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturn");
         }
@@ -689,7 +698,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturnValue");
 
-            throw new NotImplementedException();
+            var tmpValue = ValuesStack.Pop();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity tmpValue = {tmpValue}");
+
+            ExitWithResult(tmpValue);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturnValue");
         }

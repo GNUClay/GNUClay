@@ -9,6 +9,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
     public class StandartTypeNamesConstants
     {
         public const string UniversalTypeName = "⊤";
+        public const string UndefinedTypeMame = "undefined";
         public const string NumberName = "Number";
         public const string ArrayName = "Array";
         public const string IteratorName = "Iterator";

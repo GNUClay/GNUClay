@@ -31,6 +31,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mEntityActionTypeKey = mContext.DataDictionary.GetKey(mEntityActionTypeName);
 
             mContext.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            mUndefinedTypeKey = mContext.DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
         }
 
         private GnuClayEngineComponentContext mContext = null;
@@ -44,6 +46,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private string mEntityActionTypeName = "EntityAction";
         private ulong mEntityActionTypeKey = 0;
+
+        private ulong mUndefinedTypeKey = 0;
 
         public NewResultOfCalling CallCodeFrame(FunctionModel source)
         {
@@ -67,7 +71,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             FillVariablesByParams(filter, entityAction, executionContext);
 
-            throw new NotImplementedException();
+            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, executionContext, entityAction);
+            tmpNewInternalThreadExecutor.Run();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End CallCodeFrameForEntityAction entityAction = {entityAction}");
         }
 
         private void FillVariablesByParams(NewCommandFilter filter, NewEntityAction entityAction, NewGnuClayThreadExecutionContext executionContext)
@@ -75,7 +82,85 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams entityAction = {entityAction}");
             NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams filter = {filter}");
 
-            throw new NotImplementedException();
+            if(filter.Params.Count == 0)
+            {
+                return;
+            }
+
+            if(entityAction.Command.IsCallByNamedParams)
+            {
+                FillVariablesByNamedParams(filter, entityAction, executionContext);
+                return;
+            }
+
+            FillVariablesByPositionedParams(filter, entityAction, executionContext);
+        }
+
+        private void FillVariablesByNamedParams(NewCommandFilter filter, NewEntityAction entityAction, NewGnuClayThreadExecutionContext executionContext)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filter = {filter}");
+
+            var tmpFilterParameters = filter.Params;
+
+            var tmpCommandParamsDict = entityAction.Command.NamedParams.ToDictionary(p => p.ParamName.TypeKey, p => p);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+
+            foreach (var filterParamKVP in tmpFilterParameters)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filterParamKVP = {filterParamKVP}");
+
+                var paramKey = filterParamKVP.Key;
+
+                if (tmpCommandParamsDict.ContainsKey(paramKey))
+                {
+                    var targetParamOfCommand = tmpCommandParamsDict[paramKey];
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
+
+                    executionContext.ContextOfVariables.SetValue(paramKey, targetParamOfCommand.ParamValue);
+
+                    continue;
+                }
+
+                throw new NotImplementedException();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+        }
+
+        private void FillVariablesByPositionedParams(NewCommandFilter filter, NewEntityAction entityAction, NewGnuClayThreadExecutionContext executionContext)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams filter = {filter}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+
+            var tmpFilterParameters = filter.Params;
+            var tmpCommandListEnumerator = entityAction.Command.PositionedParams.GetEnumerator();
+
+            foreach (var filterParamKVP in tmpFilterParameters)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParam filterParamKVP = {filterParamKVP}");
+
+                var paramKey = filterParamKVP.Key;
+
+                if (tmpCommandListEnumerator.MoveNext())
+                {
+                    var targetParamOfCommand = tmpCommandListEnumerator.Current;
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
+
+                    executionContext.ContextOfVariables.SetValue(paramKey, targetParamOfCommand.ParamValue);
+
+                    continue;
+                }
+
+                throw new NotImplementedException();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
         }
 
         public NewResultOfCalling CallByNamedParameters(NewGnuClayThreadExecutionContext parentExecutionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
@@ -240,7 +325,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private NewResultOfCalling CreateSyncResultOfCalling(NewEntityAction entityAction)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateSyncResultOfCalling after entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateSyncResultOfCalling entityAction = {entityAction}");
 
             var result = new NewResultOfCalling();
 
@@ -250,12 +335,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                 if (entityAction.Result == null)
                 {
-                    throw new NotImplementedException();
+                    entityAction.Result = new NewEntityValue(mUndefinedTypeKey);
                 }
-                else
-                {
-                    result.Result = entityAction.Result;
-                }
+
+                result.Result = entityAction.Result;
             }
             else
             {

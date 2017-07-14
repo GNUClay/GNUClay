@@ -36,9 +36,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             mAdditionalContext.NewFunctionEngine.CallCodeFrameForEntityAction(mFunctionModel, mFilter, action);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Handler action = {action}");
-
-            throw new NotImplementedException();          
+            NLog.LogManager.GetCurrentClassLogger().Info($"End Handler action = {action}");        
         }
     }
 

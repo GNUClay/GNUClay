@@ -226,7 +226,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             additionalContext.ConstTypeProvider = constTypeProvider;
 
             var numberProvider = new NewNumberProvider(mainContext, additionalContext);
-
             constTypeProvider.AddProvider(numberProvider);
 
             var errorsFactory = new NewErrorsFactory(mainContext, additionalContext);

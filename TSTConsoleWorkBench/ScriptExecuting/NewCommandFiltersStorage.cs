@@ -89,13 +89,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                     NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank commandParamTypeKey = {commandParamTypeKey} filterParamTypeKey = {filterParamTypeKey}");
 
-                    if (commandParamTypeKey == filterParam.TypeKey)
+                    if (commandParamTypeKey == filterParamTypeKey)
                     {
                         result *= 2;
                     }
                     else
                     {
-                        var rank = mMainContext.InheritanceEngine.GetRank(commandParamTypeKey, filterParam.TypeKey);
+                        var rank = mMainContext.InheritanceEngine.GetRank(commandParamTypeKey, filterParamTypeKey);
 
                         NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank rank = {rank}");
 
@@ -129,9 +129,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank result = {result}");
 
-            //return result;
-
-            throw new NotImplementedException();
+            return result;
         }
 
         private double GetPositionedRank(NewCommand command)
