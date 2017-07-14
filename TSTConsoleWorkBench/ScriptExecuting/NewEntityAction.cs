@@ -73,7 +73,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpSb.AppendLine($"{nameof(Name)} = {Name }");
             tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine($"{nameof(Command)} = {Command}");
-            tmpSb.AppendLine($"{nameof(Result)} = {Result }");
+            tmpSb.AppendLine($"{nameof(State)} = {State}");
+            tmpSb.AppendLine($"{nameof(Result)} = {Result}");
             tmpSb.AppendLine($"{nameof(Error)} = {Error}");
             tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
             tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");

@@ -16,7 +16,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public ulong GetLongHashCode()
         {
-            ulong result = 0;
+            var result = FunctionKey ^ TargetKey ^ HolderKey;
 
             foreach (var item in Params)
             {

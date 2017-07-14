@@ -10,7 +10,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     {
         public bool Success { get; set; }
         public INewValue Result { get; set; }
-        public INewValue Exception { get; set; }
+        public INewValue Error { get; set; }
 
         public override string ToString()
         {
@@ -18,7 +18,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             sb.AppendLine($"{nameof(Success)} = {Success}");
             sb.AppendLine($"{nameof(Result)} = {Result}");
-            sb.AppendLine($"{nameof(Exception)} = {Exception}");
+            sb.AppendLine($"{nameof(Error)} = {Error}");
 
             return sb.ToString();
         }

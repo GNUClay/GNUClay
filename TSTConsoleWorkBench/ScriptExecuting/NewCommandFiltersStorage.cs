@@ -56,6 +56,81 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info("GetNamedRank NEXT");
 
+            var commandParams = command.NamedParams.ToDictionary(p => p.ParamName.TypeKey, p => p);
+
+            double result = 1;
+
+            foreach (var filterParamKVP in mFilter.Params)
+            {
+                var paramKey = filterParamKVP.Key;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank paramName = {paramKey} paramName = {mMainContext.DataDictionary.GetValue(paramKey)}");
+
+                if (!commandParams.ContainsKey(paramKey))
+                {
+                    continue;
+                }
+
+                var targetCommandParam = commandParams[paramKey];
+
+                var filterParam = filterParamKVP.Value;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank targetCommandParam = {targetCommandParam}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank filterParam = {filterParam}");
+
+                if (filterParam.IsAnyType)
+                {
+                    result *= 0.1;
+                }
+                else
+                {
+                    var commandParamTypeKey = targetCommandParam.ParamValue.TypeKey;
+                    var filterParamTypeKey = filterParam.TypeKey;
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank commandParamTypeKey = {commandParamTypeKey} filterParamTypeKey = {filterParamTypeKey}");
+
+                    if (commandParamTypeKey == filterParam.TypeKey)
+                    {
+                        result *= 2;
+                    }
+                    else
+                    {
+                        var rank = mMainContext.InheritanceEngine.GetRank(commandParamTypeKey, filterParam.TypeKey);
+
+                        NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank rank = {rank}");
+
+                        if (rank == 0)
+                        {
+                            return 0;
+                        }
+
+                        result *= rank;
+                    }
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank NEXT NEXT result = {result}");
+
+                if (filterParam.IsAnyValue)
+                {
+                    result *= 0.1;
+                }
+                else
+                {
+                    if (targetCommandParam == filterParam.Value)
+                    {
+                        result *= 2;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank result = {result}");
+
+            //return result;
+
             throw new NotImplementedException();
         }
 

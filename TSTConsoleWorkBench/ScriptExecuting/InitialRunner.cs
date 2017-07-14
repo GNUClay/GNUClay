@@ -239,14 +239,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             additionalContext.RemoteFunctionsStorage = remoteFunctionsStorage;
 
             var filter = new NewCommandFilter();
-            filter.Handler = FakeOpen;
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = openKey;
-            filter.TargetKey = doorKey;
-
-            functionProvider.AddFilter(filter);
-
-            filter = new NewCommandFilter();
             filter.Handler = FakeAddOperator;
             filter.HolderKey = selfKey;
             filter.FunctionKey = plusKey;
@@ -276,11 +268,33 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             functionProvider.AddFilter(filter);
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
+            var tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushValFromVar;
+            tmpCommand.Key = keyKey;
+            tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.ReturnValue;
+            tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
+
+            filter = new NewCommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = openKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new NewCommandFilterParam() {
+            });
+
+            var tmpUserDefinedFunctionModel = new NewUserDefinedFunctionModel();
+
+            tmpUserDefinedFunctionModel.Filter = filter;
+            tmpUserDefinedFunctionModel.FunctionModel = tmpUserDefinedCodeFrame;
+
+            userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
 
             var tmpCodeFrame = new FunctionModel();
 
-            var tmpCommand = new ScriptCommand();
+            tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.BeginCallMethod;
             tmpCommand.Key = openKey;
             tmpCodeFrame.AddCommand(tmpCommand);
@@ -369,9 +383,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
-            functionProvider.CallCodeFrame(tmpCodeFrame);
+            var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
 
-            NLog.LogManager.GetCurrentClassLogger().Info("End RunMiddleScript");
+            NLog.LogManager.GetCurrentClassLogger().Info($"End RunMiddleScript resultOfCalling = {resultOfCalling}");
         }
 
         private void FakeOpen(NewEntityAction action)

@@ -17,6 +17,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mExecutionContext = executionContext;
 
             mEntityAction = entityAction;
+            mEntityAction.State = NewEntityActionState.Running;
 
             mFunction = source;
 
@@ -205,6 +206,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private void Exit()
         {
             mIsRun = false;
+            mEntityAction.State = NewEntityActionState.Completed;
+        }
+
+        private void ExitWithError(INewValue error)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error}");
+            mIsRun = false;
+            mEntityAction.State = NewEntityActionState.Faulted;
+            mEntityAction.Error = error;
         }
 
         private ScriptCommand mCurrentCommand = null;
@@ -318,10 +328,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     break;
 
                 case OperationCode.Return:
-                    ProcessReturn
+                    ProcessReturn();
+                    break;
 
                 case OperationCode.ReturnValue:
-                    Process
+                    ProcessReturnValue();
+                    break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(operationCode), operationCode, null);
             }
@@ -636,9 +648,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             if(!resultOfCalling.Success)
             {
-                throw new NotImplementedException();
-
-                //return;
+                ExitWithError(resultOfCalling.Error);
+                return;
             }
 
             ValuesStack.Push(resultOfCalling.Result);
@@ -663,6 +674,24 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             throw new NotImplementedException();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJump");
+        }
+
+        private void ProcessReturn()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturn");
+
+            throw new NotImplementedException();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturn");
+        }
+
+        private void ProcessReturnValue()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturnValue");
+
+            throw new NotImplementedException();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturnValue");
         }
     }
 }

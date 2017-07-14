@@ -45,23 +45,47 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private string mEntityActionTypeName = "EntityAction";
         private ulong mEntityActionTypeKey = 0;
 
-        public void CallCodeFrame(FunctionModel source)
+        public NewResultOfCalling CallCodeFrame(FunctionModel source)
         {
-            var context = new NewGnuClayThreadExecutionContext();
-            context.ContextOfVariables = new NewContextOfVariables();
+            var executionContext = CreateEmptyExecutionContext();
 
             var entityAction = CreateEntityAction(new NewCommand(), null);
 
-            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, context, entityAction);
+            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, executionContext, entityAction);
             tmpNewInternalThreadExecutor.Run();
+
+            return CreateSyncResultOfCalling(entityAction);
         }
 
-        public NewResultOfCalling CallByNamedParameters(NewGnuClayThreadExecutionContext executionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
+        public void CallCodeFrameForEntityAction(FunctionModel source, NewCommandFilter filter, NewEntityAction entityAction)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction source = {source}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction filter = {filter}");
+
+            var executionContext = CreateEmptyExecutionContext();
+
+            FillVariablesByParams(filter, entityAction, executionContext);
+
+            throw new NotImplementedException();
+        }
+
+        private void FillVariablesByParams(NewCommandFilter filter, NewEntityAction entityAction, NewGnuClayThreadExecutionContext executionContext)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams filter = {filter}");
+
+            throw new NotImplementedException();
+        }
+
+        public NewResultOfCalling CallByNamedParameters(NewGnuClayThreadExecutionContext parentExecutionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters holder = {holder}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
+
+            var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
 
@@ -70,12 +94,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return ProcessSyncCall(command, parentAction);
         }
 
-        public NewResultOfCalling CallByPositionedParameters(NewGnuClayThreadExecutionContext executionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
+        public NewResultOfCalling CallByPositionedParameters(NewGnuClayThreadExecutionContext parentExecutionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters holder = {holder}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
+
+            var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
 
@@ -84,12 +110,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return ProcessSyncCall(command, parentAction);
         }
 
-        public NewResultOfCalling CallAsyncByNamedParameters(NewGnuClayThreadExecutionContext executionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
+        public NewResultOfCalling CallAsyncByNamedParameters(NewGnuClayThreadExecutionContext parentExecutionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters holder = {holder}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
+
+            var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
 
@@ -98,18 +126,27 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return ProcessAsyncCall(command, parentAction);
         }
 
-        public NewResultOfCalling CallAsyncByPositionedParameters(NewGnuClayThreadExecutionContext executionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
+        public NewResultOfCalling CallAsyncByPositionedParameters(NewGnuClayThreadExecutionContext parentExecutionContext, NewEntityAction parentAction, INewValue function, INewValue holder, ulong targetKey, List<NewPositionParamInfo> positionedParams)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters function = {function}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters holder = {holder}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters targetKey = {targetKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
 
+            var executionContext = CreateEmptyExecutionContext();
+
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters command = {command}");
 
             return ProcessAsyncCall(command, parentAction);
+        }
+
+        private NewGnuClayThreadExecutionContext CreateEmptyExecutionContext()
+        {
+            var executionContext = new NewGnuClayThreadExecutionContext();
+            executionContext.ContextOfVariables = new NewContextOfVariables();
+            return executionContext;
         }
 
         private NewCommand CreateCommandByNamedParameters(NewGnuClayThreadExecutionContext executionContext, INewValue function, INewValue holder, ulong targetKey, List<NewNamedParamInfo> namedParams)
@@ -198,6 +235,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             InvokeEntityAction(entityAction);
 
+            return CreateSyncResultOfCalling(entityAction);
+        }
+
+        private NewResultOfCalling CreateSyncResultOfCalling(NewEntityAction entityAction)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateSyncResultOfCalling after entityAction = {entityAction}");
+
             var result = new NewResultOfCalling();
 
             if (entityAction.State == NewEntityActionState.Completed)
@@ -216,10 +260,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             else
             {
                 result.Success = false;
-                throw new NotImplementedException();
+                result.Error = entityAction.Error;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"End ProcessSyncCall result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"End CreateSyncResultOfCalling result = {result}");
 
             return result;
         }
