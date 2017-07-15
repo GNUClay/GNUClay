@@ -372,7 +372,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private object mFiltersLockObj = new object();
 
-        public void AddFilter(NewCommandFilter filter)
+        public ulong AddFilter(NewCommandFilter filter)
         {
             lock(mFiltersLockObj)
             {
@@ -386,6 +386,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             {
                 return mCommandFiltersStorage.FindExecutors(command);
             }
+        }
+
+        public void RemoveFilter(ulong descriptor)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
+
+            throw new NotImplementedException();
         }
     }
 }
