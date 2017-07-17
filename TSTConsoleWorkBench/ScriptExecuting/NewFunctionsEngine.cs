@@ -376,7 +376,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             lock(mFiltersLockObj)
             {
-                mCommandFiltersStorage.AddFilter(filter);
+                return mCommandFiltersStorage.AddFilter(filter);
             }
         }
 
@@ -392,7 +392,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
 
-            throw new NotImplementedException();
+            lock (mFiltersLockObj)
+            {
+                mCommandFiltersStorage.RemoveFilter(descriptor);
+            }
         }
     }
 }

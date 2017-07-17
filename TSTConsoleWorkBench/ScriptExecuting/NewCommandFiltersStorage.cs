@@ -15,11 +15,26 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContex;
+
+            mNameOfDescriptor = Guid.NewGuid().ToString("D");
+            mKeyOfDescriptor = mMainContext.DataDictionary.GetKey(mNameOfDescriptor);
+
             mFilter = filter;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+
+        private string mNameOfDescriptor = string.Empty;
+        private ulong mKeyOfDescriptor = 0;
+
+        public ulong Descriptor
+        {
+            get
+            {
+                return mKeyOfDescriptor;
+            }
+        }
 
         private T mFilter = null;
 
@@ -223,16 +238,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewCommandFiltersStorageByTarget<T>
         where T : NewBaseCommandFilter
     {
-        public NewCommandFiltersStorageByTarget(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
+        public NewCommandFiltersStorageByTarget(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewCommandFiltersStorageByFunction<T> parent)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContext;
+            mParent = parent;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+        private NewCommandFiltersStorageByFunction<T> mParent = null;
 
-        public void AddFilter(T filter)
+        public ulong AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -240,11 +257,26 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             if (mDict.ContainsKey(targetHashCode))
             {
-                return;
+                var tmpExistingStorage = mDict[targetHashCode];
+
+                if(tmpExistingStorage.Filter == filter)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter tmpExistingStorage.Filter == filter filter = {filter}");
+
+                    return tmpExistingStorage.Descriptor;
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter mDict.Remove(targetHashCode) filter = {filter}");
+
+                mDict.Remove(targetHashCode);
             }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter NEXT filter = {filter}");
 
             var targetStorage = new NewCommandFiltersStorageByParams<T>(filter, mMainContext, mAdditionalContext);
             mDict.Add(targetHashCode, targetStorage);
+
+            return targetStorage.Descriptor;
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -287,19 +319,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewCommandFiltersStorageByFunction<T>
         where T : NewBaseCommandFilter
     {
-        public NewCommandFiltersStorageByFunction(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
+        public NewCommandFiltersStorageByFunction(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewCommandFiltersStorageByHolder<T> parent)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContext;
+            mParent = parent;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+        private NewCommandFiltersStorageByHolder<T> mParent = null;
 
-        public void AddFilter(T filter)
+        public ulong AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
-
 
             var targetKey = filter.TargetKey;
 
@@ -311,11 +344,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
             else
             {
-                targetStorage = new NewCommandFiltersStorageByTarget<T>(mMainContext, mAdditionalContext);
+                targetStorage = new NewCommandFiltersStorageByTarget<T>(mMainContext, mAdditionalContext, this);
                 mDict.Add(targetKey, targetStorage);
             }
 
-            targetStorage.AddFilter(filter);
+            return targetStorage.AddFilter(filter);
+        }
+
+        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+
+            throw new NotImplementedException();
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -338,16 +378,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     public class NewCommandFiltersStorageByHolder<T>
         where T : NewBaseCommandFilter
     {
-        public NewCommandFiltersStorageByHolder(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex)
+        public NewCommandFiltersStorageByHolder(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex, NewCommandFiltersStorage<T> parent)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContex;
+            mParent = parent;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
+        private NewCommandFiltersStorage<T> mParent = null;
 
-        public void AddFilter(T filter)
+        public ulong AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -361,11 +403,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
             else
             {
-                targetStorage = new NewCommandFiltersStorageByFunction<T>(mMainContext, mAdditionalContext);
+                targetStorage = new NewCommandFiltersStorageByFunction<T>(mMainContext, mAdditionalContext, this);
                 mDict.Add(functionKey, targetStorage);
             }
 
-            targetStorage.AddFilter(filter);
+            return targetStorage.AddFilter(filter);
+        }
+
+        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+
+            throw new NotImplementedException();
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -397,7 +446,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
 
-        public void AddFilter(T filter)
+        public ulong AddFilter(T filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -411,11 +460,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
             else
             {
-                targetStorage = new NewCommandFiltersStorageByHolder<T>(mMainContext, mAdditionalContext);
+                targetStorage = new NewCommandFiltersStorageByHolder<T>(mMainContext, mAdditionalContext, this);
                 mDict.Add(holderKey, targetStorage);
             }
 
-            targetStorage.AddFilter(filter);
+            return targetStorage.AddFilter(filter);
+        }
+
+        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+
+            throw new NotImplementedException();
         }
 
         private class ExecutorsQueueItem
@@ -495,6 +551,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
 
             return result;
+        }
+
+        public void RemoveFilter(ulong descriptor)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
+
+            throw new NotImplementedException();
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByHolder<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByHolder<T>>();

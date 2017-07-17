@@ -264,7 +264,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             {
             });
 
+            var descriptor = functionProvider.AddFilter(filter);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall descriptor = {descriptor}");
+
+            functionProvider.RemoveFilter(descriptor);
+
             functionProvider.AddFilter(filter);
+            functionProvider.AddFilter(filter);
+
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();
