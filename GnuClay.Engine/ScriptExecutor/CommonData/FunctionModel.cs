@@ -69,10 +69,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine(_ListHelper._ToString(Commands, nameof(Commands)));
-
-            tmpSb.Append(nameof(FirstCommand));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(FirstCommand?.ToString());
+            tmpSb.Append($"{nameof(FirstCommand)} = {FirstCommand}");
 
             return tmpSb.ToString();
         }

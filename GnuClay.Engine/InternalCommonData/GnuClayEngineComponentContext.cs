@@ -7,11 +7,6 @@ using GnuClay.Engine.RemoteEvents;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
-using GnuClay.Engine.StandardLibrary.SupportingMachines;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GnuClay.Engine.InternalCommonData
 {
@@ -23,7 +18,6 @@ namespace GnuClay.Engine.InternalCommonData
         public StandardLibraryEngine StandardLibrary = null;
         public LogicalStorageEngine LogicalStorage = null;
         public ScriptExecutorEngine ScriptExecutor = null;
-        public TypeProcessingContext TypeProcessingContext = null;
         public RemoteEventsEngine RemoteEventsEngine = null;
         public GnuClayParserEngine ParserEngine = null;
         public InheritanceEngine InheritanceEngine = null;

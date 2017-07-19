@@ -16,38 +16,38 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private FunctionModel mFunction = null;
 
-        public ScriptCommand FirstCommand
-        {
-            get
-            {
-                return mFunction.FirstCommand;
-            }
-        }
+        //public ScriptCommand FirstCommand
+        //{
+        //    get
+        //    {
+        //        return mFunction.FirstCommand;
+        //    }
+        //}
 
-        public ScriptCommand this[int lineNumber]
-        {
-            get
-            {
-                return mFunction[lineNumber];
-            }
-        }
+        //public ScriptCommand this[int lineNumber]
+        //{
+        //    get
+        //    {
+        //        return mFunction[lineNumber];
+        //    }
+        //}
 
-        public Stack<IValue> ValuesStack = new Stack<IValue>();
+        //public Stack<IValue> ValuesStack = new Stack<IValue>();
 
-        public string ValueStackToDbgString()
-        {
-            var tmpSb = new StringBuilder();
+        //public string ValueStackToDbgString()
+        //{
+        //    var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine("Begin ValuesStack");
+        //    tmpSb.AppendLine("Begin ValuesStack");
 
-            foreach (var val in ValuesStack)
-            {
-                tmpSb.AppendLine(val.ToString());
-            }
+        //    foreach (var val in ValuesStack)
+        //    {
+        //        tmpSb.AppendLine(val.ToString());
+        //    }
 
-            tmpSb.AppendLine("End ValuesStack");
+        //    tmpSb.AppendLine("End ValuesStack");
 
-            return tmpSb.ToString();
-        }
+        //    return tmpSb.ToString();
+        //}
     }
 }

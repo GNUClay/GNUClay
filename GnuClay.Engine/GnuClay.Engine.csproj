@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\GnuClay.Engine.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -111,57 +112,23 @@
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
-    <Compile Include="ScriptExecutor\CommonData\IGnuClayAbstractProperty.cs" />
-    <Compile Include="ScriptExecutor\CommonData\IGnuClayScriptFunctor.cs" />
-    <Compile Include="ScriptExecutor\CommonData\IRunTimeTypeProcessingContext.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ITryCallMethodResult.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ITryCallPropertyResult.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ITryCallResult.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ITypeProcessingContext.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ITypeProvider.cs" />
-    <Compile Include="ScriptExecutor\CommonData\IValueFactory.cs" />
     <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
-    <Compile Include="ScriptExecutor\CommonData\BinaryOperatorRule.cs" />
     <Compile Include="ScriptExecutor\CommonData\ScriptCommand.cs" />
     <Compile Include="ScriptExecutor\Compiler\GnuClayScriptCompiler.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BaseLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
-    <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
     <Compile Include="Serialization\SerializationEngine.cs" />
     <Compile Include="Serialization\SerializationInfo.cs" />
     <Compile Include="Serialization\SerializationPackage.cs" />
-    <Compile Include="StandardLibrary\ArrayProvider.cs" />
-    <Compile Include="StandardLibrary\CommonData\ArrayValue.cs" />
-    <Compile Include="StandardLibrary\CommonData\ExternalMethodInfo.cs" />
-    <Compile Include="StandardLibrary\CommonData\IteratorValue.cs" />
-    <Compile Include="StandardLibrary\CommonData\PropertyResultIteratorValue.cs" />
-    <Compile Include="StandardLibrary\CommonData\PropertyResultValue.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartOperatorPrioritiesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
-    <Compile Include="StandardLibrary\CommonData\TryCallPropertyResult.cs" />
-    <Compile Include="StandardLibrary\IteratorProvider.cs" />
-    <Compile Include="StandardLibrary\PropertyResultIteratorProvider.cs" />
-    <Compile Include="StandardLibrary\PropertyResultProvider.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\BaseTypeProvider.cs" />
-    <Compile Include="StandardLibrary\CommonData\BaseValue.cs" />
-    <Compile Include="ScriptExecutor\CommonData\IValue.cs" />
-    <Compile Include="StandardLibrary\CommonData\GCSMemberAttribute.cs" />
-    <Compile Include="StandardLibrary\CommonData\NumberValue.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ScriptRuntimeException.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutor.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
-    <Compile Include="StandardLibrary\CommonData\TryCallMethodResult.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\GCSClassInfo.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptExternalFunctor.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptSystemProperty.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\TypeProcessingContext.cs" />
-    <Compile Include="StandardLibrary\NumberProvider.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
-    <Compile Include="StandardLibrary\SupportingMachines\GnuClayScriptSystemFunctor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj">
@@ -176,7 +143,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="StandardLibrary\SupportingMachines\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -30,166 +30,166 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        private void RunAST()
-        {
-            var addOperatorKey = GnuClayEngine.DataDictionary.GetKey("Add");
-            var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+        //private void RunAST()
+        //{
+        //    var addOperatorKey = GnuClayEngine.DataDictionary.GetKey("Add");
+        //    var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
 
-            var codeBlock = new ASTCodeBlock();
+        //    var codeBlock = new ASTCodeBlock();
 
-            var statement = new ASTExpressionStatement();
-            codeBlock.Statements.Add(statement);
+        //    var statement = new ASTExpressionStatement();
+        //    codeBlock.Statements.Add(statement);
 
-            var addOperator = new ASTBinaryOperator();
-            statement.Expression = addOperator;
+        //    var addOperator = new ASTBinaryOperator();
+        //    statement.Expression = addOperator;
 
-            addOperator.OperatorKey = addOperatorKey;
+        //    addOperator.OperatorKey = addOperatorKey;
 
-            var leftExpr = new ASTConstExpression();
-            addOperator.Left = leftExpr;
+        //    var leftExpr = new ASTConstExpression();
+        //    addOperator.Left = leftExpr;
 
-            leftExpr.TypeKey = numberKey;
-            leftExpr.Value = 1.0;
+        //    leftExpr.TypeKey = numberKey;
+        //    leftExpr.Value = 1.0;
 
-            var rightExpr = new ASTConstExpression();
-            addOperator.Right = rightExpr;
+        //    var rightExpr = new ASTConstExpression();
+        //    addOperator.Right = rightExpr;
 
-            rightExpr.TypeKey = numberKey;
-            rightExpr.Value = 2.0;
+        //    rightExpr.TypeKey = numberKey;
+        //    rightExpr.Value = 2.0;
 
-            var tmpCodeFrame = GnuClayEngine.ExecutorEngine.Compiler.Compile(codeBlock);
-            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+        //    var tmpCodeFrame = GnuClayEngine.ExecutorEngine.Compiler.Compile(codeBlock);
+        //    NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
-            var context = new GnuClayThreadExecutionContext();
-            context.MainContext = GnuClayEngine.Context;
-            var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+        //    var context = new GnuClayThreadExecutionContext();
+        //    context.MainContext = GnuClayEngine.Context;
+        //    var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
 
-            tmpInternalThreadExecutor.Run();
-        }
+        //    tmpInternalThreadExecutor.Run();
+        //}
 
-        private void RunScriptsCommands()
-        {
-            var tmpTSTProvider = new TSTValueProvider(GnuClayEngine.Context);
-            tmpTSTProvider.InitFromZero();
-            var tmpVal = tmpTSTProvider.Create(15);
-            var targetKey = GnuClayEngine.DataDictionary.GetKey("SecondMethod");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SecondMethod targetKey = `{targetKey}`");
+        //private void RunScriptsCommands()
+        //{
+        //    var tmpTSTProvider = new TSTValueProvider(GnuClayEngine.Context);
+        //    tmpTSTProvider.InitFromZero();
+        //    var tmpVal = tmpTSTProvider.Create(15);
+        //    var targetKey = GnuClayEngine.DataDictionary.GetKey("SecondMethod");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"SecondMethod targetKey = `{targetKey}`");
 
-            var rez = tmpVal.TryCall(targetKey, new List<IValue>());
+        //    var rez = tmpVal.TryCall(targetKey, new List<IValue>());
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"SecondMethod rez.Result = `{rez.Result}`");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"SecondMethod rez.Result = `{rez.Result}`");
 
-            targetKey = GnuClayEngine.DataDictionary.GetKey("SomeMethod");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SomeMethod targetKey = `{targetKey}`");
+        //    targetKey = GnuClayEngine.DataDictionary.GetKey("SomeMethod");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"SomeMethod targetKey = `{targetKey}`");
 
-            rez = tmpVal.TryCall(targetKey, new List<IValue>());
+        //    rez = tmpVal.TryCall(targetKey, new List<IValue>());
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"SomeMethod rez.Result = `{rez.Result}`");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"SomeMethod rez.Result = `{rez.Result}`");
 
-            var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+        //    var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"numberKey = `{numberKey}`");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"numberKey = `{numberKey}`");
 
-            var numberValue = GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0);
+        //    var numberValue = GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"numberValue = `{numberValue}`");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"numberValue = `{numberValue}`");
 
-            var tmpParamNameKey = GnuClayEngine.DataDictionary.GetKey("a");
+        //    var tmpParamNameKey = GnuClayEngine.DataDictionary.GetKey("a");
 
-            var externalMethodInfoKey = GnuClayEngine.DataDictionary.GetKey("Move");
-            var externalMethodInfo = new ExternalMethodInfo();
-            externalMethodInfo.MethodKey = externalMethodInfoKey;
-            externalMethodInfo.HolderKey = numberKey;
-            externalMethodInfo.Parameters.Add(new ExternalParameterInfo()
-            {
-                NameKey = tmpParamNameKey,
-                ParameterType = numberKey
-            });
+        //    var externalMethodInfoKey = GnuClayEngine.DataDictionary.GetKey("Move");
+        //    var externalMethodInfo = new ExternalMethodInfo();
+        //    externalMethodInfo.MethodKey = externalMethodInfoKey;
+        //    externalMethodInfo.HolderKey = numberKey;
+        //    externalMethodInfo.Parameters.Add(new ExternalParameterInfo()
+        //    {
+        //        NameKey = tmpParamNameKey,
+        //        ParameterType = numberKey
+        //    });
 
-            GnuClayEngine.Context.TypeProcessingContext.RegExternalMethod(externalMethodInfo);
+        //    GnuClayEngine.Context.TypeProcessingContext.RegExternalMethod(externalMethodInfo);
 
-            rez = numberValue.TryCall(externalMethodInfoKey, new List<IValue>() { numberValue });
+        //    rez = numberValue.TryCall(externalMethodInfoKey, new List<IValue>() { numberValue });
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"externalMethodInfo rez.Result = `{rez.Result}`");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"externalMethodInfo rez.Result = `{rez.Result}`");
 
-            var somePropertyKey = GnuClayEngine.DataDictionary.GetKey("SomeProperty");
-            NLog.LogManager.GetCurrentClassLogger().Info($"somePropertyKey = `{somePropertyKey}`");
+        //    var somePropertyKey = GnuClayEngine.DataDictionary.GetKey("SomeProperty");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"somePropertyKey = `{somePropertyKey}`");
 
-            rez = tmpVal.TrySetProperty(somePropertyKey, numberValue);
-            NLog.LogManager.GetCurrentClassLogger().Info($"SomeProperty rez = `{rez.Result}`");
+        //    rez = tmpVal.TrySetProperty(somePropertyKey, numberValue);
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"SomeProperty rez = `{rez.Result}`");
 
-            var initList = new List<IValue>() { GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0),
-                    GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 2.0),
-                    GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 3.0)};
+        //    var initList = new List<IValue>() { GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 12.0),
+        //            GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 2.0),
+        //            GnuClayEngine.Context.TypeProcessingContext.CreateValue(numberKey, 3.0)};
 
-            var arrayKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.ArrayName);
-            NLog.LogManager.GetCurrentClassLogger().Info($"arrayKey = `{arrayKey}`");
+        //    var arrayKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.ArrayName);
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"arrayKey = `{arrayKey}`");
 
-            var arrayVal = GnuClayEngine.Context.TypeProcessingContext.CreateValue(arrayKey, initList);
+        //    var arrayVal = GnuClayEngine.Context.TypeProcessingContext.CreateValue(arrayKey, initList);
 
-            var getIteratorKey = GnuClayEngine.DataDictionary.GetKey("GetIterator");
-            NLog.LogManager.GetCurrentClassLogger().Info($"getIteratorKey = `{getIteratorKey}`");
+        //    var getIteratorKey = GnuClayEngine.DataDictionary.GetKey("GetIterator");
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"getIteratorKey = `{getIteratorKey}`");
 
-            var iterator = arrayVal.TryGetProperty(getIteratorKey).Result;
+        //    var iterator = arrayVal.TryGetProperty(getIteratorKey).Result;
 
-            var moveNextKey = GnuClayEngine.DataDictionary.GetKey("MoveNext");
+        //    var moveNextKey = GnuClayEngine.DataDictionary.GetKey("MoveNext");
 
-            iterator.TryCall(moveNextKey, new List<IValue>());
+        //    iterator.TryCall(moveNextKey, new List<IValue>());
 
-            var currentValueKey = GnuClayEngine.DataDictionary.GetKey("CurrentValue");
+        //    var currentValueKey = GnuClayEngine.DataDictionary.GetKey("CurrentValue");
 
-            var currentValue = iterator.TryGetProperty(currentValueKey).Result;
-            NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+        //    var currentValue = iterator.TryGetProperty(currentValueKey).Result;
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
 
-            iterator.TryCall(moveNextKey, new List<IValue>());
-            currentValue = iterator.TryGetProperty(currentValueKey).Result;
-            NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+        //    iterator.TryCall(moveNextKey, new List<IValue>());
+        //    currentValue = iterator.TryGetProperty(currentValueKey).Result;
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
 
-            iterator.TryCall(moveNextKey, new List<IValue>());
-            currentValue = iterator.TryGetProperty(currentValueKey).Result;
-            NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
+        //    iterator.TryCall(moveNextKey, new List<IValue>());
+        //    currentValue = iterator.TryGetProperty(currentValueKey).Result;
+        //    NLog.LogManager.GetCurrentClassLogger().Info($"currentValue = `{currentValue}`");
 
-            var tmpCodeFrame = new FunctionModel();
-            tmpCodeFrame.AddCommand(new ScriptCommand()
-            {
-                OperationCode = OperationCode.Nop
-            });
+        //    var tmpCodeFrame = new FunctionModel();
+        //    tmpCodeFrame.AddCommand(new ScriptCommand()
+        //    {
+        //        OperationCode = OperationCode.Nop
+        //    });
 
-            tmpCodeFrame.AddCommand(new ScriptCommand()
-            {
-                OperationCode = OperationCode.PushConst,
-                Key = numberKey,
-                Value = 1.0
-            });
+        //    tmpCodeFrame.AddCommand(new ScriptCommand()
+        //    {
+        //        OperationCode = OperationCode.PushConst,
+        //        Key = numberKey,
+        //        Value = 1.0
+        //    });
 
-            tmpCodeFrame.AddCommand(new ScriptCommand()
-            {
-                OperationCode = OperationCode.PushConst,
-                Key = numberKey,
-                Value = 2.0
-            });
+        //    tmpCodeFrame.AddCommand(new ScriptCommand()
+        //    {
+        //        OperationCode = OperationCode.PushConst,
+        //        Key = numberKey,
+        //        Value = 2.0
+        //    });
 
-            var addOperatorKey = GnuClayEngine.DataDictionary.GetKey("Add");
+        //    var addOperatorKey = GnuClayEngine.DataDictionary.GetKey("Add");
 
-            tmpCodeFrame.AddCommand(new ScriptCommand()
-            {
-                OperationCode = OperationCode.CallBinOp,
-                Key = addOperatorKey
-            });
+        //    tmpCodeFrame.AddCommand(new ScriptCommand()
+        //    {
+        //        OperationCode = OperationCode.CallBinOp,
+        //        Key = addOperatorKey
+        //    });
 
-            /*tmpCodeFrame.AddCommand(new ScriptCommand()
-            {
-                OperationCode = OperationCode.CallBinOp,
-                Key = addOperatorKey
-            });*/
+        //    /*tmpCodeFrame.AddCommand(new ScriptCommand()
+        //    {
+        //        OperationCode = OperationCode.CallBinOp,
+        //        Key = addOperatorKey
+        //    });*/
 
-            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
-            var context = new GnuClayThreadExecutionContext();
-            context.MainContext = GnuClayEngine.Context;
-            var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+        //    NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+        //    var context = new GnuClayThreadExecutionContext();
+        //    context.MainContext = GnuClayEngine.Context;
+        //    var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
 
-            tmpInternalThreadExecutor.Run();
-        }
+        //    tmpInternalThreadExecutor.Run();
+        //}
 
         private NewAdditionalGnuClayEngineComponentContext additionalContext = null;
 
