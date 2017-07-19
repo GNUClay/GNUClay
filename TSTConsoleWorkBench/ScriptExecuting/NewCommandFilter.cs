@@ -10,6 +10,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
     public class NewCommandFilter: NewBaseCommandFilter
     {
+        public NewCommandFilter()
+        {
+        }
+
+        public NewCommandFilter(NewBaseCommandFilter source)
+            : base(source)
+        {
+        }
+
         public NewCommandHandler Handler { get; set; } = null;
     }
 }

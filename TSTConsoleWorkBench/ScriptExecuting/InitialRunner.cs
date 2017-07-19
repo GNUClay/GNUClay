@@ -214,12 +214,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
 
+            var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
+
             var mainContext = GnuClayEngine.Context;
 
             additionalContext = new NewAdditionalGnuClayEngineComponentContext();
 
             var functionProvider = new NewFunctionsEngine(mainContext, additionalContext);
-
             additionalContext.NewFunctionEngine = functionProvider;
 
             var constTypeProvider = new NewConstTypeProvider();
@@ -298,6 +299,45 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpUserDefinedFunctionModel.FunctionModel = tmpUserDefinedCodeFrame;
 
             userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
+
+            filter = new NewCommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_1;
+
+            remoteFunctionsStorage.AddFilter(filter);
+
+            filter = new NewCommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_2;
+
+            remoteFunctionsStorage.AddFilter(filter);
+
+            filter = new NewCommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_3;
+
+            remoteFunctionsStorage.AddFilter(filter);
 
             var tmpCodeFrame = new FunctionModel();
 
@@ -388,6 +428,43 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand.OperationCode = OperationCode.CallAsyncByPos;
             tmpCodeFrame.AddCommand(tmpCommand);
 
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.Key = remoteKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = keyKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
             var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
@@ -432,6 +509,36 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             action.State = NewEntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeConsoleLog action = {action}");
+        }
+
+        private void FakeRemoteHandler_1(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action}");
+
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action}");
+        }
+
+        private void FakeRemoteHandler_2(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 action = {action}");
+
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_2 action = {action}");
+        }
+
+        private void FakeRemoteHandler_3(NewEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 action = {action}");
+
+            action.Result = new NewEntityValue(15);
+            action.State = NewEntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_3 action = {action}");
         }
     }
 }

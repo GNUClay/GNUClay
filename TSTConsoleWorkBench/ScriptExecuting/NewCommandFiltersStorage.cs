@@ -276,7 +276,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var targetStorage = new NewCommandFiltersStorageByParams<T>(filter, mMainContext, mAdditionalContext);
             mDict.Add(targetHashCode, targetStorage);
 
-            return targetStorage.Descriptor;
+            var descriptor = targetStorage.Descriptor;
+
+            mDescriptorsDict[descriptor] = targetStorage;
+
+            mParent.OnAddFilter(descriptor, this);
+
+            return descriptor;
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -313,7 +319,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return targetFilters.OrderByDescending(p => p.Key).Select(p => p.Value).ToList();
         }
 
+        public void RemoveFilter(ulong descriptor)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
+
+            var targetStorage = mDescriptorsDict[descriptor];
+            mDescriptorsDict.Remove(descriptor);
+
+            var targetHashCode = targetStorage.Filter.GetLongHashCode();
+
+            mDict.Remove(targetHashCode);
+        }
+
         private Dictionary<ulong, NewCommandFiltersStorageByParams<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByParams<T>>();
+        private Dictionary<ulong, NewCommandFiltersStorageByParams<T>> mDescriptorsDict = new Dictionary<ulong, NewCommandFiltersStorageByParams<T>>();
     }
 
     public class NewCommandFiltersStorageByFunction<T>
@@ -351,11 +370,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return targetStorage.AddFilter(filter);
         }
 
-        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        public void OnAddFilter(ulong descriptor, NewCommandFiltersStorageByTarget<T> storage)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
 
-            throw new NotImplementedException();
+            mParent.OnAddFilter(descriptor, storage);
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -410,11 +429,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return targetStorage.AddFilter(filter);
         }
 
-        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        public void OnAddFilter(ulong descriptor, NewCommandFiltersStorageByTarget<T> storage)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
 
-            throw new NotImplementedException();
+            mParent.OnAddFilter(descriptor, storage);
         }
 
         public List<T> FindExecutors(NewCommand command)
@@ -467,11 +486,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return targetStorage.AddFilter(filter);
         }
 
-        public void OnAddFilter(T filter, NewCommandFiltersStorageByTarget<T> storage)
+        public void OnAddFilter(ulong descriptor, NewCommandFiltersStorageByTarget<T> storage)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter filter = {filter}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
 
-            throw new NotImplementedException();
+            mDescriptorsDict[descriptor] = storage;
         }
 
         private class ExecutorsQueueItem
@@ -557,9 +576,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
 
-            throw new NotImplementedException();
+            if(mDescriptorsDict.ContainsKey(descriptor))
+            {
+                mDescriptorsDict[descriptor].RemoveFilter(descriptor);
+                mDescriptorsDict.Remove(descriptor);
+            }
         }
 
         private Dictionary<ulong, NewCommandFiltersStorageByHolder<T>> mDict = new Dictionary<ulong, NewCommandFiltersStorageByHolder<T>>();
+        private Dictionary<ulong, NewCommandFiltersStorageByTarget<T>> mDescriptorsDict = new Dictionary<ulong, NewCommandFiltersStorageByTarget<T>>();
     }
 }

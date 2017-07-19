@@ -9,6 +9,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewCommandFilterParam: INewCommandFilterParam
     {
+        public NewCommandFilterParam()
+        {
+        }
+
+        public NewCommandFilterParam(NewCommandFilterParam source)
+        {
+            IsAnyType = source.IsAnyType;
+            TypeKey = source.TypeKey;
+            IsAnyValue = source.IsAnyValue;
+            Value = Value;
+        }
+
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; } = 0;
         public bool IsAnyValue { get; set; } = true;

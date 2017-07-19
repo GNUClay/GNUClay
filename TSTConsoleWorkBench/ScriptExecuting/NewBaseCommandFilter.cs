@@ -9,6 +9,22 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewBaseCommandFilter: INewLongHashableObject
     {
+        public NewBaseCommandFilter()
+        {
+        }
+
+        public NewBaseCommandFilter(NewBaseCommandFilter source)
+        {
+            FunctionKey = source.FunctionKey;
+            TargetKey = source.TargetKey;
+            HolderKey = source.HolderKey;
+
+            foreach(var param in source.Params)
+            {
+                Params[param.Key] = new NewCommandFilterParam(param.Value);
+            }
+        }
+
         public ulong FunctionKey { get; set; }
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }

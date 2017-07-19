@@ -359,7 +359,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall entityAction = {entityAction}");
 
-            InvokeEntityAction(entityAction);
+            Task.Run(() => {
+                InvokeEntityAction(entityAction);
+            });
 
             var result = new NewResultOfCalling();
             result.Success = true;
