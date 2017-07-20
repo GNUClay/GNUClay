@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewUserDefinedFunctionModel
     {
-        public NewCommandFilter Filter { get; set; }
+        public CommandFilter Filter { get; set; }
         public FunctionModel FunctionModel { get; set; }
 
         /// <summary>

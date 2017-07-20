@@ -238,30 +238,30 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var remoteFunctionsStorage = new NewRemoteFunctionsStorage(mainContext, additionalContext);
             additionalContext.RemoteFunctionsStorage = remoteFunctionsStorage;
 
-            var filter = new NewCommandFilter();
+            var filter = new CommandFilter();
             filter.Handler = FakeAddOperator;
             filter.HolderKey = selfKey;
             filter.FunctionKey = plusKey;
             filter.TargetKey = 0;
 
-            filter.Params.Add(param_1_Key, new NewCommandFilterParam() {
+            filter.Params.Add(param_1_Key, new CommandFilterParam() {
                 IsAnyType = false,
                 TypeKey = numberKey
             });
 
-            filter.Params.Add(param_2_Key, new NewCommandFilterParam() {
+            filter.Params.Add(param_2_Key, new CommandFilterParam() {
                 IsAnyType = false,
                 TypeKey = numberKey
             });
 
             functionProvider.AddFilter(filter);
 
-            filter = new NewCommandFilter();
+            filter = new CommandFilter();
             filter.Handler = FakeConsoleLog;
             filter.HolderKey = consoleKey;
             filter.FunctionKey = logKey;
 
-            filter.Params.Add(messageParamKey, new NewCommandFilterParam()
+            filter.Params.Add(messageParamKey, new CommandFilterParam()
             {
             });
 
@@ -285,12 +285,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand.OperationCode = OperationCode.ReturnValue;
             tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
-            filter = new NewCommandFilter();
+            filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = openKey;
             filter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new NewCommandFilterParam() {
+            filter.Params.Add(keyKey, new CommandFilterParam() {
             });
 
             var tmpUserDefinedFunctionModel = new NewUserDefinedFunctionModel();
@@ -300,12 +300,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
 
-            filter = new NewCommandFilter();
+            filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = remoteKey;
             filter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            filter.Params.Add(keyKey, new CommandFilterParam()
             {
             });
 
@@ -313,12 +313,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             remoteFunctionsStorage.AddFilter(filter);
 
-            filter = new NewCommandFilter();
+            filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = remoteKey;
             filter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            filter.Params.Add(keyKey, new CommandFilterParam()
             {
             });
 
@@ -326,12 +326,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             remoteFunctionsStorage.AddFilter(filter);
 
-            filter = new NewCommandFilter();
+            filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = remoteKey;
             filter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new NewCommandFilterParam()
+            filter.Params.Add(keyKey, new CommandFilterParam()
             {
             });
 
@@ -472,17 +472,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End RunMiddleScript resultOfCalling = {resultOfCalling}");
         }
 
-        private void FakeOpen(NewEntityAction action)
+        private void FakeOpen(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeOpen action = {action}");
 
             action.Result = new NewEntityValue(15);
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
         }
 
-        private void FakeAddOperator(NewEntityAction action)
+        private void FakeAddOperator(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
 
@@ -496,47 +496,47 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             action.Result = additionalContext.ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
 
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAddOperator action = {action}");
         }
 
-        private void FakeConsoleLog(NewEntityAction action)
+        private void FakeConsoleLog(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeConsoleLog action = {action}");
 
             action.Result = new NewEntityValue(15);
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeConsoleLog action = {action}");
         }
 
-        private void FakeRemoteHandler_1(NewEntityAction action)
+        private void FakeRemoteHandler_1(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action}");
 
             action.Result = new NewEntityValue(15);
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action}");
         }
 
-        private void FakeRemoteHandler_2(NewEntityAction action)
+        private void FakeRemoteHandler_2(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 action = {action}");
 
             action.Result = new NewEntityValue(15);
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_2 action = {action}");
         }
 
-        private void FakeRemoteHandler_3(NewEntityAction action)
+        private void FakeRemoteHandler_3(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 action = {action}");
 
             action.Result = new NewEntityValue(15);
-            action.State = NewEntityActionState.Completed;
+            action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_3 action = {action}");
         }

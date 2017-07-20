@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneralConstants.cs" />
+    <Compile Include="ILongHashableObject.cs" />
     <Compile Include="Inheritance\CyclicInheritanceException.cs" />
     <Compile Include="Inheritance\InheritanceAspect.cs" />
     <Compile Include="Inheritance\InheritanceEngine.cs" />
@@ -111,7 +112,17 @@
     <Compile Include="ScriptExecutor\AST\Expressions\ASTExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
+    <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />
+    <Compile Include="ScriptExecutor\Command.cs" />
+    <Compile Include="ScriptExecutor\CommandFilter.cs" />
+    <Compile Include="ScriptExecutor\CommandFilterParam.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
+    <Compile Include="ScriptExecutor\EntityAction.cs" />
+    <Compile Include="ScriptExecutor\EntityActionState.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\ContextOfVariables.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\ResultOfCalling.cs" />
+    <Compile Include="ScriptExecutor\IValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
     <Compile Include="ScriptExecutor\CommonData\ScriptCommand.cs" />
     <Compile Include="ScriptExecutor\Compiler\GnuClayScriptCompiler.cs" />
@@ -119,6 +130,8 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
+    <Compile Include="ScriptExecutor\NamedParamInfo.cs" />
+    <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
     <Compile Include="Serialization\SerializationEngine.cs" />
     <Compile Include="Serialization\SerializationInfo.cs" />
     <Compile Include="Serialization\SerializationPackage.cs" />

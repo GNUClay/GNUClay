@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.CommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private Dictionary<ulong, INewConcreteTypeProvider> mDict = new Dictionary<ulong, INewConcreteTypeProvider>();
 
-        public INewValue CreateConstValue(ulong typeKey, object value)
+        public IValue CreateConstValue(ulong typeKey, object value)
         {
             return mDict[typeKey].CreateConstValue(typeKey, value);
         }

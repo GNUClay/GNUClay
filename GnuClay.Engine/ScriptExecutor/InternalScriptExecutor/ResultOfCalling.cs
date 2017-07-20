@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
-    public class NewResultOfCalling
+    public class ResultOfCalling
     {
         public bool Success { get; set; }
-        public INewValue Result { get; set; }
-        public INewValue Error { get; set; }
+        public IValue Result { get; set; }
+        public IValue Error { get; set; }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

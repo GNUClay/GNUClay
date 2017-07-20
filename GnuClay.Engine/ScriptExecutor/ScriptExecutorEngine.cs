@@ -32,13 +32,17 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void Execute(ASTCodeBlock codeBlock)
         {
-            var tmpCodeFrame = mCompiler.Compile(codeBlock);
-            var context = new GnuClayThreadExecutionContext();
-            context.MainContext = Context;
+            NLog.LogManager.GetCurrentClassLogger().Info($"Execute");
 
-            var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+            throw new NotImplementedException();
 
-            tmpInternalThreadExecutor.Run();
+            //var tmpCodeFrame = mCompiler.Compile(codeBlock);
+            //var context = new GnuClayThreadExecutionContext();
+            //context.MainContext = Context;
+
+            //var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+
+            //tmpInternalThreadExecutor.Run();
         }
     }
 }

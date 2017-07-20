@@ -5,30 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewBaseCommandFilter: INewLongHashableObject
+    public class BaseCommandFilter : ILongHashableObject
     {
-        public NewBaseCommandFilter()
+        public BaseCommandFilter()
         {
         }
 
-        public NewBaseCommandFilter(NewBaseCommandFilter source)
+        public BaseCommandFilter(BaseCommandFilter source)
         {
             FunctionKey = source.FunctionKey;
             TargetKey = source.TargetKey;
             HolderKey = source.HolderKey;
 
-            foreach(var param in source.Params)
+            foreach (var param in source.Params)
             {
-                Params[param.Key] = new NewCommandFilterParam(param.Value);
+                Params[param.Key] = new CommandFilterParam(param.Value);
             }
         }
 
         public ulong FunctionKey { get; set; }
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }
-        public Dictionary<ulong, NewCommandFilterParam> Params { get; set; } = new Dictionary<ulong, NewCommandFilterParam>();
+        public Dictionary<ulong, CommandFilterParam> Params { get; set; } = new Dictionary<ulong, CommandFilterParam>();
 
         public ulong GetLongHashCode()
         {

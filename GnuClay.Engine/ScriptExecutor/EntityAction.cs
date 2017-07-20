@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewEntityAction: INewValue
+    public class EntityAction : IValue
     {
-        public NewEntityAction(string name, ulong key, NewCommand command, ulong typeKey)
+        public EntityAction(string name, ulong key, Command command, ulong typeKey)
         {
             Name = name;
             Key = key;
@@ -23,15 +23,15 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public string Name { get; private set; }
         public ulong Key { get; private set; }
-        public NewCommand Command { get; private set; }
+        public Command Command { get; private set; }
 
-        private NewEntityActionState mState = NewEntityActionState.Init;
+        private EntityActionState mState = EntityActionState.Init;
 
-        public NewEntityActionState State
+        public EntityActionState State
         {
             get
             {
-                lock(mLockObj)
+                lock (mLockObj)
                 {
                     return mState;
                 }
@@ -41,7 +41,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             {
                 lock (mLockObj)
                 {
-                    if(mState == value)
+                    if (mState == value)
                     {
                         return;
                     }
@@ -51,10 +51,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public INewValue Result { get; set; }
-        public INewValue Error { get; set; }
+        public IValue Result { get; set; }
+        public IValue Error { get; set; }
 
-        public ulong Initiator { get;  set; }
+        public ulong Initiator { get; set; }
         public List<ulong> InitiatedActions { get; set; } = new List<ulong>();
 
         public ulong GetLongHashCode()

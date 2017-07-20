@@ -1,5 +1,7 @@
 ﻿using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -48,7 +50,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return mMainContext.DataDictionary.GetKey(tmpName);
         }
 
-        public INewValue CreateError()
+        public IValue CreateError()
         {
             var tmpKey = CreateObject();
 
@@ -59,7 +61,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return new NewErrorValue(tmpKey);
         }
 
-        public INewValue CreateUncaughtReferenceError()
+        public IValue CreateUncaughtReferenceError()
         {
             var tmpKey = CreateObject();
 

@@ -12,11 +12,8 @@ using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
-using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GnuClay.Engine
@@ -75,7 +72,6 @@ namespace GnuClay.Engine
             mContext.SerializationEngine = new SerializationEngine(mContext);
             mContext.DataDictionary = new StorageDataDictionary(mContext);
             mContext.LogicalStorage = new LogicalStorageEngine(mContext);
-            mContext.TypeProcessingContext = new TypeProcessingContext(mContext);
             mContext.StandardLibrary = new StandardLibraryEngine(mContext);
             mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
             mContext.RemoteEventsEngine = new RemoteEventsEngine(mContext);

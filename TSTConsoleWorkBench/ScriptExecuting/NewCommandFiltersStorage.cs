@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewCommandFiltersStorageByParams<T>
-        where T : NewBaseCommandFilter
+        where T : BaseCommandFilter
     {
         public NewCommandFiltersStorageByParams(T filter, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex)
         {
@@ -46,7 +47,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public double GetRank(NewCommand command)
+        public double GetRank(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GetRank command = {command}");
 
@@ -58,7 +59,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return GetPositionedRank(command);
         }
 
-        private double GetNamedRank(NewCommand command)
+        private double GetNamedRank(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GetNamedRank command = {command}");
 
@@ -147,7 +148,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
-        private double GetPositionedRank(NewCommand command)
+        private double GetPositionedRank(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
 
@@ -236,7 +237,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     }
 
     public class NewCommandFiltersStorageByTarget<T>
-        where T : NewBaseCommandFilter
+        where T : BaseCommandFilter
     {
         public NewCommandFiltersStorageByTarget(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewCommandFiltersStorageByFunction<T> parent)
         {
@@ -285,7 +286,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return descriptor;
         }
 
-        public List<T> FindExecutors(NewCommand command)
+        public List<T> FindExecutors(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
 
@@ -336,7 +337,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     }
 
     public class NewCommandFiltersStorageByFunction<T>
-        where T : NewBaseCommandFilter
+        where T : BaseCommandFilter
     {
         public NewCommandFiltersStorageByFunction(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewCommandFiltersStorageByHolder<T> parent)
         {
@@ -377,7 +378,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mParent.OnAddFilter(descriptor, storage);
         }
 
-        public List<T> FindExecutors(NewCommand command)
+        public List<T> FindExecutors(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
 
@@ -395,7 +396,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     }
 
     public class NewCommandFiltersStorageByHolder<T>
-        where T : NewBaseCommandFilter
+        where T : BaseCommandFilter
     {
         public NewCommandFiltersStorageByHolder(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex, NewCommandFiltersStorage<T> parent)
         {
@@ -436,7 +437,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             mParent.OnAddFilter(descriptor, storage);
         }
 
-        public List<T> FindExecutors(NewCommand command)
+        public List<T> FindExecutors(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
 
@@ -454,7 +455,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
     }
 
     public class NewCommandFiltersStorage<T>
-        where T: NewBaseCommandFilter
+        where T: BaseCommandFilter
     {
         public NewCommandFiltersStorage(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex)
         {
@@ -513,7 +514,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public List<T> FindExecutors(NewCommand command)
+        public List<T> FindExecutors(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
 

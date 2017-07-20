@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewRemoteFunctionsHandler
     {
-        public NewRemoteFunctionsHandler(NewBaseCommandFilter filter, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewRemoteFunctionsStorage parent)
+        public NewRemoteFunctionsHandler(BaseCommandFilter filter, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewRemoteFunctionsStorage parent)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContext;
 
-            mFilter = new NewCommandFilter(filter);
+            mFilter = new CommandFilter(filter);
             mFilter.Handler = Handler;
 
             mParent = parent;
@@ -22,11 +23,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
-        private NewCommandFilter mFilter = null;
+        private CommandFilter mFilter = null;
         private NewRemoteFunctionsStorage mParent = null;
         private ulong mDescriptor = 0;
 
-        private void Handler(NewEntityAction action)
+        private void Handler(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin Handler action = {action}");
 
@@ -44,7 +45,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End Handler action = {action}");
         }
 
-        public ulong AddFilter(NewCommandFilter filter)
+        public ulong AddFilter(CommandFilter filter)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
@@ -78,7 +79,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public Dictionary<ulong, NewCommandFilter> mDict = new Dictionary<ulong, NewCommandFilter>();
+        public Dictionary<ulong, CommandFilter> mDict = new Dictionary<ulong, CommandFilter>();
     }
 
     public class NewRemoteFunctionsStorage
@@ -94,7 +95,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private object mLockObj = new object();
 
-        public ulong AddFilter(NewCommandFilter filter)
+        public ulong AddFilter(CommandFilter filter)
         {
             lock(mLockObj)
             {

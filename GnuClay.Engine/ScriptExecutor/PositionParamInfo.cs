@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewPositionParamInfo: INewLongHashableObject
+    public class PositionParamInfo: ILongHashableObject
     {
-        public INewValue ParamValue { get; set; }
+        public IValue ParamValue { get; set; }
         public int Position { get; set; }
 
         public ulong GetLongHashCode()
@@ -23,6 +23,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             return result;
         }
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             return $"{nameof(ParamValue)} = {ParamValue}; {nameof(Position)} = {Position}";

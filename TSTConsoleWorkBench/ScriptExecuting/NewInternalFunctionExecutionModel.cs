@@ -1,5 +1,7 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +12,14 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 {
     public class NewInternalFunctionExecutionModel
     {
-        public NewInternalFunctionExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex,  NewGnuClayThreadExecutionContext executionContext, NewEntityAction entityAction)
+        public NewInternalFunctionExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContex,  GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
         {
             mMainContext = mainContext;
             mAdditionalContext = additionalContex;
             mExecutionContext = executionContext;
 
             mEntityAction = entityAction;
-            mEntityAction.State = NewEntityActionState.Running;
+            mEntityAction.State = EntityActionState.Running;
 
             mFunction = source;
 
@@ -26,9 +28,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
-        private NewGnuClayThreadExecutionContext mExecutionContext = null;
+        private GnuClayThreadExecutionContext mExecutionContext = null;
         private FunctionModel mFunction = null;
-        private NewEntityAction mEntityAction = null;
+        private EntityAction mEntityAction = null;
 
         public ScriptCommand FirstCommand
         {
@@ -46,7 +48,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public Stack<INewValue> ValuesStack { get; set; } = new Stack<INewValue>();
+        public Stack<IValue> ValuesStack { get; set; } = new Stack<IValue>();
 
         public void NBeginCall()
         {
@@ -61,8 +63,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             CurrentParamValue = null;
         }
 
-        public INewValue CurrentHolder { get; set; }
-        public INewValue CurrentFunction { get; set; }
+        public IValue CurrentHolder { get; set; }
+        public IValue CurrentFunction { get; set; }
         public ulong Target { get; set; }
 
         private bool? mIsCalledByNamedParameters = null;
@@ -86,22 +88,22 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 {
                     if(mIsCalledByNamedParameters.Value)
                     {
-                        NamedParams = new List<NewNamedParamInfo>();
+                        NamedParams = new List<NamedParamInfo>();
                     }
                     else
                     {
-                        PositionedParams = new List<NewPositionParamInfo>();
+                        PositionedParams = new List<PositionParamInfo>();
                     }
                 }
             }
         }
 
         public bool? IsSetParamName = false;
-        public INewValue CurrentParamName { get; set; }
-        public INewValue CurrentParamValue { get; set; }
+        public IValue CurrentParamName { get; set; }
+        public IValue CurrentParamValue { get; set; }
 
-        public List<NewNamedParamInfo> NamedParams { get; set; }
-        public List<NewPositionParamInfo> PositionedParams { get; set; }
+        public List<NamedParamInfo> NamedParams { get; set; }
+        public List<PositionParamInfo> PositionedParams { get; set; }
         public int CurrentPositionOfParam = -1;
 
         public void NProcessParam()
@@ -110,7 +112,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             if(IsCalledByNamedParameters.Value)
             {
-                var tmpNamedParamInfo = new NewNamedParamInfo();
+                var tmpNamedParamInfo = new NamedParamInfo();
                 tmpNamedParamInfo.ParamName = CurrentParamName;
                 tmpNamedParamInfo.ParamValue = CurrentParamValue;
 
@@ -121,7 +123,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             CurrentPositionOfParam++;
 
-            var tmpPositiondedParamInfo = new NewPositionParamInfo();
+            var tmpPositiondedParamInfo = new PositionParamInfo();
             tmpPositiondedParamInfo.ParamValue = CurrentParamValue;
             tmpPositiondedParamInfo.Position = CurrentPositionOfParam;
 
@@ -206,23 +208,23 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private void Exit()
         {
             mIsRun = false;
-            mEntityAction.State = NewEntityActionState.Completed;
+            mEntityAction.State = EntityActionState.Completed;
         }
 
-        private void ExitWithError(INewValue error)
+        private void ExitWithError(IValue error)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error}");
             mIsRun = false;
-            mEntityAction.State = NewEntityActionState.Faulted;
+            mEntityAction.State = EntityActionState.Faulted;
             mEntityAction.Error = error;
         }
 
-        private void ExitWithResult(INewValue result)
+        private void ExitWithResult(IValue result)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result}");
 
             mIsRun = false;
-            mEntityAction.State = NewEntityActionState.Completed;
+            mEntityAction.State = EntityActionState.Completed;
             mEntityAction.Result = result;
         }
 
@@ -650,7 +652,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsyncByPos");
         }
 
-        private void PostProcessCall(NewResultOfCalling resultOfCalling)
+        private void PostProcessCall(ResultOfCalling resultOfCalling)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");
             NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall resultOfCalling = {resultOfCalling}");

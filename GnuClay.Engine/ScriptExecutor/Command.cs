@@ -1,20 +1,21 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewCommand: INewLongHashableObject
+    public class Command : ILongHashableObject
     {
-        public NewGnuClayThreadExecutionContext ExecutionContext { get; set; }
-        public INewValue Function { get; set; }
-        public INewValue Holder { get; set; }
+        public GnuClayThreadExecutionContext ExecutionContext { get; set; }
+        public IValue Function { get; set; }
+        public IValue Holder { get; set; }
         public ulong TargetKey { get; set; }
-        public List<NewPositionParamInfo> PositionedParams { get; set; }
-        public List<NewNamedParamInfo> NamedParams { get; set; }
+        public List<PositionParamInfo> PositionedParams { get; set; }
+        public List<NamedParamInfo> NamedParams { get; set; }
         public bool IsCallByNamedParams { get; set; }
 
         /// <summary>
@@ -30,19 +31,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             ulong result = 0;
 
-            if(Function != null)
+            if (Function != null)
             {
                 result ^= Function.GetLongHashCode();
             }
 
-            if(Holder != null)
+            if (Holder != null)
             {
                 result ^= Holder.GetLongHashCode();
             }
 
             result ^= TargetKey;
 
-            if(PositionedParams != null)
+            if (PositionedParams != null)
             {
                 foreach (var paramItem in PositionedParams)
                 {
@@ -50,7 +51,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 }
             }
 
-            if(NamedParams != null)
+            if (NamedParams != null)
             {
                 foreach (var paramItem in NamedParams)
                 {

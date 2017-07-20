@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public interface INewValue: INewLongHashableObject
+    public interface IValue : ILongHashableObject
     {
         ulong TypeKey { get; }
     }

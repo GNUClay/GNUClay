@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
-    public class NewContextOfVariables
+    public class ContextOfVariables
     {
-        public void SetValue(ulong variableKey, INewValue value)
+        public void SetValue(ulong variableKey, IValue value)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"SetValue variableKey = {variableKey} value = {value}");
 
             mVariablesDict[variableKey] = value;
         }
 
-        public INewValue GetValue(ulong variableKey)
+        public IValue GetValue(ulong variableKey)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"GetValue variableKey = {variableKey}");
 
             return mVariablesDict[variableKey];
         }
 
-        private Dictionary<ulong, INewValue> mVariablesDict = new Dictionary<ulong, INewValue>(); 
+        private Dictionary<ulong, IValue> mVariablesDict = new Dictionary<ulong, IValue>();
 
         public string ToDbgString()
         {
@@ -30,7 +30,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             tmpSb.AppendLine("Begin Variables");
 
-            foreach(var kvpItem in mVariablesDict)
+            foreach (var kvpItem in mVariablesDict)
             {
                 tmpSb.AppendLine($"key = {kvpItem.Key} value = {kvpItem.Value}");
             }

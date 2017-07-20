@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine
 {
-    public interface INewLongHashableObject
+    public interface ILongHashableObject
     {
         ulong GetLongHashCode();
     }

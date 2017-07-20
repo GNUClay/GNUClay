@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public ulong TypeKey { get; private set; }
 
-        public INewValue CreateConstValue(ulong typeKey, object value)
+        public IValue CreateConstValue(ulong typeKey, object value)
         {
             return new NewNumberValue(typeKey, value);
         }

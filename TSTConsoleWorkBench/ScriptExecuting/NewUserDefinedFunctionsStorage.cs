@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private GnuClayEngineComponentContext mMainContext = null;
         private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
         private FunctionModel mFunctionModel = null;
-        private NewCommandFilter mFilter = null;
+        private CommandFilter mFilter = null;
 
-        private void Handler(NewEntityAction action)
+        private void Handler(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin Handler action = {action}");
 

@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewCommandFilterParam: INewCommandFilterParam
+    public class CommandFilterParam: ILongHashableObject
     {
-        public NewCommandFilterParam()
+        public CommandFilterParam()
         {
         }
 
-        public NewCommandFilterParam(NewCommandFilterParam source)
+        public CommandFilterParam(CommandFilterParam source)
         {
             IsAnyType = source.IsAnyType;
             TypeKey = source.TypeKey;
@@ -24,7 +24,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; } = 0;
         public bool IsAnyValue { get; set; } = true;
-        public INewValue Value { get; set; } = null;
+        public IValue Value { get; set; } = null;
 
         public ulong GetLongHashCode()
         {
