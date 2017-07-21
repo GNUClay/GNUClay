@@ -153,6 +153,8 @@
     <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberValue.cs" />
+    <Compile Include="Triggers\KindOfTrigger.cs" />
+    <Compile Include="Triggers\TriggerInfo.cs" />
     <Compile Include="Triggers\TriggersEngine.cs" />
   </ItemGroup>
   <ItemGroup>
