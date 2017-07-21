@@ -3,15 +3,17 @@ using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
+using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.Parser.CommonData;
-using GnuClay.Engine.RemoteEvents;
+using GnuClay.Engine.RemoteFunctions;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
+using GnuClay.Engine.Triggers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -69,16 +71,60 @@ namespace GnuClay.Engine
             mContext = new GnuClayEngineComponentContext();
 
             mContext.ActiveContext = new ActiveContext();
-            mContext.SerializationEngine = new SerializationEngine(mContext);
-            mContext.DataDictionary = new StorageDataDictionary(mContext);
-            mContext.LogicalStorage = new LogicalStorageEngine(mContext);
-            mContext.StandardLibrary = new StandardLibraryEngine(mContext);
-            mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
-            mContext.RemoteEventsEngine = new RemoteEventsEngine(mContext);
-            mContext.ParserEngine = new GnuClayParserEngine(mContext);
-            mContext.InheritanceEngine = new InheritanceEngine(mContext);
 
-            mContext.StandardLibrary.CreateProviders();
+            mContext.SerializationEngine = new SerializationEngine(mContext);
+            mComponents.Add(mContext.SerializationEngine);
+
+            mContext.DataDictionary = new StorageDataDictionary(mContext);
+            mComponents.Add(mContext.DataDictionary);
+
+            mContext.LogicalStorage = new LogicalStorageEngine(mContext);
+            mComponents.Add(mContext.LogicalStorage);
+
+            mContext.StandardLibrary = new StandardLibraryEngine(mContext);
+            mComponents.Add(mContext.StandardLibrary);
+
+            mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
+            mComponents.Add(mContext.ScriptExecutor);
+
+            mContext.RemoteFunctionsEngine = new RemoteFunctionsEngine(mContext);
+            mComponents.Add(mContext.RemoteFunctionsEngine);
+
+            mContext.ParserEngine = new GnuClayParserEngine(mContext);
+            mComponents.Add(mContext.ParserEngine);
+
+            mContext.InheritanceEngine = new InheritanceEngine(mContext);
+            mComponents.Add(mContext.InheritanceEngine);
+
+            mContext.ErrorsFactory = new ErrorsFactory(mContext);
+            mComponents.Add(mContext.ErrorsFactory);
+
+            mContext.ConstTypeProvider = new ConstTypeProvider(mContext);
+            mComponents.Add(mContext.ConstTypeProvider);
+
+            mContext.FunctionsEngine = new FunctionsEngine(mContext);
+            mComponents.Add(mContext.FunctionsEngine);
+
+            mContext.UserDefinedFunctionsStorage = new UserDefinedFunctionsStorage(mContext);
+            mComponents.Add(mContext.UserDefinedFunctionsStorage);
+
+            mContext.InternalBusEngine = new InternalBusEngine(mContext);
+            mComponents.Add(mContext.InternalBusEngine);
+
+            mContext.TriggersEngine = new TriggersEngine(mContext);
+            mComponents.Add(mContext.TriggersEngine);
+
+            FirstInit();
+        }
+
+        private List<BaseGnuClayEngineComponent> mComponents = new List<BaseGnuClayEngineComponent>();
+
+        private void FirstInit()
+        {
+            foreach(var component in mComponents)
+            {
+                component.FirstInit();
+            }
         }
 
         private void InitFromZero()
@@ -401,6 +447,22 @@ namespace GnuClay.Engine
             lock (mLockObj)
             {
                 return mContext.InheritanceEngine.LoadAllItems();
+            }
+        }
+
+        public ulong AddRemoteFunction(CommandFilter filter)
+        {
+            lock (mLockObj)
+            {
+                return mContext.RemoteFunctionsEngine.AddFilter(filter);
+            }
+        }
+
+        public void RemoveRemoteFunction(ulong descriptor)
+        {
+            lock (mLockObj)
+            {
+                mContext.RemoteFunctionsEngine.RemoveFilter(descriptor);
             }
         }
     }

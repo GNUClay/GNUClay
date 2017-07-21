@@ -1,4 +1,6 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
+using System.Collections.Generic;
 
 namespace GnuClay.Engine.StandardLibrary
 {
@@ -10,20 +12,35 @@ namespace GnuClay.Engine.StandardLibrary
             NLog.LogManager.GetCurrentClassLogger().Info("StandardLibraryEngine");
         }
 
-        public void CreateProviders()
+        public override void FirstInit()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CreateProviders");
+            NLog.LogManager.GetCurrentClassLogger().Info("FirstInit CreateProviders");
+
+            mNumberProvider = new NumberProvider(Context);
+            mProvidersList.Add(mNumberProvider);
+            
+            FirstInitProviders();
         }
 
-        //private NumberProvider mNumberProvider = null;
+        private void FirstInitProviders()
+        {
+            foreach (var component in mProvidersList)
+            {
+                component.FirstInit();
+            }
+        }
 
-        //public NumberProvider NumberProvider
-        //{
-        //    get
-        //    {
-        //        return mNumberProvider;
-        //    }
-        //}
+        private List<BaseGnuClayEngineComponent> mProvidersList = new List<BaseGnuClayEngineComponent>();
+
+        private NumberProvider mNumberProvider = null;
+
+        public NumberProvider NumberProvider
+        {
+            get
+            {
+                return mNumberProvider;
+            }
+        }
 
         //private ArrayProvider mArrayProvider = null;
 

@@ -1,45 +1,25 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.Inheritance;
+﻿using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
-using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GnuClay.CommonUtils.TypeHelpers;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewFunctionsEngine
+    public class FunctionsEngine : BaseGnuClayEngineComponent
     {
-        public NewFunctionsEngine(GnuClayEngineComponentContext context, NewAdditionalGnuClayEngineComponentContext additionalContext)
+        public FunctionsEngine(GnuClayEngineComponentContext context)
+            : base(context)
         {
-            mContext = context;
-            mAdditionalContext = additionalContext;
-
-            mCommandFiltersStorage = new NewCommandFiltersStorage<CommandFilter>(mContext, mAdditionalContext);
-
-            var universalTypeKey = mContext.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
-
-            mSelfKey = mContext.DataDictionary.GetKey(mSelfName);
-
-            mContext.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1 , InheritanceAspect.WithOutClause);
-
-            mSelfValue = new NewEntityValue(mSelfKey);
-
-            mEntityActionTypeKey = mContext.DataDictionary.GetKey(mEntityActionTypeName);
-
-            mContext.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mUndefinedTypeKey = mContext.DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
-
-        private GnuClayEngineComponentContext mContext = null;
-        private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
-        private NewCommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
 
         private string mSelfName = "self";
         private ulong mSelfKey = 0;
@@ -50,6 +30,26 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private ulong mEntityActionTypeKey = 0;
 
         private ulong mUndefinedTypeKey = 0;
+        private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
+
+        public override void FirstInit()
+        {
+            mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
+
+            var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
+
+            mSelfKey = Context.DataDictionary.GetKey(mSelfName);
+
+            Context.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            mSelfValue = new EntityValue(mSelfKey);
+
+            mEntityActionTypeKey = Context.DataDictionary.GetKey(mEntityActionTypeName);
+
+            Context.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            mUndefinedTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
+        }
 
         public ResultOfCalling CallCodeFrame(FunctionModel source)
         {
@@ -57,8 +57,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var entityAction = CreateEntityAction(new Command(), null);
 
-            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, executionContext, entityAction);
-            tmpNewInternalThreadExecutor.Run();
+            var tmpNewInternalThreadExecutor = new InternalFunctionExecutionModel(source, Context, executionContext, entityAction);
+            tmpNewInternalThreadExecutor.RunDbg();
 
             return CreateSyncResultOfCalling(entityAction);
         }
@@ -73,8 +73,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             FillVariablesByParams(filter, entityAction, executionContext);
 
-            var tmpNewInternalThreadExecutor = new NewInternalFunctionExecutionModel(source, mContext, mAdditionalContext, executionContext, entityAction);
-            tmpNewInternalThreadExecutor.Run();
+            var tmpNewInternalThreadExecutor = new InternalFunctionExecutionModel(source, Context, executionContext, entityAction);
+            tmpNewInternalThreadExecutor.RunDbg();
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End CallCodeFrameForEntityAction entityAction = {entityAction}");
         }
@@ -84,12 +84,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams entityAction = {entityAction}");
             NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams filter = {filter}");
 
-            if(filter.Params.Count == 0)
+            if (filter.Params.Count == 0)
             {
                 return;
             }
 
-            if(entityAction.Command.IsCallByNamedParams)
+            if (entityAction.Command.IsCallByNamedParams)
             {
                 FillVariablesByNamedParams(filter, entityAction, executionContext);
                 return;
@@ -242,7 +242,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             command.ExecutionContext = executionContext;
             command.Function = function;
 
-            if(holder == null)
+            if (holder == null)
             {
                 holder = mSelfValue;
             }
@@ -277,10 +277,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         private EntityAction CreateEntityAction(Command command, EntityAction parentAction)
         {
             var name = Guid.NewGuid().ToString("D");
-            var key = mContext.DataDictionary.GetKey(name);
+            var key = Context.DataDictionary.GetKey(name);
             var entityAction = new EntityAction(name, key, command, mEntityActionTypeKey);
 
-            if(parentAction != null)
+            if (parentAction != null)
             {
                 entityAction.Initiator = parentAction.Key;
                 parentAction.InitiatedActions.Add(key);
@@ -297,9 +297,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutorsList.Count = {targetExecutorsList.Count}");
 
-            if(_ListHelper.IsEmpty(targetExecutorsList))
+            if (_ListHelper.IsEmpty(targetExecutorsList))
             {
-                action.Error = mAdditionalContext.ErrorsFactory.CreateUncaughtReferenceError();
+                action.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
                 action.State = EntityActionState.Faulted;
 
                 return;
@@ -337,7 +337,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                 if (entityAction.Result == null)
                 {
-                    entityAction.Result = new NewEntityValue(mUndefinedTypeKey);
+                    entityAction.Result = new EntityValue(mUndefinedTypeKey);
                 }
 
                 result.Result = entityAction.Result;
@@ -378,7 +378,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public ulong AddFilter(CommandFilter filter)
         {
-            lock(mFiltersLockObj)
+            lock (mFiltersLockObj)
             {
                 return mCommandFiltersStorage.AddFilter(filter);
             }

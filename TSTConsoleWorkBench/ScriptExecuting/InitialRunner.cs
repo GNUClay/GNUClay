@@ -1,10 +1,12 @@
-﻿using GnuClay.Engine.ScriptExecutor;
+﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.ScriptExecutor.AST.Expressions;
 using GnuClay.Engine.ScriptExecutor.AST.Statements;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -191,7 +193,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         //    tmpInternalThreadExecutor.Run();
         //}
 
-        private NewAdditionalGnuClayEngineComponentContext additionalContext = null;
+        private GnuClayEngineComponentContext mainContext = null;
 
         private void RunMiddleScript()
         {
@@ -216,27 +218,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
 
-            var mainContext = GnuClayEngine.Context;
+            mainContext = GnuClayEngine.Context;
 
-            additionalContext = new NewAdditionalGnuClayEngineComponentContext();
+            var functionProvider = mainContext.FunctionsEngine;
 
-            var functionProvider = new NewFunctionsEngine(mainContext, additionalContext);
-            additionalContext.NewFunctionEngine = functionProvider;
+            var userDefinedFunctionsStorage = mainContext.UserDefinedFunctionsStorage;
 
-            var constTypeProvider = new NewConstTypeProvider();
-            additionalContext.ConstTypeProvider = constTypeProvider;
-
-            var numberProvider = new NewNumberProvider(mainContext, additionalContext);
-            constTypeProvider.AddProvider(numberProvider);
-
-            var errorsFactory = new NewErrorsFactory(mainContext, additionalContext);
-            additionalContext.ErrorsFactory = errorsFactory;
-
-            var userDefinedFunctionsStorage = new NewUserDefinedFunctionsStorage(mainContext, additionalContext);
-            additionalContext.UserDefinedFunctionsStorage = userDefinedFunctionsStorage;
-
-            var remoteFunctionsStorage = new NewRemoteFunctionsStorage(mainContext, additionalContext);
-            additionalContext.RemoteFunctionsStorage = remoteFunctionsStorage;
+            var remoteFunctionsStorage = mainContext.RemoteFunctionsEngine;
 
             var filter = new CommandFilter();
             filter.Handler = FakeAddOperator;
@@ -293,7 +281,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             filter.Params.Add(keyKey, new CommandFilterParam() {
             });
 
-            var tmpUserDefinedFunctionModel = new NewUserDefinedFunctionModel();
+            var tmpUserDefinedFunctionModel = new UserDefinedFunctionModel();
 
             tmpUserDefinedFunctionModel.Filter = filter;
             tmpUserDefinedFunctionModel.FunctionModel = tmpUserDefinedCodeFrame;
@@ -311,7 +299,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             filter.Handler = FakeRemoteHandler_1;
 
-            remoteFunctionsStorage.AddFilter(filter);
+            GnuClayEngine.AddRemoteFunction(filter);
 
             filter = new CommandFilter();
             filter.HolderKey = selfKey;
@@ -324,7 +312,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             filter.Handler = FakeRemoteHandler_2;
 
-            remoteFunctionsStorage.AddFilter(filter);
+            GnuClayEngine.AddRemoteFunction(filter);
 
             filter = new CommandFilter();
             filter.HolderKey = selfKey;
@@ -337,7 +325,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             filter.Handler = FakeRemoteHandler_3;
 
-            remoteFunctionsStorage.AddFilter(filter);
+            GnuClayEngine.AddRemoteFunction(filter);
 
             var tmpCodeFrame = new FunctionModel();
 
@@ -476,7 +464,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeOpen action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            action.Result = new EntityValue(15);
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
@@ -488,13 +476,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var actionCommand = action.Command;
 
-            var tmpParam_1 = (NewNumberValue)actionCommand.PositionedParams[0].ParamValue;
-            var tmpParam_2 = (NewNumberValue)actionCommand.PositionedParams[1].ParamValue;
+            var tmpParam_1 = (NumberValue)actionCommand.PositionedParams[0].ParamValue;
+            var tmpParam_2 = (NumberValue)actionCommand.PositionedParams[1].ParamValue;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_1 = {tmpParam_1}");
             NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_2 = {tmpParam_2}");
 
-            action.Result = additionalContext.ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
+            action.Result = mainContext.ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
 
             action.State = EntityActionState.Completed;
 
@@ -505,7 +493,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeConsoleLog action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            action.Result = new EntityValue(15);
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeConsoleLog action = {action}");
@@ -515,7 +503,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            action.Result = new EntityValue(15);
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action}");
@@ -525,7 +513,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            action.Result = new EntityValue(15);
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_2 action = {action}");
@@ -535,7 +523,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 action = {action}");
 
-            action.Result = new NewEntityValue(15);
+            action.Result = new EntityValue(15);
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_3 action = {action}");

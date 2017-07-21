@@ -13,7 +13,7 @@ namespace GnuClay.Engine.Inheritance
         public InheritanceEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("InheritanceEngine");
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
 
             Clear();
         }

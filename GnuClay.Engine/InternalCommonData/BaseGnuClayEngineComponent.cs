@@ -14,5 +14,9 @@ namespace GnuClay.Engine.InternalCommonData
         }
 
         protected GnuClayEngineComponentContext Context = null;
+
+        public virtual void FirstInit()
+        {
+        }
     }
 }

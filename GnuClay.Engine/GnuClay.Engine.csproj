@@ -56,6 +56,7 @@
     <Compile Include="Inheritance\InheritanceAspect.cs" />
     <Compile Include="Inheritance\InheritanceEngine.cs" />
     <Compile Include="Inheritance\InheritanceInfo.cs" />
+    <Compile Include="InternalBus\InternalBusEngine.cs" />
     <Compile Include="LogicalStorage\InternalResolver\BaseInternalResolver.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatisticsKind.cs" />
     <Compile Include="LogicalStorage\SystemRelationsNamesConstants.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Parser\InternalParsers\Token.cs" />
     <Compile Include="Parser\UnexpectedSymbolException.cs" />
     <Compile Include="Parser\UnexpectedTokenException.cs" />
-    <Compile Include="RemoteEvents\RemoteEvent.cs" />
     <Compile Include="GnuClayEngine.cs" />
     <Compile Include="InternalCommonData\BaseGnuClayEngineComponent.cs" />
     <Compile Include="InternalCommonData\GnuClayEngineComponentContext.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="CommonStorages\StorageDataDictionary.cs" />
     <Compile Include="LogicalStorage\LogicalStorageEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteEvents\RemoteEventsEngine.cs" />
+    <Compile Include="RemoteFunctions\RemoteFunctionsEngine.cs" />
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTBinaryOperator.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTConstExpression.cs" />
@@ -117,8 +117,13 @@
     <Compile Include="ScriptExecutor\CommandFilter.cs" />
     <Compile Include="ScriptExecutor\CommandFilterParam.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
+    <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
+    <Compile Include="ScriptExecutor\ErrorsFactory.cs" />
+    <Compile Include="ScriptExecutor\FunctionsEngine.cs" />
+    <Compile Include="ScriptExecutor\IConcreteTypeProvider.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\CommandFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ContextOfVariables.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ResultOfCalling.cs" />
@@ -132,6 +137,8 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
     <Compile Include="ScriptExecutor\NamedParamInfo.cs" />
     <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
+    <Compile Include="ScriptExecutor\UserDefinedFunctionModel.cs" />
+    <Compile Include="ScriptExecutor\UserDefinedFunctionsStorage.cs" />
     <Compile Include="Serialization\SerializationEngine.cs" />
     <Compile Include="Serialization\SerializationInfo.cs" />
     <Compile Include="Serialization\SerializationPackage.cs" />
@@ -142,6 +149,11 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\EntityValue.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\NumberProvider.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\NumberValue.cs" />
+    <Compile Include="Triggers\TriggersEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GnuClay.CommonClientTypes\GnuClay.CommonClientTypes.csproj">
@@ -156,9 +168,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StandardLibrary\SupportingMachines\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

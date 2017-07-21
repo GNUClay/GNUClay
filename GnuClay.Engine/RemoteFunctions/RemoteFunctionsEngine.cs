@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.RemoteFunctions
 {
-    public class NewRemoteFunctionsHandler
+    public class RemoteFunctionsHandler
     {
-        public NewRemoteFunctionsHandler(BaseCommandFilter filter, GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext, NewRemoteFunctionsStorage parent)
+        public RemoteFunctionsHandler(BaseCommandFilter filter, GnuClayEngineComponentContext mainContext, RemoteFunctionsEngine parent)
         {
             mMainContext = mainContext;
-            mAdditionalContext = additionalContext;
 
             mFilter = new CommandFilter(filter);
             mFilter.Handler = Handler;
@@ -22,9 +21,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
-        private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
         private CommandFilter mFilter = null;
-        private NewRemoteFunctionsStorage mParent = null;
+        private RemoteFunctionsEngine mParent = null;
         private ulong mDescriptor = 0;
 
         private void Handler(EntityAction action)
@@ -33,9 +31,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var tmpTaskList = new List<Task>();
 
-            foreach(var item in mDict)
+            foreach (var item in mDict)
             {
-                tmpTaskList.Add(Task.Run(()=> {
+                tmpTaskList.Add(Task.Run(() => {
                     item.Value.Handler(action);
                 }));
             }
@@ -49,9 +47,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
-            if(mDict.Count == 0)
+            if (mDict.Count == 0)
             {
-                mDescriptor = mAdditionalContext.NewFunctionEngine.AddFilter(mFilter);
+                mDescriptor = mMainContext.FunctionsEngine.AddFilter(mFilter);
             }
 
             var descriptorName = Guid.NewGuid().ToString("D");
@@ -74,7 +72,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                 if (mDict.Count == 0)
                 {
-                    mAdditionalContext.NewFunctionEngine.RemoveFilter(mDescriptor);
+                    mMainContext.FunctionsEngine.RemoveFilter(mDescriptor);
                 }
             }
         }
@@ -82,28 +80,25 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         public Dictionary<ulong, CommandFilter> mDict = new Dictionary<ulong, CommandFilter>();
     }
 
-    public class NewRemoteFunctionsStorage
+    public class RemoteFunctionsEngine : BaseGnuClayEngineComponent
     {
-        public NewRemoteFunctionsStorage(GnuClayEngineComponentContext mainContext, NewAdditionalGnuClayEngineComponentContext additionalContext)
+        public RemoteFunctionsEngine(GnuClayEngineComponentContext context)
+            : base(context)
         {
-            mMainContext = mainContext;
-            mAdditionalContext = additionalContext;
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
-
-        private GnuClayEngineComponentContext mMainContext = null;
-        private NewAdditionalGnuClayEngineComponentContext mAdditionalContext = null;
 
         private object mLockObj = new object();
 
         public ulong AddFilter(CommandFilter filter)
         {
-            lock(mLockObj)
+            lock (mLockObj)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
 
                 var filterHashCode = filter.GetLongHashCode();
 
-                NewRemoteFunctionsHandler targetStorage = null;
+                RemoteFunctionsHandler targetStorage = null;
 
                 if (mDict.ContainsKey(filterHashCode))
                 {
@@ -111,7 +106,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 }
                 else
                 {
-                    targetStorage = new NewRemoteFunctionsHandler(filter, mMainContext, mAdditionalContext, this);
+                    targetStorage = new RemoteFunctionsHandler(filter, Context, this);
                     mDict[filterHashCode] = targetStorage;
                 }
 
@@ -119,7 +114,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        public void OnAddFilter(ulong descriptor, NewRemoteFunctionsHandler handler)
+        public void OnAddFilter(ulong descriptor, RemoteFunctionsHandler handler)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
 
@@ -132,7 +127,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
 
-                if(mDict.ContainsKey(descriptor))
+                if (mDict.ContainsKey(descriptor))
                 {
                     var handler = mDict[descriptor];
                     handler.RemoveFilter(descriptor);
@@ -141,7 +136,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             }
         }
 
-        private Dictionary<ulong, NewRemoteFunctionsHandler> mDict = new Dictionary<ulong, NewRemoteFunctionsHandler>();
-
+        private Dictionary<ulong, RemoteFunctionsHandler> mDict = new Dictionary<ulong, RemoteFunctionsHandler>();
     }
 }

@@ -1,14 +1,13 @@
-﻿using GnuClay.Engine.ScriptExecutor;
-using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.ScriptExecutor
 {
-    public class NewUserDefinedFunctionModel
+    public class UserDefinedFunctionModel
     {
         public CommandFilter Filter { get; set; }
         public FunctionModel FunctionModel { get; set; }

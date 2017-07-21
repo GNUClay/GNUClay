@@ -15,7 +15,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public ScriptExecutorEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ScriptExecutorEngine");
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
 
             mCompiler = new GnuClayScriptCompiler(context);
         }

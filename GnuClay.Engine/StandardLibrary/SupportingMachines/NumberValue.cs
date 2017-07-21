@@ -1,16 +1,15 @@
 ﻿using GnuClay.Engine.ScriptExecutor;
-using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSTConsoleWorkBench.ScriptExecuting
+namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
-    public class NewNumberValue: IValue
+    public class NumberValue : IValue
     {
-        public NewNumberValue(ulong typeKey, object value)
+        public NumberValue(ulong typeKey, object value)
         {
             mTypeKey = typeKey;
             mValue = value;
