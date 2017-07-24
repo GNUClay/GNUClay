@@ -26,7 +26,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public bool IsAnyValue { get; set; } = true;
         public IValue Value { get; set; } = null;
 
-        public ulong GetLongHashCode()
+        public virtual ulong GetLongHashCode()
         {
             ulong result = (ulong)IsAnyType.GetHashCode();
 

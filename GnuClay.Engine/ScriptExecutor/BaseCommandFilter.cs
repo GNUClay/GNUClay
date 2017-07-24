@@ -29,6 +29,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }
         public Dictionary<ulong, CommandFilterParam> Params { get; set; } = new Dictionary<ulong, CommandFilterParam>();
+        public bool WithOutClause { get; set; } = true;
 
         public ulong GetLongHashCode()
         {

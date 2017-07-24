@@ -114,6 +114,9 @@ namespace GnuClay.Engine
             mContext.TriggersEngine = new TriggersEngine(mContext);
             mComponents.Add(mContext.TriggersEngine);
 
+            mContext.PropertiesEngine = new PropertiesEngine(mContext);
+            mComponents.Add(mContext.PropertiesEngine);
+
             FirstInit();
         }
 

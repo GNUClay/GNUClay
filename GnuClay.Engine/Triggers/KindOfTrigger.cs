@@ -8,6 +8,7 @@ namespace GnuClay.Engine.Triggers
 {
     public enum KindOfTrigger
     {
-        Undefined
+        Undefined,
+        ChangeFact
     }
 }

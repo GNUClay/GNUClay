@@ -29,5 +29,6 @@ namespace GnuClay.Engine.InternalCommonData
         public UserDefinedFunctionsStorage UserDefinedFunctionsStorage = null;
         public InternalBusEngine InternalBusEngine = null;
         public TriggersEngine TriggersEngine = null;
+        public PropertiesEngine PropertiesEngine = null;
     }
 }

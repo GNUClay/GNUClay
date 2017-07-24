@@ -137,6 +137,9 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
     <Compile Include="ScriptExecutor\NamedParamInfo.cs" />
     <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
+    <Compile Include="ScriptExecutor\PropertiesEngine.cs" />
+    <Compile Include="ScriptExecutor\PropertyAction.cs" />
+    <Compile Include="ScriptExecutor\PropertyFilter.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionModel.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionsStorage.cs" />
     <Compile Include="Serialization\SerializationEngine.cs" />
