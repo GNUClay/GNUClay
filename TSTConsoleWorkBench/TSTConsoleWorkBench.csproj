@@ -72,6 +72,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptExecuting\InitialRunner.cs" />
+    <Compile Include="ScriptExecuting\TstIterator.cs" />
     <Compile Include="Serialiazation\EntityConnectionSerializationRunner.cs" />
     <Compile Include="Serialiazation\GnuClayLocalServerSerializationRunner.cs" />
     <Compile Include="Serialiazation\SerializationRunner.cs" />

@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,26 +8,16 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
-    public class ErrorValue : IValue
+    public class ErrorValue : BaseSystemType
     {
         public ErrorValue(ulong typeKey)
+            : base(typeKey)
         {
-            mTypeKey = typeKey;
         }
 
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey
+        public override ulong GetLongHashCode()
         {
-            get
-            {
-                return mTypeKey;
-            }
-        }
-
-        public ulong GetLongHashCode()
-        {
-            return mTypeKey;
+            return TypeKey;
         }
 
         /// <summary>

@@ -1,24 +1,24 @@
-﻿using GnuClay.Engine.ScriptExecutor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.StandardLibrary.SupportingMachines
+namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
-    public class EntityValue : IValue
+    public abstract class BaseValueType : IValue
     {
-        public EntityValue(ulong typeKey)
+        protected BaseValueType(ulong typeKey, object value)
         {
             mTypeKey = typeKey;
+            Value = value;
         }
 
         public KindOfValue Kind
         {
             get
             {
-                return KindOfValue.Logical;
+                return KindOfValue.Value;
             }
         }
 
@@ -32,9 +32,18 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
         }
 
-        public ulong GetLongHashCode()
+        protected object Value { get; private set; } = null;
+
+        public virtual ulong GetLongHashCode()
         {
-            return mTypeKey;
+            var result = TypeKey;
+
+            if (Value != null)
+            {
+                result ^= (ulong)Value.GetHashCode();
+            }
+
+            return result;
         }
 
         public void ExecuteSetLogicalProperty(PropertyAction action)
@@ -49,15 +58,6 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGetLogicalProperty action = {action}");
 
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
-        /// </summary>
-        /// <returns>The string representation of this instance.</returns>
-        public override string ToString()
-        {
-            return $"EntityValue {nameof(TypeKey)} = {TypeKey}";
         }
     }
 }

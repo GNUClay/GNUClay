@@ -22,9 +22,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                RunMiddleScript();
+                //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
+                TstWorkWithProperties();
             }
             catch (Exception e)
             {
@@ -527,6 +528,36 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_3 action = {action}");
+        }
+
+        private void TstWorkWithProperties()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin TstWorkWithProperties");
+
+            var iteratorKey = GnuClayEngine.DataDictionary.GetKey("tstiterator");
+            var propertyKey = GnuClayEngine.DataDictionary.GetKey("CurrentValue");
+
+            var fiter = new PropertyFilter();
+            fiter.HolderKey = iteratorKey;
+            fiter.PropertyKey = propertyKey;
+
+            var targetType = typeof(TstIterator);
+            fiter.GetMethod = targetType.GetMethod("GetCurrentValue");
+            fiter.SetMethod = targetType.GetMethod("SetCurrentValue");
+
+            var descriptor = GnuClayEngine.Context.PropertiesEngine.AddFilter(fiter);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties descriptor = {descriptor}");
+
+            var tmpValue = new EntityValue(15);
+
+            var tmpHolder = new TstIterator(iteratorKey);
+
+            var result = GnuClayEngine.Context.PropertiesEngine.CallProperty(tmpHolder, propertyKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result = {result}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End TstWorkWithProperties");
         }
     }
 }

@@ -116,6 +116,8 @@
     <Compile Include="ScriptExecutor\Command.cs" />
     <Compile Include="ScriptExecutor\CommandFilter.cs" />
     <Compile Include="ScriptExecutor\CommandFilterParam.cs" />
+    <Compile Include="ScriptExecutor\CommonData\BaseSystemType.cs" />
+    <Compile Include="ScriptExecutor\CommonData\BaseValueType.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\CommandFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ContextOfVariables.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\PropertiesFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ResultOfCalling.cs" />
     <Compile Include="ScriptExecutor\IValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\OperationCode.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
+    <Compile Include="ScriptExecutor\KindOfValue.cs" />
     <Compile Include="ScriptExecutor\NamedParamInfo.cs" />
     <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
     <Compile Include="ScriptExecutor\PropertiesEngine.cs" />

@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,17 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
-    public class EntityAction : IValue
+    public class EntityAction : BaseSystemType
     {
         public EntityAction(string name, ulong key, Command command, ulong typeKey)
+            : base(typeKey)
         {
             Name = name;
             Key = key;
             Command = command;
-            TypeKey = typeKey;
         }
 
         private object mLockObj = new object();
-
-        public ulong TypeKey { get; private set; }
 
         public string Name { get; private set; }
         public ulong Key { get; private set; }
@@ -57,7 +56,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public ulong Initiator { get; set; }
         public List<ulong> InitiatedActions { get; set; } = new List<ulong>();
 
-        public ulong GetLongHashCode()
+        public override ulong GetLongHashCode()
         {
             return Key;
         }
