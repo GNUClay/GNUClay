@@ -30,25 +30,37 @@ namespace GnuClay.Engine.ScriptExecutor
             }
         }
 
-        public ResultOfCalling CallProperty(IValue holder, ulong propertyKey, IValue value)
+        public ResultOfCalling CallSetProperty(IValue holder, ulong propertyKey, IValue value)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallProperty holder = {holder} propertyKey = {propertyKey} value = {value}");
-
-            if(holder.Kind == KindOfValue.Logical)
+            lock(mLockObj)
             {
-                return CallLogicalHolder(holder, propertyKey, value);
+                NLog.LogManager.GetCurrentClassLogger().Info($"CallProperty holder = {holder} propertyKey = {propertyKey} value = {value}");
+
+                if (holder.Kind == KindOfValue.Logical)
+                {
+                    return CallSetLogicalHolder(holder, propertyKey, value);
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"CallProperty NEXT holder = {holder} propertyKey = {propertyKey} value = {value}");
+
+                var tmpList = mPropertiesFiltersStorage.FindExecutors();
+
+                throw new NotImplementedException();
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallProperty NEXT holder = {holder} propertyKey = {propertyKey} value = {value}");
-
-            throw new NotImplementedException();
         }
 
-        private ResultOfCalling CallLogicalHolder(IValue holder, ulong propertyKey, IValue value)
+        private ResultOfCalling CallSetLogicalHolder(PropertyCommand command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallLogicalHolder holder = {holder} propertyKey = {propertyKey} value = {value}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallLogicalHolder command = {command}");
 
             throw new NotImplementedException();
         }
+
+        public ResultOfCalling CallGetProperty(IValue holder, ulong propertyKey);
+
+        private PropertyCommand CreateSetCommand(IValue holder, ulong propertyKey, IValue value);
+        private PropertyCommand CreateGetCommand(IValue holder, ulong propertyKey);
+
+        //private PropertyAction Create
     }
 }

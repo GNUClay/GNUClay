@@ -143,6 +143,7 @@
     <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
     <Compile Include="ScriptExecutor\PropertiesEngine.cs" />
     <Compile Include="ScriptExecutor\PropertyAction.cs" />
+    <Compile Include="ScriptExecutor\PropertyCommand.cs" />
     <Compile Include="ScriptExecutor\PropertyFilter.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionModel.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionsStorage.cs" />

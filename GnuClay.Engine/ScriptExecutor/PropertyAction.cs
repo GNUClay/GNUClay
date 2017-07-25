@@ -8,6 +8,48 @@ namespace GnuClay.Engine.ScriptExecutor
 {
     public class PropertyAction
     {
+        public PropertyAction(string name, ulong key, PropertyCommand command, ulong typeKey)
+        {
+            Name = name;
+            Key = key;
+            Command = command;
+        }
+
+        private object mLockObj = new object();
+
+        public string Name { get; private set; }
+        public ulong Key { get; private set; }
+        public PropertyCommand Command { get; private set; }
+
+        private EntityActionState mState = EntityActionState.Init;
+
+        public EntityActionState State
+        {
+            get
+            {
+                lock (mLockObj)
+                {
+                    return mState;
+                }
+            }
+
+            set
+            {
+                lock (mLockObj)
+                {
+                    if (mState == value)
+                    {
+                        return;
+                    }
+
+                    mState = value;
+                }
+            }
+        }
+
+        public IValue Result { get; set; }
+        public IValue Error { get; set; }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>
@@ -18,10 +60,10 @@ namespace GnuClay.Engine.ScriptExecutor
 
             //tmpSb.AppendLine($"{nameof(Name)} = {Name }");
             //tmpSb.AppendLine($"{nameof(Key)} = {Key}");
-            //tmpSb.AppendLine($"{nameof(Command)} = {Command}");
-            //tmpSb.AppendLine($"{nameof(State)} = {State}");
-            //tmpSb.AppendLine($"{nameof(Result)} = {Result}");
-            //tmpSb.AppendLine($"{nameof(Error)} = {Error}");
+            tmpSb.AppendLine($"{nameof(Command)} = {Command}");
+            tmpSb.AppendLine($"{nameof(State)} = {State}");
+            tmpSb.AppendLine($"{nameof(Result)} = {Result}");
+            tmpSb.AppendLine($"{nameof(Error)} = {Error}");
             //tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
             //tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
 

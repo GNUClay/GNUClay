@@ -553,7 +553,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var tmpHolder = new TstIterator(iteratorKey);
 
-            var result = GnuClayEngine.Context.PropertiesEngine.CallProperty(tmpHolder, propertyKey, tmpValue);
+            var result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpHolder, propertyKey, tmpValue);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result = {result}");
 
