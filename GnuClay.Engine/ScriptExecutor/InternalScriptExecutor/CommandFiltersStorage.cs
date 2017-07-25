@@ -483,26 +483,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mDescriptorsDict[descriptor] = storage;
         }
 
-        private class ExecutorsQueueItem
-        {
-            public double Rank { get; set; }
-            public ulong TypeKey { get; set; }
-
-            /// <summary>
-            /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
-            /// </summary>
-            /// <returns>The string representation of this instance.</returns>
-            public override string ToString()
-            {
-                var tmpSb = new StringBuilder();
-
-                tmpSb.AppendLine($"{nameof(Rank)} = {Rank}");
-                tmpSb.AppendLine($"{nameof(TypeKey)} = {TypeKey}");
-
-                return tmpSb.ToString();
-            }
-        }
-
         public List<T> FindExecutors(Command command)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
@@ -512,30 +492,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderKey = {holderKey}");
             NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderName = {mContext.DataDictionary.GetValue(holderKey)} functionName = {mContext.DataDictionary.GetValue(command.Function.TypeKey)}");
 
-            var tmpObjectsList = new List<ExecutorsQueueItem>();
-
-            tmpObjectsList.Add(new ExecutorsQueueItem()
-            {
-                TypeKey = holderKey,
-                Rank = 2
-            });
-
-            var tmpInheritanceList = mContext.InheritanceEngine.LoadListOfSuperClasses(holderKey);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpInheritanceList.Count = {tmpInheritanceList.Count}");
-
-            foreach (var tmpInheritanceItem in tmpInheritanceList)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpInheritanceItem = {tmpInheritanceItem}");
-
-                tmpObjectsList.Add(new ExecutorsQueueItem()
-                {
-                    TypeKey = tmpInheritanceItem.SuperKey,
-                    Rank = tmpInheritanceItem.Rank * tmpInheritanceItem.Distance
-                });
-            }
-
-            tmpObjectsList = tmpObjectsList.OrderByDescending(p => p.Rank).ToList();
+            var tmpObjectsList = mContext.InheritanceEngine.LoadExecutorsQueueItems(holderKey);
 
             var result = new List<T>();
 

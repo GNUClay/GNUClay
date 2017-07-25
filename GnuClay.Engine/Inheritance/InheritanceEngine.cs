@@ -644,5 +644,40 @@ namespace GnuClay.Engine.Inheritance
                 mSubClassesCachDict = new Dictionary<ulong, Dictionary<ulong, double>>();
             }
         }
+
+        public List<ExecutorsQueueItem> LoadExecutorsQueueItems(ulong targetKey)
+        {
+            lock (mLockObj)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadExecutorsQueueItems targetKey = {targetKey}");
+
+                var tmpObjectsList = new List<ExecutorsQueueItem>();
+
+                tmpObjectsList.Add(new ExecutorsQueueItem()
+                {
+                    TypeKey = targetKey,
+                    Rank = 2
+                });
+
+                var tmpInheritanceList = Context.InheritanceEngine.LoadListOfSuperClasses(targetKey);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"LoadExecutorsQueueItems tmpInheritanceList.Count = {tmpInheritanceList.Count}");
+
+                foreach (var tmpInheritanceItem in tmpInheritanceList)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"LoadExecutorsQueueItems tmpInheritanceItem = {tmpInheritanceItem}");
+
+                    tmpObjectsList.Add(new ExecutorsQueueItem()
+                    {
+                        TypeKey = tmpInheritanceItem.SuperKey,
+                        Rank = tmpInheritanceItem.Rank * tmpInheritanceItem.Distance
+                    });
+                }
+
+                tmpObjectsList = tmpObjectsList.OrderByDescending(p => p.Rank).ToList();
+
+                return tmpObjectsList;
+            }
+        }
     }
 }

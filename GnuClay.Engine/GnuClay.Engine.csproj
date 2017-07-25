@@ -127,6 +127,7 @@
     <Compile Include="ScriptExecutor\IConcreteTypeProvider.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\CommandFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ContextOfVariables.cs" />
+    <Compile Include="Inheritance\ExecutorsQueueItem.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\PropertiesFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ResultOfCalling.cs" />

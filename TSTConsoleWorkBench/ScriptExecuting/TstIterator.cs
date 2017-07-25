@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +21,28 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             throw new NotImplementedException();
         }
 
+        private int a = 0;
+
         public void GetCurrentValue(PropertyAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetCurrentValue action = {action}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin GetCurrentValue action = {action}");
 
-            throw new NotImplementedException();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin GetCurrentValue a = {a}");
+
+            action.Result = new EntityValue(29);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End GetCurrentValue action = {action}");
         }
 
         public void SetCurrentValue(PropertyAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetCurrentValue action = {action}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin SetCurrentValue action = {action}");
 
-            throw new NotImplementedException();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin GetCurrentValue a = {a}");
+
+            a = 15;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End SetCurrentValue action = {action}");
         }
     }
 }
