@@ -72,6 +72,11 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if(tmpList.Count == 0)
                 {
+                    if(holder.Kind == KindOfValue.Value)
+                    {
+                        return CallSetLogicalHolder(propertyAction);
+                    }
+
                     throw new NotImplementedException();
                 }
 
@@ -95,6 +100,8 @@ namespace GnuClay.Engine.ScriptExecutor
         private ResultOfCalling CallSetLogicalHolder(PropertyAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallSetLogicalHolder command = {action}");
+
+            action.Command.Holder.ExecuteSetLogicalProperty(action);
 
             throw new NotImplementedException();
         }
@@ -122,6 +129,11 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if (tmpList.Count == 0)
                 {
+                    if(holder.Kind == KindOfValue.Value)
+                    {
+                        return CallGetLogicalHolder(propertyAction);
+                    }
+
                     throw new NotImplementedException();
                 }
 
@@ -145,6 +157,8 @@ namespace GnuClay.Engine.ScriptExecutor
         private ResultOfCalling CallGetLogicalHolder(PropertyAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"CallGetLogicalHolder command = {action}");
+
+            action.Command.Holder.ExecuteGetLogicalProperty(action);
 
             throw new NotImplementedException();
         }

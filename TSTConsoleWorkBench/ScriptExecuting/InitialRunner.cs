@@ -536,6 +536,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var iteratorKey = GnuClayEngine.DataDictionary.GetKey("tstiterator");
             var propertyKey = GnuClayEngine.DataDictionary.GetKey("CurrentValue");
+            var colorKey = GnuClayEngine.DataDictionary.GetKey("color");
+            var valueTypeKey = GnuClayEngine.DataDictionary.GetKey("TstValueType");
 
             var fiter = new PropertyFilter();
             fiter.HolderKey = iteratorKey;
@@ -560,6 +562,52 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpHolder, propertyKey);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (2) = {result}");
+
+            fiter = new PropertyFilter();
+            fiter.HolderKey = valueTypeKey;
+            fiter.PropertyKey = propertyKey;
+
+            targetType = typeof(TstValueType);
+            fiter.GetMethod = targetType.GetMethod("GetCurrentValue");
+            fiter.SetMethod = targetType.GetMethod("SetCurrentValue");
+
+            var descriptor_2 = GnuClayEngine.Context.PropertiesEngine.AddFilter(fiter);
+
+            var tmpValueTypeHolder = new TstValueType(valueTypeKey, 2.9);
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpValueTypeHolder, propertyKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (3) result = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpValueTypeHolder, propertyKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (4) = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpValueTypeHolder, colorKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (5) result = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpValueTypeHolder, colorKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (6) = {result}");
+
+            var tmpEntityHolder = new EntityValue(12);
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpValueTypeHolder, colorKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7) result = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpValueTypeHolder, colorKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (8) = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpHolder, colorKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (9) result = {result}");
+
+            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpHolder, colorKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (10) = {result}");
 
             NLog.LogManager.GetCurrentClassLogger().Info("End TstWorkWithProperties");
         }

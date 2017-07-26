@@ -211,7 +211,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 {
                     var tmpItems = mDict[key].FindExecutors(command);
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpItems.Count = {tmpItems.Count}");
+                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpItems.Count = {tmpItems?.Count}");
 
                     if (_ListHelper.IsEmpty(tmpItems))
                     {
