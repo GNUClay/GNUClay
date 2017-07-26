@@ -48,16 +48,18 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public void ExecuteSetLogicalProperty(PropertyAction action)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty action = {action}");
-
-            throw new NotImplementedException();
+#endif
+            //throw new NotImplementedException();
         }
 
         public void ExecuteGetLogicalProperty(PropertyAction action)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGetLogicalProperty action = {action}");
-
-            throw new NotImplementedException();
+#endif
+            //throw new NotImplementedException();
         }
     }
 }

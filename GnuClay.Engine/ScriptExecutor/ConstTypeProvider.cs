@@ -12,13 +12,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public ConstTypeProvider(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
 
         public void AddProvider(IConcreteTypeProvider concreteTypeProvider)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddProvider concreteTypeProvider.TypeKey = {concreteTypeProvider.TypeKey}");
-
             mDict[concreteTypeProvider.TypeKey] = concreteTypeProvider;
         }
 

@@ -27,8 +27,6 @@ namespace GnuClay.Engine.RemoteFunctions
 
         private void Handler(EntityAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin Handler action = {action}");
-
             var tmpTaskList = new List<Task>();
 
             foreach (var item in mDict)
@@ -39,14 +37,10 @@ namespace GnuClay.Engine.RemoteFunctions
             }
 
             Task.WaitAll(tmpTaskList.ToArray());
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Handler action = {action}");
         }
 
         public ulong AddFilter(CommandFilter filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
-
             if (mDict.Count == 0)
             {
                 mDescriptor = mMainContext.FunctionsEngine.AddFilter(mFilter);
@@ -64,8 +58,6 @@ namespace GnuClay.Engine.RemoteFunctions
 
         public void RemoveFilter(ulong descriptor)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
-
             if (mDict.ContainsKey(descriptor))
             {
                 mDict.Remove(descriptor);
@@ -85,7 +77,6 @@ namespace GnuClay.Engine.RemoteFunctions
         public RemoteFunctionsEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
 
         private object mLockObj = new object();
@@ -94,8 +85,6 @@ namespace GnuClay.Engine.RemoteFunctions
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
-
                 var filterHashCode = filter.GetLongHashCode();
 
                 RemoteFunctionsHandler targetStorage = null;
@@ -116,8 +105,6 @@ namespace GnuClay.Engine.RemoteFunctions
 
         public void OnAddFilter(ulong descriptor, RemoteFunctionsHandler handler)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
-
             mDict[descriptor] = handler;
         }
 
@@ -125,8 +112,6 @@ namespace GnuClay.Engine.RemoteFunctions
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
-
                 if (mDict.ContainsKey(descriptor))
                 {
                     var handler = mDict[descriptor];

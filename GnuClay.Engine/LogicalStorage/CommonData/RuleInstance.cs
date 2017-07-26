@@ -40,8 +40,6 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// </summary>
         public void CalculateHashCode()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info("CalculateHashCode");
-
             mHasheCode = Part_1.GetLongHashCode();
 
             if (Part_2 == null)

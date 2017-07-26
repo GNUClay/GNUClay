@@ -8,7 +8,6 @@ namespace GnuClay.Engine.CommonStorages
 {
     public class StorageDataDictionary: BaseGnuClayEngineComponent, IReadOnlyStorageDataDictionary
     {
-
         public StorageDataDictionary(GnuClayEngineComponentContext context)
             : base(context)
         {
@@ -55,8 +54,6 @@ namespace GnuClay.Engine.CommonStorages
             mKeysDict[mMaxKey] = val;
             mValuesDict[val] = mMaxKey;
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateKey val = `{val}` mMaxKey = {mMaxKey}");
-
             return mMaxKey; 
         }
 
@@ -72,8 +69,6 @@ namespace GnuClay.Engine.CommonStorages
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
                 var tmpData = new Data();
                 tmpData.mKeysDict = mKeysDict;
                 tmpData.mValuesDict = mValuesDict;
@@ -86,8 +81,6 @@ namespace GnuClay.Engine.CommonStorages
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
                 var tmpData = (Data)value;
                 mKeysDict = tmpData.mKeysDict;
                 mValuesDict = tmpData.mValuesDict;
@@ -99,14 +92,13 @@ namespace GnuClay.Engine.CommonStorages
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
                 mKeysDict = new Dictionary<ulong, string>();
                 mValuesDict = new Dictionary<string, ulong>();
                 mMaxKey = 0;
             }
         }
 
+#if DEBUG
         public void TSTDump()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTDump");
@@ -118,5 +110,6 @@ namespace GnuClay.Engine.CommonStorages
 
             NLog.LogManager.GetCurrentClassLogger().Info("End TSTDump");
         }
+#endif
     }
 }

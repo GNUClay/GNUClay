@@ -25,7 +25,7 @@ namespace GnuClay.Engine
         public GnuClayEngine()
         {
             CreateContext();
-            InitFromZero();
+            FirstInit();
         }
 
         private object mLockObj = new object();
@@ -66,8 +66,6 @@ namespace GnuClay.Engine
 
         private void CreateContext()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("CreateContext");
-
             mContext = new GnuClayEngineComponentContext();
 
             mContext.ActiveContext = new ActiveContext();
@@ -117,7 +115,8 @@ namespace GnuClay.Engine
             mContext.PropertiesEngine = new PropertiesEngine(mContext);
             mComponents.Add(mContext.PropertiesEngine);
 
-            FirstInit();
+            mContext.CommonValuesFactory = new CommonValuesFactory(mContext);
+            mComponents.Add(mContext.PropertiesEngine);
         }
 
         private List<BaseGnuClayEngineComponent> mComponents = new List<BaseGnuClayEngineComponent>();
@@ -128,13 +127,6 @@ namespace GnuClay.Engine
             {
                 component.FirstInit();
             }
-        }
-
-        private void InitFromZero()
-        {
-            mContext.StandardLibrary.InitFromZero();
-
-            //mContext.ActiveContext.ActivateAll();
         }
 
         private bool mIsRunning = true;
@@ -162,8 +154,6 @@ namespace GnuClay.Engine
                 }
 
                 mIsRunning = false;
-
-                NLog.LogManager.GetCurrentClassLogger().Info("Suspend");
 
                 var tmpTasksList = new List<Task>();
 
@@ -196,8 +186,6 @@ namespace GnuClay.Engine
 
                 mIsRunning = true;
 
-                NLog.LogManager.GetCurrentClassLogger().Info("Resume");
-
                 var tmpTasksList = new List<Task>();
 
                 var tmpTask = new Task(() => {
@@ -220,8 +208,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -246,8 +232,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -270,8 +254,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -315,8 +297,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Destroy");
-
                 if (mIsDestroyed)
                 {
                     return;
@@ -340,8 +320,6 @@ namespace GnuClay.Engine
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Query queryString = `{queryString}`");
-
                 ValidateIsDestroyed();
 
                 var queryTree = mContext.ParserEngine.Parse(queryString);
@@ -373,15 +351,11 @@ namespace GnuClay.Engine
 
         private SelectResult ProcessSelectQuery(SelectQuery query)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessSelectQuery");
-
             return mContext.LogicalStorage.SelectQuery(query);
         }
 
         private SelectResult ProcessInsertQuery(InsertQuery query)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessInsertQuery");
-
             mContext.LogicalStorage.InsertQuery(query);
 
             var result = new SelectResult();
@@ -390,7 +364,6 @@ namespace GnuClay.Engine
 
         private SelectResult ProcessCall(ASTCodeBlock codeBlock)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessCall");
             mContext.ScriptExecutor.Execute(codeBlock);
 
             var result = new SelectResult();

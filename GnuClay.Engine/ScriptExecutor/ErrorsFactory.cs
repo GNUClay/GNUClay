@@ -15,7 +15,6 @@ namespace GnuClay.Engine.ScriptExecutor
         public ErrorsFactory(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
 
         private string mErrorTypeName = "error";
@@ -48,8 +47,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var tmpKey = CreateObject();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateError tmpKey = {tmpKey}");
-
             Context.InheritanceEngine.SetInheritance(tmpKey, mErrorTypeKey, 1, InheritanceAspect.WithOutClause);
 
             return new ErrorValue(tmpKey);
@@ -58,8 +55,6 @@ namespace GnuClay.Engine.ScriptExecutor
         public IValue CreateUncaughtReferenceError()
         {
             var tmpKey = CreateObject();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateUncaughtReferenceError tmpKey = {tmpKey}");
 
             Context.InheritanceEngine.SetInheritance(tmpKey, mUncaughtReferenceErrorTypeKey, 1, InheritanceAspect.WithOutClause);
 

@@ -9,8 +9,6 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
     {
         public static string ConvertToString(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ConvertToString node = {node}");
-
             return ProcesNode(node, dataDictionary);
         }
 
@@ -85,7 +83,6 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
         private static string ProcessEntityNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessEntityNode node = {node}");
             return dataDictionary.GetValue(node.Key);
         }
 

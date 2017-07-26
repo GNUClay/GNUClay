@@ -14,8 +14,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             mMainContext = mainContext;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"NewUserDefinedFunctionsHandler function = {function}");
-
             mFunctionModel = function.FunctionModel;
 
             mFilter = function.Filter;
@@ -30,11 +28,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void Handler(EntityAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin Handler action = {action}");
-
             mMainContext.FunctionsEngine.CallCodeFrameForEntityAction(mFunctionModel, mFilter, action);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Handler action = {action}");
         }
     }
 
@@ -43,7 +37,6 @@ namespace GnuClay.Engine.ScriptExecutor
         public UserDefinedFunctionsStorage(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
 
         private object mLockObj = new object();
@@ -52,8 +45,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"AddFunction function = {function}");
-
                 var hashCode = function.Filter.GetLongHashCode();
 
                 if (mDict.ContainsKey(hashCode))

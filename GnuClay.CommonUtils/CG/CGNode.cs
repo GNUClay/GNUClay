@@ -247,8 +247,6 @@ namespace GnuClay.CommonUtils.CG
 
         public bool IsEquals(CGNode node, List<CGNode> visitedNodes = null)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"IsEquals `{Name}` node = `{node.Name}`");
-
             if(visitedNodes == null)
             {
                 visitedNodes = new List<CGNode>();            

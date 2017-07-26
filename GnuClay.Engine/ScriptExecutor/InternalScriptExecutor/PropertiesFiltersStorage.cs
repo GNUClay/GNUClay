@@ -32,8 +32,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return mKeyOfDescriptor;
             }
         }
-
-
     }
 
     public class PropertiesFiltersStorageByHolder
@@ -49,8 +47,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public ulong AddFilter(PropertyFilter filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
-
             var propertyKey = filter.PropertyKey;
 
             if(mDict.ContainsKey(propertyKey))
@@ -59,17 +55,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
                 if (tmpExistingStorage.Filter == filter)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter tmpExistingStorage.Filter == filter filter = {filter}");
-
                     return tmpExistingStorage.Descriptor;
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter mDict.Remove(propertyKey) filter = {filter}");
-
                 mDict.Remove(propertyKey);
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter NEXT filter = {filter}");
 
             var targetStorage = new PropertiesFiltersStorageByType(filter, mContext);
             mDict.Add(propertyKey, targetStorage);
@@ -85,8 +75,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<PropertyFilter> FindExecutors(PropertyCommand command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
-
             var propertyKey = command.PropertyKey;
 
             if(!mDict.ContainsKey(propertyKey))
@@ -94,11 +82,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return null;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors NEXT command = {command}");
-
             var targetFilter = mDict[propertyKey].Filter;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors NEXT targetFilter = {targetFilter}");
 
             double result = 1;
 
@@ -119,8 +103,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 {
                     var rank = mContext.InheritanceEngine.GetRank(tmpCommandTypeKey, tmpFilterTypeKey);
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors rank = {rank}");
-
                     if (rank == 0)
                     {
                         return null;
@@ -136,7 +118,14 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
             else
             {
-                throw new NotImplementedException();
+                if (command.Value == targetFilter.Value)
+                {
+                    result *= 2;
+                }
+                else
+                {
+                    return null;
+                }
             }
 
             if(result > 0)
@@ -145,6 +134,16 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
             return null;
+        }
+
+        public void RemoveFilter(ulong descriptor)
+        {
+            var targetStorage = mDescriptorsDict[descriptor];
+            mDescriptorsDict.Remove(descriptor);
+
+            var propertyKey = targetStorage.Filter.PropertyKey;
+
+            mDict.Remove(propertyKey);
         }
 
         private Dictionary<ulong, PropertiesFiltersStorageByType> mDict = new Dictionary<ulong, PropertiesFiltersStorageByType>();
@@ -162,8 +161,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public ulong AddFilter(PropertyFilter filter)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter filter = {filter}");
-
             var holderKey = filter.HolderKey;
 
             PropertiesFiltersStorageByHolder targetStorage = null;
@@ -183,19 +180,12 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public void OnAddFilter(ulong descriptor, PropertiesFiltersStorageByHolder storage)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnAddFilter descriptor = {descriptor}");
-
             mDescriptorsDict[descriptor] = storage;
         }
 
         public List<PropertyFilter> FindExecutors(PropertyCommand command)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
-
             var holderKey = command.Holder.TypeKey;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderKey = {holderKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors holderName = {mContext.DataDictionary.GetValue(holderKey)} functionName = {mContext.DataDictionary.GetValue(command.Holder.TypeKey)}");
 
             var tmpObjectsList = mContext.InheritanceEngine.LoadExecutorsQueueItems(holderKey);
 
@@ -203,15 +193,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             foreach (var item in tmpObjectsList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors item = {item}");
-
                 var key = item.TypeKey;
 
                 if (mDict.ContainsKey(key))
                 {
                     var tmpItems = mDict[key].FindExecutors(command);
-
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors tmpItems.Count = {tmpItems?.Count}");
 
                     if (_ListHelper.IsEmpty(tmpItems))
                     {
@@ -227,9 +213,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public void RemoveFilter(ulong descriptor)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
-
-            throw new NotImplementedException();
+            if (mDescriptorsDict.ContainsKey(descriptor))
+            {
+                mDescriptorsDict[descriptor].RemoveFilter(descriptor);
+                mDescriptorsDict.Remove(descriptor);
+            }
         }
 
         private Dictionary<ulong, PropertiesFiltersStorageByHolder> mDict = new Dictionary<ulong, PropertiesFiltersStorageByHolder>();

@@ -15,7 +15,6 @@ namespace GnuClay.Engine.Parser
         public GnuClayParserEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("GnuClayParserEngine");
         }
 
         public GnuClayQuery Parse(string queryText)

@@ -16,13 +16,10 @@ namespace GnuClay.Engine.Serialization
         public SerializationEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"SerializationEngine CurrentVersion = {CurrentVersion}");
         }
 
         public byte[] Save()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
             var serializationInfo = new SerializationInfo();
 
             serializationInfo.StorageDataDictionaryInfo = Context.DataDictionary.Save();
@@ -50,8 +47,6 @@ namespace GnuClay.Engine.Serialization
 
         public void Load(byte[] value)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
             var formatter = new BinaryFormatter();
 
             SerializationInfo serializationInfo = null;
@@ -59,8 +54,6 @@ namespace GnuClay.Engine.Serialization
             using (var packageStream = new MemoryStream(value))
             {
                 var package = (SerializationPackage)formatter.Deserialize(packageStream);
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"Load package.Version = {package.Version}");
 
                 if(CurrentVersion > package.Version)
                 {
@@ -80,8 +73,6 @@ namespace GnuClay.Engine.Serialization
 
         public void Clear()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
             Context.DataDictionary.Clear();
             Context.LogicalStorage.Clear();
             Context.InheritanceEngine.Clear();

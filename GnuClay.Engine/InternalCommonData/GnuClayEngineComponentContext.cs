@@ -30,5 +30,6 @@ namespace GnuClay.Engine.InternalCommonData
         public InternalBusEngine InternalBusEngine = null;
         public TriggersEngine TriggersEngine = null;
         public PropertiesEngine PropertiesEngine = null;
+        public CommonValuesFactory CommonValuesFactory = null;
     }
 }

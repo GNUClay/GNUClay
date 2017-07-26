@@ -106,8 +106,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public object Save()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
-
             var tmpData = new Data();
             tmpData.mRelationIndex = mRelationIndex;
             tmpData.mRulesAndFactsList = mRulesAndFactsList;
@@ -118,8 +116,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public void Load(object value)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Load");
-
             var tmpData = (Data)value;
             mRelationIndex = tmpData.mRelationIndex;
             mRulesAndFactsList = tmpData.mRulesAndFactsList;
@@ -129,8 +125,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public void Clear()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
             mRelationIndex = new Dictionary<ulong, List<RulePart>>();
             mRulesAndFactsList = new List<RuleInstance>();
             mLongHasheCodeRulesAndFactsDict = new Dictionary<ulong, List<RuleInstance>>();

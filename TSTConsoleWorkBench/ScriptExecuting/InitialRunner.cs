@@ -593,11 +593,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var tmpEntityHolder = new EntityValue(12);
 
-            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpValueTypeHolder, colorKey, tmpValue);
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpEntityHolder, colorKey, tmpValue);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7) result = {result}");
 
-            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpValueTypeHolder, colorKey);
+            result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpEntityHolder, colorKey);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (8) = {result}");
 
@@ -608,6 +608,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpHolder, colorKey);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (10) = {result}");
+
+            GnuClayEngine.Context.PropertiesEngine.RemoveFilter(descriptor);
+            GnuClayEngine.Context.PropertiesEngine.RemoveFilter(descriptor_2);
 
             NLog.LogManager.GetCurrentClassLogger().Info("End TstWorkWithProperties");
         }

@@ -16,8 +16,6 @@ namespace GnuClay.Engine.LogicalStorage
         public LogicalStorageEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("LogicalStorageEngine");
-
             mInternalStorageEngine = new InternalStorageEngine();
             mInternalResolverEngine = new InternalResolverEngine(mInternalStorageEngine, Context);
         }
@@ -30,8 +28,6 @@ namespace GnuClay.Engine.LogicalStorage
 
         public void Suspend()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Suspend");
-
             lock(mLockObj)
             {
                 mIsRunning = false;
@@ -49,14 +45,10 @@ namespace GnuClay.Engine.LogicalStorage
 
                 Thread.Sleep(10);
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info("End Suspend");
         }
 
         public void Resume()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Resume");
-
             lock (mLockObj)
             {
                 mIsRunning = true;

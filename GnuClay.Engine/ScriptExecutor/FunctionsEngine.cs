@@ -18,8 +18,9 @@ namespace GnuClay.Engine.ScriptExecutor
         public FunctionsEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
         }
+
+        private CommonValuesFactory mCommonValuesFactory = null;
 
         private string mSelfName = "self";
         private ulong mSelfKey = 0;
@@ -29,26 +30,22 @@ namespace GnuClay.Engine.ScriptExecutor
         private string mEntityActionTypeName = "EntityAction";
         private ulong mEntityActionTypeKey = 0;
 
-        private ulong mUndefinedTypeKey = 0;
         private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
 
         public override void FirstInit()
         {
+            mCommonValuesFactory = Context.CommonValuesFactory;
+
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
 
             var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
 
             mSelfKey = Context.DataDictionary.GetKey(mSelfName);
-
             Context.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
             mSelfValue = new EntityValue(mSelfKey);
 
             mEntityActionTypeKey = Context.DataDictionary.GetKey(mEntityActionTypeName);
-
             Context.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mUndefinedTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
         }
 
         public ResultOfCalling CallCodeFrame(FunctionModel source)
@@ -65,25 +62,16 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void CallCodeFrameForEntityAction(FunctionModel source, CommandFilter filter, EntityAction entityAction)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction source = {source}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction entityAction = {entityAction}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallCodeFrameForEntityAction filter = {filter}");
-
             var executionContext = CreateEmptyExecutionContext();
 
             FillVariablesByParams(filter, entityAction, executionContext);
 
             var tmpNewInternalThreadExecutor = new InternalFunctionExecutionModel(source, Context, executionContext, entityAction);
             tmpNewInternalThreadExecutor.RunDbg();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End CallCodeFrameForEntityAction entityAction = {entityAction}");
         }
 
         private void FillVariablesByParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams entityAction = {entityAction}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByParams filter = {filter}");
-
             if (filter.Params.Count == 0)
             {
                 return;
@@ -100,27 +88,31 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void FillVariablesByNamedParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams entityAction = {entityAction}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filter = {filter}");
-
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams entityAction = {entityAction}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filter = {filter}");
+#endif
             var tmpFilterParameters = filter.Params;
 
             var tmpCommandParamsDict = entityAction.Command.NamedParams.ToDictionary(p => p.ParamName.TypeKey, p => p);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
-
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
             foreach (var filterParamKVP in tmpFilterParameters)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filterParamKVP = {filterParamKVP}");
-
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filterParamKVP = {filterParamKVP}");
+#endif
                 var paramKey = filterParamKVP.Key;
 
                 if (tmpCommandParamsDict.ContainsKey(paramKey))
                 {
                     var targetParamOfCommand = tmpCommandParamsDict[paramKey];
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
-
+#if DEBUG
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
+#endif
                     executionContext.ContextOfVariables.SetValue(paramKey, targetParamOfCommand.ParamValue);
 
                     continue;
@@ -129,31 +121,36 @@ namespace GnuClay.Engine.ScriptExecutor
                 throw new NotImplementedException();
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
         }
 
         private void FillVariablesByPositionedParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams filter = {filter}");
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams filter = {filter}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
-
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
             var tmpFilterParameters = filter.Params;
             var tmpCommandListEnumerator = entityAction.Command.PositionedParams.GetEnumerator();
 
             foreach (var filterParamKVP in tmpFilterParameters)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParam filterParamKVP = {filterParamKVP}");
-
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParam filterParamKVP = {filterParamKVP}");
+#endif
                 var paramKey = filterParamKVP.Key;
 
                 if (tmpCommandListEnumerator.MoveNext())
                 {
                     var targetParamOfCommand = tmpCommandListEnumerator.Current;
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
-
+#if DEBUG
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
+#endif
                     executionContext.ContextOfVariables.SetValue(paramKey, targetParamOfCommand.ParamValue);
 
                     continue;
@@ -162,69 +159,43 @@ namespace GnuClay.Engine.ScriptExecutor
                 throw new NotImplementedException();
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
         }
 
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters function = {function}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters holder = {holder}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters targetKey = {targetKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
-
             var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByNamedParameters command = {command}");
 
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters function = {function}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters holder = {holder}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters targetKey = {targetKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
-
             var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallByPositionedParameters command = {command}");
 
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters function = {function}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters holder = {holder}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters targetKey = {targetKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters namedParams = {_ListHelper._ToString(namedParams)}");
-
             var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByNamedParameters command = {command}");
 
             return ProcessAsyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters function = {function}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters holder = {holder}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters targetKey = {targetKey}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters positionedParams = {_ListHelper._ToString(positionedParams)}");
-
             var executionContext = CreateEmptyExecutionContext();
 
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncByPositionedParameters command = {command}");
 
             return ProcessAsyncCall(command, parentAction);
         }
@@ -291,11 +262,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void InvokeEntityAction(EntityAction action)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction action = {action}");
-
             var targetExecutorsList = FindExecutors(action.Command);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutorsList.Count = {targetExecutorsList.Count}");
 
             if (_ListHelper.IsEmpty(targetExecutorsList))
             {
@@ -305,8 +272,6 @@ namespace GnuClay.Engine.ScriptExecutor
                 return;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction NEXT action = {action}");
-
             var targetAction = targetExecutorsList.FirstOrDefault();
 
             targetAction.Handler.Invoke(action);
@@ -314,11 +279,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ResultOfCalling ProcessSyncCall(Command command, EntityAction parentAction)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSyncCall command = {command}");
-
             var entityAction = CreateEntityAction(command, parentAction);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSyncCall entityAction = {entityAction}");
 
             InvokeEntityAction(entityAction);
 
@@ -327,8 +288,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ResultOfCalling CreateSyncResultOfCalling(EntityAction entityAction)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateSyncResultOfCalling entityAction = {entityAction}");
-
             var result = new ResultOfCalling();
 
             if (entityAction.State == EntityActionState.Completed)
@@ -337,7 +296,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if (entityAction.Result == null)
                 {
-                    entityAction.Result = new EntityValue(mUndefinedTypeKey);
+                    entityAction.Result = mCommonValuesFactory.UndefinedValue();
                 }
 
                 result.Result = entityAction.Result;
@@ -348,18 +307,12 @@ namespace GnuClay.Engine.ScriptExecutor
                 result.Error = entityAction.Error;
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"End CreateSyncResultOfCalling result = {result}");
-
             return result;
         }
 
         private ResultOfCalling ProcessAsyncCall(Command command, EntityAction parentAction)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall command = {command}");
-
             var entityAction = CreateEntityAction(command, parentAction);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall entityAction = {entityAction}");
 
             Task.Run(() => {
                 InvokeEntityAction(entityAction);
@@ -368,8 +321,6 @@ namespace GnuClay.Engine.ScriptExecutor
             var result = new ResultOfCalling();
             result.Success = true;
             result.Result = entityAction;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End ProcessAsyncCall result = {result}");
 
             return result;
         }
@@ -394,8 +345,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void RemoveFilter(ulong descriptor)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFilter descriptor = {descriptor}");
-
             lock (mFiltersLockObj)
             {
                 mCommandFiltersStorage.RemoveFilter(descriptor);

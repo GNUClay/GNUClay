@@ -15,7 +15,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
         public GnuClayScriptCompiler(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("GnuClayScriptCompiler");
         }
 
         public FunctionModel Compile(ASTCodeBlock ast)

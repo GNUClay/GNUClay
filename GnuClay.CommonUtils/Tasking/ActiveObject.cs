@@ -217,8 +217,6 @@ namespace GnuClay.CommonUtils.Tasking
 
             while (mIsShouldRun)
             {
-                //NLog.LogManager.GetCurrentClassLogger().Info("NRunMethod -----------");
-
                 if (Context != null)
                 {
                     if (Context.IsNeedWait)

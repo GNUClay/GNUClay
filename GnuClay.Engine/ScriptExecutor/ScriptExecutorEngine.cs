@@ -15,8 +15,6 @@ namespace GnuClay.Engine.ScriptExecutor
         public ScriptExecutorEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
-
             mCompiler = new GnuClayScriptCompiler(context);
         }
 
@@ -32,8 +30,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void Execute(ASTCodeBlock codeBlock)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Execute");
-
             throw new NotImplementedException();
 
             //var tmpCodeFrame = mCompiler.Compile(codeBlock);
