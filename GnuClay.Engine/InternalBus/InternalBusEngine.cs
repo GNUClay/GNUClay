@@ -13,5 +13,12 @@ namespace GnuClay.Engine.InternalBus
             : base(context)
         {
         }
+
+        public void EmitInvalidateCache()
+        {
+            OnInvalidateCache?.Invoke();
+        }
+
+        public event Action OnInvalidateCache;
     }
 }

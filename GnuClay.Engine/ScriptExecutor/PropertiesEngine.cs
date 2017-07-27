@@ -16,7 +16,7 @@ namespace GnuClay.Engine.ScriptExecutor
     {
         public PropertiesEngine(GnuClayEngineComponentContext context)
             : base(context)
-        {     
+        {  
         }
 
         private CommonValuesFactory mCommonValuesFactory = null;
@@ -26,6 +26,13 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public override void FirstInit()
         {
+            Context.InternalBusEngine.OnInvalidateCache += () =>
+            {
+                Task.Run(() => {
+                    InvalidateCache();
+                });
+            };
+
             mCommonValuesFactory = Context.CommonValuesFactory;
 
             mPropertiesFiltersStorage = new PropertiesFiltersStorage(Context);
@@ -34,17 +41,20 @@ namespace GnuClay.Engine.ScriptExecutor
 
             mPropertyActionTypeKey = Context.DataDictionary.GetKey(mPropertyActionTypeName);
             Context.InheritanceEngine.SetInheritance(mPropertyActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
         }
 
         private object mLockObj = new object();
 
         private PropertiesFiltersStorage mPropertiesFiltersStorage = null;
-
+       
         public ulong AddFilter(PropertyFilter filter)
         {
             lock(mLockObj)
             {
-                return mPropertiesFiltersStorage.AddFilter(filter);
+                var descriptor = mPropertiesFiltersStorage.AddFilter(filter);
+                InvalidateCache();
+                return descriptor;
             }
         }
 
@@ -53,6 +63,7 @@ namespace GnuClay.Engine.ScriptExecutor
             lock (mLockObj)
             {
                 mPropertiesFiltersStorage.RemoveFilter(descriptor);
+                InvalidateCache();
             }
         }
 
@@ -62,6 +73,11 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 var command = CreateSetCommand(holder, propertyKey, value);
                 var propertyAction = CreatePropertyAction(command);
+
+                if(TryCallByCache(propertyAction, command))
+                {
+                    return CreateSetResultOfCalling(propertyAction);
+                }
 
                 if (holder.Kind == KindOfValue.Logical)
                 {
@@ -104,6 +120,11 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 var command = CreateGetCommand(holder, propertyKey);
                 var propertyAction = CreatePropertyAction(command);
+
+                if (TryCallByCache(propertyAction, command))
+                {
+                    return CreateGetResultOfCalling(propertyAction);
+                }
 
                 if (holder.Kind == KindOfValue.Logical)
                 {
@@ -151,7 +172,12 @@ namespace GnuClay.Engine.ScriptExecutor
                 propertyAction.State = EntityActionState.Completed;
             }
 
-            return CreateGetResultOfCalling(propertyAction);
+            if (propertyAction.Command.IsGet)
+            {
+                return CreateGetResultOfCalling(propertyAction);
+            }
+
+            return CreateSetResultOfCalling(propertyAction);
         }
 
         private PropertyCommand CreateSetCommand(IValue holder, ulong propertyKey, IValue value)
@@ -226,7 +252,32 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             propertyAction.State = EntityActionState.Faulted;
             propertyAction.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
+
+            if(propertyAction.Command.IsGet)
+            {
+                return CreateGetResultOfCalling(propertyAction);
+            }
+
             return CreateSetResultOfCalling(propertyAction);
+        }
+
+        private bool TryCallByCache(PropertyAction propertyAction, PropertyCommand command)
+        {
+            var commnadHashCode = command.
+
+            if (mCommandIsLogicalCacheDict.ContainsKey())
+            {
+
+            }
+        }
+
+        private Dictionary<ulong, PropertyFilter> mCommandFiltersCacheDict = new Dictionary<ulong, PropertyFilter>();
+        private Dictionary<ulong, bool> mCommandIsLogicalCacheDict = new Dictionary<ulong, bool>();
+
+        private void InvalidateCache()
+        {
+            mCommandFiltersCacheDict.Clear();
+            mCommandIsLogicalCacheDict.Clear();
         }
     }
 }

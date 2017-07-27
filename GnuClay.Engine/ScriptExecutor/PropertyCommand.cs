@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
-    public class PropertyCommand
+    public class PropertyCommand: ILongHashableObject
     {
         public IValue Holder { get; set; }
         public ulong PropertyKey { get; set; }
         public IValue Value { get; set; }
         public bool IsGet { get; set; }
 
+        public ulong GetLongHashCode();
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
             var tmpSb = new StringBuilder();
