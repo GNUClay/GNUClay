@@ -262,7 +262,27 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void InvokeEntityAction(EntityAction action)
         {
-            var targetExecutorsList = FindExecutors(action.Command);
+            var command = action.Command;
+
+            var commandHashCode = command.GetLongHashCode();
+
+            if(mCommandErrorsCacheDict.ContainsKey(commandHashCode))
+            {
+                action.State = EntityActionState.Faulted;
+                action.Error = mCommandErrorsCacheDict[commandHashCode];
+                return;
+            }
+
+            CommandFilter targetExecutor = null;
+
+            if (mCommandFiltersCacheDict.ContainsKey(commandHashCode))
+            {
+                targetExecutor = mCommandFiltersCacheDict[commandHashCode];
+                targetExecutor.Handler.Invoke(action);
+                return;
+            }
+
+            var targetExecutorsList = FindExecutors(command);
 
             if (_ListHelper.IsEmpty(targetExecutorsList))
             {
@@ -272,9 +292,19 @@ namespace GnuClay.Engine.ScriptExecutor
                 return;
             }
 
-            var targetAction = targetExecutorsList.FirstOrDefault();
+            targetExecutor = targetExecutorsList.FirstOrDefault();
+            targetExecutor.Handler.Invoke(action);
 
-            targetAction.Handler.Invoke(action);
+            if(action.State == EntityActionState.Faulted)
+            {
+                mCommandErrorsCacheDict[commandHashCode] = action.Error;
+                return;
+            }
+
+            if(targetExecutor.WithOutClause)
+            {
+                mCommandFiltersCacheDict[commandHashCode] = targetExecutor;
+            }
         }
 
         private ResultOfCalling ProcessSyncCall(Command command, EntityAction parentAction)
@@ -349,6 +379,15 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 mCommandFiltersStorage.RemoveFilter(descriptor);
             }
+        }
+
+        private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();
+        private Dictionary<ulong, IValue> mCommandErrorsCacheDict = new Dictionary<ulong, IValue>();
+
+        private void InvalidateCache()
+        {
+            mCommandFiltersCacheDict.Clear();
+            mCommandErrorsCacheDict.Clear();
         }
     }
 }

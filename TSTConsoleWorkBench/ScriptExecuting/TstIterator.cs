@@ -18,7 +18,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         public override ulong GetLongHashCode()
         {
-            throw new NotImplementedException();
+            return TypeKey;
         }
 
         private int a = 0;

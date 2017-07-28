@@ -13,7 +13,17 @@ namespace GnuClay.Engine.ScriptExecutor
         public IValue Value { get; set; }
         public bool IsGet { get; set; }
 
-        public ulong GetLongHashCode();
+        public ulong GetLongHashCode()
+        {
+            var result = Holder.GetLongHashCode() ^ PropertyKey;
+            
+            if(Value != null)
+            {
+                result ^= Value.GetLongHashCode();
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

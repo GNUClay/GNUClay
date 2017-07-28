@@ -597,6 +597,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7) result = {result}");
 
+            result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpEntityHolder, colorKey, tmpValue);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7,5) result = {result}");
+
             result = GnuClayEngine.Context.PropertiesEngine.CallGetProperty(tmpEntityHolder, colorKey);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (8) = {result}");

@@ -74,34 +74,84 @@ namespace GnuClay.Engine.ScriptExecutor
                 var command = CreateSetCommand(holder, propertyKey, value);
                 var propertyAction = CreatePropertyAction(command);
 
-                if(TryCallByCache(propertyAction, command))
+                var commandHashCode = command.GetLongHashCode();
+
+                if(mCommandErrorSetCacheDict.ContainsKey(commandHashCode))
                 {
+                    propertyAction.State = EntityActionState.Faulted;
+                    propertyAction.Error = mCommandErrorSetCacheDict[commandHashCode];
+
                     return CreateSetResultOfCalling(propertyAction);
                 }
 
-                if (holder.Kind == KindOfValue.Logical)
-                {
-                    return CallSetLogicalHolder(propertyAction);
-                }
+                PropertyFilter targetExecutor = null;
 
-                var tmpList = mPropertiesFiltersStorage.FindExecutors(command);
-
-                if(tmpList.Count == 0)
+                if (mCommandIsLogicalSetCacheDict.ContainsKey(commandHashCode))
                 {
-                    if(holder.Kind == KindOfValue.Value)
+                    if (mCommandIsLogicalSetCacheDict[commandHashCode])
                     {
-                        return CallSetLogicalHolder(propertyAction);
+                        CallSetLogicalHolder(propertyAction);
+                        return CreateSetResultOfCalling(propertyAction);
                     }
 
-                    return ReturnUncaughtReferenceError(propertyAction);
+                    targetExecutor = mCommandFiltersSetCacheDict[commandHashCode];
+                    CallSystemProperty(holder, targetExecutor.SetMethod, propertyAction);
+                    return CreateSetResultOfCalling(propertyAction);
                 }
 
-                var targetExecutor = tmpList.First();
-                return CallSystemProperty(holder, targetExecutor.SetMethod, propertyAction);
+                var isLogical = true;
+
+                if (holder.Kind == KindOfValue.Logical)
+                {
+                    CallSetLogicalHolder(propertyAction);
+                    isLogical = true;
+                }
+                else
+                {
+                    var tmpList = mPropertiesFiltersStorage.FindExecutors(command);
+
+                    if (tmpList.Count == 0)
+                    {
+                        if (holder.Kind == KindOfValue.Value)
+                        {
+                            CallSetLogicalHolder(propertyAction);
+                            isLogical = true;
+                        }
+                        else
+                        {
+                            ReturnUncaughtReferenceError(propertyAction);
+                        }
+                    }
+                    else
+                    {
+                        targetExecutor = tmpList.First();
+                        CallSystemProperty(holder, targetExecutor.SetMethod, propertyAction);
+                    }
+                }
+
+                if(propertyAction.State == EntityActionState.Faulted)
+                {
+                    mCommandErrorSetCacheDict[commandHashCode] = propertyAction.Error;
+                    return CreateSetResultOfCalling(propertyAction);
+                }
+
+                if(isLogical)
+                {
+                    mCommandIsLogicalSetCacheDict[commandHashCode] = true;
+                    return CreateSetResultOfCalling(propertyAction);
+                }
+
+                if(targetExecutor.WithOutClause)
+                {
+                    mCommandIsLogicalSetCacheDict[commandHashCode] = false;
+                    mCommandFiltersSetCacheDict[commandHashCode] = targetExecutor;
+                }
+
+                return CreateSetResultOfCalling(propertyAction);
             }
         }
 
-        private ResultOfCalling CallSetLogicalHolder(PropertyAction action)
+        private void CallSetLogicalHolder(PropertyAction action)
         {
             action.State = EntityActionState.Running;
             action.Command.Holder.ExecuteSetLogicalProperty(action);
@@ -110,8 +160,6 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 action.State = EntityActionState.Completed;
             }
-
-            return CreateSetResultOfCalling(action);
         }
 
         public ResultOfCalling CallGetProperty(IValue holder, ulong propertyKey)
@@ -121,34 +169,83 @@ namespace GnuClay.Engine.ScriptExecutor
                 var command = CreateGetCommand(holder, propertyKey);
                 var propertyAction = CreatePropertyAction(command);
 
-                if (TryCallByCache(propertyAction, command))
+                var commandHashCode = command.GetLongHashCode();
+
+                if (mCommandErrorGetCacheDict.ContainsKey(commandHashCode))
                 {
+                    propertyAction.State = EntityActionState.Faulted;
+                    propertyAction.Error = mCommandErrorGetCacheDict[commandHashCode];
                     return CreateGetResultOfCalling(propertyAction);
                 }
 
-                if (holder.Kind == KindOfValue.Logical)
-                {
-                    return CallGetLogicalHolder(propertyAction);
-                }
+                PropertyFilter targetExecutor = null;
 
-                var tmpList = mPropertiesFiltersStorage.FindExecutors(command);
-
-                if (tmpList.Count == 0)
+                if (mCommandIsLogicalGetCacheDict.ContainsKey(commandHashCode))
                 {
-                    if(holder.Kind == KindOfValue.Value)
+                    if (mCommandIsLogicalGetCacheDict[commandHashCode])
                     {
-                        return CallGetLogicalHolder(propertyAction);
+                        CallGetLogicalHolder(propertyAction);
+                        return CreateGetResultOfCalling(propertyAction);
                     }
 
-                    return ReturnUncaughtReferenceError(propertyAction);
+                    targetExecutor = mCommandFiltersGetCacheDict[commandHashCode];
+                    CallSystemProperty(holder, targetExecutor.GetMethod, propertyAction);
+                    return CreateGetResultOfCalling(propertyAction);
                 }
 
-                var targetExecutor = tmpList.First();
-                return CallSystemProperty(holder, targetExecutor.GetMethod, propertyAction);
+                var isLogical = false;
+
+                if (holder.Kind == KindOfValue.Logical)
+                {
+                    CallGetLogicalHolder(propertyAction);
+                    isLogical = true;
+                }
+                else
+                {
+                    var tmpList = mPropertiesFiltersStorage.FindExecutors(command);
+
+                    if (tmpList.Count == 0)
+                    {
+                        if (holder.Kind == KindOfValue.Value)
+                        {
+                            CallGetLogicalHolder(propertyAction);
+                            isLogical = true;
+                        }
+                        else
+                        {
+                            ReturnUncaughtReferenceError(propertyAction);
+                        }
+                    }
+                    else
+                    {
+                        targetExecutor = tmpList.First();
+                        CallSystemProperty(holder, targetExecutor.GetMethod, propertyAction);
+                    }
+                }
+
+                if (propertyAction.State == EntityActionState.Faulted)
+                {
+                    mCommandErrorGetCacheDict[commandHashCode] = propertyAction.Error;
+                    return CreateGetResultOfCalling(propertyAction);
+                }
+
+                if (isLogical)
+                {
+                    mCommandIsLogicalGetCacheDict[commandHashCode] = true;
+                    return CreateGetResultOfCalling(propertyAction);
+                }
+
+                if(targetExecutor.WithOutClause)
+                {
+                    mCommandIsLogicalGetCacheDict[commandHashCode] = false;
+                    mCommandFiltersGetCacheDict[commandHashCode] = targetExecutor;
+                }
+
+                return CreateGetResultOfCalling(propertyAction);
             }
         }
 
-        private ResultOfCalling CallGetLogicalHolder(PropertyAction action)
+        private void CallGetLogicalHolder(PropertyAction action)
         {
             action.State = EntityActionState.Running;
             action.Command.Holder.ExecuteGetLogicalProperty(action);
@@ -157,11 +254,9 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 action.State = EntityActionState.Completed;
             }
-
-            return CreateGetResultOfCalling(action);
         }
 
-        private ResultOfCalling CallSystemProperty(IValue holder, MethodInfo method, PropertyAction propertyAction)
+        private void CallSystemProperty(IValue holder, MethodInfo method, PropertyAction propertyAction)
         {
             var params_ = new object[1] { propertyAction };
             propertyAction.State = EntityActionState.Running;
@@ -171,13 +266,6 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 propertyAction.State = EntityActionState.Completed;
             }
-
-            if (propertyAction.Command.IsGet)
-            {
-                return CreateGetResultOfCalling(propertyAction);
-            }
-
-            return CreateSetResultOfCalling(propertyAction);
         }
 
         private PropertyCommand CreateSetCommand(IValue holder, ulong propertyKey, IValue value)
@@ -248,36 +336,27 @@ namespace GnuClay.Engine.ScriptExecutor
             return result;
         }
 
-        private ResultOfCalling ReturnUncaughtReferenceError(PropertyAction propertyAction)
+        private void ReturnUncaughtReferenceError(PropertyAction propertyAction)
         {
             propertyAction.State = EntityActionState.Faulted;
             propertyAction.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
-
-            if(propertyAction.Command.IsGet)
-            {
-                return CreateGetResultOfCalling(propertyAction);
-            }
-
-            return CreateSetResultOfCalling(propertyAction);
         }
 
-        private bool TryCallByCache(PropertyAction propertyAction, PropertyCommand command)
-        {
-            var commnadHashCode = command.
-
-            if (mCommandIsLogicalCacheDict.ContainsKey())
-            {
-
-            }
-        }
-
-        private Dictionary<ulong, PropertyFilter> mCommandFiltersCacheDict = new Dictionary<ulong, PropertyFilter>();
-        private Dictionary<ulong, bool> mCommandIsLogicalCacheDict = new Dictionary<ulong, bool>();
+        private Dictionary<ulong, PropertyFilter> mCommandFiltersGetCacheDict = new Dictionary<ulong, PropertyFilter>();
+        private Dictionary<ulong, bool> mCommandIsLogicalGetCacheDict = new Dictionary<ulong, bool>();
+        private Dictionary<ulong, IValue> mCommandErrorGetCacheDict = new Dictionary<ulong, IValue>();
+        private Dictionary<ulong, PropertyFilter> mCommandFiltersSetCacheDict = new Dictionary<ulong, PropertyFilter>();
+        private Dictionary<ulong, bool> mCommandIsLogicalSetCacheDict = new Dictionary<ulong, bool>();
+        private Dictionary<ulong, IValue> mCommandErrorSetCacheDict = new Dictionary<ulong, IValue>();
 
         private void InvalidateCache()
         {
-            mCommandFiltersCacheDict.Clear();
-            mCommandIsLogicalCacheDict.Clear();
+            mCommandFiltersGetCacheDict.Clear();
+            mCommandIsLogicalGetCacheDict.Clear();
+            mCommandErrorGetCacheDict.Clear();
+            mCommandFiltersSetCacheDict.Clear();
+            mCommandIsLogicalSetCacheDict.Clear();
+            mCommandErrorSetCacheDict.Clear();
         }
     }
 }
