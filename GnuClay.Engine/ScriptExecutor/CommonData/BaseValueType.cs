@@ -46,10 +46,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             return result;
         }
 
-        public void ExecuteSetLogicalProperty(PropertyAction action)
+        public void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty action = {action}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty action = {action} kindOfLogicalOperators = {kindOfLogicalOperators}");
 #endif
             //throw new NotImplementedException();
         }

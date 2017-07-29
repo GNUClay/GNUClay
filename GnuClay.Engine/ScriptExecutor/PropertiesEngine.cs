@@ -153,13 +153,15 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void CallSetLogicalHolder(PropertyAction action)
         {
-            action.State = EntityActionState.Running;
-            action.Command.Holder.ExecuteSetLogicalProperty(action);
+            throw new NotImplementedException();
 
-            if (action.State == EntityActionState.Running)
-            {
-                action.State = EntityActionState.Completed;
-            }
+            //action.State = EntityActionState.Running;
+            //action.Command.Holder.ExecuteSetLogicalProperty(action);
+
+            //if (action.State == EntityActionState.Running)
+            //{
+            //    action.State = EntityActionState.Completed;
+            //}
         }
 
         public ResultOfCalling CallGetProperty(IValue holder, ulong propertyKey)

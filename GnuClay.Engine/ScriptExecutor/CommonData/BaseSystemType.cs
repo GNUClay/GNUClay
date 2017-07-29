@@ -33,7 +33,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public abstract ulong GetLongHashCode();
 
-        public void ExecuteSetLogicalProperty(PropertyAction action)
+        public void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators)
         {
             throw new NotImplementedException();
         }

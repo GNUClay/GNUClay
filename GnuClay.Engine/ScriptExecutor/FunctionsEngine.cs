@@ -46,6 +46,13 @@ namespace GnuClay.Engine.ScriptExecutor
 
             mEntityActionTypeKey = Context.DataDictionary.GetKey(mEntityActionTypeName);
             Context.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            InitRegistryOfSpecialOperators();
+        }
+
+        private void InitRegistryOfSpecialOperators()
+        {
+
         }
 
         public ResultOfCalling CallCodeFrame(FunctionModel source)

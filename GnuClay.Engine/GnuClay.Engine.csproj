@@ -119,6 +119,7 @@
     <Compile Include="ScriptExecutor\CommonData\BaseSystemType.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseValueType.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
+    <Compile Include="ScriptExecutor\CommonData\SpecialOperator.cs" />
     <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
+    <Compile Include="ScriptExecutor\KindOfLogicalOperator.cs" />
     <Compile Include="ScriptExecutor\KindOfValue.cs" />
     <Compile Include="ScriptExecutor\NamedParamInfo.cs" />
     <Compile Include="ScriptExecutor\PositionParamInfo.cs" />
