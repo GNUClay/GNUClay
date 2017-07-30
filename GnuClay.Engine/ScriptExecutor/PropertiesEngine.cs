@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
@@ -21,8 +22,11 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private CommonValuesFactory mCommonValuesFactory = null;
 
-        private string mPropertyActionTypeName = "PropertyAction";
+        private string mPropertyActionTypeName = "__PropertyAction";
         private ulong mPropertyActionTypeKey = 0;
+
+        private string mPropertyTypeName = "__property";
+        private ulong mPropertyTypeKey = 0;
 
         public override void FirstInit()
         {
@@ -42,12 +46,21 @@ namespace GnuClay.Engine.ScriptExecutor
             mPropertyActionTypeKey = Context.DataDictionary.GetKey(mPropertyActionTypeName);
             Context.InheritanceEngine.SetInheritance(mPropertyActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
 
+            mPropertyTypeKey = Context.DataDictionary.GetKey(mPropertyTypeName);
+            Context.InheritanceEngine.SetInheritance(mPropertyTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            mLogicalFilter = new PropertyFilter();
+            var targetType = GetType();
+            mLogicalFilter.SetMethod = targetType.GetMethod("CallSetLogicalHolder");
+            mLogicalFilter.GetMethod = targetType.GetMethod("CallGetLogicalHolder");
         }
 
         private object mLockObj = new object();
 
         private PropertiesFiltersStorage mPropertiesFiltersStorage = null;
-       
+
+        private PropertyFilter mLogicalFilter = null;
+
         public ulong AddFilter(PropertyFilter filter)
         {
             lock(mLockObj)
@@ -66,6 +79,93 @@ namespace GnuClay.Engine.ScriptExecutor
                 InvalidateCache();
             }
         }
+
+        public ResultOfCalling FindProperty(IValue holder, ulong propertyKey)
+        {
+            lock (mLockObj)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"Begin FindProperty holder = {holder} propertyKey = {propertyKey}");
+#endif
+
+                var command = CreateGetCommand(holder, propertyKey);
+                var commandHashCode = command.GetLongHashCode();
+
+                var result = new ResultOfCalling();
+
+                if (mCommandErrorCacheDict.ContainsKey(commandHashCode))
+                {
+                    result.Success = false;
+                    result.Error = mCommandErrorCacheDict[commandHashCode];
+                    return result;
+                }
+
+                if (mCommandCacheDict.ContainsKey(commandHashCode))
+                {
+                    result.Success = true;
+                    result.Result = mCommandCacheDict[commandHashCode];
+                    return result;
+                }
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindProperty NEXT holder = {holder} propertyKey = {propertyKey}");
+#endif
+
+                PropertyFilter targetExecutor = null;
+                var isLogical = false;
+
+                if (holder.Kind == KindOfValue.Logical)
+                {
+                    targetExecutor = mLogicalFilter;
+                    isLogical = true;
+                }
+                else
+                {
+                    var tmpList = mPropertiesFiltersStorage.FindExecutors(command);
+
+                    if (tmpList.Count == 0)
+                    {
+                        if (holder.Kind == KindOfValue.Value)
+                        {
+                            targetExecutor = mLogicalFilter;
+                            isLogical = true;
+                        }
+                        else
+                        {
+                            var tmpError = Context.ErrorsFactory.CreateUncaughtReferenceError();
+                            result.Error = tmpError;
+                            result.Success = false;
+
+                            mCommandErrorCacheDict[commandHashCode] = tmpError;
+
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        targetExecutor = tmpList.First();
+                    }
+                }
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"FindProperty NEXT NEXT holder = {holder} propertyKey = {propertyKey}");
+#endif
+
+                var tmpProperty = new PropertyValue(mPropertyTypeKey, targetExecutor, isLogical);
+
+                mCommandCacheDict[commandHashCode] = tmpProperty;
+
+                result.Success = true;
+                result.Result = tmpProperty;
+
+                return result;
+            }
+        }
+
+        /*
+               private Dictionary<ulong, IValue> mCommandErrorCacheDict = new Dictionary<ulong, IValue>();
+        private Dictionary<ulong, IValue> mCommandCacheDict = new Dictionary<ulong, IValue>();  
+       */
 
         public ResultOfCalling CallSetProperty(IValue holder, ulong propertyKey, IValue value)
         {
@@ -199,6 +299,8 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if (holder.Kind == KindOfValue.Logical)
                 {
+                    throw new NotImplementedException();
+
                     CallGetLogicalHolder(propertyAction);
                     isLogical = true;
                 }
@@ -344,6 +446,8 @@ namespace GnuClay.Engine.ScriptExecutor
             propertyAction.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
         }
 
+        private Dictionary<ulong, IValue> mCommandErrorCacheDict = new Dictionary<ulong, IValue>();
+        private Dictionary<ulong, IValue> mCommandCacheDict = new Dictionary<ulong, IValue>();
         private Dictionary<ulong, PropertyFilter> mCommandFiltersGetCacheDict = new Dictionary<ulong, PropertyFilter>();
         private Dictionary<ulong, bool> mCommandIsLogicalGetCacheDict = new Dictionary<ulong, bool>();
         private Dictionary<ulong, IValue> mCommandErrorGetCacheDict = new Dictionary<ulong, IValue>();
@@ -353,6 +457,8 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void InvalidateCache()
         {
+            mCommandErrorCacheDict.Clear();
+            mCommandCacheDict.Clear();
             mCommandFiltersGetCacheDict.Clear();
             mCommandIsLogicalGetCacheDict.Clear();
             mCommandErrorGetCacheDict.Clear();

@@ -27,7 +27,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private IValue mSelfValue = null;
 
-        private string mEntityActionTypeName = "EntityAction";
+        private string mEntityActionTypeName = "__EntityAction";
         private ulong mEntityActionTypeKey = 0;
 
         private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;

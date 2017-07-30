@@ -20,8 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\GnuClay.Engine.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -119,6 +118,7 @@
     <Compile Include="ScriptExecutor\CommonData\BaseSystemType.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseValueType.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
+    <Compile Include="ScriptExecutor\CommonData\PropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\SpecialOperator.cs" />
     <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />

@@ -25,7 +25,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
-                TstWorkWithProperties();
+                //TstWorkWithProperties();
+                TSTRunCodeWithProperties();
             }
             catch (Exception e)
             {
@@ -618,5 +619,305 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info("End TstWorkWithProperties");
         }
+
+        //$var_1 = dog.Color = red;
+        private void TSTRunCodeWithProperties()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTRunCodeWithProperties");
+
+            var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
+            var colorKey = GnuClayEngine.DataDictionary.GetKey("color");
+            var redKey = GnuClayEngine.DataDictionary.GetKey("red");
+            var var_1_Key = GnuClayEngine.DataDictionary.GetKey("$var_1");
+
+            mainContext = GnuClayEngine.Context;
+            var functionProvider = mainContext.FunctionsEngine;
+
+
+            var tmpCodeFrame = new FunctionModel();
+
+            var tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushValFromProp;
+            tmpCommand.Key = colorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+
+            var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End TSTRunCodeWithProperties resultOfCalling = {resultOfCalling}");
+        }
     }
 }
+
+/*
+             NLog.LogManager.GetCurrentClassLogger().Info("Begin RunMiddleScript");
+
+            var openKey = GnuClayEngine.DataDictionary.GetKey("open");
+            var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
+            var keyKey = GnuClayEngine.DataDictionary.GetKey("$key");
+            var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            var resultVarKey = GnuClayEngine.DataDictionary.GetKey("$result");
+            var plusKey = GnuClayEngine.DataDictionary.GetKey("+");
+            var result_2_VarKey = GnuClayEngine.DataDictionary.GetKey("$result2");
+            var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
+            var logKey = GnuClayEngine.DataDictionary.GetKey("log");
+
+            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
+            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+
+            var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
+
+            var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
+
+            var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
+
+            mainContext = GnuClayEngine.Context;
+
+            var functionProvider = mainContext.FunctionsEngine;
+
+            var userDefinedFunctionsStorage = mainContext.UserDefinedFunctionsStorage;
+
+            var remoteFunctionsStorage = mainContext.RemoteFunctionsEngine;
+
+            var filter = new CommandFilter();
+            filter.Handler = FakeAddOperator;
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = plusKey;
+            filter.TargetKey = 0;
+
+            filter.Params.Add(param_1_Key, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = numberKey
+            });
+
+            filter.Params.Add(param_2_Key, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = numberKey
+            });
+
+            functionProvider.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = FakeConsoleLog;
+            filter.HolderKey = consoleKey;
+            filter.FunctionKey = logKey;
+
+            filter.Params.Add(messageParamKey, new CommandFilterParam()
+            {
+            });
+
+            var descriptor = functionProvider.AddFilter(filter);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall descriptor = {descriptor}");
+
+            functionProvider.RemoveFilter(descriptor);
+
+            functionProvider.AddFilter(filter);
+            functionProvider.AddFilter(filter);
+
+
+            var tmpUserDefinedCodeFrame = new FunctionModel();
+            var tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushValFromVar;
+            tmpCommand.Key = keyKey;
+            tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.ReturnValue;
+            tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
+
+            filter = new CommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = openKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new CommandFilterParam()
+            {
+            });
+
+            var tmpUserDefinedFunctionModel = new UserDefinedFunctionModel();
+
+            tmpUserDefinedFunctionModel.Filter = filter;
+            tmpUserDefinedFunctionModel.FunctionModel = tmpUserDefinedCodeFrame;
+
+            userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
+
+            filter = new CommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new CommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_1;
+
+            GnuClayEngine.AddRemoteFunction(filter);
+
+            filter = new CommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new CommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_2;
+
+            GnuClayEngine.AddRemoteFunction(filter);
+
+            filter = new CommandFilter();
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = remoteKey;
+            filter.TargetKey = doorKey;
+
+            filter.Params.Add(keyKey, new CommandFilterParam()
+            {
+            });
+
+            filter.Handler = FakeRemoteHandler_3;
+
+            GnuClayEngine.AddRemoteFunction(filter);
+
+            var tmpCodeFrame = new FunctionModel();
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.Key = openKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = keyKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetValToVar;
+            tmpCommand.Key = resultVarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = plusKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetValToVar;
+            tmpCommand.Key = result_2_VarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = consoleKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethodOfPrevEntity;
+            tmpCommand.Key = logKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushValFromVar;
+            tmpCommand.Key = result_2_VarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallAsyncByPos;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.Key = remoteKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = keyKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+
+            var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End RunMiddleScript resultOfCalling = {resultOfCalling}");
+*/

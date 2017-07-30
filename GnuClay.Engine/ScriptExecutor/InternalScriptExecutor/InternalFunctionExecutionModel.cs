@@ -105,8 +105,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public void NProcessParam()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin NProcessParam");
-
+#endif
             if (IsCalledByNamedParameters.Value)
             {
                 var tmpNamedParamInfo = new NamedParamInfo();
@@ -119,16 +120,17 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
             CurrentPositionOfParam++;
-
             var tmpPositiondedParamInfo = new PositionParamInfo();
             tmpPositiondedParamInfo.ParamValue = CurrentParamValue;
             tmpPositiondedParamInfo.Position = CurrentPositionOfParam;
-
             PositionedParams.Add(tmpPositiondedParamInfo);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End NProcessParam");
+#endif
         }
 
+#if DEBUG
         public string ToDbgString()
         {
             var tmpSb = new StringBuilder();
@@ -183,12 +185,13 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
             tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");
-
             tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
 
             return tmpSb.ToString();
         }
+#endif
 
+#if DEBUG
         public void RunDbg()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RunDbg");
@@ -199,6 +202,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 NRun();
             }
         }
+#endif
 
         private bool mIsRun = true;
 
@@ -210,7 +214,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ExitWithError(IValue error)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error}");
+#endif
             mIsRun = false;
             mEntityAction.State = EntityActionState.Faulted;
             mEntityAction.Error = error;
@@ -218,8 +224,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ExitWithResult(IValue result)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result}");
-
+#endif
             mIsRun = false;
             mEntityAction.State = EntityActionState.Completed;
             mEntityAction.Result = result;
@@ -229,16 +236,18 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void NRun()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("NRun");
-
+#endif
             if (mCurrentCommand == null)
             {
                 Exit();
                 return;
             }
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"NRun Item {mCurrentCommand.ToDbgString()}");
-
+#endif
             var operationCode = mCurrentCommand.OperationCode;
 
             switch (operationCode)
@@ -346,168 +355,211 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 default: throw new ArgumentOutOfRangeException(nameof(operationCode), operationCode, null);
             }
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"NRun ToDbgString = {ToDbgString()}");
+#endif
         }
 
         private void ProcessNop()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessNop");
-
+#endif
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessNop");
+#endif
         }
 
         private void ProcessPushConst()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushConst");
-
+#endif
             var value = mMainContext.ConstTypeProvider.CreateConstValue(mCurrentCommand.Key, mCurrentCommand.Value);
             ValuesStack.Push(value);
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushConst");
+#endif
         }
 
         private void ProcessPushEntity()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushEntity");
-
+#endif
             var value = new EntityValue(mCurrentCommand.Key);
             ValuesStack.Push(value);
 
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushEntity");
+#endif
         }
 
         private void ProcessPushProp()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushProp");
-
+#endif
             throw new NotImplementedException();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushProp");
+#endif
         }
 
         private void ProcessPushVar()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushVar");
-
+#endif
             throw new NotImplementedException();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushVar");
+#endif
         }
 
         private void ProcessPushValFromProp()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromProp");
+#endif
+            var tmpHolder = ValuesStack.Peek();
+            var propertyKey = mCurrentCommand.Key;
+            var resultOfCalling = mMainContext.PropertiesEngine.CallGetProperty(tmpHolder, propertyKey);
 
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushValFromProp resultOfCalling = {resultOfCalling}");
+#endif
+            PostProcessCall(resultOfCalling);
             throw new NotImplementedException();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromProp");
+#endif
         }
 
         private void ProcessPushValFromVar()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromVar");
-
+#endif
             var varKey = mCurrentCommand.Key;
-
             var tmpValue = mExecutionContext.ContextOfVariables.GetValue(varKey);
-
             ValuesStack.Push(tmpValue);
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromVar");
+#endif
         }
 
         private void ProcessSetValToProp()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetValToProp");
-
+#endif
             throw new NotImplementedException();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetValToProp");
+#endif
         }
 
         private void ProcessSetValToVar()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetValToVar");
-
+#endif
             var varKey = mCurrentCommand.Key;
             var tmpValue = ValuesStack.Peek();
-
             mExecutionContext.ContextOfVariables.SetValue(varKey, tmpValue);
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetValToVar");
+#endif
         }
 
         private void ProcessBeginCall()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCall");
+#endif
 
             NBeginCall();
 
             throw new NotImplementedException();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCall");
+#endif
         }
 
         private void ProcessBeginCallMethod()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethod");
-
+#endif
             NBeginCall();
-
             var functionValue = new EntityValue(mCurrentCommand.Key);
-
             CurrentFunction = functionValue;
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethod");
+#endif
         }
 
         private void ProcessBeginCallMethodOfPrevEntity()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethodOfPrevEntity");
-
+#endif
             NBeginCall();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
-
+#endif
             CurrentHolder = ValuesStack.Pop();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
-
+#endif
             var functionValue = new EntityValue(mCurrentCommand.Key);
-
             CurrentFunction = functionValue;
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethodOfPrevEntity");
+#endif
         }
 
         private void ProcessSetTarget()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetTarget");
-
+#endif
             var targetValue = ValuesStack.Pop();
             Target = targetValue.TypeKey;
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetTarget");
+#endif
         }
 
         private void ProcessSetParamName()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamName");
-
+#endif
             if (IsCalledByNamedParameters == null)
             {
                 IsCalledByNamedParameters = true;
@@ -530,21 +582,24 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             var tmpVal = ValuesStack.Pop();
             CurrentParamName = tmpVal;
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamName");
+#endif
         }
 
         private void ProcessSetParamVal()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamVal");
-
+#endif
             NProcessSetParamVal();
-
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamVal");
+#endif
         }
 
         private void NProcessSetParamVal()
@@ -562,98 +617,102 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
             IsSetParamName = false;
-
             var tmpVal = ValuesStack.Pop();
             CurrentParamValue = tmpVal;
-
             NProcessParam();
         }
 
         private void ProcessCallUnOp()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallUnOp");
-
+#endif
             NBeginCall();
-
             NProcessSetParamVal();
-
             CurrentFunction = new EntityValue(mCurrentCommand.Key);
-
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallUnOp");
+#endif
         }
 
         private void ProcessCallBinOp()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallBinOp");
-
+#endif
             NBeginCall();
-
             NProcessSetParamVal();
-
             NProcessSetParamVal();
-
             CurrentFunction = new EntityValue(mCurrentCommand.Key);
-
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallBinOp");
+#endif
         }
 
         private void ProcessCall()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCall");
-
+#endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, NamedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCall");
+#endif
         }
 
         private void ProcessCallByPos()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
-
+#endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallByPos");
+#endif
         }
 
         private void ProcessCallAsync()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsync");
-
+#endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, NamedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsync");
+#endif
         }
 
         private void ProcessCallAsyncByPos()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsyncByPos");
-
+#endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
-
             PostProcessCall(resultOfCalling);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsyncByPos");
+#endif
         }
 
         private void PostProcessCall(ResultOfCalling resultOfCalling)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");
             NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall resultOfCalling = {resultOfCalling}");
-
+#endif
             if (!resultOfCalling.Success)
             {
                 ExitWithError(resultOfCalling.Error);
@@ -663,48 +722,61 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             ValuesStack.Push(resultOfCalling.Result);
             mCurrentCommand = mCurrentCommand.Next;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall");
+#endif
         }
 
         private void ProcessJumpIfFalse()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJumpIfFalse");
-
+#endif
             throw new NotImplementedException();
-
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfFalse");
+#endif
         }
 
         private void ProcessJump()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJump");
-
+#endif
             throw new NotImplementedException();
-
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJump");
+#endif
         }
 
         private void ProcessReturn()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturn");
-
+#endif
             Exit();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturn");
+#endif
         }
 
         private void ProcessReturnValue()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturnValue");
-
+#endif
             var tmpValue = ValuesStack.Pop();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity tmpValue = {tmpValue}");
-
+#endif
             ExitWithResult(tmpValue);
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturnValue");
+#endif
         }
     }
 }

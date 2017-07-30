@@ -24,13 +24,9 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         private ulong mTypeKey = 0;
 
-        public ulong TypeKey
-        {
-            get
-            {
-                return mTypeKey;
-            }
-        }
+        public ulong TypeKey => mTypeKey;
+
+        public bool IsProperty => false;
 
         public ulong GetLongHashCode()
         {

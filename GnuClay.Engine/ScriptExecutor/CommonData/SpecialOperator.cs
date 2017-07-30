@@ -10,7 +10,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public ulong FunctionKey { get; set; }
         public KindOfLogicalOperator KindOfLogicalOperator { get; set; } = KindOfLogicalOperator.Unknown;
-
+        public ulong PrimaryFunctionKey { get; set; }
+        public ulong SecondFunctionKey { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
