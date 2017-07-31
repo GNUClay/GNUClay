@@ -13,25 +13,17 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mTypeKey = typeKey;
         }
 
-        public KindOfValue Kind
-        {
-            get
-            {
-                return KindOfValue.System;
-            }
-        }
+        public KindOfValue Kind => KindOfValue.System;
 
         private ulong mTypeKey = 0;
 
-        public ulong TypeKey
-        {
-            get
-            {
-                return mTypeKey;
-            }
-        }
+        public ulong TypeKey => mTypeKey;
 
         public bool IsProperty => false;
+
+        public bool IsVariable => false;
+
+        public bool IsValueContainer => false;
 
         public abstract ulong GetLongHashCode();
 

@@ -452,6 +452,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
             var varKey = mCurrentCommand.Key;
             var tmpValue = mExecutionContext.ContextOfVariables.GetValue(varKey);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushValFromVar tmpValue = {tmpValue}");
+#endif
+
             ValuesStack.Push(tmpValue);
             mCurrentCommand = mCurrentCommand.Next;
 

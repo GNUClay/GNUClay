@@ -22,11 +22,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                //RunMiddleScript();
+                RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
                 //TstWorkWithProperties();
-                TSTRunCodeWithProperties();
+                //TSTRunCodeWithProperties();
             }
             catch (Exception e)
             {

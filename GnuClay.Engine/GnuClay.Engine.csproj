@@ -120,6 +120,7 @@
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
     <Compile Include="ScriptExecutor\CommonData\PropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\SpecialOperator.cs" />
+    <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
