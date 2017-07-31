@@ -18,12 +18,26 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private ulong mTypeKey = 0;
 
         public ulong TypeKey => mTypeKey;
-
         public bool IsProperty => false;
-
         public bool IsVariable => false;
 
         public bool IsValueContainer => false;
+        public IValue ValueOfContainer
+        {
+            get
+            {
+                return this;
+            }
+
+            set
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public bool IsNull => false;
+        public bool IsUndefined => false;
+        public bool IsNullOrUndefined => false;
 
         public abstract ulong GetLongHashCode();
 

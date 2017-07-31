@@ -34,6 +34,25 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public bool IsProperty => false;
 
+        public bool IsVariable => false;
+        public bool IsValueContainer => false;
+        public IValue ValueOfContainer
+        {
+            get
+            {
+                return this;
+            }
+
+            set
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public bool IsNull => false;
+        public bool IsUndefined => false;
+        public bool IsNullOrUndefined => false;
+
         protected object Value { get; private set; } = null;
 
         public virtual ulong GetLongHashCode()

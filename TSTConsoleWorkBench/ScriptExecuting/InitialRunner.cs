@@ -220,6 +220,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
 
+            var assignKey = GnuClayEngine.DataDictionary.GetKey("=");
+
             mainContext = GnuClayEngine.Context;
 
             var functionProvider = mainContext.FunctionsEngine;
@@ -332,6 +334,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var tmpCodeFrame = new FunctionModel();
 
             tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushVar;
+            tmpCommand.Key = resultVarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.BeginCallMethod;
             tmpCommand.Key = openKey;
             tmpCodeFrame.AddCommand(tmpCommand);
@@ -369,6 +376,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = assignKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+            
+            /*tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.SetValToVar;
             tmpCommand.Key = resultVarKey;
             tmpCodeFrame.AddCommand(tmpCommand);
@@ -453,7 +465,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.Call;
-            tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCodeFrame.AddCommand(tmpCommand);*/
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 

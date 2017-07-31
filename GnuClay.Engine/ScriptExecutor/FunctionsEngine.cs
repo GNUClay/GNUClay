@@ -171,6 +171,17 @@ namespace GnuClay.Engine.ScriptExecutor
 #endif
         }
 
+        public ResultOfCalling CallBinaryOperator(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallBinaryOperator function = {function} holder = {holder} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
+#endif
+
+
+
+            throw new NotImplementedException();
+        }
+
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
             var executionContext = CreateEmptyExecutionContext();
@@ -210,7 +221,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private GnuClayThreadExecutionContext CreateEmptyExecutionContext()
         {
             var executionContext = new GnuClayThreadExecutionContext();
-            executionContext.ContextOfVariables = new ContextOfVariables();
+            executionContext.ContextOfVariables = new ContextOfVariables(Context);
             return executionContext;
         }
 

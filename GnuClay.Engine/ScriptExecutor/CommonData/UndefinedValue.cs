@@ -1,20 +1,19 @@
-﻿using GnuClay.Engine.ScriptExecutor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.StandardLibrary.SupportingMachines
+namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
-    public class EntityValue : IValue
+    public class UndefinedValue: IValue
     {
-        public EntityValue(ulong typeKey)
+        public UndefinedValue(ulong typeKey)
         {
             mTypeKey = typeKey;
         }
 
-        public KindOfValue Kind => KindOfValue.Logical;
+        public KindOfValue Kind => KindOfValue.Value;
 
         private ulong mTypeKey = 0;
 
@@ -37,8 +36,8 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         }
 
         public bool IsNull => false;
-        public bool IsUndefined => false;
-        public bool IsNullOrUndefined => false;
+        public bool IsUndefined => true;
+        public bool IsNullOrUndefined => true;
 
         public ulong GetLongHashCode()
         {
@@ -50,7 +49,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty action = {action} kindOfLogicalOperators = {kindOfLogicalOperators}");
 #endif
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ExecuteGetLogicalProperty(PropertyAction action)
@@ -58,7 +57,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteGetLogicalProperty action = {action}");
 #endif
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"EntityValue {nameof(TypeKey)} = {TypeKey}";
+            return $"UndefinedValue {nameof(TypeKey)} = {TypeKey}";
         }
     }
 }

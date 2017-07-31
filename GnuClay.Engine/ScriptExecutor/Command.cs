@@ -24,7 +24,17 @@ namespace GnuClay.Engine.ScriptExecutor
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return _ObjectHelper.PrintJsonToStringInformation(this);
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"{nameof(ExecutionContext)} = {ExecutionContext}");
+            sb.AppendLine($"{nameof(Function)} = {Function}");
+            sb.AppendLine($"{nameof(Holder)} = {Holder}");
+            sb.AppendLine($"{nameof(TargetKey)} = {TargetKey}");
+            sb.AppendLine($"{nameof(PositionedParams)} = {_ListHelper._ToString(PositionedParams)}");
+            sb.AppendLine($"{nameof(NamedParams)} = {_ListHelper._ToString(NamedParams)}");
+            sb.AppendLine($"{nameof(IsCallByNamedParams)} = {IsCallByNamedParams}");
+
+            return sb.ToString();
         }
 
         public ulong GetLongHashCode()

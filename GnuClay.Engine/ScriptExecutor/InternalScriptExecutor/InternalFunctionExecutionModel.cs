@@ -418,7 +418,16 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushVar");
 #endif
-            throw new NotImplementedException();
+
+            var varKey = mCurrentCommand.Key;
+            var tmpVar = mExecutionContext.ContextOfVariables.GetVariable(varKey);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushVar tmpVar = {tmpVar}");
+#endif
+
+            ValuesStack.Push(tmpVar);
+            mCurrentCommand = mCurrentCommand.Next;
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushVar");
@@ -623,7 +632,20 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             IsSetParamName = false;
             var tmpVal = ValuesStack.Pop();
-            CurrentParamValue = tmpVal;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"NProcessSetParamVal tmpVal = {tmpVal}");
+#endif
+
+            if (tmpVal.IsValueContainer)
+            {
+                CurrentParamValue = tmpVal.ValueOfContainer;
+            }
+            else
+            {
+                CurrentParamValue = tmpVal;
+            }
+            
             NProcessParam();
         }
 
@@ -652,7 +674,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NProcessSetParamVal();
             NProcessSetParamVal();
             CurrentFunction = new EntityValue(mCurrentCommand.Key);
-            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallBinaryOperator(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
             PostProcessCall(resultOfCalling);
 
 #if DEBUG

@@ -116,7 +116,7 @@ namespace GnuClay.Engine
             mComponents.Add(mContext.PropertiesEngine);
 
             mContext.CommonValuesFactory = new CommonValuesFactory(mContext);
-            mComponents.Add(mContext.PropertiesEngine);
+            mComponents.Add(mContext.CommonValuesFactory);
         }
 
         private List<BaseGnuClayEngineComponent> mComponents = new List<BaseGnuClayEngineComponent>();

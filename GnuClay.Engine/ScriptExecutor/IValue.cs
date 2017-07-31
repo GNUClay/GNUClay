@@ -14,6 +14,9 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsVariable { get; }
         bool IsValueContainer { get; }
         IValue ValueOfContainer { get; set; }
+        bool IsNull { get; }
+        bool IsUndefined { get; }
+        bool IsNullOrUndefined { get; }
 
         void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators);
         void ExecuteGetLogicalProperty(PropertyAction action);

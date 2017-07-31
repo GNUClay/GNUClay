@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -27,7 +28,7 @@ namespace GnuClay.Engine.ScriptExecutor
             mUndefinedTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
             Context.InheritanceEngine.SetInheritance(mUndefinedTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
 
-            mUndefinedValue = new EntityValue(mUndefinedTypeKey);
+            mUndefinedValue = new UndefinedValue(mUndefinedTypeKey);
         }
 
         public IValue UndefinedValue()

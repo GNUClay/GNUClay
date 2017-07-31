@@ -10,7 +10,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public VariableValue(IValue value)
         {
-            Value = value;
+            ValueOfContainer = value;
         }
 
         private IValue mValue = null;
@@ -62,13 +62,17 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             }
         }
 
+        public bool IsNull => throw new NotImplementedException();
+        public bool IsUndefined => throw new NotImplementedException();
+        public bool IsNullOrUndefined => throw new NotImplementedException();
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"Variable Value = {mValue};";
+            return $"Variable Value = {mValue}";
         }
     }
 }
