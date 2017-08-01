@@ -272,22 +272,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessPushVar();
                     break;
 
-                case OperationCode.PushValFromProp:
-                    ProcessPushValFromProp();
-                    break;
-
-                case OperationCode.PushValFromVar:
-                    ProcessPushValFromVar();
-                    break;
-
-                case OperationCode.SetValToProp:
-                    ProcessSetValToProp();
-                    break;
-
-                case OperationCode.SetValToVar:
-                    ProcessSetValToVar();
-                    break;
-
                 case OperationCode.BeginCall:
                     ProcessBeginCall();
                     break;
@@ -406,7 +390,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushProp");
 #endif
-            throw new NotImplementedException();
+
+            var tmpHolder = ValuesStack.Pop();
+            var propertyKey = mCurrentCommand.Key;
+            var resultOfCalling = mMainContext.PropertiesEngine.FindProperty(tmpHolder, propertyKey);
+            PostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushProp");
@@ -431,73 +419,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushVar");
-#endif
-        }
-
-        private void ProcessPushValFromProp()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromProp");
-#endif
-            var tmpHolder = ValuesStack.Peek();
-            var propertyKey = mCurrentCommand.Key;
-            var resultOfCalling = mMainContext.PropertiesEngine.CallGetProperty(tmpHolder, propertyKey);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushValFromProp resultOfCalling = {resultOfCalling}");
-#endif
-            PostProcessCall(resultOfCalling);
-            throw new NotImplementedException();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromProp");
-#endif
-        }
-
-        private void ProcessPushValFromVar()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushValFromVar");
-#endif
-            var varKey = mCurrentCommand.Key;
-            var tmpValue = mExecutionContext.ContextOfVariables.GetValue(varKey);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushValFromVar tmpValue = {tmpValue}");
-#endif
-
-            ValuesStack.Push(tmpValue);
-            mCurrentCommand = mCurrentCommand.Next;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushValFromVar");
-#endif
-        }
-
-        private void ProcessSetValToProp()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetValToProp");
-#endif
-            throw new NotImplementedException();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetValToProp");
-#endif
-        }
-
-        private void ProcessSetValToVar()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetValToVar");
-#endif
-            var varKey = mCurrentCommand.Key;
-            var tmpValue = ValuesStack.Peek();
-            mExecutionContext.ContextOfVariables.SetValue(varKey, tmpValue);
-            mCurrentCommand = mCurrentCommand.Next;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetValToVar");
 #endif
         }
 
@@ -637,15 +558,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NLog.LogManager.GetCurrentClassLogger().Info($"NProcessSetParamVal tmpVal = {tmpVal}");
 #endif
 
-            if (tmpVal.IsValueContainer)
-            {
-                CurrentParamValue = tmpVal.ValueOfContainer;
-            }
-            else
-            {
-                CurrentParamValue = tmpVal;
-            }
-            
+            CurrentParamValue = tmpVal;
+
             NProcessParam();
         }
 
@@ -814,6 +728,16 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {ToDbgString()}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity tmpValue = {tmpValue}");
 #endif
+            
+            if(tmpValue.IsValueContainer)
+            {
+                tmpValue = tmpValue.ValueFromContainer;
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity NEXT tmpValue = {tmpValue}");
+#endif
+
             ExitWithResult(tmpValue);
 
 #if DEBUG

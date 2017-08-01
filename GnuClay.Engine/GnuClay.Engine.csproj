@@ -117,9 +117,10 @@
     <Compile Include="ScriptExecutor\CommandFilterParam.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseSystemType.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseValueType.cs" />
+    <Compile Include="ScriptExecutor\CommonData\InternalCallException.cs" />
     <Compile Include="ScriptExecutor\CommonData\FunctionModel.cs" />
-    <Compile Include="ScriptExecutor\CommonData\PropertyValue.cs" />
-    <Compile Include="ScriptExecutor\CommonData\SpecialOperator.cs" />
+    <Compile Include="ScriptExecutor\CommonData\LogicalPropertyValue.cs" />
+    <Compile Include="ScriptExecutor\CommonData\SystemPropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\UndefinedValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />

@@ -37,26 +37,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         PushVar,
 
         /// <summary>
-        /// Push value of property to the stack.
-        /// </summary>
-        PushValFromProp,
-
-        /// <summary>
-        /// Push value of variable to the stack.
-        /// </summary>
-        PushValFromVar,
-
-        /// <summary>
-        /// Set value from the stack to the property.
-        /// </summary>
-        SetValToProp,
-
-        /// <summary>
-        /// Set value from the stack to the variable.
-        /// </summary>
-        SetValToVar,
-
-        /// <summary>
         /// Begin calling current value of the stack as a function.
         /// </summary>
         BeginCall,

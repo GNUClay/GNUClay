@@ -30,29 +30,17 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return mVariablesDict[variableKey];
             }
 
-            var tmpVariable = new VariableValue(mUndefinedValue);
+            return CreateVariable(variableKey, mUndefinedValue);
+        }
+
+        public IValue CreateVariable(ulong variableKey, IValue variableValue)
+        {
+            var tmpVariable = new VariableValue(variableValue);
             mVariablesDict[variableKey] = tmpVariable;
 
             return tmpVariable;
         }
 
-        public void SetValue(ulong variableKey, IValue value)
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetValue variableKey = {variableKey} value = {value}");
-#endif
-            mVariablesValuesDict[variableKey] = value;
-        }
-
-        public IValue GetValue(ulong variableKey)
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetValue variableKey = {variableKey}");
-#endif
-            return mVariablesValuesDict[variableKey];
-        }
-
-        private Dictionary<ulong, IValue> mVariablesValuesDict = new Dictionary<ulong, IValue>();
         private Dictionary<ulong, IValue> mVariablesDict = new Dictionary<ulong, IValue>();
 
 #if DEBUG
@@ -68,15 +56,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
             tmpSb.AppendLine("End Variables");
-
-            tmpSb.AppendLine("Begin Variable Value");
-
-            foreach (var kvpItem in mVariablesValuesDict)
-            {
-                tmpSb.AppendLine($"key = {kvpItem.Key} value = {kvpItem.Value}");
-            }
-
-            tmpSb.AppendLine("End Variable Value");
 
             return tmpSb.ToString();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsVariable => false;
 
         public bool IsValueContainer => false;
-        public IValue ValueOfContainer
+        public IValue ValueFromContainer
         {
             get
             {
@@ -41,12 +42,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public abstract ulong GetLongHashCode();
 
-        public void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExecuteGetLogicalProperty(PropertyAction action)
+        public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
         {
             throw new NotImplementedException();
         }

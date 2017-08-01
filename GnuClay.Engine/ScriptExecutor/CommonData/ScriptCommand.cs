@@ -15,6 +15,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public ulong Key = 0;
         public object Value = null;
 
+#if DEBUG
         public string ToDbgString()
         {
             switch (OperationCode)
@@ -32,18 +33,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                     return $"{OperationCode}: {Key}";
 
                 case OperationCode.PushVar:
-                    return $"{OperationCode}: {Key}";
-
-                case OperationCode.PushValFromProp:
-                    return $"{OperationCode}: {Key}";
-
-                case OperationCode.PushValFromVar:
-                    return $"{OperationCode}: {Key}";
-
-                case OperationCode.SetValToProp:
-                    return $"{OperationCode}: {Key}";
-
-                case OperationCode.SetValToVar:
                     return $"{OperationCode}: {Key}";
 
                 case OperationCode.BeginCall:
@@ -97,6 +86,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 default: throw new ArgumentOutOfRangeException(nameof(OperationCode), OperationCode, null);
             }
         }
+#endif
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

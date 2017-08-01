@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,11 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsProperty { get; }
         bool IsVariable { get; }
         bool IsValueContainer { get; }
-        IValue ValueOfContainer { get; set; }
+        IValue ValueFromContainer { get; set; }
         bool IsNull { get; }
         bool IsUndefined { get; }
         bool IsNullOrUndefined { get; }
 
-        void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators);
-        void ExecuteGetLogicalProperty(PropertyAction action);
+        ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators);
     }
 }

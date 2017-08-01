@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public VariableValue(IValue value)
         {
-            ValueOfContainer = value;
+            ValueFromContainer = value;
         }
 
         private IValue mValue = null;
@@ -27,12 +28,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public bool IsValueContainer => true;
 
-        public void ExecuteGetLogicalProperty(PropertyAction action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators)
+        public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +38,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             return mValue.GetLongHashCode();
         }
 
-        public IValue ValueOfContainer
+        public IValue ValueFromContainer
         {
             get
             {
@@ -62,9 +58,9 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             }
         }
 
-        public bool IsNull => throw new NotImplementedException();
-        public bool IsUndefined => throw new NotImplementedException();
-        public bool IsNullOrUndefined => throw new NotImplementedException();
+        public bool IsNull => false;
+        public bool IsUndefined => false;
+        public bool IsNullOrUndefined => false;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

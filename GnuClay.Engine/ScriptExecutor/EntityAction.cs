@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,19 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public IValue Result { get; set; }
         public IValue Error { get; set; }
+
+        public void AppendResultOfResultOfCalling(ResultOfCalling resultOfCalling)
+        {
+            if(resultOfCalling.Success)
+            {
+                Result = resultOfCalling.Result;
+                State = EntityActionState.Completed;
+                return;
+            }
+
+            Error = resultOfCalling.Error;
+            State = EntityActionState.Faulted;
+        }
 
         public ulong Initiator { get; set; }
         public List<ulong> InitiatedActions { get; set; } = new List<ulong>();

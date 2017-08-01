@@ -22,11 +22,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                RunMiddleScript();
+                //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
                 //TstWorkWithProperties();
-                //TSTRunCodeWithProperties();
+                TSTRunCodeWithProperties();
             }
             catch (Exception e)
             {
@@ -283,7 +283,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.PushValFromVar;
+            tmpCommand.OperationCode = OperationCode.PushVar;
             tmpCommand.Key = keyKey;
             tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
@@ -393,10 +393,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand.OperationCode = OperationCode.CallBinOp;
             tmpCommand.Key = assignKey;
             tmpCodeFrame.AddCommand(tmpCommand);
-            
-            /*tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetValToVar;
-            tmpCommand.Key = resultVarKey;
+
+            tmpCommand.OperationCode = OperationCode.PushVar;
+            tmpCommand.Key = result_2_VarKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -417,8 +416,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetValToVar;
-            tmpCommand.Key = result_2_VarKey;
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = assignKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -432,7 +431,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.PushValFromVar;
+            tmpCommand.OperationCode = OperationCode.PushVar;
             tmpCommand.Key = result_2_VarKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
@@ -479,7 +478,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.Call;
-            tmpCodeFrame.AddCommand(tmpCommand);*/
+            tmpCodeFrame.AddCommand(tmpCommand);
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
 
@@ -504,7 +503,49 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var command = action.Command;
 
-            //var leftParam = command.NamedParams[];
+            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
+            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign param_1_Key = {param_1_Key} param_2_Key = {param_2_Key}");
+
+            var leftParam = command.GetParam(param_1_Key);
+            var rightParam = command.GetParamValue(param_2_Key);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign leftParam = {leftParam}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign rightParam = {rightParam}");
+
+            if(leftParam.IsVariable)
+            {
+                leftParam.ValueFromContainer = rightParam;
+                action.Result = rightParam;
+                action.State = EntityActionState.Completed;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAssign (1) action = {action}");
+
+                return;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NEXT FakeAssign action = {action}");
+
+            if(leftParam.IsProperty)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign IsProperty action = {action}");
+
+                if(leftParam.Kind == KindOfValue.Logical)
+                {
+                    var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.INSERT_DISTINCT_FACT_RETURN_VALUE);
+
+                    NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign resultOfCalling = {resultOfCalling}");
+
+                    action.AppendResultOfResultOfCalling(resultOfCalling);
+
+                    return;
+                }
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign IsProperty action = {action}");
+
+                throw new NotImplementedException();
+            }
 
             throw new NotImplementedException();
 
@@ -518,10 +559,13 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
 
-            var actionCommand = action.Command;
+            var command = action.Command;
 
-            var tmpParam_1 = (NumberValue)actionCommand.PositionedParams[0].ParamValue;
-            var tmpParam_2 = (NumberValue)actionCommand.PositionedParams[1].ParamValue;
+            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
+            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+
+            var tmpParam_1 = (NumberValue)command.GetParamValue(param_1_Key);
+            var tmpParam_2 = (NumberValue)command.GetParamValue(param_2_Key);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_1 = {tmpParam_1}");
             NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_2 = {tmpParam_2}");
@@ -671,10 +715,28 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var colorKey = GnuClayEngine.DataDictionary.GetKey("color");
             var redKey = GnuClayEngine.DataDictionary.GetKey("red");
             var var_1_Key = GnuClayEngine.DataDictionary.GetKey("$var_1");
+            var assignKey = GnuClayEngine.DataDictionary.GetKey("=");
+            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
+            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+            var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
 
             mainContext = GnuClayEngine.Context;
             var functionProvider = mainContext.FunctionsEngine;
 
+            var filter = new CommandFilter();
+            filter.Handler = FakeAssign;
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = assignKey;
+
+            filter.Params.Add(param_1_Key, new CommandFilterParam()
+            {
+            });
+
+            filter.Params.Add(param_2_Key, new CommandFilterParam()
+            {
+            });
+
+            functionProvider.AddFilter(filter);
 
             var tmpCodeFrame = new FunctionModel();
 
@@ -684,8 +746,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.PushValFromProp;
+            tmpCommand.OperationCode = OperationCode.PushProp;
             tmpCommand.Key = colorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = colorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = assignKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);

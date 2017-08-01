@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,26 +8,20 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
-    public class PropertyValue : IValue
+    public class SystemPropertyValue : IValue
     {
-        public PropertyValue(ulong typeKey, PropertyFilter targetExecutor, bool isLogical)
+        public SystemPropertyValue(ulong typeKey, PropertyFilter targetExecutor, IValue holder, GnuClayEngineComponentContext context)
         {
             mTypeKey = typeKey;
             mTargetExecutor = targetExecutor;
-
-            if(isLogical)
-            {
-                mKindOfValue = KindOfValue.Logical;
-            }
-            else
-            {
-                mKindOfValue = KindOfValue.System;
-            }
+            mHolder = holder;
+            mContect = context;
         }
 
-        private KindOfValue mKindOfValue = KindOfValue.Undefined;
+        private GnuClayEngineComponentContext mContect = null;
+        private IValue mHolder = null;
 
-        public KindOfValue Kind => mKindOfValue;
+        public KindOfValue Kind => KindOfValue.System;
 
         private ulong mTypeKey = 0;
 
@@ -34,7 +30,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsProperty => true;
         public bool IsVariable => false;
         public bool IsValueContainer => true;
-        public IValue ValueOfContainer
+        public IValue ValueFromContainer
         {
             get
             {
@@ -46,18 +42,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 throw new NotImplementedException();
             }
         }
-        public bool IsNull => throw new NotImplementedException();
-        public bool IsUndefined => throw new NotImplementedException();
-        public bool IsNullOrUndefined => throw new NotImplementedException();
+        public bool IsNull => false;
+        public bool IsUndefined => false;
+        public bool IsNullOrUndefined => false;
 
         private PropertyFilter mTargetExecutor = null;
 
-        public void ExecuteGetLogicalProperty(PropertyAction action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExecuteSetLogicalProperty(PropertyAction action, KindOfLogicalOperator kindOfLogicalOperators)
+        public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
         {
             throw new NotImplementedException();
         }
@@ -73,7 +64,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"PropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}";
+            return $"SystemPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; Holder = {mHolder}";
         }
     }
 }

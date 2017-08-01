@@ -17,6 +17,37 @@ namespace GnuClay.Engine.ScriptExecutor
         public List<PositionParamInfo> PositionedParams { get; set; }
         public List<NamedParamInfo> NamedParams { get; set; }
         public bool IsCallByNamedParams { get; set; }
+        public Dictionary<ulong, IValue> NamedParamsDict { get; set; }
+        public void CreateParamsDict()
+        {
+            if(NamedParamsDict == null)
+            {
+                NamedParamsDict = new Dictionary<ulong, IValue>();
+            }
+            else
+            {
+                NamedParamsDict.Clear();
+            }
+
+            NamedParamsDict = NamedParams.ToDictionary(p => p.ParamName.TypeKey, p => p.ParamValue);
+        }
+
+        public IValue GetParam(ulong key)
+        {
+            return NamedParamsDict[key];
+        }
+
+        public IValue GetParamValue(ulong key)
+        {
+            var value = NamedParamsDict[key];
+
+            if(value.IsValueContainer)
+            {
+                return value.ValueFromContainer;
+            }
+
+            return value;
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
