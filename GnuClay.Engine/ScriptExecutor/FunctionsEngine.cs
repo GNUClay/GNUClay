@@ -96,7 +96,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private void FillVariablesByNamedParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams entityAction = {entityAction}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams filter = {filter}");
 #endif
             var tmpFilterParameters = filter.Params;
@@ -136,7 +136,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private void FillVariablesByPositionedParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams filter = {filter}");
 
             //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
@@ -169,17 +169,6 @@ namespace GnuClay.Engine.ScriptExecutor
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
 #endif
-        }
-
-        public ResultOfCalling CallBinaryOperator(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"CallBinaryOperator function = {function} holder = {holder} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
-#endif
-
-
-
-            throw new NotImplementedException();
         }
 
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
@@ -311,6 +300,9 @@ namespace GnuClay.Engine.ScriptExecutor
             }
 
             targetExecutor = targetExecutorsList.FirstOrDefault();
+
+            NormalizeCommandParams(command, targetExecutor);
+
             targetExecutor.Handler.Invoke(action);
 
             if(action.State == EntityActionState.Faulted)
@@ -324,6 +316,75 @@ namespace GnuClay.Engine.ScriptExecutor
                 mCommandFiltersCacheDict[commandHashCode] = targetExecutor;
             }
         }
+
+        /// <summary>
+        /// Translate positioned params to named params.
+        /// </summary>
+        /// <param name="command">Target command.</param>
+        /// <param name="targetExecutor">Evecutor for this command.</param>
+        private void NormalizeCommandParams(Command command, CommandFilter targetExecutor)
+        {
+            if(command.IsCallByNamedParams)
+            {
+                return;
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"NormalizeCommandParams command = {command}");
+#endif
+
+            var tmpFilterParameters = targetExecutor.Params;
+            var tmpCommandListEnumerator = command.PositionedParams.GetEnumerator();
+
+            foreach (var filterParamKVP in tmpFilterParameters)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"NormalizeCommandParams filterParamKVP = {filterParamKVP}");
+#endif
+            }
+
+            throw new NotImplementedException();
+        }
+
+        /*
+                private void FillVariablesByPositionedParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams entityAction = {entityAction}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParams filter = {filter}");
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams before executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
+            var tmpFilterParameters = filter.Params;
+            var tmpCommandListEnumerator = entityAction.Command.PositionedParams.GetEnumerator();
+
+            foreach (var filterParamKVP in tmpFilterParameters)
+            {
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByPositionedParam filterParamKVP = {filterParamKVP}");
+#endif
+                var paramKey = filterParamKVP.Key;
+
+                if (tmpCommandListEnumerator.MoveNext())
+                {
+                    var targetParamOfCommand = tmpCommandListEnumerator.Current;
+
+#if DEBUG
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams targetParamOfCommand = {targetParamOfCommand}");
+#endif
+                    executionContext.ContextOfVariables.SetValue(paramKey, targetParamOfCommand.ParamValue);
+
+                    continue;
+                }
+
+                throw new NotImplementedException();
+            }
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FillVariablesByNamedParams after executionContext.ContextOfVariables = {executionContext.ContextOfVariables.ToDbgString()}");
+#endif
+        }
+             */
 
         private ResultOfCalling ProcessSyncCall(Command command, EntityAction parentAction)
         {

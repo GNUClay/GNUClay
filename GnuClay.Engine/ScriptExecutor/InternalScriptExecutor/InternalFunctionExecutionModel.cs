@@ -649,6 +649,19 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NProcessParam();
         }
 
+        private void NRevertPosotionedParams()
+        {
+            PositionedParams.Reverse();
+
+            var n = 0;
+
+            foreach(var param in PositionedParams)
+            {
+                param.Position = n;
+                n++;
+            }
+        }
+
         private void ProcessCallUnOp()
         {
 #if DEBUG
@@ -673,8 +686,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NBeginCall();
             NProcessSetParamVal();
             NProcessSetParamVal();
+            NRevertPosotionedParams();
             CurrentFunction = new EntityValue(mCurrentCommand.Key);
-            var resultOfCalling = mMainContext.FunctionsEngine.CallBinaryOperator(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
             PostProcessCall(resultOfCalling);
 
 #if DEBUG
@@ -700,6 +714,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
 #endif
+            NRevertPosotionedParams();
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
             PostProcessCall(resultOfCalling);
 

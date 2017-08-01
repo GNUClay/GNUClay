@@ -266,6 +266,20 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             functionProvider.AddFilter(filter);
             functionProvider.AddFilter(filter);
 
+            filter = new CommandFilter();
+            filter.Handler = FakeAssign;
+            filter.HolderKey = selfKey;
+            filter.FunctionKey = assignKey;
+
+            filter.Params.Add(param_1_Key, new CommandFilterParam()
+            {
+            });
+
+            filter.Params.Add(param_2_Key, new CommandFilterParam()
+            {
+            });
+
+            functionProvider.AddFilter(filter);
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();
@@ -482,6 +496,22 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
+        }
+
+        private void FakeAssign(EntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAssign action = {action}");
+
+            var command = action.Command;
+
+            //var leftParam = command.NamedParams[];
+
+            throw new NotImplementedException();
+
+            action.Result = new EntityValue(15);
+            action.State = EntityActionState.Completed;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAssign action = {action}");
         }
 
         private void FakeAddOperator(EntityAction action)
