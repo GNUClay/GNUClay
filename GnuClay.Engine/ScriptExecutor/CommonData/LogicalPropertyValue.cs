@@ -34,7 +34,14 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             get
             {
-                throw new NotImplementedException();
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ValueFromContainer get IS NOT IMPLEMENTED YET");
+#endif
+                //throw new NotImplementedException();
+
+#if DEBUG
+                return new EntityValue(15);
+#endif
             }
 
             set
