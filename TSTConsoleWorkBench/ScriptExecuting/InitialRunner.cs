@@ -25,8 +25,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                 //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
-                //TstWorkWithProperties();
-                TSTRunCodeWithProperties();
+                TstWorkWithProperties();
+                //TSTRunCodeWithProperties();
             }
             catch (Exception e)
             {
@@ -542,17 +542,25 @@ namespace TSTConsoleWorkBench.ScriptExecuting
                     return;
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign IsProperty action = {action}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign NEXT IsProperty action = {action}");
 
-                throw new NotImplementedException();
+                try
+                {
+                    leftParam.ValueFromContainer = rightParam;
+
+                    action.Result = rightParam;
+                    action.State = EntityActionState.Completed;
+
+                    return;
+                }
+                catch(InternalCallException ice)
+                {
+                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    return;
+                }
             }
 
             throw new NotImplementedException();
-
-            action.Result = new EntityValue(15);
-            action.State = EntityActionState.Completed;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAssign action = {action}");
         }
 
         private void FakeAddOperator(EntityAction action)
@@ -641,6 +649,17 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var tmpValue = new EntityValue(15);
 
             var tmpHolder = new TstIterator(iteratorKey);
+
+            var prop = GnuClayEngine.Context.PropertiesEngine.FindProperty(tmpHolder, propertyKey);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties prop = {prop}");
+
+            var propInstance = prop.Result;
+
+            if (propInstance.Kind == KindOfValue.System)
+            {
+                propInstance.ValueFromContainer = tmpValue;
+            }
 
             var result = GnuClayEngine.Context.PropertiesEngine.CallSetProperty(tmpHolder, propertyKey, tmpValue);
 

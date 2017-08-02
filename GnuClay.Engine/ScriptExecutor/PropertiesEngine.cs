@@ -359,7 +359,7 @@ namespace GnuClay.Engine.ScriptExecutor
         //    }
         //}
 
-        private void CallSystemProperty(IValue holder, MethodInfo method, PropertyAction propertyAction)
+        public void CallSystemProperty(IValue holder, MethodInfo method, PropertyAction propertyAction)
         {
             var params_ = new object[1] { propertyAction };
             propertyAction.State = EntityActionState.Running;
@@ -371,7 +371,7 @@ namespace GnuClay.Engine.ScriptExecutor
             }
         }
 
-        private PropertyCommand CreateSetCommand(IValue holder, ulong propertyKey, IValue value)
+        public PropertyCommand CreateSetCommand(IValue holder, ulong propertyKey, IValue value)
         {
             var command = new PropertyCommand();
             command.IsGet = false;
@@ -381,7 +381,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return command;
         }
 
-        private PropertyCommand CreateGetCommand(IValue holder, ulong propertyKey)
+        public PropertyCommand CreateGetCommand(IValue holder, ulong propertyKey)
         {
             var command = new PropertyCommand();
             command.IsGet = true;
@@ -390,7 +390,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return command;
         }
 
-        private PropertyAction CreatePropertyAction(PropertyCommand command)
+        public PropertyAction CreatePropertyAction(PropertyCommand command)
         {
             var name = Guid.NewGuid().ToString("D");
             var key = Context.DataDictionary.GetKey(name);

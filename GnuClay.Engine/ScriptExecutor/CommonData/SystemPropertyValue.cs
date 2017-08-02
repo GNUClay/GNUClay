@@ -1,8 +1,10 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +17,15 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mTypeKey = typeKey;
             mTargetExecutor = targetExecutor;
             mHolder = holder;
+            mPropertyKey = mTargetExecutor.PropertyKey;
             mContect = context;
+            mPropertiesEngine = mContect.PropertiesEngine;
         }
 
         private GnuClayEngineComponentContext mContect = null;
+        private PropertiesEngine mPropertiesEngine = null;
         private IValue mHolder = null;
+        private ulong mPropertyKey = 0;
 
         public KindOfValue Kind => KindOfValue.System;
 
@@ -34,14 +40,26 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             get
             {
-                throw new NotImplementedException();
+                var command = mPropertiesEngine.CreateGetCommand(mHolder, mPropertyKey);
+                var propertyAction = mPropertiesEngine.CreatePropertyAction(command);
+                mPropertiesEngine.CallSystemProperty(mHolder, mTargetExecutor.GetMethod, propertyAction);
+
+                if(propertyAction.State == EntityActionState.Completed)
+                {
+                    return propertyAction.Result;
+                }
+
+                throw new InternalCallException(propertyAction.Error);
             }
 
             set
             {
-                throw new NotImplementedException();
+                var command = mPropertiesEngine.CreateSetCommand(mHolder, mPropertyKey, value);
+                var propertyAction = mPropertiesEngine.CreatePropertyAction(command);
+                mPropertiesEngine.CallSystemProperty(mHolder, mTargetExecutor.SetMethod, propertyAction);
             }
         }
+
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;

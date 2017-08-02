@@ -38,7 +38,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin SetCurrentValue action = {action}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin GetCurrentValue a = {a}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin SetCurrentValue a = {a}");
 
             a = 15;
 
