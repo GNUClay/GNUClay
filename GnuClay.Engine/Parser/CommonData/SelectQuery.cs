@@ -17,6 +17,7 @@ namespace GnuClay.Engine.Parser.CommonData
         /// Represents an selecting expression
         /// </summary>
         public ExpressionNode SelectedTree = null;
+        public bool SelectDirectFactsOnly = false;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -35,6 +36,7 @@ namespace GnuClay.Engine.Parser.CommonData
         {
             var tmpSb = new StringBuilder();
 
+            tmpSb.AppendLine($"{nameof(SelectDirectFactsOnly)} = {SelectDirectFactsOnly}");
             tmpSb.AppendLine(_ObjectHelper._ToString(SelectedTree, nameof(SelectedTree)));
 
             return tmpSb.ToString();

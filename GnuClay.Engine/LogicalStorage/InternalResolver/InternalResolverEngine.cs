@@ -19,16 +19,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         public SelectResult SelectQuery(SelectQuery query)
         {
             var tmpProcess = new InternalResolverSelectProcess(query, mInternalStorageEngine, mContext);
-
             var tmpResult = tmpProcess.Run();
-
             return tmpResult;
         }
 
         public void InsertQuery(InsertQuery query)
         {
             var tmpProcess = new InternalResolverInsertProcess(query, mInternalStorageEngine, mContext);
-
             tmpProcess.Run();
         }
     }

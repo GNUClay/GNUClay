@@ -11,17 +11,15 @@ namespace GnuClay.Engine.ScriptExecutor
 {
     public class EntityAction : BaseSystemType
     {
-        public EntityAction(string name, ulong key, Command command, ulong typeKey)
+        public EntityAction(ulong key, Command command, ulong typeKey)
             : base(typeKey)
         {
-            Name = name;
             Key = key;
             Command = command;
         }
 
         private object mLockObj = new object();
 
-        public string Name { get; private set; }
         public ulong Key { get; private set; }
         public Command Command { get; private set; }
 
@@ -83,7 +81,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(Name)} = {Name }");
             tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine($"{nameof(Command)} = {Command}");
             tmpSb.AppendLine($"{nameof(State)} = {State}");

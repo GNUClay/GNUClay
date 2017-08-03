@@ -24,7 +24,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            var tmpSelectQueryText = "SELECT{son(Piter,$X1)}";
+            var tmpSelectQueryText = "SELECT{>: {son(Piter,$X1)}}";
             var tmpInsertQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
             /*var tmpSelectQuery = mCreateSelectTestingQuery.Run();
@@ -47,7 +47,8 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             var tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"`{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
 
             GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
@@ -58,7 +59,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
             var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary));
+            tmpSelectQuery.SelectDirectFactsOnly = true;
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/
 

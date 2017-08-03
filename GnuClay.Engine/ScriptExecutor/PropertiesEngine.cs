@@ -77,10 +77,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             lock (mLockObj)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Begin FindProperty holder = {holder} propertyKey = {propertyKey}");
-#endif
-
                 var command = CreateGetCommand(holder, propertyKey);
                 var commandHashCode = command.GetLongHashCode();
 
@@ -99,10 +95,6 @@ namespace GnuClay.Engine.ScriptExecutor
                     result.Result = mCommandCacheDict[commandHashCode];
                     return result;
                 }
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindProperty NEXT holder = {holder} propertyKey = {propertyKey}");
-#endif
 
                 PropertyFilter targetExecutor = null;
                 var isLogical = false;
@@ -137,10 +129,6 @@ namespace GnuClay.Engine.ScriptExecutor
                         targetExecutor = tmpList.First();
                     }
                 }
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindProperty NEXT NEXT holder = {holder} propertyKey = {propertyKey}");
-#endif
 
                 IValue tmpProperty = null;
 
@@ -197,7 +185,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var name = Guid.NewGuid().ToString("D");
             var key = Context.DataDictionary.GetKey(name);
-            var propertyAction = new PropertyAction(name, key, command, mPropertyActionTypeKey);
+            var propertyAction = new PropertyAction(key, command, mPropertyActionTypeKey);
             return propertyAction;
         }
 

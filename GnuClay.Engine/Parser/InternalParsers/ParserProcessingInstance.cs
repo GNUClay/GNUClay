@@ -15,6 +15,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public GnuClayQuery Parse(string queryText)
         {
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Parse query = {queryText}");
+#endif
+
             mContext.Lexer = new Lexer(queryText);
             var result = new GnuClayQuery();
             Token token = null;

@@ -67,6 +67,10 @@ namespace GnuClay.Engine.LogicalStorage
         {
             lock (mLockObj)
             {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SelectQuery query = {query}");
+#endif
+
                 if (!mIsRunning)
                 {
                     return new SelectResult() {
@@ -85,7 +89,11 @@ namespace GnuClay.Engine.LogicalStorage
         {
             lock(mLockObj)
             {
-                if(!mIsRunning)
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"InsertQuery query = {query}");
+#endif
+
+                if (!mIsRunning)
                 {
                     return;
                 }

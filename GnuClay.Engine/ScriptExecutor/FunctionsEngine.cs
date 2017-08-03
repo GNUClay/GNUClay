@@ -200,7 +200,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var name = Guid.NewGuid().ToString("D");
             var key = Context.DataDictionary.GetKey(name);
-            var entityAction = new EntityAction(name, key, command, mEntityActionTypeKey);
+            var entityAction = new EntityAction(key, command, mEntityActionTypeKey);
 
             if (parentAction != null)
             {
