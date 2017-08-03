@@ -23,6 +23,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             mInheritanceEngine = mContext.InheritanceEngine;
 
             mSelectQuery = query;
+            SelectDirectFactsOnly = mSelectQuery.SelectDirectFactsOnly;
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
@@ -33,6 +34,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private InheritanceEngine mInheritanceEngine = null;
 
         private SelectQuery mSelectQuery = null;
+        private bool SelectDirectFactsOnly = false;
 
         private List<RuleInstance> mExistingsRules = new List<RuleInstance>();
         private List<ulong> mVariablesKeys = new List<ulong>();
@@ -58,7 +60,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             var tmpInternalResult = new InternalResult();
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run after {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
 #endif
 
             ProcessTree(mSelectQuery.SelectedTree, tmpParamBinder, ref tmpInternalResult);
@@ -131,13 +133,23 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ModifySelectTree()
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mSelectQuery.SelectedTree = {mSelectQuery.SelectedTree}");
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree pre mSelectQuery.SelectedTree = {mSelectQuery.SelectedTree}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree pre {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
+#endif
 
             ModifySelectedTreeNode(mSelectQuery.SelectedTree);
 
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree after mSelectQuery.SelectedTree = {mSelectQuery.SelectedTree}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree after {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
+#endif
+
             ulong tmpN = 0;
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree pre mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree pre mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
+#endif
 
             foreach (var tmpItem in mModifyEntityKeyExpressionNodeDict)
             {
@@ -150,7 +162,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     tmpParam.Key = tmpN;
                 }
 
-                if(mEntityKeyInheritanceDict.ContainsKey(tmpEntityKey))
+                if (mEntityKeyInheritanceDict.ContainsKey(tmpEntityKey))
                 {
                     continue;
                 }
@@ -160,9 +172,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 mEntityKeyInheritanceDict[tmpEntityKey] = tmpInheritenceList;
             }
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree post mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mVarKeyEntityKeyDict = {mVarKeyEntityKeyDict.ToJson()}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mEntityKeyInheritanceDict = {mEntityKeyInheritanceDict.ToJson()}");
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree after (2) {ExpressionNodeDebugHelper.ConvertToString(mSelectQuery.SelectedTree, mStorageDataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree post mModifyEntityKeyExpressionNodeDict = {mModifyEntityKeyExpressionNodeDict.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mVarKeyEntityKeyDict = {mVarKeyEntityKeyDict.ToJson()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ModifySelectTree mEntityKeyInheritanceDict = {mEntityKeyInheritanceDict.ToJson()}");
+#endif
         }
 
         private void ModifySelectedTreeNode(ExpressionNode node)
@@ -368,7 +383,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 }
                 else
                 {
-                    ProcessRule(tmpPart, tmpBinder, ref result);
+                    if(!SelectDirectFactsOnly)
+                    {
+                        ProcessRule(tmpPart, tmpBinder, ref result);
+                    }                    
                 }
             }
         }

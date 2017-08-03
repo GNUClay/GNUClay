@@ -77,6 +77,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessRuleOrFact(InsertQueryItemStatistics statisticsItem)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact statisticsItem = {statisticsItem}");
+#endif
             mInternalStorageEngine.mRulesAndFactsList.Add(statisticsItem.Target);
 
             foreach (var tmpEntity in statisticsItem.Entities)
@@ -97,8 +100,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessSetInheritence(InsertQueryItemStatistics statisticsItem)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence statisticsItem = {statisticsItem}");
-
+#endif
             var tmpItem = statisticsItem.LocalRelationsIndex.First();
 
             var expression = tmpItem.Value;
@@ -108,8 +112,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             var tmpRelationParams = expression.RelationParams;
 
             var paramsCount = tmpRelationParams.Count;
-
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence paramsCount = {paramsCount}");
+#endif
 
             ulong subKey = 0;
             ulong superKey = 0;
@@ -129,27 +134,30 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
             }
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
-
+#endif
             mContext.InheritanceEngine.SetInheritance(subKey, superKey, 1, InheritanceAspect.WithOutClause);
         }
 
         private void ProcessRemoveInheritence(InsertQueryItemStatistics statisticsItem)
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence statisticsItem = {statisticsItem}");
-
+#endif
             var tmpItem = statisticsItem.LocalRelationsIndex.First();
 
             var expression = tmpItem.Value;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence expression = {expression}");
-
+#endif
             var tmpRelationParams = expression.RelationParams;
 
             var paramsCount = tmpRelationParams.Count;
-
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence paramsCount = {paramsCount}");
-
+#endif
             ulong subKey = 0;
             ulong superKey = 0;
 
@@ -168,15 +176,17 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
             }
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
-
+#endif
             mContext.InheritanceEngine.SetInheritance(subKey, superKey, 0, InheritanceAspect.WithOutClause);
         }
 
         private void GetStatistics(RuleInstance targetItem)
         {
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, mContext.DataDictionary)}`");
-
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, mContext.DataDictionary)}`");
+#endif
             var tmpStatistics = new InsertQueryItemStatistics();
             
             tmpStatistics.Target = targetItem;
@@ -203,8 +213,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             targetItem.VarsCount = tmpStatistics.VarsCount;
             targetItem.LocalRelationsIndex = tmpStatistics.LocalRelationsIndex;
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
-
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
+#endif
             mStatisticsList.Add(tmpStatistics);
         }
 
