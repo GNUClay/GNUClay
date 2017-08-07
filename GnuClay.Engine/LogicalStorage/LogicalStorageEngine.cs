@@ -23,6 +23,38 @@ namespace GnuClay.Engine.LogicalStorage
         private object mLockObj = new object();
         private InternalStorageEngine mInternalStorageEngine = null;
         private InternalResolverEngine mInternalResolverEngine = null;
+        private StorageDataDictionary mDataDictionary = null;
+        private InheritanceEngine mInheritanceEngine = null;
+
+        private ulong mLogicalRuleTypeKey = 0;
+        private ulong mFactTypeKey = 0;
+
+        public override void FirstInit()
+        {
+            mDataDictionary = Context.DataDictionary;
+            mInheritanceEngine = Context.InheritanceEngine;
+
+            mLogicalRuleTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.LogicalRuleName);
+            mInheritanceEngine.SetInheritance(mLogicalRuleTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+            mFactTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.FactName);
+            mInheritanceEngine.SetInheritance(mFactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+        }
+
+        public ulong GetFactKey()
+        {
+            var name = Guid.NewGuid().ToString("D");
+            var key = mDataDictionary.GetKey(name);
+            mInheritanceEngine.SetInheritance(key, mFactTypeKey, 1, InheritanceAspect.WithOutClause);
+            return key;
+        }
+
+        public ulong GetRuleKey()
+        {
+            var name = Guid.NewGuid().ToString("D");
+            var key = mDataDictionary.GetKey(name);
+            mInheritanceEngine.SetInheritance(key, mLogicalRuleTypeKey, 1, InheritanceAspect.WithOutClause);
+            return key;
+        }
 
         private bool mIsRunning = true;
 
@@ -133,7 +165,7 @@ namespace GnuClay.Engine.LogicalStorage
         {
             if (mInternalStorageEngine.RegEntity(key))
             {
-                Context.InheritanceEngine.SetInheritance(key, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+                mInheritanceEngine.SetInheritance(key, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
             }
         }
 

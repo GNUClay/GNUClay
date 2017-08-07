@@ -19,9 +19,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             : base(engine, context)
         {
             mInsertQuery = query;
+            mLogicalStorageEngine = context.LogicalStorage;
         }
 
         private InsertQuery mInsertQuery = null;
+        private LogicalStorageEngine mLogicalStorageEngine = null;
 
         private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
         private Dictionary<ulong, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<ulong, List<RuleInstance>>();
@@ -50,8 +52,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             foreach (var statisticsItem in mStatisticsList)
             {
+#if DEBUG
                 //NLog.LogManager.GetCurrentClassLogger().Info($"ImplementStatistics statisticsItem = {statisticsItem}");
-
+#endif
                 switch(statisticsItem.Kind)
                 {
                     case InsertQueryItemStatisticsKind.Fact:
@@ -80,7 +83,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact statisticsItem = {statisticsItem}");
 #endif
-            mInternalStorageEngine.mRulesAndFactsList.Add(statisticsItem.Target);
+            var target = statisticsItem.Target;
+
+            var isFact = (target.Part_2 == null);
+
+            mInternalStorageEngine.mRulesAndFactsList.Add(target);
 
             foreach (var tmpEntity in statisticsItem.Entities)
             {
@@ -95,7 +102,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 }
             }
 
-            mInternalStorageEngine.RegExistsStatisticsHashCode(statisticsItem.Target);
+            mInternalStorageEngine.RegExistsStatisticsHashCode(target);
         }
 
         private void ProcessSetInheritence(InsertQueryItemStatistics statisticsItem)

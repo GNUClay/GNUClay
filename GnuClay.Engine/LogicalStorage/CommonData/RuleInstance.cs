@@ -13,6 +13,8 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
     [Serializable]
     public class RuleInstance : IToStringData
     {
+        public ulong Key = 0;
+        
         /// <summary>
         /// Head of rule (or fact).
         /// </summary>
@@ -133,9 +135,8 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(VarsCount));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(VarsCount.ToString());
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
+            tmpSb.AppendLine($"{nameof(VarsCount)} = {VarsCount}");
 
             tmpSb.AppendLine(_ObjectHelper._ToString(Part_1, nameof(Part_1)));
             tmpSb.AppendLine(_ObjectHelper._ToString(Part_2, nameof(Part_2)));
