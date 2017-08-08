@@ -45,6 +45,7 @@ namespace GnuClay.CommonClientTypes.ResultTypes
 
     public class SelectResultItem : IToStringData
     {
+        public ulong Key = 0;
         public List<VarResultItem> Params = new List<VarResultItem>();
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace GnuClay.CommonClientTypes.ResultTypes
         {
             var tmpSb = new StringBuilder();
 
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine(_ListHelper._ToString(Params, nameof(Params)));
 
             return tmpSb.ToString();

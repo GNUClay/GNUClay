@@ -57,6 +57,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
     public class InternalResultItem : IToStringData
     {
+        public ulong Key = 0;
         public List<InternalResultParamItem> ParamsValues = new List<InternalResultParamItem>();
 
         public Dictionary<ulong, ulong> ParamsDict = new Dictionary<ulong, ulong>();
