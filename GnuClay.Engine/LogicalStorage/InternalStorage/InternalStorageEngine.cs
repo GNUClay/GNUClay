@@ -16,7 +16,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         }
 
         public Dictionary<ulong, List<RulePart>> mRelationIndex;
-        public List<RuleInstance> mRulesAndFactsList;
+        public Dictionary<ulong, RuleInstance> mRulesAndFactsDict;
         public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
         public List<ulong> mEntitiesList;
 
@@ -24,7 +24,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         private class Data
         {
             public Dictionary<ulong, List<RulePart>> mRelationIndex;
-            public List<RuleInstance> mRulesAndFactsList;
+            public Dictionary<ulong, RuleInstance> mRulesAndFactsDict;
             public Dictionary<ulong, List<RuleInstance>> mLongHasheCodeRulesAndFactsDict;
             public List<ulong> mEntitiesList;
         }
@@ -108,7 +108,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         {
             var tmpData = new Data();
             tmpData.mRelationIndex = mRelationIndex;
-            tmpData.mRulesAndFactsList = mRulesAndFactsList;
+            tmpData.mRulesAndFactsDict = mRulesAndFactsDict;
             tmpData.mLongHasheCodeRulesAndFactsDict = mLongHasheCodeRulesAndFactsDict;
             tmpData.mEntitiesList = mEntitiesList;
             return tmpData;
@@ -118,7 +118,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         {
             var tmpData = (Data)value;
             mRelationIndex = tmpData.mRelationIndex;
-            mRulesAndFactsList = tmpData.mRulesAndFactsList;
+            mRulesAndFactsDict = tmpData.mRulesAndFactsDict;
             mLongHasheCodeRulesAndFactsDict = tmpData.mLongHasheCodeRulesAndFactsDict;
             mEntitiesList = tmpData.mEntitiesList;
         }
@@ -126,7 +126,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
         public void Clear()
         {
             mRelationIndex = new Dictionary<ulong, List<RulePart>>();
-            mRulesAndFactsList = new List<RuleInstance>();
+            mRulesAndFactsDict = new Dictionary<ulong, RuleInstance>();
             mLongHasheCodeRulesAndFactsDict = new Dictionary<ulong, List<RuleInstance>>();
             mEntitiesList = new List<ulong>();
         }

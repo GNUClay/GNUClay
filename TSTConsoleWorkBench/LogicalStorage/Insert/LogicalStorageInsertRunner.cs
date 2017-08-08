@@ -59,13 +59,30 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
             var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
-            tmpSelectQuery.SelectDirectFactsOnly = true;
+            //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
 
             /*tmpSelectQuery = mCreateSelectTestingQuery.Run();*/
 
             var tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpInsertQueryText = "INSERT{>: {son(Alise,Bob)}}";
+            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
+
+            GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
+
+            tmpSelectQueryText = "SELECT{>: {son(Alise,$X1)}}";
+            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            tmpSelectQuery.SelectDirectFactsOnly = true;
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
+
+            tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 

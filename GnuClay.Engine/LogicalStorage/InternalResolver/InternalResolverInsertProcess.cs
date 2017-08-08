@@ -87,7 +87,22 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             var isFact = (target.Part_2 == null);
 
-            mInternalStorageEngine.mRulesAndFactsList.Add(target);
+            ulong keyOfInstance = 0;
+
+            if(isFact)
+            {
+                keyOfInstance = mLogicalStorageEngine.GetFactKey();
+            }
+            else
+            {
+                keyOfInstance = mLogicalStorageEngine.GetRuleKey();
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact isFact = {isFact} keyOfInstance = {keyOfInstance}");
+#endif
+
+            mInternalStorageEngine.mRulesAndFactsDict.Add(keyOfInstance, target);
 
             foreach (var tmpEntity in statisticsItem.Entities)
             {
