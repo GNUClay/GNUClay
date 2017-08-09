@@ -98,8 +98,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 keyOfInstance = mLogicalStorageEngine.GetRuleKey();
             }
 
+            target.Key = keyOfInstance;
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact isFact = {isFact} keyOfInstance = {keyOfInstance}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact NEXT statisticsItem = {statisticsItem}");
 #endif
 
             mInternalStorageEngine.mRulesAndFactsDict.Add(keyOfInstance, target);
@@ -113,7 +116,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             {
                 foreach (var tmpRelation in tmpIndexedPartItem.Value)
                 {
-                    mInternalStorageEngine.AddIndex(tmpRelation, tmpIndexedPartItem.Key);
+                    mInternalStorageEngine.AddPartIndex(tmpRelation, tmpIndexedPartItem.Key);
                 }
             }
 

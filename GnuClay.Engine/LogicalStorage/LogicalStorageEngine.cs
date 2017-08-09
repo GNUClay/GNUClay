@@ -141,6 +141,15 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
+        public void TSTRemoveFactOrRuleByKey(ulong key)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveFactOrRuleByKey key = {key}");
+#endif
+
+            mInternalStorageEngine.RemoveFactOrRuleByKey(key);
+        }
+
         public ulong GetEntityKey(string name)
         {
             lock (mLockObj)

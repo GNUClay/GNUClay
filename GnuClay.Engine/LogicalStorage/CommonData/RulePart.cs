@@ -11,9 +11,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
     public class RulePart : IToStringData
     {
         public RuleInstance Parent = null;
-
         public RulePart Next = null;
-
         public ExpressionNode Tree = null;
 
         /// <summary>
@@ -56,9 +54,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
-
             tmpSb.AppendLine(_ObjectHelper._ToString(Tree, nameof(Tree)));
-
             return tmpSb.ToString();
         }
     }

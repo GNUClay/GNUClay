@@ -35,21 +35,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(ParamKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(ParamKey.ToString());
-
-            tmpSb.Append(nameof(EntityKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(EntityKey.ToString());
-
-            tmpSb.Append(nameof(Kind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Kind.ToString());
-
-            tmpSb.Append(nameof(Value));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Value?.ToString());
+            tmpSb.AppendLine($"{nameof(ParamKey)} = {ParamKey}");
+            tmpSb.AppendLine($"{nameof(EntityKey)} = {EntityKey}");
+            tmpSb.AppendLine($"{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{nameof(Value)} = {Value}");
 
             return tmpSb.ToString();
         }
@@ -59,7 +48,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
     {
         public ulong Key = 0;
         public List<InternalResultParamItem> ParamsValues = new List<InternalResultParamItem>();
-
         public Dictionary<ulong, ulong> ParamsDict = new Dictionary<ulong, ulong>();
 
         public void End()
@@ -84,8 +72,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpSb = new StringBuilder();
 
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
             tmpSb.AppendLine(_ListHelper._ToString(ParamsValues, nameof(ParamsValues)));
-
             tmpSb.AppendLine(_ListHelper._ToString(ParamsDict.ToList(), nameof(ParamsDict)));
 
             return tmpSb.ToString();
