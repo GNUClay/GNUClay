@@ -115,6 +115,19 @@ namespace GnuClay.Engine.LogicalStorage
             return mInternalResolverEngine.SelectQuery(query);
         }
 
+        public void RemoveFacts(SelectQuery query)
+        {
+            lock (mLockObj)
+            {
+                if (!mIsRunning)
+                {
+                    return;
+                }
+
+                mInternalResolverEngine.RemoveFacts(query);
+            }
+        }
+
         private int mInsertQueriesCount = 0;
 
         public void InsertQuery(InsertQuery query)

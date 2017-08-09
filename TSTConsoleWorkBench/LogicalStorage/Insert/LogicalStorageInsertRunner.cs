@@ -78,26 +78,28 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             tmpSelectQueryText = "SELECT{>: {son(Alise,$X1)}}";
             tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
-            tmpSelectQuery.SelectDirectFactsOnly = true;
+            //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
 
-            tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
+            GnuClayEngine.LogicalStorage.RemoveFacts(tmpSelectQuery);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult = {tmpResult}");
+            //tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 
-            foreach(var resultItem in tmpResult.Items)
-            {
-                if(resultItem.Key == 0)
-                {
-                    continue;
-                }
+            //NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+            //NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult = {tmpResult}");
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"resultItem = {resultItem}");
+            //foreach(var resultItem in tmpResult.Items)
+            //{
+            //    if(resultItem.Key == 0)
+            //    {
+            //        continue;
+            //    }
 
-                GnuClayEngine.LogicalStorage.TSTRemoveFactOrRuleByKey(resultItem.Key);
-            }
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"resultItem = {resultItem}");
+
+            //    GnuClayEngine.LogicalStorage.TSTRemoveFactOrRuleByKey(resultItem.Key);
+            //}
 
             tmpSelectQueryText = "SELECT{>: {son(Alise,$X1)}}";
             tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;

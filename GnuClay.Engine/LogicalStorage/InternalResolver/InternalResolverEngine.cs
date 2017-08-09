@@ -2,6 +2,7 @@
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
+using System;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
@@ -27,6 +28,30 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpProcess = new InternalResolverInsertProcess(query, mInternalStorageEngine, mContext);
             tmpProcess.Run();
+        }
+
+        public void RemoveFacts(SelectQuery query)
+        {
+            query.SelectDirectFactsOnly = true;
+
+            var selectResult = SelectQuery(query);
+
+            if(!selectResult.Success || !selectResult.HaveBeenFound)
+            {
+                return;
+            }
+
+            foreach(var item in selectResult.Items)
+            {
+                var key = item.Key;
+
+                if(key == 0)
+                {
+                    continue;
+                }
+
+                mInternalStorageEngine.RemoveFactOrRuleByKey(key);
+            }
         }
     }
 }

@@ -141,22 +141,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 
         public void RemoveFactOrRuleByKey(ulong key)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFactOrRuleByKey key = {key}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFactOrRuleByKey pre mRulesAndFactsDict.Count = {mRulesAndFactsDict.Count}");
-#endif
-
             var targetItem = mRulesAndFactsDict[key];
             mRulesAndFactsDict.Remove(key);
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFactOrRuleByKey after mRulesAndFactsDict.Count = {mRulesAndFactsDict.Count}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveFactOrRuleByKey targetItem = {targetItem}");
-#endif
-
             RemoveExistsStatisticsHashCode(targetItem);
-
             RemovePartIndex(targetItem.Part_1);
-
             var part_2 = targetItem.Part_2;
 
             if (part_2 != null)
