@@ -57,9 +57,11 @@
     <Compile Include="Inheritance\InheritanceInfo.cs" />
     <Compile Include="InternalBus\InternalBusEngine.cs" />
     <Compile Include="LogicalStorage\BaseLogicalStorageComponent.cs" />
+    <Compile Include="LogicalStorage\CommonLogicalHelper.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ASTTransformer.cs" />
     <Compile Include="LogicalStorage\InternalResolver\BaseInternalResolver.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatisticsKind.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\RewritingSelectQueryBuilder.cs" />
     <Compile Include="LogicalStorage\LogicalStorageContext.cs" />
     <Compile Include="LogicalStorage\SystemRelationsNamesConstants.cs" />
     <Compile Include="Parser\AbnormalTerminationException.cs" />

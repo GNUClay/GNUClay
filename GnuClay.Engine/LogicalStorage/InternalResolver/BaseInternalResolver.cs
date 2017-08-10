@@ -11,20 +11,24 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public abstract class BaseInternalResolver
     {
-        protected BaseInternalResolver(InternalStorageEngine engine, GnuClayEngineComponentContext context)
+        protected BaseInternalResolver(GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
         {
-            mContext = context;
+            Context = context;
+            LogicalStorageContext = logicalContext;
 
-            mInternalStorageEngine = engine;
+            mInternalStorageEngine = logicalContext.InternalStorageEngine;
+            mASTTransformer = logicalContext.ASTTransformer;
             mStorageDataDictionary = context.DataDictionary;
 
             IsKey = mStorageDataDictionary.GetKey(SystemRelationsNamesConstants.Is);
         }
 
-        protected GnuClayEngineComponentContext mContext;
+        protected GnuClayEngineComponentContext Context;
+        protected LogicalStorageContext LogicalStorageContext;
 
         protected InternalStorageEngine mInternalStorageEngine = null;
         protected StorageDataDictionary mStorageDataDictionary = null;
+        protected ASTTransformer mASTTransformer = null;
 
         protected ulong IsKey;
     }

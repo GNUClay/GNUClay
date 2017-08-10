@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.LogicalStorage.CommonData;
+using GnuClay.Engine.Parser.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InsertQueryItemStatistics : IToStringData
     {
+        public bool NeedRewriting = false;
+        public SelectQuery RewritingQuery = null;
         public RuleInstance Target = null;
-
         public bool Exists = false;
-
         public bool IsNot = false;
-
         public InsertQueryItemStatisticsKind Kind = InsertQueryItemStatisticsKind.Unknown;
-
-        //public bool IsRule = false;
 
         public ulong VarsCount
         {
@@ -101,24 +99,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(Exists));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Exists.ToString());
-
-            tmpSb.Append(nameof(IsNot));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(IsNot.ToString());
-            
-            tmpSb.Append(nameof(Kind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Kind.ToString());
-
-            tmpSb.Append(nameof(VarsCount));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(VarsCount.ToString());
+            tmpSb.AppendLine($"{nameof(NeedRewriting)} = {NeedRewriting}");
+            tmpSb.AppendLine($"{nameof(Exists)} = {Exists}");
+            tmpSb.AppendLine($"{nameof(IsNot)} = {IsNot}");
+            tmpSb.AppendLine($"{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{nameof(VarsCount)} = {VarsCount}");
 
             tmpSb.AppendLine(_ListHelper._ToString(Entities, nameof(Entities)));
-
             tmpSb.AppendLine(_ListHelper._ToString(Vars, nameof(Vars)));
 
             tmpSb.AppendLine("Begin IndexedPartsDict");

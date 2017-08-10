@@ -18,8 +18,6 @@ namespace GnuClay.Engine.LogicalStorage
             : base(context)
         {
             CreateContext();
-            mInternalStorageEngine = new InternalStorageEngine(Context);
-            mInternalResolverEngine = new InternalResolverEngine(mInternalStorageEngine, Context);
         }
 
         private object mLockObj = new object();
@@ -29,12 +27,23 @@ namespace GnuClay.Engine.LogicalStorage
         private StorageDataDictionary mDataDictionary = null;
         private InheritanceEngine mInheritanceEngine = null;
 
-        private ulong mLogicalRuleTypeKey = 0;
-        private ulong mFactTypeKey = 0;
-
         private void CreateContext()
         {
             mLogicalContext = new LogicalStorageContext();
+
+            mInternalStorageEngine = new InternalStorageEngine(Context, mLogicalContext);
+            mLogicalContext.InternalStorageEngine = mInternalStorageEngine;
+            mComponents.Add(mInternalStorageEngine);
+
+            mInternalResolverEngine = new InternalResolverEngine(Context, mLogicalContext);
+            mLogicalContext.InternalResolverEngine = mInternalResolverEngine;
+            mComponents.Add(mInternalResolverEngine);
+
+            mLogicalContext.CommonLogicalHelper = new CommonLogicalHelper(Context, mLogicalContext);
+            mComponents.Add(mLogicalContext.CommonLogicalHelper);
+
+            mLogicalContext.ASTTransformer = new ASTTransformer(Context, mLogicalContext);
+            mComponents.Add(mLogicalContext.ASTTransformer);
         }
 
         private List<BaseLogicalStorageComponent> mComponents = new List<BaseLogicalStorageComponent>();
@@ -59,36 +68,13 @@ namespace GnuClay.Engine.LogicalStorage
         {
             FirstInitOfLogacalContext();
 
-            mInternalStorageEngine.FirstInit();
-
             mDataDictionary = Context.DataDictionary;
             mInheritanceEngine = Context.InheritanceEngine;
-
-            mLogicalRuleTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.LogicalRuleName);
-            mInheritanceEngine.SetInheritance(mLogicalRuleTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
-            mFactTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.FactName);
-            mInheritanceEngine.SetInheritance(mFactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
         }
 
         public override void SecondInit()
         {
             SecondInitOfLogicalcontext();
-        }
-
-        public ulong GetFactKey()
-        {
-            var name = Guid.NewGuid().ToString("D");
-            var key = mDataDictionary.GetKey(name);
-            mInheritanceEngine.SetInheritance(key, mFactTypeKey, 1, InheritanceAspect.WithOutClause);
-            return key;
-        }
-
-        public ulong GetRuleKey()
-        {
-            var name = Guid.NewGuid().ToString("D");
-            var key = mDataDictionary.GetKey(name);
-            mInheritanceEngine.SetInheritance(key, mLogicalRuleTypeKey, 1, InheritanceAspect.WithOutClause);
-            return key;
         }
 
         private bool mIsRunning = true;
@@ -121,14 +107,6 @@ namespace GnuClay.Engine.LogicalStorage
                 mIsRunning = true;
             }
         }
-
-        public StorageDataDictionary DataDictionary
-        {
-            get
-            {
-                return Context.DataDictionary;
-            }
-        } 
 
         public SelectResult SelectQuery(SelectQuery query)
         {
@@ -202,7 +180,7 @@ namespace GnuClay.Engine.LogicalStorage
         {
             lock (mLockObj)
             {
-                var tmpKey = DataDictionary.GetKey(name);
+                var tmpKey = mDataDictionary.GetKey(name);
                 NRegEntity(tmpKey);
                 return tmpKey;
             }

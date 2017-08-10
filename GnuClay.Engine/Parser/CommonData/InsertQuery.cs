@@ -14,6 +14,12 @@ namespace GnuClay.Engine.Parser.CommonData
     public class InsertQuery : IToStringData
     {
         /// <summary>
+        /// Rewrite facts is true, otherwise write another fact.
+        /// The facts is same if its root relations and left operands is same.
+        /// </summary>
+        public bool Rewrite = false;
+
+        /// <summary>
         /// Inserted rules or facts.
         /// </summary>
         public List<RuleInstance> Items = new List<RuleInstance>();
@@ -35,6 +41,7 @@ namespace GnuClay.Engine.Parser.CommonData
         {
             var tmpSb = new StringBuilder();
 
+            tmpSb.AppendLine($"{nameof(Rewrite)} = {Rewrite}");
             tmpSb.AppendLine(_ListHelper._ToString(Items, nameof(Items)));
 
             return tmpSb.ToString();

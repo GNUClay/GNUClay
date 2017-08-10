@@ -10,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalStorage
 {
-    public class InternalStorageEngine
+    public class InternalStorageEngine: BaseLogicalStorageComponent
     {
-        public InternalStorageEngine(GnuClayEngineComponentContext context)
+        public InternalStorageEngine(GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
-            mContext = context;
             Clear();
         }
 
-        public void FirstInit()
+        public override void FirstInit()
         {
-            mDataDictionary = mContext.DataDictionary;
+            mDataDictionary = Context.DataDictionary;
         }
 
-        private GnuClayEngineComponentContext mContext = null;
         private StorageDataDictionary mDataDictionary = null;
 
         public Dictionary<ulong, List<RulePart>> mRelationPartsIndex;

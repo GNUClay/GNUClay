@@ -17,10 +17,10 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResolverSelectProcess: BaseInternalResolver
     {
-        public InternalResolverSelectProcess(SelectQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
-            : base(engine, context)
+        public InternalResolverSelectProcess(SelectQuery query, GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
-            mInheritanceEngine = mContext.InheritanceEngine;
+            mInheritanceEngine = Context.InheritanceEngine;
 
             mSelectQuery = query;
             SelectDirectFactsOnly = mSelectQuery.SelectDirectFactsOnly;

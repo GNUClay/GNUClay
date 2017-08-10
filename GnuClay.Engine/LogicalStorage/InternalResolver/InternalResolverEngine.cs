@@ -6,27 +6,30 @@ using System;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class InternalResolverEngine
+    public class InternalResolverEngine : BaseLogicalStorageComponent
     {
-        public InternalResolverEngine(InternalStorageEngine engine, GnuClayEngineComponentContext context)
+        public InternalResolverEngine(GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
-            mInternalStorageEngine = engine;
-            mContext = context;
         }
 
         private InternalStorageEngine mInternalStorageEngine = null;
-        private GnuClayEngineComponentContext mContext = null;
+
+        public override void FirstInit()
+        {
+            mInternalStorageEngine = LogicalContext.InternalStorageEngine;
+        }
 
         public SelectResult SelectQuery(SelectQuery query)
         {
-            var tmpProcess = new InternalResolverSelectProcess(query, mInternalStorageEngine, mContext);
+            var tmpProcess = new InternalResolverSelectProcess(query, Context, LogicalContext);
             var tmpResult = tmpProcess.Run();
             return tmpResult;
         }
 
         public void InsertQuery(InsertQuery query)
         {
-            var tmpProcess = new InternalResolverInsertProcess(query, mInternalStorageEngine, mContext);
+            var tmpProcess = new InternalResolverInsertProcess(query, Context, LogicalContext);
             tmpProcess.Run();
         }
 

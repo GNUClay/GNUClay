@@ -15,15 +15,17 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResolverInsertProcess: BaseInternalResolver
     {
-        public InternalResolverInsertProcess(InsertQuery query, InternalStorageEngine engine, GnuClayEngineComponentContext context)
-            : base(engine, context)
+        public InternalResolverInsertProcess(InsertQuery query, GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
             mInsertQuery = query;
-            mLogicalStorageEngine = context.LogicalStorage;
+            Rewrite = query.Rewrite;
+            mCommonLogicalHelper = logicalContext.CommonLogicalHelper;
         }
 
         private InsertQuery mInsertQuery = null;
-        private LogicalStorageEngine mLogicalStorageEngine = null;
+        private CommonLogicalHelper mCommonLogicalHelper = null;
+        private bool Rewrite = false;
 
         private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
         private Dictionary<ulong, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<ulong, List<RuleInstance>>();
@@ -85,23 +87,25 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 #endif
             var target = statisticsItem.Target;
 
-            var isFact = (target.Part_2 == null);
-
             ulong keyOfInstance = 0;
 
-            if(isFact)
+            var kind = statisticsItem.Kind;
+
+            switch (kind)
             {
-                keyOfInstance = mLogicalStorageEngine.GetFactKey();
-            }
-            else
-            {
-                keyOfInstance = mLogicalStorageEngine.GetRuleKey();
+                case InsertQueryItemStatisticsKind.Fact:
+                    keyOfInstance = mCommonLogicalHelper.GetFactKey();
+                    break;
+
+                case InsertQueryItemStatisticsKind.Rule:
+                    keyOfInstance = mCommonLogicalHelper.GetRuleKey();
+                    break;
             }
 
             target.Key = keyOfInstance;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact isFact = {isFact} keyOfInstance = {keyOfInstance}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact keyOfInstance = {keyOfInstance}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact NEXT statisticsItem = {statisticsItem}");
 #endif
 
@@ -162,7 +166,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSetInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
 #endif
-            mContext.InheritanceEngine.SetInheritance(subKey, superKey, 1, InheritanceAspect.WithOutClause);
+            Context.InheritanceEngine.SetInheritance(subKey, superKey, 1, InheritanceAspect.WithOutClause);
         }
 
         private void ProcessRemoveInheritence(InsertQueryItemStatistics statisticsItem)
@@ -204,13 +208,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRemoveInheritence subKey = {subKey}({mStorageDataDictionary.GetValue(subKey)}) superKey = {superKey}({mStorageDataDictionary.GetValue(superKey)})");
 #endif
-            mContext.InheritanceEngine.SetInheritance(subKey, superKey, 0, InheritanceAspect.WithOutClause);
+            Context.InheritanceEngine.SetInheritance(subKey, superKey, 0, InheritanceAspect.WithOutClause);
         }
 
         private void GetStatistics(RuleInstance targetItem)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, mContext.DataDictionary)}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, Context.DataDictionary)}`");
 #endif
             var tmpStatistics = new InsertQueryItemStatistics();
             
@@ -225,13 +229,24 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             if (targetItem.Part_2 == null)
             {
                 tmpStatistics.Kind = InsertQueryItemStatisticsKind.Fact;
-
                 ValidateFact(tmpStatistics);
-            }else{
+
+                if(Rewrite)
+                {
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info("GetStatistics need Rewrite");
+#endif
+                    tmpStatistics.NeedRewriting = true;
+                    tmpStatistics.RewritingQuery = mASTTransformer.GetRewritingQuery(targetItem);
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics.RewritingQuery = {SelectQueryDebugHelper.ConvertToString(tmpStatistics.RewritingQuery, mStorageDataDictionary)}");
+#endif
+                }
+            }
+            else{
                 tmpStatistics.Kind = InsertQueryItemStatisticsKind.Rule;
-
                 AnalyzingTreeNode(targetItem.Part_2.Tree, targetItem.Part_2, tmpStatistics);
-
                 ValidateRule(tmpStatistics);
             }
 
@@ -257,15 +272,17 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
             if(mInternalStorageEngine.mLongHasheCodeRulesAndFactsDict.ContainsKey(hasheCode))
             {
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"CheckUnique (1) `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`");
-
+#endif
                 var existsItemsList = mInternalStorageEngine.mLongHasheCodeRulesAndFactsDict[hasheCode];
 
                 foreach (var existsItem in existsItemsList)
                 {
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"CheckUnique (2) `{RuleInstanceDebugHelper.ConvertToString(existsItem, mStorageDataDictionary)}`");
-
-                    if(targetItem.IsEquals(existsItem))
+#endif
+                    if (targetItem.IsEquals(existsItem))
                     {
                         throw new NotImplementedException($"Duplicated rule or fact `{RuleInstanceDebugHelper.ConvertToString(targetItem, mStorageDataDictionary)}`. Processing collision does not implemented yet");
                     }
@@ -303,11 +320,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ValidateFact(InsertQueryItemStatistics context)
         {
+#if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context = {context}");
-
             //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact context.LocalRelationsIndex.Count = {context.LocalRelationsIndex.Count}");
-
-            switch(context.IndexedPartsDict.Count)
+#endif
+            switch (context.IndexedPartsDict.Count)
             {
                 case 1:
                     break;
@@ -315,18 +332,22 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 default: throw new ArgumentOutOfRangeException(nameof(context.LocalRelationsIndex.Count), context.LocalRelationsIndex.Count.ToString());
             }
 
+#if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact Next");
-
+#endif
             var tmpItem = context.LocalRelationsIndex.First();
             var tmpKey = tmpItem.Key;
             var paramsCount = tmpItem.Value.RelationParams.Count;
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact tmpParamsCount = {paramsCount}");
-
-            switch(paramsCount)
+#endif
+            switch (paramsCount)
             {
                 case 1:
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact case 1 ProcessInheritese!!!!!!");
+#endif
                     if (context.IsNot)
                     {
                         context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;
@@ -339,7 +360,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                 case 2:
                     if (tmpKey == IsKey)
                     {
+#if DEBUG
                         NLog.LogManager.GetCurrentClassLogger().Info($"ValidateFact case 2 ProcessInheritese!!!!!!");
+#endif
                         if (context.IsNot)
                         {
                             context.Kind = InsertQueryItemStatisticsKind.RemoveInheritence;
@@ -400,7 +423,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         private void AnalyzingNotNode(ExpressionNode node, RulePart part, InsertQueryItemStatistics context)
         {
             context.IsNot = true;
-
             AnalyzingTreeNode(node.Left, part, context);
         }
 

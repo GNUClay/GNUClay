@@ -13,5 +13,6 @@ namespace GnuClay.Engine.LogicalStorage
         public InternalStorageEngine InternalStorageEngine = null;
         public InternalResolverEngine InternalResolverEngine = null;
         public ASTTransformer ASTTransformer = null;
+        public CommonLogicalHelper CommonLogicalHelper = null;
     }
 }
