@@ -25,7 +25,7 @@ namespace GnuClay.Engine
         public GnuClayEngine()
         {
             CreateContext();
-            FirstInit();
+            Init();
         }
 
         private object mLockObj = new object();
@@ -121,11 +121,24 @@ namespace GnuClay.Engine
 
         private List<BaseGnuClayEngineComponent> mComponents = new List<BaseGnuClayEngineComponent>();
 
+        private void Init()
+        {
+            FirstInit();
+        }
+
         private void FirstInit()
         {
             foreach(var component in mComponents)
             {
                 component.FirstInit();
+            }
+        }
+
+        private void SecondInit()
+        {
+            foreach (var component in mComponents)
+            {
+                component.SecondInit();
             }
         }
 

@@ -57,6 +57,16 @@ namespace GnuClay.Engine.CommonStorages
             return mMaxKey; 
         }
 
+        public void RemoveKey(ulong key)
+        {
+            lock (mLockObj)
+            {
+                var value = mKeysDict[key];
+                mKeysDict.Remove(key);
+                mValuesDict.Remove(value);
+            }
+        }
+
         [Serializable]
         private class Data
         {

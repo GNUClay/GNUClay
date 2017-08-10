@@ -1,4 +1,6 @@
 ﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,19 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
 {
     public class InternalStorageEngine
     {
-        public InternalStorageEngine()
+        public InternalStorageEngine(GnuClayEngineComponentContext context)
         {
+            mContext = context;
             Clear();
         }
+
+        public void FirstInit()
+        {
+            mDataDictionary = mContext.DataDictionary;
+        }
+
+        private GnuClayEngineComponentContext mContext = null;
+        private StorageDataDictionary mDataDictionary = null;
 
         public Dictionary<ulong, List<RulePart>> mRelationPartsIndex;
         public Dictionary<RulePart, List<ulong>> mRelationPartsDict;
@@ -139,8 +150,13 @@ namespace GnuClay.Engine.LogicalStorage.InternalStorage
             return true;
         }
 
+        /// <summary>
+        /// Remove fact or rule from this storage by key.
+        /// </summary>
+        /// <param name="key">Key of target fact or rule</param>
         public void RemoveFactOrRuleByKey(ulong key)
         {
+            mDataDictionary.RemoveKey(key);
             var targetItem = mRulesAndFactsDict[key];
             mRulesAndFactsDict.Remove(key);
             RemoveExistsStatisticsHashCode(targetItem);

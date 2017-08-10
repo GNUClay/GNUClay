@@ -18,5 +18,9 @@ namespace GnuClay.Engine.InternalCommonData
         public virtual void FirstInit()
         {
         }
+
+        public virtual void SecondInit()
+        {
+        }
     }
 }
