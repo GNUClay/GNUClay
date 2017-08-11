@@ -26,8 +26,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             SelectDirectFactsOnly = mSelectQuery.SelectDirectFactsOnly;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {SelectQueryDebugHelper.ConvertToString(mSelectQuery, context.DataDictionary)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"mSelectQuery = {mSelectQuery}");
 #endif
         }
 

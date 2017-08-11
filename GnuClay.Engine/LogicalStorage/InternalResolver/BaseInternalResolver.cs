@@ -19,8 +19,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             mInternalStorageEngine = logicalContext.InternalStorageEngine;
             mASTTransformer = logicalContext.ASTTransformer;
             mStorageDataDictionary = context.DataDictionary;
+            mInternalResolverEngine = logicalContext.InternalResolverEngine;
 
-            IsKey = mStorageDataDictionary.GetKey(SystemRelationsNamesConstants.Is);
+           IsKey = mStorageDataDictionary.GetKey(SystemRelationsNamesConstants.Is);
         }
 
         protected GnuClayEngineComponentContext Context;
@@ -29,6 +30,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         protected InternalStorageEngine mInternalStorageEngine = null;
         protected StorageDataDictionary mStorageDataDictionary = null;
         protected ASTTransformer mASTTransformer = null;
+        protected InternalResolverEngine mInternalResolverEngine = null;
 
         protected ulong IsKey;
     }

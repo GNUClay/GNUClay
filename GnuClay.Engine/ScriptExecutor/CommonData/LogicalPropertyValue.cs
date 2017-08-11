@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -16,9 +17,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mTypeKey = typeKey;
             mHolderKey = holder.TypeKey;
             mContect = context;
+            mLogicalStorage = mContect.LogicalStorage;
         }
 
         private GnuClayEngineComponentContext mContect = null;
+        private LogicalStorageEngine mLogicalStorage = null;
+
         private ulong mHolderKey = 0;
 
         public KindOfValue Kind => KindOfValue.Logical;
@@ -26,7 +30,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private ulong mTypeKey = 0;
 
         public ulong TypeKey => mTypeKey;
-
         public bool IsProperty => true;
         public bool IsVariable => false;
         public bool IsValueContainer => true;
@@ -55,13 +58,17 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
         {
+            var result = new ResultOfCalling();
+
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty IS NOT IMPLEMENTED YET value = {value} kindOfLogicalOperators = {kindOfLogicalOperators}");
-            var result = new ResultOfCalling();
+            
             result.Success = true;
             result.Result = new EntityValue(1);
-            return result;
+
 #endif
+            return result;
         }
 
         public ulong GetLongHashCode()

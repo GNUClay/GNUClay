@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -17,32 +18,20 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             Context = context;
             LogicalStorageContext = logicalContext;
+            DataDictionary = Context.DataDictionary;
         }
 
         private GnuClayEngineComponentContext Context;
         private LogicalStorageContext LogicalStorageContext;
+        private StorageDataDictionary DataDictionary;
         private SelectQuery mResult = null;
 
         public SelectQuery Run(RuleInstance targetItem)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run targetItem = {targetItem}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, Context.DataDictionary)}`");
-#endif
-
             var targetPart = targetItem.Part_1;
-
             mResult = new SelectQuery();
-
             var rootNode = targetPart.Tree;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(rootNode, Context.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode node = {rootNode}");
-#endif
-
             ProcessTree(rootNode);
-
             return mResult;
         }
 
@@ -53,11 +42,6 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessNextNode(ExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(node, Context.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode node = {node}");
-#endif
-
             var kind = node.Kind;
 
             switch (kind)
@@ -72,51 +56,32 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         private void ProcessRelationNode(ExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode (`{Context.DataDictionary.GetValue(node.Key)}`) node = {node}");
-#endif
             var relationsParams = node.RelationParams;
             var paramsCount = relationsParams.Count;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode paramsCount = {paramsCount}");
-#endif
 
             if(paramsCount != 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
             }
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRelationNode NEXT (`{Context.DataDictionary.GetValue(node.Key)}`)");
-#endif
-
-            foreach(var tmpParam in relationsParams)
-            {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(tmpParam, Context.DataDictionary)}");
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode tmpParam = {tmpParam}");
-#endif
-            }
-
             var targetParam = relationsParams[0];
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode {ExpressionNodeDebugHelper.ConvertToString(targetParam, Context.DataDictionary)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNextNode targetParam  = {targetParam}");
-#endif
 
             var resultRelationNode = new ExpressionNode();
             resultRelationNode.Key = node.Key;
             resultRelationNode.Kind = ExpressionNodeKind.Relation;
-            resultRelationNode.RelationParams = new List<ExpressionNode>();
-
+            var relationParams = new List<ExpressionNode>();
+            resultRelationNode.RelationParams = relationParams;
             mResult.SelectedTree = resultRelationNode;
 
             var entityParam = new ExpressionNode();
             entityParam.Kind = ExpressionNodeKind.Entity;
             entityParam.Key = targetParam.Key;
-            resultRelationNode.RelationParams.Add(entityParam);
+            relationParams.Add(entityParam);
+
+            var variableParam = new ExpressionNode();
+            variableParam.Kind = ExpressionNodeKind.Var;
+            variableParam.Key = DataDictionary.GetKey("$x1");
+            relationParams.Add(variableParam);
         }
     }
 }

@@ -5,6 +5,7 @@ using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace GnuClay.Engine.LogicalStorage
             lock (mLockObj)
             {
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SelectQuery query = {query}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"SelectQuery query = {query}");
 #endif
 
                 if (!mIsRunning)
@@ -167,13 +168,28 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
-        public void TSTRemoveFactOrRuleByKey(ulong key)
+        public SelectResult GetLogicalPropery(IValue holder, ulong propertyKey)
         {
+            lock (mLockObj)
+            {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveFactOrRuleByKey key = {key}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery holder = {holder} propertyKey = {propertyKey}");
 #endif
 
-            mInternalStorageEngine.RemoveFactOrRuleByKey(key);
+                throw new NotImplementedException();
+            }
+        }
+
+        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value)
+        {
+            lock (mLockObj)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalProperty holder = {holder} propertyKey = {propertyKey} value = {value}");
+#endif
+
+                throw new NotImplementedException();
+            }
         }
 
         public ulong GetEntityKey(string name)
