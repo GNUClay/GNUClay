@@ -533,7 +533,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
                 if(leftParam.Kind == KindOfValue.Logical)
                 {
-                    var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.INSERT_DISTINCT_FACT_RETURN_VALUE);
+                    var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnValue);
 
                     NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign resultOfCalling = {resultOfCalling}");
 
@@ -705,7 +705,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties prop = {prop}");
             var propInstance = prop.Result;
 
-            var result_1 = propInstance.ExecuteSetLogicalProperty(tmpValue, KindOfLogicalOperator.INSERT_FACT_RETURN_VALUE);
+            var result_1 = propInstance.ExecuteSetLogicalProperty(tmpValue, KindOfLogicalOperator.WriteFactReturnValue);
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7) result = {result_1}");
 
             var result = propInstance.ValueFromContainer;

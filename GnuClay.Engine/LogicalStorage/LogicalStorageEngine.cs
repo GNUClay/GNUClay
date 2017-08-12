@@ -172,23 +172,15 @@ namespace GnuClay.Engine.LogicalStorage
         {
             lock (mLockObj)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery holder = {holder} propertyKey = {propertyKey}");
-#endif
-
-                throw new NotImplementedException();
+                return mInternalResolverEngine.GetLogicalPropery(holder, propertyKey);
             }
         }
 
-        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value)
+        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
         {
             lock (mLockObj)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalProperty holder = {holder} propertyKey = {propertyKey} value = {value}");
-#endif
-
-                throw new NotImplementedException();
+                mInternalResolverEngine.SetLogicalProperty(holder, propertyKey, value, rewrite);
             }
         }
 

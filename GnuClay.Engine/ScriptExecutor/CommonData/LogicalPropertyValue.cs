@@ -12,10 +12,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
     public class LogicalPropertyValue : IValue
     {
-        public LogicalPropertyValue(ulong typeKey, IValue holder, GnuClayEngineComponentContext context)
+        public LogicalPropertyValue(ulong typeKey, IValue holder, ulong propertyKey, GnuClayEngineComponentContext context)
         {
             mTypeKey = typeKey;
-            mHolderKey = holder.TypeKey;
+            mHolder = holder;
+            mPropertyKey = propertyKey;
             mContect = context;
             mLogicalStorage = mContect.LogicalStorage;
         }
@@ -23,7 +24,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private GnuClayEngineComponentContext mContect = null;
         private LogicalStorageEngine mLogicalStorage = null;
 
-        private ulong mHolderKey = 0;
+        private IValue mHolder = null;
+        private ulong mPropertyKey = 0;
 
         public KindOfValue Kind => KindOfValue.Logical;
 
@@ -60,15 +62,87 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             var result = new ResultOfCalling();
 
+            try
+            {
+                switch(kindOfLogicalOperators)
+                {
+                    case KindOfLogicalOperator.WriteFactReturnValue:
+                        WriteFactReturnValue(value, result);
+                        break;
 
+                    case KindOfLogicalOperator.WriteFactReturnThisFact:
+                        WriteFactReturnThisFact(value, result);
+                        break;
+
+                    case KindOfLogicalOperator.RewriteFactReturnValue:
+                        RewriteFactReturnValue(value, result);
+                        break;
+
+                    case KindOfLogicalOperator.RewriteFactReturnThisFact:
+                        RewriteFactReturnThisFact(value, result);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(kindOfLogicalOperators), kindOfLogicalOperators, null);
+                }
+                
+                result.Success = true;
+            }
+            catch(Exception e)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty value = {value} kindOfLogicalOperators = {kindOfLogicalOperators} e = {e}");
+#endif
+
+                result.Success = false;
+            }
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty IS NOT IMPLEMENTED YET value = {value} kindOfLogicalOperators = {kindOfLogicalOperators}");
             
-            result.Success = true;
+            
             result.Result = new EntityValue(1);
 
 #endif
             return result;
+        }
+
+        private void WriteFactReturnValue(IValue value, ResultOfCalling resultOfCalling)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"WriteFactReturnValue value = {value}");
+#endif
+
+            var keyOfFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
+
+            throw new NotImplementedException();
+        }
+
+        private void WriteFactReturnThisFact(IValue value, ResultOfCalling resultOfCalling)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"WriteFactReturnThisFact value = {value}");
+#endif
+
+            var keyOfFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
+
+            throw new NotImplementedException();
+        }
+
+        private void RewriteFactReturnValue(IValue value, ResultOfCalling resultOfCalling)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"RewriteFactReturnValue value = {value}");
+#endif
+
+            throw new NotImplementedException();
+        }
+
+        private void RewriteFactReturnThisFact(IValue value, ResultOfCalling resultOfCalling)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"RewriteFactReturnThisFact value = {value}");
+#endif
+
+            throw new NotImplementedException();
         }
 
         public ulong GetLongHashCode()
@@ -82,7 +156,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"LogicalPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; HolderKey = {mHolderKey}";
+            return $"LogicalPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; Holder = {mHolder}; PropertyKey = {mPropertyKey}";
         }
     }
 }

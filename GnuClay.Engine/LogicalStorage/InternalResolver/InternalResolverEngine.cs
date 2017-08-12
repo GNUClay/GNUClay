@@ -2,6 +2,7 @@
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
+using GnuClay.Engine.ScriptExecutor;
 using System;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
@@ -55,6 +56,24 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
                 mInternalStorageEngine.RemoveFactOrRuleByKey(key);
             }
+        }
+
+        public SelectResult GetLogicalPropery(IValue holder, ulong propertyKey)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery holder = {holder} propertyKey = {propertyKey}");
+#endif
+
+            throw new NotImplementedException();
+        }
+
+        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalProperty holder = {holder} propertyKey = {propertyKey} value = {value} rewrite = {rewrite}");
+#endif
+
+            throw new NotImplementedException();
         }
     }
 }
