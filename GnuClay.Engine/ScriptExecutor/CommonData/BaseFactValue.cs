@@ -18,7 +18,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         private GnuClayEngineComponentContext mContect = null;
 
-        public KindOfValue Kind => KindOfValue.Logical;
+        public KindOfValue Kind => KindOfValue.Value;
 
         public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();

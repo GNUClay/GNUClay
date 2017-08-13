@@ -67,16 +67,16 @@ namespace GnuClay.Engine.LogicalStorage
             switch(kind)
             {
                 case KindOfValue.Logical:
-                    if(value.IsFact)
+                    result.Kind = ExpressionNodeKind.Entity;
+                    break;
+
+                case KindOfValue.Value:
+                    if (value.IsFact)
                     {
                         result.Kind = ExpressionNodeKind.Fact;
                         break;
                     }
 
-                    result.Kind = ExpressionNodeKind.Entity;
-                    break;
-
-                case KindOfValue.Value:
                     result.Kind = ExpressionNodeKind.Value;
                     result.Value = value.Value;
                     break;
