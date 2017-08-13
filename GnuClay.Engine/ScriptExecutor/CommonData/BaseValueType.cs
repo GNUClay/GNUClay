@@ -53,8 +53,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
-
-        protected object Value { get; private set; } = null;
+        public bool IsFact => false;
+        public object Value { get; private set; } = null;
 
         public virtual ulong GetLongHashCode()
         {

@@ -11,6 +11,7 @@ namespace GnuClay.Engine.ScriptExecutor
     {
         KindOfValue Kind { get; }
         ulong TypeKey { get; }
+        object Value { get; }
         bool IsProperty { get; }
         bool IsVariable { get; }
         bool IsValueContainer { get; }
@@ -18,6 +19,7 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsNull { get; }
         bool IsUndefined { get; }
         bool IsNullOrUndefined { get; }
+        bool IsFact { get; }
 
         ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators);
     }

@@ -62,6 +62,7 @@
     <Compile Include="LogicalStorage\InternalResolver\BaseInternalResolver.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatisticsKind.cs" />
     <Compile Include="LogicalStorage\InternalResolver\RewritingSelectQueryBuilder.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\SetPropertyQueryBuilder.cs" />
     <Compile Include="LogicalStorage\LogicalStorageContext.cs" />
     <Compile Include="LogicalStorage\SystemRelationsNamesConstants.cs" />
     <Compile Include="Parser\AbnormalTerminationException.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />
+    <Compile Include="ScriptExecutor\CommonData\BaseFactValue.cs" />
     <Compile Include="ScriptExecutor\Command.cs" />
     <Compile Include="ScriptExecutor\CommandFilter.cs" />
     <Compile Include="ScriptExecutor\CommandFilterParam.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
+    <Compile Include="ScriptExecutor\CommonData\DirectFactValue.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
     <Compile Include="ScriptExecutor\ErrorsFactory.cs" />

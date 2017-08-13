@@ -1,5 +1,7 @@
 ﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.ScriptExecutor;
@@ -15,10 +17,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         }
 
         private InternalStorageEngine mInternalStorageEngine = null;
+        private ASTTransformer mASTTransformer = null;
+        private StorageDataDictionary mDataDictionary = null;
+        private CommonValuesFactory mCommonValuesFactory = null;
 
         public override void FirstInit()
         {
             mInternalStorageEngine = LogicalContext.InternalStorageEngine;
+            mASTTransformer = LogicalContext.ASTTransformer;
+            mDataDictionary = Context.DataDictionary;
+            mCommonValuesFactory = Context.CommonValuesFactory;
         }
 
         public SelectResult SelectQuery(SelectQuery query)
@@ -67,13 +75,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             throw new NotImplementedException();
         }
 
-        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
+        public IValue SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalProperty holder = {holder} propertyKey = {propertyKey} value = {value} rewrite = {rewrite}");
-#endif
-
-            throw new NotImplementedException();
+            var query = mASTTransformer.CreateSetPropertyQuery(holder, propertyKey, value, rewrite);
+            InsertQuery(query);
+            var keyOfFact = query.Items[0].Key;
+            return mCommonValuesFactory.CreateDirectFactValue(keyOfFact);
         }
     }
 }

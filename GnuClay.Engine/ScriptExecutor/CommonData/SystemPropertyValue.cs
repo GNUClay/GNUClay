@@ -32,6 +32,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private ulong mTypeKey = 0;
 
         public ulong TypeKey => mTypeKey;
+        public object Value => throw new NotImplementedException();
 
         public bool IsProperty => true;
         public bool IsVariable => false;
@@ -63,6 +64,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
+        public bool IsFact => false;
 
         private PropertyFilter mTargetExecutor = null;
 

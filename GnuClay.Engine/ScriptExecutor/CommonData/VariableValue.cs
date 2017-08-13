@@ -21,7 +21,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public KindOfValue Kind => mKind;
 
         public ulong TypeKey => mTypeKey;
-
+        public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
 
         public bool IsVariable => true;
@@ -33,6 +33,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             throw new NotImplementedException();
         }
 
+        public bool IsFact => false;
         public ulong GetLongHashCode()
         {
             return mValue.GetLongHashCode();

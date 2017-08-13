@@ -1,6 +1,8 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
 using System.Collections.Generic;
@@ -53,6 +55,36 @@ namespace GnuClay.Engine.LogicalStorage
             var key = mDataDictionary.GetKey(name);
             mInheritanceEngine.SetInheritance(key, mLogicalRuleTypeKey, 1, InheritanceAspect.WithOutClause);
             return key;
+        }
+
+        public ExpressionNode CreateExpressionNode(IValue value)
+        {
+            var result = new ExpressionNode();
+            result.Key = value.TypeKey;
+
+            var kind = value.Kind;
+
+            switch(kind)
+            {
+                case KindOfValue.Logical:
+                    if(value.IsFact)
+                    {
+                        result.Kind = ExpressionNodeKind.Fact;
+                        break;
+                    }
+
+                    result.Kind = ExpressionNodeKind.Entity;
+                    break;
+
+                case KindOfValue.Value:
+                    result.Kind = ExpressionNodeKind.Value;
+                    result.Value = value.Value;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
+            }
+
+            return result;
         }
     }
 }

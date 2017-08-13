@@ -14,7 +14,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public LogicalPropertyValue(ulong typeKey, IValue holder, ulong propertyKey, GnuClayEngineComponentContext context)
         {
-            mTypeKey = typeKey;
+            TypeKey = typeKey;
             mHolder = holder;
             mPropertyKey = propertyKey;
             mContect = context;
@@ -28,13 +28,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private ulong mPropertyKey = 0;
 
         public KindOfValue Kind => KindOfValue.Logical;
-
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey => mTypeKey;
+        public ulong TypeKey { get; private set; }
+        public object Value => throw new NotImplementedException();
         public bool IsProperty => true;
         public bool IsVariable => false;
         public bool IsValueContainer => true;
+        public bool IsFact => false;
         public IValue ValueFromContainer
         {
             get
@@ -51,7 +50,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
             set
             {
-                throw new NotImplementedException();
+                ExecuteSetLogicalProperty(value, KindOfLogicalOperator.WriteFactReturnValue);
             }
         }
         public bool IsNull => false;
@@ -95,59 +94,37 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
                 result.Success = false;
             }
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExecuteSetLogicalProperty IS NOT IMPLEMENTED YET value = {value} kindOfLogicalOperators = {kindOfLogicalOperators}");
-            
-            
-            result.Result = new EntityValue(1);
 
-#endif
             return result;
         }
 
         private void WriteFactReturnValue(IValue value, ResultOfCalling resultOfCalling)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"WriteFactReturnValue value = {value}");
-#endif
-
-            var keyOfFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
-
-            throw new NotImplementedException();
+            var targetFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
+            resultOfCalling.Result = value;
         }
 
         private void WriteFactReturnThisFact(IValue value, ResultOfCalling resultOfCalling)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"WriteFactReturnThisFact value = {value}");
-#endif
-
-            var keyOfFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
-
-            throw new NotImplementedException();
+            var targetFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
+            resultOfCalling.Result = targetFact;
         }
 
         private void RewriteFactReturnValue(IValue value, ResultOfCalling resultOfCalling)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RewriteFactReturnValue value = {value}");
-#endif
-
-            throw new NotImplementedException();
+            var targetFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, true);
+            resultOfCalling.Result = value;
         }
 
         private void RewriteFactReturnThisFact(IValue value, ResultOfCalling resultOfCalling)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RewriteFactReturnThisFact value = {value}");
-#endif
-
-            throw new NotImplementedException();
+            var targetFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, true);
+            resultOfCalling.Result = targetFact;
         }
 
         public ulong GetLongHashCode()
         {
-            return mTypeKey;
+            return TypeKey;
         }
 
         /// <summary>

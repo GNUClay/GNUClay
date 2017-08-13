@@ -35,5 +35,10 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             return mUndefinedValue;
         }
+
+        public IValue CreateDirectFactValue(ulong key)
+        {
+            return new DirectFactValue(key, Context);
+        }
     }
 }

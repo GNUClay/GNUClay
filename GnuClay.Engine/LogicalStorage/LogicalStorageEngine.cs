@@ -176,11 +176,11 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
-        public ulong SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
+        public IValue SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)
         {
             lock (mLockObj)
             {
-                mInternalResolverEngine.SetLogicalProperty(holder, propertyKey, value, rewrite);
+                return mInternalResolverEngine.SetLogicalProperty(holder, propertyKey, value, rewrite);
             }
         }
 

@@ -20,7 +20,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         private ulong mTypeKey = 0;
 
         public ulong TypeKey => mTypeKey;
-
+        public object Value { get { throw new NotSupportedException(); } }
         public bool IsProperty => false;
         public bool IsVariable => false;
         public bool IsValueContainer => false;
@@ -40,6 +40,7 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
+        public bool IsFact => false;
 
         public ulong GetLongHashCode()
         {
