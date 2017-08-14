@@ -26,6 +26,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private CommonKeysEngine mCommonKeysEngine = null;
 
         private IValue mUndefinedValue = null;
+        private IValue mNullValue = null;
 
         private static string ParamVarName = "$x1";
         private ulong ParamVarKey = 0;
@@ -43,6 +44,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public override void SecondInit()
         {
             mUndefinedValue = new UndefinedValue(mCommonKeysEngine.UndefinedTypeKey);
+            mNullValue = new NullValue(mCommonKeysEngine.NullTypeKey);
 
             ParamVarKey = mDataDictionary.GetKey(ParamVarName);
 
@@ -60,14 +62,9 @@ namespace GnuClay.Engine.ScriptExecutor
             return new DirectFactValue(key, Context);
         }
 
-        public IValue CreateArrayOfFacts(SelectResult selectResult)
+        public IValue NullValue()
         {
-            var name = Guid.NewGuid().ToString("D");
-            var key = mDataDictionary.GetKey(name);
-            mInheritanceEngine.SetInheritance(key, mFactTypeKey, 1, InheritanceAspect.WithOutClause);
-            mInheritanceEngine.SetInheritance(key, mArrayTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            return new ArrayOfFactsValue(key, selectResult, Context);
+            return mNullValue;
         }
     }
 }

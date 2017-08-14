@@ -709,7 +709,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties (7) result = {result_1}");
 
             var result = propInstance.ValueFromContainer;
-            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (8)= {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties result (8) = {result}");
 
             //prop = GnuClayEngine.Context.PropertiesEngine.FindProperty(tmpHolder, colorKey);
             //NLog.LogManager.GetCurrentClassLogger().Info($"TstWorkWithProperties prop = {prop}");

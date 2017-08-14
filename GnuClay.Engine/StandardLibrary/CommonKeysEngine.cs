@@ -30,6 +30,9 @@ namespace GnuClay.Engine.StandardLibrary
             UndefinedTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
             InheritanceEngine.SetInheritance(UndefinedTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
+            NullTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.NullTypeName);
+            InheritanceEngine.SetInheritance(NullTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
             FactTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.FactName);
             InheritanceEngine.SetInheritance(FactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
@@ -39,12 +42,17 @@ namespace GnuClay.Engine.StandardLibrary
             PropertyKey = DataDictionary.GetKey(StandartTypeNamesConstants.PropertyActionName);
             InheritanceEngine.SetInheritance(PropertyKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
-            throw new NotImplementedException();
-            //LogicalPropertyKey
-            //PropertyActionTypeKey
+            LogicalPropertyKey = DataDictionary.GetKey(StandartTypeNamesConstants.LogicalPropertyName);
+            InheritanceEngine.SetInheritance(LogicalPropertyKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+            InheritanceEngine.SetInheritance(LogicalPropertyKey, PropertyKey, 1, InheritanceAspect.WithOutClause);
+            InheritanceEngine.SetInheritance(LogicalPropertyKey, ArrayTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            PropertyActionTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.PropertyActionName);
+            InheritanceEngine.SetInheritance(PropertyActionTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
         }
 
         public ulong UniversalTypeKey { get; private set; }
+        public ulong NullTypeKey { get; private set; }
         public ulong UndefinedTypeKey { get; private set; }
         public ulong FactTypeKey { get; private set; }
         public ulong ArrayTypeKey { get; private set; }

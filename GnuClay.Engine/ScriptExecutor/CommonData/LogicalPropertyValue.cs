@@ -22,11 +22,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mContect = context;
             mLogicalStorage = mContect.LogicalStorage;
             mDataDictionary = mContect.DataDictionary;
+            mCommonValuesFactory = mContect.CommonValuesFactory;
         }
 
         private GnuClayEngineComponentContext mContect = null;
         private LogicalStorageEngine mLogicalStorage = null;
         private StorageDataDictionary mDataDictionary = null;
+        private CommonValuesFactory mCommonValuesFactory = null;
 
         private IValue mHolder = null;
         private ulong mPropertyKey = 0;
@@ -43,12 +45,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             get
             {
-                var selectResult = mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
-
-                NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(selectResult, mDataDictionary));
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery selectResult = {selectResult}");
-
-                throw new NotImplementedException();
+                return ReadFactsReturnFitstFact();
             }
 
             set
@@ -56,6 +53,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 ExecuteSetLogicalProperty(value, KindOfLogicalOperator.WriteFactReturnValue);
             }
         }
+
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
@@ -101,6 +99,20 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             return result;
         }
 
+        public ulong GetLongHashCode()
+        {
+            return TypeKey;
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return $"LogicalPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; Holder = {mHolder}; PropertyKey = {mPropertyKey}";
+        }
+
         private void WriteFactReturnValue(IValue value, ResultOfCalling resultOfCalling)
         {
             var targetFact = mLogicalStorage.SetLogicalProperty(mHolder, mPropertyKey, value, false);
@@ -125,18 +137,32 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             resultOfCalling.Result = targetFact;
         }
 
-        public ulong GetLongHashCode()
+        private IValue ReadFactsReturnFitstFact()
         {
-            return TypeKey;
-        }
+            var selectResult = mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
 
-        /// <summary>
-        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
-        /// </summary>
-        /// <returns>The string representation of this instance.</returns>
-        public override string ToString()
-        {
-            return $"LogicalPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; Holder = {mHolder}; PropertyKey = {mPropertyKey}";
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(selectResult, mDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info($"ReadFactsReturnFitstFact selectResult = {selectResult}");
+
+            if(!selectResult.Success || !selectResult.HaveBeenFound || selectResult.Items.Count == 0)
+            {
+                return mCommonValuesFactory.NullValue();
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info("ReadFactsReturnFitstFact NEXT");
+
+            var targetItem = selectResult.Items.First();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"ReadFactsReturnFitstFact targetItem = {targetItem}");
+
+            var keyOfFact = targetItem.Key;
+
+            if (keyOfFact == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            return new DirectFactValue(keyOfFact, mContect);
         }
     }
 }

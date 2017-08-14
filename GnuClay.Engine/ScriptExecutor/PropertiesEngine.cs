@@ -132,7 +132,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if(isLogical)
                 {
-                    tmpProperty = new LogicalPropertyValue(mPropertyTypeKey, holder, propertyKey, Context);
+                    tmpProperty = new LogicalPropertyValue(mLogicalPropertyKey, holder, propertyKey, Context);
                 }
                 else
                 {

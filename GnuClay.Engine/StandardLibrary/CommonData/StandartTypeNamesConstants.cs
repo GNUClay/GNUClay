@@ -10,13 +10,15 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
     {
         public const string UniversalTypeName = "⊤";
         public const string UndefinedTypeMame = "undefined";
+        public const string NullTypeName = "null";
         public const string NumberName = "number";
-        public const string ArrayName = "Array";
-        public const string IteratorName = "Iterator";
+        public const string ArrayName = "array";
+        public const string IteratorName = "iterator";
         public const string PropertyName = "__property";
-        public const string PropertyActionName = "__PropertyAction";
-        public const string PropertyResultName = "_PropertyResult";
-        public const string PropertyResultIteratorName = "_PropertyResultIterator";
+        public const string LogicalPropertyName = "_logical property";
+        public const string PropertyActionName = "__property action";
+        public const string PropertyResultName = "_property result";
+        public const string PropertyResultIteratorName = "_property result iterator";
         public const string LogicalRuleName = "logical rule";
         public const string FactName = "fact";
     }
