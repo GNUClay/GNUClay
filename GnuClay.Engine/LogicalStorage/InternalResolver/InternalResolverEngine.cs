@@ -75,12 +75,15 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery query = {query}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText query = {SelectQueryDebugHelper.ConvertToString(query, mDataDictionary)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery query = {SelectQueryDebugHelper.ConvertToString(query, mDataDictionary)}");
 #endif
 
-            throw new NotImplementedException();
+            var result = SelectQuery(query);
 
-            //var result = SelectQuery(query);            
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(result, mDataDictionary));
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery result = {result}");
+
+            return mCommonValuesFactory.CreateArrayOfFacts(result);
         }
 
         public IValue SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)

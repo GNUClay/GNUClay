@@ -86,5 +86,14 @@ namespace GnuClay.Engine.LogicalStorage
 
             return result;
         }
+
+        public ExpressionNode CreateVarExpressionNode(ulong variableKey)
+        {
+            var variableNode = new ExpressionNode();
+            variableNode.Kind = ExpressionNodeKind.Var;
+            variableNode.Key = variableKey;
+
+            return variableNode;
+        }
     }
 }

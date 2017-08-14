@@ -18,6 +18,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         }
 
         private SelectQuery mResult = null;
+        private static string ParamVarName = "$x1";
 
         public SelectQuery Run(IValue holder, ulong propertyKey)
         {
@@ -30,9 +31,15 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             var relationParams = new List<ExpressionNode>();
             rootExpressionNode.RelationParams = relationParams;
 
-            throw new NotImplementedException();
+            var leftParam = CommonLogicalHelper.CreateExpressionNode(holder);
+            relationParams.Add(leftParam);
 
-            //return mResult;
+            var paramKey = DataDictionary.GetKey(ParamVarName);
+
+            var rightParam = CommonLogicalHelper.CreateVarExpressionNode(paramKey);
+            relationParams.Add(rightParam);
+
+            return mResult;
         }
     }
 }

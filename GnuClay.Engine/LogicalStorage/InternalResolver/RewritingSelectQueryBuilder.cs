@@ -49,6 +49,8 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
         }
 
+        private static string ParamVarName = "$x1";
+
         private void ProcessRelationNode(ExpressionNode node)
         {
             var relationsParams = node.RelationParams;
@@ -73,9 +75,9 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             entityParam.Key = targetParam.Key;
             relationParams.Add(entityParam);
 
-            var variableParam = new ExpressionNode();
-            variableParam.Kind = ExpressionNodeKind.Var;
-            variableParam.Key = DataDictionary.GetKey("$x1");
+            var paramKey = DataDictionary.GetKey(ParamVarName);
+
+            var variableParam = CommonLogicalHelper.CreateVarExpressionNode(paramKey); 
             relationParams.Add(variableParam);
         }
     }

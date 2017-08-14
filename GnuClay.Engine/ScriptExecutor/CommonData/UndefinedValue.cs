@@ -11,14 +11,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public UndefinedValue(ulong typeKey)
         {
-            mTypeKey = typeKey;
+            TypeKey = typeKey;
         }
 
         public KindOfValue Kind => KindOfValue.Value;
-
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey => mTypeKey;
+        public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
         public bool IsVariable => false;
@@ -40,10 +37,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsUndefined => true;
         public bool IsNullOrUndefined => true;
         public bool IsFact => false;
+        public bool IsArray => false;
 
         public ulong GetLongHashCode()
         {
-            return mTypeKey;
+            return TypeKey;
         }
 
         public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)

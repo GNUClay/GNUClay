@@ -19,7 +19,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private GnuClayEngineComponentContext mContect = null;
 
         public KindOfValue Kind => KindOfValue.Value;
-
         public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();
         public bool IsProperty => throw new NotImplementedException();
@@ -30,6 +29,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsUndefined => throw new NotImplementedException();
         public bool IsNullOrUndefined => throw new NotImplementedException();
         public bool IsFact => true;
+        public bool IsArray => false;
 
         public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
         {

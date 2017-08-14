@@ -120,6 +120,7 @@
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ArrayOfFactsValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseFactValue.cs" />
     <Compile Include="ScriptExecutor\Command.cs" />
     <Compile Include="ScriptExecutor\CommandFilter.cs" />

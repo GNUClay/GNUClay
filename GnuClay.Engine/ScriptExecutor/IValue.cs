@@ -20,6 +20,7 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsUndefined { get; }
         bool IsNullOrUndefined { get; }
         bool IsFact { get; }
+        bool IsArray { get; }
 
         ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators);
     }

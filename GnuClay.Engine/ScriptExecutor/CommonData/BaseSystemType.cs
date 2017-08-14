@@ -11,18 +11,14 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         protected BaseSystemType(ulong typeKey)
         {
-            mTypeKey = typeKey;
+            TypeKey = typeKey;
         }
 
         public KindOfValue Kind => KindOfValue.System;
-
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey => mTypeKey;
+        public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
         public bool IsVariable => false;
-
         public bool IsValueContainer => false;
         public IValue ValueFromContainer
         {
@@ -41,6 +37,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
         public bool IsFact => false;
+        public bool IsArray => false;
 
         public abstract ulong GetLongHashCode();
 

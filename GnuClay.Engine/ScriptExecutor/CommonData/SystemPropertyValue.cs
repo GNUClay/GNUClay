@@ -14,7 +14,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     {
         public SystemPropertyValue(ulong typeKey, PropertyFilter targetExecutor, IValue holder, GnuClayEngineComponentContext context)
         {
-            mTypeKey = typeKey;
+            TypeKey = typeKey;
             mTargetExecutor = targetExecutor;
             mHolder = holder;
             mPropertyKey = mTargetExecutor.PropertyKey;
@@ -28,12 +28,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private ulong mPropertyKey = 0;
 
         public KindOfValue Kind => KindOfValue.System;
-
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey => mTypeKey;
+        public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();
-
         public bool IsProperty => true;
         public bool IsVariable => false;
         public bool IsValueContainer => true;
@@ -65,6 +61,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
         public bool IsFact => false;
+        public bool IsArray => false;
 
         private PropertyFilter mTargetExecutor = null;
 
@@ -75,7 +72,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
         public ulong GetLongHashCode()
         {
-            return mTypeKey;
+            return TypeKey;
         }
 
         /// <summary>

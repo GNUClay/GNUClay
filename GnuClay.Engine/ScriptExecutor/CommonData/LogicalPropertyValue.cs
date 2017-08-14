@@ -34,6 +34,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsVariable => false;
         public bool IsValueContainer => true;
         public bool IsFact => false;
+        public bool IsArray => false;
         public IValue ValueFromContainer
         {
             get

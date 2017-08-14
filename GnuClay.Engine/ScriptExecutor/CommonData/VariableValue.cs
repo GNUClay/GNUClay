@@ -15,12 +15,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         }
 
         private IValue mValue = null;
-        private ulong mTypeKey = 0;
-        private KindOfValue mKind = KindOfValue.Undefined;
-
-        public KindOfValue Kind => mKind;
-
-        public ulong TypeKey => mTypeKey;
+        public KindOfValue Kind {get; private set;}= KindOfValue.Undefined;
+        public ulong TypeKey { get; private set; }
         public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
 
@@ -34,6 +30,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         }
 
         public bool IsFact => false;
+        public bool IsArray => false;
+
         public ulong GetLongHashCode()
         {
             return mValue.GetLongHashCode();
@@ -54,8 +52,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 }
 
                 mValue = value;
-                mTypeKey = mValue.TypeKey;
-                mKind = mValue.Kind;
+                TypeKey = mValue.TypeKey;
+                Kind = mValue.Kind;
             }
         }
 

@@ -12,14 +12,11 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
     {
         public EntityValue(ulong typeKey)
         {
-            mTypeKey = typeKey;
+            TypeKey = typeKey;
         }
 
         public KindOfValue Kind => KindOfValue.Logical;
-
-        private ulong mTypeKey = 0;
-
-        public ulong TypeKey => mTypeKey;
+        public ulong TypeKey { get; private set; }
         public object Value { get { throw new NotSupportedException(); } }
         public bool IsProperty => false;
         public bool IsVariable => false;
@@ -41,10 +38,11 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
         public bool IsFact => false;
+        public bool IsArray => false;
 
         public ulong GetLongHashCode()
         {
-            return mTypeKey;
+            return TypeKey;
         }
 
         public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
