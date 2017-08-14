@@ -12,18 +12,13 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class RewritingSelectQueryBuilder
+    public class RewritingSelectQueryBuilder: BaseQueryBuilder
     {
         public RewritingSelectQueryBuilder(GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
-            Context = context;
-            LogicalStorageContext = logicalContext;
-            DataDictionary = Context.DataDictionary;
         }
 
-        private GnuClayEngineComponentContext Context;
-        private LogicalStorageContext LogicalStorageContext;
-        private StorageDataDictionary DataDictionary;
         private SelectQuery mResult = null;
 
         public SelectQuery Run(RuleInstance targetItem)

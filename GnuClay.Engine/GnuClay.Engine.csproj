@@ -60,6 +60,8 @@
     <Compile Include="LogicalStorage\CommonLogicalHelper.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ASTTransformer.cs" />
     <Compile Include="LogicalStorage\InternalResolver\BaseInternalResolver.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\BaseQueryBuilder.cs" />
+    <Compile Include="LogicalStorage\InternalResolver\GetPropertyQueryBuilder.cs" />
     <Compile Include="LogicalStorage\InternalResolver\InsertQueryItemStatisticsKind.cs" />
     <Compile Include="LogicalStorage\InternalResolver\RewritingSelectQueryBuilder.cs" />
     <Compile Include="LogicalStorage\InternalResolver\SetPropertyQueryBuilder.cs" />

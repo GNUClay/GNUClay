@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.Inheritance;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.CommonData;
@@ -39,6 +40,15 @@ namespace GnuClay.Engine.ScriptExecutor
         public IValue CreateDirectFactValue(ulong key)
         {
             return new DirectFactValue(key, Context);
+        }
+
+        public IValue CreateArrayOfFacts(SelectResult selectResult)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateArrayOfFacts selectResult = {selectResult}");
+#endif
+
+            throw new NotImplementedException();
         }
     }
 }

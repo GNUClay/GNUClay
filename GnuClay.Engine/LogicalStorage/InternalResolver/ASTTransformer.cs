@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -36,6 +37,12 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
         {
             var builder = new SetPropertyQueryBuilder(Context, LogicalContext);
             return builder.Run(holder, propertyKey, value, rewrite);
+        }
+
+        public SelectQuery CreateGetPropertyQuery(IValue holder, ulong propertyKey)
+        {
+            var bulider = new GetPropertyQueryBuilder(Context, LogicalContext);
+            return bulider.Run(holder, propertyKey);
         }
     }
 }

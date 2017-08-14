@@ -12,28 +12,17 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
-    public class SetPropertyQueryBuilder
+    public class SetPropertyQueryBuilder: BaseQueryBuilder
     {
         public SetPropertyQueryBuilder(GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+            : base(context, logicalContext)
         {
-            Context = context;
-            LogicalStorageContext = logicalContext;
-            CommonLogicalHelper = logicalContext.CommonLogicalHelper;
-            DataDictionary = Context.DataDictionary;
         }
 
-        private GnuClayEngineComponentContext Context;
-        private LogicalStorageContext LogicalStorageContext;
-        private StorageDataDictionary DataDictionary;
-        private CommonLogicalHelper CommonLogicalHelper;
         private InsertQuery mResult = null;
 
         public InsertQuery Run(IValue holder, ulong propertyKey, IValue value, bool rewrite)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run holder = {holder} propertyKey = {propertyKey} value = {value} rewrite = {rewrite}");
-#endif
-
             mResult = new InsertQuery();
             mResult.Rewrite = rewrite;
 
