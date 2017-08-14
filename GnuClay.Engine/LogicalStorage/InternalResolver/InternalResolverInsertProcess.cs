@@ -15,68 +15,51 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 {
     public class InternalResolverInsertProcess: BaseInternalResolver
     {
-        public InternalResolverInsertProcess(InsertQuery query, GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
+        public InternalResolverInsertProcess(InsertQuery query, RuleInstance targetItem, GnuClayEngineComponentContext context, LogicalStorageContext logicalContext)
             : base(context, logicalContext)
         {
-            mInsertQuery = query;
+            mTargetItem = targetItem;
             Rewrite = query.Rewrite;
             mCommonLogicalHelper = logicalContext.CommonLogicalHelper;
         }
 
-        private InsertQuery mInsertQuery = null;
         private CommonLogicalHelper mCommonLogicalHelper = null;
+
+        private RuleInstance mTargetItem = null;
+        private InsertQueryItemStatistics mStatisticItem = null;
         private bool Rewrite = false;
 
-        private List<InsertQueryItemStatistics> mStatisticsList = new List<InsertQueryItemStatistics>();
         private Dictionary<ulong, List<RuleInstance>> mExistsStatisticsHashCodes = new Dictionary<ulong, List<RuleInstance>>();
 
         public void Run()
         {
-            if(_ListHelper.IsEmpty(mInsertQuery.Items))
-            {
-                throw new NullReferenceException("Query is not contain inserting items.");
-            }
-
-            FillStatistics();
-
+            GetStatistics();
             ImplementStatistics();
-        }
-
-        private void FillStatistics()
-        {
-            foreach(var tmpItem in mInsertQuery.Items)
-            {
-                GetStatistics(tmpItem);
-            }
         }
 
         private void ImplementStatistics()
         {
-            foreach (var statisticsItem in mStatisticsList)
+            var kind = mStatisticItem.Kind;
+
+            switch (kind)
             {
-#if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"ImplementStatistics statisticsItem = {statisticsItem}");
-#endif
-                switch(statisticsItem.Kind)
-                {
-                    case InsertQueryItemStatisticsKind.Fact:
-                        ProcessRuleOrFact(statisticsItem);
-                        break;
+                case InsertQueryItemStatisticsKind.Fact:
+                    ProcessRuleOrFact(mStatisticItem);
+                    break;
 
-                    case InsertQueryItemStatisticsKind.Rule:
-                        ProcessRuleOrFact(statisticsItem);
-                        break;
+                case InsertQueryItemStatisticsKind.Rule:
+                    ProcessRuleOrFact(mStatisticItem);
+                    break;
 
-                    case InsertQueryItemStatisticsKind.SetInheritence:
-                        ProcessSetInheritence(statisticsItem);
-                        break;
+                case InsertQueryItemStatisticsKind.SetInheritence:
+                    ProcessSetInheritence(mStatisticItem);
+                    break;
 
-                    case InsertQueryItemStatisticsKind.RemoveInheritence:
-                        ProcessRemoveInheritence(statisticsItem);
-                        break;
+                case InsertQueryItemStatisticsKind.RemoveInheritence:
+                    ProcessRemoveInheritence(mStatisticItem);
+                    break;
 
-                    default: throw new ArgumentOutOfRangeException(nameof(statisticsItem.Kind), statisticsItem.Kind.ToString());
-                }
+                default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
 
@@ -163,7 +146,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     superKey = tmpRelationParams[1].Key;
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
+                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount, null);
             }
 
 #if DEBUG
@@ -205,7 +188,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
                     superKey = tmpRelationParams[1].Key;
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount.ToString());
+                default: throw new ArgumentOutOfRangeException(nameof(paramsCount), paramsCount, null);
             }
 
 #if DEBUG
@@ -214,45 +197,44 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             Context.InheritanceEngine.SetInheritance(subKey, superKey, 0, InheritanceAspect.WithOutClause);
         }
 
-        private void GetStatistics(RuleInstance targetItem)
+        private void GetStatistics()
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics targetItem = `{RuleInstanceDebugHelper.ConvertToString(targetItem, Context.DataDictionary)}`");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics mTargetItem = `{RuleInstanceDebugHelper.ConvertToString(mTargetItem, Context.DataDictionary)}`");
 #endif
-            var tmpStatistics = new InsertQueryItemStatistics();
-            
-            tmpStatistics.Target = targetItem;
+            mStatisticItem = new InsertQueryItemStatistics();
 
-            targetItem.CalculateHashCode();
+            mStatisticItem.Target = mTargetItem;
 
-            CheckUnique(targetItem);
+            mTargetItem.CalculateHashCode();
 
-            AnalyzingTreeNode(targetItem.Part_1.Tree, targetItem.Part_1, tmpStatistics);
+            CheckUnique(mTargetItem);
 
-            if (targetItem.Part_2 == null)
+            AnalyzingTreeNode(mTargetItem.Part_1.Tree, mTargetItem.Part_1, mStatisticItem);
+
+            if (mTargetItem.Part_2 == null)
             {
-                tmpStatistics.Kind = InsertQueryItemStatisticsKind.Fact;
-                ValidateFact(tmpStatistics);
+                mStatisticItem.Kind = InsertQueryItemStatisticsKind.Fact;
+                ValidateFact(mStatisticItem);
 
                 if(Rewrite)
                 {
-                    tmpStatistics.NeedRewriting = true;
-                    tmpStatistics.RewritingQuery = mASTTransformer.GetRewritingQuery(targetItem);
+                    mStatisticItem.NeedRewriting = true;
+                    mStatisticItem.RewritingQuery = mASTTransformer.GetRewritingQuery(mTargetItem);
                 }
             }
             else{
-                tmpStatistics.Kind = InsertQueryItemStatisticsKind.Rule;
-                AnalyzingTreeNode(targetItem.Part_2.Tree, targetItem.Part_2, tmpStatistics);
-                ValidateRule(tmpStatistics);
+                mStatisticItem.Kind = InsertQueryItemStatisticsKind.Rule;
+                AnalyzingTreeNode(mTargetItem.Part_2.Tree, mTargetItem.Part_2, mStatisticItem);
+                ValidateRule(mStatisticItem);
             }
 
-            targetItem.VarsCount = tmpStatistics.VarsCount;
-            targetItem.LocalRelationsIndex = tmpStatistics.LocalRelationsIndex;
+            mTargetItem.VarsCount = mStatisticItem.VarsCount;
+            mTargetItem.LocalRelationsIndex = mStatisticItem.LocalRelationsIndex;
 
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics tmpStatistics = {tmpStatistics}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetStatistics mStatisticItem = {mStatisticItem}");
 #endif
-            mStatisticsList.Add(tmpStatistics);
         }
 
         private void CheckUnique(RuleInstance targetItem)

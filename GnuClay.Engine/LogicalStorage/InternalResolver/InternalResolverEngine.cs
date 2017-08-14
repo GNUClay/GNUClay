@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -38,8 +39,16 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public void InsertQuery(InsertQuery query)
         {
-            var tmpProcess = new InternalResolverInsertProcess(query, Context, LogicalContext);
-            tmpProcess.Run();
+            if (_ListHelper.IsEmpty(query.Items))
+            {
+                throw new NullReferenceException("Query is not contain inserting items.");
+            }
+
+            foreach (var item in query.Items)
+            {
+                var tmpProcess = new InternalResolverInsertProcess(query, item, Context, LogicalContext);
+                tmpProcess.Run();
+            }
         }
 
         public void RemoveFacts(SelectQuery query)
