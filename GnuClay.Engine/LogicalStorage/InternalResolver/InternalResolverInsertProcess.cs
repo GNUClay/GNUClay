@@ -86,23 +86,25 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRuleOrFact statisticsItem = {statisticsItem}");
 #endif
             var target = statisticsItem.Target;
-
-            ulong keyOfInstance = 0;
-
             var kind = statisticsItem.Kind;
 
-            switch (kind)
+            var keyOfInstance = target.Key;
+
+            if(keyOfInstance == 0)
             {
-                case InsertQueryItemStatisticsKind.Fact:
-                    keyOfInstance = mCommonLogicalHelper.GetFactKey();
-                    break;
+                switch (kind)
+                {
+                    case InsertQueryItemStatisticsKind.Fact:
+                        keyOfInstance = mCommonLogicalHelper.GetFactKey();
+                        break;
 
-                case InsertQueryItemStatisticsKind.Rule:
-                    keyOfInstance = mCommonLogicalHelper.GetRuleKey();
-                    break;
+                    case InsertQueryItemStatisticsKind.Rule:
+                        keyOfInstance = mCommonLogicalHelper.GetRuleKey();
+                        break;
+                }
+
+                target.Key = keyOfInstance;
             }
-
-            target.Key = keyOfInstance;
 
             if(statisticsItem.NeedRewriting)
             {
