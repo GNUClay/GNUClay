@@ -168,7 +168,7 @@ namespace GnuClay.Engine.LogicalStorage
             }
         }
 
-        public IValue GetLogicalPropery(IValue holder, ulong propertyKey)
+        public SelectResult GetLogicalPropery(IValue holder, ulong propertyKey)
         {
             lock (mLockObj)
             {

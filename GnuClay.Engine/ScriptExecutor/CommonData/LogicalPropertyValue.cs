@@ -1,5 +1,7 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -19,10 +21,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mPropertyKey = propertyKey;
             mContect = context;
             mLogicalStorage = mContect.LogicalStorage;
+            mDataDictionary = mContect.DataDictionary;
         }
 
         private GnuClayEngineComponentContext mContect = null;
         private LogicalStorageEngine mLogicalStorage = null;
+        private StorageDataDictionary mDataDictionary = null;
 
         private IValue mHolder = null;
         private ulong mPropertyKey = 0;
@@ -34,12 +38,17 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsVariable => false;
         public bool IsValueContainer => true;
         public bool IsFact => false;
-        public bool IsArray => false;
+        public bool IsArray => true;
         public IValue ValueFromContainer
         {
             get
             {
-                return mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
+                var selectResult = mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
+
+                NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(selectResult, mDataDictionary));
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery selectResult = {selectResult}");
+
+                throw new NotImplementedException();
             }
 
             set

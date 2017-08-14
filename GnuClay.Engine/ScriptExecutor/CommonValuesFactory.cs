@@ -3,6 +3,7 @@ using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -22,8 +23,8 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private InheritanceEngine mInheritanceEngine = null;
         private StorageDataDictionary mDataDictionary = null;
+        private CommonKeysEngine mCommonKeysEngine = null;
 
-        private ulong mUndefinedTypeKey = 0;
         private IValue mUndefinedValue = null;
 
         private static string ParamVarName = "$x1";
@@ -31,30 +32,22 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ulong mFactTypeKey = 0;
         private ulong mArrayTypeKey = 0;
-        private ulong UniversalTypeKey = 1;
 
         public override void FirstInit()
         {
             mDataDictionary = Context.DataDictionary;
             mInheritanceEngine = Context.InheritanceEngine;
+            mCommonKeysEngine = Context.CommonKeysEngine;
         }
 
         public override void SecondInit()
         {
-            var universalTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
-
-            mUndefinedTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
-            mInheritanceEngine.SetInheritance(mUndefinedTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mUndefinedValue = new UndefinedValue(mUndefinedTypeKey);
+            mUndefinedValue = new UndefinedValue(mCommonKeysEngine.UndefinedTypeKey);
 
             ParamVarKey = mDataDictionary.GetKey(ParamVarName);
 
-            mFactTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.FactName);
-            mInheritanceEngine.SetInheritance(mFactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mArrayTypeKey = mDataDictionary.GetKey(StandartTypeNamesConstants.ArrayName);
-            mInheritanceEngine.SetInheritance(mArrayTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+            mFactTypeKey = mCommonKeysEngine.FactTypeKey;
+            mArrayTypeKey = mCommonKeysEngine.ArrayTypeKey;
         }
 
         public IValue UndefinedValue()

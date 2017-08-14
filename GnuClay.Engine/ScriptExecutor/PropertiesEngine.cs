@@ -2,6 +2,7 @@
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -21,12 +22,11 @@ namespace GnuClay.Engine.ScriptExecutor
         }
 
         private CommonValuesFactory mCommonValuesFactory = null;
+        private CommonKeysEngine mCommonKeysEngine = null;
 
-        private string mPropertyActionTypeName = "__PropertyAction";
         private ulong mPropertyActionTypeKey = 0;
-
-        private string mPropertyTypeName = "__property";
         private ulong mPropertyTypeKey = 0;
+        private ulong mLogicalPropertyKey = 0;
 
         public override void FirstInit()
         {
@@ -38,16 +38,14 @@ namespace GnuClay.Engine.ScriptExecutor
             };
 
             mCommonValuesFactory = Context.CommonValuesFactory;
+            mCommonKeysEngine = Context.CommonKeysEngine;
 
             mPropertiesFiltersStorage = new PropertiesFiltersStorage(Context);
 
-            var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
+            mPropertyActionTypeKey = mCommonKeysEngine.PropertyActionTypeKey;
+            mPropertyTypeKey = mCommonKeysEngine.PropertyKey;
 
-            mPropertyActionTypeKey = Context.DataDictionary.GetKey(mPropertyActionTypeName);
-            Context.InheritanceEngine.SetInheritance(mPropertyActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mPropertyTypeKey = Context.DataDictionary.GetKey(mPropertyTypeName);
-            Context.InheritanceEngine.SetInheritance(mPropertyTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+            mLogicalPropertyKey = mCommonKeysEngine.LogicalPropertyKey;
         }
 
         private object mLockObj = new object();

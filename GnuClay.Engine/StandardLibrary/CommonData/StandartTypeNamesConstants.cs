@@ -13,6 +13,8 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string NumberName = "number";
         public const string ArrayName = "Array";
         public const string IteratorName = "Iterator";
+        public const string PropertyName = "__property";
+        public const string PropertyActionName = "__PropertyAction";
         public const string PropertyResultName = "_PropertyResult";
         public const string PropertyResultIteratorName = "_PropertyResultIterator";
         public const string LogicalRuleName = "logical rule";

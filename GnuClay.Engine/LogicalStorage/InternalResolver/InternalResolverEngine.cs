@@ -66,7 +66,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
         }
 
-        public IValue GetLogicalPropery(IValue holder, ulong propertyKey)
+        public SelectResult GetLogicalPropery(IValue holder, ulong propertyKey)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery holder = {holder} propertyKey = {propertyKey}");
@@ -78,12 +78,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery query = {SelectQueryDebugHelper.ConvertToString(query, mDataDictionary)}");
 #endif
 
-            var result = SelectQuery(query);
-
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(result, mDataDictionary));
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery result = {result}");
-
-            return mCommonValuesFactory.CreateArrayOfFacts(result);
+            return SelectQuery(query);
         }
 
         public IValue SetLogicalProperty(IValue holder, ulong propertyKey, IValue value, bool rewrite)

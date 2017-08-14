@@ -120,7 +120,6 @@
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />
-    <Compile Include="ScriptExecutor\CommonData\ArrayOfFactsValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\BaseFactValue.cs" />
     <Compile Include="ScriptExecutor\Command.cs" />
     <Compile Include="ScriptExecutor\CommandFilter.cs" />
@@ -173,6 +172,7 @@
     <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
+    <Compile Include="StandardLibrary\CommonKeysEngine.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\EntityValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
