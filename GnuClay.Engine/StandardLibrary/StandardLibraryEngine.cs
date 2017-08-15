@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.StandardLibrary.OperatorsSupport;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System.Collections.Generic;
 
@@ -9,9 +10,10 @@ namespace GnuClay.Engine.StandardLibrary
         public StandardLibraryEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
+            CreateProviders();
         }
 
-        public override void FirstInit()
+        private void CreateProviders()
         {
             NumberProvider = new NumberProvider(Context);
             mProvidersList.Add(NumberProvider);
@@ -19,6 +21,12 @@ namespace GnuClay.Engine.StandardLibrary
             BooleanProvider = new BooleanProvider(Context);
             mProvidersList.Add(BooleanProvider);
 
+            OperatorAssignProvider = new OperatorAssignProvider(Context);
+            mProvidersList.Add(OperatorAssignProvider);
+        }
+
+        public override void FirstInit()
+        {
             FirstInitProviders();
         }
 
@@ -30,9 +38,28 @@ namespace GnuClay.Engine.StandardLibrary
             }
         }
 
+        public override void SecondInit()
+        {
+            SecondInitProviders();
+        }
+
+        private void SecondInitProviders()
+        {
+            foreach (var component in mProvidersList)
+            {
+                component.SecondInit();
+            }
+        }
+
         private List<BaseGnuClayEngineComponent> mProvidersList = new List<BaseGnuClayEngineComponent>();
 
+        #region Providers of types
         public NumberProvider NumberProvider { get; private set; }
         public BooleanProvider BooleanProvider { get; private set; }
+        #endregion
+
+        #region Providers of operators
+        private OperatorAssignProvider OperatorAssignProvider = null;
+        #endregion
     }
 }

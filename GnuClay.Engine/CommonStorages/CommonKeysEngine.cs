@@ -16,6 +16,12 @@ namespace GnuClay.Engine.CommonStorages
 
         public override void FirstInit()
         {
+            GetKeysOfTypes();
+            GetKeysOfOperators();
+        }
+
+        private void GetKeysOfTypes()
+        {
             DataDictionary = Context.DataDictionary;
             InheritanceEngine = Context.InheritanceEngine;
 
@@ -57,6 +63,12 @@ namespace GnuClay.Engine.CommonStorages
             InheritanceEngine.SetInheritance(UncaughtReferenceErrorTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
         }
 
+        private void GetKeysOfOperators()
+        {
+            AssignOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AssignOperatorName);
+        }
+
+        #region keys of types
         public ulong UniversalTypeKey { get; private set; }
         public ulong NullTypeKey { get; private set; }
         public ulong UndefinedTypeKey { get; private set; }
@@ -69,5 +81,10 @@ namespace GnuClay.Engine.CommonStorages
         public ulong EntityActionTypeKey { get; private set; }
         public ulong ErrorTypeKey { get; private set; }
         public ulong UncaughtReferenceErrorTypeKey { get; private set; }
+        #endregion
+
+        #region keys of operators
+        public ulong AssignOperatorKey { get; private set; }
+        #endregion
     }
 }

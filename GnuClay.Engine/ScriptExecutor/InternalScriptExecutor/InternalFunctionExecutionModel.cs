@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
@@ -14,6 +15,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         public InternalFunctionExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
         {
             mMainContext = mainContext;
+            mCommonValuesFactory = mainContext.CommonValuesFactory;
             mExecutionContext = executionContext;
 
             mEntityAction = entityAction;
@@ -26,6 +28,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private GnuClayEngineComponentContext mMainContext = null;
         private GnuClayThreadExecutionContext mExecutionContext = null;
+        private CommonValuesFactory mCommonValuesFactory = null;
         private FunctionModel mFunction = null;
         private EntityAction mEntityAction = null;
 

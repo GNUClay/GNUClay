@@ -24,10 +24,6 @@ namespace GnuClay.Engine.ScriptExecutor
         private CommonValuesFactory mCommonValuesFactory = null;
         private CommonKeysEngine mCommonKeysEngine = null;
 
-        private ulong mSelfKey = 0;
-
-        private IValue mSelfValue = null;
-
         private ulong mEntityActionTypeKey = 0;
 
         private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
@@ -35,17 +31,13 @@ namespace GnuClay.Engine.ScriptExecutor
         public override void FirstInit()
         {
             mCommonValuesFactory = Context.CommonValuesFactory;
+            mCommonKeysEngine = Context.CommonKeysEngine;
 
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
         }
 
         public override void SecondInit()
         {
-            var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
-
-            mSelfKey = mCommonKeysEngine.SelfKey;
-            mSelfValue = new EntityValue(mSelfKey);
-
             mEntityActionTypeKey = mCommonKeysEngine.EntityActionTypeKey;
         }
 
@@ -167,7 +159,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             if (holder == null)
             {
-                holder = mSelfValue;
+                holder = mCommonValuesFactory.SelfValue();
             }
 
             command.Holder = holder;
@@ -186,7 +178,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             if (holder == null)
             {
-                holder = mSelfValue;
+                holder = mCommonValuesFactory.SelfValue();
             }
 
             command.Holder = holder;

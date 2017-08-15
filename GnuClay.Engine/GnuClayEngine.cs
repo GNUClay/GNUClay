@@ -127,6 +127,7 @@ namespace GnuClay.Engine
         private void Init()
         {
             FirstInit();
+            SecondInit();
         }
 
         private void FirstInit()

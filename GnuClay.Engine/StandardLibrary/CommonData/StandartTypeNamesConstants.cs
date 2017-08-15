@@ -8,6 +8,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 {
     public class StandartTypeNamesConstants
     {
+        #region names of types
         public const string UniversalTypeName = "⊤";
         public const string UndefinedTypeMame = "undefined";
         public const string NullTypeName = "null";
@@ -26,5 +27,10 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string EntityActionTypeName = "__entity action";
         public const string ErrorTypeName = "error";
         public const string UncaughtReferenceErrorTypeName = "Uncaught Reference Error";
+        #endregion
+
+        #region names of operators
+        public const string AssignOperatorName = "=";
+        #endregion
     }
 }

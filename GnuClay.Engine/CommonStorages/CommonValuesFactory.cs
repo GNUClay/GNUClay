@@ -2,6 +2,7 @@
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 
 namespace GnuClay.Engine.CommonStorages
@@ -26,6 +27,9 @@ namespace GnuClay.Engine.CommonStorages
         private ulong mFactTypeKey = 0;
         private ulong mArrayTypeKey = 0;
 
+        private ulong mSelfKey = 0;
+        private IValue mSelfValue = null;
+
         public override void FirstInit()
         {
             mDataDictionary = Context.DataDictionary;
@@ -42,6 +46,9 @@ namespace GnuClay.Engine.CommonStorages
 
             mFactTypeKey = mCommonKeysEngine.FactTypeKey;
             mArrayTypeKey = mCommonKeysEngine.ArrayTypeKey;
+
+            mSelfKey = mCommonKeysEngine.SelfKey;
+            mSelfValue = new EntityValue(mSelfKey);
         }
 
         public ulong CreateObject()
@@ -63,6 +70,11 @@ namespace GnuClay.Engine.CommonStorages
         public IValue NullValue()
         {
             return mNullValue;
+        }
+
+        public IValue SelfValue()
+        {
+            return mSelfValue;
         }
     }
 }

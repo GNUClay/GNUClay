@@ -22,10 +22,10 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                //RunMiddleScript();
+                RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
-                TstWorkWithProperties();
+                //TstWorkWithProperties();
                 //TSTRunCodeWithProperties();
             }
             catch (Exception e)
@@ -216,7 +216,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
 
-            var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
+            var selfKey = GnuClayEngine.Context.CommonKeysEngine.SelfKey;
 
             var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
 
