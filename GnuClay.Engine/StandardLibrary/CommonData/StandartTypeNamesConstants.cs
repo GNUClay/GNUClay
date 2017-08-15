@@ -22,5 +22,9 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string PropertyResultIteratorName = "_property result iterator";
         public const string LogicalRuleName = "logical rule";
         public const string FactName = "fact";
+        public const string SelfName = "self";
+        public const string EntityActionTypeName = "__entity action";
+        public const string ErrorTypeName = "error";
+        public const string UncaughtReferenceErrorTypeName = "Uncaught Reference Error";
     }
 }

@@ -43,6 +43,18 @@ namespace GnuClay.Engine.CommonStorages
 
             PropertyActionTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.PropertyActionName);
             InheritanceEngine.SetInheritance(PropertyActionTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            SelfKey = DataDictionary.GetKey(StandartTypeNamesConstants.SelfName);
+            InheritanceEngine.SetInheritance(SelfKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            EntityActionTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.EntityActionTypeName);
+            InheritanceEngine.SetInheritance(EntityActionTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            ErrorTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.ErrorTypeName);
+            InheritanceEngine.SetInheritance(ErrorTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
+            UncaughtReferenceErrorTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.UncaughtReferenceErrorTypeName);
+            InheritanceEngine.SetInheritance(UncaughtReferenceErrorTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
         }
 
         public ulong UniversalTypeKey { get; private set; }
@@ -53,5 +65,9 @@ namespace GnuClay.Engine.CommonStorages
         public ulong PropertyKey { get; private set; }
         public ulong LogicalPropertyKey { get; private set; }
         public ulong PropertyActionTypeKey { get; private set; }
+        public ulong SelfKey { get; private set; }
+        public ulong EntityActionTypeKey { get; private set; }
+        public ulong ErrorTypeKey { get; private set; }
+        public ulong UncaughtReferenceErrorTypeKey { get; private set; }
     }
 }

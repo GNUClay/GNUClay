@@ -26,17 +26,20 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public override void FirstInit()
         {
+            mCommonValuesFactory = Context.CommonValuesFactory;
+            mCommonKeysEngine = Context.CommonKeysEngine;
+
+            mPropertiesFiltersStorage = new PropertiesFiltersStorage(Context);
+        }
+
+        public override void SecondInit()
+        {
             Context.InternalBusEngine.OnInvalidateCache += () =>
             {
                 Task.Run(() => {
                     InvalidateCache();
                 });
             };
-
-            mCommonValuesFactory = Context.CommonValuesFactory;
-            mCommonKeysEngine = Context.CommonKeysEngine;
-
-            mPropertiesFiltersStorage = new PropertiesFiltersStorage(Context);
 
             mPropertyActionTypeKey = mCommonKeysEngine.PropertyActionTypeKey;
             mPropertyTypeKey = mCommonKeysEngine.PropertyKey;

@@ -2,6 +2,7 @@
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.CommonData;
+using System;
 
 namespace GnuClay.Engine.CommonStorages
 {
@@ -41,6 +42,12 @@ namespace GnuClay.Engine.CommonStorages
 
             mFactTypeKey = mCommonKeysEngine.FactTypeKey;
             mArrayTypeKey = mCommonKeysEngine.ArrayTypeKey;
+        }
+
+        public ulong CreateObject()
+        {
+            var tmpName = Guid.NewGuid().ToString("D");
+            return mDataDictionary.GetKey(tmpName);
         }
 
         public IValue UndefinedValue()

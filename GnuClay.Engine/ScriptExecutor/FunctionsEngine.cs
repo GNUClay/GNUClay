@@ -22,13 +22,12 @@ namespace GnuClay.Engine.ScriptExecutor
         }
 
         private CommonValuesFactory mCommonValuesFactory = null;
+        private CommonKeysEngine mCommonKeysEngine = null;
 
-        private string mSelfName = "self";
         private ulong mSelfKey = 0;
 
         private IValue mSelfValue = null;
 
-        private string mEntityActionTypeName = "__EntityAction";
         private ulong mEntityActionTypeKey = 0;
 
         private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
@@ -38,15 +37,16 @@ namespace GnuClay.Engine.ScriptExecutor
             mCommonValuesFactory = Context.CommonValuesFactory;
 
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
+        }
 
+        public override void SecondInit()
+        {
             var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
 
-            mSelfKey = Context.DataDictionary.GetKey(mSelfName);
-            Context.InheritanceEngine.SetInheritance(mSelfKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+            mSelfKey = mCommonKeysEngine.SelfKey;
             mSelfValue = new EntityValue(mSelfKey);
 
-            mEntityActionTypeKey = Context.DataDictionary.GetKey(mEntityActionTypeName);
-            Context.InheritanceEngine.SetInheritance(mEntityActionTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
+            mEntityActionTypeKey = mCommonKeysEngine.EntityActionTypeKey;
         }
 
         public ResultOfCalling CallCodeFrame(FunctionModel source)

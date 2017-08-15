@@ -1,12 +1,7 @@
-﻿using GnuClay.Engine.Inheritance;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
-using GnuClay.Engine.StandardLibrary.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
@@ -17,47 +12,37 @@ namespace GnuClay.Engine.ScriptExecutor
         {
         }
 
-        private string mErrorTypeName = "error";
-        private ulong mErrorTypeKey = 0;
+        private CommonKeysEngine mCommonKeysEngine = null;
+        private CommonValuesFactory mCommonValuesFactory = null;
+        private InheritanceEngine mInheritanceEngine = null;
 
-        private string mUncaughtReferenceErrorTypeName = "Uncaught Reference Error";
+        private ulong mErrorTypeKey = 0;
         private ulong mUncaughtReferenceErrorTypeKey = 0;
 
         public override void FirstInit()
         {
-            var universalTypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
-
-            mErrorTypeKey = Context.DataDictionary.GetKey(mErrorTypeName);
-
-            Context.InheritanceEngine.SetInheritance(mErrorTypeKey, universalTypeKey, 1, InheritanceAspect.WithOutClause);
-
-            mUncaughtReferenceErrorTypeKey = Context.DataDictionary.GetKey(mUncaughtReferenceErrorTypeName);
-
-            Context.InheritanceEngine.SetInheritance(mUncaughtReferenceErrorTypeKey, mErrorTypeKey, 1, InheritanceAspect.WithOutClause);
+            mCommonKeysEngine = Context.CommonKeysEngine;
+            mCommonValuesFactory = Context.CommonValuesFactory;
+            mInheritanceEngine = Context.InheritanceEngine;
         }
 
-        private ulong CreateObject()
+        public override void SecondInit()
         {
-            var tmpName = Guid.NewGuid().ToString("D");
-
-            return Context.DataDictionary.GetKey(tmpName);
+            mErrorTypeKey = mCommonKeysEngine.ErrorTypeKey;
+            mUncaughtReferenceErrorTypeKey = mCommonKeysEngine.UncaughtReferenceErrorTypeKey;
         }
 
         public IValue CreateError()
         {
-            var tmpKey = CreateObject();
-
-            Context.InheritanceEngine.SetInheritance(tmpKey, mErrorTypeKey, 1, InheritanceAspect.WithOutClause);
-
+            var tmpKey = mCommonValuesFactory.CreateObject();
+            mInheritanceEngine.SetInheritance(tmpKey, mErrorTypeKey, 1, InheritanceAspect.WithOutClause);
             return new ErrorValue(tmpKey);
         }
 
         public IValue CreateUncaughtReferenceError()
         {
-            var tmpKey = CreateObject();
-
-            Context.InheritanceEngine.SetInheritance(tmpKey, mUncaughtReferenceErrorTypeKey, 1, InheritanceAspect.WithOutClause);
-
+            var tmpKey = mCommonValuesFactory.CreateObject();
+            mInheritanceEngine.SetInheritance(tmpKey, mUncaughtReferenceErrorTypeKey, 1, InheritanceAspect.WithOutClause);
             return new ErrorValue(tmpKey);
         }
     }
