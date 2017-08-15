@@ -77,16 +77,7 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
 
         public SelectResult GetLogicalPropery(IValue holder, ulong propertyKey)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery holder = {holder} propertyKey = {propertyKey}");
-#endif
             var query = mASTTransformer.CreateGetPropertyQuery(holder, propertyKey);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery query = {query}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetLogicalPropery query = {SelectQueryDebugHelper.ConvertToString(query, mDataDictionary)}");
-#endif
-
             return SelectQuery(query);
         }
 

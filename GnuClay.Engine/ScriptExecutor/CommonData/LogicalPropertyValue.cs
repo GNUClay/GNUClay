@@ -141,28 +141,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             var selectResult = mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
 
-            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(selectResult, mDataDictionary));
-            NLog.LogManager.GetCurrentClassLogger().Info($"ReadFactsReturnFitstFact selectResult = {selectResult}");
-
             if(!selectResult.Success || !selectResult.HaveBeenFound || selectResult.Items.Count == 0)
             {
                 return mCommonValuesFactory.NullValue();
             }
 
-            NLog.LogManager.GetCurrentClassLogger().Info("ReadFactsReturnFitstFact NEXT");
-
             var targetItem = selectResult.Items.First();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"ReadFactsReturnFitstFact targetItem = {targetItem}");
-
-            var keyOfFact = targetItem.Key;
-
-            if (keyOfFact == 0)
-            {
-                throw new NotImplementedException();
-            }
-
-            return new DirectFactValue(keyOfFact, mContect);
+            return new FactValue(targetItem.Key, selectResult, mContect);
         }
     }
 }

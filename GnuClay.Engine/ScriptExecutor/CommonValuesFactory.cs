@@ -59,7 +59,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public IValue CreateDirectFactValue(ulong key)
         {
-            return new DirectFactValue(key, Context);
+            return new FactValue(key, Context);
         }
 
         public IValue NullValue()
