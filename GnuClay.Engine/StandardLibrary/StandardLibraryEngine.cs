@@ -13,9 +13,12 @@ namespace GnuClay.Engine.StandardLibrary
 
         public override void FirstInit()
         {
-            mNumberProvider = new NumberProvider(Context);
-            mProvidersList.Add(mNumberProvider);
-            
+            NumberProvider = new NumberProvider(Context);
+            mProvidersList.Add(NumberProvider);
+
+            BooleanProvider = new BooleanProvider(Context);
+            mProvidersList.Add(BooleanProvider);
+
             FirstInitProviders();
         }
 
@@ -29,14 +32,7 @@ namespace GnuClay.Engine.StandardLibrary
 
         private List<BaseGnuClayEngineComponent> mProvidersList = new List<BaseGnuClayEngineComponent>();
 
-        private NumberProvider mNumberProvider = null;
-
-        public NumberProvider NumberProvider
-        {
-            get
-            {
-                return mNumberProvider;
-            }
-        }
+        public NumberProvider NumberProvider { get; private set; }
+        public BooleanProvider BooleanProvider { get; private set; }
     }
 }

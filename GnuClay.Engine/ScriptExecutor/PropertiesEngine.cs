@@ -1,15 +1,11 @@
-﻿using GnuClay.Engine.Inheritance;
+﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
-using GnuClay.Engine.StandardLibrary;
-using GnuClay.Engine.StandardLibrary.CommonData;
-using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor

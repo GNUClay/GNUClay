@@ -12,6 +12,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string UndefinedTypeMame = "undefined";
         public const string NullTypeName = "null";
         public const string NumberName = "number";
+        public const string Boolean = "boolean";
         public const string ArrayName = "array";
         public const string IteratorName = "iterator";
         public const string PropertyName = "__property";

@@ -133,7 +133,7 @@
     <Compile Include="ScriptExecutor\CommonData\SystemPropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\UndefinedValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
-    <Compile Include="ScriptExecutor\CommonValuesFactory.cs" />
+    <Compile Include="CommonStorages\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
@@ -172,8 +172,10 @@
     <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
-    <Compile Include="StandardLibrary\CommonKeysEngine.cs" />
+    <Compile Include="CommonStorages\CommonKeysEngine.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\BooleanProvider.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\BooleanValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\EntityValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberProvider.cs" />
