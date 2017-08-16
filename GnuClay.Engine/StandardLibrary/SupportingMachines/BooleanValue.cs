@@ -13,10 +13,15 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public BooleanValue(ulong typeKey, object value)
             : base(typeKey, value)
         {
-            OriginalValue = (bool)(Value);
+            OriginalValue = (double)(Value);
+
+            if(OriginalValue < 0 || OriginalValue > 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(OriginalValue), OriginalValue, null);
+            }
         }
 
-        public bool OriginalValue = false;
+        public double OriginalValue = 0;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
