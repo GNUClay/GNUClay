@@ -566,7 +566,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NProcessParam();
         }
 
-        private void NRevertPosotionedParams()
+        private void NRevertPositionedParams()
         {
             PositionedParams.Reverse();
 
@@ -603,7 +603,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NBeginCall();
             NProcessSetParamVal();
             NProcessSetParamVal();
-            NRevertPosotionedParams();
+            NRevertPositionedParams();
             CurrentFunction = new EntityValue(mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
             PostProcessCall(resultOfCalling);
@@ -631,7 +631,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
 #endif
-            NRevertPosotionedParams();
+            NRevertPositionedParams();
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mExecutionContext, mEntityAction, CurrentFunction, CurrentHolder, Target, PositionedParams);
             PostProcessCall(resultOfCalling);
 

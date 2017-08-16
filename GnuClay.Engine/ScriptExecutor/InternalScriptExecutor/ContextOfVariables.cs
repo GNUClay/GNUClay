@@ -21,10 +21,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public IValue GetVariable(ulong variableKey)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetVariable variableKey = {variableKey}");
-#endif
-
             if(mVariablesDict.ContainsKey(variableKey))
             {
                 return mVariablesDict[variableKey];

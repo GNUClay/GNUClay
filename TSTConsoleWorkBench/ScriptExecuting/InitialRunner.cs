@@ -336,78 +336,78 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var tmpCodeFrame = new FunctionModel();
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushVar;
-            //tmpCommand.Key = resultVarKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushVar;
+            tmpCommand.Key = resultVarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.BeginCallMethod;
-            //tmpCommand.Key = openKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.Key = openKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushEntity;
-            //tmpCommand.Key = doorKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.SetTarget;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushEntity;
-            //tmpCommand.Key = keyKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = keyKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.SetParamName;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushConst;
-            //tmpCommand.Key = numberKey;
-            //tmpCommand.Value = 1.0;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.SetParamVal;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.Call;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.CallBinOp;
-            //tmpCommand.Key = assignKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = assignKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand.OperationCode = OperationCode.PushVar;
-            //tmpCommand.Key = result_2_VarKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand.OperationCode = OperationCode.PushVar;
+            tmpCommand.Key = result_2_VarKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushConst;
-            //tmpCommand.Key = numberKey;
-            //tmpCommand.Value = 1.0;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.PushConst;
-            //tmpCommand.Key = numberKey;
-            //tmpCommand.Value = 1.0;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.CallBinOp;
-            //tmpCommand.Key = plusKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = plusKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
-            //tmpCommand = new ScriptCommand();
-            //tmpCommand.OperationCode = OperationCode.CallBinOp;
-            //tmpCommand.Key = assignKey;
-            //tmpCodeFrame.AddCommand(tmpCommand);
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = assignKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.PushEntity;

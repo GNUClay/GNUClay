@@ -34,6 +34,10 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public IValue GetParam(ulong key)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetParam key = {key} this = {this}");
+#endif
+
             return NamedParamsDict[key];
         }
 
@@ -79,6 +83,11 @@ namespace GnuClay.Engine.ScriptExecutor
             if (Function != null)
             {
                 result ^= Function.GetLongHashCode();
+
+                if(result < 100000)
+                {
+                    result *= 1000;
+                }
             }
 
             if (Holder != null)
