@@ -201,6 +201,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin RunMiddleScript");
 
+            mainContext = GnuClayEngine.Context;
+            var CommonKeysEngine = mainContext.CommonKeysEngine;
+
             var openKey = GnuClayEngine.DataDictionary.GetKey("open");
             var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
             var keyKey = GnuClayEngine.DataDictionary.GetKey("$key");
@@ -211,18 +214,18 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
             var logKey = GnuClayEngine.DataDictionary.GetKey("log");
 
-            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
-            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+            var param_1_Key = CommonKeysEngine.FirstParamKey;
+            var param_2_Key = CommonKeysEngine.SecondParamKey;
 
             var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
 
-            var selfKey = GnuClayEngine.Context.CommonKeysEngine.SelfKey;
+            var selfKey = CommonKeysEngine.SelfKey;
 
             var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
 
-            var assignKey = GnuClayEngine.DataDictionary.GetKey("=");
+            var assignKey = CommonKeysEngine.AssignOperatorKey;
 
-            mainContext = GnuClayEngine.Context;
+            
 
             var functionProvider = mainContext.FunctionsEngine;
 
@@ -264,21 +267,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             functionProvider.RemoveFilter(descriptor);
 
             functionProvider.AddFilter(filter);
-            functionProvider.AddFilter(filter);
-
-            filter = new CommandFilter();
-            filter.Handler = FakeAssign;
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = assignKey;
-
-            filter.Params.Add(param_1_Key, new CommandFilterParam()
-            {
-            });
-
-            filter.Params.Add(param_2_Key, new CommandFilterParam()
-            {
-            });
-
             functionProvider.AddFilter(filter);
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
@@ -497,80 +485,16 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
         }
 
-        private void FakeAssign(EntityAction action)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAssign action = {action}");
-
-            var command = action.Command;
-
-            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
-            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign param_1_Key = {param_1_Key} param_2_Key = {param_2_Key}");
-
-            var leftParam = command.GetParam(param_1_Key);
-            var rightParam = command.GetParamValue(param_2_Key);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign leftParam = {leftParam}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign rightParam = {rightParam}");
-
-            if(leftParam.IsVariable)
-            {
-                leftParam.ValueFromContainer = rightParam;
-                action.Result = rightParam;
-                action.State = EntityActionState.Completed;
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAssign (1) action = {action}");
-
-                return;
-            }
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"NEXT FakeAssign action = {action}");
-
-            if(leftParam.IsProperty)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign IsProperty action = {action}");
-
-                if(leftParam.Kind == KindOfValue.Logical)
-                {
-                    var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnValue);
-
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign resultOfCalling = {resultOfCalling}");
-
-                    action.AppendResultOfResultOfCalling(resultOfCalling);
-
-                    return;
-                }
-
-                NLog.LogManager.GetCurrentClassLogger().Info($"FakeAssign NEXT IsProperty action = {action}");
-
-                try
-                {
-                    leftParam.ValueFromContainer = rightParam;
-
-                    action.Result = rightParam;
-                    action.State = EntityActionState.Completed;
-
-                    return;
-                }
-                catch(InternalCallException ice)
-                {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
-                    return;
-                }
-            }
-
-            throw new NotImplementedException();
-        }
-
         private void FakeAddOperator(EntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
 
             var command = action.Command;
 
-            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
-            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
+            var CommonKeysEngine = mainContext.CommonKeysEngine;
+
+            var param_1_Key = CommonKeysEngine.FirstParamKey;
+            var param_2_Key = CommonKeysEngine.SecondParamKey;
 
             var tmpParam_1 = (NumberValue)command.GetParamValue(param_1_Key);
             var tmpParam_2 = (NumberValue)command.GetParamValue(param_2_Key);
@@ -728,32 +652,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTRunCodeWithProperties");
 
+            mainContext = GnuClayEngine.Context;
+            var CommonKeysEngine = mainContext.CommonKeysEngine;
+
             var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
             var colorKey = GnuClayEngine.DataDictionary.GetKey("color");
             var redKey = GnuClayEngine.DataDictionary.GetKey("red");
             var var_1_Key = GnuClayEngine.DataDictionary.GetKey("$var_1");
-            var assignKey = GnuClayEngine.DataDictionary.GetKey("=");
-            var param_1_Key = GnuClayEngine.DataDictionary.GetKey("$param1");
-            var param_2_Key = GnuClayEngine.DataDictionary.GetKey("$param2");
-            var selfKey = GnuClayEngine.DataDictionary.GetKey("self");
-
-            mainContext = GnuClayEngine.Context;
+            var assignKey = CommonKeysEngine.AssignOperatorKey;
+            var param_1_Key = CommonKeysEngine.FirstParamKey;
+            var param_2_Key = CommonKeysEngine.SecondParamKey;
+            var selfKey = CommonKeysEngine.SelfKey;
+          
             var functionProvider = mainContext.FunctionsEngine;
-
-            var filter = new CommandFilter();
-            filter.Handler = FakeAssign;
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = assignKey;
-
-            filter.Params.Add(param_1_Key, new CommandFilterParam()
-            {
-            });
-
-            filter.Params.Add(param_2_Key, new CommandFilterParam()
-            {
-            });
-
-            functionProvider.AddFilter(filter);
 
             var tmpCodeFrame = new FunctionModel();
 

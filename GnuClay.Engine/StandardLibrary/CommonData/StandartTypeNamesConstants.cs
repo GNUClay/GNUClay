@@ -32,5 +32,10 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         #region names of operators
         public const string AssignOperatorName = "=";
         #endregion
+
+        #region names of standard variables
+        public const string FirstParamName = "$param1";
+        public const string SecondParamName = "$param2";
+        #endregion
     }
 }

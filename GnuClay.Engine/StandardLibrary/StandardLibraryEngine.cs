@@ -11,16 +11,26 @@ namespace GnuClay.Engine.StandardLibrary
             : base(context)
         {
             CreateProviders();
+            
         }
 
         private void CreateProviders()
+        {
+            CreateProvidersOfTypes();
+            CreateProvidersOfOperators();
+        }
+
+        private void CreateProvidersOfTypes()
         {
             NumberProvider = new NumberProvider(Context);
             mProvidersList.Add(NumberProvider);
 
             BooleanProvider = new BooleanProvider(Context);
             mProvidersList.Add(BooleanProvider);
+        }
 
+        private void CreateProvidersOfOperators()
+        {
             OperatorAssignProvider = new OperatorAssignProvider(Context);
             mProvidersList.Add(OperatorAssignProvider);
         }

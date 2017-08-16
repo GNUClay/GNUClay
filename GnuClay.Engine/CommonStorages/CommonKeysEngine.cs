@@ -18,6 +18,7 @@ namespace GnuClay.Engine.CommonStorages
         {
             GetKeysOfTypes();
             GetKeysOfOperators();
+            GetKeysOfStandardVariables();
         }
 
         private void GetKeysOfTypes()
@@ -68,6 +69,12 @@ namespace GnuClay.Engine.CommonStorages
             AssignOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AssignOperatorName);
         }
 
+        private void GetKeysOfStandardVariables()
+        {
+            FirstParamKey = DataDictionary.GetKey(StandartTypeNamesConstants.FirstParamName);
+            SecondParamKey = DataDictionary.GetKey(StandartTypeNamesConstants.SecondParamName);
+        }
+
         #region keys of types
         public ulong UniversalTypeKey { get; private set; }
         public ulong NullTypeKey { get; private set; }
@@ -85,6 +92,11 @@ namespace GnuClay.Engine.CommonStorages
 
         #region keys of operators
         public ulong AssignOperatorKey { get; private set; }
+        #endregion
+
+        #region keys of standard variables
+        public ulong FirstParamKey { get; private set; }
+        public ulong SecondParamKey { get; private set; }
         #endregion
     }
 }
