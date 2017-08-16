@@ -67,9 +67,16 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
             var command = action.Command;
 
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfAssign command = {command}");
+
             NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfAssign FirstParamKey = {FirstParamKey} SecondParamKey = {SecondParamKey}");
 
             var leftParam = command.GetParam(FirstParamKey);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfAssign -> GetParamValue");
+#endif
+
             var rightParam = command.GetParamValue(SecondParamKey);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfAssign leftParam = {leftParam}");

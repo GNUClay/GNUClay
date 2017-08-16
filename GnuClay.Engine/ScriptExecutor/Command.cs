@@ -39,6 +39,10 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public IValue GetParamValue(ulong key)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetParamValue key = {key}");
+#endif
+
             var value = NamedParamsDict[key];
 
             if(value.IsValueContainer)

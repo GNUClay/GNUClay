@@ -23,6 +23,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private CommonValuesFactory mCommonValuesFactory = null;
         private CommonKeysEngine mCommonKeysEngine = null;
+        private StorageDataDictionary mDataDictionary = null;
 
         private ulong mEntityActionTypeKey = 0;
 
@@ -32,6 +33,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             mCommonValuesFactory = Context.CommonValuesFactory;
             mCommonKeysEngine = Context.CommonKeysEngine;
+            mDataDictionary = Context.DataDictionary;
 
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
         }
@@ -269,6 +271,8 @@ namespace GnuClay.Engine.ScriptExecutor
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin NormalizeCommandParams command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin NormalizeCommandParams mDataDictionary.GetValue(command.Function.TypeKey) = {mDataDictionary.GetValue(command.Function.TypeKey)}");
+            
 #endif
 
             var tmpFilterParameters = targetExecutor.Params;
@@ -296,6 +300,11 @@ namespace GnuClay.Engine.ScriptExecutor
                     item.ParamName = new EntityValue(paramKey);
                     item.ParamValue = targetParamOfCommand.ParamValue;
                     command.NamedParams.Add(item);
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"NormalizeCommandParams item = {item}");
+                    NLog.LogManager.GetCurrentClassLogger().Info($"NormalizeCommandParams mDataDictionary.GetValue(item.ParamName.TypeKey) = {mDataDictionary.GetValue(item.ParamName.TypeKey)}");
+#endif
 
                     continue;
                 }
