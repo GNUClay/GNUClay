@@ -30,8 +30,8 @@ namespace TSTConsoleWorkBench
             //TSTLocalHostRunner();
             //TSTParserRunner();
             //TSTCommonRunner();
-            TSTInitialRunner();//<==
-            //TSTRunInsert();//<==
+            //TSTInitialRunner();//<==
+            TSTRunInsert();//<==
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
         }
@@ -120,7 +120,6 @@ namespace TSTConsoleWorkBench
         private static void TSTRunInsert()
         {
             var tmpLogicalStorageInsertRunner = new LogicalStorageInsertRunner();
-
             tmpLogicalStorageInsertRunner.Run();
         }
 

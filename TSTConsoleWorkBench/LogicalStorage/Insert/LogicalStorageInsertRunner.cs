@@ -24,6 +24,16 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
+            //RunCommonCase();
+            RunComplexFacts();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+        }
+
+        private void RunCommonCase()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RunCommonCase");
+
             var tmpSelectQueryText = "SELECT{>: {son(Piter,$X1)}}";
             var tmpInsertQueryText = "INSERT {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
@@ -162,7 +172,14 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));*/
 
-            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+            NLog.LogManager.GetCurrentClassLogger().Info("End RunCommonCase");
+        }
+
+        public void RunComplexFacts()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("RunComplexFacts");
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End RunComplexFacts");
         }
     }
 }

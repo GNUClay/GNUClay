@@ -37,8 +37,11 @@ namespace GnuClay.Engine.CommonStorages
             NumberKey = DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
             InheritanceEngine.SetInheritance(NumberKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
+            BooleanKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.Boolean);
+            InheritanceEngine.SetInheritance(NumberKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
             FactTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.FactName);
-            InheritanceEngine.SetInheritance(FactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+            InheritanceEngine.SetInheritance(BooleanKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
             ArrayTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.ArrayName);
             InheritanceEngine.SetInheritance(ArrayTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
@@ -84,6 +87,7 @@ namespace GnuClay.Engine.CommonStorages
         public ulong NullTypeKey { get; private set; }
         public ulong UndefinedTypeKey { get; private set; }
         public ulong NumberKey { get; private set; }
+        public ulong BooleanKey { get; private set; }
         public ulong FactTypeKey { get; private set; }
         public ulong ArrayTypeKey { get; private set; }
         public ulong PropertyKey { get; private set; }

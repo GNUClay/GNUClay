@@ -18,10 +18,9 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         public ulong TypeKey { get; private set; }
 
-        public override void FirstInit()
+        public override void SecondInit()
         {
-            TypeKey = Context.DataDictionary.GetKey(StandartTypeNamesConstants.Boolean);
-
+            TypeKey = Context.CommonKeysEngine.BooleanKey;
             Context.ConstTypeProvider.AddProvider(this);
         }
 
