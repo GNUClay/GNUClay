@@ -208,9 +208,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var openKey = GnuClayEngine.DataDictionary.GetKey("open");
             var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
             var keyKey = GnuClayEngine.DataDictionary.GetKey("$key");
-            var numberKey = GnuClayEngine.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            var numberKey = CommonKeysEngine.NumberKey;
             var resultVarKey = GnuClayEngine.DataDictionary.GetKey("$result");
-            var plusKey = GnuClayEngine.DataDictionary.GetKey("+");
+            var plusKey = CommonKeysEngine.AddOperatorKey;
             var result_2_VarKey = GnuClayEngine.DataDictionary.GetKey("$result2");
             var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
             var logKey = GnuClayEngine.DataDictionary.GetKey("log");
@@ -235,24 +235,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var remoteFunctionsStorage = mainContext.RemoteFunctionsEngine;
 
             var filter = new CommandFilter();
-            filter.Handler = FakeAddOperator;
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = plusKey;
-            filter.TargetKey = 0;
-
-            filter.Params.Add(param_1_Key, new CommandFilterParam() {
-                IsAnyType = false,
-                TypeKey = numberKey
-            });
-
-            filter.Params.Add(param_2_Key, new CommandFilterParam() {
-                IsAnyType = false,
-                TypeKey = numberKey
-            });
-
-            functionProvider.AddFilter(filter);
-
-            filter = new CommandFilter();
             filter.Handler = FakeConsoleLog;
             filter.HolderKey = consoleKey;
             filter.FunctionKey = logKey;
@@ -475,7 +457,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End RunMiddleScript resultOfCalling = {resultOfCalling}");
 
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
         }
 
         private void FakeOpen(EntityAction action)
@@ -486,39 +468,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
-        }
-
-        private void FakeAddOperator(EntityAction action)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeAddOperator action = {action}");
-
-            var command = action.Command;
-
-            var CommonKeysEngine = mainContext.CommonKeysEngine;
-
-            var param_1_Key = CommonKeysEngine.FirstParamKey;
-            var param_2_Key = CommonKeysEngine.SecondParamKey;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator (1) -> GetParamValue");
-#endif
-
-            var tmpParam_1 = (NumberValue)command.GetParamValue(param_1_Key);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator (2) -> GetParamValue");
-#endif
-
-            var tmpParam_2 = (NumberValue)command.GetParamValue(param_2_Key);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_1 = {tmpParam_1}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"FakeAddOperator tmpParam_2 = {tmpParam_2}");
-
-            action.Result = mainContext.ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
-
-            action.State = EntityActionState.Completed;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeAddOperator action = {action}");
         }
 
         private void FakeConsoleLog(EntityAction action)

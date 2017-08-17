@@ -173,6 +173,7 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
     <Compile Include="CommonStorages\CommonKeysEngine.cs" />
+    <Compile Include="StandardLibrary\OperatorsSupport\OperatorAddProvider.cs" />
     <Compile Include="StandardLibrary\OperatorsSupport\OperatorAssignProvider.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BooleanProvider.cs" />

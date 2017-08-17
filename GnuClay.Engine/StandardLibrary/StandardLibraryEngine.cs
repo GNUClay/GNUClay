@@ -33,6 +33,9 @@ namespace GnuClay.Engine.StandardLibrary
         {
             OperatorAssignProvider = new OperatorAssignProvider(Context);
             mProvidersList.Add(OperatorAssignProvider);
+
+            OperatorAddProvider = new OperatorAddProvider(Context);
+            mProvidersList.Add(OperatorAddProvider);
         }
 
         public override void FirstInit()
@@ -70,6 +73,7 @@ namespace GnuClay.Engine.StandardLibrary
 
         #region Providers of operators
         private OperatorAssignProvider OperatorAssignProvider = null;
+        private OperatorAddProvider OperatorAddProvider = null;
         #endregion
     }
 }

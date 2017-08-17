@@ -34,6 +34,9 @@ namespace GnuClay.Engine.CommonStorages
             NullTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.NullTypeName);
             InheritanceEngine.SetInheritance(NullTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
+            NumberKey = DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
+            InheritanceEngine.SetInheritance(NumberKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
+
             FactTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.FactName);
             InheritanceEngine.SetInheritance(FactTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
@@ -67,6 +70,7 @@ namespace GnuClay.Engine.CommonStorages
         private void GetKeysOfOperators()
         {
             AssignOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AssignOperatorName);
+            AddOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AddOperatorName);
         }
 
         private void GetKeysOfStandardVariables()
@@ -79,6 +83,7 @@ namespace GnuClay.Engine.CommonStorages
         public ulong UniversalTypeKey { get; private set; }
         public ulong NullTypeKey { get; private set; }
         public ulong UndefinedTypeKey { get; private set; }
+        public ulong NumberKey { get; private set; }
         public ulong FactTypeKey { get; private set; }
         public ulong ArrayTypeKey { get; private set; }
         public ulong PropertyKey { get; private set; }
@@ -92,6 +97,7 @@ namespace GnuClay.Engine.CommonStorages
 
         #region keys of operators
         public ulong AssignOperatorKey { get; private set; }
+        public ulong AddOperatorKey { get; private set; }
         #endregion
 
         #region keys of standard variables
