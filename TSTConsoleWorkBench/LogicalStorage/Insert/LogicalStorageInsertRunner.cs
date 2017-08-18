@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
+using System.Linq;
 
 namespace TSTConsoleWorkBench.LogicalStorage.Insert
 {
@@ -178,6 +179,25 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         public void RunComplexFacts()
         {
             NLog.LogManager.GetCurrentClassLogger().Info("RunComplexFacts");
+
+            var mainContext = GnuClayEngine.Context;
+
+            var tmpInsertQueryText = "INSERT {>: {parent(Tom,Piter)}}";
+            var tmpInsertQuery = mainContext.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+
+            var tmpReferenceKey = mainContext.DataDictionary.GetKey("*x1");
+
+            var targetRuleInstance = tmpInsertQuery.Items.First();
+
+            var targetNode = targetRuleInstance.Part_1.Tree;
+
+            targetNode.KeyOfReference = tmpReferenceKey;
+
+            targetRuleInstance.LocalKeyOfReferenceIndex[tmpReferenceKey] = targetNode;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
+            NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
+
 
             NLog.LogManager.GetCurrentClassLogger().Info("End RunComplexFacts");
         }

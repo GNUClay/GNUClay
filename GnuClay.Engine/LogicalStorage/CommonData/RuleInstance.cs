@@ -32,10 +32,19 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
         /// <summary>
         /// Links key and relation which this key represents in the rule (or fact).
+        /// The key is same as in the field Key in the instance of ExpressionNode.
         /// </summary>
         public Dictionary<ulong, ExpressionNode> LocalRelationsIndex = new Dictionary<ulong, ExpressionNode>();
 
+        /// <summary>
+        /// Links key and relation or entity this key represents in the rule (or fact).
+        /// The key is same as in the field KeyOfReference in the instance of ExpressionNode.
+        /// </summary>
+        public Dictionary<ulong, ExpressionNode> LocalKeyOfReferenceIndex = new Dictionary<ulong, ExpressionNode>();
+
         private ulong mHasheCode = 0;
+
+        public bool EnableLocalIndexesInToString = false;
 
         /// <summary>
         /// Calculating long hashcode (which may get by GetLongHashCode()).
@@ -140,6 +149,19 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
             tmpSb.AppendLine(_ObjectHelper._ToString(Part_1, nameof(Part_1)));
             tmpSb.AppendLine(_ObjectHelper._ToString(Part_2, nameof(Part_2)));
+
+            if(EnableLocalIndexesInToString)
+            {
+                foreach (var item in LocalRelationsIndex)
+                {
+
+                }
+
+                foreach (var item in LocalKeyOfReferenceIndex)
+                {
+
+                }
+            }
 
             return tmpSb.ToString();
         }

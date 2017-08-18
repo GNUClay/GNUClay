@@ -45,6 +45,11 @@ namespace GnuClay.Engine.LogicalStorage
         public object Value;
 
         /// <summary>
+        /// A key that represents reference between nodes.
+        /// </summary>
+        public ulong KeyOfReference;
+
+        /// <summary>
         /// Returns the hash code for this instance. The hashcode has type long and do not override standard GetHashCode().
         /// </summary>
         /// <returns>The hash code for this instance</returns>
@@ -226,22 +231,13 @@ namespace GnuClay.Engine.LogicalStorage
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(Kind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Kind.ToString());
-
-            tmpSb.Append(nameof(Key));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Key.ToString());
-
+            tmpSb.AppendLine($"{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
+            tmpSb.AppendLine($"{nameof(KeyOfReference)} = {KeyOfReference}");
+            tmpSb.AppendLine($"{nameof(Value)} = {Value}");
             tmpSb.AppendLine(_ObjectHelper._ToString(Left, nameof(Left)));
             tmpSb.AppendLine(_ObjectHelper._ToString(Right, nameof(Right)));
-
             tmpSb.AppendLine(_ListHelper._ToString(RelationParams, nameof(RelationParams)));
-
-            tmpSb.Append(nameof(Value));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Value?.ToString());
 
             return tmpSb.ToString();
         }
