@@ -65,6 +65,11 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         {
             var tmpSb = new StringBuilder();
 
+            if(node.KeyOfReference > 0)
+            {
+                tmpSb.Append($"{dataDictionary.GetValue(node.KeyOfReference)}:");
+            }
+
             tmpSb.Append(dataDictionary.GetValue(node.Key));
             tmpSb.Append("(");
 
@@ -83,7 +88,15 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
         private static string ProcessEntityNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            return dataDictionary.GetValue(node.Key);
+            var tmpSb = new StringBuilder();
+
+            if (node.KeyOfReference > 0)
+            {
+                tmpSb.Append($"{dataDictionary.GetValue(node.KeyOfReference)}:");
+            }
+
+            tmpSb.Append(dataDictionary.GetValue(node.Key));
+            return tmpSb.ToString();
         }
 
         private static string ProcessVarNode(ExpressionNode node, IReadOnlyStorageDataDictionary dataDictionary)

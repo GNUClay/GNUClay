@@ -152,15 +152,22 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
 
             if(EnableLocalIndexesInToString)
             {
+                tmpSb.AppendLine("Begin LocalRelationsIndex");
+
                 foreach (var item in LocalRelationsIndex)
                 {
-
+                    tmpSb.AppendLine($"item.Key = {item.Key} item.Value = {item.Value}");
                 }
+
+                tmpSb.AppendLine("End LocalRelationsIndex");
+                tmpSb.AppendLine("Begin LocalKeyOfReferenceIndex");
 
                 foreach (var item in LocalKeyOfReferenceIndex)
                 {
-
+                    tmpSb.AppendLine($"item.Key = {item.Key} item.Value = {item.Value}");
                 }
+
+                tmpSb.AppendLine("End LocalKeyOfReferenceIndex");
             }
 
             return tmpSb.ToString();

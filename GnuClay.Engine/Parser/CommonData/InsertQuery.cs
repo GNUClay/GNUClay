@@ -24,6 +24,17 @@ namespace GnuClay.Engine.Parser.CommonData
         /// </summary>
         public List<RuleInstance> Items = new List<RuleInstance>();
 
+        public bool EnableLocalIndexesInToString
+        {
+            set
+            {
+                foreach(var item in Items)
+                {
+                    item.EnableLocalIndexesInToString = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>

@@ -194,7 +194,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             targetNode.KeyOfReference = tmpReferenceKey;
 
             targetRuleInstance.LocalKeyOfReferenceIndex[tmpReferenceKey] = targetNode;
-
+            tmpInsertQuery.EnableLocalIndexesInToString = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
 
