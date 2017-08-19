@@ -25,8 +25,8 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            //RunCommonCase();
-            RunComplexFacts();
+            RunCommonCase();
+            //RunComplexFacts();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
@@ -182,22 +182,24 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             var mainContext = GnuClayEngine.Context;
 
-            var tmpInsertQueryText = "INSERT {>: {parent(Tom,Piter)}}";
+            var tmpInsertQueryText = "INSERT {>: {bit(dog, hand) & instrument(bit, teeth) & part(teeth, dog) & part(hand, Mary)}}";
+            //var tmpInsertQueryText = "*x1:bit(*x2:dog, *x3:hand) & instrument(*x1:bit, *x4:teeth) & part(*x4:teeth, *x2:dog) & part(*x3:hand, Mary)";
             var tmpInsertQuery = mainContext.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
 
-            var tmpReferenceKey = mainContext.DataDictionary.GetKey("*x1");
+            //var tmpReferenceKey = mainContext.DataDictionary.GetKey("*x1");
 
-            var targetRuleInstance = tmpInsertQuery.Items.First();
+            //var targetRuleInstance = tmpInsertQuery.Items.First();
 
-            var targetNode = targetRuleInstance.Part_1.Tree;
+            //var targetNode = targetRuleInstance.Part_1.Tree;
 
-            targetNode.KeyOfReference = tmpReferenceKey;
+            //targetNode.KeyOfReference = tmpReferenceKey;
 
-            targetRuleInstance.LocalKeyOfReferenceIndex[tmpReferenceKey] = targetNode;
+            //targetRuleInstance.LocalKeyOfReferenceIndex[tmpReferenceKey] = targetNode;
             tmpInsertQuery.EnableLocalIndexesInToString = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
 
+            //The parser runs this query with mistakes. A query is parsed partial.
 
             NLog.LogManager.GetCurrentClassLogger().Info("End RunComplexFacts");
         }

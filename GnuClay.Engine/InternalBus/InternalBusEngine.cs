@@ -14,6 +14,20 @@ namespace GnuClay.Engine.InternalBus
         {
         }
 
+        public void EmitOnWriteFact()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("EmitOnWriteFact");
+#endif
+        }
+
+        public void EmitOnWriteRule()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("EmitOnWriteRule");
+#endif
+        }
+
         public void EmitInvalidateCache()
         {
             OnInvalidateCache?.Invoke();

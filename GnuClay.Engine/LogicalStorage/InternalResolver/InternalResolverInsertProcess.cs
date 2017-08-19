@@ -2,6 +2,7 @@
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
+using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
@@ -21,9 +22,11 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             mTargetItem = targetItem;
             Rewrite = query.Rewrite;
             mCommonLogicalHelper = logicalContext.CommonLogicalHelper;
+            mInternalBusEngine = context.InternalBusEngine;
         }
 
         private CommonLogicalHelper mCommonLogicalHelper = null;
+        private InternalBusEngine mInternalBusEngine = null;
 
         private RuleInstance mTargetItem = null;
         private InsertQueryItemStatistics mStatisticItem = null;
@@ -110,6 +113,17 @@ namespace GnuClay.Engine.LogicalStorage.InternalResolver
             }
 
             mInternalStorageEngine.RegExistsStatisticsHashCode(target);
+
+            switch (kind)
+            {
+                case InsertQueryItemStatisticsKind.Fact:
+                    mInternalBusEngine.EmitOnWriteFact();
+                    break;
+
+                case InsertQueryItemStatisticsKind.Rule:
+                    mInternalBusEngine.EmitOnWriteRule();
+                    break;
+            }
         }
 
         private void ProcessSetInheritence(InsertQueryItemStatistics statisticsItem)
