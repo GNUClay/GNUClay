@@ -46,8 +46,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 var tmpChar = mItems.Dequeue();
 
+#if DEBUG
                 //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpChar = {tmpChar} mLexerState = {mLexerState}");
-
+#endif
                 switch (mLexerState)
                 {
                     case LexerState.Init:

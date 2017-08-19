@@ -93,36 +93,28 @@ namespace GnuClay.Engine.ScriptExecutor
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
             var executionContext = CreateEmptyExecutionContext();
-
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
-
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
             var executionContext = CreateEmptyExecutionContext();
-
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
-
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
             var executionContext = CreateEmptyExecutionContext();
-
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
-
             return ProcessAsyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
             var executionContext = CreateEmptyExecutionContext();
-
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
-
             return ProcessAsyncCall(command, parentAction);
         }
 
