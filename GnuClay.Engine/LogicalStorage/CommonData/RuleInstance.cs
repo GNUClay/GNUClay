@@ -40,7 +40,7 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
         /// Links key and relation or entity this key represents in the rule (or fact).
         /// The key is same as in the field KeyOfReference in the instance of ExpressionNode.
         /// </summary>
-        public Dictionary<ulong, ExpressionNode> LocalKeyOfReferenceIndex = new Dictionary<ulong, ExpressionNode>();
+        public Dictionary<ulong, ExpressionNode> LocalKeysOfReferencesIndexes = new Dictionary<ulong, ExpressionNode>();
 
         private ulong mHasheCode = 0;
 
@@ -160,14 +160,14 @@ namespace GnuClay.Engine.LogicalStorage.CommonData
                 }
 
                 tmpSb.AppendLine("End LocalRelationsIndex");
-                tmpSb.AppendLine("Begin LocalKeyOfReferenceIndex");
+                tmpSb.AppendLine("Begin LocalKeysOfReferencesIndexes");
 
-                foreach (var item in LocalKeyOfReferenceIndex)
+                foreach (var item in LocalKeysOfReferencesIndexes)
                 {
                     tmpSb.AppendLine($"item.Key = {item.Key} item.Value = {item.Value}");
                 }
 
-                tmpSb.AppendLine("End LocalKeyOfReferenceIndex");
+                tmpSb.AppendLine("End LocalKeysOfReferencesIndexes");
             }
 
             return tmpSb.ToString();

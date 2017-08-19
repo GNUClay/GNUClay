@@ -31,6 +31,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             : base(context)
         {
             mDataDictionary = context.MainContext.DataDictionary;
+            mResult = new InternalLogicalExpressionParserResult();
         }
 
         private State mState = State.Init;
@@ -41,12 +42,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ExpressionNode mCurrentReferenceVariable = null;
         private string mBuffer = string.Empty;
         private CultureInfo mFormatProvider = new CultureInfo("en-GB");
+        private InternalLogicalExpressionParserResult mResult = null;
 
-        public ExpressionNode Result
+        public InternalLogicalExpressionParserResult Result
         {
             get
             {
-                return mRootNode;
+                mResult.RootNode = mRootNode;
+                return mResult;
             }
         }
 
@@ -78,8 +81,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                             if(mCurrentReferenceVariable != null)
                             {
-                                tmpNode.KeyOfReference = mCurrentReferenceVariable.Key;
+                                var keyOfReference = mCurrentReferenceVariable.Key;
                                 mCurrentReferenceVariable = null;
+                                tmpNode.KeyOfReference = keyOfReference;
+
+                                if (mResult.LocalKeysOfReferencesIndexes.ContainsKey(keyOfReference))
+                                {
+                                    throw new NotSupportedException();
+                                }
+
+                                mResult.LocalKeysOfReferencesIndexes[keyOfReference] = tmpNode;
                             }
 
                             if (mRootNode == null)
@@ -226,6 +237,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                         case TokenKind.CloseRoundBracket:
                             mState = State.EndDeclaringRelation;
+                            break;
+
+                        case TokenKind.Colon:
+                            throw new NotImplementedException();
+                            //mCurrentReferenceVariable = tmpNode;
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

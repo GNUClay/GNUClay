@@ -60,7 +60,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
                             tmpInternalExpressionParser.Run();
 
-                            mRootNode = tmpInternalExpressionParser.Result;
+                            mRootNode = tmpInternalExpressionParser.Result.RootNode;
 
                             mState = State.GotRuleHeadExpression;
                             break;
