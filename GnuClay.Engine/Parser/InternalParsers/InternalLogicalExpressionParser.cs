@@ -60,7 +60,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
             ExpressionNode tmpNode = null;
 
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = `{CurrToken.Content}`");           
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = `{CurrToken.Content}`");  
+            //if(mCurrentReferenceVariable != null)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentReferenceVariable.Key = {mCurrentReferenceVariable.Key} Name of CurrentReferenceVariable = {mDataDictionary.GetValue(mCurrentReferenceVariable.Key)}");
+            //}
 #endif
             switch (mState)
             {
@@ -181,6 +185,38 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case TokenKind.Number:
                             mBuffer = CurrToken.Content;
                             mState = State.InputIntNumberParam;
+                            break;
+
+                        case TokenKind.OpenFigureBracket:
+                            ulong targetKeyOfReference = 0;
+
+                            if (mCurrentReferenceVariable == null)
+                            {
+                                var tmpName = Guid.NewGuid().ToString("D");
+                                targetKeyOfReference = mDataDictionary.GetKey(tmpName);
+                            }
+                            else
+                            { 
+                                targetKeyOfReference = mCurrentReferenceVariable.Key;
+                            }
+                            
+                            var tmpInternalRuleParser = new InternalRuleParser(Context, targetKeyOfReference);
+                            tmpInternalRuleParser.Run();
+                            mCurrentReferenceVariable = null;
+
+                            var result = tmpInternalRuleParser.Result;
+
+                            Context.ListOfInlineFacts.Add(result);
+
+                            tmpNode = new ExpressionNode();
+                            tmpNode.Kind = ExpressionNodeKind.Entity;
+                            tmpNode.Key = targetKeyOfReference;
+
+                            mCurrentNode.RelationParams.Add(tmpNode);
+
+                            Context.GetToken();
+
+                            mState = State.ParamWasEntered;
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

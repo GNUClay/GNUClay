@@ -10,6 +10,14 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         {
             var tmpSb = new StringBuilder();
 
+            var itemKey = source.Key;
+
+            if (itemKey > 0)
+            {
+                tmpSb.Append($"{dataDictionary.GetValue(itemKey)}:");
+            }
+            tmpSb.Append("{");
+
             tmpSb.Append(">: {");
             tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(source.Part_1.Tree, dataDictionary));
             tmpSb.Append("}");
@@ -21,6 +29,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
                 tmpSb.Append("}");
             }
 
+            tmpSb.Append("}");
             return tmpSb.ToString();
         }
     }

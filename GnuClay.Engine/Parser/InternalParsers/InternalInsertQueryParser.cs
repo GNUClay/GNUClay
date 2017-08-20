@@ -19,6 +19,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             : base(context)
         {
             mDataDictionary = context.MainContext.DataDictionary;
+            Context.ListOfInlineFacts = Result.Items;
         }
 
         private StorageDataDictionary mDataDictionary = null;

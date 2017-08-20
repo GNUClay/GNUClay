@@ -45,6 +45,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
+#endif
+
             switch (mState)
             {
                 case State.Init:

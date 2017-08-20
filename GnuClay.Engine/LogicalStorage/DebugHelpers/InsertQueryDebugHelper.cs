@@ -14,15 +14,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 
             foreach(var tmpItem in query.Items)
             {
-                var itemKey = tmpItem.Key;
-
-                if (itemKey > 0)
-                {
-                    tmpSb.Append($"{dataDictionary.GetValue(itemKey)}:");
-                }
-                tmpSb.Append("{");
-                tmpSb.Append(RuleInstanceDebugHelper.ConvertToString(tmpItem, dataDictionary));
-                tmpSb.Append("},");
+                tmpSb.Append($"{RuleInstanceDebugHelper.ConvertToString(tmpItem, dataDictionary)},");
             }
 
             _StringBuilderHelper.TruncateEnd(tmpSb);

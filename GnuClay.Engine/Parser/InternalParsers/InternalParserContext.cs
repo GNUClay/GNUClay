@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public GnuClayEngineComponentContext MainContext = null;
 
         private Queue<Token> mRecoveriesTokens = new Queue<Token>();
+
+        public List<RuleInstance> ListOfInlineFacts;
 
         public Token GetToken()
         {
