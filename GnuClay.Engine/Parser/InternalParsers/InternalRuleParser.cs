@@ -52,17 +52,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, Result.LocalKeysOfReferencesIndexes);
                             tmpInternalExpressionParser.Run();
                             Part_1 = new RulePart();
                             Result.Part_1 = Part_1;
                             Part_1.Parent = Result;
-                            {
-                                var result = tmpInternalExpressionParser.Result;
-                                Part_1.Tree = result.RootNode;
-                                AddLocalKeysOfReferencesIndexes(result.LocalKeysOfReferencesIndexes);
-                            }
-                                                 
+                            Part_1.Tree = tmpInternalExpressionParser.Result;                                                 
                             mState = State.GotRuleHeadExpression;
                             break;
 
@@ -101,16 +96,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, Result.LocalKeysOfReferencesIndexes);
                             tmpInternalExpressionParser.Run();
                             Part_2 = new RulePart();
                             Result.Part_2 = Part_2;
                             Part_2.Parent = Result;
-                            {
-                                var result = tmpInternalExpressionParser.Result;
-                                Part_2.Tree = result.RootNode;
-                                AddLocalKeysOfReferencesIndexes(result.LocalKeysOfReferencesIndexes);
-                            }
+                            Part_2.Tree = tmpInternalExpressionParser.Result;
+
                             Part_1.Next = Part_2;
                             Part_2.Next = Part_1;
 
@@ -145,26 +137,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState));
-            }
-        }
-
-        private void AddLocalKeysOfReferencesIndexes(Dictionary<ulong, ExpressionNode> values)
-        {
-            if(values.Count == 0)
-            {
-                return;
-            }
-
-            var localKeysOfReferencesIndexes = Result.LocalKeysOfReferencesIndexes;
-
-            foreach (var item in values)
-            {
-                if(localKeysOfReferencesIndexes.ContainsKey(item.Key))
-                {
-                    throw new NotSupportedException();
-                }
-
-                localKeysOfReferencesIndexes[item.Key] = item.Value;
             }
         }
     }

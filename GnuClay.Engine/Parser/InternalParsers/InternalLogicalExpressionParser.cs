@@ -27,13 +27,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
             EndDeclaringRelation
         }
 
-        public InternalLogicalExpressionParser(InternalParserContext context)
+        public InternalLogicalExpressionParser(InternalParserContext context, Dictionary<ulong, ExpressionNode> localKeysOfReferencesIndexes)
             : base(context)
         {
             mDataDictionary = context.MainContext.DataDictionary;
-            mResult = new InternalLogicalExpressionParserResult();
+            mLocalKeysOfReferencesIndexes = localKeysOfReferencesIndexes;
         }
 
+        private Dictionary<ulong, ExpressionNode> mLocalKeysOfReferencesIndexes = null;
         private State mState = State.Init;
 
         private ExpressionNode mRootNode = null;
@@ -42,14 +43,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ExpressionNode mCurrentReferenceVariable = null;
         private string mBuffer = string.Empty;
         private CultureInfo mFormatProvider = new CultureInfo("en-GB");
-        private InternalLogicalExpressionParserResult mResult = null;
 
-        public InternalLogicalExpressionParserResult Result
+
+        public ExpressionNode Result
         {
             get
             {
-                mResult.RootNode = mRootNode;
-                return mResult;
+                return mRootNode;
             }
         }
 
@@ -60,12 +60,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             ExpressionNode tmpNode = null;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = `{CurrToken.Content}`");
-            if(mCurrentReferenceVariable != null)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mStateBeforeReferenceVariable = {mStateBeforeReferenceVariable} mCurrentReferenceVariable = {mDataDictionary.GetValue(mCurrentReferenceVariable.Key)}");
-            }
-           
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = `{CurrToken.Content}`");           
 #endif
             switch (mState)
             {
@@ -79,18 +74,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode.RelationParams = new List<ExpressionNode>();
                             tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
 
-                            if(mCurrentReferenceVariable != null)
+                            if (mCurrentReferenceVariable != null)
                             {
-                                var keyOfReference = mCurrentReferenceVariable.Key;
-                                mCurrentReferenceVariable = null;
-                                tmpNode.KeyOfReference = keyOfReference;
-
-                                if (mResult.LocalKeysOfReferencesIndexes.ContainsKey(keyOfReference))
-                                {
-                                    throw new NotSupportedException();
-                                }
-
-                                mResult.LocalKeysOfReferencesIndexes[keyOfReference] = tmpNode;
+                                tmpNode = SetReferenceVariable(tmpNode);
                             }
 
                             if (mRootNode == null)
@@ -99,9 +85,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             }
                             else
                             {
-                                //NLog.LogManager.GetCurrentClassLogger().Info("OnRun NOT mRootNode == null");
-
-                                if(mRootNode.Kind == ExpressionNodeKind.Not)
+                                if (mRootNode.Kind == ExpressionNodeKind.Not)
                                 {
                                     mRootNode.Left = tmpNode;
                                 }
@@ -175,7 +159,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Entity;
                             tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
+                            
+                            if (mCurrentReferenceVariable != null)
+                            {
+                                tmpNode = SetReferenceVariable(tmpNode);
+                            }
+
                             mCurrentNode.RelationParams.Add(tmpNode);
+
                             mState = State.ParamWasEntered;
                             break;
 
@@ -183,9 +174,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.Var;
                             tmpNode.Key = mDataDictionary.GetKey(CurrToken.Content);
-
-                            //NLog.LogManager.GetCurrentClassLogger().Info($"TokenKind.Var tmpNode.Key = {tmpNode.Key}");
-
                             mCurrentNode.RelationParams.Add(tmpNode);
                             mState = State.ParamWasEntered;
                             break;
@@ -240,8 +228,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             break;
 
                         case TokenKind.Colon:
-                            throw new NotImplementedException();
-                            //mCurrentReferenceVariable = tmpNode;
+                            var lastParam = mCurrentNode.RelationParams.Last();
+                            mCurrentNode.RelationParams.Remove(lastParam);
+                            mCurrentReferenceVariable = lastParam;
+                            mState = State.InputParams;
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);
@@ -257,14 +247,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             break;
 
                         case TokenKind.And:
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mDataDictionary)}`");
-                            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = `{ExpressionNodeDebugHelper.ConvertToString(mCurrentNode, mDataDictionary)}`");
-#endif
-
                             tmpNode = new ExpressionNode();
                             tmpNode.Kind = ExpressionNodeKind.And;
-                            //tmpNode.Left = mCurrentNode;
                             tmpNode.Left = mRootNode;
                             mCurrentNode = tmpNode;
                             mRootNode = tmpNode;
@@ -279,7 +263,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mDataDictionary)}`");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mRootNode = `{ExpressionNodeDebugHelper.ConvertToString(mRootNode, mDataDictionary)}`");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = `{ExpressionNodeDebugHelper.ConvertToString(mCurrentNode, mDataDictionary)}`");
 #endif
         }
 
@@ -295,6 +280,22 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpNode.Value = tmpVal;
             mCurrentNode.RelationParams.Add(tmpNode);
             mState = State.ParamWasEntered;
+        }
+
+        private ExpressionNode SetReferenceVariable(ExpressionNode node)
+        {
+            var keyOfReference = mCurrentReferenceVariable.Key;
+            mCurrentReferenceVariable = null;
+            node.KeyOfReference = keyOfReference;
+
+            if (mLocalKeysOfReferencesIndexes.ContainsKey(keyOfReference))
+            {
+                return mLocalKeysOfReferencesIndexes[keyOfReference];
+            }
+
+            mLocalKeysOfReferencesIndexes[keyOfReference] = node;
+
+            return node;
         }
 
         protected override void OnExit()

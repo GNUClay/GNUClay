@@ -78,7 +78,6 @@
     <Compile Include="Parser\InternalParsers\InternalFunctionBodyParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalInsertQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalLogicalExpressionParser.cs" />
-    <Compile Include="Parser\InternalParsers\InternalLogicalExpressionParserResult.cs" />
     <Compile Include="Parser\InternalParsers\InternalRuleParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectedTreeParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectQueryParser.cs" />

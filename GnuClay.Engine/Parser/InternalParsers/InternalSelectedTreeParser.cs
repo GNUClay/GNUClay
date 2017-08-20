@@ -57,10 +57,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.OpenFigureBracket:
-                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context);
+                            var tmpInternalExpressionParser = new InternalLogicalExpressionParser(Context, null);
                             tmpInternalExpressionParser.Run();
 
-                            mRootNode = tmpInternalExpressionParser.Result.RootNode;
+                            mRootNode = tmpInternalExpressionParser.Result;
 
                             mState = State.GotRuleHeadExpression;
                             break;
