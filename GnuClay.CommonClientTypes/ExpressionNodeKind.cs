@@ -43,11 +43,6 @@
         /// <summary>
         /// Represents some value.
         /// </summary>
-        Value,
-
-        /// <summary>
-        /// Represents reference to a fact.
-        /// </summary>
-        Fact
+        Value
     }
 }

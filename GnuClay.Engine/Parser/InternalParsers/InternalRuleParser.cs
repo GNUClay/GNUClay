@@ -22,14 +22,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
             EndBody
         }
 
-        public InternalRuleParser(InternalParserContext context)
+        public InternalRuleParser(InternalParserContext context, ulong targetKey)
             : base(context)
         {
+            Result = new RuleInstance();
+            Result.Key = targetKey;
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"constructor targetKey = {targetKey}  {context.MainContext.DataDictionary.GetValue(targetKey)}");
+            //if(targetKey > 0)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"constructor NameOfRule = {context.MainContext.DataDictionary.GetValue(targetKey)}");
+            //}
+#endif
         }
 
         private State mState = State.Init;
 
-        public RuleInstance Result = new RuleInstance();
+        public RuleInstance Result = null;
         private RulePart Part_1 = null;
         private RulePart Part_2 = null;
 

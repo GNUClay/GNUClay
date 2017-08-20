@@ -183,7 +183,9 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             var mainContext = GnuClayEngine.Context;
 
             //var tmpInsertQueryText = "INSERT {>: {bit(dog, hand) & instrument(bit, teeth) & part(teeth, dog) & part(hand, Mary)}}";
-            var tmpInsertQueryText = "INSERT {>: {$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}}";
+            //var tmpInsertQueryText = "INSERT {>: {$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}}";
+            //var tmpInsertQueryText = "INSERT #1:{>: {$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}}";
+            var tmpInsertQueryText = "INSERT #1:{>: {$x1:bit($x2:dog, #12)}}";
             var tmpInsertQuery = mainContext.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
 
             //var tmpReferenceKey = mainContext.DataDictionary.GetKey("*x1");

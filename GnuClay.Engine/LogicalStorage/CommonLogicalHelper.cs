@@ -73,7 +73,7 @@ namespace GnuClay.Engine.LogicalStorage
                 case KindOfValue.Value:
                     if (value.IsFact)
                     {
-                        result.Kind = ExpressionNodeKind.Fact;
+                        result.Kind = ExpressionNodeKind.Entity;
                         break;
                     }
 
