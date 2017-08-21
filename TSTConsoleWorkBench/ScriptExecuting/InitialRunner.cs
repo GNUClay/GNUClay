@@ -245,12 +245,46 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var descriptor = functionProvider.AddFilter(filter);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCall descriptor = {descriptor}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
 
             functionProvider.RemoveFilter(descriptor);
 
             functionProvider.AddFilter(filter);
             functionProvider.AddFilter(filter);
+
+            var namedParams = new List<NamedParamInfo>();
+
+            var namedParam = new NamedParamInfo();
+            namedParams.Add(namedParam);
+            namedParam.ParamName = new EntityValue(messageParamKey);
+            namedParam.ParamValue = new EntityValue(doorKey);
+
+            var tmpHolder = mainContext.CommonValuesFactory.SelfValue();
+
+            ulong tmpTarget = 0;
+
+            var resultOfCallByDescription = functionProvider.CallForDecsriptorByNamedParameters(null, tmpHolder, descriptor, tmpTarget, namedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+
+            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByNamedParameters(null, tmpHolder, descriptor, tmpTarget, namedParams);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+
+            var positionedParameters = new List<PositionParamInfo>();
+
+            var positionedParam = new PositionParamInfo();
+            positionedParameters.Add(positionedParam);
+            positionedParam.ParamValue = new EntityValue(doorKey);
+            positionedParam.Position = 0;
+
+            resultOfCallByDescription = functionProvider.CallForDecsriptorByPositionedParameters(null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+
+            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByPositionedParameters(null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();

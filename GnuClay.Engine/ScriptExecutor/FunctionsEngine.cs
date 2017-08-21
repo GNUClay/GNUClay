@@ -118,6 +118,50 @@ namespace GnuClay.Engine.ScriptExecutor
             return ProcessAsyncCall(command, parentAction);
         }
 
+        public ResultOfCalling CallForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByNamedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} namedParams = {_ListHelper._ToString(namedParams)}");
+#endif
+
+            var executionContext = CreateEmptyExecutionContext();
+
+            throw new NotImplementedException();
+        }
+
+        public ResultOfCalling CallForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByPositionedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
+#endif
+
+            var executionContext = CreateEmptyExecutionContext();
+
+            throw new NotImplementedException();
+        }
+
+        public ResultOfCalling CallAsyncForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByNamedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} namedParams = {_ListHelper._ToString(namedParams)}");
+#endif
+
+            var executionContext = CreateEmptyExecutionContext();
+
+            throw new NotImplementedException();
+        }
+
+        public ResultOfCalling CallAsyncForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByPositionedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
+#endif
+
+            var executionContext = CreateEmptyExecutionContext();
+
+            throw new NotImplementedException();
+        }
+
         private GnuClayThreadExecutionContext CreateEmptyExecutionContext()
         {
             var executionContext = new GnuClayThreadExecutionContext();
