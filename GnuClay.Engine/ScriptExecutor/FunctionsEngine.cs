@@ -327,8 +327,21 @@ namespace GnuClay.Engine.ScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityActionByDescriptor action = {action}");
 #endif
+            var command = action.Command;
 
-            throw new NotImplementedException();
+            var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);
+
+            if(targetExecutor == null)
+            {
+                action.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
+                action.State = EntityActionState.Faulted;
+
+                return;
+            }
+
+            NormalizeCommandParams(command, targetExecutor);
+
+            targetExecutor.Handler.Invoke(action);
         }
 
         /// <summary>

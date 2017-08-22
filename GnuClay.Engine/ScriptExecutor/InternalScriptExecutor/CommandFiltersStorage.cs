@@ -290,6 +290,26 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             return targetFilters.OrderByDescending(p => p.Key).Select(p => p.Value).ToList();
         }
 
+        public T GetExecutorByDescriptor(ulong descriptor)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor descriptor = {descriptor}");
+#endif
+
+            if (mDescriptorsDict.ContainsKey(descriptor))
+            {
+                var storage = mDescriptorsDict[descriptor];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor YESS!!!!(2) descriptor = {descriptor}");
+#endif
+
+                return storage.Filter;
+            }
+
+            return null;
+        }
+
         public void RemoveFilter(ulong descriptor)
         {
             var targetStorage = mDescriptorsDict[descriptor];
@@ -473,6 +493,29 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 }
 
                 return result;
+            }
+        }
+
+        public T GetExecutorByDescriptor(ulong descriptor)
+        {
+            lock (mLockObj)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor descriptor = {descriptor}");
+#endif
+
+                if (mDescriptorsDict.ContainsKey(descriptor))
+                {
+                    var storage = mDescriptorsDict[descriptor];
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor YESS descriptor = {descriptor}");
+#endif
+
+                    return storage.GetExecutorByDescriptor(descriptor);
+                }
+
+                return null;           
             }
         }
 
