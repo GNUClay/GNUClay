@@ -409,6 +409,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
     public class CommandFiltersStorage<T>
         where T : BaseCommandFilter
     {
+        private object mLockObj = new object();
+
         public CommandFiltersStorage(GnuClayEngineComponentContext mainContext)
         {
             mContext = mainContext;
@@ -418,21 +420,24 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public ulong AddFilter(T filter)
         {
-            var holderKey = filter.HolderKey;
-
-            CommandFiltersStorageByHolder<T> targetStorage = null;
-
-            if (mDict.ContainsKey(holderKey))
+            lock(mLockObj)
             {
-                targetStorage = mDict[holderKey];
-            }
-            else
-            {
-                targetStorage = new CommandFiltersStorageByHolder<T>(mContext, this);
-                mDict.Add(holderKey, targetStorage);
-            }
+                var holderKey = filter.HolderKey;
 
-            return targetStorage.AddFilter(filter);
+                CommandFiltersStorageByHolder<T> targetStorage = null;
+
+                if (mDict.ContainsKey(holderKey))
+                {
+                    targetStorage = mDict[holderKey];
+                }
+                else
+                {
+                    targetStorage = new CommandFiltersStorageByHolder<T>(mContext, this);
+                    mDict.Add(holderKey, targetStorage);
+                }
+
+                return targetStorage.AddFilter(filter);
+            }
         }
 
         public void OnAddFilter(ulong descriptor, CommandFiltersStorageByTarget<T> storage)
@@ -442,38 +447,44 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
-            var holderKey = command.Holder.TypeKey;
-
-            var tmpObjectsList = mContext.InheritanceEngine.LoadExecutorsQueueItems(holderKey);
-
-            var result = new List<T>();
-
-            foreach (var item in tmpObjectsList)
+            lock (mLockObj)
             {
-                var key = item.TypeKey;
+                var holderKey = command.Holder.TypeKey;
 
-                if (mDict.ContainsKey(key))
+                var tmpObjectsList = mContext.InheritanceEngine.LoadExecutorsQueueItems(holderKey);
+
+                var result = new List<T>();
+
+                foreach (var item in tmpObjectsList)
                 {
-                    var tmpItems = mDict[key].FindExecutors(command);
+                    var key = item.TypeKey;
 
-                    if (_ListHelper.IsEmpty(tmpItems))
+                    if (mDict.ContainsKey(key))
                     {
-                        continue;
+                        var tmpItems = mDict[key].FindExecutors(command);
+
+                        if (_ListHelper.IsEmpty(tmpItems))
+                        {
+                            continue;
+                        }
+
+                        result.AddRange(tmpItems);
                     }
-
-                    result.AddRange(tmpItems);
                 }
-            }
 
-            return result;
+                return result;
+            }
         }
 
         public void RemoveFilter(ulong descriptor)
         {
-            if (mDescriptorsDict.ContainsKey(descriptor))
+            lock (mLockObj)
             {
-                mDescriptorsDict[descriptor].RemoveFilter(descriptor);
-                mDescriptorsDict.Remove(descriptor);
+                if (mDescriptorsDict.ContainsKey(descriptor))
+                {
+                    mDescriptorsDict[descriptor].RemoveFilter(descriptor);
+                    mDescriptorsDict.Remove(descriptor);
+                }
             }
         }
 

@@ -118,7 +118,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return ProcessAsyncCall(command, parentAction);
         }
 
-        public ResultOfCalling CallForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
+        public ResultOfCalling CallForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByNamedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} namedParams = {_ListHelper._ToString(namedParams)}");
@@ -126,10 +126,16 @@ namespace GnuClay.Engine.ScriptExecutor
 
             var executionContext = CreateEmptyExecutionContext();
 
-            throw new NotImplementedException();
+            var command = CreateCommandForDescriptorByNamedParameters(executionContext, descriptor, holder, targetKey, namedParams);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByNamedParameters command = {command}");
+#endif
+
+            return ProcessSyncCallForDescriptor(command, parentAction);
         }
 
-        public ResultOfCalling CallForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
+        public ResultOfCalling CallForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByPositionedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
@@ -137,29 +143,45 @@ namespace GnuClay.Engine.ScriptExecutor
 
             var executionContext = CreateEmptyExecutionContext();
 
-            throw new NotImplementedException();
+            var command = CreateCommandForDescriptorByPositionedParameters(executionContext, descriptor, holder, targetKey, positionedParams);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallForDecsriptorByPositionedParameters command = {command}");
+#endif
+
+            return ProcessSyncCallForDescriptor(command, parentAction);
         }
 
-        public ResultOfCalling CallAsyncForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
+        public ResultOfCalling CallAsyncForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByNamedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} namedParams = {_ListHelper._ToString(namedParams)}");
 #endif
 
             var executionContext = CreateEmptyExecutionContext();
+            var command = CreateCommandForDescriptorByNamedParameters(executionContext, descriptor, holder, targetKey, namedParams);
 
-            throw new NotImplementedException();
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByNamedParameters command = {command}");
+#endif
+
+            return ProcessAsyncCallForDescriptor(command, parentAction);
         }
 
-        public ResultOfCalling CallAsyncForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
+        public ResultOfCalling CallAsyncForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByPositionedParameters holder = {holder} descriptor = {descriptor} targetKey = {targetKey} positionedParams = {_ListHelper._ToString(positionedParams)}");
 #endif
 
             var executionContext = CreateEmptyExecutionContext();
+            var command = CreateCommandForDescriptorByPositionedParameters(executionContext, descriptor, holder, targetKey, positionedParams);
 
-            throw new NotImplementedException();
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CallAsyncForDecsriptorByPositionedParameters command = {command}");
+#endif
+
+            return ProcessAsyncCallForDescriptor(command, parentAction);
         }
 
         private GnuClayThreadExecutionContext CreateEmptyExecutionContext()
@@ -171,28 +193,52 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private Command CreateCommandByNamedParameters(GnuClayThreadExecutionContext executionContext, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            var command = new Command();
-            command.ExecutionContext = executionContext;
+            var command = NCreateCommandByNamedParameters(executionContext, holder, targetKey, namedParams);
             command.Function = function;
+            return command;
+        }
 
-            if (holder == null)
-            {
-                holder = mCommonValuesFactory.SelfValue();
-            }
+        private Command CreateCommandForDescriptorByNamedParameters(GnuClayThreadExecutionContext executionContext, ulong descriptor, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
+        {
+            var command = NCreateCommandByNamedParameters(executionContext, holder, targetKey, namedParams);
+            command.DescriptorOfFunction = descriptor;
+            return command;
+        }
 
-            command.Holder = holder;
-            command.TargetKey = targetKey;
+        private Command NCreateCommandByNamedParameters(GnuClayThreadExecutionContext executionContext, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
+        {
+            var command = NCreateCommand(executionContext, holder, targetKey);
             command.IsCallByNamedParams = true;
             command.NamedParams = namedParams;
-
             return command;
         }
 
         private Command CreateCommandByPositionedParameters(GnuClayThreadExecutionContext executionContext, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
+            var command = NCreateCommandByPositionedParameters(executionContext, holder, targetKey, positionedParams);
+            command.Function = function;
+            return command;
+        }
+
+        private Command CreateCommandForDescriptorByPositionedParameters(GnuClayThreadExecutionContext executionContext, ulong descriptor, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
+        {
+            var command = NCreateCommandByPositionedParameters(executionContext, holder, targetKey, positionedParams);
+            command.DescriptorOfFunction = descriptor;
+            return command;
+        }
+
+        private Command NCreateCommandByPositionedParameters(GnuClayThreadExecutionContext executionContext, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
+        {
+            var command = NCreateCommand(executionContext, holder, targetKey);
+            command.IsCallByNamedParams = false;
+            command.PositionedParams = positionedParams;
+            return command;
+        }
+
+        private Command NCreateCommand(GnuClayThreadExecutionContext executionContext, IValue holder, ulong targetKey)
+        {
             var command = new Command();
             command.ExecutionContext = executionContext;
-            command.Function = function;
 
             if (holder == null)
             {
@@ -201,9 +247,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
             command.Holder = holder;
             command.TargetKey = targetKey;
-            command.IsCallByNamedParams = false;
-            command.PositionedParams = positionedParams;
-
             return command;
         }
 
@@ -251,7 +294,7 @@ namespace GnuClay.Engine.ScriptExecutor
                 }
             }
 
-            var targetExecutorsList = FindExecutors(command);
+            var targetExecutorsList = mCommandFiltersStorage.FindExecutors(command);
 
             if (_ListHelper.IsEmpty(targetExecutorsList))
             {
@@ -277,6 +320,15 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 mCommandFiltersCacheDict[commandHashCode] = targetExecutor;
             }
+        }
+
+        private void InvokeEntityActionByDescriptor(EntityAction action)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityActionByDescriptor action = {action}");
+#endif
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -370,30 +422,44 @@ namespace GnuClay.Engine.ScriptExecutor
             return result;
         }
 
-        private object mFiltersLockObj = new object();
+        private ResultOfCalling ProcessSyncCallForDescriptor(Command command, EntityAction parentAction)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSyncCallForDescriptor command = {command}");
+#endif
+
+            var entityAction = CreateEntityAction(command, parentAction);
+            InvokeEntityActionByDescriptor(entityAction);
+            return CreateSyncResultOfCalling(entityAction);
+        }
+
+        private ResultOfCalling ProcessAsyncCallForDescriptor(Command command, EntityAction parentAction)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAsyncCallForDescriptor command = {command}");
+#endif
+
+            var entityAction = CreateEntityAction(command, parentAction);
+
+            Task.Run(() => {
+                InvokeEntityActionByDescriptor(entityAction);
+            });
+
+            var result = new ResultOfCalling();
+            result.Success = true;
+            result.Result = entityAction;
+
+            return result;
+        }
 
         public ulong AddFilter(CommandFilter filter)
         {
-            lock (mFiltersLockObj)
-            {
-                return mCommandFiltersStorage.AddFilter(filter);
-            }
-        }
-
-        private List<CommandFilter> FindExecutors(Command command)
-        {
-            lock (mFiltersLockObj)
-            {
-                return mCommandFiltersStorage.FindExecutors(command);
-            }
+             return mCommandFiltersStorage.AddFilter(filter);
         }
 
         public void RemoveFilter(ulong descriptor)
         {
-            lock (mFiltersLockObj)
-            {
-                mCommandFiltersStorage.RemoveFilter(descriptor);
-            }
+            mCommandFiltersStorage.RemoveFilter(descriptor);
         }
 
         private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();

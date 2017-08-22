@@ -12,6 +12,7 @@ namespace GnuClay.Engine.ScriptExecutor
     {
         public GnuClayThreadExecutionContext ExecutionContext { get; set; }
         public IValue Function { get; set; }
+        public ulong DescriptorOfFunction { get; set; }
         public IValue Holder { get; set; }
         public ulong TargetKey { get; set; }
         public List<PositionParamInfo> PositionedParams { get; set; }
@@ -59,6 +60,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             sb.AppendLine($"{nameof(ExecutionContext)} = {ExecutionContext}");
             sb.AppendLine($"{nameof(Function)} = {Function}");
+            sb.AppendLine($"{nameof(DescriptorOfFunction)} = {DescriptorOfFunction}");            
             sb.AppendLine($"{nameof(Holder)} = {Holder}");
             sb.AppendLine($"{nameof(TargetKey)} = {TargetKey}");
             sb.AppendLine($"{nameof(PositionedParams)} = {_ListHelper._ToString(PositionedParams)}");

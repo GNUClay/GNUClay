@@ -263,11 +263,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             ulong tmpTarget = 0;
 
-            var resultOfCallByDescription = functionProvider.CallForDecsriptorByNamedParameters(null, tmpHolder, descriptor, tmpTarget, namedParams);
+            var resultOfCallByDescription = functionProvider.CallForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
-            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByNamedParameters(null, tmpHolder, descriptor, tmpTarget, namedParams);
+            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
@@ -278,11 +278,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             positionedParam.ParamValue = new EntityValue(doorKey);
             positionedParam.Position = 0;
 
-            resultOfCallByDescription = functionProvider.CallForDecsriptorByPositionedParameters(null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+            resultOfCallByDescription = functionProvider.CallForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
-            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByPositionedParameters(null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
