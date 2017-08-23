@@ -254,13 +254,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             var targetStorage = new CommandFiltersStorageByParams<T>(filter, mContext);
             mDict.Add(targetHashCode, targetStorage);
-
             var descriptor = targetStorage.Descriptor;
-
             mDescriptorsDict[descriptor] = targetStorage;
-
             mParent.OnAddFilter(descriptor, this);
-
             return descriptor;
         }
 
@@ -271,7 +267,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             foreach (var item in mDict)
             {
                 var value = item.Value;
-
                 var rank = value.GetRank(command);
 
                 if (rank == 0)
@@ -292,18 +287,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public T GetExecutorByDescriptor(ulong descriptor)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor descriptor = {descriptor}");
-#endif
-
             if (mDescriptorsDict.ContainsKey(descriptor))
             {
                 var storage = mDescriptorsDict[descriptor];
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor YESS!!!!(2) descriptor = {descriptor}");
-#endif
-
                 return storage.Filter;
             }
 
@@ -470,9 +456,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             lock (mLockObj)
             {
                 var holderKey = command.Holder.TypeKey;
-
                 var tmpObjectsList = mContext.InheritanceEngine.LoadExecutorsQueueItems(holderKey);
-
                 var result = new List<T>();
 
                 foreach (var item in tmpObjectsList)
@@ -500,18 +484,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             lock (mLockObj)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor descriptor = {descriptor}");
-#endif
-
                 if (mDescriptorsDict.ContainsKey(descriptor))
                 {
                     var storage = mDescriptorsDict[descriptor];
-
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"GetExecutorByDescriptor YESS descriptor = {descriptor}");
-#endif
-
                     return storage.GetExecutorByDescriptor(descriptor);
                 }
 

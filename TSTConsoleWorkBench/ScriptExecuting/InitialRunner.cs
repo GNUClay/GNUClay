@@ -247,10 +247,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
 
-            //functionProvider.RemoveFilter(descriptor);
+            functionProvider.RemoveFilter(descriptor);
 
-            //functionProvider.AddFilter(filter);
             functionProvider.AddFilter(filter);
+            descriptor = functionProvider.AddFilter(filter);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
 
             var namedParams = new List<NamedParamInfo>();
 
