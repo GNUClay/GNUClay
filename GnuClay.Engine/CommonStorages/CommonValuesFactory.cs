@@ -17,6 +17,7 @@ namespace GnuClay.Engine.CommonStorages
         private InheritanceEngine mInheritanceEngine = null;
         private StorageDataDictionary mDataDictionary = null;
         private CommonKeysEngine mCommonKeysEngine = null;
+        private ConstTypeProvider mConstTypeProvider = null;
 
         private IValue mUndefinedValue = null;
         private IValue mNullValue = null;
@@ -30,11 +31,15 @@ namespace GnuClay.Engine.CommonStorages
         private ulong mSelfKey = 0;
         private IValue mSelfValue = null;
 
+        private IValue mTrueValue = null;
+        private IValue mFalseValue = null;
+
         public override void FirstInit()
         {
             mDataDictionary = Context.DataDictionary;
             mInheritanceEngine = Context.InheritanceEngine;
             mCommonKeysEngine = Context.CommonKeysEngine;
+            mConstTypeProvider = Context.ConstTypeProvider;
         }
 
         public override void SecondInit()
@@ -49,6 +54,11 @@ namespace GnuClay.Engine.CommonStorages
 
             mSelfKey = mCommonKeysEngine.SelfKey;
             mSelfValue = new EntityValue(mSelfKey);
+
+            var booleanTypeKey = mCommonKeysEngine.BooleanKey;
+
+            mTrueValue = mConstTypeProvider.CreateConstValue(booleanTypeKey, 1.0);
+            mFalseValue = mConstTypeProvider.CreateConstValue(booleanTypeKey, 0.0);
         }
 
         public ulong CreateObject()
@@ -75,6 +85,16 @@ namespace GnuClay.Engine.CommonStorages
         public IValue SelfValue()
         {
             return mSelfValue;
+        }
+
+        public IValue TrueValue()
+        {
+            return mTrueValue;
+        }
+
+        public IValue FalseValue()
+        {
+            return mFalseValue;
         }
     }
 }

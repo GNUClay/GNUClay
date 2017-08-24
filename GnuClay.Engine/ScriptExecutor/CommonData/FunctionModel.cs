@@ -30,6 +30,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             mLastCommand = cmd;
             Commands.Add(cmd);
             mCount++;
+            cmd.Position = mCount;
             LinesDict[mCount] = cmd;
         }
 

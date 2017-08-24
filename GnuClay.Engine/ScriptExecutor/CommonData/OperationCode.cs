@@ -97,6 +97,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         CallAsyncByPos,
 
         /// <summary>
+        /// Jump to line of code if current value of the stack is true.
+        /// </summary>
+        JumpIfTrue,
+
+        /// <summary>
         /// Jump to line of code if current value of the stack is false.
         /// </summary>
         JumpIfFalse,

@@ -164,6 +164,7 @@
     <Compile Include="ScriptExecutor\PropertyFilter.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionModel.cs" />
     <Compile Include="ScriptExecutor\UserDefinedFunctionsStorage.cs" />
+    <Compile Include="ScriptExecutor\ValueHelper.cs" />
     <Compile Include="Serialization\SerializationEngine.cs" />
     <Compile Include="Serialization\SerializationInfo.cs" />
     <Compile Include="Serialization\SerializationPackage.cs" />

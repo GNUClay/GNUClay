@@ -17,6 +17,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mMainContext = mainContext;
             mCommonValuesFactory = mainContext.CommonValuesFactory;
             mExecutionContext = executionContext;
+            mTrueValue = mCommonValuesFactory.TrueValue();
+            mFalseValue = mCommonValuesFactory.FalseValue();
 
             mEntityAction = entityAction;
             mEntityAction.State = EntityActionState.Running;
@@ -31,6 +33,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private CommonValuesFactory mCommonValuesFactory = null;
         private FunctionModel mFunction = null;
         private EntityAction mEntityAction = null;
+
+        private IValue mTrueValue = null;
+        private IValue mFalseValue = null;
 
         public ScriptCommand FirstCommand
         {
@@ -321,6 +326,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
                 case OperationCode.CallAsyncByPos:
                     ProcessCallAsyncByPos();
+                    break;
+
+                case OperationCode.JumpIfTrue:
+                    ProcessJumpIfTrue();
                     break;
 
                 case OperationCode.JumpIfFalse:
@@ -686,15 +695,54 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
+        private void ProcessJumpIfTrue()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJumpIfTrue");
+#endif
+            var tmpValue = ValuesStack.Pop();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfTrue ToDbgString = {ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfTrue tmpValue = {tmpValue}");
+#endif
+
+            if (ValueHelper.NEquals(tmpValue, mTrueValue))
+            {
+                mCurrentCommand = mFunction[(int)mCurrentCommand.Key];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfTrue");
+#endif
+                return;
+            }
+
+            throw new NotImplementedException();
+        }
+
         private void ProcessJumpIfFalse()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJumpIfFalse");
 #endif
-            throw new NotImplementedException();
+            var tmpValue = ValuesStack.Pop();
+
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfFalse");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfFalse ToDbgString = {ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfFalse tmpValue = {tmpValue}");
 #endif
+
+            if (ValueHelper.NEquals(tmpValue, mFalseValue))
+            {
+                mCurrentCommand = mFunction[(int)mCurrentCommand.Key];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfFalse");
+#endif
+                return;
+            }
+
+            throw new NotImplementedException();
         }
 
         private void ProcessJump()
@@ -702,7 +750,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJump");
 #endif
-            throw new NotImplementedException();
+
+            mCurrentCommand = mFunction[(int)mCurrentCommand.Key];
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJump");
 #endif

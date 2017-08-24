@@ -12,76 +12,80 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public OperationCode OperationCode = OperationCode.Nop;
         public ScriptCommand Next = null;
 
+        public int Position = 0;
         public ulong Key = 0;
         public object Value = null;
-
+        
 #if DEBUG
         public string ToDbgString()
         {
             switch (OperationCode)
             {
                 case OperationCode.Nop:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.PushConst:
-                    return $"{OperationCode}: {Key} {Value}";
+                    return $"[{Position}]{OperationCode}: {Key} {Value}";
 
                 case OperationCode.PushEntity:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.PushProp:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.PushVar:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.BeginCall:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.BeginCallMethod:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.BeginCallMethodOfPrevEntity:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.SetTarget:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.SetParamName:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.SetParamVal:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.CallUnOp:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.CallBinOp:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.Call:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.CallByPos:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.CallAsync:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.CallAsyncByPos:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
+
+                case OperationCode.JumpIfTrue:
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.JumpIfFalse:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.Jump:
-                    return $"{OperationCode}: {Key}";
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.Return:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 case OperationCode.ReturnValue:
-                    return $"{OperationCode}";
+                    return $"[{Position}]{OperationCode}";
 
                 default: throw new ArgumentOutOfRangeException(nameof(OperationCode), OperationCode, null);
             }
@@ -104,19 +108,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public string ToStringData()
         {
             var tmpSb = new StringBuilder();
-
-            tmpSb.Append(nameof(OperationCode));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(OperationCode.ToString());
-
-            tmpSb.Append(nameof(Key));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Key.ToString());
-
-            tmpSb.Append(nameof(Value));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Value?.ToString());
-
+            tmpSb.AppendLine($"{nameof(Position)} = {Position}");
+            tmpSb.AppendLine($"{nameof(OperationCode)} = {OperationCode}");
+            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
+            tmpSb.AppendLine($"{nameof(Value)} = {Value}");
             return tmpSb.ToString();
         }
     }

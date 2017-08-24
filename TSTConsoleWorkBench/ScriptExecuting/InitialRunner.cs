@@ -23,7 +23,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                RunMiddleScript();
+                RunLoopExecution();
+                //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
                 //TstWorkWithProperties();
@@ -197,6 +198,61 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         //}
 
         private GnuClayEngineComponentContext mainContext = null;
+
+        private void RunLoopExecution()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin RunLoopExecution");
+
+            mainContext = GnuClayEngine.Context;
+            var functionProvider = mainContext.FunctionsEngine;
+            var CommonKeysEngine = mainContext.CommonKeysEngine;
+
+            var boolKey = CommonKeysEngine.BooleanKey;
+
+            var tmpCodeFrame = new FunctionModel();
+            
+            var tmpCommand = new ScriptCommand();//1
+            tmpCommand.OperationCode = OperationCode.Jump;
+            tmpCommand.Key = 4;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//2
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//3
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//4
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = boolKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//5
+            tmpCommand.OperationCode = OperationCode.JumpIfTrue;
+            tmpCommand.Key = 7;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//6
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//7
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//8
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+
+            var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End RunLoopExecution resultOfCalling = {resultOfCalling}");
+        }
 
         private void RunMiddleScript()
         {
