@@ -69,7 +69,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             {
                 mExcutionFramesStack.Pop();
                 mCurrentFrame = mExcutionFramesStack.Peek();
-                mCurrentFrame.CurrentCommandIsNext();
+                var resultOfCalling = new ResultOfCalling();
+                resultOfCalling.Success = true;
+                resultOfCalling.Result = mCommonValuesFactory.UndefinedValue();
+
+                PostProcessCall(resultOfCalling);
                 return;
             }
 
@@ -86,7 +90,17 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mCurrentFrame.mEntityAction.State = EntityActionState.Faulted;
             mCurrentFrame.mEntityAction.Error = error;
 
-            throw new NotImplementedException();
+            if (mExcutionFramesStack.Count > 1)
+            {
+                mExcutionFramesStack.Pop();
+                mCurrentFrame = mExcutionFramesStack.Peek();
+                var resultOfCalling = new ResultOfCalling();
+                resultOfCalling.Success = false;
+                resultOfCalling.Error = error;
+
+                PostProcessCall(resultOfCalling);
+                return;
+            }
 
             mIsRun = false;
 
@@ -106,8 +120,11 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             {
                 mExcutionFramesStack.Pop();
                 mCurrentFrame = mExcutionFramesStack.Peek();
-                mCurrentFrame.PushValue(result);
-                mCurrentFrame.CurrentCommandIsNext();
+                var resultOfCalling = new ResultOfCalling();
+                resultOfCalling.Success = true;
+                resultOfCalling.Result = result;
+
+                PostProcessCall(resultOfCalling);
                 return;
             }
 
@@ -554,6 +571,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");
+            NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall before ToDbgString = {mCurrentFrame.ToDbgString()}");
             NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall resultOfCalling = {resultOfCalling}");
 #endif
             if (!resultOfCalling.Success)
@@ -564,8 +582,22 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             if(resultOfCalling.IsUserDefined)
             {
-                SetFrame(resultOfCalling.ExecutableCode, resultOfCalling.EntityAction, resultOfCalling.EntityAction.Command.ExecutionContext);
-                throw new NotImplementedException();//Initialize variables of this frame like as parameters of command.
+                var tmpEntityAction = resultOfCalling.EntityAction;
+                var tmpCommand = tmpEntityAction.Command;
+                SetFrame(resultOfCalling.ExecutableCode, tmpEntityAction, tmpCommand.ExecutionContext);
+                
+                foreach(var namedParam in tmpCommand.NamedParams)
+                {
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall namedParam = {namedParam}");
+#endif
+                    var tmpVariable = mCurrentFrame.mExecutionContext.ContextOfVariables.GetVariable(namedParam.ParamName.TypeKey);
+                    tmpVariable.ValueFromContainer = namedParam.ParamValue;
+                }
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall after ToDbgString = {mCurrentFrame.ToDbgString()}");
+                NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall (1)");
+#endif
                 return;
             }
 
@@ -573,6 +605,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mCurrentFrame.CurrentCommandIsNext();
 
 #if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall after ToDbgString = {mCurrentFrame.ToDbgString()}");
             NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall");
 #endif
         }
