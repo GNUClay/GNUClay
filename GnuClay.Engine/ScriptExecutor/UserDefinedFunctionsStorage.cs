@@ -18,6 +18,8 @@ namespace GnuClay.Engine.ScriptExecutor
 
             mFilter = function.Filter;
             mFilter.Handler = Handler;
+            mFilter.IsUserDefined = true;
+            mFilter.FunctionModel = function.FunctionModel;
 
             mMainContext.FunctionsEngine.AddFilter(mFilter);
         }

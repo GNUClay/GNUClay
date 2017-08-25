@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
     public class ResultOfCalling
     {
+        public bool IsUserDefined { get; set; }
+        public FunctionModel ExecutableCode { get; set; }
+        public EntityAction EntityAction { get; set; }
         public bool Success { get; set; }
         public IValue Result { get; set; }
         public IValue Error { get; set; }
@@ -20,6 +24,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             var sb = new StringBuilder();
 
+            sb.AppendLine($"{nameof(IsUserDefined)} = {IsUserDefined}");
+            sb.AppendLine($"{nameof(ExecutableCode)} = {ExecutableCode}");
+            sb.AppendLine($"{nameof(EntityAction)} = {EntityAction}");
             sb.AppendLine($"{nameof(Success)} = {Success}");
             sb.AppendLine($"{nameof(Result)} = {Result}");
             sb.AppendLine($"{nameof(Error)} = {Error}");

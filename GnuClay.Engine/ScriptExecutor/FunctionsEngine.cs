@@ -49,7 +49,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             var entityAction = CreateEntityAction(new Command(), null);
 
-            var tmpNewInternalThreadExecutor = new InternalFunctionExecutionModel(source, Context, executionContext, entityAction);
+            var tmpNewInternalThreadExecutor = new InternalThreadExecutionModel(source, Context, executionContext, entityAction);
             tmpNewInternalThreadExecutor.RunDbg();
 
             return CreateSyncResultOfCalling(entityAction);
@@ -61,7 +61,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             FillVariablesByParams(filter, entityAction, executionContext);
 
-            var tmpNewInternalThreadExecutor = new InternalFunctionExecutionModel(source, Context, executionContext, entityAction);
+            var tmpNewInternalThreadExecutor = new InternalThreadExecutionModel(source, Context, executionContext, entityAction);
             tmpNewInternalThreadExecutor.RunDbg();
         }
 
@@ -227,6 +227,43 @@ namespace GnuClay.Engine.ScriptExecutor
             return entityAction;
         }
 
+        private ResultOfCalling InvokeSyncEntityAction(EntityAction action)
+        {
+            var command = action.Command;
+            var targetExecutorsList = mCommandFiltersStorage.FindExecutors(command);
+
+            if (_ListHelper.IsEmpty(targetExecutorsList))
+            {
+                action.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
+                action.State = EntityActionState.Faulted;
+
+                return CreateSyncResultOfCalling(action);
+            }
+
+            var targetExecutor = targetExecutorsList.FirstOrDefault();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutor = {targetExecutor}");
+#endif
+
+            NormalizeCommandParams(command, targetExecutor);
+
+            if (targetExecutor.IsUserDefined)
+            {
+                var result = new ResultOfCalling();
+                result.Success = true;
+                result.EntityAction = action;
+                result.IsUserDefined = true;
+                result.ExecutableCode = targetExecutor.FunctionModel;
+                return result;
+            }
+
+            
+            targetExecutor.Handler.Invoke(action);
+
+            return CreateSyncResultOfCalling(action);
+        }
+
         private void InvokeEntityAction(EntityAction action)
         {
             var command = action.Command;
@@ -264,6 +301,13 @@ namespace GnuClay.Engine.ScriptExecutor
             }
 
             targetExecutor = targetExecutorsList.FirstOrDefault();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutor = {targetExecutor}");
+#endif
+
+
+
             NormalizeCommandParams(command, targetExecutor);
             targetExecutor.Handler.Invoke(action);
 
@@ -342,9 +386,11 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var entityAction = CreateEntityAction(command, parentAction);
 
-            InvokeEntityAction(entityAction);
+            return InvokeSyncEntityAction(entityAction);
 
-            return CreateSyncResultOfCalling(entityAction);
+            //InvokeEntityAction(entityAction);
+
+            //return CreateSyncResultOfCalling(entityAction);
         }
 
         private ResultOfCalling CreateSyncResultOfCalling(EntityAction entityAction)

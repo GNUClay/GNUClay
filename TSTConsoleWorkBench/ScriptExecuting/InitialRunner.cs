@@ -23,8 +23,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
-                RunLoopExecution();
-                //RunMiddleScript();
+                //RunLoopExecution();
+                RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
                 //TstWorkWithProperties();

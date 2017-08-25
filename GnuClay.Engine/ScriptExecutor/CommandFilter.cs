@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,7 @@ namespace GnuClay.Engine.ScriptExecutor
         }
 
         public CommandHandler Handler { get; set; } = null;
+        public bool IsUserDefined { get; set; }
+        public FunctionModel FunctionModel { get; set; } = null;
     }
 }

@@ -144,6 +144,7 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ContextOfVariables.cs" />
     <Compile Include="Inheritance\ExecutorsQueueItem.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\GnuClayThreadExecutionContext.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\PropertiesFiltersStorage.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\ResultOfCalling.cs" />
     <Compile Include="ScriptExecutor\IValue.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="StandardLibrary\CommonData\StandartOperatorPrioritiesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
-    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalFunctionExecutionModel.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutionModel.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
     <Compile Include="CommonStorages\CommonKeysEngine.cs" />
     <Compile Include="StandardLibrary\OperatorsSupport\OperatorAddProvider.cs" />
