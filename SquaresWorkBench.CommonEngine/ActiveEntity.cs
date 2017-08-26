@@ -39,7 +39,7 @@ namespace SquaresWorkBench.CommonEngine
         public override void ActivateEntity()
         {
             mActiveObject.IsShouldAutoActivateOnBeginning = true;
-            mActiveObject.Run();
+            mActiveObject.RunAsync();
         }
 
         public override void StopEntity()

@@ -88,7 +88,7 @@ namespace SquaresWorkBench.CommonEngine
 
             NLog.LogManager.GetCurrentClassLogger().Info("mEntitiesList.Count = {0}", mEntitiesList.Count);
 
-            mActiveObject.Run();
+            mActiveObject.RunAsync();
         }
 
         private int mOldTime = int.MinValue;

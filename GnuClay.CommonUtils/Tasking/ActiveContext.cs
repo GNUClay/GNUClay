@@ -97,7 +97,7 @@ namespace GnuClay.CommonUtils.Tasking
 
                 foreach (var child in tmpTargetList)
                 {
-                    child.Run();
+                    child.RunAsync();
                 }
 
                 while (tmpTargetList.Count(p => p.IsSuspended) < tmpTargetList.Count)

@@ -172,7 +172,7 @@
     <Compile Include="StandardLibrary\CommonData\StandartOperatorPrioritiesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartTypeNamesConstants.cs" />
     <Compile Include="StandardLibrary\CommonData\StandartOperatorNamesConstants.cs" />
-    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutionModel.cs" />
+    <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutor.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
     <Compile Include="CommonStorages\CommonKeysEngine.cs" />
     <Compile Include="StandardLibrary\OperatorsSupport\OperatorAddProvider.cs" />

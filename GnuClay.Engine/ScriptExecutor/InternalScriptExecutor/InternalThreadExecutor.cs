@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonUtils.Tasking;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.StandardLibrary.SupportingMachines;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
-    public class InternalThreadExecutionModel
+    public class InternalThreadExecutor
     {
-        public InternalThreadExecutionModel(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
+        public InternalThreadExecutor(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+#endif
+
             mMainContext = mainContext;
             mCommonValuesFactory = mainContext.CommonValuesFactory;
             mTrueValue = mCommonValuesFactory.TrueValue();
@@ -23,7 +28,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
-        
+        private ActiveObject mActiveObject = null;
+
         private CommonValuesFactory mCommonValuesFactory = null;
         
         private Stack<InternalFunctionExecutionModel> mExcutionFramesStack = new Stack<InternalFunctionExecutionModel>();
@@ -42,20 +48,18 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private IValue mTrueValue = null;
         private IValue mFalseValue = null;
 
-#if DEBUG
-        public void RunDbg()
+        public void Run()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("RunDbg");
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunDbg ToDbgString = {mCurrentFrame.ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            while (mIsRun)
-            {
-                NRun();
-            }
+            mActiveObject = new ActiveObject();
+            mActiveObject.Context = mMainContext.ActiveContext;
+            mActiveObject.RunAction = NRun;
+            mActiveObject.IsShouldAutoActivateOnBeginning = true;
+            mActiveObject.Run();
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
-#endif
-
-        private bool mIsRun = true;
 
         private void Exit()
         {
@@ -77,7 +81,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return;
             }
 
-            mIsRun = false;         
+            mActiveObject.Stop();     
         }
 
         private void ExitWithError(IValue error)
@@ -102,8 +106,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return;
             }
 
-            mIsRun = false;
-
+            mActiveObject.Stop();
         }
 
         private void ExitWithResult(IValue result)
@@ -128,7 +131,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return;
             }
 
-            mIsRun = false;
+            mActiveObject.Stop();
         }
 
         private ScriptCommand mCurrentCommand = null;

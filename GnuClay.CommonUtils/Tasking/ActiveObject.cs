@@ -172,7 +172,7 @@ namespace GnuClay.CommonUtils.Tasking
             }
         }
 
-        public void Run()
+        public void RunAsync()
         {
             if (mIsShouldRun)
             {
@@ -186,6 +186,12 @@ namespace GnuClay.CommonUtils.Tasking
             mThread.IsBackground = mIsBackground;
             mThread.Priority = mPriority;
             mThread.Start();
+        }
+
+        public void Run()
+        {
+            RunAsync();
+            mThread.Join();
         }
 
         public void Stop()

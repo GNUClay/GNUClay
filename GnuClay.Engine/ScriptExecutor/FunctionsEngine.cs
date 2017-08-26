@@ -49,45 +49,10 @@ namespace GnuClay.Engine.ScriptExecutor
 
             var entityAction = CreateEntityAction(new Command(), null);
 
-            var tmpNewInternalThreadExecutor = new InternalThreadExecutionModel(source, Context, executionContext, entityAction);
-            tmpNewInternalThreadExecutor.RunDbg();
+            var tmpNewInternalThreadExecutor = new InternalThreadExecutor(source, Context, executionContext, entityAction);
+            tmpNewInternalThreadExecutor.Run();
 
             return CreateSyncResultOfCalling(entityAction);
-        }
-
-        public void CallCodeFrameForEntityAction(FunctionModel source, CommandFilter filter, EntityAction entityAction)
-        {
-            var executionContext = CreateEmptyExecutionContext();
-
-            FillVariablesByParams(filter, entityAction, executionContext);
-
-            var tmpNewInternalThreadExecutor = new InternalThreadExecutionModel(source, Context, executionContext, entityAction);
-            tmpNewInternalThreadExecutor.RunDbg();
-        }
-
-        private void FillVariablesByParams(CommandFilter filter, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
-        {
-            if (filter.Params.Count == 0)
-            {
-                return;
-            }
-
-            var tmpFilterParameters = filter.Params;
-            var tmpCommandParamsDict = entityAction.Command.NamedParams.ToDictionary(p => p.ParamName.TypeKey, p => p);
-
-            foreach (var filterParamKVP in tmpFilterParameters)
-            {
-                var paramKey = filterParamKVP.Key;
-
-                if (tmpCommandParamsDict.ContainsKey(paramKey))
-                {
-                    var targetParamOfCommand = tmpCommandParamsDict[paramKey];
-                    executionContext.ContextOfVariables.CreateVariable(paramKey, targetParamOfCommand.ParamValue);
-                    continue;
-                }
-
-                throw new NotImplementedException();
-            }
         }
 
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
@@ -264,32 +229,9 @@ namespace GnuClay.Engine.ScriptExecutor
             return CreateSyncResultOfCalling(action);
         }
 
-        private void InvokeEntityAction(EntityAction action)
+        private void InvokeAsyncEntityAction(EntityAction action)
         {
             var command = action.Command;
-            var commandHashCode = command.GetLongHashCode();
-
-            if(mCommandErrorsCacheDict.ContainsKey(commandHashCode))
-            {
-                action.State = EntityActionState.Faulted;
-                action.Error = mCommandErrorsCacheDict[commandHashCode];
-                return;
-            }
-
-            CommandFilter targetExecutor = null;
-
-            if (mCommandFiltersCacheDict.ContainsKey(commandHashCode))
-            {
-                targetExecutor = mCommandFiltersCacheDict[commandHashCode];
-
-                if(command.Function.TypeKey == targetExecutor.FunctionKey)
-                {
-                    NormalizeCommandParams(command, targetExecutor);
-                    targetExecutor.Handler.Invoke(action);
-                    return;
-                }
-            }
-
             var targetExecutorsList = mCommandFiltersStorage.FindExecutors(command);
 
             if (_ListHelper.IsEmpty(targetExecutorsList))
@@ -300,27 +242,22 @@ namespace GnuClay.Engine.ScriptExecutor
                 return;
             }
 
-            targetExecutor = targetExecutorsList.FirstOrDefault();
+            var targetExecutor = targetExecutorsList.FirstOrDefault();
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutor = {targetExecutor}");
 #endif
 
-
-
             NormalizeCommandParams(command, targetExecutor);
-            targetExecutor.Handler.Invoke(action);
 
-            if(action.State == EntityActionState.Faulted)
+            if (targetExecutor.IsUserDefined)
             {
-                mCommandErrorsCacheDict[commandHashCode] = action.Error;
+                var tmpNewInternalThreadExecutor = new InternalThreadExecutor(targetExecutor.FunctionModel, Context, command.ExecutionContext, action);
+                tmpNewInternalThreadExecutor.Run();
                 return;
             }
 
-            if(targetExecutor.WithOutClause)
-            {
-                mCommandFiltersCacheDict[commandHashCode] = targetExecutor;
-            }
+            targetExecutor.Handler.Invoke(action);
         }
 
         private void InvokeEntityActionByDescriptor(EntityAction action)
@@ -387,10 +324,6 @@ namespace GnuClay.Engine.ScriptExecutor
             var entityAction = CreateEntityAction(command, parentAction);
 
             return InvokeSyncEntityAction(entityAction);
-
-            //InvokeEntityAction(entityAction);
-
-            //return CreateSyncResultOfCalling(entityAction);
         }
 
         private ResultOfCalling CreateSyncResultOfCalling(EntityAction entityAction)
@@ -421,9 +354,8 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var entityAction = CreateEntityAction(command, parentAction);
 
-            //TODO: fix at #16 Organize stopping and resuming script execution 
             Task.Run(() => {
-                InvokeEntityAction(entityAction);
+                InvokeAsyncEntityAction(entityAction);
             });
 
             var result = new ResultOfCalling();

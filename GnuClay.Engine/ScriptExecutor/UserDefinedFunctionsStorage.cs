@@ -17,7 +17,6 @@ namespace GnuClay.Engine.ScriptExecutor
             mFunctionModel = function.FunctionModel;
 
             mFilter = function.Filter;
-            mFilter.Handler = Handler;
             mFilter.IsUserDefined = true;
             mFilter.FunctionModel = function.FunctionModel;
 
@@ -27,11 +26,6 @@ namespace GnuClay.Engine.ScriptExecutor
         private GnuClayEngineComponentContext mMainContext = null;
         private FunctionModel mFunctionModel = null;
         private CommandFilter mFilter = null;
-
-        private void Handler(EntityAction action)
-        {
-            mMainContext.FunctionsEngine.CallCodeFrameForEntityAction(mFunctionModel, mFilter, action);
-        }
     }
 
     public class UserDefinedFunctionsStorage : BaseGnuClayEngineComponent
