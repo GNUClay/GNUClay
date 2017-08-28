@@ -12,5 +12,6 @@ namespace GnuClay.Engine.Serialization
         public object LogicalStorageInfo;
         public object StorageDataDictionaryInfo;
         public object InheritanceEngineInfo;
+        public object FunctionsEngineInfo;
     }
 }

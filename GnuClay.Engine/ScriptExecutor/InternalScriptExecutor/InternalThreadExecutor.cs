@@ -32,7 +32,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private CommonValuesFactory mCommonValuesFactory = null;
         
-        private Stack<InternalFunctionExecutionModel> mExcutionFramesStack = new Stack<InternalFunctionExecutionModel>();
+        private Stack<InternalFunctionExecutionModel> mExecutionFramesStack = new Stack<InternalFunctionExecutionModel>();
         private InternalFunctionExecutionModel mCurrentFrame = null;
 
         private void SetFrame(FunctionModel source, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
@@ -41,8 +41,15 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NLog.LogManager.GetCurrentClassLogger().Info("SetFrame");
 #endif
             mCurrentFrame = new InternalFunctionExecutionModel(source, entityAction, executionContext);
-            mExcutionFramesStack.Push(mCurrentFrame);
+            mExecutionFramesStack.Push(mCurrentFrame);
             mCurrentFrame.CurrentCommandIsFirst();
+        }
+
+        public InternalThreadExecutorData Save()
+        {
+            var result = new InternalThreadExecutorData();
+            result.ExecutionFramesStack = mExecutionFramesStack;
+            return result;
         }
 
         private IValue mTrueValue = null;
@@ -64,15 +71,15 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void Exit()
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Exit mExcutionFramesStack.Count = {mExcutionFramesStack.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Exit mExcutionFramesStack.Count = {mExecutionFramesStack.Count}");
 #endif
 
             mCurrentFrame.mEntityAction.State = EntityActionState.Completed;
 
-            if (mExcutionFramesStack.Count > 1)
+            if (mExecutionFramesStack.Count > 1)
             {
-                mExcutionFramesStack.Pop();
-                mCurrentFrame = mExcutionFramesStack.Peek();
+                mExecutionFramesStack.Pop();
+                mCurrentFrame = mExecutionFramesStack.Peek();
                 var resultOfCalling = new ResultOfCalling();
                 resultOfCalling.Success = true;
                 resultOfCalling.Result = mCommonValuesFactory.UndefinedValue();
@@ -88,16 +95,16 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError mExcutionFramesStack.Count = {mExcutionFramesStack.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError mExcutionFramesStack.Count = {mExecutionFramesStack.Count}");
 #endif
 
             mCurrentFrame.mEntityAction.State = EntityActionState.Faulted;
             mCurrentFrame.mEntityAction.Error = error;
 
-            if (mExcutionFramesStack.Count > 1)
+            if (mExecutionFramesStack.Count > 1)
             {
-                mExcutionFramesStack.Pop();
-                mCurrentFrame = mExcutionFramesStack.Peek();
+                mExecutionFramesStack.Pop();
+                mCurrentFrame = mExecutionFramesStack.Peek();
                 var resultOfCalling = new ResultOfCalling();
                 resultOfCalling.Success = false;
                 resultOfCalling.Error = error;
@@ -113,16 +120,16 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult mExcutionFramesStack.Count = {mExcutionFramesStack.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult mExcutionFramesStack.Count = {mExecutionFramesStack.Count}");
 #endif
 
             mCurrentFrame.mEntityAction.State = EntityActionState.Completed;
             mCurrentFrame.mEntityAction.Result = result;
 
-            if (mExcutionFramesStack.Count > 1)
+            if (mExecutionFramesStack.Count > 1)
             {
-                mExcutionFramesStack.Pop();
-                mCurrentFrame = mExcutionFramesStack.Peek();
+                mExecutionFramesStack.Pop();
+                mCurrentFrame = mExecutionFramesStack.Peek();
                 var resultOfCalling = new ResultOfCalling();
                 resultOfCalling.Success = true;
                 resultOfCalling.Result = result;

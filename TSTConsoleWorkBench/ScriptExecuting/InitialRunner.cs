@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.Engine;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.ScriptExecutor.AST.Expressions;
@@ -23,8 +24,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
             try
             {
+                RunSaveLoadScript();
                 //RunLoopExecution();
-                RunMiddleScript();
+                //RunMiddleScript();
                 //RunScriptsCommands();
                 //RunAST();
                 //TstWorkWithProperties();
@@ -198,6 +200,84 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         //}
 
         private GnuClayEngineComponentContext mainContext = null;
+
+        private void RunSaveLoadScript()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin RunSaveLoadScript");
+
+            var tmpEngine = new GnuClayEngine();
+
+            var tmpMainContext = tmpEngine.Context;
+            var functionProvider = tmpMainContext.FunctionsEngine;
+            var CommonKeysEngine = tmpMainContext.CommonKeysEngine;
+
+            var boolKey = CommonKeysEngine.BooleanKey;
+
+            var tmpCodeFrame = new FunctionModel();
+
+            var tmpCommand = new ScriptCommand();//1
+            tmpCommand.OperationCode = OperationCode.Jump;
+            tmpCommand.Key = 4;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//2
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//3
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//4
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = boolKey;
+            tmpCommand.Value = 1.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//5
+            tmpCommand.OperationCode = OperationCode.JumpIfTrue;
+            tmpCommand.Key = 2;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//6
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//7
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();//8
+            tmpCommand.OperationCode = OperationCode.Nop;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            NLog.LogManager.GetCurrentClassLogger().Info(tmpCodeFrame);
+
+            Task.Run(() => {
+                var resultOfCalling = functionProvider.CallCodeFrame(tmpCodeFrame);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"RunSaveLoadScript resultOfCalling = {resultOfCalling}");
+            });
+
+            Thread.Sleep(1000);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("RunSaveLoadScript Begin Save");
+
+            var tmpDump = tmpEngine.Save();
+            NLog.LogManager.GetCurrentClassLogger().Info("RunSaveLoadScript End Save");
+
+            tmpEngine.Destroy();
+            tmpEngine = null;
+
+            Thread.Sleep(1000);
+
+            var tmpEngine_2 = new GnuClayEngine();
+            tmpEngine_2.Load(tmpDump);
+
+            Thread.Sleep(10000);
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End RunSaveLoadScript");
+        }
 
         private void RunLoopExecution()
         {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
+    [Serializable]
     public class EntityAction : BaseSystemType
     {
         public EntityAction(ulong key, Command command, ulong typeKey)
@@ -21,6 +22,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private object mLockObj = new object();
 
         public ulong Key { get; private set; }
+
         public Command Command { get; private set; }
 
         private EntityActionState mState = EntityActionState.Init;

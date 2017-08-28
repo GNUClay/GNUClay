@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
+    [Serializable]
     public class ContextOfVariables
     {
         public ContextOfVariables(GnuClayEngineComponentContext context)
@@ -16,7 +17,9 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mUndefinedValue = mContext.CommonValuesFactory.UndefinedValue();
         }
 
+        [NonSerialized]
         private GnuClayEngineComponentContext mContext = null;
+        [NonSerialized]
         private IValue mUndefinedValue = null;
 
         public IValue GetVariable(ulong variableKey)

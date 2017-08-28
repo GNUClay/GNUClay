@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
+    [Serializable]
     public class InternalFunctionExecutionModel
     {
         public InternalFunctionExecutionModel(FunctionModel source, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)

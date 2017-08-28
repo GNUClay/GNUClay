@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
     [Serializable]
-    public class GnuClayThreadExecutionContext
+    public class InternalThreadExecutorData
     {
-        public ContextOfVariables ContextOfVariables = null;
+        public Stack<InternalFunctionExecutionModel> ExecutionFramesStack { get; set; }
     }
 }

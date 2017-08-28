@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    [Serializable]
     public abstract class BaseSystemType : IValue
     {
         protected BaseSystemType(ulong typeKey)

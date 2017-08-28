@@ -414,7 +414,52 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private void ExecuteThread(InternalThreadExecutor executor)
         {
+            lock(mCurrentExecutorsListLockObj)
+            {
+                mCurrentExecutorsList.Add(executor);
+            }
+            
             executor.Run();
+
+            lock (mCurrentExecutorsListLockObj)
+            {
+                mCurrentExecutorsList.Remove(executor);
+            }          
+        }
+
+        private object mCurrentExecutorsListLockObj = new object();
+        private List<InternalThreadExecutor> mCurrentExecutorsList = new List<InternalThreadExecutor>();
+
+        public object Save()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Save");
+#endif
+
+            var result = new List<InternalThreadExecutorData>();
+
+            foreach(var executor in mCurrentExecutorsList)
+            {
+                result.Add(executor.Save());
+            }
+
+            return result;
+        }
+
+        public void Load(object value)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Load");
+#endif
+
+            var itemsList = (List<InternalThreadExecutorData>)value;
+
+            foreach(var item in itemsList)
+            {
+                throw new NotImplementedException();
+            }
+
+            throw new NotImplementedException();
         }
 
         private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();

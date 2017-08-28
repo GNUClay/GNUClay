@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
+    [Serializable]
     public class NamedParamInfo : ILongHashableObject
     {
         public IValue ParamName { get; set; }
