@@ -50,7 +50,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var entityAction = CreateEntityAction(new Command(), null);
 
             var tmpNewInternalThreadExecutor = new InternalThreadExecutor(source, Context, executionContext, entityAction);
-            tmpNewInternalThreadExecutor.Run();
+            ExecuteThread(tmpNewInternalThreadExecutor);
 
             return CreateSyncResultOfCalling(entityAction);
         }
@@ -208,7 +208,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var targetExecutor = targetExecutorsList.FirstOrDefault();
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutor = {targetExecutor}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeSyncEntityAction targetExecutor = {targetExecutor}");
 #endif
 
             NormalizeCommandParams(command, targetExecutor);
@@ -222,8 +222,7 @@ namespace GnuClay.Engine.ScriptExecutor
                 result.ExecutableCode = targetExecutor.FunctionModel;
                 return result;
             }
-
-            
+        
             targetExecutor.Handler.Invoke(action);
 
             return CreateSyncResultOfCalling(action);
@@ -245,7 +244,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var targetExecutor = targetExecutorsList.FirstOrDefault();
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeEntityAction targetExecutor = {targetExecutor}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeAsyncEntityAction targetExecutor = {targetExecutor}");
 #endif
 
             NormalizeCommandParams(command, targetExecutor);
@@ -253,14 +252,14 @@ namespace GnuClay.Engine.ScriptExecutor
             if (targetExecutor.IsUserDefined)
             {
                 var tmpNewInternalThreadExecutor = new InternalThreadExecutor(targetExecutor.FunctionModel, Context, command.ExecutionContext, action);
-                tmpNewInternalThreadExecutor.Run();
+                ExecuteThread(tmpNewInternalThreadExecutor);
                 return;
             }
 
             targetExecutor.Handler.Invoke(action);
         }
 
-        private void InvokeEntityActionByDescriptor(EntityAction action)
+        private ResultOfCalling InvokeEntityActionByDescriptor(EntityAction action)
         {
             var command = action.Command;
             var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);
@@ -269,12 +268,29 @@ namespace GnuClay.Engine.ScriptExecutor
             {
                 action.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
                 action.State = EntityActionState.Faulted;
-                return;
+                return CreateSyncResultOfCalling(action);
             }
 
             NormalizeCommandParams(command, targetExecutor);
 
+            if (targetExecutor.IsUserDefined)
+            {
+                var result = new ResultOfCalling();
+                result.Success = true;
+                result.EntityAction = action;
+                result.IsUserDefined = true;
+                result.ExecutableCode = targetExecutor.FunctionModel;
+                return result;
+            }
+
             targetExecutor.Handler.Invoke(action);
+
+            return CreateSyncResultOfCalling(action);
+        }
+
+        private void InvokeSyncEntityActionByDescriptor(EntityAction action)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -368,8 +384,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private ResultOfCalling ProcessSyncCallForDescriptor(Command command, EntityAction parentAction)
         {
             var entityAction = CreateEntityAction(command, parentAction);
-            InvokeEntityActionByDescriptor(entityAction);
-            return CreateSyncResultOfCalling(entityAction);
+            return InvokeEntityActionByDescriptor(entityAction);
         }
 
         private ResultOfCalling ProcessAsyncCallForDescriptor(Command command, EntityAction parentAction)
@@ -377,7 +392,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var entityAction = CreateEntityAction(command, parentAction);
 
             Task.Run(() => {
-                InvokeEntityActionByDescriptor(entityAction);
+                InvokeSyncEntityActionByDescriptor(entityAction);
             });
 
             var result = new ResultOfCalling();
@@ -395,6 +410,11 @@ namespace GnuClay.Engine.ScriptExecutor
         public void RemoveFilter(ulong descriptor)
         {
             mCommandFiltersStorage.RemoveFilter(descriptor);
+        }
+
+        private void ExecuteThread(InternalThreadExecutor executor)
+        {
+            executor.Run();
         }
 
         private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();
