@@ -449,17 +449,29 @@ namespace GnuClay.Engine.ScriptExecutor
         public void Load(object value)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Load");
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Load");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Load value.GetType().FullName = {value.GetType().FullName}");
 #endif
 
             var itemsList = (List<InternalThreadExecutorData>)value;
 
+            var tmpExecutors = new List<InternalThreadExecutor>();
+
             foreach(var item in itemsList)
             {
-                throw new NotImplementedException();
+                tmpExecutors.Add(new InternalThreadExecutor(Context, item));
             }
 
-            throw new NotImplementedException();
+            foreach(var item in tmpExecutors)
+            {
+                Task.Run(() => {
+                    ExecuteThread(item);
+                });
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("End Load");
+#endif
         }
 
         private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();

@@ -70,7 +70,7 @@ namespace GnuClay.Engine.Serialization
             Context.DataDictionary.Load(serializationInfo.StorageDataDictionaryInfo);
             Context.LogicalStorage.Load(serializationInfo.LogicalStorageInfo);
             Context.InheritanceEngine.Load(serializationInfo.InheritanceEngineInfo);
-            Context.FunctionsEngine.Load(serializationInfo.InheritanceEngineInfo);
+            Context.FunctionsEngine.Load(serializationInfo.FunctionsEngineInfo);
         }
 
         public void Clear()

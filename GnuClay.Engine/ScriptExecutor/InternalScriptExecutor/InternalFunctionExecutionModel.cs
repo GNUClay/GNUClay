@@ -150,6 +150,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             var tmpSb = new StringBuilder();
 
+            tmpSb.AppendLine("Begin InternalFunctionExecutionModel");
             tmpSb.AppendLine("Begin ValuesStack");
 
             foreach (var val in ValuesStack)
@@ -201,7 +202,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");
             tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
-
+            tmpSb.AppendLine("End InternalFunctionExecutionModel");
             return tmpSb.ToString();
         }
 #endif

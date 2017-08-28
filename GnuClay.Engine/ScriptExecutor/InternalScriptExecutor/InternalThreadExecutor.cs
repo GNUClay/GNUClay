@@ -13,18 +13,40 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 {
     public class InternalThreadExecutor
     {
+        public InternalThreadExecutor(GnuClayEngineComponentContext mainContext, InternalThreadExecutorData data)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) data = {data}");
+#endif
+
+            Init(mainContext);
+
+            mExecutionFramesStack = data.ExecutionFramesStack;
+            mCurrentFrame = mExecutionFramesStack.Last();
+        }
+
         public InternalThreadExecutor(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("constructor");
 #endif
 
+            Init(mainContext);
+
+            SetFrame(source, entityAction, executionContext);         
+        }
+
+        private void Init(GnuClayEngineComponentContext mainContext)
+        {
             mMainContext = mainContext;
             mCommonValuesFactory = mainContext.CommonValuesFactory;
             mTrueValue = mCommonValuesFactory.TrueValue();
             mFalseValue = mCommonValuesFactory.FalseValue();
 
-            SetFrame(source, entityAction, executionContext);         
+            mActiveObject = new ActiveObject();
+            mActiveObject.Context = mMainContext.ActiveContext;
+            mActiveObject.RunAction = NRun;
+            mActiveObject.IsShouldAutoActivateOnBeginning = true;
         }
 
         private GnuClayEngineComponentContext mMainContext = null;
@@ -59,10 +81,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            mActiveObject = new ActiveObject();
-            mActiveObject.Context = mMainContext.ActiveContext;
-            mActiveObject.RunAction = NRun;
-            mActiveObject.IsShouldAutoActivateOnBeginning = true;
             mActiveObject.Run();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
