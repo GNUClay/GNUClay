@@ -288,9 +288,33 @@ namespace GnuClay.Engine.ScriptExecutor
             return CreateSyncResultOfCalling(action);
         }
 
-        private void InvokeSyncEntityActionByDescriptor(EntityAction action)
+        private void InvokeAsyncEntityActionByDescriptor(EntityAction action)
         {
-            throw new NotImplementedException();
+            var command = action.Command;
+            var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeAsyncEntityActionByDescriptor targetExecutor = {targetExecutor}");
+#endif
+
+            if (targetExecutor == null)
+            {
+                action.Error = Context.ErrorsFactory.CreateUncaughtReferenceError();
+                action.State = EntityActionState.Faulted;
+
+                return;
+            }
+
+            NormalizeCommandParams(command, targetExecutor);
+
+            if (targetExecutor.IsUserDefined)
+            {
+                var tmpNewInternalThreadExecutor = new InternalThreadExecutor(targetExecutor.FunctionModel, Context, command.ExecutionContext, action);
+                ExecuteThread(tmpNewInternalThreadExecutor);
+                return;
+            }
+
+            targetExecutor.Handler.Invoke(action);
         }
 
         /// <summary>
@@ -392,7 +416,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var entityAction = CreateEntityAction(command, parentAction);
 
             Task.Run(() => {
-                InvokeSyncEntityActionByDescriptor(entityAction);
+                InvokeAsyncEntityActionByDescriptor(entityAction);
             });
 
             var result = new ResultOfCalling();
@@ -432,15 +456,12 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public object Save()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
-#endif
-
             var result = new List<InternalThreadExecutorData>();
 
             foreach(var executor in mCurrentExecutorsList)
             {
-                result.Add(executor.Save());
+                var data = executor.Save();
+                result.Add(data);
             }
 
             return result;
@@ -448,11 +469,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void Load(object value)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin Load");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Load value.GetType().FullName = {value.GetType().FullName}");
-#endif
-
             var itemsList = (List<InternalThreadExecutorData>)value;
 
             var tmpExecutors = new List<InternalThreadExecutor>();
@@ -468,10 +484,6 @@ namespace GnuClay.Engine.ScriptExecutor
                     ExecuteThread(item);
                 });
             }
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End Load");
-#endif
         }
 
         private Dictionary<ulong, CommandFilter> mCommandFiltersCacheDict = new Dictionary<ulong, CommandFilter>();

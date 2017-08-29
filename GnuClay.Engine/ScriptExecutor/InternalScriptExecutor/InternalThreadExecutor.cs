@@ -22,7 +22,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             Init(mainContext);
 
             mExecutionFramesStack = data.ExecutionFramesStack;
-            mCurrentFrame = mExecutionFramesStack.Last();
+            mCurrentFrame = mExecutionFramesStack.First();
         }
 
         public InternalThreadExecutor(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
@@ -79,11 +79,14 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public void Run()
         {
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
-
+#endif
             mActiveObject.Run();
 
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+#endif
         }
 
         private void Exit()

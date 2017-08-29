@@ -228,9 +228,7 @@ namespace GnuClay.CommonUtils.Tasking
                     if (Context.IsNeedWait)
                     {
                         mIsSuspended = true;
-
                         Context.ResetEvent.WaitOne();
-
                         mIsSuspended = false;
                     }
                 }

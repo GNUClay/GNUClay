@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
+    [Serializable]
     public class ErrorValue : BaseSystemType
     {
         public ErrorValue(ulong typeKey)

@@ -11,6 +11,7 @@ using GnuClay.Engine.LogicalStorage.DebugHelpers;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    [Serializable]
     public class FactValue : IValue
     {
         public FactValue(ulong typeKey, GnuClayEngineComponentContext context)

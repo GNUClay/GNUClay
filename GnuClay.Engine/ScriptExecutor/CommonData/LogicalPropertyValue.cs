@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    [Serializable]
     public class LogicalPropertyValue : IValue
     {
         public LogicalPropertyValue(ulong typeKey, IValue holder, ulong propertyKey, GnuClayEngineComponentContext context)

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    [Serializable]
     public class UndefinedValue: IValue
     {
         public UndefinedValue(ulong typeKey)

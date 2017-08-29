@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 {
+    [Serializable]
     public class BooleanValue : BaseValueType
     {
         public BooleanValue(ulong typeKey, object value)

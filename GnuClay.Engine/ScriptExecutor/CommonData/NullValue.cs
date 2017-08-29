@@ -7,6 +7,7 @@ using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    [Serializable]
     public class NullValue: IValue
     {
         public NullValue(ulong typeKey)

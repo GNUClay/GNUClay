@@ -202,6 +202,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");
             tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
+            tmpSb.AppendLine($"{nameof(CurrentCommand)} = {CurrentCommand?.ToDbgString()}"); 
             tmpSb.AppendLine("End InternalFunctionExecutionModel");
             return tmpSb.ToString();
         }
