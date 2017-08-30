@@ -10,7 +10,7 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append("SELECT {");
+            tmpSb.Append("READ {");
             tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(query.SelectedTree, dataDictionary));
             tmpSb.Append("}");
 

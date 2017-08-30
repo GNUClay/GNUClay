@@ -37,7 +37,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
-                        case TokenKind.SELECT:
+                        case TokenKind.READ:
+                            mState = State.FirstStep;
+                            break;
+
+                        case TokenKind.DELETE:
+                            Result.SelectDirectFactsOnly = true;
                             mState = State.FirstStep;
                             break;
 

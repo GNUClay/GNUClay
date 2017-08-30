@@ -39,7 +39,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
-                        case TokenKind.INSERT:
+                        case TokenKind.WRITE:
                             mState = State.WaitRule;
                             break;
 

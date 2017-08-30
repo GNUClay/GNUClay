@@ -10,9 +10,20 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
     {
         public static string ConvertToString(InsertQuery query, IReadOnlyStorageDataDictionary dataDictionary)
         {
-            var tmpSb = new StringBuilder("INSERT ");
+            var tmpSb = new StringBuilder();
 
-            foreach(var tmpItem in query.Items)
+            if(query.Rewrite)
+            {
+                tmpSb.Append("REWRITE");
+            }
+            else
+            {
+                tmpSb.Append("WRITE");
+            }
+
+            tmpSb.Append(" ");
+
+            foreach (var tmpItem in query.Items)
             {
                 tmpSb.Append($"{RuleInstanceDebugHelper.ConvertToString(tmpItem, dataDictionary)},");
             }

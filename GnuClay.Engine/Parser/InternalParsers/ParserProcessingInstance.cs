@@ -27,7 +27,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 switch (token.TokenKind)
                 {
-                    case TokenKind.INSERT:
+                    case TokenKind.WRITE:
                         result.Kind = GnuClayQueryKind.INSERT;
                         mContext.Recovery(token);
                         var tmpInternalInsertQueryParser = new InternalInsertQueryParser(mContext);
@@ -35,12 +35,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         result.InsertQuery = tmpInternalInsertQueryParser.Result;
                         break;
 
-                    case TokenKind.SELECT:
+                    case TokenKind.READ:
                         result.Kind = GnuClayQueryKind.SELECT;
                         mContext.Recovery(token);
-                        var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
-                        tmpInternalSelectQueryParser.Run();
-                        result.SelectQuery = tmpInternalSelectQueryParser.Result;
+                        {
+                            var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
+                            tmpInternalSelectQueryParser.Run();
+                            result.SelectQuery = tmpInternalSelectQueryParser.Result;
+                        }
+                        break;
+
+                    case TokenKind.DELETE:
+                        result.Kind = GnuClayQueryKind.DELETE;
+                        mContext.Recovery(token);
+                        {
+                            var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
+                            tmpInternalSelectQueryParser.Run();
+                            result.SelectQuery = tmpInternalSelectQueryParser.Result;
+                        }
                         break;
 
                     case TokenKind.CALL:

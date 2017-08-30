@@ -30,8 +30,8 @@ namespace TSTConsoleWorkBench
             //TSTLocalHostRunner();
             //TSTParserRunner();
             //TSTCommonRunner();
-            TSTInitialRunner();//<==
-            //TSTRunInsert();//<==
+            //TSTInitialRunner();//<==
+            TSTRunInsert();//<==
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
         }

@@ -12,6 +12,7 @@ namespace GnuClay.Engine.Parser.CommonData
         Undefined,
         SELECT,
         INSERT,
+        DELETE,
         CALL
     }
 

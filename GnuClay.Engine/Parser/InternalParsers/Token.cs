@@ -108,14 +108,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
         RULE_BODY,
 
         /// <summary>
-        /// Represents keyword `SELECT`.
+        /// Represents keyword `READ`.
         /// </summary>
-        SELECT,
+        READ,
 
         /// <summary>
-        /// Represents keyword `INSERT`.
+        /// Represents keyword `WRITE`.
         /// </summary>
-        INSERT,
+        WRITE,
+
+        /// <summary>
+        /// Represents keyword `REWRITE`.
+        /// </summary>
+        REWRITE,
+
+        /// <summary>
+        /// Represents keyword `DELETE`.
+        /// </summary>
+        DELETE,
 
         /// <summary>
         /// Represents keyword `CALL`.

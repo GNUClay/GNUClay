@@ -204,16 +204,30 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case TokenKind.Word:
                     if(DetectSpecialWords)
                     {
-                        if (string.Compare(content, "SELECT", true) == 0)
+                        if (string.Compare(content, "READ", true) == 0)
                         {
-                            kind = TokenKind.SELECT;
+                            kind = TokenKind.READ;
                             content = null;
                             break;
                         }
 
-                        if (string.Compare(content, "INSERT", true) == 0)
+                        if (string.Compare(content, "WRITE", true) == 0)
                         {
-                            kind = TokenKind.INSERT;
+                            kind = TokenKind.WRITE;
+                            content = null;
+                            break;
+                        }
+
+                        if(string.Compare(content, "REWRITE", true) == 0)
+                        {
+                            kind = TokenKind.REWRITE;
+                            content = null;
+                            break;
+                        }
+
+                        if (string.Compare(content, "DELETE", true) == 0)
+                        {
+                            kind = TokenKind.DELETE;
                             content = null;
                             break;
                         }
