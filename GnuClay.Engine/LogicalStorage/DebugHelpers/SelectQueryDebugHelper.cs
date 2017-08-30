@@ -10,7 +10,18 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append("READ {");
+            if (query.IsDeleteQuery)
+            {
+                tmpSb.Append("DELETE");
+            }
+            else
+            {
+                tmpSb.Append("READ");
+            }
+
+            tmpSb.Append(" ");
+
+            tmpSb.Append("{");
             tmpSb.Append(ExpressionNodeDebugHelper.ConvertToString(query.SelectedTree, dataDictionary));
             tmpSb.Append("}");
 

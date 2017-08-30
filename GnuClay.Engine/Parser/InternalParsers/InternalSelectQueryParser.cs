@@ -43,6 +43,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                         case TokenKind.DELETE:
                             Result.SelectDirectFactsOnly = true;
+                            Result.IsDeleteQuery = true;
                             mState = State.FirstStep;
                             break;
 

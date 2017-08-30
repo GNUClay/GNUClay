@@ -25,10 +25,16 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            RunCommonCase();
+            RunWithFacade();
+            //RunCommonCase();
             //RunComplexFacts();
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+        }
+
+        private void RunWithFacade()
+        {
+
         }
 
         private void RunCommonCase()

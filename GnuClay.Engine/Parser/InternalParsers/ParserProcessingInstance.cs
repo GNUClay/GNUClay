@@ -28,6 +28,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 switch (token.TokenKind)
                 {
                     case TokenKind.WRITE:
+                    case TokenKind.REWRITE:
                         result.Kind = GnuClayQueryKind.INSERT;
                         mContext.Recovery(token);
                         var tmpInternalInsertQueryParser = new InternalInsertQueryParser(mContext);

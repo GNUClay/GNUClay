@@ -43,6 +43,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.WaitRule;
                             break;
 
+                        case TokenKind.REWRITE:
+                            Result.Rewrite = true;
+                            mState = State.WaitRule;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
