@@ -14,6 +14,19 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
+            //var tmpSb = new StringBuilder();
+            //tmpSb.AppendLine("CALL {");
+            //tmpSb.AppendLine("1.0 + 2;");
+            //tmpSb.AppendLine("}");
+
+
+            var queryString = "CALL { 1.0 + 2;}";
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run result.ASTCodeBlock = {result.ASTCodeBlock}");
+
+
             //try
             //{
             //    var queryString = "INSERT{>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";

@@ -28,10 +28,10 @@ namespace TSTConsoleWorkBench
             //TSTEntityConnectionSerializationRunner();
             //TSTSerializationRunner();
             //TSTLocalHostRunner();
-            //TSTParserRunner();
+            TSTParserRunner();//<==
             //TSTCommonRunner();
             //TSTInitialRunner();//<==
-            TSTRunInsert();//<==
+            //TSTRunInsert();//<==
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
         }
