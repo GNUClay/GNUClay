@@ -350,7 +350,9 @@ namespace GnuClay.Engine
             {
                 ValidateIsDestroyed();
 
-                switch (queryTree.Kind)
+                var kind = queryTree.Kind;
+
+                switch (kind)
                 {
                     case GnuClayQueryKind.SELECT:
                         return ProcessSelectQuery(queryTree.SelectQuery);
@@ -358,10 +360,13 @@ namespace GnuClay.Engine
                     case GnuClayQueryKind.INSERT:
                         return ProcessInsertQuery(queryTree.InsertQuery);
 
+                    case GnuClayQueryKind.DELETE:
+                        return ProcessDeleteQuery(queryTree.SelectQuery);
+
                     case GnuClayQueryKind.CALL:
                         return ProcessCall(queryTree.ASTCodeBlock);
 
-                    default: throw new ArgumentOutOfRangeException(nameof(queryTree.Kind));
+                    default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                 }
             }
         }
@@ -374,6 +379,14 @@ namespace GnuClay.Engine
         private SelectResult ProcessInsertQuery(InsertQuery query)
         {
             mContext.LogicalStorage.InsertQuery(query);
+
+            var result = new SelectResult();
+            return result;
+        }
+
+        private SelectResult ProcessDeleteQuery(SelectQuery query)
+        {
+            mContext.LogicalStorage.RemoveFacts(query);
 
             var result = new SelectResult();
             return result;

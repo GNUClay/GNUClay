@@ -34,7 +34,41 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
         private void RunWithFacade()
         {
+            var tmpQueryText = "READ {>: {son(Piter,$X1)}}";
+            var tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
+            tmpQueryText = "WRITE {>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "WRITE{>: {son(Alise,Bob)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "DELETE{>: {son(Alise,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "READ{>: {son(Alise,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "WRITE{>: {son(Alise,Bob)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "READ{>: {son(Alise,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "REWRITE{>: {son(Alise,Rob)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "READ{>: {son(Alise,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
         }
 
         private void RunCommonCase()
