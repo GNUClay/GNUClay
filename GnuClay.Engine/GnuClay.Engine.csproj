@@ -75,6 +75,7 @@
     <Compile Include="Parser\InternalParsers\BaseInternalParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalCodeExpressionNode.cs" />
     <Compile Include="Parser\InternalParsers\InternalCodeExpressionStatementParser.cs" />
+    <Compile Include="Parser\InternalParsers\InternalDeleteQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalFunctionBodyParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalInsertQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalLogicalExpressionParser.cs" />
