@@ -87,7 +87,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
-            tmpSb.AppendLine("$var1 = 1.0 + 2;");
+            tmpSb.AppendLine("$var1 = $var2 = 1.0 + 2 + 3;");
             tmpSb.AppendLine("}");
 
             var queryString = tmpSb.ToString();

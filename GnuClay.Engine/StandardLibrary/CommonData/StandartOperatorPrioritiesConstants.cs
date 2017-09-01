@@ -8,7 +8,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
 {
     public class StandartOperatorPrioritiesConstants
     {
-        public const int Add = 5000000;
-        public const int Assing = 50000000;
+        public const int Add = 50;
+        public const int Assing = 20;
     }
 }

@@ -49,8 +49,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ulong AddOperatorKey = 0;
         private ulong AssingOperatorKey = 0;
 
-        private int ConstValPriority = 1;
-        private int VarPriority = 1;
+        private int ConstValPriority = 1000;
+        private int VarPriority = 1000;
         private CultureInfo mFormatProvider = new CultureInfo("en-GB");
 
         protected override void OnRun()
@@ -58,6 +58,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
             NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
 #endif
 
             switch (mState)
@@ -156,96 +157,145 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public void SetNode(InternalCodeExpressionNode node, Token token)
         {
-            switch(node.Kind)
-            {
-                case ExpressionKind.Undefined:
-                    throw new ArgumentException("I can not process undefined InternalCodeExpressionNode.");
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode node = {node}");
+#endif
 
-                case ExpressionKind.BinaryOperator:
-                    switch (mAddTo)
-                    {
-                        case Associativity.Undefined:
-                            break;
+            //switch(node.Kind)
+            //{
+            //    case ExpressionKind.Undefined:
+            //        throw new ArgumentException("I can not process undefined InternalCodeExpressionNode.");
 
-                        case Associativity.Right:
-                            if(mCurrentNode.Left == null || mCurrentNode.Right == null)
-                            {
-                                throw new UnexpectedTokenException(token);
-                            }
-                            break;
+            //    case ExpressionKind.BinaryOperator:
+            //        switch (mAddTo)
+            //        {
+            //            case Associativity.Undefined:
+            //                break;
 
-                        default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-                    }
-                break;
+            //            case Associativity.Right:
+            //                if(mCurrentNode.Left == null || mCurrentNode.Right == null)
+            //                {
+            //                    throw new UnexpectedTokenException(token);
+            //                }
+            //                break;
 
-                case ExpressionKind.ConstExpression:
-                    switch(mAddTo)
-                    {
-                        case Associativity.Undefined:
-                            if(RootNode == null)
-                            {
-                                break;
-                            }
-                            throw new UnexpectedTokenException(token);
+            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
+            //        }
+            //    break;
 
-                        case Associativity.Right:
-                            break;
+            //    case ExpressionKind.ConstExpression:
+            //        switch(mAddTo)
+            //        {
+            //            case Associativity.Undefined:
+            //                if(RootNode == null)
+            //                {
+            //                    break;
+            //                }
+            //                throw new UnexpectedTokenException(token);
 
-                        case Associativity.Left:
-                            break;
+            //            case Associativity.Right:
+            //                break;
 
-                        default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-                    }
-                    break;
+            //            case Associativity.Left:
+            //                break;
 
-                case ExpressionKind.VarExpression:
-                    switch (mAddTo)
-                    {
-                        case Associativity.Undefined:
-                            if (RootNode == null)
-                            {
-                                break;
-                            }
-                            throw new UnexpectedTokenException(token);
+            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
+            //        }
+            //        break;
 
-                        case Associativity.Right:
-                            break;
+            //    case ExpressionKind.VarExpression:
+            //        switch (mAddTo)
+            //        {
+            //            case Associativity.Undefined:
+            //                if (RootNode == null)
+            //                {
+            //                    break;
+            //                }
+            //                throw new UnexpectedTokenException(token);
 
-                        case Associativity.Left:
-                            break;
+            //            case Associativity.Right:
+            //                break;
 
-                        default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-                    }
-                    break;
+            //            case Associativity.Left:
+            //                break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
-            }
+            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
+            //        }
+            //        break;
 
-            if(RootNode == null)
+            //    default: throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
+            //}
+
+            if (RootNode == null)
             {
                 RootNode = node;
                 mCurrentNode = node;
                 return;
             }
 
-            if(mCurrentNode.Priority < node.Priority)
+            var tmpNode = mCurrentNode;
+
+            var currentNodePriority = int.MaxValue;
+            var nodePriority = node.Priority;
+
+            while (true)
             {
-                SetMajorPriorityNode(node);
-                return;
+                if (tmpNode != null)
+                {
+                    currentNodePriority = tmpNode.Priority;
+                }
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetNode currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetNode tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
+#endif
+
+                //if (nodePriority < currentNodePriority)
+                //{
+                //    NLog.LogManager.GetCurrentClassLogger().Info("SetNode nodePriority < currentNodePriority");
+
+                //    if(currentNodePriority > 0)
+                //    {
+                //        tmpNode = tmpNode.Parent;
+                //        continue;
+                //    }
+
+                //    throw new NotImplementedException();
+                //}
+
+                throw new NotImplementedException();
             }
 
-            SetMinorPriorityNode(node);
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode End RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
+
+            //CalculateAddTo(node);
+
+            //if (mCurrentNode.Priority < node.Priority)
+            //{
+            //    SetMajorPriorityNode(node);
+            //    return;
+            //}
+
+            //SetMinorPriorityNode(node);
         }
 
         private void SetMajorPriorityNode(InternalCodeExpressionNode node)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode node = {node}");
+#endif
+
             var tmpNode = mCurrentNode;
 
             while (true)
             {
                 var tmpParent = tmpNode.Parent;
 
-                if(tmpParent == null)
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode tmpParent = {tmpParent?.ToString(mDataDictionary, 0)}");
+#endif
+
+                if (tmpParent == null)
                 {
                     SetBetweenNodes(node, null, tmpNode);
                     return;
@@ -274,25 +324,51 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             mCurrentNode = targetNode;
             childNode.Parent = targetNode;
-            switch(targetNode.Associativity)
+
+            var associativity = targetNode.Associativity;
+
+            switch (associativity)
             {
                 case Associativity.Left:
                     targetNode.Left = childNode;
-                    mAddTo = Associativity.Right;
                     break;
 
                 case Associativity.Right:
                     targetNode.Right = childNode;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(associativity), associativity, null);
+            }
+        }
+
+        private void CalculateAddTo(InternalCodeExpressionNode node)
+        {
+            var associativity = node.Associativity;
+
+            switch (associativity)
+            {
+                case Associativity.Left:
+                    mAddTo = Associativity.Right;
+                    break;
+
+                case Associativity.Right:
                     mAddTo = Associativity.Left;
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(targetNode.Associativity));
+                case Associativity.Undefined:
+                    mAddTo = Associativity.Undefined;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(associativity), associativity, null);
             }
         }
 
         private void SetMinorPriorityNode(InternalCodeExpressionNode node)
         {
-            switch(mAddTo)
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetMinorPriorityNode node = {node}");
+#endif
+            switch (mAddTo)
             {
                 case Associativity.Right:
                     node.Parent = mCurrentNode;
@@ -308,7 +384,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     SetAddToByNodeAssociativity(node.Associativity);
                     break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(mAddTo));
+                default: throw new ArgumentOutOfRangeException(nameof(mAddTo), mAddTo, null);
             }
         }
 
@@ -351,14 +427,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     result.Kind = ExpressionKind.BinaryOperator;
                     result.TypeKey = AssingOperatorKey;
                     result.Priority = StandartOperatorPrioritiesConstants.Assing;
-                    result.Associativity = Associativity.Right;
+                    result.Associativity = Associativity.Left;
                     break;
 
                 case TokenKind.Plus:
                     result.Kind = ExpressionKind.BinaryOperator;
                     result.TypeKey = AddOperatorKey;
                     result.Priority = StandartOperatorPrioritiesConstants.Add;
-                    result.Associativity = Associativity.Left;
+                    result.Associativity = Associativity.Right;
                     break;
 
                 case TokenKind.Var:
