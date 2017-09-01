@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.ScriptExecutor.AST.Expressions;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.ScriptExecutor.AST.Expressions;
 using GnuClay.Engine.ScriptExecutor.AST.Statements;
 using GnuClay.Engine.StandardLibrary.CommonData;
 using System;
@@ -23,9 +24,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
             :base(context)
         {
             mIsSlave = isSlave;
-            NumberKey = Context.MainContext.DataDictionary.GetKey(StandartTypeNamesConstants.NumberName);
-            AddOperatorKey = Context.MainContext.DataDictionary.GetKey(StandartOperatorNamesConstants.Add);
+            var mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
+            mDataDictionary = Context.MainContext.DataDictionary;
+
+            NumberKey = mCommonKeysEngine.NumberKey;
+            AddOperatorKey = mCommonKeysEngine.AddOperatorKey;
+            AssingOperatorKey = mCommonKeysEngine.AssignOperatorKey;
         }
+
+        private StorageDataDictionary mDataDictionary = null;
 
         private bool mIsSlave = false;
         public ASTExpressionStatement ASTResult = null;
@@ -40,12 +47,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ulong NumberKey = 0;
         private ulong AddOperatorKey = 0;
+        private ulong AssingOperatorKey = 0;
 
         private int ConstValPriority = 1;
+        private int VarPriority = 1;
         private CultureInfo mFormatProvider = new CultureInfo("en-GB");
 
         protected override void OnRun()
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
+#endif
+
             switch (mState)
             {
                 case State.Init:
@@ -57,8 +71,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.DeclareIntNumber;
                             break;
 
+                        case TokenKind.Assing:
+                            ProcessAssingToken();
+                            break;
+
                         case TokenKind.Plus:
                             ProcessPlusToken();
+                            break;
+
+                        case TokenKind.Var:
+                            ProcessVarToken();
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);
@@ -112,7 +134,17 @@ namespace GnuClay.Engine.Parser.InternalParsers
             mState = State.Init;
         }
 
+        private void ProcessAssingToken()
+        {
+            SetNode(GetNodeByToken(CurrToken), CurrToken);
+        }
+
         private void ProcessPlusToken()
+        {
+            SetNode(GetNodeByToken(CurrToken), CurrToken);
+        }
+
+        private void ProcessVarToken()
         {
             SetNode(GetNodeByToken(CurrToken), CurrToken);
         }
@@ -151,6 +183,26 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case Associativity.Undefined:
                             if(RootNode == null)
+                            {
+                                break;
+                            }
+                            throw new UnexpectedTokenException(token);
+
+                        case Associativity.Right:
+                            break;
+
+                        case Associativity.Left:
+                            break;
+
+                        default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
+                    }
+                    break;
+
+                case ExpressionKind.VarExpression:
+                    switch (mAddTo)
+                    {
+                        case Associativity.Undefined:
+                            if (RootNode == null)
                             {
                                 break;
                             }
@@ -280,6 +332,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private InternalCodeExpressionNode GetNodeByToken(Token token)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetNodeByToken token = {token}");
+#endif
+
             var result = new InternalCodeExpressionNode();
 
             switch(token.TokenKind)
@@ -291,6 +347,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     result.Priority = ConstValPriority;
                     break;
 
+                case TokenKind.Assing:
+                    result.Kind = ExpressionKind.BinaryOperator;
+                    result.TypeKey = AssingOperatorKey;
+                    result.Priority = StandartOperatorPrioritiesConstants.Assing;
+                    result.Associativity = Associativity.Right;
+                    break;
+
                 case TokenKind.Plus:
                     result.Kind = ExpressionKind.BinaryOperator;
                     result.TypeKey = AddOperatorKey;
@@ -298,8 +361,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     result.Associativity = Associativity.Left;
                     break;
 
+                case TokenKind.Var:
+                    result.Kind = ExpressionKind.VarExpression;
+                    result.TypeKey = mDataDictionary.GetKey(token.Content);
+                    result.Priority = VarPriority;
+                    break;
+
                 default: throw new UnexpectedTokenException(CurrToken);
             }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetNodeByToken result = {result?.ToString(mDataDictionary, 0)}");
+#endif
 
             return result;
         }

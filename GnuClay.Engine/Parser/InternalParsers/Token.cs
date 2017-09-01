@@ -98,6 +98,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Not,
 
         /// <summary>
+        /// Represents symbol `=`.
+        /// </summary>
+        Assing,
+
+        /// <summary>
         /// Represents combination of symbols `>:`.
         /// </summary>
         RULE_HEAD,

@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor.AST.Expressions;
 using System;
 using System.Collections.Generic;
@@ -43,32 +44,84 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// <returns>The string representation of this instance.</returns>
         public string ToStringData()
         {
+            return ToString(null, 0);
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var nextIndent = indent + 4;
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(Kind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Kind.ToString());
+            if(dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}Begin InternalCodeExpressionNode");
+            }
 
-            tmpSb.Append(nameof(TypeKey));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(TypeKey.ToString());
+            tmpSb.AppendLine($"{spacesString}{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
+            if(dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
+            }
+            tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Associativity)} = {Associativity}");
 
-            tmpSb.AppendLine(_ObjectHelper._ToString(Left, nameof(Left)));
-            tmpSb.AppendLine(_ObjectHelper._ToString(Right, nameof(Right)));
-            tmpSb.AppendLine(_ObjectHelper._ToString(CalledMember, nameof(CalledMember)));
-            tmpSb.AppendLine(_ListHelper._ToString(Params, nameof(Params)));
+            if(Left == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Left)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Left)} =");
+                tmpSb.AppendLine(Left.ToString(dataDictionary, nextIndent));
+            }
 
-            tmpSb.Append(nameof(Value));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Value?.ToString());
+            if (Right == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Right)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Right)} =");
+                tmpSb.AppendLine(Right.ToString(dataDictionary, nextIndent));
+            }
 
-            tmpSb.Append(nameof(Priority));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Priority.ToString());
+            if (CalledMember == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(CalledMember)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(CalledMember)} =");
+                tmpSb.AppendLine(CalledMember.ToString(dataDictionary, nextIndent));
+            }
 
-            tmpSb.Append(nameof(Associativity));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Associativity.ToString());
+            if (Params == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Params)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}Begin {nameof(Params)}");
+                foreach(var item in Params)
+                {
+                    tmpSb.AppendLine(item.ToString(dataDictionary, nextIndent));
+                }
+                tmpSb.AppendLine($"{spacesString}End {nameof(Params)}");
+            }
+
+            if (dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}End InternalCodeExpressionNode");
+            }
 
             return tmpSb.ToString();
         }

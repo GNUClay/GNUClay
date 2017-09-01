@@ -78,5 +78,23 @@ namespace GnuClay.CommonUtils.TypeHelpers
         {
             return $"#{Guid.NewGuid().ToString("D").Replace('-', '_')}";
         }
+
+        /// <summary>
+        /// Create string which will be contain only spaces.
+        /// Count of spaces in the string equals value of parameter `indent`.
+        /// </summary>
+        /// <param name="indent">Count of spaces in the string.</param>
+        /// <returns>String which will be contain only spaces</returns>
+        public static string CreateSpaces(int indent)
+        {
+            var sb = new StringBuilder();
+
+            for(var i = 0; i < indent; i++)
+            {
+                sb.Append(" ");
+            }
+
+            return sb.ToString();
+        }
     }
 }

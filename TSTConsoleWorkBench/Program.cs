@@ -31,7 +31,7 @@ namespace TSTConsoleWorkBench
             TSTParserRunner();//<==
             //TSTCommonRunner();
             //TSTInitialRunner();//<==
-            TSTRunInsert();//<==
+            //TSTRunInsert();//<==
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
         }

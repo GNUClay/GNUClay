@@ -14,18 +14,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
-            //var tmpSb = new StringBuilder();
-            //tmpSb.AppendLine("CALL {");
-            //tmpSb.AppendLine("1.0 + 2;");
-            //tmpSb.AppendLine("}");
-
-
-            var queryString = "CALL { 1.0 + 2;}";
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run result = {result}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run result.ASTCodeBlock = {result.ASTCodeBlock}");
-
+            Case1();
 
             //try
             //{
@@ -47,7 +36,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             //    var tmpResult = GnuClayEngine.LogicalStorage.SelectQuery(tmpSelectQuery);
 
-            //    NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+                //NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             //    NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult = {tmpResult.ToJson()}");
 
@@ -92,6 +81,19 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //{
             //    NLog.LogManager.GetCurrentClassLogger().Info(e);
             //}
+        }
+
+        private void Case1()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("$var1 = 1.0 + 2;");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case1 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case1 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
     }
 }

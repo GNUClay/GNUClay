@@ -47,7 +47,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 var tmpChar = mItems.Dequeue();
 
 #if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpChar = {tmpChar} mLexerState = {mLexerState}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpChar = {tmpChar} (int)tmpChar = {(int)tmpChar} mLexerState = {mLexerState}");
 #endif
                 switch (mLexerState)
                 {
@@ -146,12 +146,30 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '!':
                                 return CreateToken(TokenKind.Not);
 
+                            case '=':
+                                return CreateToken(TokenKind.Assing);
+
                             case '`':
                                 tmpBuffer = new StringBuilder();
                                 mLexerState = LexerState.InRichWord;
                                 break;
 
-                            default: throw new UnexpectedSymbolException(tmpChar);
+                            default:
+                                {
+                                    var intCharCode = (int)tmpChar;
+
+                                    if(intCharCode == 13)
+                                    {
+                                        break;
+                                    }
+
+                                    if(intCharCode == 10)
+                                    {
+                                        break;
+                                    }
+
+                                    throw new UnexpectedSymbolException(tmpChar);
+                                }                    
                         }
                         break;
 
