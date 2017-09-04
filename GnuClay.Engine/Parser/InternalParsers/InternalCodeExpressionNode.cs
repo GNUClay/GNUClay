@@ -18,7 +18,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
     public enum ClassOfNode
     {
-        Undefined
+        Undefined,
+        Leaf,
+        Assing,
+        Arithmetic
     }
 
     public class InternalCodeExpressionNode : IToStringData

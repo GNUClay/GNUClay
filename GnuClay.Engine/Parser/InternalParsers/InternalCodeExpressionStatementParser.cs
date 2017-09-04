@@ -26,7 +26,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         }
 
         public InternalCodeExpressionStatementParser(InternalParserContext context, bool isSlave)
-            :base(context)
+            : base(context)
         {
             mIsSlave = isSlave;
             var mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
@@ -34,6 +34,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             NumberKey = mCommonKeysEngine.NumberKey;
             AddOperatorKey = mCommonKeysEngine.AddOperatorKey;
+            MulOperatorKey = mCommonKeysEngine.MulOperatorKey;
             AssingOperatorKey = mCommonKeysEngine.AssignOperatorKey;
         }
 
@@ -47,16 +48,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private InternalCodeExpressionNode mCurrentNode = null;
         //private Associativity mAddTo = Associativity.Undefined;
 
-        private string mCurrentNumberContent = string.Empty;
-        private string mFullCurrentNumberContent = string.Empty;
-
         private ulong NumberKey = 0;
         private ulong AddOperatorKey = 0;
+        private ulong MulOperatorKey = 0;
         private ulong AssingOperatorKey = 0;
-
-        private int ConstValPriority = 1000;
-        private int VarPriority = 1000;
-        private CultureInfo mFormatProvider = new CultureInfo("en-GB");
+        private int MulAndDivPriotiry = 2;
+        private int AddAndSubPriority = 1;
 
         protected override void OnRun()
         {
@@ -72,6 +69,26 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case TokenKind.Var:
                             ProcessVarToken();
+                            break;
+
+                        case TokenKind.Assing:
+                            ProcessAssingToken();
+                            break;
+
+                        case TokenKind.Number:
+                            ProcessNumberToken();
+                            break;
+
+                        case TokenKind.Mul:
+                            ProcessMulToken();
+                            break;
+
+                        case TokenKind.Dash:
+                            ProcessDashToken();
+                            break;
+
+                        case TokenKind.Plus:
+                            ProcessPlusToken();
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);
@@ -149,7 +166,99 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarToken");
 #endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.VarExpression;
+            result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
+            result.ClassOfNode = ClassOfNode.Leaf;
+
+            SetLeafToken(result);
+        }
+
+        private void ProcessAssingToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessAssingToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = AssingOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessNumberToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessNumberToken");
+#endif
+            Context.Recovery(CurrToken);
+            var tmpInternalNumberParser = new InternalNumberParser(Context);
+            tmpInternalNumberParser.Run();
+
+            var numberResult = tmpInternalNumberParser.Result;
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun numberResult = {numberResult}");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.ConstExpression;
+            result.TypeKey = NumberKey;
+            result.Value = numberResult;
+            result.ClassOfNode = ClassOfNode.Leaf;
+
+            SetLeafToken(result);
+        }
+
+        private void ProcessMulToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMulToken");
+#endif
+
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = MulOperatorKey;
+            result.ClassOfNode = ClassOfNode.Arithmetic;
+
+            SetArithmeticToken(result);
+        }
+
+        private void ProcessDashToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessDashToken");
+#endif
+
+            var classOfCurrentNode = mCurrentNode.ClassOfNode;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken classOfCurrentNode = {classOfCurrentNode}");
+#endif
+
+            switch(classOfCurrentNode)
+            {
+                case ClassOfNode.Arithmetic:
+                    ProcessNumberToken();
+                    return;
+
+                default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+            }
+
             throw new NotImplementedException();
+        }
+
+        private void ProcessPlusToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMulToken");
+#endif
+
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = AddOperatorKey;
+            result.ClassOfNode = ClassOfNode.Arithmetic;
+
+            SetArithmeticToken(result);
         }
 
         //private void ProcessNumberToken()
@@ -494,6 +603,222 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             ASTResult = new ASTExpressionStatement();
             //ASTResult.Expression = CreateExpressionNode(RootNode);
+        }
+
+        private void SetLeafToken(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken node = {node.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
+            if (RootNode == null)
+            {
+                RootNode = node;
+                mCurrentNode = node;
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+                return;
+            }
+
+            var classOfCurrentNode = mCurrentNode.ClassOfNode;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken classOfCurrentNode = {classOfCurrentNode}");
+#endif
+            switch (classOfCurrentNode)
+            {
+                case ClassOfNode.Assing:
+                case ClassOfNode.Arithmetic:
+                    if(mCurrentNode.Left == null)
+                    {
+                        throw new NotSupportedException();
+                    }
+
+                    if(mCurrentNode.Right != null)
+                    {
+                        throw new NotSupportedException();
+                    }
+
+                    mCurrentNode.Right = node;
+                    node.Parent = mCurrentNode;
+                    mCurrentNode = node;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+            }
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+        }
+
+        private void SetAssingToken(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken node = {node.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
+
+            var classOfCurrentNode = mCurrentNode.ClassOfNode;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken classOfCurrentNode = {classOfCurrentNode}");
+#endif
+
+            switch (classOfCurrentNode)
+            {
+                case ClassOfNode.Leaf:
+                    {
+                        var tmpNode = mCurrentNode;
+                        mCurrentNode = node;
+
+                        if(ReferenceEquals(tmpNode, RootNode))
+                        {
+                            RootNode = mCurrentNode;
+                        }
+
+                        mCurrentNode.Left = tmpNode;
+                        var tmpOldParent = tmpNode.Parent;
+                        tmpNode.Parent = mCurrentNode;
+
+                        if(tmpOldParent != null)
+                        {
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken tmpOldParent = {tmpOldParent}");
+#endif
+                            var classOfOldParent = tmpOldParent.ClassOfNode;
+
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken classOfOldParent = {classOfOldParent}");
+#endif
+
+                            switch(classOfOldParent)
+                            {
+                                case ClassOfNode.Assing:
+                                    if(ReferenceEquals(tmpOldParent.Right, tmpNode))
+                                    {
+#if DEBUG
+                                        NLog.LogManager.GetCurrentClassLogger().Info("SetAssingToken ReferenceEquals(tmpOldParent.Right, tmpNode)");
+#endif
+                                        mCurrentNode.Parent = tmpOldParent;
+                                        tmpOldParent.Right = mCurrentNode;
+                                        break;
+                                    }
+                                    throw new NotSupportedException();
+
+                                default: throw new ArgumentOutOfRangeException(nameof(classOfOldParent), classOfOldParent, null);
+                            }
+                        }
+                    }
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+        }
+
+        private int GetArithmeticNodePriority(ulong typeKey)
+        {
+            if (typeKey == AddOperatorKey)
+            {
+                return AddAndSubPriority;
+            }
+
+            if (typeKey == MulOperatorKey)
+            {
+                return MulAndDivPriotiry;
+            }
+
+            throw new NotImplementedException();
+        }
+
+        private void SetArithmeticToken(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken node = {node.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
+
+            var nodePriority = GetArithmeticNodePriority(node.TypeKey);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken nodePriority = {nodePriority}");
+#endif
+
+            var currentNode = mCurrentNode;
+
+            while(true)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode = {currentNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                var classOfCurrentNode = currentNode.ClassOfNode;
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken classOfCurrentNode = {classOfCurrentNode}");
+#endif
+
+                switch (classOfCurrentNode)
+                {
+                    case ClassOfNode.Leaf:
+                        currentNode = currentNode.Parent;
+                        break;
+
+                    case ClassOfNode.Assing:
+                        {
+                            var tmpNode = currentNode.Right;
+                            tmpNode.Parent = node;
+                            node.Left = tmpNode;
+                            currentNode.Right = node;
+                            node.Parent = currentNode;
+                            mCurrentNode = node;
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+                        }
+                        return;
+
+                    case ClassOfNode.Arithmetic:
+                        {
+                            var currentNodePriority = GetArithmeticNodePriority(currentNode.TypeKey);
+
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
+#endif
+
+                            if(nodePriority < currentNodePriority)
+                            {
+                                currentNode = currentNode.Parent;
+                                break;
+                            }
+
+                            var tmpNode = currentNode.Right;
+                            tmpNode.Parent = node;
+                            node.Left = tmpNode;
+                            currentNode.Right = node;
+                            node.Parent = currentNode;
+                            mCurrentNode = node;
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                            return;
+                        }
+
+                    default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+                }
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+
+            throw new NotImplementedException();
         }
 
         //private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
