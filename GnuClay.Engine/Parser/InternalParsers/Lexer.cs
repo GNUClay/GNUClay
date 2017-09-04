@@ -137,6 +137,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '+':
                                 return CreateToken(TokenKind.Plus);
 
+                            case '*':
+                                return CreateToken(TokenKind.Mul);
+
                             case ';':
                                 return CreateToken(TokenKind.Semicolon);
 

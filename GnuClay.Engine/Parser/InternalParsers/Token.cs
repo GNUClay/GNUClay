@@ -88,6 +88,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Plus,
 
         /// <summary>
+        /// Represents symbol `*`.
+        /// </summary>
+        Mul,
+
+        /// <summary>
         /// Represents symbol `;`.
         /// </summary>
         Semicolon,

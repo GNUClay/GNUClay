@@ -16,6 +16,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Left
     }
 
+    public enum ClassOfNode
+    {
+        Undefined
+    }
+
     public class InternalCodeExpressionNode : IToStringData
     {
         public InternalCodeExpressionNode Parent = null;
@@ -27,7 +32,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public InternalCodeExpressionNode CalledMember = null;
         public object Value = null;
         public int Priority = 0;
-        public Associativity Associativity = Associativity.Undefined;
+        public ClassOfNode ClassOfNode = ClassOfNode.Undefined;
+        //public Associativity Associativity = Associativity.Undefined;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -71,10 +77,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
             }
             tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
-            tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");
-            tmpSb.AppendLine($"{spacesString}{nameof(Associativity)} = {Associativity}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");            
+            tmpSb.AppendLine($"{spacesString}{nameof(ClassOfNode)} = {ClassOfNode}");
+            //tmpSb.AppendLine($"{spacesString}{nameof(Associativity)} = {Associativity}");
 
-            if(Left == null)
+            if (Left == null)
             {
                 tmpSb.AppendLine($"{spacesString}{nameof(Left)} = null");
             }
