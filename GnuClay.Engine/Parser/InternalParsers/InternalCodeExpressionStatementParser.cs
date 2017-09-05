@@ -13,44 +13,48 @@ namespace GnuClay.Engine.Parser.InternalParsers
 {
     public class InternalCodeExpressionStatementParser : BaseInternalParser
     {
-        //public enum State
-        //{
-        //    Init,
-        //    DeclareIntNumber,
-        //    MaybeDeclareFloatNumber,
-        //}
-
         public enum State
         {
             Init
         }
 
-        public InternalCodeExpressionStatementParser(InternalParserContext context, bool isSlave)
+        public enum Mode
+        {
+            General,
+            InRoundBracketsGroup
+        }
+
+        public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode)
             : base(context)
         {
-            mIsSlave = isSlave;
             var mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
             mDataDictionary = Context.MainContext.DataDictionary;
 
+            mMode = mode;
+
             NumberKey = mCommonKeysEngine.NumberKey;
+
             AddOperatorKey = mCommonKeysEngine.AddOperatorKey;
+            SubOperatorKey = mCommonKeysEngine.SubOperatorKey;
             MulOperatorKey = mCommonKeysEngine.MulOperatorKey;
+            DivOperatorKey = mCommonKeysEngine.DivOperatorKey;
+
             AssingOperatorKey = mCommonKeysEngine.AssignOperatorKey;
         }
 
         private StorageDataDictionary mDataDictionary = null;
 
-        private bool mIsSlave = false;
         public ASTExpressionStatement ASTResult = null;
         private State mState = State.Init;
-
+        private Mode mMode = Mode.General;
         public InternalCodeExpressionNode RootNode = null;
         private InternalCodeExpressionNode mCurrentNode = null;
-        //private Associativity mAddTo = Associativity.Undefined;
 
         private ulong NumberKey = 0;
         private ulong AddOperatorKey = 0;
+        private ulong SubOperatorKey = 0;
         private ulong MulOperatorKey = 0;
+        private ulong DivOperatorKey = 0;
         private ulong AssingOperatorKey = 0;
         private int MulAndDivPriotiry = 2;
         private int AddAndSubPriority = 1;
@@ -91,74 +95,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessPlusToken();
                             break;
 
+                        case TokenKind.OpenRoundBracket:
+                            ProcessOpenRoundBracket();
+                            break;
+
+                        case TokenKind.CloseRoundBracket:
+                            ProcessCloseRoundBracket();
+                            break;
+
+                        case TokenKind.Semicolon:
+                            ProcessSemicolonToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
             }
-            //switch (mState)
-            //{
-            //    case State.Init:
-            //        switch (CurrToken.TokenKind)
-            //        {
-            //            case TokenKind.Number:
-            //                mCurrentNumberContent = CurrToken.Content;
-            //                mFullCurrentNumberContent = mCurrentNumberContent;
-            //                mState = State.DeclareIntNumber;
-            //                break;
-
-            //            case TokenKind.Assing:
-            //                ProcessAssingToken();
-            //                break;
-
-            //            case TokenKind.Plus:
-            //                ProcessPlusToken();
-            //                break;
-
-            //            case TokenKind.Var:
-            //                ProcessVarToken();
-            //                break;
-
-            //            default: throw new UnexpectedTokenException(CurrToken);
-            //        }
-            //        break;
-
-            //    case State.DeclareIntNumber:
-            //        switch (CurrToken.TokenKind)
-            //        {
-            //            case TokenKind.Point:
-            //                mFullCurrentNumberContent += ".";
-            //                mState = State.MaybeDeclareFloatNumber;
-            //                break;
-
-            //            case TokenKind.Plus:
-            //                ProcessNumberToken();
-            //                ProcessPlusToken();
-            //                break;
-
-            //            case TokenKind.Semicolon:
-            //                ProcessNumberToken();
-            //                ProcessSemicolonToken();
-            //                break;
-
-            //            default: throw new UnexpectedTokenException(CurrToken);
-            //        }
-            //        break;
-
-            //    case State.MaybeDeclareFloatNumber:
-            //        switch (CurrToken.TokenKind)
-            //        {
-            //            case TokenKind.Number:
-            //                ProcessNumberToken();
-            //                break;
-
-            //            default: throw new UnexpectedTokenException(CurrToken);
-            //        }
-            //        break;
-
-            //    default: throw new ArgumentOutOfRangeException(nameof(mState));
-            //}
         }
 
         private void ProcessVarToken()
@@ -241,6 +195,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     ProcessNumberToken();
                     return;
 
+                case ClassOfNode.Leaf:
+                    var result = new InternalCodeExpressionNode();
+                    result.Kind = ExpressionKind.BinaryOperator;
+                    result.TypeKey = SubOperatorKey;
+                    result.ClassOfNode = ClassOfNode.Arithmetic;
+
+                    SetArithmeticToken(result);
+                    return;
+
                 default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
             }
 
@@ -261,337 +224,55 @@ namespace GnuClay.Engine.Parser.InternalParsers
             SetArithmeticToken(result);
         }
 
-        //private void ProcessNumberToken()
-        //{
-        //    mFullCurrentNumberContent += CurrToken.Content;
-        //    var token = new Token();
-        //    token.TokenKind = TokenKind.Number;
-        //    token.Content = mFullCurrentNumberContent;
-        //    SetNode(GetNodeByToken(token), token);
-        //    mState = State.Init;
-        //}
+        private void ProcessOpenRoundBracket()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessOpenRoundBracket");
+#endif
 
-        //private void ProcessAssingToken()
-        //{
-        //    SetNode(GetNodeByToken(CurrToken), CurrToken);
-        //}
+            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup);
+            tmpInternalCodeExpressionStatementParser.Run();
+            var tmpNode = tmpInternalCodeExpressionStatementParser.RootNode;
 
-        //private void ProcessPlusToken()
-        //{
-        //    SetNode(GetNodeByToken(CurrToken), CurrToken);
-        //}
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.ClassOfNode = ClassOfNode.RoundBracketsGroup;
+            result.GroupedNode = tmpNode;
 
-        //private void ProcessVarToken()
-        //{
-        //    SetNode(GetNodeByToken(CurrToken), CurrToken);
-        //}
+            SetLeafToken(result);
+        }
+
+        private void ProcessCloseRoundBracket()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessCloseRoundBracket");
+#endif
+
+            if(mMode == Mode.InRoundBracketsGroup)
+            {
+                Exit();
+                return;
+            }
+
+            throw new UnexpectedTokenException(CurrToken);
+        }
 
         private void ProcessSemicolonToken()
         {
-            Exit();
+            if(mMode == Mode.General)
+            {
+                Exit();
+                return;
+            }
+          
+            throw new UnexpectedTokenException(CurrToken);
         }
-
-//        public void SetNode(InternalCodeExpressionNode node, Token token)
-//        {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode node = {node}");
-//#endif
-
-//            //switch(node.Kind)
-//            //{
-//            //    case ExpressionKind.Undefined:
-//            //        throw new ArgumentException("I can not process undefined InternalCodeExpressionNode.");
-
-//            //    case ExpressionKind.BinaryOperator:
-//            //        switch (mAddTo)
-//            //        {
-//            //            case Associativity.Undefined:
-//            //                break;
-
-//            //            case Associativity.Right:
-//            //                if(mCurrentNode.Left == null || mCurrentNode.Right == null)
-//            //                {
-//            //                    throw new UnexpectedTokenException(token);
-//            //                }
-//            //                break;
-
-//            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-//            //        }
-//            //    break;
-
-//            //    case ExpressionKind.ConstExpression:
-//            //        switch(mAddTo)
-//            //        {
-//            //            case Associativity.Undefined:
-//            //                if(RootNode == null)
-//            //                {
-//            //                    break;
-//            //                }
-//            //                throw new UnexpectedTokenException(token);
-
-//            //            case Associativity.Right:
-//            //                break;
-
-//            //            case Associativity.Left:
-//            //                break;
-
-//            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-//            //        }
-//            //        break;
-
-//            //    case ExpressionKind.VarExpression:
-//            //        switch (mAddTo)
-//            //        {
-//            //            case Associativity.Undefined:
-//            //                if (RootNode == null)
-//            //                {
-//            //                    break;
-//            //                }
-//            //                throw new UnexpectedTokenException(token);
-
-//            //            case Associativity.Right:
-//            //                break;
-
-//            //            case Associativity.Left:
-//            //                break;
-
-//            //            default: throw new ArgumentOutOfRangeException(nameof(mAddTo), $"Argument value `{mAddTo}` out of range.");
-//            //        }
-//            //        break;
-
-//            //    default: throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
-//            //}
-
-//            if (RootNode == null)
-//            {
-//                RootNode = node;
-//                mCurrentNode = node;
-//                return;
-//            }
-
-//            var tmpNode = mCurrentNode;
-
-//            var currentNodePriority = int.MaxValue;
-//            var nodePriority = node.Priority;
-
-//            while (true)
-//            {
-//                if (tmpNode != null)
-//                {
-//                    currentNodePriority = tmpNode.Priority;
-//                }
-
-//#if DEBUG
-//                NLog.LogManager.GetCurrentClassLogger().Info($"SetNode currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
-//                NLog.LogManager.GetCurrentClassLogger().Info($"SetNode tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
-//#endif
-
-//                //if (nodePriority < currentNodePriority)
-//                //{
-//                //    NLog.LogManager.GetCurrentClassLogger().Info("SetNode nodePriority < currentNodePriority");
-
-//                //    if(currentNodePriority > 0)
-//                //    {
-//                //        tmpNode = tmpNode.Parent;
-//                //        continue;
-//                //    }
-
-//                //    throw new NotImplementedException();
-//                //}
-
-//                throw new NotImplementedException();
-//            }
-
-//            NLog.LogManager.GetCurrentClassLogger().Info($"SetNode End RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
-
-//            //CalculateAddTo(node);
-
-//            //if (mCurrentNode.Priority < node.Priority)
-//            //{
-//            //    SetMajorPriorityNode(node);
-//            //    return;
-//            //}
-
-//            //SetMinorPriorityNode(node);
-//        }
-
-//        private void SetMajorPriorityNode(InternalCodeExpressionNode node)
-//        {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode node = {node}");
-//#endif
-
-//            var tmpNode = mCurrentNode;
-
-//            while (true)
-//            {
-//                var tmpParent = tmpNode.Parent;
-
-//#if DEBUG
-//                NLog.LogManager.GetCurrentClassLogger().Info($"SetMajorPriorityNode tmpParent = {tmpParent?.ToString(mDataDictionary, 0)}");
-//#endif
-
-//                if (tmpParent == null)
-//                {
-//                    SetBetweenNodes(node, null, tmpNode);
-//                    return;
-//                }
-
-//                if(tmpNode.Priority <= node.Priority)
-//                {
-//                    tmpNode = tmpParent;
-//                    continue;
-//                }
-
-//                throw new NotImplementedException();
-//            }
-//        }
-
-//        private void SetBetweenNodes(InternalCodeExpressionNode targetNode, InternalCodeExpressionNode parentNode, InternalCodeExpressionNode childNode)
-//        {
-//            if(parentNode == null)
-//            {
-//                RootNode = targetNode;           
-//            }
-//            else
-//            {
-//                throw new NotImplementedException();
-//            }
-
-//            mCurrentNode = targetNode;
-//            childNode.Parent = targetNode;
-
-//            var associativity = targetNode.Associativity;
-
-//            switch (associativity)
-//            {
-//                case Associativity.Left:
-//                    targetNode.Left = childNode;
-//                    break;
-
-//                case Associativity.Right:
-//                    targetNode.Right = childNode;
-//                    break;
-
-//                default: throw new ArgumentOutOfRangeException(nameof(associativity), associativity, null);
-//            }
-//        }
-
-//        private void CalculateAddTo(InternalCodeExpressionNode node)
-//        {
-//            var associativity = node.Associativity;
-
-//            switch (associativity)
-//            {
-//                case Associativity.Left:
-//                    mAddTo = Associativity.Right;
-//                    break;
-
-//                case Associativity.Right:
-//                    mAddTo = Associativity.Left;
-//                    break;
-
-//                case Associativity.Undefined:
-//                    mAddTo = Associativity.Undefined;
-//                    break;
-
-//                default: throw new ArgumentOutOfRangeException(nameof(associativity), associativity, null);
-//            }
-//        }
-
-//        private void SetMinorPriorityNode(InternalCodeExpressionNode node)
-//        {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"SetMinorPriorityNode node = {node}");
-//#endif
-//            switch (mAddTo)
-//            {
-//                case Associativity.Right:
-//                    node.Parent = mCurrentNode;
-//                    mCurrentNode.Right = node;
-//                    mCurrentNode = node;
-//                    SetAddToByNodeAssociativity(node.Associativity);
-//                    break;
-
-//                case Associativity.Left:
-//                    node.Parent = mCurrentNode;
-//                    mCurrentNode.Left = node;
-//                    mCurrentNode = node;
-//                    SetAddToByNodeAssociativity(node.Associativity);
-//                    break;
-
-//                default: throw new ArgumentOutOfRangeException(nameof(mAddTo), mAddTo, null);
-//            }
-//        }
-
-//        private void SetAddToByNodeAssociativity(Associativity associativity)
-//        {
-//            switch(associativity)
-//            {
-//                case Associativity.Undefined:
-//                    mAddTo = Associativity.Undefined;
-//                    break;
-
-//                case Associativity.Right:
-//                    mAddTo = Associativity.Left;
-//                    break;
-
-//                case Associativity.Left:
-//                    mAddTo = Associativity.Right;
-//                    break;
-//            }
-//        }
-
-//        private InternalCodeExpressionNode GetNodeByToken(Token token)
-//        {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"GetNodeByToken token = {token}");
-//#endif
-
-//            var result = new InternalCodeExpressionNode();
-
-//            switch(token.TokenKind)
-//            {
-//                case TokenKind.Number:
-//                    result.Kind = ExpressionKind.ConstExpression;
-//                    result.TypeKey = NumberKey;
-//                    result.Value = double.Parse(token.Content, mFormatProvider);
-//                    result.Priority = ConstValPriority;
-//                    break;
-
-//                case TokenKind.Assing:
-//                    result.Kind = ExpressionKind.BinaryOperator;
-//                    result.TypeKey = AssingOperatorKey;
-//                    result.Priority = StandartOperatorPrioritiesConstants.Assing;
-//                    result.Associativity = Associativity.Left;
-//                    break;
-
-//                case TokenKind.Plus:
-//                    result.Kind = ExpressionKind.BinaryOperator;
-//                    result.TypeKey = AddOperatorKey;
-//                    result.Priority = StandartOperatorPrioritiesConstants.Add;
-//                    result.Associativity = Associativity.Right;
-//                    break;
-
-//                case TokenKind.Var:
-//                    result.Kind = ExpressionKind.VarExpression;
-//                    result.TypeKey = mDataDictionary.GetKey(token.Content);
-//                    result.Priority = VarPriority;
-//                    break;
-
-//                default: throw new UnexpectedTokenException(CurrToken);
-//            }
-
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"GetNodeByToken result = {result?.ToString(mDataDictionary, 0)}");
-//#endif
-
-//            return result;
-//        }
 
         protected override void OnFinish()
         {
-            if(mIsSlave)
+            if(mMode != Mode.General)
             {
                 return;
             }
@@ -602,7 +283,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
 
             ASTResult = new ASTExpressionStatement();
-            //ASTResult.Expression = CreateExpressionNode(RootNode);
+            ASTResult.Expression = CreateExpressionNode(RootNode);
         }
 
         private void SetLeafToken(InternalCodeExpressionNode node)
@@ -728,7 +409,17 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 return AddAndSubPriority;
             }
 
+            if(typeKey == SubOperatorKey)
+            {
+                return AddAndSubPriority;
+            }
+
             if (typeKey == MulOperatorKey)
+            {
+                return MulAndDivPriotiry;
+            }
+
+            if(typeKey == DivOperatorKey)
             {
                 return MulAndDivPriotiry;
             }
@@ -750,12 +441,36 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #endif
 
             var currentNode = mCurrentNode;
+            InternalCodeExpressionNode prevNode = null;
 
             while(true)
             {
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode = {currentNode.ToString(mDataDictionary, 0)}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode = {currentNode?.ToString(mDataDictionary, 0)}");
 #endif
+
+                if(currentNode == null)
+                {
+                    if(prevNode == null)
+                    {
+                        throw new NotSupportedException();
+                    }
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode == null prevNode = {prevNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                    mCurrentNode = node;
+                    prevNode.Parent = node;
+                    node.Left = prevNode;
+                    RootNode = mCurrentNode;
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                    return;
+                }
 
                 var classOfCurrentNode = currentNode.ClassOfNode;
 
@@ -766,6 +481,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 switch (classOfCurrentNode)
                 {
                     case ClassOfNode.Leaf:
+                        prevNode = currentNode;
                         currentNode = currentNode.Parent;
                         break;
 
@@ -793,6 +509,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                             if(nodePriority < currentNodePriority)
                             {
+                                prevNode = currentNode;
                                 currentNode = currentNode.Parent;
                                 break;
                             }
@@ -814,42 +531,59 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 }
             }
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
-
             throw new NotImplementedException();
         }
 
-        //private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
-        //{
-        //    switch(node.Kind)
-        //    {
-        //        case ExpressionKind.BinaryOperator:
-        //            return CreateBinaryOperator(node);
+        private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateExpressionNode node = {node.ToString(mDataDictionary, 0)}");
+#endif
 
-        //        case ExpressionKind.ConstExpression:
-        //            return CreateConstExpression(node);
+            switch (node.Kind)
+            {
+                case ExpressionKind.BinaryOperator:
+                    return CreateBinaryOperator(node);
 
-        //        default: throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
-        //    }
-        //}
+                case ExpressionKind.ConstExpression:
+                    return CreateConstExpression(node);
 
-        //private ASTExpression CreateBinaryOperator(InternalCodeExpressionNode node)
-        //{
-        //    var result = new ASTBinaryOperator();
-        //    result.OperatorKey = node.TypeKey;
-        //    result.Left = CreateExpressionNode(node.Left);
-        //    result.Right = CreateExpressionNode(node.Right);
-        //    return result;
-        //}
+                case ExpressionKind.VarExpression:
+                    return CreateVarExpression(node);
 
-        //private ASTExpression CreateConstExpression(InternalCodeExpressionNode node)
-        //{
-        //    var result = new ASTConstExpression();
-        //    result.TypeKey = node.TypeKey;
-        //    result.Value = node.Value;
-        //    return result;
-        //}
+                case ExpressionKind.Undefined:
+                    if(node.ClassOfNode == ClassOfNode.RoundBracketsGroup)
+                    {
+                        return CreateExpressionNode(node.GroupedNode);
+                    }
+                    throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
+
+                default: throw new ArgumentOutOfRangeException(nameof(node.Kind), $"Argument value `{node.Kind}` out of range.");
+            }
+        }
+
+        private ASTExpression CreateBinaryOperator(InternalCodeExpressionNode node)
+        {
+            var result = new ASTBinaryOperator();
+            result.OperatorKey = node.TypeKey;
+            result.Left = CreateExpressionNode(node.Left);
+            result.Right = CreateExpressionNode(node.Right);
+            return result;
+        }
+
+        private ASTExpression CreateConstExpression(InternalCodeExpressionNode node)
+        {
+            var result = new ASTConstExpression();
+            result.TypeKey = node.TypeKey;
+            result.Value = node.Value;
+            return result;
+        }
+
+        private ASTExpression CreateVarExpression(InternalCodeExpressionNode node)
+        {
+            var result = new ASTVarExpression();
+            result.TypeKey = node.TypeKey;
+            return result;
+        }
     }
 }

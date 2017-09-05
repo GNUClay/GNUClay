@@ -119,6 +119,7 @@
     <Compile Include="ScriptExecutor\AST\Expressions\ASTBinaryOperator.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTConstExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTExpression.cs" />
+    <Compile Include="ScriptExecutor\AST\Expressions\ASTVarExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />

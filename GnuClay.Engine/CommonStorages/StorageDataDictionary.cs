@@ -35,6 +35,11 @@ namespace GnuClay.Engine.CommonStorages
 
         public string GetValue(ulong key)
         {
+            if(key == 0)
+            {
+                return string.Empty;
+            }
+
             lock (mLockObj)
             {
                 //TSTDump();

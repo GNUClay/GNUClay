@@ -74,7 +74,9 @@ namespace GnuClay.Engine.CommonStorages
         {
             AssignOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AssignOperatorName);
             AddOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.AddOperatorName);
+            SubOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.SubOperatorName);
             MulOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.MulOperatorName);
+            DivOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.DivOperatorName);
         }
 
         private void GetKeysOfStandardVariables()
@@ -103,7 +105,9 @@ namespace GnuClay.Engine.CommonStorages
         #region keys of operators
         public ulong AssignOperatorKey { get; private set; }
         public ulong AddOperatorKey { get; private set; }
+        public ulong SubOperatorKey { get; private set; }
         public ulong MulOperatorKey { get; private set; }
+        public ulong DivOperatorKey { get; private set; }
         #endregion
 
         #region keys of standard variables

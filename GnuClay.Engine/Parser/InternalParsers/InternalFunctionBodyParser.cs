@@ -69,7 +69,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             Context.Recovery(CurrToken);
 
-            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, false);
+            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.General);
             tmpInternalCodeExpressionStatementParser.Run();
             var astResult = tmpInternalCodeExpressionStatementParser.ASTResult;
 

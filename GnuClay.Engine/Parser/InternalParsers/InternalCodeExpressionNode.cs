@@ -21,7 +21,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Undefined,
         Leaf,
         Assing,
-        Arithmetic
+        Arithmetic,
+        RoundBracketsGroup
     }
 
     public class InternalCodeExpressionNode : IToStringData
@@ -36,7 +37,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public object Value = null;
         public int Priority = 0;
         public ClassOfNode ClassOfNode = ClassOfNode.Undefined;
-        //public Associativity Associativity = Associativity.Undefined;
+        public InternalCodeExpressionNode GroupedNode = null;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -82,7 +83,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
             tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");            
             tmpSb.AppendLine($"{spacesString}{nameof(ClassOfNode)} = {ClassOfNode}");
-            //tmpSb.AppendLine($"{spacesString}{nameof(Associativity)} = {Associativity}");
 
             if (Left == null)
             {
@@ -126,6 +126,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     tmpSb.AppendLine(item.ToString(dataDictionary, nextIndent));
                 }
                 tmpSb.AppendLine($"{spacesString}End {nameof(Params)}");
+            }
+
+            if(GroupedNode == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(GroupedNode)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(GroupedNode)} =");
+                tmpSb.AppendLine(GroupedNode.ToString(dataDictionary, nextIndent));
             }
 
             if (dataDictionary != null)
