@@ -22,7 +22,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Leaf,
         Assing,
         Arithmetic,
-        RoundBracketsGroup
+        RoundBracketsGroup,
+        Point
     }
 
     public class InternalCodeExpressionNode : IToStringData

@@ -27,6 +27,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode)
             : base(context)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"constructor mode = {mode}");
+#endif
+
             var mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
             mDataDictionary = Context.MainContext.DataDictionary;
 
@@ -38,6 +42,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             SubOperatorKey = mCommonKeysEngine.SubOperatorKey;
             MulOperatorKey = mCommonKeysEngine.MulOperatorKey;
             DivOperatorKey = mCommonKeysEngine.DivOperatorKey;
+            PointOperatorKey = mCommonKeysEngine.DivOperatorKey;
 
             AssingOperatorKey = mCommonKeysEngine.AssignOperatorKey;
         }
@@ -56,6 +61,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ulong MulOperatorKey = 0;
         private ulong DivOperatorKey = 0;
         private ulong AssingOperatorKey = 0;
+        private ulong PointOperatorKey = 0;
         private int MulAndDivPriotiry = 2;
         private int AddAndSubPriority = 1;
 
@@ -107,6 +113,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessSemicolonToken();
                             break;
 
+                        case TokenKind.Word:
+                            ProcessWordToken();
+                            break;
+
+                        case TokenKind.Point:
+                            ProcessPointToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -122,6 +136,20 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.VarExpression;
+            result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
+            result.ClassOfNode = ClassOfNode.Leaf;
+
+            SetLeafToken(result);
+        }
+
+        private void ProcessWordToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarToken");
+#endif
+
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.EntityExpression;
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
             result.ClassOfNode = ClassOfNode.Leaf;
 
@@ -230,18 +258,32 @@ namespace GnuClay.Engine.Parser.InternalParsers
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessOpenRoundBracket");
 #endif
 
-            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup);
-            tmpInternalCodeExpressionStatementParser.Run();
-            var tmpNode = tmpInternalCodeExpressionStatementParser.RootNode;
+            var classOfCurrentNode = mCurrentNode.ClassOfNode;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket classOfCurrentNode = {classOfCurrentNode}");
 #endif
-            var result = new InternalCodeExpressionNode();
-            result.ClassOfNode = ClassOfNode.RoundBracketsGroup;
-            result.GroupedNode = tmpNode;
 
-            SetLeafToken(result);
+            switch(classOfCurrentNode)
+            {
+                case ClassOfNode.Arithmetic:
+                    {
+                        var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup);
+                        tmpInternalCodeExpressionStatementParser.Run();
+                        var tmpNode = tmpInternalCodeExpressionStatementParser.RootNode;
+
+#if DEBUG
+                        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
+#endif
+                        var result = new InternalCodeExpressionNode();
+                        result.ClassOfNode = ClassOfNode.RoundBracketsGroup;
+                        result.GroupedNode = tmpNode;
+
+                        SetLeafToken(result);
+                    }
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+            }
         }
 
         private void ProcessCloseRoundBracket()
@@ -268,6 +310,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
           
             throw new UnexpectedTokenException(CurrToken);
+        }
+
+        private void ProcessPointToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = PointOperatorKey;
+            result.ClassOfNode = ClassOfNode.Point;
+
+            SetAssingToken(result);
         }
 
         protected override void OnFinish()
@@ -312,6 +367,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 case ClassOfNode.Assing:
                 case ClassOfNode.Arithmetic:
+                case ClassOfNode.Point:
                     if(mCurrentNode.Left == null)
                     {
                         throw new NotSupportedException();
@@ -377,6 +433,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             switch(classOfOldParent)
                             {
                                 case ClassOfNode.Assing:
+                                case ClassOfNode.Point:
                                     if(ReferenceEquals(tmpOldParent.Right, tmpNode))
                                     {
 #if DEBUG

@@ -35,6 +35,7 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string SubOperatorName = "-";
         public const string MulOperatorName = "*";
         public const string DivOperatorName = "/";
+        public const string PointOperatorName = ".";
         #endregion
 
         #region names of standard variables
