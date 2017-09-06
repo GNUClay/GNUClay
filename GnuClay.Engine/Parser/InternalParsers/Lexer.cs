@@ -125,6 +125,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '>':
                                 return CreateToken(TokenKind.More);
 
+                            case '<':
+                                return CreateToken(TokenKind.Less);
+
                             case '-':
                                 return CreateToken(TokenKind.Dash);
 

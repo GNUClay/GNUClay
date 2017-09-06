@@ -21,7 +21,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public enum Mode
         {
             General,
-            InRoundBracketsGroup
+            InRoundBracketsGroup,
+            IsParameterOfFunction
         }
 
         public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode)
@@ -120,6 +121,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case TokenKind.Point:
                             ProcessPointToken();
                             break;
+
+                        case TokenKind.Comma:
+                            if(mMode == Mode.IsParameterOfFunction)
+                            {
+                                Context.Recovery(CurrToken);
+                                Exit();
+                                return;
+                            }
+                            throw new UnexpectedTokenException(CurrToken);
 
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
@@ -282,6 +292,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         SetLeafToken(result);
                     }
                     break;
+
+                case ClassOfNode.Leaf:
+                    {
+                        var tmpInternalParamsOfFunctionParser = new InternalParamsOfFunctionParser(Context);
+                        tmpInternalParamsOfFunctionParser.Run();
+                        mCurrentNode.Params = tmpInternalParamsOfFunctionParser.Result;
+#if DEBUG
+                        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
+                    }
+                    break;
+
                 default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
             }
         }
@@ -294,6 +316,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             if(mMode == Mode.InRoundBracketsGroup)
             {
+                Exit();
+                return;
+            }
+
+            if(mMode == Mode.IsParameterOfFunction)
+            {
+                Context.Recovery(CurrToken);
                 Exit();
                 return;
             }

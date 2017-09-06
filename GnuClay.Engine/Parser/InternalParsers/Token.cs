@@ -78,6 +78,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         More,
 
         /// <summary>
+        /// Represents symbol `<`.
+        /// </summary>
+        Less,
+
+        /// <summary>
         /// Represents symbol Ampersand.
         /// </summary>
         And,
