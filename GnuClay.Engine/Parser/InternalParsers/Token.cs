@@ -123,6 +123,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
         RULE_BODY,
 
         /// <summary>
+        /// Represents combination of symbols `<!`.
+        /// </summary>
+        BEGIN_TARGET,
+
+        /// <summary>
+        /// Represents combination of symbols `!>`.
+        /// </summary>
+        END_TERGET,
+        /// <summary>
         /// Represents keyword `READ`.
         /// </summary>
         READ,

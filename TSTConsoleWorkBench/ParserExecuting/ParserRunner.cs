@@ -101,7 +101,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
-            tmpSb.AppendLine("$var1 = console.insert.log.bar($var2, 1.0*-5 + 2 + 3).tar().gz.rpzgh<door>($var2);");
+            tmpSb.AppendLine("$var1 = console.insert.log.bar($var2, 1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>($var2);");
             tmpSb.AppendLine("}");
 
             var queryString = tmpSb.ToString();

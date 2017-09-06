@@ -126,6 +126,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 return CreateToken(TokenKind.More);
 
                             case '<':
+                                {
+                                    var tmpNextChar = mItems.Peek();
+
+#if DEBUG
+                                    NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpNextChar = {tmpNextChar}");
+#endif
+
+                                    switch(tmpNextChar)
+                                    {
+                                        default: throw new NotImplementedException();
+                                    }
+                                }
                                 return CreateToken(TokenKind.Less);
 
                             case '-':
@@ -150,6 +162,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 return CreateToken(TokenKind.Point);
 
                             case '!':
+                                {
+                                    var tmpNextChar = mItems.Peek();
+
+#if DEBUG
+                                    NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpNextChar = {tmpNextChar}");
+#endif
+
+                                    switch (tmpNextChar)
+                                    {
+                                        default: throw new NotImplementedException();
+                                    }
+                                }
+
                                 return CreateToken(TokenKind.Not);
 
                             case '=':
@@ -180,21 +205,23 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         break;
 
                     case LexerState.InWord:
-                        tmpBuffer.Append(tmpChar);
-                        mLexerState = LexerState.InWord;
-
-                        if (mItems.Count == 0)
                         {
-                            mLexerState = LexerState.Init;
-                            return CreateToken(TokenKind.Word, tmpBuffer.ToString());
-                        }
+                            tmpBuffer.Append(tmpChar);
+                            mLexerState = LexerState.InWord;
 
-                        var tmpNextChar = mItems.Peek();
+                            if (mItems.Count == 0)
+                            {
+                                mLexerState = LexerState.Init;
+                                return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                            }
 
-                        if(!char.IsLetterOrDigit(tmpNextChar) && tmpNextChar != '_')
-                        {
-                            mLexerState = LexerState.Init;
-                            return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                            var tmpNextChar = mItems.Peek();
+
+                            if (!char.IsLetterOrDigit(tmpNextChar) && tmpNextChar != '_')
+                            {
+                                mLexerState = LexerState.Init;
+                                return CreateToken(TokenKind.Word, tmpBuffer.ToString());
+                            }
                         }
                         break;
 
