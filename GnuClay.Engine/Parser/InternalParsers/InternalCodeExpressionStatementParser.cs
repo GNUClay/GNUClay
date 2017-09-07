@@ -131,6 +131,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             }
                             throw new UnexpectedTokenException(CurrToken);
 
+                        case TokenKind.BEGIN_TARGET:
+                            ProcessBeginTarget();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -352,6 +356,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.ClassOfNode = ClassOfNode.Point;
 
             SetAssingToken(result);
+        }
+
+        private void ProcessBeginTarget()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessBeginTarget");
+#endif
+
+            var tmpParser = new InternalTargetOfFunctionParser(Context);
+            tmpParser.Run();
+
+            var tmpTarget = tmpParser.Result;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginTarget tmpTarget = {tmpTarget?.ToString(mDataDictionary, 0)}");
+#endif
+
+            throw new NotImplementedException();
         }
 
         protected override void OnFinish()

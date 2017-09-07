@@ -126,18 +126,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 return CreateToken(TokenKind.More);
 
                             case '<':
-                                {
-                                    var tmpNextChar = mItems.Peek();
-
-#if DEBUG
-                                    NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpNextChar = {tmpNextChar}");
-#endif
-
-                                    switch(tmpNextChar)
-                                    {
-                                        default: throw new NotImplementedException();
-                                    }
-                                }
                                 return CreateToken(TokenKind.Less);
 
                             case '-':
@@ -162,19 +150,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 return CreateToken(TokenKind.Point);
 
                             case '!':
-                                {
-                                    var tmpNextChar = mItems.Peek();
-
-#if DEBUG
-                                    NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpNextChar = {tmpNextChar}");
-#endif
-
-                                    switch (tmpNextChar)
-                                    {
-                                        default: throw new NotImplementedException();
-                                    }
-                                }
-
                                 return CreateToken(TokenKind.Not);
 
                             case '=':
@@ -311,6 +286,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case ':':
                             kind = TokenKind.RULE_HEAD;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
+                case TokenKind.Less:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '!':
+                            kind = TokenKind.BEGIN_TARGET;
                             mItems.Dequeue();
                             break;
                     }
