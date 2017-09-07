@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GnuClay.CommonUtils.TypeHelpers;
 
 namespace GnuClay.Engine.Parser.InternalParsers
 {
@@ -15,7 +16,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
     {
         public enum State
         {
-            Init
+            Init,
+            HasTilde
         }
 
         public enum Mode
@@ -135,6 +137,21 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessBeginTarget();
                             break;
 
+                        case TokenKind.Tilde:
+                            mState = State.HasTilde;
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.HasTilde:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.Word:
+                            ProcessWordToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -166,6 +183,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.Kind = ExpressionKind.EntityExpression;
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
             result.ClassOfNode = ClassOfNode.Leaf;
+
+            if(mState == State.HasTilde)
+            {
+                result.IsAsync = true;
+                mState = State.Init;
+            }
 
             SetLeafToken(result);
         }
@@ -373,7 +396,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginTarget tmpTarget = {tmpTarget?.ToString(mDataDictionary, 0)}");
 #endif
 
-            throw new NotImplementedException();
+            mCurrentNode.Target = tmpTarget;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
         }
 
         protected override void OnFinish()
@@ -645,7 +672,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateExpressionNode node = {node.ToString(mDataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateExpressionNode node = {node.ToString(mDataDictionary, 0)}");
 #endif
 
             switch (node.Kind)
@@ -658,6 +685,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 case ExpressionKind.VarExpression:
                     return CreateVarExpression(node);
+
+                case ExpressionKind.EntityExpression:
+                    return CreateEntityExpression(node);
 
                 case ExpressionKind.Undefined:
                     if(node.ClassOfNode == ClassOfNode.RoundBracketsGroup)
@@ -691,6 +721,38 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             var result = new ASTVarExpression();
             result.TypeKey = node.TypeKey;
+            return result;
+        }
+
+        private ASTExpression CreateEntityExpression(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"CreateEntityExpression node = {node.ToString(mDataDictionary, 0)}");
+#endif
+            if(node.Target != null || !_ListHelper.IsEmpty(node.Params))
+            {
+                var calledResult = new ASTCalledEntityExpression();
+                calledResult.TypeKey = node.TypeKey;
+                calledResult.IsAsync = node.IsAsync;
+                if(node.Target != null)
+                {
+                    calledResult.Target = CreateExpressionNode(node.Target);
+                }
+                
+                if(!_ListHelper.IsEmpty(node.Params))
+                {
+                    foreach (var paramItem in node.Params)
+                    {
+                        calledResult.Params.Add(CreateExpressionNode(paramItem));
+                    }
+                }
+
+                return calledResult;
+            }
+
+            var result = new ASTEntityExpression();
+            result.TypeKey = node.TypeKey;
+
             return result;
         }
     }

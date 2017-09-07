@@ -155,6 +155,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '=':
                                 return CreateToken(TokenKind.Assing);
 
+                            case '~':
+                                return CreateToken(TokenKind.Tilde);
+
                             case '`':
                                 tmpBuffer = new StringBuilder();
                                 mLexerState = LexerState.InRichWord;
@@ -310,6 +313,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case '>':
                             kind = TokenKind.RULE_BODY;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
+                case TokenKind.Not:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '>':
+                            kind = TokenKind.END_TERGET;
                             mItems.Dequeue();
                             break;
                     }

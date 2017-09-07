@@ -50,6 +50,17 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
+                case State.AfterTarget:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.END_TERGET:
+                            Exit();
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
             }
         }

@@ -119,7 +119,9 @@
     <Compile Include="RemoteFunctions\RemoteFunctionsEngine.cs" />
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTBinaryOperator.cs" />
+    <Compile Include="ScriptExecutor\AST\Expressions\ASTCalledEntityExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTConstExpression.cs" />
+    <Compile Include="ScriptExecutor\AST\Expressions\ASTEntityExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTVarExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />

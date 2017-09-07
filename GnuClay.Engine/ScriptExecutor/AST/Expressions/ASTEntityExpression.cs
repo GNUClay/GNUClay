@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
 {
-    public class ASTVarExpression: ASTExpression
+    public class ASTEntityExpression : ASTExpression
     {
-        public ASTVarExpression()
-            : base(ExpressionKind.VarExpression)
+        public ASTEntityExpression()
+            : base(ExpressionKind.EntityExpression)
         {
         }
 
@@ -28,13 +28,13 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
             var spacesString = _ObjectHelper.CreateSpaces(indent);
             var nextIndent = indent + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spacesString}Begin VarExpression");
+            sb.AppendLine($"{spacesString}Begin EntityExpression");
             sb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
             if (dataDictionary != null)
             {
                 sb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
             }
-            sb.AppendLine($"{spacesString}End VarExpression");
+            sb.AppendLine($"{spacesString}End EntityExpression");
             return sb.ToString();
         }
     }

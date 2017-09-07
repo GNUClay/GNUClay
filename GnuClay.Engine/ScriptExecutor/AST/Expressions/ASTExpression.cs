@@ -13,7 +13,8 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         BinaryOperator,
         ConstExpression,
         VarExpression,
-        EntityExpression
+        EntityExpression,
+        CalledEntityExpression,
     }
 
     public abstract class ASTExpression

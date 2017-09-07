@@ -15,7 +15,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("Run");
 
             //Case1();
-            Case2();
+            //Case2();
+            Case3();
 
             //try
             //{
@@ -101,7 +102,20 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
-            tmpSb.AppendLine("$var1 = console.insert.log.bar($var2, 1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>($var2);");
+            tmpSb.AppendLine("$var1 = console.insert.log.~bar($var2, 1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>($var2);");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case1 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case1 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case3()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("$var1 = $var2( 1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>(~$var2());");
             tmpSb.AppendLine("}");
 
             var queryString = tmpSb.ToString();

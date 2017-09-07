@@ -113,6 +113,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Assing,
 
         /// <summary>
+        /// Represents symbol `~`.
+        /// </summary>
+        Tilde,
+
+        /// <summary>
         /// Represents combination of symbols `>:`.
         /// </summary>
         RULE_HEAD,

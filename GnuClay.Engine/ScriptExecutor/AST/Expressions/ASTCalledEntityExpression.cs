@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
 {
-    public class ASTVarExpression: ASTExpression
+    public class ASTCalledEntityExpression : ASTExpression
     {
-        public ASTVarExpression()
-            : base(ExpressionKind.VarExpression)
+        public ASTCalledEntityExpression()
+            : base(ExpressionKind.CalledEntityExpression)
         {
         }
 
         public ulong TypeKey { get; set; }
+        public bool IsAsync = false;
+        public ASTExpression Target { get; set; }
+        public List<ASTExpression> Params { get; set; } = new List<ASTExpression>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
@@ -28,13 +31,29 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
             var spacesString = _ObjectHelper.CreateSpaces(indent);
             var nextIndent = indent + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spacesString}Begin VarExpression");
+            sb.AppendLine($"{spacesString}Begin CalledEntityExpression");
             sb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
             if (dataDictionary != null)
             {
                 sb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
             }
-            sb.AppendLine($"{spacesString}End VarExpression");
+            sb.AppendLine($"{spacesString}{nameof(IsAsync)} = {IsAsync}");
+            if (Target == null)
+            {
+                sb.AppendLine($"{spacesString}{nameof(Target)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spacesString}{nameof(Target)} =");
+                sb.AppendLine(Target.ToString(dataDictionary, nextIndent));
+            }
+            sb.AppendLine($"{spacesString}Begin Params");
+            foreach (var paramItem in Params)
+            {
+                sb.AppendLine(paramItem.ToString(dataDictionary, nextIndent));
+            }
+            sb.AppendLine($"{spacesString}End Params");
+            sb.AppendLine($"{spacesString}End CalledEntityExpression");
             return sb.ToString();
         }
     }

@@ -34,10 +34,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public InternalCodeExpressionNode Left = null;
         public InternalCodeExpressionNode Right = null;
         public List<InternalCodeExpressionNode> Params = null;
-        public InternalCodeExpressionNode CalledMember = null;
+        public InternalCodeExpressionNode Target = null;
         public object Value = null;
         public int Priority = 0;
         public ClassOfNode ClassOfNode = ClassOfNode.Undefined;
+        public bool IsAsync = false;
         public InternalCodeExpressionNode GroupedNode = null;
 
         /// <summary>
@@ -84,7 +85,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
             tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");            
             tmpSb.AppendLine($"{spacesString}{nameof(ClassOfNode)} = {ClassOfNode}");
-
+            tmpSb.AppendLine($"{spacesString}{nameof(IsAsync)} = {IsAsync}");
+            
             if (Left == null)
             {
                 tmpSb.AppendLine($"{spacesString}{nameof(Left)} = null");
@@ -105,14 +107,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 tmpSb.AppendLine(Right.ToString(dataDictionary, nextIndent));
             }
 
-            if (CalledMember == null)
+            if (Target == null)
             {
-                tmpSb.AppendLine($"{spacesString}{nameof(CalledMember)} = null");
+                tmpSb.AppendLine($"{spacesString}{nameof(Target)} = null");
             }
             else
             {
-                tmpSb.AppendLine($"{spacesString}{nameof(CalledMember)} =");
-                tmpSb.AppendLine(CalledMember.ToString(dataDictionary, nextIndent));
+                tmpSb.AppendLine($"{spacesString}{nameof(Target)} =");
+                tmpSb.AppendLine(Target.ToString(dataDictionary, nextIndent));
             }
 
             if (Params == null)
