@@ -37,7 +37,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Word:
+                            ProcessParam();
+                            break;
+
                         case TokenKind.Var:
+                            ProcessParam();
+                            break;
+
+                        case TokenKind.Number:
+                            ProcessParam();
+                            break;
+
+                        case TokenKind.Tilde:
                             ProcessParam();
                             break;
 

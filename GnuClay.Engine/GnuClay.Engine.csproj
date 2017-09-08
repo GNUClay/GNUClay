@@ -120,6 +120,7 @@
     <Compile Include="ScriptExecutor\AST\ASTCodeBlock.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTBinaryOperator.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTCalledEntityExpression.cs" />
+    <Compile Include="ScriptExecutor\AST\Expressions\ASTCalledVarExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTConstExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTEntityExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTExpression.cs" />

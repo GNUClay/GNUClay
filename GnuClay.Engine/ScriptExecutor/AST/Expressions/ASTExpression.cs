@@ -15,6 +15,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         VarExpression,
         EntityExpression,
         CalledEntityExpression,
+        CalledVarExpression
     }
 
     public abstract class ASTExpression

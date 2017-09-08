@@ -152,6 +152,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessWordToken();
                             break;
 
+                        case TokenKind.Var:
+                            ProcessVarToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -169,6 +173,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.Kind = ExpressionKind.VarExpression;
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
             result.ClassOfNode = ClassOfNode.Leaf;
+
+            if (mState == State.HasTilde)
+            {
+                result.IsAsync = true;
+                mState = State.Init;
+            }
 
             SetLeafToken(result);
         }
@@ -719,6 +729,34 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ASTExpression CreateVarExpression(InternalCodeExpressionNode node)
         {
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateVarExpression node = {node.ToString(mDataDictionary, 0)}");
+#endif
+            if (node.Target != null || node.Params != null)
+            {
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"CreateVarExpression node = {node.ToString(mDataDictionary, 0)}");
+#endif
+
+                var calledResult = new ASTCalledVarExpression();
+                calledResult.TypeKey = node.TypeKey;
+                calledResult.IsAsync = node.IsAsync;
+                if (node.Target != null)
+                {
+                    calledResult.Target = CreateExpressionNode(node.Target);
+                }
+
+                if (!_ListHelper.IsEmpty(node.Params))
+                {
+                    foreach (var paramItem in node.Params)
+                    {
+                        calledResult.Params.Add(CreateExpressionNode(paramItem));
+                    }
+                }
+
+                return calledResult;
+            }
+
             var result = new ASTVarExpression();
             result.TypeKey = node.TypeKey;
             return result;
@@ -727,9 +765,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private ASTExpression CreateEntityExpression(InternalCodeExpressionNode node)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateEntityExpression node = {node.ToString(mDataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateEntityExpression node = {node.ToString(mDataDictionary, 0)}");
 #endif
-            if(node.Target != null || !_ListHelper.IsEmpty(node.Params))
+            if(node.Target != null || node.Params != null)
             {
                 var calledResult = new ASTCalledEntityExpression();
                 calledResult.TypeKey = node.TypeKey;
