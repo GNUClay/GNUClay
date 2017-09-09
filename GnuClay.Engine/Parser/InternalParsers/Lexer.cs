@@ -306,6 +306,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
+                case TokenKind.Plus:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '=':
+                            kind = TokenKind.PlusAssing;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
                 case TokenKind.Dash:
                     tmpNextChar = mItems.Peek();
 
@@ -313,6 +325,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case '>':
                             kind = TokenKind.RULE_BODY;
+                            mItems.Dequeue();
+                            break;
+
+                        case '=':
+                            kind = TokenKind.MinusAssing;
                             mItems.Dequeue();
                             break;
                     }

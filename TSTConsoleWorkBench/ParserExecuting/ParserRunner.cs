@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.Parser.InternalParsers;
 
 namespace TSTConsoleWorkBench.ParserExecuting
 {
@@ -16,7 +17,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             //Case1();
             //Case2();
-            Case3();
+            //Case3();
+            Case4();
 
             //try
             //{
@@ -122,6 +124,48 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"Case1 queryString = `{queryString}`");
             var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
             NLog.LogManager.GetCurrentClassLogger().Info($"Case1 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case4()
+        {
+            var text = "=";
+            Parse(text);
+            text = "+=";
+            Parse(text);
+            text = "-=";
+            Parse(text);
+            text = "*=";
+            Parse(text);
+            text = "/=";
+            Parse(text);
+            text = "<<";
+            Parse(text);
+            text = "+<<";
+            Parse(text);
+            text = "==";
+            Parse(text);
+            text = "!=";
+            Parse(text);
+            text = ">";
+            Parse(text);
+            text = "<";
+            Parse(text);
+            text = ">=";
+            Parse(text);
+            text = "<=";
+            Parse(text);
+        }
+
+        private void Parse(string text)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Parse text = `{text}`");
+            var lexer = new Lexer(text);
+            Token token = null;
+
+            while ((token = lexer.GetToken()) != null)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Parse token = {token}");
+            }
         }
     }
 }

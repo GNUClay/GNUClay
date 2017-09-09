@@ -113,6 +113,26 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Assing,
 
         /// <summary>
+        /// Represents symbol `+=`.
+        /// </summary>
+        PlusAssing,
+
+        /// <summary>
+        /// Represents symbol `-=`.
+        /// </summary>
+        MinusAssing,
+
+        /// <summary>
+        /// Represents symbol `*=`.
+        /// </summary>
+        MulAssing,
+
+        /// <summary>
+        /// Represents symbol `/=`.
+        /// </summary>
+        DivAssing,
+
+        /// <summary>
         /// Represents symbol `~`.
         /// </summary>
         Tilde,
