@@ -73,19 +73,29 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Dash,
 
         /// <summary>
-        /// Represents symbol `>`.
+        /// Represents symbol `/`.
+        /// </summary>
+        Div,
+
+        /// <summary>
+        /// Represents symbol `&gt;`.
         /// </summary>
         More,
 
         /// <summary>
-        /// Represents symbol `<`.
+        /// Represents symbol `&lt;`.
         /// </summary>
         Less,
 
         /// <summary>
-        /// Represents symbol Ampersand.
+        /// Represents symbol `&amp;`.
         /// </summary>
         And,
+
+        /// <summary>
+        /// Represents symbol `|`.
+        /// </summary>
+        Or,
 
         /// <summary>
         /// Represents symbol `+`.
@@ -106,6 +116,26 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// Represents symbol `!`.
         /// </summary>
         Not,
+
+        /// <summary>
+        /// Represents symbol `==`.
+        /// </summary>
+        Equal,
+
+        /// <summary>
+        /// Represents symbol `!=`.
+        /// </summary>
+        NotEqual,
+
+        /// <summary>
+        /// Represents symbol `&gt;=`.
+        /// </summary>
+        MoreOrEqual,
+
+        /// <summary>
+        /// Represents symbol `&lt;=`.
+        /// </summary>
+        LessOrEqual,
 
         /// <summary>
         /// Represents symbol `=`.
@@ -133,6 +163,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
         DivAssing,
 
         /// <summary>
+        /// Represents symbol `&lt;&lt;`.
+        /// </summary>
+        AssingFact,
+
+        /// <summary>
+        /// Represents symbol `+&lt;&lt;`.
+        /// </summary>
+        PlusAssingFact,
+
+        /// <summary>
         /// Represents symbol `~`.
         /// </summary>
         Tilde,
@@ -148,7 +188,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         RULE_BODY,
 
         /// <summary>
-        /// Represents combination of symbols `<!`.
+        /// Represents combination of symbols `&lt;!`.
         /// </summary>
         BEGIN_TARGET,
 

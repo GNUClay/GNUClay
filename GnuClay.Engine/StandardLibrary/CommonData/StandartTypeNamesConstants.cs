@@ -29,12 +29,35 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string UncaughtReferenceErrorTypeName = "Uncaught Reference Error";
         #endregion
 
-        #region names of operators
+        #region names of assing operators
         public const string AssignOperatorName = "=";
+        public const string PlusAssingOperatorName = "+=";
+        public const string MinusAssingOperatorName = "-=";
+        public const string MulAssingOperatorName = "*=";
+        public const string DivAssingOperatorName = "/=";
+        public const string AssingFactOperatorName = "<<";
+        public const string PlusAssingFactOperatorName = "+<<";
+        #endregion
+
+        #region names of arithmetic operators
         public const string AddOperatorName = "+";
         public const string SubOperatorName = "-";
         public const string MulOperatorName = "*";
         public const string DivOperatorName = "/";
+        #endregion
+
+        #region names of logical operators
+        public const string EqualOperatorName = "==";
+        public const string NotEqualOperatorName = "!=";
+        public const string MoreOperatorName = ">";
+        public const string LessOperatorName = "<";
+        public const string AndOperatorName = "&";
+        public const string OrOperatorName = "|";
+        public const string MoreOrEqualOperatorName = ">=";
+        public const string LessOrEqualOperatorName = "<=";
+        #endregion
+
+        #region names of common operators
         public const string PointOperatorName = ".";
         #endregion
 

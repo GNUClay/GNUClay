@@ -34,22 +34,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
             NLog.LogManager.GetCurrentClassLogger().Info($"constructor mode = {mode}");
 #endif
 
-            var mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
+            mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
             mDataDictionary = Context.MainContext.DataDictionary;
 
-            mMode = mode;
-
-            NumberKey = mCommonKeysEngine.NumberKey;
-
-            AddOperatorKey = mCommonKeysEngine.AddOperatorKey;
-            SubOperatorKey = mCommonKeysEngine.SubOperatorKey;
-            MulOperatorKey = mCommonKeysEngine.MulOperatorKey;
-            DivOperatorKey = mCommonKeysEngine.DivOperatorKey;
-            PointOperatorKey = mCommonKeysEngine.DivOperatorKey;
-
-            AssingOperatorKey = mCommonKeysEngine.AssignOperatorKey;
+            mMode = mode;      
         }
 
+        private CommonKeysEngine mCommonKeysEngine = null;
         private StorageDataDictionary mDataDictionary = null;
 
         public ASTExpressionStatement ASTResult = null;
@@ -58,15 +49,28 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public InternalCodeExpressionNode RootNode = null;
         private InternalCodeExpressionNode mCurrentNode = null;
 
-        private ulong NumberKey = 0;
-        private ulong AddOperatorKey = 0;
-        private ulong SubOperatorKey = 0;
-        private ulong MulOperatorKey = 0;
-        private ulong DivOperatorKey = 0;
-        private ulong AssingOperatorKey = 0;
-        private ulong PointOperatorKey = 0;
         private int MulAndDivPriotiry = 2;
         private int AddAndSubPriority = 1;
+
+        /// <summary>
+        /// &lt; > &lt;= >=
+        /// </summary>
+        private int RelationalPriority = 4;
+
+        /// <summary>
+        /// == !=
+        /// </summary>
+        private int EqualityPriority = 3;
+
+        /// <summary>
+        /// &amp;
+        /// </summary>
+        private int LogicalAndPriority = 2;
+
+        /// <summary>
+        /// |
+        /// </summary>
+        private int LogicalOrPriority = 1;
 
         protected override void OnRun()
         {
@@ -141,6 +145,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.HasTilde;
                             break;
 
+                        case TokenKind.Equal:
+                            ProcessEqualToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -210,7 +218,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
-            result.TypeKey = AssingOperatorKey;
+            result.TypeKey = mCommonKeysEngine.AssignOperatorKey;
             result.ClassOfNode = ClassOfNode.Assing;
 
             SetAssingToken(result);
@@ -231,7 +239,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.ConstExpression;
-            result.TypeKey = NumberKey;
+            result.TypeKey = mCommonKeysEngine.NumberKey;
             result.Value = numberResult;
             result.ClassOfNode = ClassOfNode.Leaf;
 
@@ -246,7 +254,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
-            result.TypeKey = MulOperatorKey;
+            result.TypeKey = mCommonKeysEngine.MulOperatorKey;
             result.ClassOfNode = ClassOfNode.Arithmetic;
 
             SetArithmeticToken(result);
@@ -257,6 +265,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessDashToken");
 #endif
+
+            if(mCurrentNode == null)
+            {
+                ProcessNumberToken();
+                return;
+            }
 
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
 
@@ -273,7 +287,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case ClassOfNode.Leaf:
                     var result = new InternalCodeExpressionNode();
                     result.Kind = ExpressionKind.BinaryOperator;
-                    result.TypeKey = SubOperatorKey;
+                    result.TypeKey = mCommonKeysEngine.SubOperatorKey;
                     result.ClassOfNode = ClassOfNode.Arithmetic;
 
                     SetArithmeticToken(result);
@@ -293,7 +307,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
-            result.TypeKey = AddOperatorKey;
+            result.TypeKey = mCommonKeysEngine.AddOperatorKey;
             result.ClassOfNode = ClassOfNode.Arithmetic;
 
             SetArithmeticToken(result);
@@ -385,10 +399,23 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
-            result.TypeKey = PointOperatorKey;
+            result.TypeKey = mCommonKeysEngine.PointOperatorKey;
             result.ClassOfNode = ClassOfNode.Point;
 
             SetAssingToken(result);
+        }
+
+        private void ProcessEqualToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessEqualToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.EqualOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
         }
 
         private void ProcessBeginTarget()
@@ -549,22 +576,22 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private int GetArithmeticNodePriority(ulong typeKey)
         {
-            if (typeKey == AddOperatorKey)
+            if (typeKey == mCommonKeysEngine.AddOperatorKey)
             {
                 return AddAndSubPriority;
             }
 
-            if(typeKey == SubOperatorKey)
+            if(typeKey == mCommonKeysEngine.SubOperatorKey)
             {
                 return AddAndSubPriority;
             }
 
-            if (typeKey == MulOperatorKey)
+            if (typeKey == mCommonKeysEngine.MulOperatorKey)
             {
                 return MulAndDivPriotiry;
             }
 
-            if(typeKey == DivOperatorKey)
+            if(typeKey == mCommonKeysEngine.DivOperatorKey)
             {
                 return MulAndDivPriotiry;
             }
@@ -674,6 +701,67 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                     default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
                 }
+            }
+
+            throw new NotImplementedException();
+        }
+
+        private void SetLogicalToken(InternalCodeExpressionNode node)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken node = {node.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
+#endif
+
+            var nodePriority = GetLogicalNodePriority(node.TypeKey);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken nodePriority = {nodePriority}");
+#endif
+
+            throw new NotImplementedException();
+        }
+
+        private int GetLogicalNodePriority(ulong typeKey)
+        {
+            if(typeKey == mCommonKeysEngine.MoreOperatorKey)
+            {
+                return RelationalPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.LessOperatorKey)
+            {
+                return RelationalPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.MoreOrEqualOperatorKey)
+            {
+                return RelationalPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.LessOrEqualOperatorKey)
+            {
+                return RelationalPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.EqualOperatorKey)
+            {
+                return EqualityPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.NotEqualOperatorKey)
+            {
+                return EqualityPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.AndOperatorKey)
+            {
+                return LogicalAndPriority;
+            }
+
+            if (typeKey == mCommonKeysEngine.OrOperatorKey)
+            {
+                return LogicalOrPriority;
             }
 
             throw new NotImplementedException();

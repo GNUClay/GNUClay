@@ -31,7 +31,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private LexerState mLexerState = LexerState.Init;
         private Queue<Token> mRecoveriesTokens = new Queue<Token>();
         private CultureInfo mCultureInfo = new CultureInfo(GeneralConstants.DefaultCulture);
-        private bool DetectSpecialWords = true;
+        public bool DetectSpecialWords = true;
 
         public virtual Token GetToken()
         {
@@ -143,6 +143,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '*':
                                 return CreateToken(TokenKind.Mul);
 
+                            case '/':
+                                return CreateToken(TokenKind.Div);
+
                             case ';':
                                 return CreateToken(TokenKind.Semicolon);
 
@@ -216,7 +219,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         }
                         break;
 
-                    default: throw new ArgumentOutOfRangeException(nameof(mLexerState), mLexerState.ToString());
+                    default: throw new ArgumentOutOfRangeException(nameof(mLexerState), mLexerState, null);
                 }
             }
 
@@ -291,6 +294,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             kind = TokenKind.RULE_HEAD;
                             mItems.Dequeue();
                             break;
+
+                        case '=':
+                            kind = TokenKind.MoreOrEqual;
+                            mItems.Dequeue();
+                            break;
                     }
                     break;
 
@@ -301,6 +309,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case '!':
                             kind = TokenKind.BEGIN_TARGET;
+                            mItems.Dequeue();
+                            break;
+
+                        case '<':
+                            kind = TokenKind.AssingFact;
+                            mItems.Dequeue();
+                            break;
+
+                        case '=':
+                            kind = TokenKind.LessOrEqual;
                             mItems.Dequeue();
                             break;
                     }
@@ -314,6 +332,20 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case '=':
                             kind = TokenKind.PlusAssing;
                             mItems.Dequeue();
+                            break;
+
+                        case '<':
+                            mItems.Dequeue();
+                            tmpNextChar = mItems.Peek();
+                            switch (tmpNextChar)
+                            {
+                                case '<':
+                                    kind = TokenKind.PlusAssingFact;
+                                    mItems.Dequeue();
+                                    break;
+
+                                default: throw new UnexpectedSymbolException(tmpNextChar);
+                            }
                             break;
                     }
                     break;
@@ -335,6 +367,30 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
+                case TokenKind.Mul:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '=':
+                            kind = TokenKind.MulAssing;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
+                case TokenKind.Div:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '=':
+                            kind = TokenKind.DivAssing;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
                 case TokenKind.Not:
                     tmpNextChar = mItems.Peek();
 
@@ -342,6 +398,23 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     {
                         case '>':
                             kind = TokenKind.END_TERGET;
+                            mItems.Dequeue();
+                            break;
+
+                        case '=':
+                            kind = TokenKind.NotEqual;
+                            mItems.Dequeue();
+                            break;
+                    }
+                    break;
+
+                case TokenKind.Assing:
+                    tmpNextChar = mItems.Peek();
+
+                    switch (tmpNextChar)
+                    {
+                        case '=':
+                            kind = TokenKind.Equal;
                             mItems.Dequeue();
                             break;
                     }

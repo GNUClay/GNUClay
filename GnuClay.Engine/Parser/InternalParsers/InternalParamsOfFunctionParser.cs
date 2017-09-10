@@ -53,6 +53,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessParam();
                             break;
 
+                        case TokenKind.Dash:
+                            ProcessParam();
+                            break;
+
                         case TokenKind.CloseRoundBracket:
                             Exit();
                             break;
