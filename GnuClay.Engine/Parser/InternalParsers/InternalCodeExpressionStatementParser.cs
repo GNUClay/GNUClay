@@ -149,6 +149,34 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessEqualToken();
                             break;
 
+                        case TokenKind.NotEqual:
+                            ProcessNotEqualToken();
+                            break;
+
+                        case TokenKind.More:
+                            ProcessMoreToken();
+                            break;
+
+                        case TokenKind.MoreOrEqual:
+                            ProcessMoreOrEqualToken();
+                            break;
+
+                        case TokenKind.Less:
+                            ProcessLessToken();
+                            break;
+
+                        case TokenKind.LessOrEqual:
+                            ProcessLessOrEqualToken();
+                            break;
+
+                        case TokenKind.And:
+                            ProcessAndToken();
+                            break;
+
+                        case TokenKind.Or:
+                            ProcessOrToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -328,6 +356,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             switch(classOfCurrentNode)
             {
                 case ClassOfNode.Arithmetic:
+                case ClassOfNode.Logical:
                     {
                         var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup);
                         tmpInternalCodeExpressionStatementParser.Run();
@@ -418,6 +447,97 @@ namespace GnuClay.Engine.Parser.InternalParsers
             SetLogicalToken(result);
         }
 
+        private void ProcessNotEqualToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessNotEqualToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.NotEqualOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessMoreToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMoreToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.MoreOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessMoreOrEqualToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMoreOrEqualToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.MoreOrEqualOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessLessToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessLessToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.LessOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessLessOrEqualToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessLessOrEqualToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.LessOrEqualOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessAndToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessAndToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.AndOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
+        private void ProcessOrToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessOrToken");
+#endif
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.OrOperatorKey;
+            result.ClassOfNode = ClassOfNode.Logical;
+
+            SetLogicalToken(result);
+        }
+
         private void ProcessBeginTarget()
         {
 #if DEBUG
@@ -483,6 +603,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case ClassOfNode.Assing:
                 case ClassOfNode.Arithmetic:
                 case ClassOfNode.Point:
+                case ClassOfNode.Logical:
                     if(mCurrentNode.Left == null)
                     {
                         throw new NotSupportedException();
@@ -537,7 +658,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         if(tmpOldParent != null)
                         {
 #if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken tmpOldParent = {tmpOldParent}");
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken tmpOldParent = {tmpOldParent?.ToString(mDataDictionary, 0)}");
 #endif
                             var classOfOldParent = tmpOldParent.ClassOfNode;
 
@@ -549,6 +670,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             {
                                 case ClassOfNode.Assing:
                                 case ClassOfNode.Point:
+                                case ClassOfNode.Logical:
+                                case ClassOfNode.Arithmetic:
                                     if(ReferenceEquals(tmpOldParent.Right, tmpNode))
                                     {
 #if DEBUG
@@ -718,6 +841,95 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken nodePriority = {nodePriority}");
 #endif
+            var currentNode = mCurrentNode;
+            InternalCodeExpressionNode prevNode = null;
+
+            while (true)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNode = {currentNode?.ToString(mDataDictionary, 0)}");
+#endif
+
+                if (currentNode == null)
+                {
+                    if (prevNode == null)
+                    {
+                        throw new NotSupportedException();
+                    }
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNode == null prevNode = {prevNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                    mCurrentNode = node;
+                    prevNode.Parent = node;
+                    node.Left = prevNode;
+                    RootNode = mCurrentNode;
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                    return;
+                }
+
+                var classOfCurrentNode = currentNode.ClassOfNode;
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken classOfCurrentNode = {classOfCurrentNode}");
+#endif
+                switch (classOfCurrentNode)
+                {
+                    case ClassOfNode.Leaf:
+                        prevNode = currentNode;
+                        currentNode = currentNode.Parent;
+                        break;
+
+                    case ClassOfNode.Assing:
+                        {
+                            var tmpNode = currentNode.Right;
+                            tmpNode.Parent = node;
+                            node.Left = tmpNode;
+                            currentNode.Right = node;
+                            node.Parent = currentNode;
+                            mCurrentNode = node;
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+                        }
+                        return;
+
+                    case ClassOfNode.Logical:
+                        {
+                            var currentNodePriority = GetLogicalNodePriority(currentNode.TypeKey);
+
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
+#endif
+
+                            if (nodePriority < currentNodePriority)
+                            {
+                                prevNode = currentNode;
+                                currentNode = currentNode.Parent;
+                                break;
+                            }
+
+                            var tmpNode = currentNode.Right;
+                            tmpNode.Parent = node;
+                            node.Left = tmpNode;
+                            currentNode.Right = node;
+                            node.Parent = currentNode;
+                            mCurrentNode = node;
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+#endif
+
+                            return;
+                        }
+
+                    default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+                }
+            }
 
             throw new NotImplementedException();
         }

@@ -119,6 +119,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case '&':
                                 return CreateToken(TokenKind.And);
 
+                            case '|':
+                                return CreateToken(TokenKind.Or);
+
                             case ':':
                                 return CreateToken(TokenKind.Colon);
 
