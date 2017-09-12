@@ -16,22 +16,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
             InRichWord
         }
 
-        public Lexer(string text, LexerOptions options = null)
+        public Lexer()
         {
-            mItems = new Queue<char>(text.ToList());
-
-            if(options != null)
-            {
-                DetectSpecialWords = options.DetectSpecialWords;
-            }
         }
 
-        private string mText = null;
+        public Lexer(string text)
+        {
+            mItems = new Queue<char>(text.ToList());
+        }
+
         private Queue<char> mItems = null;
         private LexerState mLexerState = LexerState.Init;
         private Queue<Token> mRecoveriesTokens = new Queue<Token>();
         private CultureInfo mCultureInfo = new CultureInfo(GeneralConstants.DefaultCulture);
-        public bool DetectSpecialWords = true;
 
         public virtual Token GetToken()
         {
@@ -233,46 +230,65 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             char tmpNextChar;
             int id;
+            var kindOfKeyWord = TokenKind.Unknown;
 
             switch (kind)
             {
                 case TokenKind.Word:
-                    if(DetectSpecialWords)
+                    if (string.Compare(content, "READ", true) == 0)
                     {
-                        if (string.Compare(content, "READ", true) == 0)
-                        {
-                            kind = TokenKind.READ;
-                            content = null;
-                            break;
-                        }
+                        kindOfKeyWord = TokenKind.READ;
+                        content = null;
+                        break;
+                    }
 
-                        if (string.Compare(content, "WRITE", true) == 0)
-                        {
-                            kind = TokenKind.WRITE;
-                            content = null;
-                            break;
-                        }
+                    if (string.Compare(content, "WRITE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.WRITE;
+                        content = null;
+                        break;
+                    }
 
-                        if(string.Compare(content, "REWRITE", true) == 0)
-                        {
-                            kind = TokenKind.REWRITE;
-                            content = null;
-                            break;
-                        }
+                    if (string.Compare(content, "REWRITE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.REWRITE;
+                        content = null;
+                        break;
+                    }
 
-                        if (string.Compare(content, "DELETE", true) == 0)
-                        {
-                            kind = TokenKind.DELETE;
-                            content = null;
-                            break;
-                        }
+                    if (string.Compare(content, "DELETE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.DELETE;
+                        content = null;
+                        break;
+                    }
 
-                        if (string.Compare(content, "CALL", true) == 0)
-                        {
-                            kind = TokenKind.CALL;
-                            content = null;
-                            break;
-                        }
+                    if (string.Compare(content, "CALL", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.CALL;
+                        content = null;
+                        break;
+                    }
+
+                    if (string.Compare(content, "IF", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.IF;
+                        content = null;
+                        break;
+                    }
+
+                    if (string.Compare(content, "ELSE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.ELSE;
+                        content = null;
+                        break;
+                    }
+
+                    if (string.Compare(content, "WHILE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.WHILE;
+                        content = null;
+                        break;
                     }
 
                     if (content.StartsWith("$"))
@@ -426,6 +442,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var result = new Token();
             result.TokenKind = kind;
+            result.KeyWordTokenKind = kindOfKeyWord;
             result.Content = content;
             return result;
         }
@@ -433,6 +450,26 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public void Recovery(Token token)
         {
             mRecoveriesTokens.Enqueue(token);
+        }
+
+        /// <summary>
+        /// Number of remaining characters.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return mRecoveriesTokens.Count + mItems.Count;
+            }
+        }
+
+        public Lexer Fork()
+        {
+            var result = new Lexer();
+            result.mItems = new Queue<char>(mItems);
+            result.mRecoveriesTokens = new Queue<Token>(mRecoveriesTokens);
+            result.mLexerState = mLexerState;
+            return result;
         }
     }
 }

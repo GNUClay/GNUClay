@@ -17,7 +17,7 @@ namespace GnuClay.TextCGParser
         }
 
         public TextLexer(string text)
-            : base(text, new LexerOptions() { DetectSpecialWords = false })
+            : base(text)
         {
         }
 

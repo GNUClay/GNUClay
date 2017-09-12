@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.InternalCommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
         }
 
         protected InternalParserContext Context = null;
+
+        public InternalParserContext ForkContext()
+        {
+            return Context.Fork();
+        }
+
+        public GnuClayEngineComponentContext MainContext
+        {
+            get
+            {
+                return Context.MainContext;
+            }
+        }
 
         public void Run()
         {

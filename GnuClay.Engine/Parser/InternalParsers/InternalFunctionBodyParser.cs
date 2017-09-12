@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.ScriptExecutor.AST;
+using GnuClay.Engine.ScriptExecutor.AST.Statements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         protected override void OnRun()
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
 #endif
 
             switch (mState)
@@ -57,6 +58,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             Exit();
                             break;
 
+                        case TokenKind.Word:
+                            ProcessWordToken();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -71,11 +76,56 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.General);
             tmpInternalCodeExpressionStatementParser.Run();
-            var astResult = tmpInternalCodeExpressionStatementParser.ASTResult;
+            AddStatement(tmpInternalCodeExpressionStatementParser.ASTResult);
+        }
 
-            if(astResult != null)
+        private void ProcessWordToken()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessWordToken");
+#endif
+
+            switch (CurrToken.KeyWordTokenKind)
             {
-                Result.Statements.Add(astResult);
+                case TokenKind.Unknown:
+                    ProcessExpressionStatement();
+                    break;
+
+                case TokenKind.IF:
+                    {
+#if PARSE_WITHOUT_ProbabilisticOfFunctionBody
+                        var tmpInternalCodeExpressionStatementParser = new InternalIfStatementParser(Context);
+                        tmpInternalCodeExpressionStatementParser.Run();
+                        AddStatement(tmpInternalCodeExpressionStatementParser.ASTResult);
+#else
+                        var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
+                            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(context, InternalCodeExpressionStatementParser.Mode.General);
+                            tmpInternalCodeExpressionStatementParser.Run();
+                            return tmpInternalCodeExpressionStatementParser.ASTResult;
+                        });
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
+                            var tmpInternalCodeExpressionStatementParser = new InternalIfStatementParser(context);
+                            tmpInternalCodeExpressionStatementParser.Run();
+                            return tmpInternalCodeExpressionStatementParser.ASTResult;
+                        });
+
+                        tmpProbabilisticParsing.Run();
+                        AddStatement(tmpProbabilisticParsing.Result);
+#endif
+
+                    }
+                    break;
+
+                default: throw new UnexpectedTokenException(CurrToken);
+            }
+        }
+
+        private void AddStatement(ASTStatement statement)
+        {
+            if (statement != null)
+            {
+                Result.Statements.Add(statement);
             }
         }
     }

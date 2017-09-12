@@ -20,7 +20,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case3();
             //Case4();
             //Case5();
-            Case6();
+            //Case6();
+            Case7();
 
             //try
             //{
@@ -195,6 +196,24 @@ namespace TSTConsoleWorkBench.ParserExecuting
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("$var1 = $var2 & $var3 > $var4 | $var5 == ($var6 & console.try($var8 & $var9));");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case3 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case3 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case7()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("if($var1 == 1)");
+            tmpSb.AppendLine("{");
+            tmpSb.AppendLine("$var2 = $var3");
+            tmpSb.AppendLine("}else{");
+            tmpSb.AppendLine("$var2 = $var4");
+            tmpSb.AppendLine("}");
             tmpSb.AppendLine("}");
 
             var queryString = tmpSb.ToString();

@@ -219,7 +219,22 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// <summary>
         /// Represents keyword `CALL`.
         /// </summary>
-        CALL
+        CALL,
+
+        /// <summary>
+        /// Represents keyword `if`.
+        /// </summary>
+        IF,
+
+        /// <summary>
+        /// Represents keyword `else`.
+        /// </summary>
+        ELSE,
+
+        /// <summary>
+        /// Represents keyword `while`.
+        /// </summary>
+        WHILE,
     }
 
     /// <summary>
@@ -228,9 +243,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
     public class Token : IToStringData
     {
         /// <summary>
-        /// What represents an instance of this class.
+        /// What represents by the instance of this class.
         /// </summary>
         public TokenKind TokenKind = TokenKind.Unknown;
+
+        /// <summary>
+        /// Which key word is represent by the instance of this class.
+        /// </summary>
+        public TokenKind KeyWordTokenKind = TokenKind.Unknown;
 
         /// <summary>
         /// The content of this fragment, is not empty if field TokenKind equal TokenKind.Word or TokenKind.Var. Else is empty.
@@ -254,13 +274,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             var tmpSb = new StringBuilder();
 
-            tmpSb.Append(nameof(TokenKind));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(TokenKind.ToString());
-
-            tmpSb.Append(nameof(Content));
-            tmpSb.Append(" = ");
-            tmpSb.AppendLine(Content);
+            tmpSb.AppendLine($"{nameof(TokenKind)} = {TokenKind}");
+            tmpSb.AppendLine($"{nameof(KeyWordTokenKind)} = {KeyWordTokenKind}");
+            tmpSb.AppendLine($"{nameof(Content)} = {Content}");
 
             return tmpSb.ToString();
         }

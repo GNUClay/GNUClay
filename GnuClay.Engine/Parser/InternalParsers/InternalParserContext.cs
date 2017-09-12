@@ -45,5 +45,29 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             return false;
         }
+
+        /// <summary>
+        /// Number of remaining characters.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return mRecoveriesTokens.Count + Lexer.Count;
+            }
+        }
+
+        public InternalParserContext Fork()
+        {
+            var result = new InternalParserContext();
+            result.MainContext = MainContext;
+            result.Lexer = Lexer.Fork();
+            result.mRecoveriesTokens = new Queue<Token>(mRecoveriesTokens);
+            if(ListOfInlineFacts != null)
+            {
+                result.ListOfInlineFacts = new List<RuleInstance>(ListOfInlineFacts); 
+            }
+            return result;
+        }
     }
 }
