@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Statements
 {
-    public class ASTExpressionStatement: ASTStatement
+    public class ASTIfStatement : ASTStatement
     {
-        public ASTExpressionStatement()
-            : base(StatementKind.Expression)
+        public ASTIfStatement()
+            : base(StatementKind.If)
         {
         }
 
-        public ASTExpression Expression { get; set; }
+        public ASTExpression Condition { get; set; }
+        public ASTCodeBlock Body { get; set; }
+        public ASTCodeBlock ElseBody { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
@@ -30,16 +32,35 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
             var nextIndent = indent + 4;
             var sb = new StringBuilder();
             sb.AppendLine($"{spacesString}Begin ExpressionStatement");
-            if(Expression == null)
+            if (Condition == null)
             {
-                sb.AppendLine($"{spacesString}{nameof(Expression)} = null");
+                sb.AppendLine($"{spacesString}{nameof(Condition)} = null");
             }
             else
             {
-                sb.AppendLine($"{spacesString}{nameof(Expression)} = ");
-                sb.AppendLine(Expression.ToString(dataDictionary, nextIndent));
+                sb.AppendLine($"{spacesString}{nameof(Condition)} = ");
+                sb.AppendLine(Condition.ToString(dataDictionary, nextIndent));
             }
 
+            if (Body == null)
+            {
+                sb.AppendLine($"{spacesString}{nameof(Body)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spacesString}{nameof(Body)} = ");
+                sb.AppendLine(Body.ToString(dataDictionary, nextIndent));
+            }
+
+            if (ElseBody == null)
+            {
+                sb.AppendLine($"{spacesString}{nameof(ElseBody)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spacesString}{nameof(ElseBody)} = ");
+                sb.AppendLine(ElseBody.ToString(dataDictionary, nextIndent));
+            }
             sb.AppendLine($"{spacesString}End ExpressionStatement");
             return sb.ToString();
         }

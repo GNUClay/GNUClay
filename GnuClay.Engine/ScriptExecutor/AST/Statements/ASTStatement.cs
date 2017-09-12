@@ -10,7 +10,9 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
     public enum StatementKind
     {
         Undefined,
-        Expression
+        Expression,
+        If,
+        While
     }
 
     public abstract class ASTStatement
@@ -21,6 +23,15 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
         }
 
         public StatementKind Kind { get; private set; } = StatementKind.Undefined;
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return ToString(null, 0);
+        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.

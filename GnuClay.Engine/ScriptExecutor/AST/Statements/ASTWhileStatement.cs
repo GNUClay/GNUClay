@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.AST.Statements
 {
-    public class ASTExpressionStatement: ASTStatement
+    public class ASTWhileStatement : ASTStatement
     {
-        public ASTExpressionStatement()
-            : base(StatementKind.Expression)
+        public ASTWhileStatement()
+            : base(StatementKind.While)
         {
         }
 
-        public ASTExpression Expression { get; set; }
+        public ASTExpression Condition { get; set; }
+        public ASTCodeBlock Body { get; set; }
+        public bool WithPrecondition { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
@@ -29,18 +31,28 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
             var spacesString = _ObjectHelper.CreateSpaces(indent);
             var nextIndent = indent + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spacesString}Begin ExpressionStatement");
-            if(Expression == null)
+            sb.AppendLine($"{spacesString}Begin WhileStatement");
+            sb.AppendLine($"{spacesString}{nameof(WithPrecondition)} = {WithPrecondition}");
+            if (Condition == null)
             {
-                sb.AppendLine($"{spacesString}{nameof(Expression)} = null");
+                sb.AppendLine($"{spacesString}{nameof(Condition)} = null");
             }
             else
             {
-                sb.AppendLine($"{spacesString}{nameof(Expression)} = ");
-                sb.AppendLine(Expression.ToString(dataDictionary, nextIndent));
+                sb.AppendLine($"{spacesString}{nameof(Condition)} = ");
+                sb.AppendLine(Condition.ToString(dataDictionary, nextIndent));
             }
 
-            sb.AppendLine($"{spacesString}End ExpressionStatement");
+            if (Body == null)
+            {
+                sb.AppendLine($"{spacesString}{nameof(Body)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spacesString}{nameof(Body)} = ");
+                sb.AppendLine(Body.ToString(dataDictionary, nextIndent));
+            }
+            sb.AppendLine($"{spacesString}End WhileStatement");
             return sb.ToString();
         }
     }

@@ -11,7 +11,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
     {
         public enum State
         {
-            Init
+            Init,
+            InCondition,
+            AfterCondition,
+            InBody
         }
 
         public InternalIfStatementParser(InternalParserContext context)
@@ -21,8 +24,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         public ASTStatement ASTResult = null;
         private State mState = State.Init;
-
-        //private int n = 0;
 
         protected override void OnRun()
         {
