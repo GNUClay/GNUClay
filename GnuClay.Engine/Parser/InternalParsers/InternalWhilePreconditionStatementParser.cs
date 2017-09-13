@@ -34,10 +34,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
-#endif
-
             switch (mState)
             {
                 case State.Init:
@@ -131,10 +127,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessCondition()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessCondition");
-#endif
-
             Context.Recovery(CurrToken);
 
             var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.IsParameterOfFunction, true);
@@ -142,18 +134,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             Result.Condition = tmpInternalCodeExpressionStatementParser.ASTResult.Expression;
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCondition Result = {Result?.ToString(mDataDictionary, 0)}");
-#endif
-
             mState = State.GotCondition;
         }
 
         private void ProcessBody()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBody mState = {mState}");
-#endif
             Context.Recovery(LastOpenFigureBracketToken);
             Context.Recovery(CurrToken);
 
@@ -161,15 +146,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpInternalFunctionBodyParser.Run();
 
             var tmpBody = tmpInternalFunctionBodyParser.Result;
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBody result = {tmpBody?.ToString(mDataDictionary, 0)}");
-#endif
+
             Result.Body = tmpBody;
             mState = State.AfterBody;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCondition Result = {Result?.ToString(mDataDictionary, 0)}");
-#endif
         }
     }
 }

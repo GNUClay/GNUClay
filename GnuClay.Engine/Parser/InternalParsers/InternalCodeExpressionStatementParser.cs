@@ -30,10 +30,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode, bool createASTResult)
             : base(context)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor mode = {mode}");
-#endif
-
             mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
             mDataDictionary = Context.MainContext.DataDictionary;
 
@@ -76,11 +72,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
             switch (mState)
             {
                 case State.Init:
@@ -204,9 +195,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessVarToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.VarExpression;
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
@@ -223,10 +211,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessWordToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessVarToken");
-#endif
-
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.EntityExpression;
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
@@ -243,9 +227,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessAssingToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessAssingToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.AssignOperatorKey;
@@ -256,17 +237,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessNumberToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessNumberToken");
-#endif
             Context.Recovery(CurrToken);
             var tmpInternalNumberParser = new InternalNumberParser(Context);
             tmpInternalNumberParser.Run();
 
             var numberResult = tmpInternalNumberParser.Result;
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun numberResult = {numberResult}");
-#endif
+
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.ConstExpression;
             result.TypeKey = mCommonKeysEngine.NumberKey;
@@ -278,10 +254,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessMulToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMulToken");
-#endif
-
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.MulOperatorKey;
@@ -292,10 +264,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessDashToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessDashToken");
-#endif
-
             if(mCurrentNode == null)
             {
                 ProcessNumberToken();
@@ -303,10 +271,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
 
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken classOfCurrentNode = {classOfCurrentNode}");
-#endif
 
             switch(classOfCurrentNode)
             {
@@ -331,10 +295,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessPlusToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMulToken");
-#endif
-
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.AddOperatorKey;
@@ -345,15 +305,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessOpenRoundBracket()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessOpenRoundBracket");
-#endif
-
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket classOfCurrentNode = {classOfCurrentNode}");
-#endif
 
             switch(classOfCurrentNode)
             {
@@ -364,9 +316,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         tmpInternalCodeExpressionStatementParser.Run();
                         var tmpNode = tmpInternalCodeExpressionStatementParser.RootNode;
 
-#if DEBUG
-                        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket tmpNode = {tmpNode?.ToString(mDataDictionary, 0)}");
-#endif
                         var result = new InternalCodeExpressionNode();
                         result.ClassOfNode = ClassOfNode.RoundBracketsGroup;
                         result.GroupedNode = tmpNode;
@@ -380,9 +329,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         var tmpInternalParamsOfFunctionParser = new InternalParamsOfFunctionParser(Context);
                         tmpInternalParamsOfFunctionParser.Run();
                         mCurrentNode.Params = tmpInternalParamsOfFunctionParser.Result;
-#if DEBUG
-                        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
                     }
                     break;
 
@@ -392,10 +338,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessCloseRoundBracket()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessCloseRoundBracket");
-#endif
-
             if(mMode == Mode.InRoundBracketsGroup)
             {
                 Exit();
@@ -425,9 +367,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessPointToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.PointOperatorKey;
@@ -438,9 +377,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessEqualToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessEqualToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.EqualOperatorKey;
@@ -451,9 +387,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessNotEqualToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessNotEqualToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.NotEqualOperatorKey;
@@ -464,9 +397,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessMoreToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMoreToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.MoreOperatorKey;
@@ -477,9 +407,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessMoreOrEqualToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessMoreOrEqualToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.MoreOrEqualOperatorKey;
@@ -490,9 +417,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessLessToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessLessToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.LessOperatorKey;
@@ -503,9 +427,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessLessOrEqualToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessLessOrEqualToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.LessOrEqualOperatorKey;
@@ -516,9 +437,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessAndToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessAndToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.AndOperatorKey;
@@ -529,9 +447,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessOrToken()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessOrToken");
-#endif
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.OrOperatorKey;
@@ -542,24 +457,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessBeginTarget()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessBeginTarget");
-#endif
-
             var tmpParser = new InternalTargetOfFunctionParser(Context);
             tmpParser.Run();
 
             var tmpTarget = tmpParser.Result;
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginTarget tmpTarget = {tmpTarget?.ToString(mDataDictionary, 0)}");
-#endif
-
             mCurrentNode.Target = tmpTarget;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessOpenRoundBracket mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
         }
 
         protected override void OnFinish()
@@ -578,26 +481,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetLeafToken(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken node = {node.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
             if (RootNode == null)
             {
                 RootNode = node;
                 mCurrentNode = node;
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
                 return;
             }
 
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken classOfCurrentNode = {classOfCurrentNode}");
-#endif
             switch (classOfCurrentNode)
             {
                 case ClassOfNode.Assing:
@@ -621,23 +513,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
             }
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLeafToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
         }
 
         private void SetAssingToken(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken node = {node.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
-
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken classOfCurrentNode = {classOfCurrentNode}");
-#endif
 
             switch (classOfCurrentNode)
             {
@@ -657,14 +537,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                         if(tmpOldParent != null)
                         {
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken tmpOldParent = {tmpOldParent?.ToString(mDataDictionary, 0)}");
-#endif
                             var classOfOldParent = tmpOldParent.ClassOfNode;
-
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken classOfOldParent = {classOfOldParent}");
-#endif
 
                             switch(classOfOldParent)
                             {
@@ -674,9 +547,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 case ClassOfNode.Arithmetic:
                                     if(ReferenceEquals(tmpOldParent.Right, tmpNode))
                                     {
-#if DEBUG
-                                        NLog.LogManager.GetCurrentClassLogger().Info("SetAssingToken ReferenceEquals(tmpOldParent.Right, tmpNode)");
-#endif
                                         mCurrentNode.Parent = tmpOldParent;
                                         tmpOldParent.Right = mCurrentNode;
                                         break;
@@ -691,10 +561,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
             }
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
         }
 
         private int GetArithmeticNodePriority(ulong typeKey)
@@ -724,26 +590,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetArithmeticToken(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken node = {node.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
-
             var nodePriority = GetArithmeticNodePriority(node.TypeKey);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken nodePriority = {nodePriority}");
-#endif
 
             var currentNode = mCurrentNode;
             InternalCodeExpressionNode prevNode = null;
 
             while(true)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode = {currentNode?.ToString(mDataDictionary, 0)}");
-#endif
-
                 if(currentNode == null)
                 {
                     if(prevNode == null)
@@ -751,19 +604,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         throw new NotSupportedException();
                     }
 
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNode == null prevNode = {prevNode.ToString(mDataDictionary, 0)}");
-#endif
-
                     mCurrentNode = node;
                     prevNode.Parent = node;
                     node.Left = prevNode;
                     RootNode = mCurrentNode;
-
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
-
                     return;
                 }
 
