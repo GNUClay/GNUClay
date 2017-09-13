@@ -27,7 +27,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
             IsParameterOfFunction
         }
 
-        public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode)
+        public InternalCodeExpressionStatementParser(InternalParserContext context, Mode mode, bool createASTResult)
             : base(context)
         {
 #if DEBUG
@@ -37,7 +37,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
             mCommonKeysEngine = Context.MainContext.CommonKeysEngine;
             mDataDictionary = Context.MainContext.DataDictionary;
 
-            mMode = mode;      
+            mMode = mode;
+            mCreateASTResult = createASTResult;
         }
 
         private CommonKeysEngine mCommonKeysEngine = null;
@@ -46,6 +47,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public ASTExpressionStatement ASTResult = null;
         private State mState = State.Init;
         private Mode mMode = Mode.General;
+        private bool mCreateASTResult;
         public InternalCodeExpressionNode RootNode = null;
         private InternalCodeExpressionNode mCurrentNode = null;
 
@@ -358,7 +360,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case ClassOfNode.Arithmetic:
                 case ClassOfNode.Logical:
                     {
-                        var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup);
+                        var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, Mode.InRoundBracketsGroup, false);
                         tmpInternalCodeExpressionStatementParser.Run();
                         var tmpNode = tmpInternalCodeExpressionStatementParser.RootNode;
 
@@ -562,18 +564,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnFinish()
         {
-            if(mMode != Mode.General)
+            if(mCreateASTResult)
             {
-                return;
-            }
+                if (RootNode == null)
+                {
+                    return;
+                }
 
-            if(RootNode == null)
-            {
-                return;
+                ASTResult = new ASTExpressionStatement();
+                ASTResult.Expression = CreateExpressionNode(RootNode);
             }
-
-            ASTResult = new ASTExpressionStatement();
-            ASTResult.Expression = CreateExpressionNode(RootNode);
         }
 
         private void SetLeafToken(InternalCodeExpressionNode node)

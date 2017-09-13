@@ -74,7 +74,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         {
             Context.Recovery(CurrToken);
 
-            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.General);
+            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.General, true);
             tmpInternalCodeExpressionStatementParser.Run();
             AddStatement(tmpInternalCodeExpressionStatementParser.ASTResult);
         }
@@ -96,7 +96,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #if PARSE_WITHOUT_ProbabilisticOfFunctionBody
                         var tmpInternalCodeExpressionStatementParser = new InternalIfStatementParser(Context);
                         tmpInternalCodeExpressionStatementParser.Run();
-                        AddStatement(tmpInternalCodeExpressionStatementParser.ASTResult);
+                        AddStatement(tmpInternalCodeExpressionStatementParser.Result);
 #else
                         var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
                         tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
