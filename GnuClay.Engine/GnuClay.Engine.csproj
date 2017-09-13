@@ -87,6 +87,7 @@
     <Compile Include="Parser\InternalParsers\InternalSelectedTreeParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectQueryParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalTargetOfFunctionParser.cs" />
+    <Compile Include="Parser\InternalParsers\InternalWhilePreconditionStatementParser.cs" />
     <Compile Include="Parser\InternalParsers\Lexer.cs" />
     <Compile Include="Parser\InternalParsers\ParserProcessingInstance.cs" />
     <Compile Include="Parser\InternalParsers\InternalParserContext.cs" />

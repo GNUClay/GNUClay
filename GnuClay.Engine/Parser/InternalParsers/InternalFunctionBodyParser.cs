@@ -100,20 +100,44 @@ namespace GnuClay.Engine.Parser.InternalParsers
 #else
                         var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
                         tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
-                            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(context, InternalCodeExpressionStatementParser.Mode.General);
+                            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(context, InternalCodeExpressionStatementParser.Mode.General, true);
                             tmpInternalCodeExpressionStatementParser.Run();
                             return tmpInternalCodeExpressionStatementParser.ASTResult;
                         });
                         tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
                             var tmpInternalCodeExpressionStatementParser = new InternalIfStatementParser(context);
                             tmpInternalCodeExpressionStatementParser.Run();
-                            return tmpInternalCodeExpressionStatementParser.ASTResult;
+                            return tmpInternalCodeExpressionStatementParser.Result;
                         });
 
                         tmpProbabilisticParsing.Run();
                         AddStatement(tmpProbabilisticParsing.Result);
 #endif
 
+                    }
+                    break;
+
+                case TokenKind.WHILE:
+                    {
+#if PARSE_WITHOUT_ProbabilisticOfFunctionBody
+                        var tmpInternalWhilePreconditionStatementParser = new InternalWhilePreconditionStatementParser(Context);
+                        tmpInternalWhilePreconditionStatementParser.Run();
+                        AddStatement(tmpInternalWhilePreconditionStatementParser.Result);
+#else
+                        var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
+                            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(context, InternalCodeExpressionStatementParser.Mode.General, true);
+                            tmpInternalCodeExpressionStatementParser.Run();
+                            return tmpInternalCodeExpressionStatementParser.ASTResult;
+                        });
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
+                            var tmpInternalWhilePreconditionStatementParser = new InternalWhilePreconditionStatementParser(Context);
+                            tmpInternalWhilePreconditionStatementParser.Run();
+                            return tmpInternalWhilePreconditionStatementParser.Result;
+                        });
+                        tmpProbabilisticParsing.Run();
+                        AddStatement(tmpProbabilisticParsing.Result);
+#endif
                     }
                     break;
 
