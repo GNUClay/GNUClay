@@ -238,56 +238,60 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     if (string.Compare(content, "READ", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.READ;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "WRITE", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.WRITE;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "REWRITE", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.REWRITE;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "DELETE", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.DELETE;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "CALL", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.CALL;
-                        content = null;
+                        break;
+                    }
+
+                    if (string.Compare(content, "DEFINE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.DEFINE;
+                        break;
+                    }
+
+                    if (string.Compare(content, "FUN", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.FUN;
                         break;
                     }
 
                     if (string.Compare(content, "IF", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.IF;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "ELSE", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.ELSE;
-                        content = null;
                         break;
                     }
 
                     if (string.Compare(content, "WHILE", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.WHILE;
-                        content = null;
                         break;
                     }
 

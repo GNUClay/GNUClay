@@ -222,6 +222,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
         CALL,
 
         /// <summary>
+        /// Represents keyword `DEFINE`.
+        /// </summary>
+        DEFINE,
+
+        /// <summary>
+        /// Represents keyword `fun`.
+        /// </summary>
+        FUN,
+
+        /// <summary>
         /// Represents keyword `if`.
         /// </summary>
         IF,

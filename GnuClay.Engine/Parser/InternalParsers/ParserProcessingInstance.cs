@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.Parser.CommonData;
+using System;
 
 namespace GnuClay.Engine.Parser.InternalParsers
 {
@@ -62,7 +63,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                 result.ASTCodeBlock = tmpInternalFunctionBodyParser.Result;
                                 break;
 
-
+                            case TokenKind.DEFINE:
+                                var tmpInternalDefineDirectiveParser = new InternalDefineDirectiveParser(mContext);
+                                tmpInternalDefineDirectiveParser.Run();
+                                throw new NotImplementedException();
+                                //break;
 
                             default: throw new UnexpectedTokenException(token);
                         }
