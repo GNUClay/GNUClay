@@ -25,10 +25,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             while((token = mContext.GetToken()) != null)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Parse token.TokenKind = {token.TokenKind} token.KeyWordTokenKind = {token.KeyWordTokenKind} token.Content = {token.Content}");
-#endif
-
                 switch (token.TokenKind)
                 {
                     case TokenKind.Word:
