@@ -660,25 +660,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetLogicalToken(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken node = {node.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)}");
-#endif
-
             var nodePriority = GetLogicalNodePriority(node.TypeKey);
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken nodePriority = {nodePriority}");
-#endif
             var currentNode = mCurrentNode;
             InternalCodeExpressionNode prevNode = null;
 
             while (true)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNode = {currentNode?.ToString(mDataDictionary, 0)}");
-#endif
-
                 if (currentNode == null)
                 {
                     if (prevNode == null)
@@ -686,27 +674,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         throw new NotSupportedException();
                     }
 
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNode == null prevNode = {prevNode.ToString(mDataDictionary, 0)}");
-#endif
-
                     mCurrentNode = node;
                     prevNode.Parent = node;
                     node.Left = prevNode;
                     RootNode = mCurrentNode;
-
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
-
                     return;
                 }
 
                 var classOfCurrentNode = currentNode.ClassOfNode;
 
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken classOfCurrentNode = {classOfCurrentNode}");
-#endif
                 switch (classOfCurrentNode)
                 {
                     case ClassOfNode.Leaf:
@@ -722,19 +698,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             currentNode.Right = node;
                             node.Parent = currentNode;
                             mCurrentNode = node;
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
                         }
                         return;
 
                     case ClassOfNode.Logical:
                         {
                             var currentNodePriority = GetLogicalNodePriority(currentNode.TypeKey);
-
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
-#endif
 
                             if (nodePriority < currentNodePriority)
                             {
@@ -749,10 +718,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             currentNode.Right = node;
                             node.Parent = currentNode;
                             mCurrentNode = node;
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetLogicalToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
-
                             return;
                         }
 
@@ -810,10 +775,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateExpressionNode node = {node.ToString(mDataDictionary, 0)}");
-#endif
-
             switch (node.Kind)
             {
                 case ExpressionKind.BinaryOperator:
@@ -858,15 +819,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ASTExpression CreateVarExpression(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateVarExpression node = {node.ToString(mDataDictionary, 0)}");
-#endif
             if (node.Target != null || node.Params != null)
             {
-#if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"CreateVarExpression node = {node.ToString(mDataDictionary, 0)}");
-#endif
-
                 var calledResult = new ASTCalledVarExpression();
                 calledResult.TypeKey = node.TypeKey;
                 calledResult.IsAsync = node.IsAsync;
@@ -893,9 +847,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private ASTExpression CreateEntityExpression(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"CreateEntityExpression node = {node.ToString(mDataDictionary, 0)}");
-#endif
             if(node.Target != null || node.Params != null)
             {
                 var calledResult = new ASTCalledEntityExpression();
