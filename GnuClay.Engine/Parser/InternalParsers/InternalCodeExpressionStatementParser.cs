@@ -613,10 +613,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 var classOfCurrentNode = currentNode.ClassOfNode;
 
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken classOfCurrentNode = {classOfCurrentNode}");
-#endif
-
                 switch (classOfCurrentNode)
                 {
                     case ClassOfNode.Leaf:
@@ -632,19 +628,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             currentNode.Right = node;
                             node.Parent = currentNode;
                             mCurrentNode = node;
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
                         }
                         return;
 
                     case ClassOfNode.Arithmetic:
                         {
                             var currentNodePriority = GetArithmeticNodePriority(currentNode.TypeKey);
-
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken currentNodePriority = {currentNodePriority} nodePriority = {nodePriority}");
-#endif
 
                             if(nodePriority < currentNodePriority)
                             {
@@ -659,10 +648,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             currentNode.Right = node;
                             node.Parent = currentNode;
                             mCurrentNode = node;
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
-#endif
-
                             return;
                         }
 
