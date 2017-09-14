@@ -21,6 +21,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
             return Context.Fork();
         }
 
+        public void AssingContext(InternalParserContext context)
+        {
+            Context.Assing(context);
+        }
+
         public GnuClayEngineComponentContext MainContext
         {
             get

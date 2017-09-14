@@ -69,5 +69,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
             }
             return result;
         }
+
+        public void Assing(InternalParserContext context)
+        {
+            Lexer.Assing(context.Lexer);
+            mRecoveriesTokens = new Queue<Token>(context.mRecoveriesTokens);
+            if (context.ListOfInlineFacts != null)
+            {
+                ListOfInlineFacts = context.ListOfInlineFacts;
+            }
+        }
     }
 }

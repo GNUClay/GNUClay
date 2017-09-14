@@ -471,5 +471,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.mLexerState = mLexerState;
             return result;
         }
+
+        public void Assing(Lexer source)
+        {
+            mItems = new Queue<char>(source.mItems);
+            mRecoveriesTokens = new Queue<Token>(source.mRecoveriesTokens);
+            mLexerState = source.mLexerState;
+        }
     }
 }

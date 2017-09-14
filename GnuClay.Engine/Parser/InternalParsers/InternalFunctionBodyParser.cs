@@ -120,7 +120,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
 
                         tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
-                            var tmpInternalWhilePreconditionStatementParser = new InternalWhilePreconditionStatementParser(Context);
+                            var tmpInternalWhilePreconditionStatementParser = new InternalWhilePreconditionStatementParser(context);
                             tmpInternalWhilePreconditionStatementParser.Run();
                             return tmpInternalWhilePreconditionStatementParser.Result;
                         });
