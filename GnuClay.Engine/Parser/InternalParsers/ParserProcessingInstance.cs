@@ -66,8 +66,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             case TokenKind.DEFINE:
                                 var tmpInternalDefineDirectiveParser = new InternalDefineDirectiveParser(mContext);
                                 tmpInternalDefineDirectiveParser.Run();
-                                throw new NotImplementedException();
-                                //break;
+                                result = tmpInternalDefineDirectiveParser.Result;
+                                break;
 
                             default: throw new UnexpectedTokenException(token);
                         }

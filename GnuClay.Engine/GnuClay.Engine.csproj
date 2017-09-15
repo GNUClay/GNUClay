@@ -71,6 +71,7 @@
     <Compile Include="Parser\CommonData\GnuClayQuery.cs" />
     <Compile Include="Parser\CommonData\InsertQuery.cs" />
     <Compile Include="Parser\CommonData\SelectQuery.cs" />
+    <Compile Include="Parser\CommonData\UserDefinedFunction.cs" />
     <Compile Include="Parser\GnuClayParserEngine.cs" />
     <Compile Include="Parser\InternalParsers\BaseInternalParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalCodeExpressionNode.cs" />

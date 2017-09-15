@@ -15,7 +15,8 @@ namespace GnuClay.Engine.Parser.CommonData
         SELECT,
         INSERT,
         DELETE,
-        CALL
+        CALL,
+        USER_DEFINED_FUNCTION
     }
 
     public class GnuClayQuery
@@ -25,6 +26,7 @@ namespace GnuClay.Engine.Parser.CommonData
         public SelectQuery SelectQuery = null;
         public InsertQuery InsertQuery = null;
         public ASTCodeBlock ASTCodeBlock = null;
+        public UserDefinedFunction UserDefinedFunction = null;
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -71,6 +73,10 @@ namespace GnuClay.Engine.Parser.CommonData
 
                 case GnuClayQueryKind.CALL:
                     sb.AppendLine(ASTCodeBlock?.ToString(dataDictionary, 4));
+                    break;
+
+                case GnuClayQueryKind.USER_DEFINED_FUNCTION:
+                    sb.AppendLine(UserDefinedFunction?.ToString(dataDictionary, 4));
                     break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(Kind), Kind, null);

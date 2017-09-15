@@ -22,9 +22,10 @@ namespace GnuClay.Engine.ScriptExecutor
         }
 
         public bool IsAnyType { get; set; } = true;
-        public ulong TypeKey { get; set; } = 0;
+        public ulong TypeKey { get; set; }
         public bool IsAnyValue { get; set; } = true;
-        public IValue Value { get; set; } = null;
+        public IValue Value { get; set; }
+        public IValue DefaultValue { get; set; }
 
         public virtual ulong GetLongHashCode()
         {

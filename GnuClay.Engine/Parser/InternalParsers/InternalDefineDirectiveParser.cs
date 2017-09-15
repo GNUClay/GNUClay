@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.Engine.Parser.CommonData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         }
 
         private State mState = State.Init;
+        public GnuClayQuery Result = new GnuClayQuery();
 
         protected override void OnRun()
         {
@@ -47,10 +49,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             switch (CurrToken.KeyWordTokenKind)
                             {
                                 case TokenKind.FUN:
+                                    Result.Kind = GnuClayQueryKind.USER_DEFINED_FUNCTION;
                                     Context.Recovery(CurrToken);
                                     var tmpInternalFunctionDefinerParser = new InternalFunctionDefinerParser(Context);
                                     tmpInternalFunctionDefinerParser.Run();
-                                    throw new NotImplementedException();
+                                    Result.UserDefinedFunction = tmpInternalFunctionDefinerParser.Result;
+                                    break;
 
                                 default: throw new UnexpectedTokenException(CurrToken);
                             }
