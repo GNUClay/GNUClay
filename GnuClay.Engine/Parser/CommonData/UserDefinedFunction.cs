@@ -14,6 +14,7 @@ namespace GnuClay.Engine.Parser.CommonData
         public ulong FunctionKey { get; set; }
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }
+        public List<ParamOfUserDefinedFunction> Params = new List<ParamOfUserDefinedFunction>();
         public ASTCodeBlock CodeBlock { get; set; }
 
         /// <summary>
@@ -51,6 +52,19 @@ namespace GnuClay.Engine.Parser.CommonData
             if (dataDictionary != null)
             {
                 sb.AppendLine($"{spacesString}HolderName = {dataDictionary.GetValue(HolderKey)}");
+            }
+            if (Params == null)
+            {
+                sb.AppendLine($"{spacesString}{nameof(Params)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spacesString}Begin Params");
+                foreach (var paramItem in Params)
+                {
+                    sb.AppendLine(paramItem.ToString(dataDictionary, nextIndent));
+                }
+                sb.AppendLine($"{spacesString}End Params");
             }
             if (CodeBlock == null)
             {

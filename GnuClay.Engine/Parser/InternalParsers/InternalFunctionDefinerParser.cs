@@ -22,8 +22,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
             AfterParameterName,
             WaitParameterType,
             AfterParameterType,
-            WaitDefaultValue,
-            AfterDefaultValue,
             AfterParametersBlock,
             WaitReturnType,
             AfterReturnType,
@@ -129,6 +127,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.WaitParameterName:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Var:
+                            CurrentParamNameKey = mDataDictionary.GetKey(CurrToken.Content);
+                            mState = State.AfterParameterName;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -136,6 +139,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.AfterParameterName:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Colon:
+                            mState = State.WaitParameterType;
+                            break;
+
+                        case TokenKind.CloseRoundBracket:
+                            ImpementCurrentParameter();
+                            mState = State.AfterParametersBlock;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -143,6 +155,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.WaitParameterType:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Word:
+                            CurrentParamTypeKey = mDataDictionary.GetKey(CurrToken.Content);
+                            mState = State.AfterParameterType;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -150,20 +167,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.AfterParameterType:
                     switch (CurrToken.TokenKind)
                     {
-                        default: throw new UnexpectedTokenException(CurrToken);
-                    }
-                    break;
+                        case TokenKind.Comma:
+                            ImpementCurrentParameter();
+                            mState = State.WaitParameterName;
+                            break;
 
-                case State.WaitDefaultValue:
-                    switch (CurrToken.TokenKind)
-                    {
-                        default: throw new UnexpectedTokenException(CurrToken);
-                    }
-                    break;
-
-                case State.AfterDefaultValue:
-                    switch (CurrToken.TokenKind)
-                    {
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -205,6 +213,21 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                 default: throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
             }
+        }
+
+        private ulong CurrentParamNameKey;
+        private ulong CurrentParamTypeKey;
+
+        private void ImpementCurrentParameter()
+        {
+            var paramItem = new ParamOfUserDefinedFunction();
+            paramItem.NameKey = CurrentParamNameKey;
+            paramItem.TypeKey = CurrentParamTypeKey;
+
+            Result.Params.Add(paramItem);
+
+            CurrentParamNameKey = 0;
+            CurrentParamTypeKey = 0;
         }
     }
 }
