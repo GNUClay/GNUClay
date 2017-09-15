@@ -118,9 +118,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         var targetItem = tmpSuccessList.First();
                         Result = targetItem.Result;
                         mSourceParser.AssingContext(targetItem.Context);
-#if DEBUG
-                        NLog.LogManager.GetCurrentClassLogger().Info($"Run Result = {Result?.ToString(mDataDictionary, 0)}");
-#endif
                     }
                     break;
 

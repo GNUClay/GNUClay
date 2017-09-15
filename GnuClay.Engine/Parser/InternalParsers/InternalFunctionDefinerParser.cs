@@ -25,8 +25,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
             AfterParametersBlock,
             WaitReturnType,
             AfterReturnType,
+            WaitSubjColon,
             WaitSubj,
-            GotSubj
+            GotSubj,
+            GotBody
         }
 
         public InternalFunctionDefinerParser(InternalParserContext context)
@@ -42,11 +44,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun Result = {Result?.ToString(mDataDictionary, 0)}");
-#endif
-
             switch (mState)
             {
                 case State.Init:
@@ -179,13 +176,25 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.AfterParametersBlock:
                     switch (CurrToken.TokenKind)
                     {
-                        default: throw new UnexpectedTokenException(CurrToken);
+                        case TokenKind.Colon:
+                            mState = State.WaitReturnType;
+                            break;
+
+                        default:
+                            Context.Recovery(CurrToken);
+                            mState = State.AfterReturnType;
+                            break;
                     }
                     break;
 
                 case State.WaitReturnType:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Word:
+                            Result.ReturnTypeKey = mDataDictionary.GetKey(CurrToken.Content);
+                            mState = State.AfterReturnType;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -193,6 +202,36 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.AfterReturnType:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Word:
+                            switch(CurrToken.KeyWordTokenKind)
+                            {
+                                case TokenKind.SUBJ:
+                                    mState = State.WaitSubjColon;
+                                    break;
+
+                                default: throw new UnexpectedTokenException(CurrToken);
+                            }
+                            break;
+
+                        case TokenKind.OpenFigureBracket:
+                            Context.Recovery(CurrToken);
+                            var tmpInternalFunctionBodyParser = new InternalFunctionBodyParser(Context);
+                            tmpInternalFunctionBodyParser.Run();
+                            Result.Body = tmpInternalFunctionBodyParser.Result;
+                            mState = State.GotBody;
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.WaitSubjColon:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.Colon:
+                            mState = State.WaitSubj;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -200,6 +239,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.WaitSubj:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Word:
+                            Result.HolderKey = mDataDictionary.GetKey(CurrToken.Content);
+                            mState = State.GotSubj;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -207,6 +251,21 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.GotSubj:
                     switch (CurrToken.TokenKind)
                     {
+                        case TokenKind.Semicolon:
+                            mState = State.AfterReturnType;
+                            break;
+
+                        default: throw new UnexpectedTokenException(CurrToken);
+                    }
+                    break;
+
+                case State.GotBody:
+                    switch (CurrToken.TokenKind)
+                    {
+                        case TokenKind.CloseFigureBracket:
+                            Exit();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;

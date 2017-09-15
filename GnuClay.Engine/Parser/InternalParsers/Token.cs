@@ -232,6 +232,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         FUN,
 
         /// <summary>
+        /// Represents keyword `subj`.
+        /// </summary>
+        SUBJ,
+
+        /// <summary>
         /// Represents keyword `if`.
         /// </summary>
         IF,

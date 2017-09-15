@@ -24,7 +24,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case7();
             //Case8();
             //Case9();
-            Case10();
+            //Case10();
+            Case11();
 
             //try
             //{
@@ -275,6 +276,26 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"Case10 queryString = `{queryString}`");
             var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
             NLog.LogManager.GetCurrentClassLogger().Info($"Case10 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case11()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("DEFINE {");
+            tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c)");
+            tmpSb.AppendLine("    subj: dog;");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        while($var1 == 1)");
+            tmpSb.AppendLine("        {");
+            tmpSb.AppendLine("            $var2 = $var3;");
+            tmpSb.AppendLine("        };");
+            tmpSb.AppendLine("    }");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case11 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case11 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
     }
 }

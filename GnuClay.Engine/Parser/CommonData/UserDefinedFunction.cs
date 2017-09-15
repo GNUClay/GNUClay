@@ -15,7 +15,8 @@ namespace GnuClay.Engine.Parser.CommonData
         public ulong TargetKey { get; set; }
         public ulong HolderKey { get; set; }
         public List<ParamOfUserDefinedFunction> Params = new List<ParamOfUserDefinedFunction>();
-        public ASTCodeBlock CodeBlock { get; set; }
+        public ulong ReturnTypeKey { get; set; }
+        public ASTCodeBlock Body { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -39,19 +40,24 @@ namespace GnuClay.Engine.Parser.CommonData
             var sb = new StringBuilder();
             sb.AppendLine($"{spacesString}Begin UserDefinedFunction");
             sb.AppendLine($"{spacesString}{nameof(FunctionKey)} = {FunctionKey}");
-            if(dataDictionary != null)
+            if(dataDictionary != null && FunctionKey > 0)
             {
                 sb.AppendLine($"{spacesString}FunctionName = {dataDictionary.GetValue(FunctionKey)}");
             }
             sb.AppendLine($"{spacesString}{nameof(TargetKey)} = {TargetKey}");
-            if (dataDictionary != null)
+            if (dataDictionary != null && TargetKey > 0)
             {
                 sb.AppendLine($"{spacesString}TargetName = {dataDictionary.GetValue(TargetKey)}");
             }
             sb.AppendLine($"{spacesString}{nameof(HolderKey)} = {HolderKey}");
-            if (dataDictionary != null)
+            if (dataDictionary != null && HolderKey > 0)
             {
                 sb.AppendLine($"{spacesString}HolderName = {dataDictionary.GetValue(HolderKey)}");
+            }
+            sb.AppendLine($"{spacesString}{nameof(HolderKey)} = {HolderKey}");
+            if (dataDictionary != null && ReturnTypeKey > 0)
+            {
+                sb.AppendLine($"{spacesString}ReturnTypeName = {dataDictionary.GetValue(ReturnTypeKey)}");
             }
             if (Params == null)
             {
@@ -66,14 +72,14 @@ namespace GnuClay.Engine.Parser.CommonData
                 }
                 sb.AppendLine($"{spacesString}End Params");
             }
-            if (CodeBlock == null)
+            if (Body == null)
             {
-                sb.AppendLine($"{spacesString}{nameof(CodeBlock)} = null");
+                sb.AppendLine($"{spacesString}{nameof(Body)} = null");
             }
             else
             {
-                sb.AppendLine($"{spacesString}{nameof(CodeBlock)} = ");
-                sb.AppendLine(CodeBlock.ToString(dataDictionary, nextIndent));
+                sb.AppendLine($"{spacesString}{nameof(Body)} = ");
+                sb.AppendLine(Body.ToString(dataDictionary, nextIndent));
             }
             sb.AppendLine($"{spacesString}End UserDefinedFunction");
             return sb.ToString();

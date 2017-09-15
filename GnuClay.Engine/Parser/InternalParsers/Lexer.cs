@@ -277,6 +277,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         break;
                     }
 
+                    if (string.Compare(content, "SUBJ", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.SUBJ;
+                        break;
+                    }
+
                     if (string.Compare(content, "IF", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.IF;
