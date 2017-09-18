@@ -25,7 +25,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case8();
             //Case9();
             //Case10();
-            Case11();
+            //Case11();
+            Case12();
 
             //try
             //{
@@ -296,6 +297,19 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"Case11 queryString = `{queryString}`");
             var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
             NLog.LogManager.GetCurrentClassLogger().Info($"Case11 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case12()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("$var1 = $var2($a:1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>(~$var2()).thp(-5);");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
     }
 }
