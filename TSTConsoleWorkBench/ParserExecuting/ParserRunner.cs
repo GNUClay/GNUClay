@@ -26,7 +26,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case9();
             //Case10();
             //Case11();
-            Case12();
+            //Case12();
+            Case13();
 
             //try
             //{
@@ -303,13 +304,28 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
-            tmpSb.AppendLine("$var1 = $var2($a:1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>(~$var2()).thp(-5);");
+            tmpSb.AppendLine("$var1 = $var2($a:1.0*-5 + 2 + 3).tar().gz.rpzgh<!door!>(~$var2(), $var8, dog).thp(-5).zpd($a: 1, $b: color);");
             tmpSb.AppendLine("}");
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 queryString = `{queryString}`");
             var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
+        }
+
+        private void Case13()
+        {
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("$var1 = $var2($a:1.0*-5 + 2 + $$self).tar().gz.rpzgh<!door!>(~$var2(), $var8, dog).thp(-5).zpd($a: 1, $b: $$self);");
+            tmpSb.AppendLine("$var1 = $var2($a:$$self*-5 + 2 + $$self);");
+            tmpSb.AppendLine("$var1 = $$self;");
+            tmpSb.AppendLine("}");
+
+            var queryString = tmpSb.ToString();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case13 queryString = `{queryString}`");
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case13 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
     }
 }

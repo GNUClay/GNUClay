@@ -72,16 +72,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
-#endif
-
             switch (mState)
             {
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
                         case TokenKind.Var:
+                        case TokenKind.SystemVar:
                             ProcessVarToken();
                             break;
 
@@ -127,6 +124,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                         case TokenKind.Comma:
                             if(mMode == Mode.IsParameterOfFunction)
+                            {
+                                Context.Recovery(CurrToken);
+                                Exit();
+                                return;
+                            }
+                            throw new UnexpectedTokenException(CurrToken);
+
+                        case TokenKind.Colon:
+                            if (mMode == Mode.IsParameterOfFunction)
                             {
                                 Context.Recovery(CurrToken);
                                 Exit();
@@ -186,6 +192,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             break;
 
                         case TokenKind.Var:
+                        case TokenKind.SystemVar:
                             ProcessVarToken();
                             break;
 
@@ -200,7 +207,20 @@ namespace GnuClay.Engine.Parser.InternalParsers
         private void ProcessVarToken()
         {
             var result = new InternalCodeExpressionNode();
-            result.Kind = ExpressionKind.VarExpression;
+
+            switch (CurrToken.TokenKind)
+            {
+                case TokenKind.Var:
+                    result.Kind = ExpressionKind.VarExpression;
+                    break;
+
+                case TokenKind.SystemVar:
+                    result.Kind = ExpressionKind.SystemVarExpression;
+                    break;
+
+                default: throw new UnexpectedTokenException(CurrToken);
+            }
+            
             result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
             result.ClassOfNode = ClassOfNode.Leaf;
 
@@ -777,6 +797,20 @@ namespace GnuClay.Engine.Parser.InternalParsers
             throw new NotImplementedException();
         }
 
+        private ASTExpression CreateExpressionNode(InternalCodeParamNode node)
+        {
+            var result = new ASTParamExpression();
+            result.IsNamed = node.IsNamed;
+            if(node.Name != null)
+            {
+                result.Name = CreateExpressionNode(node.Name);
+            }
+            
+            result.Value = CreateExpressionNode(node.Value);
+
+            return result;
+        }
+
         private ASTExpression CreateExpressionNode(InternalCodeExpressionNode node)
         {
             switch (node.Kind)
@@ -788,6 +822,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     return CreateConstExpression(node);
 
                 case ExpressionKind.VarExpression:
+                case ExpressionKind.SystemVarExpression:
                     return CreateVarExpression(node);
 
                 case ExpressionKind.EntityExpression:
@@ -846,6 +881,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
             var result = new ASTVarExpression();
             result.TypeKey = node.TypeKey;
+            if(node.Kind == ExpressionKind.SystemVarExpression)
+            {
+                result.IsSystem = true;
+            }
             return result;
         }
 

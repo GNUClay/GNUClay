@@ -33,6 +33,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         Var,
 
         /// <summary>
+        /// Represents a system variable.
+        /// </summary>
+        SystemVar,
+
+        /// <summary>
         /// Represents symbol `{`.
         /// </summary>
         OpenFigureBracket,

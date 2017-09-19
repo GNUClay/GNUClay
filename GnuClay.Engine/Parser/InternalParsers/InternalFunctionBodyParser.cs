@@ -47,6 +47,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             break;
 
                         case TokenKind.Var:
+                        case TokenKind.SystemVar:
                             ProcessExpressionStatement();
                             break;
 

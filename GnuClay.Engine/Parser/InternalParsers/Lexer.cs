@@ -303,6 +303,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                     if (content.StartsWith("$"))
                     {
+                        if(content.StartsWith("$$"))
+                        {
+                            kind = TokenKind.SystemVar;
+                            break;
+                        }
+
                         kind = TokenKind.Var;
                         break;
                     }

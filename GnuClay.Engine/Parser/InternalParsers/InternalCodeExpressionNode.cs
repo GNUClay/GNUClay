@@ -34,7 +34,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         public ulong TypeKey = 0;
         public InternalCodeExpressionNode Left = null;
         public InternalCodeExpressionNode Right = null;
-        public List<InternalCodeExpressionNode> Params = null;
+        public List<InternalCodeParamNode> Params = null;
         public InternalCodeExpressionNode Target = null;
         public object Value = null;
         public int Priority = 0;

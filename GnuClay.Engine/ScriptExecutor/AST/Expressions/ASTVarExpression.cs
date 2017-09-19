@@ -16,6 +16,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         }
 
         public ulong TypeKey { get; set; }
+        public bool IsSystem { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
@@ -34,6 +35,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
             {
                 sb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
             }
+            sb.AppendLine($"{spacesString}{nameof(IsSystem)} = {IsSystem}");
             sb.AppendLine($"{spacesString}End VarExpression");
             return sb.ToString();
         }
