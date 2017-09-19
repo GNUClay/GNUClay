@@ -105,7 +105,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 resultOfCalling.Success = true;
                 resultOfCalling.Result = mCommonValuesFactory.UndefinedValue();
 
-                PostProcessCall(resultOfCalling);
+                OldPostProcessCall(resultOfCalling);
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 resultOfCalling.Success = false;
                 resultOfCalling.Error = error;
 
-                PostProcessCall(resultOfCalling);
+                OldPostProcessCall(resultOfCalling);
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 resultOfCalling.Success = true;
                 resultOfCalling.Result = result;
 
-                PostProcessCall(resultOfCalling);
+                OldPostProcessCall(resultOfCalling);
                 return;
             }
 
@@ -204,28 +204,28 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessPushVar();
                     break;
 
-                case OperationCode.BeginCall:
-                    ProcessBeginCall();
+                case OperationCode.OldBeginCall:
+                    OldProcessBeginCall();
                     break;
 
-                case OperationCode.BeginCallMethod:
-                    ProcessBeginCallMethod();
+                case OperationCode.OldBeginCallMethod:
+                    OldProcessBeginCallMethod();
                     break;
 
-                case OperationCode.BeginCallMethodOfPrevEntity:
-                    ProcessBeginCallMethodOfPrevEntity();
+                case OperationCode.OldBeginCallMethodOfPrevEntity:
+                    OldProcessBeginCallMethodOfPrevEntity();
                     break;
 
-                case OperationCode.SetTarget:
-                    ProcessSetTarget();
+                case OperationCode.OldSetTarget:
+                    OldProcessSetTarget();
                     break;
 
-                case OperationCode.SetParamName:
-                    ProcessSetParamName();
+                case OperationCode.OldSetParamName:
+                    OldProcessSetParamName();
                     break;
 
-                case OperationCode.SetParamVal:
-                    ProcessSetParamVal();
+                case OperationCode.OldSetParamVal:
+                    OldProcessSetParamVal();
                     break;
 
                 case OperationCode.CallUnOp:
@@ -236,20 +236,20 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessCallBinOp();
                     break;
 
-                case OperationCode.Call:
-                    ProcessCall();
+                case OperationCode.OldCall:
+                    OldProcessCall();
                     break;
 
-                case OperationCode.CallByPos:
-                    ProcessCallByPos();
+                case OperationCode.OldCallByPos:
+                    OldProcessCallByPos();
                     break;
 
-                case OperationCode.CallAsync:
-                    ProcessCallAsync();
+                case OperationCode.OldCallAsync:
+                    OldProcessCallAsync();
                     break;
 
-                case OperationCode.CallAsyncByPos:
-                    ProcessCallAsyncByPos();
+                case OperationCode.OldCallAsyncByPos:
+                    OldProcessCallAsyncByPos();
                     break;
 
                 case OperationCode.JumpIfTrue:
@@ -329,7 +329,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             var tmpHolder = mCurrentFrame.PopValue();
             var propertyKey = mCurrentCommand.Key;
             var resultOfCalling = mMainContext.PropertiesEngine.FindProperty(tmpHolder, propertyKey);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushProp");
@@ -357,7 +357,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessBeginCall()
+        [Obsolete]
+        private void OldProcessBeginCall()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCall");
@@ -372,7 +373,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessBeginCallMethod()
+        [Obsolete]
+        private void OldProcessBeginCallMethod()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethod");
@@ -387,7 +389,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessBeginCallMethodOfPrevEntity()
+        [Obsolete]
+        private void OldProcessBeginCallMethodOfPrevEntity()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethodOfPrevEntity");
@@ -411,7 +414,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessSetTarget()
+        [Obsolete]
+        private void OldProcessSetTarget()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetTarget");
@@ -425,7 +429,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessSetParamName()
+        [Obsolete]
+        private void OldProcessSetParamName()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamName");
@@ -459,7 +464,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
-        private void ProcessSetParamVal()
+        [Obsolete]
+        private void OldProcessSetParamVal()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamVal");
@@ -472,6 +478,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 #endif
         }
 
+        [Obsolete]
         private void NProcessSetParamVal()
         {
             if (mCurrentFrame.IsCalledByNamedParameters == null)
@@ -498,6 +505,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             mCurrentFrame.NProcessParam();
         }
 
+        [Obsolete]
         private void NRevertPositionedParams()
         {
             mCurrentFrame.PositionedParams.Reverse();
@@ -520,7 +528,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NProcessSetParamVal();
             mCurrentFrame.CurrentFunction = new EntityValue(mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallUnOp");
@@ -538,67 +546,72 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             NRevertPositionedParams();
             mCurrentFrame.CurrentFunction = new EntityValue(mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallBinOp");
 #endif
         }
 
-        private void ProcessCall()
+        [Obsolete]
+        private void OldProcessCall()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCall");
 #endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.NamedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCall");
 #endif
         }
 
-        private void ProcessCallByPos()
+        [Obsolete]
+        private void OldProcessCallByPos()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
 #endif
             NRevertPositionedParams();
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallByPos");
 #endif
         }
 
-        private void ProcessCallAsync()
+        [Obsolete]
+        private void OldProcessCallAsync()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsync");
 #endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.NamedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsync");
 #endif
         }
 
-        private void ProcessCallAsyncByPos()
+        [Obsolete]
+        private void OldProcessCallAsyncByPos()
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsyncByPos");
 #endif
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            OldPostProcessCall(resultOfCalling);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsyncByPos");
 #endif
         }
 
-        private void PostProcessCall(ResultOfCalling resultOfCalling)
+        [Obsolete]
+        private void OldPostProcessCall(ResultOfCalling resultOfCalling)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");

@@ -39,32 +39,38 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Begin calling current value of the stack as a function.
         /// </summary>
-        BeginCall,
+        [Obsolete]
+        OldBeginCall,
 
         /// <summary>
         /// Begin calling of the function or method.
         /// </summary>
-        BeginCallMethod,
+        [Obsolete]
+        OldBeginCallMethod,
 
         /// <summary>
         /// Begin calling of the method of the previous entity.
         /// </summary>
-        BeginCallMethodOfPrevEntity,
+        [Obsolete]
+        OldBeginCallMethodOfPrevEntity,
 
         /// <summary>
         /// Put current value from the stack to special register as target of function.
         /// </summary>
-        SetTarget,
+        [Obsolete]
+        OldSetTarget,
 
         /// <summary>
         /// Put param name from the stack to special register.
         /// </summary>
-        SetParamName,
+        [Obsolete]
+        OldSetParamName,
 
         /// <summary>
         /// Put param value from the stack to special register.
         /// </summary>
-        SetParamVal,
+        [Obsolete]
+        OldSetParamVal,
        
         /// <summary>
         /// Call unary operator.
@@ -79,22 +85,26 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <summary>
         /// Call synchronously function or method by named params.
         /// </summary>
-        Call,
+        [Obsolete]
+        OldCall,
 
         /// <summary>
         /// Call synchronously function or method by positioned params.
         /// </summary>
-        CallByPos,
+        [Obsolete]
+        OldCallByPos,
 
         /// <summary>
         /// Call asynchronously function or method by named params.
         /// </summary>
-        CallAsync,
+        [Obsolete]
+        OldCallAsync,
 
         /// <summary>
         /// Call asynchronously function or method by positioned params.
         /// </summary>
-        CallAsyncByPos,
+        [Obsolete]
+        OldCallAsyncByPos,
 
         /// <summary>
         /// Jump to line of code if current value of the stack is true.

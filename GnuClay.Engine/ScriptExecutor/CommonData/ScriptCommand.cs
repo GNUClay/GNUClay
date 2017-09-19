@@ -37,22 +37,22 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.PushVar:
                     return $"[{Position}]{OperationCode}: {Key}";
 
-                case OperationCode.BeginCall:
+                case OperationCode.OldBeginCall:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.BeginCallMethod:
+                case OperationCode.OldBeginCallMethod:
                     return $"[{Position}]{OperationCode}: {Key}";
 
-                case OperationCode.BeginCallMethodOfPrevEntity:
+                case OperationCode.OldBeginCallMethodOfPrevEntity:
                     return $"[{Position}]{OperationCode}: {Key}";
 
-                case OperationCode.SetTarget:
+                case OperationCode.OldSetTarget:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.SetParamName:
+                case OperationCode.OldSetParamName:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.SetParamVal:
+                case OperationCode.OldSetParamVal:
                     return $"[{Position}]{OperationCode}";
 
                 case OperationCode.CallUnOp:
@@ -61,16 +61,16 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallBinOp:
                     return $"[{Position}]{OperationCode}: {Key}";
 
-                case OperationCode.Call:
+                case OperationCode.OldCall:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.CallByPos:
+                case OperationCode.OldCallByPos:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.CallAsync:
+                case OperationCode.OldCallAsync:
                     return $"[{Position}]{OperationCode}";
 
-                case OperationCode.CallAsyncByPos:
+                case OperationCode.OldCallAsyncByPos:
                     return $"[{Position}]{OperationCode}";
 
                 case OperationCode.JumpIfTrue:

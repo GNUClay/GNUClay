@@ -496,7 +496,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.BeginCallMethod;
+            tmpCommand.OperationCode = OperationCode.OldBeginCallMethod;
             tmpCommand.Key = openKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
@@ -506,7 +506,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetTarget;
+            tmpCommand.OperationCode = OperationCode.OldSetTarget;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -515,7 +515,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetParamName;
+            tmpCommand.OperationCode = OperationCode.OldSetParamName;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -525,11 +525,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCommand.OperationCode = OperationCode.OldSetParamVal;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.Call;
+            tmpCommand.OperationCode = OperationCode.OldCall;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -569,7 +569,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.BeginCallMethodOfPrevEntity;
+            tmpCommand.OperationCode = OperationCode.OldBeginCallMethodOfPrevEntity;
             tmpCommand.Key = logKey;
             tmpCodeFrame.AddCommand(tmpCommand);
 
@@ -579,11 +579,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.SetParamVal;
+            tmpCommand.OperationCode = OperationCode.OldSetParamVal;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.CallAsyncByPos;
+            tmpCommand.OperationCode = OperationCode.OldCallAsyncByPos;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             //tmpCommand = new ScriptCommand();
