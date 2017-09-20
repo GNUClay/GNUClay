@@ -60,6 +60,19 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             return ValuesStack.Pop();
         }
 
+        public List<IValue> PopValues(int count)
+        {
+            var result = new List<IValue>();
+
+            while (count > 0)
+            {
+                result.Add(PopValue());
+                count--;
+            }
+
+            return result;
+        }
+
         public EntityAction mEntityAction = null;
         public GnuClayThreadExecutionContext mExecutionContext = null;
         public void NBeginCall()
