@@ -1,4 +1,6 @@
-﻿using GnuClay.Engine.CommonStorages;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
@@ -82,7 +84,37 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"SystemPropertyValue {nameof(TypeKey)} = {TypeKey}; {nameof(Kind)}= {Kind}; Holder = {mHolder}";
+            return ToString(null, 0);
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var nextIndent = indent + 4;
+            var tmpSb = new StringBuilder($"{spacesString}SystemPropertyValue {nameof(Kind)}= {Kind};");
+            if (mHolder == null)
+            {
+                tmpSb.Append("Holder = null;");
+            }
+            else
+            {
+                tmpSb.Append($"Holder = {mHolder.ToString(dataDictionary, nextIndent)};");
+            }
+
+            tmpSb.Append($"PropertyKey = {mPropertyKey};");
+
+            if(dataDictionary != null && mPropertyKey > 0)
+            {
+                tmpSb.Append($"PropertyName = {dataDictionary.GetValue(mPropertyKey)};");
+            }
+
+            return tmpSb.ToString();
         }
     }
 }

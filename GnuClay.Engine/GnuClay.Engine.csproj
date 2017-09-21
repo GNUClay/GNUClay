@@ -56,6 +56,7 @@
     <Compile Include="Inheritance\InheritanceEngine.cs" />
     <Compile Include="Inheritance\InheritanceInfo.cs" />
     <Compile Include="InternalBus\InternalBusEngine.cs" />
+    <Compile Include="ISmartToString.cs" />
     <Compile Include="LogicalStorage\BaseLogicalStorageComponent.cs" />
     <Compile Include="LogicalStorage\CommonLogicalHelper.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ASTTransformer.cs" />

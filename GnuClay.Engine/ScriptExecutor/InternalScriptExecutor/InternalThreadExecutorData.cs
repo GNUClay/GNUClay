@@ -17,7 +17,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             tmpSb.AppendLine("Begin InternalThreadExecutorData");
             foreach(var item in ExecutionFramesStack)
             {
-                tmpSb.AppendLine(item.ToDbgString());
+                tmpSb.AppendLine(item.ToString());
             }
             tmpSb.AppendLine("End InternalThreadExecutorData");
             return tmpSb.ToString();

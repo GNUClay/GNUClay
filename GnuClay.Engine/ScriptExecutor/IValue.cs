@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor
 {
-    public interface IValue : ILongHashableObject
+    public interface IValue : ILongHashableObject, ISmartToString
     {
         KindOfValue Kind { get; }
         ulong TypeKey { get; }

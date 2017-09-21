@@ -215,8 +215,8 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             //CallAsyncWTarget();
             //CallAsyncN();
             //CallAsync();
-            //CallMWTargetN();
-            CallMWTarget();
+            CallMWTargetN();
+            //CallMWTarget();
             //CallMN();
             //CallM();
             //CallMAsyncWTargetN();
@@ -332,7 +332,54 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
         private void CallMWTargetN()
         {
-            throw new NotImplementedException();
+            mainContext = GnuClayEngine.Context;
+            var CommonKeysEngine = mainContext.CommonKeysEngine;
+
+            var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
+            var openKey = GnuClayEngine.DataDictionary.GetKey("open");
+            var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
+            var numberKey = CommonKeysEngine.NumberKey;
+            var consoleKey = GnuClayEngine.DataDictionary.GetKey("console");
+            var logKey = GnuClayEngine.DataDictionary.GetKey("log");
+
+            var tmpCodeFrame = new FunctionModel();
+
+            var tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = messageParamKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushConst;
+            tmpCommand.Key = numberKey;
+            tmpCommand.Value = 2.0;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = doorKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = consoleKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.PushEntity;
+            tmpCommand.Key = logKey;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallMWTargetN;
+            tmpCommand.Key = 1;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.ClearStack;
+            tmpCodeFrame.AddCommand(tmpCommand);
+
+            RunCallFunctionExample(tmpCodeFrame);
         }
 
         private void CallMWTarget()
@@ -371,7 +418,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.CallMWTarget;
-            tmpCommand.Key = logKey;
+            tmpCommand.Key = 1;
             tmpCodeFrame.AddCommand(tmpCommand);
 
             RunCallFunctionExample(tmpCodeFrame);

@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
@@ -81,15 +82,28 @@ namespace GnuClay.Engine.ScriptExecutor
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
+            return ToString(null, 0);
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var nextIndent = indent + 4;
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
-            tmpSb.AppendLine($"{nameof(Command)} = {Command}");
-            tmpSb.AppendLine($"{nameof(State)} = {State}");
-            tmpSb.AppendLine($"{nameof(Result)} = {Result}");
-            tmpSb.AppendLine($"{nameof(Error)} = {Error}");
-            tmpSb.AppendLine($"{nameof(Initiator)} = {Initiator}");
-            tmpSb.AppendLine($"{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Key)} = {Key}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Command)} = {Command}");
+            tmpSb.AppendLine($"{spacesString}{nameof(State)} = {State}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Result)} = {Result}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Error)} = {Error}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Initiator)} = {Initiator}");
+            tmpSb.AppendLine($"{spacesString}{nameof(InitiatedActions)} = {_ListHelper._ToString(InitiatedActions)}");
 
             return tmpSb.ToString();
         }

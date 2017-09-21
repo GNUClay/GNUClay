@@ -1,4 +1,6 @@
-﻿using GnuClay.Engine.ScriptExecutor;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
@@ -57,7 +59,26 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"EntityValue {nameof(TypeKey)} = {TypeKey}";
+            return ToString(null, 0);
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var sb = new StringBuilder($"{spacesString}EntityValue {nameof(TypeKey)} = {TypeKey};");
+
+            if (dataDictionary != null && TypeKey > 0)
+            {
+                sb.Append($"TypeName = {dataDictionary.GetValue(TypeKey)};");
+            }
+
+            return sb.ToString();
         }
     }
 }

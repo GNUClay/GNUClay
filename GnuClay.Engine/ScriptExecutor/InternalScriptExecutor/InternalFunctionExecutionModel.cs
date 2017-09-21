@@ -1,4 +1,6 @@
-﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,152 +75,50 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             return result;
         }
 
+        public void ClearStack()
+        {
+            ValuesStack.Clear();
+        }
+
         public EntityAction mEntityAction = null;
         public GnuClayThreadExecutionContext mExecutionContext = null;
-        public void NBeginCall()
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
         {
-            CurrentFunction = null;
-            CurrentHolder = null;
-            Target = 0;
-            IsCalledByNamedParameters = null;
-            CurrentPositionOfParam = -1;
-            NamedParams = null;
-            PositionedParams = null;
-            CurrentParamName = null;
-            CurrentParamValue = null;
+            return ToString(null, 0);
         }
 
-        public IValue CurrentHolder { get; set; }
-        public IValue CurrentFunction { get; set; }
-        public ulong Target { get; set; }
-
-        private bool? mIsCalledByNamedParameters = null;
-        public bool? IsCalledByNamedParameters
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
-            get
-            {
-                return mIsCalledByNamedParameters;
-            }
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var nextIndent = indent + 4;
 
-            set
-            {
-                if (mIsCalledByNamedParameters == value)
-                {
-                    return;
-                }
-
-                mIsCalledByNamedParameters = value;
-
-                if (mIsCalledByNamedParameters.HasValue)
-                {
-                    if (mIsCalledByNamedParameters.Value)
-                    {
-                        NamedParams = new List<NamedParamInfo>();
-                    }
-                    else
-                    {
-                        PositionedParams = new List<PositionParamInfo>();
-                    }
-                }
-            }
-        }
-
-        public bool? IsSetParamName = false;
-        public IValue CurrentParamName { get; set; }
-        public IValue CurrentParamValue { get; set; }
-
-        public List<NamedParamInfo> NamedParams { get; set; }
-        public List<PositionParamInfo> PositionedParams { get; set; }
-        public int CurrentPositionOfParam = -1;
-
-        public void NProcessParam()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin NProcessParam");
-#endif
-            if (IsCalledByNamedParameters.Value)
-            {
-                var tmpNamedParamInfo = new NamedParamInfo();
-                tmpNamedParamInfo.ParamName = CurrentParamName;
-                tmpNamedParamInfo.ParamValue = CurrentParamValue;
-
-                NamedParams.Add(tmpNamedParamInfo);
-
-                return;
-            }
-
-            CurrentPositionOfParam++;
-            var tmpPositiondedParamInfo = new PositionParamInfo();
-            tmpPositiondedParamInfo.ParamValue = CurrentParamValue;
-            tmpPositiondedParamInfo.Position = CurrentPositionOfParam;
-            PositionedParams.Add(tmpPositiondedParamInfo);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End NProcessParam");
-#endif
-        }
-
-#if DEBUG
-        public string ToDbgString()
-        {
             var tmpSb = new StringBuilder();
 
-            tmpSb.AppendLine("Begin InternalFunctionExecutionModel");
-            tmpSb.AppendLine("Begin ValuesStack");
+            tmpSb.AppendLine($"{spacesString}Begin InternalFunctionExecutionModel");
+            tmpSb.AppendLine($"{spacesString}Begin ValuesStack");
 
             foreach (var val in ValuesStack)
             {
-                tmpSb.AppendLine(val?.ToString());
+                tmpSb.AppendLine(val?.ToString(dataDictionary, nextIndent));
             }
 
-            tmpSb.AppendLine("End ValuesStack");
+            tmpSb.AppendLine($"{spacesString}End ValuesStack");
 
-            tmpSb.AppendLine($"{nameof(CurrentHolder)} = {CurrentHolder}");
-            tmpSb.AppendLine($"{nameof(CurrentFunction)} = {CurrentFunction}");
-            tmpSb.AppendLine($"{nameof(Target)} = {Target}");
-            tmpSb.AppendLine($"{nameof(IsCalledByNamedParameters)} = {IsCalledByNamedParameters}");
-            tmpSb.AppendLine($"{nameof(IsSetParamName)} = {IsSetParamName}");
-            tmpSb.AppendLine($"{nameof(CurrentParamName)} = {CurrentParamName}");
-            tmpSb.AppendLine($"{nameof(CurrentParamValue)} = {CurrentParamValue}");
-
-            if (NamedParams == null)
-            {
-                tmpSb.AppendLine($"{nameof(NamedParams)} = null");
-            }
-            else
-            {
-                tmpSb.AppendLine($"Begin {nameof(NamedParams)}");
-
-                foreach (var item in NamedParams)
-                {
-                    tmpSb.AppendLine($"item = {item}");
-                }
-
-                tmpSb.AppendLine($"End {nameof(NamedParams)}");
-            }
-
-            if (PositionedParams == null)
-            {
-                tmpSb.AppendLine($"{nameof(PositionedParams)} = null");
-            }
-            else
-            {
-                tmpSb.AppendLine($"Begin {nameof(PositionedParams)}");
-
-                foreach (var item in PositionedParams)
-                {
-                    tmpSb.AppendLine($"item = {item}");
-                }
-
-                tmpSb.AppendLine($"End {nameof(PositionedParams)}");
-            }
-
-            tmpSb.AppendLine($"{nameof(CurrentPositionOfParam)} = {CurrentPositionOfParam}");
             tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
-            tmpSb.AppendLine($"{nameof(CurrentCommand)} = {CurrentCommand?.ToDbgString()}"); 
-            tmpSb.AppendLine("End InternalFunctionExecutionModel");
+            tmpSb.AppendLine($"{spacesString}{nameof(CurrentCommand)} = {CurrentCommand?.ToDbgString()}"); 
+            tmpSb.AppendLine($"{spacesString}End InternalFunctionExecutionModel");
             return tmpSb.ToString();
         }
-#endif
     }
 }

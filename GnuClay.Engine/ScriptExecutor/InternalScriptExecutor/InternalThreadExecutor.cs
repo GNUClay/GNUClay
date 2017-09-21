@@ -41,6 +41,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             mMainContext = mainContext;
             mCommonValuesFactory = mainContext.CommonValuesFactory;
+            mDataDictionary = mainContext.DataDictionary;
             mTrueValue = mCommonValuesFactory.TrueValue();
             mFalseValue = mCommonValuesFactory.FalseValue();
 
@@ -54,7 +55,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private ActiveObject mActiveObject = null;
 
         private CommonValuesFactory mCommonValuesFactory = null;
-        
+        private StorageDataDictionary mDataDictionary = null;
+
         private Stack<InternalFunctionExecutionModel> mExecutionFramesStack = new Stack<InternalFunctionExecutionModel>();
         private InternalFunctionExecutionModel mCurrentFrame = null;
 
@@ -189,6 +191,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessNop();
                     break;
 
+                case OperationCode.ClearStack:
+                    ProcessClearStack();
+                    break;
+
                 case OperationCode.PushConst:
                     ProcessPushConst();
                     break;
@@ -205,30 +211,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessPushVar();
                     break;
 
-                case OperationCode.OldBeginCall:
-                    OldProcessBeginCall();
-                    break;
-
-                case OperationCode.OldBeginCallMethod:
-                    OldProcessBeginCallMethod();
-                    break;
-
-                case OperationCode.OldBeginCallMethodOfPrevEntity:
-                    OldProcessBeginCallMethodOfPrevEntity();
-                    break;
-
-                case OperationCode.OldSetTarget:
-                    OldProcessSetTarget();
-                    break;
-
-                case OperationCode.OldSetParamName:
-                    OldProcessSetParamName();
-                    break;
-
-                case OperationCode.OldSetParamVal:
-                    OldProcessSetParamVal();
-                    break;
-
                 case OperationCode.CallUnOp:
                     ProcessCallUnOp();
                     break;
@@ -237,20 +219,68 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessCallBinOp();
                     break;
 
-                case OperationCode.OldCall:
-                    OldProcessCall();
+                case OperationCode.CallWTargetN:
+                    ProcessCallWTargetN();
                     break;
 
-                case OperationCode.OldCallByPos:
-                    OldProcessCallByPos();
+                case OperationCode.CallWTarget:
+                    ProcessCallWTarget();
                     break;
 
-                case OperationCode.OldCallAsync:
-                    OldProcessCallAsync();
+                case OperationCode.CallN:
+                    ProcessCallN();
                     break;
 
-                case OperationCode.OldCallAsyncByPos:
-                    OldProcessCallAsyncByPos();
+                case OperationCode.Call:
+                    ProcessCall();
+                    break;
+
+                case OperationCode.CallAsyncWTargetN:
+                    ProcessCallAsyncWTargetN();
+                    break;
+
+                case OperationCode.CallAsyncWTarget:
+                    ProcessCallAsyncWTarget();
+                    break;
+
+                case OperationCode.CallAsyncN:
+                    ProcessCallAsyncN();
+                    break;
+
+                case OperationCode.CallAsync:
+                    ProcessCallAsync();
+                    break;
+
+                case OperationCode.CallMWTargetN:
+                    ProcessCallMWTargetN();
+                    break;
+
+                case OperationCode.CallMWTarget:
+                    ProcessCallMWTarget();
+                    break;
+
+                case OperationCode.CallMN:
+                    ProcessCallMN();
+                    break;
+
+                case OperationCode.CallM:
+                    ProcessCallM();
+                    break;
+
+                case OperationCode.CallMAsyncWTargetN:
+                    ProcessCallMAsyncWTargetN();
+                    break;
+
+                case OperationCode.CallMAsyncWTarget:
+                    ProcessCallMAsyncWTarget();
+                    break;
+
+                case OperationCode.CallMAsyncN:
+                    ProcessCallMAsyncN();
+                    break;
+
+                case OperationCode.CallMAsync:
+                    ProcessCallMAsync();
                     break;
 
                 case OperationCode.JumpIfTrue:
@@ -277,247 +307,50 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"NRun ToDbgString = {mCurrentFrame.ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"NRun ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
 #endif
         }
 
         private void ProcessNop()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessNop");
-#endif
             mCurrentFrame.CurrentCommandIsNext();
+        }
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessNop");
-#endif
+        private void ProcessClearStack()
+        {
+            mCurrentFrame.ClearStack();
+            mCurrentFrame.CurrentCommandIsNext();
         }
 
         private void ProcessPushConst()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushConst");
-#endif
             var value = mMainContext.ConstTypeProvider.CreateConstValue(mCurrentCommand.Key, mCurrentCommand.Value);
             mCurrentFrame.PushValue(value);
             mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushConst");
-#endif
         }
 
         private void ProcessPushEntity()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushEntity");
-#endif
             var value = new EntityValue(mCurrentCommand.Key);
             mCurrentFrame.PushValue(value);
             mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushEntity");
-#endif
         }
 
         private void ProcessPushProp()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushProp");
-#endif
-
             var tmpHolder = mCurrentFrame.PopValue();
             var propertyKey = mCurrentCommand.Key;
             var resultOfCalling = mMainContext.PropertiesEngine.FindProperty(tmpHolder, propertyKey);
             PostProcessCall(resultOfCalling);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushProp");
-#endif
         }
 
         private void ProcessPushVar()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessPushVar");
-#endif
-
             var varKey = mCurrentCommand.Key;
             var tmpVar = mCurrentFrame.mExecutionContext.ContextOfVariables.GetVariable(varKey);
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushVar tmpVar = {tmpVar}");
-#endif
-
             mCurrentFrame.PushValue(tmpVar);
             mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessPushVar");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessBeginCall()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCall");
-#endif
-
-            mCurrentFrame.NBeginCall();
-
-            throw new NotImplementedException();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCall");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessBeginCallMethod()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethod");
-#endif
-            mCurrentFrame.NBeginCall();
-            var functionValue = new EntityValue(mCurrentCommand.Key);
-            mCurrentFrame.CurrentFunction = functionValue;
-            mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethod");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessBeginCallMethodOfPrevEntity()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessBeginCallMethodOfPrevEntity");
-#endif
-            mCurrentFrame.NBeginCall();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {mCurrentFrame.ToDbgString()}");
-#endif
-            mCurrentFrame.CurrentHolder = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {mCurrentFrame.ToDbgString()}");
-#endif
-            var functionValue = new EntityValue(mCurrentCommand.Key);
-            mCurrentFrame.CurrentFunction = functionValue;
-            mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessBeginCallMethodOfPrevEntity");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessSetTarget()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetTarget");
-#endif
-            var targetValue = mCurrentFrame.PopValue();
-            mCurrentFrame.Target = targetValue.TypeKey;
-            mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetTarget");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessSetParamName()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamName");
-#endif
-            if (mCurrentFrame.IsCalledByNamedParameters == null)
-            {
-                mCurrentFrame.IsCalledByNamedParameters = true;
-                mCurrentFrame.IsSetParamName = true;
-            }
-            else
-            {
-                if (!mCurrentFrame.IsCalledByNamedParameters.Value)
-                {
-                    throw new NotSupportedException();
-                }
-
-                if (mCurrentFrame.IsSetParamName.Value)
-                {
-                    throw new NotSupportedException();
-                }
-
-                mCurrentFrame.IsSetParamName = true;
-            }
-
-            var tmpVal = mCurrentFrame.PopValue();
-            mCurrentFrame.CurrentParamName = tmpVal;
-            mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamName");
-#endif
-        }
-
-        [Obsolete]
-        private void OldProcessSetParamVal()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessSetParamVal");
-#endif
-            NProcessSetParamVal();
-            mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessSetParamVal");
-#endif
-        }
-
-        [Obsolete]
-        private void NProcessSetParamVal()
-        {
-            if (mCurrentFrame.IsCalledByNamedParameters == null)
-            {
-                mCurrentFrame.IsCalledByNamedParameters = false;
-            }
-            else
-            {
-                if (!mCurrentFrame.IsCalledByNamedParameters.Value && mCurrentFrame.IsSetParamName.Value)
-                {
-                    throw new NotSupportedException();
-                }
-            }
-
-            mCurrentFrame.IsSetParamName = false;
-            var tmpVal = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"NProcessSetParamVal tmpVal = {tmpVal}");
-#endif
-
-            mCurrentFrame.CurrentParamValue = tmpVal;
-
-            mCurrentFrame.NProcessParam();
-        }
-
-        [Obsolete]
-        private void NRevertPositionedParams()
-        {
-            mCurrentFrame.PositionedParams.Reverse();
-
-            var n = 0;
-
-            foreach(var param in mCurrentFrame.PositionedParams)
-            {
-                param.Position = n;
-                n++;
-            }
         }
 
         private void ProcessCallUnOp()
@@ -533,6 +366,150 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             var parameters = NGetPositionedParameters(2);
             var currentFunction = new EntityValue(mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallWTargetN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallWTarget()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCall()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallAsyncWTargetN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallAsyncWTarget()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallAsyncN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallAsync()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMWTargetN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMWTarget()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallM()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMAsyncWTargetN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMAsyncWTarget()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var target = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMAsyncN()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
+            PostProcessCall(resultOfCalling);
+        }
+
+        private void ProcessCallMAsync()
+        {
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();
+            var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
@@ -560,70 +537,47 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             return result;
         }
 
-        [Obsolete]
-        private void OldProcessCall()
+        private List<NamedParamInfo> NGetNamedParameters(int count)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCall");
-#endif
-            var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.NamedParams);
-            PostProcessCall(resultOfCalling);
+            if (count == 0)
+            {
+                return new List<NamedParamInfo>();
+            }
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCall");
-#endif
-        }
+            var initResult = mCurrentFrame.PopValues(count * 2);
+            initResult.Reverse();
 
-        [Obsolete]
-        private void OldProcessCallByPos()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallByPos");
-#endif
-            NRevertPositionedParams();
-            var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            var initResultEnumerator = initResult.GetEnumerator();
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallByPos");
-#endif
-        }
+            var odd = true;
 
-        [Obsolete]
-        private void OldProcessCallAsync()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsync");
-#endif
-            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.NamedParams);
-            PostProcessCall(resultOfCalling);
+            NamedParamInfo item = null;
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsync");
-#endif
-        }
+            var result = new List<NamedParamInfo>();
 
-        [Obsolete]
-        private void OldProcessCallAsyncByPos()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessCallAsyncByPos");
-#endif
-            var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, mCurrentFrame.CurrentFunction, mCurrentFrame.CurrentHolder, mCurrentFrame.Target, mCurrentFrame.PositionedParams);
-            PostProcessCall(resultOfCalling);
+            while (initResultEnumerator.MoveNext())
+            {
+                var initItem = initResultEnumerator.Current;
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessCallAsyncByPos");
-#endif
+                if(odd)
+                {
+                    item = new NamedParamInfo();
+                    item.ParamName = initItem;
+                    odd = false;
+                }
+                else
+                {
+                    item.ParamValue = initItem;
+                    result.Add(item);
+                    odd = true;
+                }
+            }
+
+            return result;
         }
 
         private void PostProcessCall(ResultOfCalling resultOfCalling)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin PostProcessCall");
-            NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall before ToDbgString = {mCurrentFrame.ToDbgString()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall resultOfCalling = {resultOfCalling}");
-#endif
             if (!resultOfCalling.Success)
             {
                 ExitWithError(resultOfCalling.Error);
@@ -638,47 +592,23 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 
                 foreach(var namedParam in tmpCommand.NamedParams)
                 {
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall namedParam = {namedParam}");
-#endif
                     var tmpVariable = mCurrentFrame.mExecutionContext.ContextOfVariables.GetVariable(namedParam.ParamName.TypeKey);
                     tmpVariable.ValueFromContainer = namedParam.ParamValue;
                 }
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall after ToDbgString = {mCurrentFrame.ToDbgString()}");
-                NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall (1)");
-#endif
                 return;
             }
 
             mCurrentFrame.PushValue(resultOfCalling.Result);
             mCurrentFrame.CurrentCommandIsNext();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"PostProcessCall after ToDbgString = {mCurrentFrame.ToDbgString()}");
-            NLog.LogManager.GetCurrentClassLogger().Info("End PostProcessCall");
-#endif
         }
 
         private void ProcessJumpIfTrue()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJumpIfTrue");
-#endif
             var tmpValue = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfTrue ToDbgString = {mCurrentFrame.ToDbgString()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfTrue tmpValue = {tmpValue}");
-#endif
 
             if (ValueHelper.NEquals(tmpValue, mTrueValue))
             {
                 mCurrentFrame.CurrentCommandAtLine((int)mCurrentCommand.Key);
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfTrue");
-#endif
                 return;
             }
 
@@ -687,23 +617,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessJumpIfFalse()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJumpIfFalse");
-#endif
             var tmpValue = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfFalse ToDbgString = {mCurrentFrame.ToDbgString()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessJumpIfFalse tmpValue = {tmpValue}");
-#endif
-
             if (ValueHelper.NEquals(tmpValue, mFalseValue))
             {
                 mCurrentFrame.CurrentCommandAtLine((int)mCurrentCommand.Key);
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJumpIfFalse");
-#endif
                 return;
             }
 
@@ -712,55 +629,23 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessJump()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessJump");
-#endif
-
             mCurrentFrame.CurrentCommandAtLine((int)mCurrentCommand.Key);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessJump");
-#endif
         }
 
         private void ProcessReturn()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturn");
-#endif
             Exit();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturn");
-#endif
         }
 
         private void ProcessReturnValue()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessReturnValue");
-#endif
-            var tmpValue = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity ToDbgString = {mCurrentFrame.ToDbgString()}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity tmpValue = {tmpValue}");
-#endif
-            
+            var tmpValue = mCurrentFrame.PopValue();          
             if(tmpValue.IsValueContainer)
             {
                 tmpValue = tmpValue.ValueFromContainer;
             }
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessBeginCallMethodOfPrevEntity NEXT tmpValue = {tmpValue}");
-#endif
-
             ExitWithResult(tmpValue);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End ProcessReturnValue");
-#endif
         }
     }
 }

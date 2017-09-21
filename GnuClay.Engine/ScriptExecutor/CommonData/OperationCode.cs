@@ -17,6 +17,11 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         Nop,
 
         /// <summary>
+        /// Remove all elements from the stack.
+        /// </summary>
+        ClearStack,
+
+        /// <summary>
         /// Push constant (number, boolean or other) to the stack.
         /// </summary>
         PushConst,
@@ -35,42 +40,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// Push variable to the stack.
         /// </summary>
         PushVar,
-
-        /// <summary>
-        /// Begin calling current value of the stack as a function.
-        /// </summary>
-        [Obsolete]
-        OldBeginCall,
-
-        /// <summary>
-        /// Begin calling of the function or method.
-        /// </summary>
-        [Obsolete]
-        OldBeginCallMethod,
-
-        /// <summary>
-        /// Begin calling of the method of the previous entity.
-        /// </summary>
-        [Obsolete]
-        OldBeginCallMethodOfPrevEntity,
-
-        /// <summary>
-        /// Put current value from the stack to special register as target of function.
-        /// </summary>
-        [Obsolete]
-        OldSetTarget,
-
-        /// <summary>
-        /// Put param name from the stack to special register.
-        /// </summary>
-        [Obsolete]
-        OldSetParamName,
-
-        /// <summary>
-        /// Put param value from the stack to special register.
-        /// </summary>
-        [Obsolete]
-        OldSetParamVal,
        
         /// <summary>
         /// Call unary operator.
@@ -161,30 +130,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// Call async member without target by positional parameters.
         /// </summary>
         CallMAsync,
-
-        /// <summary>
-        /// Call synchronously function or method by named params.
-        /// </summary>
-        [Obsolete]
-        OldCall,
-
-        /// <summary>
-        /// Call synchronously function or method by positioned params.
-        /// </summary>
-        [Obsolete]
-        OldCallByPos,
-
-        /// <summary>
-        /// Call asynchronously function or method by named params.
-        /// </summary>
-        [Obsolete]
-        OldCallAsync,
-
-        /// <summary>
-        /// Call asynchronously function or method by positioned params.
-        /// </summary>
-        [Obsolete]
-        OldCallAsyncByPos,
 
         /// <summary>
         /// Jump to line of code if current value of the stack is true.

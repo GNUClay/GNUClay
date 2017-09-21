@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GnuClay.CommonClientTypes;
 
 namespace TSTConsoleWorkBench.ScriptExecuting
 {
@@ -43,6 +44,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             a = 15;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End SetCurrentValue action = {action}");
+        }
+
+        public override string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            return string.Empty;
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
@@ -44,7 +46,19 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return $"NullValue {nameof(TypeKey)} = {TypeKey}";
+            return ToString(null, 0);
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The string representation of this instance.</returns>
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            return $"{spacesString}NullValue";
         }
     }
 }

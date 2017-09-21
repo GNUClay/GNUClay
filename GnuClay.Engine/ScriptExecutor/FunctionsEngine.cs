@@ -207,10 +207,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
             var targetExecutor = targetExecutorsList.FirstOrDefault();
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeSyncEntityAction targetExecutor = {targetExecutor}");
-#endif
-
             NormalizeCommandParams(command, targetExecutor);
 
             if (targetExecutor.IsUserDefined)
@@ -242,11 +238,6 @@ namespace GnuClay.Engine.ScriptExecutor
             }
 
             var targetExecutor = targetExecutorsList.FirstOrDefault();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeAsyncEntityAction targetExecutor = {targetExecutor}");
-#endif
-
             NormalizeCommandParams(command, targetExecutor);
 
             if (targetExecutor.IsUserDefined)
@@ -292,10 +283,6 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var command = action.Command;
             var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"InvokeAsyncEntityActionByDescriptor targetExecutor = {targetExecutor}");
-#endif
 
             if (targetExecutor == null)
             {

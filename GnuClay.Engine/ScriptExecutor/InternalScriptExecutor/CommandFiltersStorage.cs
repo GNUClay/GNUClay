@@ -350,12 +350,29 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             var targetKey = command.TargetKey;
 
+            var result = new List<T>();
+
             if (mDict.ContainsKey(targetKey))
             {
-                return mDict[targetKey].FindExecutors(command);
+                var tmpRez = mDict[targetKey].FindExecutors(command);
+
+                if(!_ListHelper.IsEmpty(tmpRez))
+                {
+                    result.AddRange(tmpRez);
+                }
             }
 
-            return new List<T>();
+            if (mDict.ContainsKey(0))
+            {
+                var tmpRez = mDict[0].FindExecutors(command);
+
+                if (!_ListHelper.IsEmpty(tmpRez))
+                {
+                    result.AddRange(tmpRez);
+                }
+            }
+
+            return result;
         }
 
         private Dictionary<ulong, CommandFiltersStorageByTarget<T>> mDict = new Dictionary<ulong, CommandFiltersStorageByTarget<T>>();

@@ -23,6 +23,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             switch (OperationCode)
             {
                 case OperationCode.Nop:
+                case OperationCode.ClearStack:
                     return $"[{Position}]{OperationCode}";
 
                 case OperationCode.PushConst:
@@ -37,32 +38,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.PushVar:
                     return $"[{Position}]{OperationCode}: {Key}";
 
-                case OperationCode.OldBeginCall:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldBeginCallMethod:
-                    return $"[{Position}]{OperationCode}: {Key}";
-
-                case OperationCode.OldBeginCallMethodOfPrevEntity:
-                    return $"[{Position}]{OperationCode}: {Key}";
-
-                case OperationCode.OldSetTarget:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldSetParamName:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldSetParamVal:
-                    return $"[{Position}]{OperationCode}";
-
                 case OperationCode.CallUnOp:
-                    return $"[{Position}]{OperationCode}: {Key}";
-
                 case OperationCode.CallBinOp:
-                    return $"[{Position}]{OperationCode}: {Key}";
-
-
-                /*
                 case OperationCode.CallWTargetN:
                 case OperationCode.CallWTarget:
                 case OperationCode.CallN:
@@ -78,20 +55,8 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallMAsyncWTargetN:
                 case OperationCode.CallMAsyncWTarget:
                 case OperationCode.CallMAsyncN:
-                case OperationCode.CallMAsync:  
-             */
-
-                case OperationCode.OldCall:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldCallByPos:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldCallAsync:
-                    return $"[{Position}]{OperationCode}";
-
-                case OperationCode.OldCallAsyncByPos:
-                    return $"[{Position}]{OperationCode}";
+                case OperationCode.CallMAsync:
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.JumpIfTrue:
                     return $"[{Position}]{OperationCode}: {Key}";
