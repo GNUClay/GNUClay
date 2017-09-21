@@ -61,6 +61,26 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallBinOp:
                     return $"[{Position}]{OperationCode}: {Key}";
 
+
+                /*
+                case OperationCode.CallWTargetN:
+                case OperationCode.CallWTarget:
+                case OperationCode.CallN:
+                case OperationCode.Call:
+                case OperationCode.CallAsyncWTargetN:
+                case OperationCode.CallAsyncWTarget:
+                case OperationCode.CallAsyncN:
+                case OperationCode.CallAsync:
+                case OperationCode.CallMWTargetN:
+                case OperationCode.CallMWTarget:
+                case OperationCode.CallMN:
+                case OperationCode.CallM:
+                case OperationCode.CallMAsyncWTargetN:
+                case OperationCode.CallMAsyncWTarget:
+                case OperationCode.CallMAsyncN:
+                case OperationCode.CallMAsync:  
+             */
+
                 case OperationCode.OldCall:
                     return $"[{Position}]{OperationCode}";
 
