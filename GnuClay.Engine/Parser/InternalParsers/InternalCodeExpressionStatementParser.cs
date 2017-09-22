@@ -804,9 +804,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
             if(node.Name != null)
             {
                 result.Name = CreateExpressionNode(node.Name);
+                result.Name.Parent = result;
             }
             
             result.Value = CreateExpressionNode(node.Value);
+            result.Value.Parent = result;
 
             return result;
         }
@@ -844,7 +846,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
             var result = new ASTBinaryOperator();
             result.OperatorKey = node.TypeKey;
             result.Left = CreateExpressionNode(node.Left);
+            result.Left.Parent = result;
             result.Right = CreateExpressionNode(node.Right);
+            result.Right.Parent = result;
             return result;
         }
 
@@ -866,13 +870,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 if (node.Target != null)
                 {
                     calledResult.Target = CreateExpressionNode(node.Target);
+                    calledResult.Target.Parent = calledResult;
                 }
 
                 if (!_ListHelper.IsEmpty(node.Params))
                 {
                     foreach (var paramItem in node.Params)
                     {
-                        calledResult.Params.Add(CreateExpressionNode(paramItem));
+                        var param = CreateExpressionNode(paramItem);
+                        param.Parent = calledResult;
+                        calledResult.Params.Add(param);
                     }
                 }
 
@@ -898,13 +905,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 if(node.Target != null)
                 {
                     calledResult.Target = CreateExpressionNode(node.Target);
+                    calledResult.Target.Parent = calledResult;
                 }
                 
                 if(!_ListHelper.IsEmpty(node.Params))
                 {
                     foreach (var paramItem in node.Params)
                     {
-                        calledResult.Params.Add(CreateExpressionNode(paramItem));
+                        var param = CreateExpressionNode(paramItem);
+                        param.Parent = calledResult;
+                        calledResult.Params.Add(param);
                     }
                 }
 

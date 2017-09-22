@@ -36,7 +36,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
             {
                 sb.AppendLine($"{spacesString}OperatorName = {dataDictionary.GetValue(OperatorKey)}");
             }
-
+            DisplayParent(sb, spacesString, dataDictionary, nextIndent);
             if (Left == null)
             {
                 sb.AppendLine($"{spacesString}{nameof(Left)} = null");
@@ -57,6 +57,26 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
                 sb.AppendLine(Right.ToString(dataDictionary, nextIndent));
             }
                      
+            sb.AppendLine($"{spacesString}End BinaryOperator");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Converts the value of this instance to its equivalent short string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The short string representation of this instance.</returns>
+        public override string ToParentTitle(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var sb = new StringBuilder();
+            sb.AppendLine($"{spacesString}Begin BinaryOperator");
+            sb.AppendLine($"{spacesString}{nameof(OperatorKey)} = {OperatorKey}");
+            if (dataDictionary != null)
+            {
+                sb.AppendLine($"{spacesString}OperatorName = {dataDictionary.GetValue(OperatorKey)}");
+            }
             sb.AppendLine($"{spacesString}End BinaryOperator");
             return sb.ToString();
         }

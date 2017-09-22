@@ -19,6 +19,7 @@ namespace TSTConsoleWorkBench
     {
         static void Main(string[] args)
         {
+            TSTCompilerRunner();
             //TstActorsRunner();
             //TextCGParserRunner();
             //TSTGnuClayLocalServerInheritanceSelectQueryRunner();
@@ -30,10 +31,16 @@ namespace TSTConsoleWorkBench
             //TSTLocalHostRunner();
             //TSTParserRunner();//<==
             //TSTCommonRunner();
-            TSTInitialRunner();//<==
+            //TSTInitialRunner();//<==
             //TSTRunInsert();//<==
             //TSTStorageDataDictionary();
             //CreateMyFirstExpressionTree();
+        }
+
+        private static void TSTCompilerRunner()
+        {
+            var tmpCompilerRunner = new CompilerRunner();
+            tmpCompilerRunner.Run();
         }
 
         private static void TstActorsRunner()

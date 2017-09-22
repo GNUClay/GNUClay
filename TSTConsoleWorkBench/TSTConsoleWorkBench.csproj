@@ -68,6 +68,7 @@
     <Compile Include="OOP\GnuClayLocalServerInheritanceQueryRunner.cs" />
     <Compile Include="OOP\GnuClayLocalServerInheritanceSelectQueryRunner.cs" />
     <Compile Include="OOP\GnuClayLocalServerValueQueryRunner.cs" />
+    <Compile Include="ParserExecuting\CompilerRunner.cs" />
     <Compile Include="ParserExecuting\ParserRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

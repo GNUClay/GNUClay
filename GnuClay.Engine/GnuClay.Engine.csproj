@@ -154,6 +154,11 @@
     <Compile Include="ScriptExecutor\CommonData\UndefinedValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="CommonStorages\CommonValuesFactory.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BinaryOperatorLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CallMemberLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CallVarLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionNodeLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\PropertyLeaf.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
@@ -175,7 +180,7 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BaseLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
-    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\KindOfLogicalOperator.cs" />
     <Compile Include="ScriptExecutor\KindOfValue.cs" />
     <Compile Include="ScriptExecutor\NamedParamInfo.cs" />

@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler;
@@ -19,13 +20,41 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
 
         public FunctionModel Compile(ASTCodeBlock ast)
         {
-            var context = new CompilerContext();
-            context.MainContext = Context;
+            //var context = new CompilerContext();
+            //context.MainContext = Context;
 
-            var codeBlock = new CodeBlockLeaf(context);
+            var codeBlock = new CodeBlockLeaf(Context);
             codeBlock.Run(ast);
 
-            return context.Result;
+            var tmpCommandsList = codeBlock.Result;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Compile pre tmpCommandsList = {_ListHelper._ToString(tmpCommandsList)}");
+#endif
+
+            var n = 0;
+
+            ScriptCommand prevCommand = null;
+
+            foreach(var cmd in tmpCommandsList)
+            {
+                n++;
+
+                cmd.Position = n;
+
+                if(prevCommand != null)
+                {
+                    prevCommand.Next = cmd;
+                }
+
+                prevCommand = cmd;
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Compile after tmpCommandsList = {_ListHelper._ToString(tmpCommandsList)}");
+#endif
+
+            return new FunctionModel(tmpCommandsList);
         }
     }
 }

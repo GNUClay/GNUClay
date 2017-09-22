@@ -11,12 +11,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     public class ScriptCommand : IToStringData
     {
         public OperationCode OperationCode = OperationCode.Nop;
-        public ScriptCommand Next = null;
+        public ScriptCommand Next { get; set; }
 
-        public int Position = 0;
-        public ulong Key = 0;
-        public object Value = null;
-        
+        public int Position { get; set; }
+        public ulong Key { get; set; }
+        public object Value { get; set; }
+        public ScriptCommand JumpToMe { get; set; }
+
 #if DEBUG
         public string ToDbgString()
         {

@@ -10,7 +10,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 {
     public class CompilerContext
     {
-        public FunctionModel Result { get; set; } = new FunctionModel();
         public GnuClayEngineComponentContext MainContext { get; set; }
     }
 }

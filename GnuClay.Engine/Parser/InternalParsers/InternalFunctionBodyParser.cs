@@ -59,6 +59,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessWordToken();
                             break;
 
+                        case TokenKind.Tilde:
+                            ProcessExpressionStatement();
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;

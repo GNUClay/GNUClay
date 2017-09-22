@@ -10,6 +10,17 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
     [Serializable]
     public class FunctionModel : IToStringData
     {
+        public FunctionModel()
+        {
+        }
+
+        public FunctionModel(List<ScriptCommand> commands)
+        {
+            Commands = commands;
+            mFirstCommand = Commands.FirstOrDefault();
+            LinesDict = Commands.ToDictionary(p => p.Position, p => p);
+        }
+
         public ScriptCommand FirstCommand
         {
             get

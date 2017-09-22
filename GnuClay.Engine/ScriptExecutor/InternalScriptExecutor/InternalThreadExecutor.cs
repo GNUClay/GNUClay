@@ -439,8 +439,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMWTargetN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();          
             var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
@@ -449,8 +449,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMWTarget()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();        
             var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
@@ -459,8 +459,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();     
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
@@ -468,8 +468,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallM()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
@@ -477,8 +477,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMAsyncWTargetN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();       
             var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
@@ -487,8 +487,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMAsyncWTarget()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();         
             var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
@@ -497,8 +497,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMAsyncN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
@@ -506,8 +506,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMAsync()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var subject = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();   
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
