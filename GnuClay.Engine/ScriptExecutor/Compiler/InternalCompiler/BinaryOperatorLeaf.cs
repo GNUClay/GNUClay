@@ -48,10 +48,32 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator");
 #endif
 
-            var rigthKind = Right.Kind;
+            var parent = BinaryOperator.Parent;
 
-            switch(rigthKind)
+            if(parent == null)
             {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator parent == null");
+#endif
+
+                var leaf = new ExpressionNodeLeaf(Context);
+                leaf.Run(BinaryOperator.Left);
+                AddCommands(leaf.Result);
+
+#if DEBUG
+
+                ShowCommands();
+#endif
+
+                throw new NotImplementedException();
+            }
+
+            throw new NotImplementedException();
+
+            //var rigthKind = Right.Kind;
+
+            //switch(rigthKind)
+            //{
                 //case ExpressionKind.CalledEntityExpression:
                 //    {
                 //        var leaf = new CallMemberLeaf(Context);
@@ -68,8 +90,8 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 //    }
                 //    break;
 
-                default: throw new ArgumentOutOfRangeException(nameof(rigthKind), rigthKind, null);
-            }
+            //   default: throw new ArgumentOutOfRangeException(nameof(rigthKind), rigthKind, null);
+            //}
         }
     }
 }
