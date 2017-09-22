@@ -72,6 +72,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = '{CurrToken.Content}'");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)} ");
+#endif
             switch (mState)
             {
                 case State.Init:
@@ -614,6 +619,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetArithmeticToken(InternalCodeExpressionNode node)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken node = {node?.ToString(mDataDictionary, 0)}");
+#endif
             var nodePriority = GetArithmeticNodePriority(node.TypeKey);
 
             var currentNode = mCurrentNode;
@@ -640,6 +648,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 switch (classOfCurrentNode)
                 {
                     case ClassOfNode.Leaf:
+                    case ClassOfNode.Point:
                         prevNode = currentNode;
                         currentNode = currentNode.Parent;
                         break;

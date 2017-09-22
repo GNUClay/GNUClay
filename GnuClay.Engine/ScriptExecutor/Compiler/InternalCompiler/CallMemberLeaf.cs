@@ -16,174 +16,151 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
         {
         }
 
-        public void Run(ASTBinaryOperator ast)
+        public void Run(ASTCalledEntityExpression ast)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
 #endif
 
-            //            var right = ast.Right as ASTCalledEntityExpression;
+            var functionKey = ast.TypeKey;
 
-            //            var isNamed = false;
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run functionKey = {functionKey}");
+#endif
 
-            //            var leftKind = ast.Left.Kind;
+            AddCommand(CreatePushEntityCommand(functionKey));
 
-            //            switch (leftKind)
-            //            {
-            //                case ExpressionKind.EntityExpression:
-            //                    {
-            //                        var subjectLeaf = new ExpressionNodeLeaf(Context);
-            //                        subjectLeaf.Run(ast.Left);
-            //                        AddCommands(subjectLeaf.Result);
-            //                    }
-            //                    break;
+            var target = ast.Target;
 
-            //                default: throw new ArgumentOutOfRangeException(nameof(leftKind), leftKind, null);
-            //            }
+            if (target != null)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run target = {target.ToString(Context.DataDictionary, 0)}");
+#endif
 
-            //#if DEBUG
-            //            ShowCommands();
-            //#endif
+                var targetLeaf = new ExpressionNodeLeaf(Context);
+                targetLeaf.Run(target);
+                AddCommands(targetLeaf.Result);
 
-            //            var functionKey = right.TypeKey;
+#if DEBUG
+                ShowCommands();
+#endif
+            }
 
-            //#if DEBUG
-            //            NLog.LogManager.GetCurrentClassLogger().Info($"Run functionKey = {functionKey}");
-            //#endif
+            var parameters = ast.Params;
 
-            //            AddCommand(CreatePushEntityCommand(functionKey));
+            var isNamed = false;
 
-            //            var target = right.Target;
+            foreach (var parameter in parameters)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"Run parameter = {parameter.ToString(Context.DataDictionary, 0)}");
+#endif
 
-            //            if (target != null)
-            //            {
-            //#if DEBUG
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"Run target = {target.ToString(Context.DataDictionary, 0)}");
-            //#endif
+                var paramExpr = parameter as ASTParamExpression;
 
-            //                var targetLeaf = new ExpressionNodeLeaf(Context);
-            //                targetLeaf.Run(target);
-            //                AddCommands(targetLeaf.Result);
+                isNamed = paramExpr.IsNamed;
 
-            //#if DEBUG
-            //                ShowCommands();
-            //#endif
-            //            }
+                if (isNamed)
+                {
+                    var paramLeaf = new ExpressionNodeLeaf(Context);
+                    paramLeaf.Run(paramExpr.Name);
+                    AddCommands(paramLeaf.Result);
+                    paramLeaf = new ExpressionNodeLeaf(Context);
+                    paramLeaf.Run(paramExpr.Value);
+                    AddCommands(paramLeaf.Result);
+                }
+                else
+                {
+                    var paramLeaf = new ExpressionNodeLeaf(Context);
+                    paramLeaf.Run(paramExpr.Value);
+                    AddCommands(paramLeaf.Result);
+                }
+            }
 
-            //            var parameters = right.Params;
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run isNamed = {isNamed}");
+            ShowCommands();
+#endif
 
-            //            foreach (var parameter in parameters)
-            //            {
-            //#if DEBUG
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"Run parameter = {parameter.ToString(Context.DataDictionary, 0)}");
-            //#endif
+            if (ast.IsAsync)
+            {
+                if (target == null)
+                {
+                    if (isNamed)
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMAsyncN;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                    else
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMAsync;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                }
+                else
+                {
+                    if (isNamed)
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMAsyncWTargetN;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                    else
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMAsyncWTarget;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                }
+            }
+            else
+            {
+                if (target == null)
+                {
+                    if (isNamed)
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMN;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                    else
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallM;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                }
+                else
+                {
+                    if (isNamed)
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMWTargetN;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                    else
+                    {
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.CallMWTarget;
+                        tmpCommand.Key = (ulong)parameters.Count;
+                        AddCommand(tmpCommand);
+                    }
+                }
+            }
 
-            //                var paramExpr = parameter as ASTParamExpression;
-
-            //                isNamed = paramExpr.IsNamed;
-
-            //                if(isNamed)
-            //                {
-            //                    var paramLeaf = new ExpressionNodeLeaf(Context);
-            //                    paramLeaf.Run(paramExpr.Name);
-            //                    AddCommands(paramLeaf.Result);
-            //                    paramLeaf = new ExpressionNodeLeaf(Context);
-            //                    paramLeaf.Run(paramExpr.Value);
-            //                    AddCommands(paramLeaf.Result);
-            //                }
-            //                else
-            //                {
-            //                    var paramLeaf = new ExpressionNodeLeaf(Context);
-            //                    paramLeaf.Run(paramExpr.Value);
-            //                    AddCommands(paramLeaf.Result);
-            //                }
-            //            }
-
-            //#if DEBUG
-            //            NLog.LogManager.GetCurrentClassLogger().Info($"Run isNamed = {isNamed}");
-            //            ShowCommands();
-            //#endif
-
-            //            if(right.IsAsync)
-            //            {
-            //                if (target == null)
-            //                {
-            //                    if (isNamed)
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMAsyncN;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                    else
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMAsync;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    if (isNamed)
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMAsyncWTargetN;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                    else
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMAsyncWTarget;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if(target == null)
-            //                {
-            //                    if(isNamed)
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMN;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                    else
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallM;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    if (isNamed)
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMWTargetN;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                    else
-            //                    {
-            //                        var tmpCommand = new ScriptCommand();
-            //                        tmpCommand.OperationCode = OperationCode.CallMWTarget;
-            //                        tmpCommand.Key = (ulong)parameters.Count;
-            //                        AddCommand(tmpCommand);
-            //                    }
-            //                }
-            //            }
-
-            //#if DEBUG
-            //            ShowCommands();
-            //#endif
-
-            throw new NotImplementedException();
+#if DEBUG
+            ShowCommands();
+#endif
         }
     }
 }

@@ -33,7 +33,13 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         tmpExpressionLeaf.Run(statement as ASTExpressionStatement);
                         AddCommands(tmpExpressionLeaf.Result);
                         break;
-                        
+
+                    case StatementKind.If:
+                        {
+                            var leaf = new IfStatementLeaf();
+                        }          
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                 }
             }

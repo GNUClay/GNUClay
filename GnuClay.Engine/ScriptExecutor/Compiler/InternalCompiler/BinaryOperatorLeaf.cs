@@ -1,5 +1,6 @@
 ﻿using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.AST.Expressions;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 return;
             }
 
-            throw new NotImplementedException();
+            ProcessUsualOperator();
         }
 
         private void ProcessPointOperator()
@@ -63,35 +64,131 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 #if DEBUG
 
                 ShowCommands();
-#endif
+#endif        
+            }
+            else
+            {
+                var parentKind = parent.Kind;
 
-                throw new NotImplementedException();
+                switch(parentKind)
+                {
+                    case ExpressionKind.BinaryOperator:
+                        var parentExpression = parent as ASTBinaryOperator;
+                        var operatorKey = parentExpression.OperatorKey;
+
+                        if(operatorKey == Context.CommonKeysEngine.PointOperatorKey)
+                        {
+                            var leaf = new ExpressionNodeLeaf(Context);
+                            leaf.RunMember(BinaryOperator.Left);
+                            AddCommands(leaf.Result);
+
+#if DEBUG
+                            ShowCommands();
+#endif 
+                        }
+                        else
+                        {
+                            var leaf = new ExpressionNodeLeaf(Context);
+                            leaf.Run(BinaryOperator.Left);
+                            AddCommands(leaf.Result);
+
+#if DEBUG
+                            ShowCommands();
+#endif 
+                        }
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(parentKind), parentKind, null);
+                }
             }
 
-            throw new NotImplementedException();
 
-            //var rigthKind = Right.Kind;
+            var rigthKind = Right.Kind;
 
-            //switch(rigthKind)
-            //{
-                //case ExpressionKind.CalledEntityExpression:
-                //    {
-                //        var leaf = new CallMemberLeaf(Context);
-                //        leaf.Run(BinaryOperator);
-                //        AddCommands(leaf.Result);
-                //    }
-                //    break;
+            switch (rigthKind)
+            {
+                case ExpressionKind.BinaryOperator:
+                    {
+                        var rightExpr = Right as ASTBinaryOperator;
 
-                //case ExpressionKind.EntityExpression:
-                //    {
-                //        var leaf = new PropertyLeaf(Context);
-                //        leaf.Run(BinaryOperator);
-                //        AddCommands(leaf.Result);
-                //    }
-                //    break;
+                        var rightOpCode = rightExpr.OperatorKey;
 
-            //   default: throw new ArgumentOutOfRangeException(nameof(rigthKind), rigthKind, null);
-            //}
+                        if(rightOpCode == Context.CommonKeysEngine.PointOperatorKey)
+                        {
+                            var leaf = new BinaryOperatorLeaf(Context);
+                            leaf.Run(rightExpr);
+                            AddCommands(leaf.Result);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+
+#if DEBUG
+                        ShowCommands();
+#endif
+                    }
+                    break;
+
+                case ExpressionKind.CalledEntityExpression:
+                    {
+                        var rightExpr = Right as ASTCalledEntityExpression;
+                        var leaf = new CallMemberLeaf(Context);
+                        leaf.Run(rightExpr);
+                        AddCommands(leaf.Result);
+#if DEBUG
+                        ShowCommands();
+#endif
+                    }
+                    break;
+
+                case ExpressionKind.EntityExpression:
+                    {
+                        var rightExpr = Right as ASTEntityExpression;
+                        var leaf = new ExpressionNodeLeaf(Context);
+                        leaf.RunMember(rightExpr);
+                        AddCommands(leaf.Result);
+
+#if DEBUG
+                        ShowCommands();
+#endif 
+                    }
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(rigthKind), rigthKind, null);
+            }
+        }
+
+        private void ProcessUsualOperator()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator");
+#endif
+
+            var leaf = new ExpressionNodeLeaf(Context);
+            leaf.Run(Left);
+            AddCommands(leaf.Result);
+
+#if DEBUG
+            ShowCommands();
+#endif 
+
+            leaf = new ExpressionNodeLeaf(Context);
+            leaf.Run(Right);
+            AddCommands(leaf.Result);
+
+#if DEBUG
+            ShowCommands();
+#endif
+
+            var tmpCommand = new ScriptCommand();
+            tmpCommand.OperationCode = OperationCode.CallBinOp;
+            tmpCommand.Key = BinaryOperator.OperatorKey;
+            AddCommand(tmpCommand);
+
+#if DEBUG
+            ShowCommands();
+#endif
         }
     }
 }

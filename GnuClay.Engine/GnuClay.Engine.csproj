@@ -158,7 +158,7 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CallMemberLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CallVarLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionNodeLeaf.cs" />
-    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\PropertyLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\IfStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />

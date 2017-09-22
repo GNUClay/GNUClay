@@ -76,5 +76,28 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
+
+        public void RunMember(ASTExpression ast)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"RunMember ast = {ast.ToString(Context.DataDictionary, 0)}");
+#endif
+            var kind = ast.Kind;
+
+            switch (kind)
+            {
+                case ExpressionKind.EntityExpression:
+                    {
+                        var expression = ast as ASTEntityExpression;
+                        var tmpCommand = new ScriptCommand();
+                        tmpCommand.OperationCode = OperationCode.PushProp;
+                        tmpCommand.Key = expression.TypeKey;
+                        AddCommand(tmpCommand);
+                    }
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
+            }    
+        }
     }
 }
