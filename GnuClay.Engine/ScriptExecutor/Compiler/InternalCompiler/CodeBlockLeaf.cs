@@ -36,9 +36,25 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
                     case StatementKind.If:
                         {
-                            var leaf = new IfStatementLeaf();
+                            var leaf = new IfStatementLeaf(Context);
+                            leaf.Run(statement as ASTIfStatement);
+                            AddCommands(leaf.Result);
                         }          
                         break;
+
+                    case StatementKind.While:
+                        {
+                            var expression = statement as ASTWhileStatement;
+
+                            if(expression.WithPrecondition)
+                            {
+                                var leaf = new PreconditionWhileLeaf(Context);
+                                leaf.Run(expression);
+                                AddCommands(leaf.Result);
+                                break;
+                            }
+                            throw new NotImplementedException();
+                        }
 
                     default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                 }

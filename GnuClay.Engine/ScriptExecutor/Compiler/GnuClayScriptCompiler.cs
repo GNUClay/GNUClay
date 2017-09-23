@@ -36,6 +36,8 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
 
             ScriptCommand prevCommand = null;
 
+            var jumpCommandsList = new List<ScriptCommand>();
+
             foreach(var cmd in tmpCommandsList)
             {
                 n++;
@@ -48,6 +50,23 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
                 }
 
                 prevCommand = cmd;
+
+                switch(cmd.OperationCode)
+                {
+                    case OperationCode.Jump:
+                    case OperationCode.JumpIfFalse:
+                    case OperationCode.JumpIfTrue:
+                        jumpCommandsList.Add(cmd);
+                        break;
+                }
+            }
+
+            if(!_ListHelper.IsEmpty(jumpCommandsList))
+            {
+                foreach(var cmd in jumpCommandsList)
+                {
+                    cmd.Key = (ulong)cmd.JumpToMe.Position;
+                }
             }
 
 #if DEBUG
