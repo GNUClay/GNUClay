@@ -30,8 +30,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void Execute(ASTCodeBlock codeBlock)
         {
-            throw new NotImplementedException();
-
+            
             //var tmpCodeFrame = mCompiler.Compile(codeBlock);
             //var context = new GnuClayThreadExecutionContext();
             //context.MainContext = Context;

@@ -16,7 +16,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case3();
             //Case4();
             //Case5();
-            Case6();
+            //Case6();
+            Case7();
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
@@ -120,6 +121,22 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             Compile(tmpSb.ToString());
             NLog.LogManager.GetCurrentClassLogger().Info("End Case6");
+        }
+
+        private void Case7()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Case7");
+
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("    while($var1 == 1)");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        $var2 = $var3;");
+            tmpSb.AppendLine("    };");
+            tmpSb.AppendLine("}");
+
+            Compile(tmpSb.ToString());
+            NLog.LogManager.GetCurrentClassLogger().Info("End Case7");
         }
 
         private void Compile(string text)
