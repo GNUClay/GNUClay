@@ -168,11 +168,15 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c): boolean");
             tmpSb.AppendLine("    subj: dog;");
             tmpSb.AppendLine("    {");
-            tmpSb.AppendLine("        while($var1 == 1)");
-            tmpSb.AppendLine("        {");
-            tmpSb.AppendLine("            $var2 = $var3;");
-            tmpSb.AppendLine("        };");
+            tmpSb.AppendLine("        return 1;");
             tmpSb.AppendLine("    }");
+            tmpSb.AppendLine("}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
             tmpSb.AppendLine("}");
 
             GnuClayEngine.Query(tmpSb.ToString());

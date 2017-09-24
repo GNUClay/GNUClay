@@ -44,8 +44,25 @@ namespace GnuClay.Engine.ScriptExecutor
             NLog.LogManager.GetCurrentClassLogger().Info($"DefineFunction tmpCodeFrame = {tmpCodeFrame?.ToString(Context.DataDictionary, 0)}");
 #endif
 
+            var filter = new CommandFilter();
+            filter.HolderKey = userDefinedFunction.HolderKey;
+            filter.FunctionKey = userDefinedFunction.FunctionKey;
+            filter.TargetKey = userDefinedFunction.TargetKey;
 
-            throw new NotImplementedException();
+            foreach(var parameter in userDefinedFunction.Params)
+            {
+                var item = new CommandFilterParam();
+                item.TypeKey = parameter.TypeKey;
+                item.IsAnyType = false;
+
+                filter.Params.Add(parameter.NameKey, item);
+            }
+
+            var tmpUserDefinedFunctionModel = new UserDefinedFunctionModel();
+            tmpUserDefinedFunctionModel.Filter = filter;
+            tmpUserDefinedFunctionModel.FunctionModel = tmpCodeFrame;
+
+            Context.UserDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
         }
     }
 }
