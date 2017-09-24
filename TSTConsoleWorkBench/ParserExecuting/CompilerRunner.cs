@@ -165,7 +165,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("DEFINE {");
-            tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c): boolean");
+            tmpSb.AppendLine("    fun run<!door!>($a, $b, $c)");
             tmpSb.AppendLine("    subj: dog;");
             tmpSb.AppendLine("    {");
             tmpSb.AppendLine("        return 1;");

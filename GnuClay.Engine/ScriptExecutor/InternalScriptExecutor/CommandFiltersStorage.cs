@@ -470,6 +470,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command.ToString(mContext.DataDictionary, 0)}");
+#endif
+
             lock (mLockObj)
             {
                 var holderKey = command.Holder.TypeKey;
