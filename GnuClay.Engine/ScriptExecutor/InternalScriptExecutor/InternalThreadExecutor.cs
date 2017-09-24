@@ -449,10 +449,30 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallMWTarget()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();        
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
+#endif
+
+            var target = mCurrentFrame.PopValue();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
+#endif
+
+            var currentFunction = mCurrentFrame.PopValue();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
+#endif
+
+            var subject = mCurrentFrame.PopValue();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
+#endif                
+
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }

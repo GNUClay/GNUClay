@@ -89,6 +89,7 @@
     <Compile Include="Parser\InternalParsers\InternalNumberParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalParamsOfFunctionParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalProbabilisticParsingOfFunctionBody.cs" />
+    <Compile Include="Parser\InternalParsers\InternalReturnStatementParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalRuleParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectedTreeParser.cs" />
     <Compile Include="Parser\InternalParsers\InternalSelectQueryParser.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="ScriptExecutor\AST\Expressions\ASTParamExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Expressions\ASTVarExpression.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTIfStatement.cs" />
+    <Compile Include="ScriptExecutor\AST\Statements\ASTReturnStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTWhileStatement.cs" />
@@ -159,7 +161,8 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CallVarLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionNodeLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\IfStatementLeaf.cs" />
-    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\PreconditionWhileLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\PreconditionWhileStatementLeaf.cs" />
+    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ReturnStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />

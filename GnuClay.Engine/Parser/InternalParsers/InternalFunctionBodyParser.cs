@@ -140,6 +140,33 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
+                case TokenKind.RETURN:
+                    {
+#if PARSE_WITHOUT_ProbabilisticOfFunctionBody
+                        var tmpInternalReturnStatementParser = new InternalReturnStatementParser(Context);
+                        tmpInternalReturnStatementParser.Run();
+                        AddStatement(tmpInternalReturnStatementParser.Result);
+#else
+                        var tmpProbabilisticParsing = new InternalProbabilisticParsingOfFunctionBody(this);
+
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) =>
+                        {
+                            var tmpInternalReturnStatementParser = new InternalReturnStatementParser(context);
+                            tmpInternalReturnStatementParser.Run();
+                            return tmpInternalReturnStatementParser.Result;
+                        });
+                        tmpProbabilisticParsing.AddBranch((InternalParserContext context) => {
+                            var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(context, InternalCodeExpressionStatementParser.Mode.General, true);
+                            tmpInternalCodeExpressionStatementParser.Run();
+                            return tmpInternalCodeExpressionStatementParser.ASTResult;
+                        });
+                        tmpProbabilisticParsing.Run();
+                        AddStatement(tmpProbabilisticParsing.Result);
+#endif
+                    }
+                    break;
+                    
+
                 default: throw new UnexpectedTokenException(CurrToken);
             }
         }

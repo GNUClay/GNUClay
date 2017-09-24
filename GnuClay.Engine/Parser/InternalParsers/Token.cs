@@ -255,6 +255,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// Represents keyword `while`.
         /// </summary>
         WHILE,
+
+        /// <summary>
+        /// Represents keyword `return`.
+        /// </summary>
+        RETURN
     }
 
     /// <summary>

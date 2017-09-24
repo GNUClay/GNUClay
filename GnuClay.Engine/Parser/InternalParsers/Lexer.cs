@@ -301,6 +301,12 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         break;
                     }
 
+                    if (string.Compare(content, "RETURN", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.RETURN;
+                        break;
+                    }
+
                     if (content.StartsWith("$"))
                     {
                         if(content.StartsWith("$$"))

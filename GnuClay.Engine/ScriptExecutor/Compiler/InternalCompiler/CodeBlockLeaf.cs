@@ -48,12 +48,20 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
                             if(expression.WithPrecondition)
                             {
-                                var leaf = new PreconditionWhileLeaf(Context);
+                                var leaf = new PreconditionWhileStatementLeaf(Context);
                                 leaf.Run(expression);
                                 AddCommands(leaf.Result);
                                 break;
                             }
                             throw new NotImplementedException();
+                        }
+
+                    case StatementKind.Return:
+                        {
+                            var leaf = new ReturnStatementLeaf(Context);
+                            leaf.Run(statement as ASTReturnStatement);
+                            AddCommands(leaf.Result);
+                            break;
                         }
 
                     default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);

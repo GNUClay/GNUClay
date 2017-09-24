@@ -12,7 +12,8 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Statements
         Undefined,
         Expression,
         If,
-        While
+        While,
+        Return
     }
 
     public abstract class ASTStatement

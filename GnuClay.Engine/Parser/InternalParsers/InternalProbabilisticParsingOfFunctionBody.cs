@@ -121,6 +121,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     }
                     break;
 
+                case 2:
+                    {
+                        var targetItem = tmpSuccessList.First();
+                        Result = targetItem.Result;
+                        mSourceParser.AssingContext(targetItem.Context);
+                    }
+                    break;
+
                 default: throw new NotSupportedException();
             }
         }

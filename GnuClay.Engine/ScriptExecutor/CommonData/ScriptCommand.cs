@@ -93,15 +93,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallMAsyncWTarget:
                 case OperationCode.CallMAsyncN:
                 case OperationCode.CallMAsync:
-                    {
-                        var sb = new StringBuilder();
-                        sb.Append($"[{Position}]{OperationCode}: {Key}");
-                        if (dataDictionary != null)
-                        {
-                            sb.Append($"({dataDictionary.GetValue(Key)})");
-                        }
-                        return sb.ToString();
-                    }
+                    return $"[{Position}]{OperationCode}: {Key}";
 
                 case OperationCode.JumpIfTrue:
                     return $"[{Position}]{OperationCode}: {Key}";
@@ -153,24 +145,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                     case OperationCode.PushEntity:
                     case OperationCode.PushProp:
                     case OperationCode.PushVar:
-                    case OperationCode.CallUnOp:
-                    case OperationCode.CallBinOp:
-                    case OperationCode.CallWTargetN:
-                    case OperationCode.CallWTarget:
-                    case OperationCode.CallN:
-                    case OperationCode.Call:
-                    case OperationCode.CallAsyncWTargetN:
-                    case OperationCode.CallAsyncWTarget:
-                    case OperationCode.CallAsyncN:
-                    case OperationCode.CallAsync:
-                    case OperationCode.CallMWTargetN:
-                    case OperationCode.CallMWTarget:
-                    case OperationCode.CallMN:
-                    case OperationCode.CallM:
-                    case OperationCode.CallMAsyncWTargetN:
-                    case OperationCode.CallMAsyncWTarget:
-                    case OperationCode.CallMAsyncN:
-                    case OperationCode.CallMAsync:
                         tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(Key)}");
                         break;
                 }

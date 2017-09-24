@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 {
-    public class PreconditionWhileLeaf : BaseLeaf
+    public class PreconditionWhileStatementLeaf : BaseLeaf
     {
-        public PreconditionWhileLeaf(GnuClayEngineComponentContext context)
+        public PreconditionWhileStatementLeaf(GnuClayEngineComponentContext context)
             : base(context)
         {
         }
