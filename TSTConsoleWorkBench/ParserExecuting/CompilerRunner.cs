@@ -110,6 +110,12 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    {");
             tmpSb.AppendLine("        $var2 = $var3;");
             tmpSb.AppendLine("    };");
+            tmpSb.AppendLine("    if($var1 == 1)");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        $var2 = $var3;");
+            tmpSb.AppendLine("    }else{");
+            tmpSb.AppendLine("        $var2 = $var4;");
+            tmpSb.AppendLine("    };");
             tmpSb.AppendLine("}");
 
             Compile(tmpSb.ToString());
