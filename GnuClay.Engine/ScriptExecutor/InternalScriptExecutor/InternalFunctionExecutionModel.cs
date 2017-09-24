@@ -115,8 +115,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
             tmpSb.AppendLine($"{spacesString}End ValuesStack");
 
-            tmpSb.Append(mExecutionContext.ContextOfVariables.ToDbgString());
-            tmpSb.AppendLine($"{spacesString}{nameof(CurrentCommand)} = {CurrentCommand?.ToDbgString()}"); 
+            tmpSb.Append(mExecutionContext.ContextOfVariables.ToString(dataDictionary, nextIndent));
+            tmpSb.AppendLine($"{spacesString}{nameof(CurrentCommand)} = {CurrentCommand?.ToShortString(dataDictionary, 0)}"); 
             tmpSb.AppendLine($"{spacesString}End InternalFunctionExecutionModel");
             return tmpSb.ToString();
         }

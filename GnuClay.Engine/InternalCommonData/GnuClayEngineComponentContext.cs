@@ -6,6 +6,7 @@ using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.RemoteFunctions;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.Compiler;
 using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.Triggers;
@@ -19,6 +20,7 @@ namespace GnuClay.Engine.InternalCommonData
         public StorageDataDictionary DataDictionary = null;
         public StandardLibraryEngine StandardLibrary = null;
         public LogicalStorageEngine LogicalStorage = null;
+        public GnuClayScriptCompiler ScriptCompiler = null;
         public ScriptExecutorEngine ScriptExecutor = null;
         public RemoteFunctionsEngine RemoteFunctionsEngine = null;
         public GnuClayParserEngine ParserEngine = null;

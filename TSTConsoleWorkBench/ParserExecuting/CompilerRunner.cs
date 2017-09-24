@@ -17,7 +17,9 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case4();
             //Case5();
             //Case6();
-            Case7();
+            //Case7();
+            //Case8();
+            Case9();
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
@@ -139,6 +141,45 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info("End Case7");
         }
 
+        private void Case8()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Case8");
+
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("    $var1 = 1;");
+            tmpSb.AppendLine("    while($var1 == 1)");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        $var1 = 0.5;");
+            tmpSb.AppendLine("    };");
+            tmpSb.AppendLine("}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Case8");
+        }
+
+        private void Case9()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Case9");
+
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("DEFINE {");
+            tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c): boolean");
+            tmpSb.AppendLine("    subj: dog;");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        while($var1 == 1)");
+            tmpSb.AppendLine("        {");
+            tmpSb.AppendLine("            $var2 = $var3;");
+            tmpSb.AppendLine("        };");
+            tmpSb.AppendLine("    }");
+            tmpSb.AppendLine("}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Case9");
+        }
+
         private void Compile(string text)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Compile text = {text}");
@@ -146,7 +187,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             var result = GnuClayEngine.Context.ParserEngine.Parse(text);
             NLog.LogManager.GetCurrentClassLogger().Info($"Compile result = {result?.ToString(GnuClayEngine.DataDictionary)}");
 
-            var tmpCodeFrame = GnuClayEngine.ExecutorEngine.Compiler.Compile(result.ASTCodeBlock);
+            var tmpCodeFrame = GnuClayEngine.Context.ScriptCompiler.Compile(result.ASTCodeBlock);
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpCodeFrame = {tmpCodeFrame}");
         }
     }

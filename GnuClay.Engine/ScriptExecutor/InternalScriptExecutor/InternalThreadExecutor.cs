@@ -118,7 +118,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void ExitWithError(IValue error)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError error = {error.ToString(mDataDictionary, 0)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithError mExcutionFramesStack.Count = {mExecutionFramesStack.Count}");
 #endif
 
@@ -143,7 +143,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void ExitWithResult(IValue result)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult result = {result.ToString(mDataDictionary, 0)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"ExitWithResult mExcutionFramesStack.Count = {mExecutionFramesStack.Count}");
 #endif
 
@@ -181,7 +181,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"NRun Item {mCurrentCommand.ToDbgString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"NRun Item {mCurrentCommand.ToShortString(mDataDictionary, 0)}");
 #endif
             var operationCode = mCurrentCommand.OperationCode;
 

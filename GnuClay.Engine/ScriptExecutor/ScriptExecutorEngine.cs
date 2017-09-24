@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.ScriptExecutor.AST;
 using GnuClay.Engine.ScriptExecutor.Compiler;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
@@ -15,29 +16,36 @@ namespace GnuClay.Engine.ScriptExecutor
         public ScriptExecutorEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            mCompiler = new GnuClayScriptCompiler(context);
+        }
+
+        public override void FirstInit()
+        {
+            mCompiler = Context.ScriptCompiler;
+            mFunctionsEngine = Context.FunctionsEngine;
         }
 
         private GnuClayScriptCompiler mCompiler = null;
-
-        public GnuClayScriptCompiler Compiler
-        {
-            get
-            {
-                return mCompiler;
-            }
-        }
+        private FunctionsEngine mFunctionsEngine = null;
 
         public void Execute(ASTCodeBlock codeBlock)
         {
-            
-            //var tmpCodeFrame = mCompiler.Compile(codeBlock);
-            //var context = new GnuClayThreadExecutionContext();
-            //context.MainContext = Context;
+            var tmpCodeFrame = mCompiler.Compile(codeBlock);
+            mFunctionsEngine.CallCodeFrame(tmpCodeFrame);
+        }
 
-            //var tmpInternalThreadExecutor = new InternalThreadExecutor(tmpCodeFrame, context);
+        public void DefineFunction(UserDefinedFunction userDefinedFunction)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"DefineFunction userDefinedFunction = {userDefinedFunction.ToString(Context.DataDictionary, 0)}");
+#endif
+            var tmpCodeFrame = mCompiler.Compile(userDefinedFunction.Body);
 
-            //tmpInternalThreadExecutor.Run();
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"DefineFunction tmpCodeFrame = {tmpCodeFrame?.ToString(Context.DataDictionary, 0)}");
+#endif
+
+
+            throw new NotImplementedException();
         }
     }
 }

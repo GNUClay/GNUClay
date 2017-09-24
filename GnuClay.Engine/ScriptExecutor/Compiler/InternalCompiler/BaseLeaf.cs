@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
         protected BaseLeaf(GnuClayEngineComponentContext context)
         {
             Context = context;
+            mDataDictionary = Context.DataDictionary;
         }
 
+        private StorageDataDictionary mDataDictionary = null;
         protected GnuClayEngineComponentContext Context { get; set; }
 
         public List<ScriptCommand> Result
@@ -51,7 +54,7 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             NLog.LogManager.GetCurrentClassLogger().Info("ShowCommands Begin Commands");
             foreach(var cmd in mResult)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ShowCommands cmd = {cmd.ToDbgString()}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"ShowCommands cmd = {cmd.ToShortString(mDataDictionary, 4)}");
             }
             NLog.LogManager.GetCurrentClassLogger().Info("ShowCommands End Commands");
         }

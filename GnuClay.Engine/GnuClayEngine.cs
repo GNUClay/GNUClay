@@ -11,6 +11,7 @@ using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.RemoteFunctions;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
+using GnuClay.Engine.ScriptExecutor.Compiler;
 using GnuClay.Engine.Serialization;
 using GnuClay.Engine.StandardLibrary;
 using GnuClay.Engine.Triggers;
@@ -81,6 +82,9 @@ namespace GnuClay.Engine
 
             mContext.StandardLibrary = new StandardLibraryEngine(mContext);
             mComponents.Add(mContext.StandardLibrary);
+
+            mContext.ScriptCompiler = new GnuClayScriptCompiler(mContext);
+            mComponents.Add(mContext.ScriptCompiler);
 
             mContext.ScriptExecutor = new ScriptExecutorEngine(mContext);
             mComponents.Add(mContext.ScriptExecutor);
@@ -366,6 +370,9 @@ namespace GnuClay.Engine
                     case GnuClayQueryKind.CALL:
                         return ProcessCall(queryTree.ASTCodeBlock);
 
+                    case GnuClayQueryKind.USER_DEFINED_FUNCTION:
+                        return ProcessUserDefinedFunction(queryTree.UserDefinedFunction);
+
                     default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                 }
             }
@@ -395,6 +402,14 @@ namespace GnuClay.Engine
         private SelectResult ProcessCall(ASTCodeBlock codeBlock)
         {
             mContext.ScriptExecutor.Execute(codeBlock);
+
+            var result = new SelectResult();
+            return result;
+        }
+
+        private SelectResult ProcessUserDefinedFunction(UserDefinedFunction userDefinedFunction)
+        {
+            mContext.ScriptExecutor.DefineFunction(userDefinedFunction);
 
             var result = new SelectResult();
             return result;

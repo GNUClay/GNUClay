@@ -33,6 +33,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             var nop_2 = new ScriptCommand();
             nop_2.OperationCode = OperationCode.Nop;
 
+            var conditionLeaf = new ExpressionNodeLeaf(Context);
+            conditionLeaf.Run(ast.Condition);
+            AddCommands(conditionLeaf.Result);
+
             var command = new ScriptCommand();
             command.OperationCode = OperationCode.JumpIfTrue;
             command.JumpToMe = nop_1;

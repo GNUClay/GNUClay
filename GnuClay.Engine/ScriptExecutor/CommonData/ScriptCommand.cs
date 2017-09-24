@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
     [Serializable]
-    public class ScriptCommand : IToStringData
+    public class ScriptCommand : ISmartToString
     {
         public OperationCode OperationCode = OperationCode.Nop;
         public ScriptCommand Next { get; set; }
@@ -18,9 +19,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public object Value { get; set; }
         public ScriptCommand JumpToMe { get; set; }
 
-#if DEBUG
-        public string ToDbgString()
+        public string ToShortString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+
             switch (OperationCode)
             {
                 case OperationCode.Nop:
@@ -28,16 +30,50 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                     return $"[{Position}]{OperationCode}";
 
                 case OperationCode.PushConst:
-                    return $"[{Position}]{OperationCode}: {Key} {Value}";
-
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append($"[{Position}]{OperationCode}: {Key}");
+                        if(dataDictionary != null)
+                        {
+                            sb.Append($"({dataDictionary.GetValue(Key)})");
+                        }
+                        
+                        sb.Append($" {Value}");
+                        return sb.ToString();
+                    }
+                    
                 case OperationCode.PushEntity:
-                    return $"[{Position}]{OperationCode}: {Key}";
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append($"[{Position}]{OperationCode}: {Key}");
+                        if (dataDictionary != null)
+                        {
+                            sb.Append($"({dataDictionary.GetValue(Key)})");
+                        }
+                        return sb.ToString();
+                    }
 
                 case OperationCode.PushProp:
-                    return $"[{Position}]{OperationCode}: {Key}";
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append($"[{Position}]{OperationCode}: {Key}");
+                        if (dataDictionary != null)
+                        {
+                            sb.Append($"({dataDictionary.GetValue(Key)})");
+                        }
+                        return sb.ToString();
+                    }
 
                 case OperationCode.PushVar:
-                    return $"[{Position}]{OperationCode}: {Key}";
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append($"[{Position}]{OperationCode}: {Key}");
+                        if (dataDictionary != null)
+                        {
+                            sb.Append($"({dataDictionary.GetValue(Key)})");
+                        }
+                        return sb.ToString();
+                    }
 
                 case OperationCode.CallUnOp:
                 case OperationCode.CallBinOp:
@@ -57,7 +93,15 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 case OperationCode.CallMAsyncWTarget:
                 case OperationCode.CallMAsyncN:
                 case OperationCode.CallMAsync:
-                    return $"[{Position}]{OperationCode}: {Key}";
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append($"[{Position}]{OperationCode}: {Key}");
+                        if (dataDictionary != null)
+                        {
+                            sb.Append($"({dataDictionary.GetValue(Key)})");
+                        }
+                        return sb.ToString();
+                    }
 
                 case OperationCode.JumpIfTrue:
                     return $"[{Position}]{OperationCode}: {Key}";
@@ -77,7 +121,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                 default: throw new ArgumentOutOfRangeException(nameof(OperationCode), OperationCode, null);
             }
         }
-#endif
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -85,20 +128,56 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return _ObjectHelper.PrintDefaultToStringInformation(this);
+            return ToString(null, 0);
         }
 
         /// <summary>
-        /// Provides string data for method ToString.
+        /// Converts the value of this instance to its equivalent string representation.
         /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
         /// <returns>The string representation of this instance.</returns>
-        public string ToStringData()
+        public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
             var tmpSb = new StringBuilder();
-            tmpSb.AppendLine($"{nameof(Position)} = {Position}");
-            tmpSb.AppendLine($"{nameof(OperationCode)} = {OperationCode}");
-            tmpSb.AppendLine($"{nameof(Key)} = {Key}");
-            tmpSb.AppendLine($"{nameof(Value)} = {Value}");
+            tmpSb.AppendLine($"{spacesString}Begin ScriptCommand");
+            tmpSb.AppendLine($"{spacesString}{nameof(Position)} = {Position}");
+            tmpSb.AppendLine($"{spacesString}{nameof(OperationCode)} = {OperationCode}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Key)} = {Key}");
+            if(dataDictionary != null)
+            {
+                switch (OperationCode)
+                {
+                    case OperationCode.PushConst:
+                    case OperationCode.PushEntity:
+                    case OperationCode.PushProp:
+                    case OperationCode.PushVar:
+                    case OperationCode.CallUnOp:
+                    case OperationCode.CallBinOp:
+                    case OperationCode.CallWTargetN:
+                    case OperationCode.CallWTarget:
+                    case OperationCode.CallN:
+                    case OperationCode.Call:
+                    case OperationCode.CallAsyncWTargetN:
+                    case OperationCode.CallAsyncWTarget:
+                    case OperationCode.CallAsyncN:
+                    case OperationCode.CallAsync:
+                    case OperationCode.CallMWTargetN:
+                    case OperationCode.CallMWTarget:
+                    case OperationCode.CallMN:
+                    case OperationCode.CallM:
+                    case OperationCode.CallMAsyncWTargetN:
+                    case OperationCode.CallMAsyncWTarget:
+                    case OperationCode.CallMAsyncN:
+                    case OperationCode.CallMAsync:
+                        tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(Key)}");
+                        break;
+                }
+            }
+
+            tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
+            tmpSb.AppendLine($"{spacesString}End ScriptCommand");
             return tmpSb.ToString();
         }
     }
