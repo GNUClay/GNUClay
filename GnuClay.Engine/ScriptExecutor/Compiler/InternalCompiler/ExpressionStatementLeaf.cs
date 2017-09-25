@@ -19,9 +19,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpressionStatement ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
             var expression = ast.Expression;
 
             var leaf = new ExpressionNodeLeaf(Context);
@@ -34,27 +31,5 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 OperationCode = OperationCode.ClearStack
             });
         }
-
-        //private void ProcessBinaryOperator(ASTBinaryOperator expression)
-        //{
-        //    ProcessNode(expression.Left);
-        //    ProcessNode(expression.Right);
-
-        //    AddCommand(new ScriptCommand()
-        //    {
-        //        OperationCode = OperationCode.CallBinOp,
-        //        Key = expression.OperatorKey
-        //    });
-        //}
-
-        //private void ProcessConstExpression(ASTConstExpression expression)
-        //{
-        //    var tmpCommand = new ScriptCommand();
-        //    tmpCommand.OperationCode = OperationCode.PushConst;
-        //    tmpCommand.Key = expression.TypeKey;
-        //    tmpCommand.Value = expression.Value;
-
-        //    AddCommand(tmpCommand);
-        //}
     }
 }

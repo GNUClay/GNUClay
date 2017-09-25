@@ -145,6 +145,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             mState = State.AfterParametersBlock;
                             break;
 
+                        case TokenKind.Comma:
+                            ImpementCurrentParameter();
+                            mState = State.WaitParameterName;
+                            break;
+
                         default: throw new UnexpectedTokenException(CurrToken);
                     }
                     break;
@@ -167,6 +172,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         case TokenKind.Comma:
                             ImpementCurrentParameter();
                             mState = State.WaitParameterName;
+                            break;
+
+                        case TokenKind.CloseRoundBracket:
+                            ImpementCurrentParameter();
+                            mState = State.AfterParametersBlock;
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

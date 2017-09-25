@@ -16,20 +16,12 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTIfStatement ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             ASTNode = ast;
 
             var conditionLeaf = new ExpressionNodeLeaf(Context);
             conditionLeaf.Run(ast.Condition);
             AddCommands(conditionLeaf.Result);
-
-#if DEBUG
-            ShowCommands();
-#endif
-             
+           
             if(ast.ElseBody == null)
             {
                 ParseWithoutElse();
@@ -41,9 +33,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ParseWithElse()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ParseWithElse");
-#endif
             var nop_1 = new ScriptCommand();
             nop_1.OperationCode = OperationCode.Nop;
 
@@ -81,18 +70,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             AddCommands(elseBodyLeaf.Result);
 
             AddCommand(nop_3);
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
 
         private void ParseWithoutElse()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ParseWithoutElse");
-#endif
-
             var nop_1 = new ScriptCommand();
             nop_1.OperationCode = OperationCode.Nop;
 
@@ -116,10 +97,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             AddCommands(ifLeaf.Result);
 
             AddCommand(nop_2);
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }

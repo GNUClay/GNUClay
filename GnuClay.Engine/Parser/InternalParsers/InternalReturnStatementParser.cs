@@ -26,10 +26,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
-#endif
-
             switch (mState)
             {
                 case State.Init:
@@ -69,10 +65,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ParseExpression()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ParseExpression");
-#endif
-
             Context.Recovery(CurrToken);
 
             var tmpInternalCodeExpressionStatementParser = new InternalCodeExpressionStatementParser(Context, InternalCodeExpressionStatementParser.Mode.General, true);

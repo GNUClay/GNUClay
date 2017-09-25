@@ -22,10 +22,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpression ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             BinaryOperator = ast as ASTBinaryOperator;
             Left = BinaryOperator.Left;
             Right = BinaryOperator.Right;
@@ -45,26 +41,13 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessPointOperator()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator");
-#endif
-
             var parent = BinaryOperator.Parent;
 
             if(parent == null)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator parent == null");
-#endif
-
                 var leaf = new ExpressionNodeLeaf(Context);
                 leaf.Run(BinaryOperator.Left);
-                AddCommands(leaf.Result);
-
-#if DEBUG
-
-                ShowCommands();
-#endif        
+                AddCommands(leaf.Result);        
             }
             else
             {
@@ -81,20 +64,12 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                             var leaf = new ExpressionNodeLeaf(Context);
                             leaf.RunMember(BinaryOperator.Left);
                             AddCommands(leaf.Result);
-
-#if DEBUG
-                            ShowCommands();
-#endif 
                         }
                         else
                         {
                             var leaf = new ExpressionNodeLeaf(Context);
                             leaf.Run(BinaryOperator.Left);
-                            AddCommands(leaf.Result);
-
-#if DEBUG
-                            ShowCommands();
-#endif 
+                            AddCommands(leaf.Result); 
                         }
                         break;
 
@@ -110,7 +85,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 case ExpressionKind.BinaryOperator:
                     {
                         var rightExpr = Right as ASTBinaryOperator;
-
                         var rightOpCode = rightExpr.OperatorKey;
 
                         if(rightOpCode == Context.CommonKeysEngine.PointOperatorKey)
@@ -123,10 +97,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         {
                             throw new NotImplementedException();
                         }
-
-#if DEBUG
-                        ShowCommands();
-#endif
                     }
                     break;
 
@@ -136,9 +106,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         var leaf = new CallMemberLeaf(Context);
                         leaf.Run(rightExpr);
                         AddCommands(leaf.Result);
-#if DEBUG
-                        ShowCommands();
-#endif
                     }
                     break;
 
@@ -148,10 +115,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         var leaf = new ExpressionNodeLeaf(Context);
                         leaf.RunMember(rightExpr);
                         AddCommands(leaf.Result);
-
-#if DEBUG
-                        ShowCommands();
-#endif 
                     }
                     break;
 
@@ -161,34 +124,18 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessUsualOperator()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPointOperator");
-#endif
-
             var leaf = new ExpressionNodeLeaf(Context);
             leaf.Run(Left);
             AddCommands(leaf.Result);
-
-#if DEBUG
-            ShowCommands();
-#endif 
 
             leaf = new ExpressionNodeLeaf(Context);
             leaf.Run(Right);
             AddCommands(leaf.Result);
 
-#if DEBUG
-            ShowCommands();
-#endif
-
             var tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.CallBinOp;
             tmpCommand.Key = BinaryOperator.OperatorKey;
             AddCommand(tmpCommand);
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }

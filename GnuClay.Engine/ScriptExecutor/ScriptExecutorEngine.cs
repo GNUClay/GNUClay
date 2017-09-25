@@ -35,14 +35,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void DefineFunction(UserDefinedFunction userDefinedFunction)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"DefineFunction userDefinedFunction = {userDefinedFunction.ToString(Context.DataDictionary, 0)}");
-#endif
             var tmpCodeFrame = mCompiler.Compile(userDefinedFunction.Body);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"DefineFunction tmpCodeFrame = {tmpCodeFrame?.ToString(Context.DataDictionary, 0)}");
-#endif
 
             var filter = new CommandFilter();
             filter.HolderKey = userDefinedFunction.HolderKey;
@@ -52,9 +45,20 @@ namespace GnuClay.Engine.ScriptExecutor
             foreach(var parameter in userDefinedFunction.Params)
             {
                 var item = new CommandFilterParam();
-                item.TypeKey = parameter.TypeKey;
-                item.IsAnyType = false;
+                
+                var typeKey = parameter.TypeKey;
 
+                item.TypeKey = typeKey;
+
+                if(typeKey == 0)
+                {
+                    item.IsAnyType = true;
+                }
+                else
+                {
+                    item.IsAnyType = false;
+                }
+                
                 filter.Params.Add(parameter.NameKey, item);
             }
 

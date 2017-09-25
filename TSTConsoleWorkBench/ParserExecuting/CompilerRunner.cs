@@ -165,12 +165,14 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("DEFINE {");
-            tmpSb.AppendLine("    fun run<!door!>($a, $b, $c)");
+            tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c: number)");
             tmpSb.AppendLine("    subj: dog;");
             tmpSb.AppendLine("    {");
             tmpSb.AppendLine("        return 1;");
             tmpSb.AppendLine("    }");
             tmpSb.AppendLine("}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
 
             GnuClayEngine.Query(tmpSb.ToString());
 
@@ -178,6 +180,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
             tmpSb.AppendLine("}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
 
             GnuClayEngine.Query(tmpSb.ToString());
 

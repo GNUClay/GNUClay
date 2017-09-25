@@ -183,7 +183,6 @@
     <Compile Include="ScriptExecutor\Compiler\GnuClayScriptCompiler.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BaseLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CodeBlockLeaf.cs" />
-    <Compile Include="ScriptExecutor\Compiler\InternalCompiler\CompilerContext.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ExpressionStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\KindOfLogicalOperator.cs" />
     <Compile Include="ScriptExecutor\KindOfValue.cs" />

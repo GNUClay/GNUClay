@@ -18,10 +18,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpression ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             var kind = ast.Kind;
 
             switch (kind)
@@ -79,9 +75,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void RunMember(ASTExpression ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMember ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
             var kind = ast.Kind;
 
             switch (kind)

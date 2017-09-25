@@ -18,10 +18,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTReturnStatement ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             var expression = ast.Expression;
 
             if(expression == null)
@@ -29,10 +25,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 var command_1 = new ScriptCommand();
                 command_1.OperationCode = OperationCode.Return;
                 AddCommand(command_1);
-
-#if DEBUG
-                ShowCommands();
-#endif
 
                 return;
             }
@@ -44,10 +36,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             var command = new ScriptCommand();
             command.OperationCode = OperationCode.ReturnValue;
             AddCommand(command);
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }

@@ -67,10 +67,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                     default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                 }
             }
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }

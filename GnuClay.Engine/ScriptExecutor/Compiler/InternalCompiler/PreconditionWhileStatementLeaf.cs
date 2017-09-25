@@ -18,10 +18,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTWhileStatement ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             var nop_0 = new ScriptCommand();
             nop_0.OperationCode = OperationCode.Nop;
 
@@ -59,10 +55,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             AddCommand(command);
 
             AddCommand(nop_2);
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }

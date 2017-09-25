@@ -72,11 +72,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = '{CurrToken.Content}'");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun RootNode = {RootNode?.ToString(mDataDictionary, 0)}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mCurrentNode = {mCurrentNode?.ToString(mDataDictionary, 0)} ");
-#endif
             switch (mState)
             {
                 case State.Init:

@@ -20,18 +20,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
 
         public FunctionModel Compile(ASTCodeBlock ast)
         {
-            //var context = new CompilerContext();
-            //context.MainContext = Context;
-
             var codeBlock = new CodeBlockLeaf(Context);
             codeBlock.Run(ast);
 
             var tmpCommandsList = codeBlock.Result;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Compile pre tmpCommandsList = {_ListHelper._ToString(tmpCommandsList)}");
-#endif
-
             var n = 0;
 
             ScriptCommand prevCommand = null;
@@ -68,10 +60,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
                     cmd.Key = (ulong)cmd.JumpToMe.Position;
                 }
             }
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Compile after tmpCommandsList = {_ListHelper._ToString(tmpCommandsList)}");
-#endif
 
             return new FunctionModel(tmpCommandsList);
         }

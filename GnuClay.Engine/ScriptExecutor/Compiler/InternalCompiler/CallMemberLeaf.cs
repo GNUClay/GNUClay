@@ -18,33 +18,16 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTCalledEntityExpression ast)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-#endif
-
             var functionKey = ast.TypeKey;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run functionKey = {functionKey}");
-#endif
-
             AddCommand(CreatePushEntityCommand(functionKey));
 
             var target = ast.Target;
 
             if (target != null)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Run target = {target.ToString(Context.DataDictionary, 0)}");
-#endif
-
                 var targetLeaf = new ExpressionNodeLeaf(Context);
                 targetLeaf.Run(target);
                 AddCommands(targetLeaf.Result);
-
-#if DEBUG
-                ShowCommands();
-#endif
             }
 
             var parameters = ast.Params;
@@ -53,10 +36,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
             foreach (var parameter in parameters)
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Run parameter = {parameter.ToString(Context.DataDictionary, 0)}");
-#endif
-
                 var paramExpr = parameter as ASTParamExpression;
 
                 isNamed = paramExpr.IsNamed;
@@ -77,11 +56,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                     AddCommands(paramLeaf.Result);
                 }
             }
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run isNamed = {isNamed}");
-            ShowCommands();
-#endif
 
             if (ast.IsAsync)
             {
@@ -157,10 +131,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                     }
                 }
             }
-
-#if DEBUG
-            ShowCommands();
-#endif
         }
     }
 }
