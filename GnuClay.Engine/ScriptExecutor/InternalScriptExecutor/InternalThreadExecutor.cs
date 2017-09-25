@@ -371,78 +371,78 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessCallWTargetN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();     
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallWTarget()
         {
-            var currentFunction = mCurrentFrame.PopValue();
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();          
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();     
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCall()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();           
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallAsyncWTargetN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();           
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallAsyncWTarget()
         {
-            var currentFunction = mCurrentFrame.PopValue();
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();    
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallAsyncN()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();   
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallAsync()
         {
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();   
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, null, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMWTargetN()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();          
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();          
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
@@ -450,85 +450,65 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void ProcessCallMWTarget()
         {
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
-#endif
-
             var target = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
-#endif
-
             var currentFunction = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
-#endif
-
             var subject = mCurrentFrame.PopValue();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessCallMWTarget ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
-#endif                
-
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMN()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();     
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();           
             var resultOfCalling = mMainContext.FunctionsEngine.CallByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallM()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();       
             var resultOfCalling = mMainContext.FunctionsEngine.CallByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMAsyncWTargetN()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();       
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();          
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, target.TypeKey, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMAsyncWTarget()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();         
-            var target = mCurrentFrame.PopValue();
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var target = mCurrentFrame.PopValue();
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();         
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMAsyncN()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();
             var parameters = NGetNamedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();          
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByNamedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }
 
         private void ProcessCallMAsync()
         {
-            var subject = mCurrentFrame.PopValue();
-            var currentFunction = mCurrentFrame.PopValue();   
             var parameters = NGetPositionedParameters((int)mCurrentCommand.Key);
+            var currentFunction = mCurrentFrame.PopValue();
+            var subject = mCurrentFrame.PopValue();           
             var resultOfCalling = mMainContext.FunctionsEngine.CallAsyncByPositionedParameters(mCurrentFrame.mExecutionContext, mCurrentFrame.mEntityAction, currentFunction, subject, 0, parameters);
             PostProcessCall(resultOfCalling);
         }

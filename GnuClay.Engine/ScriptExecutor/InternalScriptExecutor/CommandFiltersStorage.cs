@@ -127,7 +127,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private double GetPositionedRank(Command command)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
 #endif
             var tmpCommandParams = command.PositionedParams;
             var tmpFilterParams = mFilter.Params;
@@ -138,7 +138,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank NEXT command = {command}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank NEXT command = {command}");
 #endif
             var tmpCommandParamsEnumerator = tmpCommandParams.GetEnumerator();
             var tmpFilterParamsEnumerator = tmpFilterParams.GetEnumerator();
@@ -158,8 +158,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                         var tmpCommandParam = tmpCommandParamsEnumerator.Current;
 
 #if DEBUG
-                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParam = {tmpFilterParam}");
-                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParam = {tmpCommandParam}");
+                        //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParam = {tmpFilterParam}");
+                        //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParam = {tmpCommandParam}");
 #endif
                         if (tmpFilterParam.IsAnyType)
                         {
@@ -179,7 +179,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                             var rank = mContext.InheritanceEngine.GetRank(tmpCommandParamTypeKey, tmpFilterParamTypeKey);
 
 #if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank rank = {rank}");
+                            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank rank = {rank}");
 #endif
                             if (rank == 0)
                             {
@@ -218,7 +218,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank result = {result}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank result = {result}");
 #endif
             return result;
         }
@@ -262,10 +262,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command.ToString(mContext.DataDictionary, 0)}");
-#endif
-
             var targetFilters = new List<KeyValuePair<double, T>>();
 
             foreach (var item in mDict)
@@ -352,46 +348,26 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command.ToString(mContext.DataDictionary, 0)}");
-#endif
-
             var targetKey = command.TargetKey;
 
             var result = new List<T>();
 
             if (mDict.ContainsKey(targetKey))
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors mDict.ContainsKey(targetKey) targetKey = {targetKey}");
-#endif
-
                 var tmpRez = mDict[targetKey].FindExecutors(command);
 
                 if(!_ListHelper.IsEmpty(tmpRez))
                 {
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors !_ListHelper.IsEmpty(tmpRez) targetKey = {targetKey}");
-#endif
-
                     result.AddRange(tmpRez);
                 }
             }
 
             if (mDict.ContainsKey(0))
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors mDict.ContainsKey(0) targetKey = {0}");
-#endif
-
                 var tmpRez = mDict[0].FindExecutors(command);
 
                 if (!_ListHelper.IsEmpty(tmpRez))
                 {
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors !_ListHelper.IsEmpty(tmpRez) 0 = {0}");
-#endif
-
                     result.AddRange(tmpRez);
                 }
             }
@@ -440,10 +416,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command.ToString(mContext.DataDictionary, 0)}");
-#endif
-
             var functionKey = command.Function.TypeKey;
 
             if (mDict.ContainsKey(functionKey))
@@ -498,10 +470,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command.ToString(mContext.DataDictionary, 0)}");
-#endif
-
             lock (mLockObj)
             {
                 var holderKey = command.Holder.TypeKey;
