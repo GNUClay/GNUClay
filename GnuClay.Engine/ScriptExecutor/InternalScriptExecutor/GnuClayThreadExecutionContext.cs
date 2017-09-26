@@ -10,5 +10,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
     public class GnuClayThreadExecutionContext
     {
         public ContextOfVariables ContextOfVariables = null;
+        public ContextOfSystemVariables ContextOfSystemVariables = null;
     }
 }

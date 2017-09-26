@@ -14,6 +14,7 @@ namespace GnuClay.Engine.ScriptExecutor
         object Value { get; }
         bool IsProperty { get; }
         bool IsVariable { get; }
+        bool IsSystemVariable { get; }
         bool IsValueContainer { get; }
         IValue ValueFromContainer { get; set; }
         bool IsNull { get; }

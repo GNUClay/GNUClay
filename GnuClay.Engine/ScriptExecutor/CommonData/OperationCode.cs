@@ -40,7 +40,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// Push variable to the stack.
         /// </summary>
         PushVar,
-       
+
+        /// <summary>
+        /// Push system variable to the stack.
+        /// </summary>
+        PushSystemVar,
+
         /// <summary>
         /// Call unary operator.
         /// </summary>

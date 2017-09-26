@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes.Inheritance;
 using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.Tasking;
+using GnuClay.Engine.Bootstrap;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalBus;
@@ -132,6 +133,9 @@ namespace GnuClay.Engine
         {
             FirstInit();
             SecondInit();
+
+            var tmpBootstrapEngine = new BootstrapEngine(mContext);
+            tmpBootstrapEngine.Run();
         }
 
         private void FirstInit()

@@ -24,7 +24,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsProperty => false;
 
         public bool IsVariable => true;
-
+        public bool IsSystemVariable => false;
         public bool IsValueContainer => true;
 
         public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)

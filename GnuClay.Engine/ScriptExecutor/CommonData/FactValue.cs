@@ -46,6 +46,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
         public bool IsVariable => false;
+        public bool IsSystemVariable => false;
         public bool IsValueContainer => false;
         public IValue ValueFromContainer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsNull => false;

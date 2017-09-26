@@ -24,6 +24,7 @@ namespace GnuClay.Engine.ScriptExecutor
         private CommonValuesFactory mCommonValuesFactory = null;
         private CommonKeysEngine mCommonKeysEngine = null;
         private StorageDataDictionary mDataDictionary = null;
+        private ScriptExecutorEngine mScriptExecutorEngine = null;
 
         private ulong mEntityActionTypeKey = 0;
 
@@ -34,6 +35,7 @@ namespace GnuClay.Engine.ScriptExecutor
             mCommonValuesFactory = Context.CommonValuesFactory;
             mCommonKeysEngine = Context.CommonKeysEngine;
             mDataDictionary = Context.DataDictionary;
+            mScriptExecutorEngine = Context.ScriptExecutor;
 
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
         }
@@ -57,56 +59,56 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public ResultOfCalling CallByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
             return ProcessSyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandByNamedParameters(executionContext, function, holder, targetKey, namedParams);
             return ProcessAsyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue function, IValue holder, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandByPositionedParameters(executionContext, function, holder, targetKey, positionedParams);
             return ProcessAsyncCall(command, parentAction);
         }
 
         public ResultOfCalling CallForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandForDescriptorByNamedParameters(executionContext, descriptor, holder, targetKey, namedParams);
             return ProcessSyncCallForDescriptor(command, parentAction);
         }
 
         public ResultOfCalling CallForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandForDescriptorByPositionedParameters(executionContext, descriptor, holder, targetKey, positionedParams);
             return ProcessSyncCallForDescriptor(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncForDecsriptorByNamedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<NamedParamInfo> namedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandForDescriptorByNamedParameters(executionContext, descriptor, holder, targetKey, namedParams);
             return ProcessAsyncCallForDescriptor(command, parentAction);
         }
 
         public ResultOfCalling CallAsyncForDecsriptorByPositionedParameters(GnuClayThreadExecutionContext parentExecutionContext, EntityAction parentAction, IValue holder, ulong descriptor, ulong targetKey, List<PositionParamInfo> positionedParams)
         {
-            var executionContext = CreateEmptyExecutionContext();
+            var executionContext = CreateExecutionContext(parentExecutionContext);
             var command = CreateCommandForDescriptorByPositionedParameters(executionContext, descriptor, holder, targetKey, positionedParams);
             return ProcessAsyncCallForDescriptor(command, parentAction);
         }
@@ -115,6 +117,19 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var executionContext = new GnuClayThreadExecutionContext();
             executionContext.ContextOfVariables = new ContextOfVariables(Context);
+            var systemContextOfVariables = new ContextOfSystemVariables();
+            executionContext.ContextOfSystemVariables = systemContextOfVariables;
+            systemContextOfVariables.Parent = mScriptExecutorEngine.ContextOfSystemVariables;
+            return executionContext;
+        }
+
+        private GnuClayThreadExecutionContext CreateExecutionContext(GnuClayThreadExecutionContext parentExecutionContext)
+        {
+            var executionContext = new GnuClayThreadExecutionContext();
+            executionContext.ContextOfVariables = new ContextOfVariables(Context);
+            var systemContextOfVariables = new ContextOfSystemVariables();
+            executionContext.ContextOfSystemVariables = systemContextOfVariables;
+            systemContextOfVariables.Parent = parentExecutionContext.ContextOfSystemVariables;
             return executionContext;
         }
 

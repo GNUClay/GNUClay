@@ -53,7 +53,15 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                     {
                         var expression = ast as ASTVarExpression;
                         var tmpCommand = new ScriptCommand();
-                        tmpCommand.OperationCode = OperationCode.PushVar;
+                        if(expression.IsSystem)
+                        {
+                            tmpCommand.OperationCode = OperationCode.PushSystemVar;
+                        }
+                        else
+                        {
+                            tmpCommand.OperationCode = OperationCode.PushVar;
+                        }
+                        
                         tmpCommand.Key = expression.TypeKey;
 
                         AddCommand(tmpCommand);

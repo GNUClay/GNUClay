@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap\BootstrapEngine.cs" />
     <Compile Include="GeneralConstants.cs" />
     <Compile Include="ILongHashableObject.cs" />
     <Compile Include="Inheritance\CyclicInheritanceException.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="ScriptExecutor\CommonData\LogicalPropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\NullValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\SystemPropertyValue.cs" />
+    <Compile Include="ScriptExecutor\CommonData\SystemVariableValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\UndefinedValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="CommonStorages\CommonValuesFactory.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\PreconditionWhileStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\ReturnStatementLeaf.cs" />
     <Compile Include="ScriptExecutor\ConstTypeProvider.cs" />
+    <Compile Include="ScriptExecutor\ContextOfSystemVariables.cs" />
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
     <Compile Include="ScriptExecutor\ErrorsFactory.cs" />

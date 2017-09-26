@@ -1,6 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
@@ -8,51 +7,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.StandardLibrary.SupportingMachines
+namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
-    [Serializable]
-    public class EntityValue : IValue
+    public class SystemVariableValue : IValue
     {
-        public EntityValue(ulong typeKey)
+        public SystemVariableValue(IValue value)
         {
-            TypeKey = typeKey;
+            ValueFromContainer = value;
         }
 
-        public KindOfValue Kind => KindOfValue.Logical;
+        private IValue mValue = null;
+        public KindOfValue Kind { get; private set; } = KindOfValue.Undefined;
         public ulong TypeKey { get; private set; }
-        public object Value { get { throw new NotSupportedException(); } }
+        public object Value => throw new NotImplementedException();
         public bool IsProperty => false;
-        public bool IsVariable => false;
+
+        public bool IsVariable => true;
         public bool IsSystemVariable => false;
-        public bool IsValueContainer => false;
+        public bool IsValueContainer => true;
+
+        public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsFact => false;
+        public bool IsArray => false;
+
+        public ulong GetLongHashCode()
+        {
+            return mValue.GetLongHashCode();
+        }
+
         public IValue ValueFromContainer
         {
             get
             {
-                return this;
+                return mValue;
             }
 
             set
             {
-                throw new NotSupportedException();
+                if (mValue == value)
+                {
+                    return;
+                }
+
+                mValue = value;
+                TypeKey = mValue.TypeKey;
+                Kind = mValue.Kind;
             }
         }
 
         public bool IsNull => false;
         public bool IsUndefined => false;
         public bool IsNullOrUndefined => false;
-        public bool IsFact => false;
-        public bool IsArray => false;
-
-        public ulong GetLongHashCode()
-        {
-            return TypeKey;
-        }
-
-        public ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -72,14 +81,19 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
             var spacesString = _ObjectHelper.CreateSpaces(indent);
-            var sb = new StringBuilder($"{spacesString}EntityValue {nameof(TypeKey)} = {TypeKey};");
+            var nextIndent = indent + 4;
+            var tmpSb = new StringBuilder($"{spacesString}SystemVariable ");
 
-            if (dataDictionary != null && TypeKey > 0)
+            if (mValue == null)
             {
-                sb.Append($"TypeName = {dataDictionary.GetValue(TypeKey)};");
+                tmpSb.Append("Value = null");
+            }
+            else
+            {
+                tmpSb.Append($"Value = {mValue.ToString(dataDictionary, nextIndent)}");
             }
 
-            return sb.ToString();
+            return tmpSb.ToString();
         }
     }
 }

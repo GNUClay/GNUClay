@@ -16,6 +16,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public ScriptExecutorEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
+            mContextOfSystemVariables = new ContextOfSystemVariables();
         }
 
         public override void FirstInit()
@@ -26,6 +27,16 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private GnuClayScriptCompiler mCompiler = null;
         private FunctionsEngine mFunctionsEngine = null;
+
+        private ContextOfSystemVariables mContextOfSystemVariables;
+
+        public ContextOfSystemVariables ContextOfSystemVariables
+        {
+            get
+            {
+                return mContextOfSystemVariables;
+            }
+        }
 
         public void Execute(ASTCodeBlock codeBlock)
         {
