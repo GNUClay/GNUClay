@@ -211,6 +211,7 @@
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BooleanProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BooleanValue.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\ConsoleProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\EntityValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberProvider.cs" />

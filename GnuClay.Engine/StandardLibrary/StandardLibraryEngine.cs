@@ -28,6 +28,9 @@ namespace GnuClay.Engine.StandardLibrary
 
             BooleanProvider = new BooleanProvider(Context);
             mProvidersList.Add(BooleanProvider);
+
+            ConsoleProvider = new ConsoleProvider(Context);
+            mProvidersList.Add(ConsoleProvider);
         }
 
         private void CreateProvidersOfOperators()
@@ -70,6 +73,7 @@ namespace GnuClay.Engine.StandardLibrary
         #region Providers of types
         public NumberProvider NumberProvider { get; private set; }
         public BooleanProvider BooleanProvider { get; private set; }
+        public ConsoleProvider ConsoleProvider { get; private set; }
         #endregion
 
         #region Providers of operators

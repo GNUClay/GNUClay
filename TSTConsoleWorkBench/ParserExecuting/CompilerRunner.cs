@@ -236,6 +236,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
+            tmpSb.AppendLine("    console.log(1);");
             tmpSb.AppendLine("}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
