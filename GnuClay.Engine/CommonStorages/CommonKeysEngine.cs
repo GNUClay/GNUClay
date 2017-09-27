@@ -61,6 +61,9 @@ namespace GnuClay.Engine.CommonStorages
             SelfKey = DataDictionary.GetKey(StandartTypeNamesConstants.SelfName);
             InheritanceEngine.SetInheritance(SelfKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
+            SelfInstanceKey = DataDictionary.GetKey(StandartTypeNamesConstants.SelfInstanceName);
+            InheritanceEngine.SetInheritance(SelfInstanceKey, SelfKey, 1, InheritanceAspect.WithOutClause);
+
             EntityActionTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.EntityActionTypeName);
             InheritanceEngine.SetInheritance(EntityActionTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
@@ -138,6 +141,7 @@ namespace GnuClay.Engine.CommonStorages
         public ulong LogicalPropertyKey { get; private set; }
         public ulong PropertyActionTypeKey { get; private set; }
         public ulong SelfKey { get; private set; }
+        public ulong SelfInstanceKey { get; private set; }
         public ulong EntityActionTypeKey { get; private set; }
         public ulong ErrorTypeKey { get; private set; }
         public ulong UncaughtReferenceErrorTypeKey { get; private set; }

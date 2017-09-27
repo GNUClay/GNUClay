@@ -785,7 +785,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             namedParam.ParamName = new EntityValue(messageParamKey);
             namedParam.ParamValue = new EntityValue(doorKey);
 
-            var tmpHolder = mainContext.CommonValuesFactory.SelfValue();
+            var tmpHolder = mainContext.CommonValuesFactory.SelfInstanceValue();
 
             ulong tmpTarget = 0;
 

@@ -33,7 +33,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler
             foreach(var cmd in tmpCommandsList)
             {
                 n++;
-
                 cmd.Position = n;
 
                 if(prevCommand != null)

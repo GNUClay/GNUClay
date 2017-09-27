@@ -225,7 +225,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c: number)");
             tmpSb.AppendLine("    subj: dog;");
             tmpSb.AppendLine("    {");
-            tmpSb.AppendLine("        return $$test;");
+            tmpSb.AppendLine("        return $$self;");
             tmpSb.AppendLine("    }");
             tmpSb.AppendLine("}");
 

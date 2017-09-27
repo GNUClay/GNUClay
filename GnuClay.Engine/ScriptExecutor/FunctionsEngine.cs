@@ -184,7 +184,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
             if (holder == null)
             {
-                holder = mCommonValuesFactory.SelfValue();
+                holder = mCommonValuesFactory.SelfInstanceValue();
             }
 
             command.Holder = holder;

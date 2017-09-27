@@ -21,10 +21,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public IValue GetVariable(ulong variableKey)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPushSystemVar variableKey = {variableKey}");
-#endif
-
             if (mVariablesDict.ContainsKey(variableKey))
             {
                 return mVariablesDict[variableKey];
@@ -40,10 +36,6 @@ namespace GnuClay.Engine.ScriptExecutor
 
         public void SetVariable(ulong variableKey, IValue value)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetVariable variableKey = {variableKey} value = {value.ToString(mContext.DataDictionary, 0)}");
-#endif
-
             if(value.IsSystemVariable)
             {
                 mVariablesDict[variableKey] = value;

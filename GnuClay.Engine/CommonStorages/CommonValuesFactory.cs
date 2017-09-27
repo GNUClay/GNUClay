@@ -28,8 +28,8 @@ namespace GnuClay.Engine.CommonStorages
         private ulong mFactTypeKey = 0;
         private ulong mArrayTypeKey = 0;
 
-        private ulong mSelfKey = 0;
-        private IValue mSelfValue = null;
+        private ulong mSelfInstanceKey = 0;
+        private IValue mSelfInstanceValue = null;
 
         private IValue mTrueValue = null;
         private IValue mFalseValue = null;
@@ -52,8 +52,8 @@ namespace GnuClay.Engine.CommonStorages
             mFactTypeKey = mCommonKeysEngine.FactTypeKey;
             mArrayTypeKey = mCommonKeysEngine.ArrayTypeKey;
 
-            mSelfKey = mCommonKeysEngine.SelfKey;
-            mSelfValue = new EntityValue(mSelfKey);
+            mSelfInstanceKey = mCommonKeysEngine.SelfInstanceKey;
+            mSelfInstanceValue = new EntityValue(mSelfInstanceKey);
 
             var booleanTypeKey = mCommonKeysEngine.BooleanKey;
 
@@ -82,9 +82,9 @@ namespace GnuClay.Engine.CommonStorages
             return mNullValue;
         }
 
-        public IValue SelfValue()
+        public IValue SelfInstanceValue()
         {
-            return mSelfValue;
+            return mSelfInstanceValue;
         }
 
         public IValue TrueValue()

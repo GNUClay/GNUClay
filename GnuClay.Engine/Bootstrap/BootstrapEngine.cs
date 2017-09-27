@@ -16,26 +16,15 @@ namespace GnuClay.Engine.Bootstrap
 
         public void Run()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin Run");
-#endif
             InitSelfInstance();
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End Run");
-#endif
         }
 
         private void InitSelfInstance()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin InitSelfInstance");
-#endif
+            var selfInstanceValue = Context.CommonValuesFactory.SelfInstanceValue();
+            var selfInstanceVarKey = Context.CommonKeysEngine.SelfSystemVarKey;
 
-            var nameOfSelfInstance = Guid.NewGuid().ToString("D");
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("End InitSelfInstance");
-#endif
+            Context.ScriptExecutor.ContextOfSystemVariables.SetVariable(selfInstanceVarKey, selfInstanceValue);
         }
     }
 }
