@@ -117,7 +117,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var executionContext = new GnuClayThreadExecutionContext();
             executionContext.ContextOfVariables = new ContextOfVariables(Context);
-            var systemContextOfVariables = new ContextOfSystemVariables();
+            var systemContextOfVariables = new ContextOfSystemVariables(Context);
             executionContext.ContextOfSystemVariables = systemContextOfVariables;
             systemContextOfVariables.Parent = mScriptExecutorEngine.ContextOfSystemVariables;
             return executionContext;
@@ -127,7 +127,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             var executionContext = new GnuClayThreadExecutionContext();
             executionContext.ContextOfVariables = new ContextOfVariables(Context);
-            var systemContextOfVariables = new ContextOfSystemVariables();
+            var systemContextOfVariables = new ContextOfSystemVariables(Context);
             executionContext.ContextOfSystemVariables = systemContextOfVariables;
             systemContextOfVariables.Parent = parentExecutionContext.ContextOfSystemVariables;
             return executionContext;

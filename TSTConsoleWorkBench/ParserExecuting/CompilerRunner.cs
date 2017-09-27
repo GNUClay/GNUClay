@@ -20,7 +20,8 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case7();
             //Case8();
             //Case9();
-            Case10();
+            //Case10();
+            Case11();
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
@@ -207,6 +208,41 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             Compile(tmpSb.ToString());
             NLog.LogManager.GetCurrentClassLogger().Info("End Case10");
+        }
+
+        private void Case11()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Case11");
+
+            var testSystemVarParamKey = GnuClayEngine.DataDictionary.GetKey("$$test");
+            var numberKey = GnuClayEngine.Context.CommonKeysEngine.NumberKey;
+            var tmpTestSystemVarValue = GnuClayEngine.Context.ConstTypeProvider.CreateConstValue(numberKey, 12.0);
+
+            GnuClayEngine.Context.ScriptExecutor.ContextOfSystemVariables.SetVariable(testSystemVarParamKey, tmpTestSystemVarValue);
+
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("DEFINE {");
+            tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c: number)");
+            tmpSb.AppendLine("    subj: dog;");
+            tmpSb.AppendLine("    {");
+            tmpSb.AppendLine("        return $$test;");
+            tmpSb.AppendLine("    }");
+            tmpSb.AppendLine("}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
+            tmpSb.AppendLine("}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Case11");
         }
 
         private void Compile(string text)

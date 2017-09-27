@@ -871,6 +871,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 var calledResult = new ASTCalledVarExpression();
                 calledResult.TypeKey = node.TypeKey;
                 calledResult.IsAsync = node.IsAsync;
+                if (node.Kind == ExpressionKind.SystemVarExpression)
+                {
+                    calledResult.IsSystem = true;
+                }
+
                 if (node.Target != null)
                 {
                     calledResult.Target = CreateExpressionNode(node.Target);

@@ -18,6 +18,7 @@ namespace GnuClay.Engine.CommonStorages
         {
             GetKeysOfTypes();
             GetKeysOfOperators();
+            GetKeysOfSystemVariables();
             GetKeysOfStandardVariables();
         }
 
@@ -75,9 +76,7 @@ namespace GnuClay.Engine.CommonStorages
             GetKeysOfAssingOperators();
             GetKeysOfArithmeticOperators();
             GetKeysOfLogicalOperators();
-            GetKeysOfCommonOperators();
-
-            
+            GetKeysOfCommonOperators();          
         }
 
         private void GetKeysOfAssingOperators()
@@ -114,6 +113,11 @@ namespace GnuClay.Engine.CommonStorages
         private void GetKeysOfCommonOperators()
         {
             PointOperatorKey = DataDictionary.GetKey(StandartTypeNamesConstants.PointOperatorName);
+        }
+
+        private void GetKeysOfSystemVariables()
+        {
+            SelfSystemVarKey = DataDictionary.GetKey(StandartTypeNamesConstants.SelfSystemVarName);
         }
 
         private void GetKeysOfStandardVariables()
@@ -169,7 +173,10 @@ namespace GnuClay.Engine.CommonStorages
 
         #region keys of common operators
         public ulong PointOperatorKey { get; private set; }
+        #endregion
 
+        #region keys of system variables
+        public ulong SelfSystemVarKey { get; private set; }
         #endregion
 
         #region keys of standard variables

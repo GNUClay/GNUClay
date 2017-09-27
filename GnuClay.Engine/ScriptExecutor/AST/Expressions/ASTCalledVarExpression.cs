@@ -17,6 +17,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
 
         public ulong TypeKey { get; set; }
         public bool IsAsync = false;
+        public bool IsSystem { get; set; }
         public ASTExpression Target { get; set; }
         public List<ASTExpression> Params { get; set; } = new List<ASTExpression>();
 
@@ -38,6 +39,7 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
                 sb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
             }
             sb.AppendLine($"{spacesString}{nameof(IsAsync)} = {IsAsync}");
+            sb.AppendLine($"{spacesString}{nameof(IsSystem)} = {IsSystem}");
             if (Target == null)
             {
                 sb.AppendLine($"{spacesString}{nameof(Target)} = null");

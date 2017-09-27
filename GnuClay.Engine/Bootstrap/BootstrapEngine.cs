@@ -19,9 +19,22 @@ namespace GnuClay.Engine.Bootstrap
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Run");
 #endif
-
+            InitSelfInstance();
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
+#endif
+        }
+
+        private void InitSelfInstance()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin InitSelfInstance");
+#endif
+
+            var nameOfSelfInstance = Guid.NewGuid().ToString("D");
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("End InitSelfInstance");
 #endif
         }
     }

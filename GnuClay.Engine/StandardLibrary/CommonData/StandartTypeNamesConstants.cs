@@ -61,6 +61,10 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
         public const string PointOperatorName = ".";
         #endregion
 
+        #region names of system variables
+        public const string SelfSystemVarName = "$$self";
+        #endregion
+
         #region names of standard variables
         public const string FirstParamName = "$param1";
         public const string SecondParamName = "$param2";

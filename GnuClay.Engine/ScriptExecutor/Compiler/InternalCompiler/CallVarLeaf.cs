@@ -20,7 +20,19 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
         {
             var functionKey = ast.TypeKey;
 
-            AddCommand(CreatePushEntityCommand(functionKey));
+            var tmpVarCommand = new ScriptCommand();
+            if (ast.IsSystem)
+            {
+                tmpVarCommand.OperationCode = OperationCode.PushSystemVar;
+            }
+            else
+            {
+                tmpVarCommand.OperationCode = OperationCode.PushVar;
+            }
+
+            tmpVarCommand.Key = functionKey;
+
+            AddCommand(tmpVarCommand);
 
             var target = ast.Target;
 

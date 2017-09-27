@@ -16,7 +16,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public ScriptExecutorEngine(GnuClayEngineComponentContext context)
             : base(context)
         {
-            mContextOfSystemVariables = new ContextOfSystemVariables();
+            mContextOfSystemVariables = new ContextOfSystemVariables(context);
         }
 
         public override void FirstInit()

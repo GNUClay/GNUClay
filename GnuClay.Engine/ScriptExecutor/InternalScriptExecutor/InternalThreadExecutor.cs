@@ -211,6 +211,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     ProcessPushVar();
                     break;
 
+                case OperationCode.PushSystemVar:
+                    ProcessPushSystemVar();
+                    break;
+
                 case OperationCode.CallUnOp:
                     ProcessCallUnOp();
                     break;
@@ -348,6 +352,19 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         {
             var varKey = mCurrentCommand.Key;
             var tmpVar = mCurrentFrame.mExecutionContext.ContextOfVariables.GetVariable(varKey);
+
+            mCurrentFrame.PushValue(tmpVar);
+            mCurrentFrame.CurrentCommandIsNext();
+        }
+
+        private void ProcessPushSystemVar()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPushSystemVar");
+#endif
+
+            var varKey = mCurrentCommand.Key;
+            var tmpVar = mCurrentFrame.mExecutionContext.ContextOfSystemVariables.GetVariable(varKey);
 
             mCurrentFrame.PushValue(tmpVar);
             mCurrentFrame.CurrentCommandIsNext();

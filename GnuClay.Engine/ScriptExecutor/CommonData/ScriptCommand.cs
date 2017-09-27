@@ -65,6 +65,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
                     }
 
                 case OperationCode.PushVar:
+                case OperationCode.PushSystemVar:
                     {
                         var sb = new StringBuilder();
                         sb.Append($"[{Position}]{OperationCode}: {Key}");
