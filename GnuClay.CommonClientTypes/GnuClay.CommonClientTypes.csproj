@@ -51,6 +51,7 @@
     <Compile Include="IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExpressionNodeKind.cs" />
+    <Compile Include="ResultTypes\IExternalValue.cs" />
     <Compile Include="ResultTypes\SelectResult.cs" />
   </ItemGroup>
   <ItemGroup>

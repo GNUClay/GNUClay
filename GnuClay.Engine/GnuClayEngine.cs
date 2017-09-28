@@ -3,6 +3,7 @@ using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.Bootstrap;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Console;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.InternalCommonData;
@@ -125,6 +126,9 @@ namespace GnuClay.Engine
 
             mContext.CommonKeysEngine = new CommonKeysEngine(mContext);
             mComponents.Add(mContext.CommonKeysEngine);
+
+            mContext.ConsoleEngine = new ConsoleEngine(mContext);
+            mComponents.Add(mContext.ConsoleEngine);
         }
 
         private List<BaseGnuClayEngineComponent> mComponents = new List<BaseGnuClayEngineComponent>();
@@ -488,6 +492,22 @@ namespace GnuClay.Engine
             lock (mLockObj)
             {
                 mContext.RemoteFunctionsEngine.RemoveFilter(descriptor);
+            }
+        }
+
+        public ulong AddLogHandler(Action<IExternalValue> handler)
+        {
+            lock(mLockObj)
+            {
+                return mContext.ConsoleEngine.AddLogHandler(handler);
+            }
+        }
+
+        public void RemoveLogHandler(ulong descriptor)
+        {
+            lock (mLockObj)
+            {
+                mContext.ConsoleEngine.RemoveLogHandler(descriptor);
             }
         }
     }

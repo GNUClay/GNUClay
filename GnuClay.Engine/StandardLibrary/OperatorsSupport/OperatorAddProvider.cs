@@ -30,7 +30,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             ConstTypeProvider = Context.ConstTypeProvider;
         }
 
-        private ulong SelfKey = 0;
+        private ulong SelfInstanceKey = 0;
         private ulong AddOperatorKey = 0;
         private ulong FirstParamKey = 0;
         private ulong SecondParamKey = 0;
@@ -38,7 +38,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         public override void SecondInit()
         {
-            SelfKey = CommonKeysEngine.SelfKey;
+            SelfInstanceKey = CommonKeysEngine.SelfInstanceKey;
             AddOperatorKey = CommonKeysEngine.AddOperatorKey;
             FirstParamKey = CommonKeysEngine.FirstParamKey;
             SecondParamKey = CommonKeysEngine.SecondParamKey;
@@ -51,7 +51,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         {
             var filter = new CommandFilter();
             filter.Handler = HandlerOfAdd;
-            filter.HolderKey = SelfKey;
+            filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = AddOperatorKey;
             filter.TargetKey = 0;
 
@@ -75,10 +75,8 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void HandlerOfAdd(EntityAction action)
         {
             var command = action.Command;
-            var param_1_Key = CommonKeysEngine.FirstParamKey;
-            var param_2_Key = CommonKeysEngine.SecondParamKey;
-            var tmpParam_1 = (NumberValue)command.GetParamValue(param_1_Key);
-            var tmpParam_2 = (NumberValue)command.GetParamValue(param_2_Key);
+            var tmpParam_1 = (NumberValue)command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = (NumberValue)command.GetParamValue(SecondParamKey);
             action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
             action.State = EntityActionState.Completed;
         }

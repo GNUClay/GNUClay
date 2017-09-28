@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\BootstrapEngine.cs" />
+    <Compile Include="Console\ConsoleEngine.cs" />
     <Compile Include="GeneralConstants.cs" />
     <Compile Include="ILongHashableObject.cs" />
     <Compile Include="Inheritance\CyclicInheritanceException.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="ScriptExecutor\AST\Statements\ASTExpressionStatement.cs" />
     <Compile Include="ScriptExecutor\AST\Statements\ASTWhileStatement.cs" />
     <Compile Include="ScriptExecutor\BaseCommandFilter.cs" />
+    <Compile Include="ScriptExecutor\CommonData\ExternalValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\FactValue.cs" />
     <Compile Include="ScriptExecutor\Command.cs" />
     <Compile Include="ScriptExecutor\CommandFilter.cs" />

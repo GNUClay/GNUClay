@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -214,11 +215,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Case11");
 
-            var testSystemVarParamKey = GnuClayEngine.DataDictionary.GetKey("$$test");
-            var numberKey = GnuClayEngine.Context.CommonKeysEngine.NumberKey;
-            var tmpTestSystemVarValue = GnuClayEngine.Context.ConstTypeProvider.CreateConstValue(numberKey, 12.0);
-
-            GnuClayEngine.Context.ScriptExecutor.ContextOfSystemVariables.SetVariable(testSystemVarParamKey, tmpTestSystemVarValue);
+            GnuClayEngine.AddLogHandler((IExternalValue value));
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("DEFINE {");

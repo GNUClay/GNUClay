@@ -28,14 +28,14 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             FunctionsEngine = Context.FunctionsEngine;
         }
 
-        private ulong SelfKey = 0;
+        private ulong SelfInstanceKey = 0;
         private ulong AssignOperatorKey = 0;
         private ulong FirstParamKey = 0;
         private ulong SecondParamKey = 0;
 
         public override void SecondInit()
         {
-            SelfKey = CommonKeysEngine.SelfKey;
+            SelfInstanceKey = CommonKeysEngine.SelfInstanceKey;
             AssignOperatorKey = CommonKeysEngine.AssignOperatorKey;
             FirstParamKey = CommonKeysEngine.FirstParamKey;
             SecondParamKey = CommonKeysEngine.SecondParamKey;
@@ -47,7 +47,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         {
             var filter = new CommandFilter();
             filter.Handler = HandlerOfAssign;
-            filter.HolderKey = SelfKey;
+            filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = AssignOperatorKey;
             var filterParams = filter.Params;
             filterParams.Add(FirstParamKey, new CommandFilterParam(){});

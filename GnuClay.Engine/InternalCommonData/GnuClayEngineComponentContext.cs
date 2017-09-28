@@ -1,5 +1,6 @@
 ﻿using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Console;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.LogicalStorage;
@@ -34,5 +35,6 @@ namespace GnuClay.Engine.InternalCommonData
         public PropertiesEngine PropertiesEngine = null;
         public CommonValuesFactory CommonValuesFactory = null;
         public CommonKeysEngine CommonKeysEngine = null;
+        public ConsoleEngine ConsoleEngine = null;
     }
 }

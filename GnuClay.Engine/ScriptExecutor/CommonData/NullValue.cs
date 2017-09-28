@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.CommonClientTypes;
 using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.CommonClientTypes.ResultTypes;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
@@ -60,6 +61,14 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             var spacesString = _ObjectHelper.CreateSpaces(indent);
             return $"{spacesString}NullValue";
+        }
+
+        public IExternalValue ToExternalValue()
+        {
+            var externalValue = new ExternalValue();
+            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.TypeKey = TypeKey;
+            return externalValue;
         }
     }
 }

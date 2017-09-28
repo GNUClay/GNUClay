@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
+﻿using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,6 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsArray { get; }
 
         ResultOfCalling ExecuteSetLogicalProperty(IValue value, KindOfLogicalOperator kindOfLogicalOperators);
+        IExternalValue ToExternalValue();
     }
 }

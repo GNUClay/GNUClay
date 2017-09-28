@@ -31,5 +31,8 @@ namespace GnuClay.CommonClientTypes
         double GetInheritanceRank(ulong subKey, ulong superKey);
         List<InheritanceItem> LoadListOfSubClasses(ulong targetKey);
         List<InheritanceItem> LoadAllInheritanceItems();
+
+        ulong AddLogHandler(Action<IExternalValue> handler);
+        void RemoveLogHandler(ulong descriptor);
     }
 }

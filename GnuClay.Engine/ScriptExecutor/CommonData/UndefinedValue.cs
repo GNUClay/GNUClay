@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
@@ -72,6 +73,14 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             var spacesString = _ObjectHelper.CreateSpaces(indent);
             return $"{spacesString}UndefinedValue";
+        }
+
+        public IExternalValue ToExternalValue()
+        {
+            var externalValue = new ExternalValue();
+            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.TypeKey = TypeKey;
+            return externalValue;
         }
     }
 }

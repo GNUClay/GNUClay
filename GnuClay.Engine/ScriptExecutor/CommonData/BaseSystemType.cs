@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
@@ -56,5 +57,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         /// <param name="indent">Indent for better formatting.</param>
         /// <returns>The string representation of this instance.</returns>
         public abstract string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent);
+        public IExternalValue ToExternalValue()
+        {
+            var externalValue = new ExternalValue();
+            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.TypeKey = TypeKey;
+            return externalValue;
+        }
     }
 }

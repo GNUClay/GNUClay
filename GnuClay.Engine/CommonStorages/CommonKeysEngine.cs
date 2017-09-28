@@ -127,6 +127,7 @@ namespace GnuClay.Engine.CommonStorages
         {
             FirstParamKey = DataDictionary.GetKey(StandartTypeNamesConstants.FirstParamName);
             SecondParamKey = DataDictionary.GetKey(StandartTypeNamesConstants.SecondParamName);
+            MessageParamKey = DataDictionary.GetKey(StandartTypeNamesConstants.MessageParamName);
         }
 
         #region keys of types
@@ -186,6 +187,7 @@ namespace GnuClay.Engine.CommonStorages
         #region keys of standard variables
         public ulong FirstParamKey { get; private set; }
         public ulong SecondParamKey { get; private set; }
+        public ulong MessageParamKey { get; private set; }
         #endregion
     }
 }

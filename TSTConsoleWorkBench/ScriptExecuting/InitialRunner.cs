@@ -490,17 +490,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var remoteFunctionsStorage = mainContext.RemoteFunctionsEngine;
 
-            var filter = new CommandFilter();
-            filter.Handler = FakeConsoleLog;
-            filter.HolderKey = consoleKey;
-            filter.FunctionKey = logKey;
-
-            filter.Params.Add(messageParamKey, new CommandFilterParam()
-            {
-            });
-
-            var descriptor = functionProvider.AddFilter(filter);
-
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();
             tmpCommand.OperationCode = OperationCode.PushVar;
@@ -511,7 +500,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand.OperationCode = OperationCode.ReturnValue;
             tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
-            filter = new CommandFilter();
+            var filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = openKey;
             filter.TargetKey = doorKey;
@@ -744,7 +733,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             var param_1_Key = CommonKeysEngine.FirstParamKey;
             var param_2_Key = CommonKeysEngine.SecondParamKey;
 
-            var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
+            var messageParamKey = CommonKeysEngine.MessageParamKey;
 
             var selfKey = CommonKeysEngine.SelfKey;
 
@@ -758,59 +747,59 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var remoteFunctionsStorage = mainContext.RemoteFunctionsEngine;
 
-            var filter = new CommandFilter();
-            filter.Handler = FakeConsoleLog;
-            filter.HolderKey = consoleKey;
-            filter.FunctionKey = logKey;
+            //var filter = new CommandFilter();
+            //filter.Handler = FakeConsoleLog;
+            //filter.HolderKey = consoleKey;
+            //filter.FunctionKey = logKey;
 
-            filter.Params.Add(messageParamKey, new CommandFilterParam()
-            {
-            });
+            //filter.Params.Add(messageParamKey, new CommandFilterParam()
+            //{
+            //});
 
-            var descriptor = functionProvider.AddFilter(filter);
+            //var descriptor = functionProvider.AddFilter(filter);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
 
-            functionProvider.RemoveFilter(descriptor);
+            //functionProvider.RemoveFilter(descriptor);
 
-            functionProvider.AddFilter(filter);
-            descriptor = functionProvider.AddFilter(filter);
+            //functionProvider.AddFilter(filter);
+            //descriptor = functionProvider.AddFilter(filter);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript descriptor = {descriptor}");
 
-            var namedParams = new List<NamedParamInfo>();
+            //var namedParams = new List<NamedParamInfo>();
 
-            var namedParam = new NamedParamInfo();
-            namedParams.Add(namedParam);
-            namedParam.ParamName = new EntityValue(messageParamKey);
-            namedParam.ParamValue = new EntityValue(doorKey);
+            //var namedParam = new NamedParamInfo();
+            //namedParams.Add(namedParam);
+            //namedParam.ParamName = new EntityValue(messageParamKey);
+            //namedParam.ParamValue = new EntityValue(doorKey);
 
-            var tmpHolder = mainContext.CommonValuesFactory.SelfInstanceValue();
+            //var tmpHolder = mainContext.CommonValuesFactory.SelfInstanceValue();
 
-            ulong tmpTarget = 0;
+            //ulong tmpTarget = 0;
 
-            var resultOfCallByDescription = functionProvider.CallForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
+            //var resultOfCallByDescription = functionProvider.CallForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
-            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
+            //resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByNamedParameters(null, null, tmpHolder, descriptor, tmpTarget, namedParams);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
-            var positionedParameters = new List<PositionParamInfo>();
+            //var positionedParameters = new List<PositionParamInfo>();
 
-            var positionedParam = new PositionParamInfo();
-            positionedParameters.Add(positionedParam);
-            positionedParam.ParamValue = new EntityValue(doorKey);
-            positionedParam.Position = 0;
+            //var positionedParam = new PositionParamInfo();
+            //positionedParameters.Add(positionedParam);
+            //positionedParam.ParamValue = new EntityValue(doorKey);
+            //positionedParam.Position = 0;
 
-            resultOfCallByDescription = functionProvider.CallForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+            //resultOfCallByDescription = functionProvider.CallForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
-            resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
+            //resultOfCallByDescription = functionProvider.CallAsyncForDecsriptorByPositionedParameters(null, null, tmpHolder, descriptor, tmpTarget, positionedParameters);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
             var tmpCommand = new ScriptCommand();
@@ -822,7 +811,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             tmpCommand.OperationCode = OperationCode.ReturnValue;
             tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
-            filter = new CommandFilter();
+            var filter = new CommandFilter();
             filter.HolderKey = selfKey;
             filter.FunctionKey = openKey;
             filter.TargetKey = doorKey;
@@ -1008,16 +997,6 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             action.State = EntityActionState.Completed;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
-        }
-
-        private void FakeConsoleLog(EntityAction action)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeConsoleLog action = {action}");
-
-            action.Result = new EntityValue(15);
-            action.State = EntityActionState.Completed;
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeConsoleLog action = {action}");
         }
 
         private void FakeRemoteHandler_1(EntityAction action)

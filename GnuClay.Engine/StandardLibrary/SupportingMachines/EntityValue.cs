@@ -1,6 +1,8 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.ResultTypes;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;
 using System.Collections.Generic;
@@ -80,6 +82,14 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
             }
 
             return sb.ToString();
+        }
+
+        public IExternalValue ToExternalValue()
+        {
+            var externalValue = new ExternalValue();
+            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.TypeKey = TypeKey;
+            return externalValue;
         }
     }
 }

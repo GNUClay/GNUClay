@@ -94,5 +94,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
             return sb.ToString();
         }
+
+        public IExternalValue ToExternalValue()
+        {
+            var externalValue = new ExternalValue();
+            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.TypeKey = TypeKey;
+            return externalValue;
+        }
     }
 }

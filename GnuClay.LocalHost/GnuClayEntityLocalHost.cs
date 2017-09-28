@@ -284,5 +284,25 @@ namespace GnuClay.LocalHost
                 return GnuClayEngine.LoadAllInheritanceItems();
             }
         }
+
+        public ulong AddLogHandler(Action<IExternalValue> handler)
+        {
+            lock (mLockObj)
+            {
+                ValidateIsDestroyed();
+
+                return GnuClayEngine.AddLogHandler(handler);
+            }
+        }
+
+        public void RemoveLogHandler(ulong descriptor)
+        {
+            lock (mLockObj)
+            {
+                ValidateIsDestroyed();
+
+                GnuClayEngine.RemoveLogHandler(descriptor);
+            }
+        }
     }
 }
