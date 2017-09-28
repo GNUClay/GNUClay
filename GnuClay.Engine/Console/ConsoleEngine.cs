@@ -20,9 +20,6 @@ namespace GnuClay.Engine.Console
 
         public ulong AddLogHandler(Action<IExternalValue> handler)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"AddLogHandler handler = {handler}");
-#endif
             lock(mLockObj)
             {
                 mCurrentIndex++;
@@ -37,10 +34,6 @@ namespace GnuClay.Engine.Console
 
         public void RemoveLogHandler(ulong descriptor)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveLogHandler descriptor = {descriptor}");
-#endif
-
             lock (mLockObj)
             {
                 if(mHandlersDict.ContainsKey(descriptor))
@@ -52,11 +45,17 @@ namespace GnuClay.Engine.Console
 
         public void Emit(IValue value)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Emit value = {value}");
-#endif
-
-            throw new NotImplementedException();
+            lock(mLockObj)
+            {
+                var handlers = mHandlersDict.ToList();
+                var externalValue = value.ToExternalValue();
+                Task.Run(() => {
+                    foreach(var handler in handlers)
+                    {
+                        handler.Value?.Invoke(externalValue);
+                    }
+                });
+            }
         }
 
         private ulong mCurrentIndex = 0;

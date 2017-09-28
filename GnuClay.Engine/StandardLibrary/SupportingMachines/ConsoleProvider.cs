@@ -1,4 +1,5 @@
 ﻿using GnuClay.Engine.CommonStorages;
+using GnuClay.Engine.Console;
 using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
@@ -20,12 +21,14 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         private StorageDataDictionary mDataDictionary = null;
         private CommonKeysEngine mCommonKeysEngine = null;
         private FunctionsEngine mFunctionsEngine = null;
+        private ConsoleEngine mConsoleEngine = null;
 
         public override void FirstInit()
         {
             mDataDictionary = Context.DataDictionary;
             mCommonKeysEngine = Context.CommonKeysEngine;
             mFunctionsEngine = Context.FunctionsEngine;
+            mConsoleEngine = Context.ConsoleEngine;
         }
 
         private ulong SelfInstanceKey = 0;
@@ -59,23 +62,10 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
 
         private void Log(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin Log action = {action}");
-#endif
             var command = action.Command;
-
             var tmpMessageParam = command.GetParamValue(MessageParamKey);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Log tmpMessageParam = {tmpMessageParam.ToString(mDataDictionary, 0)}");
-#endif
-
-
+            mConsoleEngine.Emit(tmpMessageParam);
             action.State = EntityActionState.Completed;
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"End Log action = {action}");
-#endif
         }
     }
 }

@@ -215,7 +215,9 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Case11");
 
-            GnuClayEngine.AddLogHandler((IExternalValue value));
+            GnuClayEngine.AddLogHandler((IExternalValue value) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Case11 value = {value}");
+            });
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("DEFINE {");
