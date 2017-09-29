@@ -1,4 +1,4 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using System;

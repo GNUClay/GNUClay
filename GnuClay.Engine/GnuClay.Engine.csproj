@@ -52,7 +52,6 @@
     <Compile Include="Bootstrap\BootstrapEngine.cs" />
     <Compile Include="Console\ConsoleEngine.cs" />
     <Compile Include="GeneralConstants.cs" />
-    <Compile Include="ILongHashableObject.cs" />
     <Compile Include="Inheritance\CyclicInheritanceException.cs" />
     <Compile Include="Inheritance\InheritanceAspect.cs" />
     <Compile Include="Inheritance\InheritanceEngine.cs" />

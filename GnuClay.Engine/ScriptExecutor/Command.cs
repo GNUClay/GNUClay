@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using System;

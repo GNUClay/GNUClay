@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine
+namespace GnuClay.CommonClientTypes.CommonData
 {
-    public interface ILongHashableObject
+    public interface IExternalEntityAction
     {
-        ulong GetLongHashCode();
     }
 }

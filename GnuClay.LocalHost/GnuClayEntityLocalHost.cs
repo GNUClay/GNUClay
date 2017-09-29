@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using System.IO;
 using System.IO.Compression;
-using GnuClay.CommonClientTypes.Inheritance;
+using GnuClay.CommonClientTypes.CommonData;
 
 namespace GnuClay.LocalHost
 {

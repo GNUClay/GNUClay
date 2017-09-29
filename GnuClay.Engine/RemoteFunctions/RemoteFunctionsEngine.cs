@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.InternalCommonData;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace GnuClay.Engine.RemoteFunctions
 {
     public class RemoteFunctionsHandler
     {
-        public RemoteFunctionsHandler(BaseCommandFilter filter, GnuClayEngineComponentContext mainContext, RemoteFunctionsEngine parent)
+        public RemoteFunctionsHandler(IExternalCommandFilter filter, GnuClayEngineComponentContext mainContext, RemoteFunctionsEngine parent)
         {
             mMainContext = mainContext;
 
@@ -32,14 +33,21 @@ namespace GnuClay.Engine.RemoteFunctions
             foreach (var item in mDict)
             {
                 tmpTaskList.Add(Task.Run(() => {
-                    item.Value.Handler(action);
+                    var externalAction = CreateExternalEntityAction(action);
+
+                    item.Value.Handler(externalAction);
                 }));
             }
 
             Task.WaitAll(tmpTaskList.ToArray());
         }
 
-        public ulong AddFilter(CommandFilter filter)
+        private IExternalEntityAction CreateExternalEntityAction(EntityAction action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ulong AddFilter(IExternalCommandFilter filter)
         {
             if (mDict.Count == 0)
             {
@@ -69,7 +77,7 @@ namespace GnuClay.Engine.RemoteFunctions
             }
         }
 
-        public Dictionary<ulong, CommandFilter> mDict = new Dictionary<ulong, CommandFilter>();
+        public Dictionary<ulong, IExternalCommandFilter> mDict = new Dictionary<ulong, IExternalCommandFilter>();
     }
 
     public class RemoteFunctionsEngine : BaseGnuClayEngineComponent
@@ -81,7 +89,7 @@ namespace GnuClay.Engine.RemoteFunctions
 
         private object mLockObj = new object();
 
-        public ulong AddFilter(CommandFilter filter)
+        public ulong AddFilter(IExternalCommandFilter filter)
         {
             lock (mLockObj)
             {
@@ -105,22 +113,23 @@ namespace GnuClay.Engine.RemoteFunctions
 
         public void OnAddFilter(ulong descriptor, RemoteFunctionsHandler handler)
         {
-            mDict[descriptor] = handler;
+            mDescriptorsDict[descriptor] = handler;
         }
 
         public void RemoveFilter(ulong descriptor)
         {
             lock (mLockObj)
             {
-                if (mDict.ContainsKey(descriptor))
+                if (mDescriptorsDict.ContainsKey(descriptor))
                 {
-                    var handler = mDict[descriptor];
+                    var handler = mDescriptorsDict[descriptor];
                     handler.RemoveFilter(descriptor);
-                    mDict.Remove(descriptor);
+                    mDescriptorsDict.Remove(descriptor);
                 }
             }
         }
 
         private Dictionary<ulong, RemoteFunctionsHandler> mDict = new Dictionary<ulong, RemoteFunctionsHandler>();
+        private Dictionary<ulong, RemoteFunctionsHandler> mDescriptorsDict = new Dictionary<ulong, RemoteFunctionsHandler>();
     }
 }

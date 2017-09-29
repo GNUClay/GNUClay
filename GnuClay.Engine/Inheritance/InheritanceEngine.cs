@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.CommonClientTypes.Inheritance;
+using GnuClay.CommonClientTypes.CommonData;
 
 namespace GnuClay.Engine.Inheritance
 {

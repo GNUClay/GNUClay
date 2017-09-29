@@ -1,5 +1,5 @@
-﻿using GnuClay.CommonClientTypes.Inheritance;
-using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.CommonClientTypes.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;

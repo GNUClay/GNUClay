@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine.ScriptExecutor.CommonData;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine.ScriptExecutor.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace GnuClay.Engine.ScriptExecutor
         {
         }
 
-        public CommandFilter(BaseCommandFilter source)
+        public CommandFilter(IExternalCommandFilter source)
             : base(source)
         {
         }

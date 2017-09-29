@@ -1,45 +1,21 @@
-﻿using GnuClay.CommonClientTypes.CommonData;
-using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.ScriptExecutor
+namespace GnuClay.CommonClientTypes.CommonData
 {
-    public class CommandFilterParam: ILongHashableObject
+    public class ExternalCommandFilterParam: IExternalCommandFilterParam
     {
-        public CommandFilterParam()
-        {
-        }
-
-        public CommandFilterParam(IExternalCommandFilterParam source)
-        {
-            IsAnyType = source.IsAnyType;
-            TypeKey = source.TypeKey;
-            IsAnyValue = true;
-            Value = null;
-        }
-
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; }
-        public bool IsAnyValue { get; set; } = true;
-        public IValue Value { get; set; }
 
         public virtual ulong GetLongHashCode()
         {
             ulong result = (ulong)IsAnyType.GetHashCode();
-
             result ^= TypeKey;
-
-            result ^= (ulong)IsAnyValue.GetHashCode();
-
-            if (Value != null)
-            {
-                result ^= Value.GetLongHashCode();
-            }
-
             return result;
         }
 

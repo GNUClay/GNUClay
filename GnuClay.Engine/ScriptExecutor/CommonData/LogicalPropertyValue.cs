@@ -1,5 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
-using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.CommonUtils.TypeHelpers;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;

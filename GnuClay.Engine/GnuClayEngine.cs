@@ -1,5 +1,5 @@
-﻿using GnuClay.CommonClientTypes.Inheritance;
-using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.Bootstrap;
 using GnuClay.Engine.CommonStorages;
@@ -479,7 +479,7 @@ namespace GnuClay.Engine
             }
         }
 
-        public ulong AddRemoteFunction(CommandFilter filter)
+        public ulong AddRemoteFunction(IExternalCommandFilter filter)
         {
             lock (mLockObj)
             {

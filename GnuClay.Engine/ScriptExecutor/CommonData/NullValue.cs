@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
 using GnuClay.CommonClientTypes;
 using GnuClay.CommonUtils.TypeHelpers;
-using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonClientTypes.CommonData;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {

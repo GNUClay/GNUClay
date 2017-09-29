@@ -2,7 +2,7 @@
 using System.Text;
 using GnuClay.CommonUtils.TypeHelpers;
 
-namespace GnuClay.CommonClientTypes.Inheritance
+namespace GnuClay.CommonClientTypes.CommonData
 {
     [Serializable]
     public class InheritanceItem : IToStringData

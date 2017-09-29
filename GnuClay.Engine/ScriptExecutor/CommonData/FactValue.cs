@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GnuClay.Engine.ScriptExecutor.InternalScriptExecutor;
-using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.CommonClientTypes;

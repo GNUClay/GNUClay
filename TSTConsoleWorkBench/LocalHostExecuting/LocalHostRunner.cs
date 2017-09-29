@@ -1,5 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
-using GnuClay.CommonClientTypes.ResultTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.LocalHost;
 using System;

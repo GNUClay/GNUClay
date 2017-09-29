@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CommonClientTypes.ResultTypes
+namespace GnuClay.CommonClientTypes.CommonData
 {
     public enum ExternalValueKind
     {

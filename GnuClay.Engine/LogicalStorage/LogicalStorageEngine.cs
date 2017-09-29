@@ -1,4 +1,4 @@
-﻿using GnuClay.CommonClientTypes.ResultTypes;
+﻿using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;

@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
 using GnuClay.Engine.ScriptExecutor.AST;
@@ -516,44 +517,44 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            var externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_1;
+            externalFilter.Handler = FakeRemoteHandler_1;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_2;
+            externalFilter.Handler = FakeRemoteHandler_2;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_3;
+            externalFilter.Handler = FakeRemoteHandler_3;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
             filter = new CommandFilter();
             filter.Handler = FakeUnaryOperator;
@@ -826,44 +827,44 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            var externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_1;
+            externalFilter.Handler = FakeRemoteHandler_1;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_2;
+            externalFilter.Handler = FakeRemoteHandler_2;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            filter = new CommandFilter();
-            filter.HolderKey = selfKey;
-            filter.FunctionKey = remoteKey;
-            filter.TargetKey = doorKey;
+            externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = selfKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
 
-            filter.Params.Add(keyKey, new CommandFilterParam()
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
 
-            filter.Handler = FakeRemoteHandler_3;
+            externalFilter.Handler = FakeRemoteHandler_3;
 
-            GnuClayEngine.AddRemoteFunction(filter);
+            GnuClayEngine.AddRemoteFunction(externalFilter);
 
             var tmpCodeFrame = new FunctionModel();
 
@@ -999,7 +1000,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeOpen action = {action}");
         }
 
-        private void FakeRemoteHandler_1(EntityAction action)
+        private void FakeRemoteHandler_1(IExternalEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action}");
 
@@ -1009,7 +1010,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action}");
         }
 
-        private void FakeRemoteHandler_2(EntityAction action)
+        private void FakeRemoteHandler_2(IExternalEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 action = {action}");
 
@@ -1019,7 +1020,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_2 action = {action}");
         }
 
-        private void FakeRemoteHandler_3(EntityAction action)
+        private void FakeRemoteHandler_3(IExternalEntityAction action)
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 action = {action}");
 
