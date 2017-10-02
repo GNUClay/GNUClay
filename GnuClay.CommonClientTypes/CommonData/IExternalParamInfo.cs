@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    public interface IExternalCommandFilterParam: ILongHashableObject, ISmartToString
+    public interface IExternalParamInfo: ISmartToString
     {
-        bool IsAnyType { get; }
-        ulong TypeKey { get; }
+        IExternalValue ParamName { get; }
+        IExternalValue ParamValue { get; }
     }
 }

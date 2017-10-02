@@ -57,7 +57,6 @@
     <Compile Include="Inheritance\InheritanceEngine.cs" />
     <Compile Include="Inheritance\InheritanceInfo.cs" />
     <Compile Include="InternalBus\InternalBusEngine.cs" />
-    <Compile Include="ISmartToString.cs" />
     <Compile Include="LogicalStorage\BaseLogicalStorageComponent.cs" />
     <Compile Include="LogicalStorage\CommonLogicalHelper.cs" />
     <Compile Include="LogicalStorage\InternalResolver\ASTTransformer.cs" />
@@ -171,6 +170,9 @@
     <Compile Include="ScriptExecutor\EntityAction.cs" />
     <Compile Include="ScriptExecutor\EntityActionState.cs" />
     <Compile Include="ScriptExecutor\ErrorsFactory.cs" />
+    <Compile Include="ScriptExecutor\ExternalData\ExternalCommand.cs" />
+    <Compile Include="ScriptExecutor\ExternalData\ExternalEntityAction.cs" />
+    <Compile Include="ScriptExecutor\ExternalData\ExternalParamInfo.cs" />
     <Compile Include="ScriptExecutor\FunctionsEngine.cs" />
     <Compile Include="ScriptExecutor\IConcreteTypeProvider.cs" />
     <Compile Include="ScriptExecutor\InternalScriptExecutor\CommandFiltersStorage.cs" />

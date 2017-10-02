@@ -51,6 +51,8 @@
     <Compile Include="CommonData\IExternalCommandFilterParam.cs" />
     <Compile Include="CommonData\IExternalEntityAction.cs" />
     <Compile Include="CommonData\IExternalCommandFilter.cs" />
+    <Compile Include="CommonData\IExternalParamInfo.cs" />
+    <Compile Include="CommonData\ISmartToString.cs" />
     <Compile Include="CommonData\ILongHashableObject.cs" />
     <Compile Include="IGnuClayServerConnection.cs" />
     <Compile Include="IGnuClayEntityConnection.cs" />

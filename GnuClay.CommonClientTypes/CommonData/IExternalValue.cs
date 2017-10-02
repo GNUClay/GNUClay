@@ -12,7 +12,7 @@ namespace GnuClay.CommonClientTypes.CommonData
         Value
     }
 
-    public interface IExternalValue
+    public interface IExternalValue : ISmartToString
     {
         ExternalValueKind Kind { get; }
         ulong TypeKey { get; }

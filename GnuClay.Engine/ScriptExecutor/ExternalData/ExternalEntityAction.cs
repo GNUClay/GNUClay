@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.ScriptExecutor.CommonData
+namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
-    public class ExternalValue : IExternalValue
+    public class ExternalEntityAction : IExternalEntityAction
     {
-        public ExternalValueKind Kind { get; set; } = ExternalValueKind.Entity;
-        public ulong TypeKey { get; set; }
-        public object Value { get; set; }
+        public ulong Key { get; set; }
+        public IExternalCommand Command { get; set; }
+        public ulong Initiator { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -33,17 +33,30 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
             var spacesString = _ObjectHelper.CreateSpaces(indent);
-
+            var nextIndent = indent + 4;
             var tmpSb = new StringBuilder();
-            tmpSb.AppendLine($"{spacesString}Begin ExternalValue");
-            tmpSb.AppendLine($"{spacesString}{nameof(Kind)} = {Kind}");
-            tmpSb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
-            if(dataDictionary != null && TypeKey > 0)
+            tmpSb.AppendLine($"{spacesString}Begin ExternalEntityAction");
+            tmpSb.AppendLine($"{spacesString}{nameof(Key)} = {Key}");
+            if (dataDictionary != null && Key > 0)
             {
-                tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
+                tmpSb.AppendLine($"{spacesString}ActionName = {dataDictionary.GetValue(Key)}");
             }
-            tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
-            tmpSb.AppendLine($"{spacesString}End ExternalValue");
+            tmpSb.AppendLine($"{spacesString}{nameof(Initiator)} = {Initiator}");
+            if (dataDictionary != null && Initiator > 0)
+            {
+                tmpSb.AppendLine($"{spacesString}InitiatorName = {dataDictionary.GetValue(Initiator)}");
+            }
+
+            if (Command == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Command)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Command)} =");
+                tmpSb.AppendLine(Command.ToString(dataDictionary, nextIndent));
+            }
+            tmpSb.AppendLine($"{spacesString}End ExternalEntityAction");
             return tmpSb.ToString();
         }
     }

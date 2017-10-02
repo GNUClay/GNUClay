@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    public interface IExternalEntityAction
+    public interface IExternalEntityAction : ISmartToString
     {
+        ulong Key { get; }
+        IExternalCommand Command { get; }
+        ulong Initiator { get; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.ScriptExecutor.ExternalData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,11 +41,39 @@ namespace GnuClay.Engine.RemoteFunctions
             }
 
             Task.WaitAll(tmpTaskList.ToArray());
+
+            action.State = EntityActionState.Completed;
         }
 
         private IExternalEntityAction CreateExternalEntityAction(EntityAction action)
         {
-            throw new NotImplementedException();
+            var initCommand = action.Command;
+
+            var result = new ExternalEntityAction();
+            result.Key = action.Key;
+            result.Initiator = action.Initiator;
+
+            var command = new ExternalCommand();
+            result.Command = command;
+            command.Function = initCommand.Function.ToExternalValue();
+            command.DescriptorOfFunction = mDescriptor;
+            command.Holder = initCommand.Holder.ToExternalValue();
+            command.TargetKey = initCommand.TargetKey;
+
+            var _params = new List<IExternalParamInfo>();
+
+            command.Params = _params;
+
+            foreach (var initParam in initCommand.NamedParams)
+            {
+                var paramItem = new ExternalParamInfo();
+                paramItem.ParamName = initParam.ParamName.ToExternalValue();
+                paramItem.ParamValue = initParam.ParamValue.ToExternalValue();
+                _params.Add(paramItem);
+            }
+
+            command.NamedParamsDict = _params.ToDictionary(p => p.ParamName.TypeKey, p => p.ParamValue);
+            return result;
         }
 
         public ulong AddFilter(IExternalCommandFilter filter)

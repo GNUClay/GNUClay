@@ -219,6 +219,24 @@ namespace TSTConsoleWorkBench.ParserExecuting
                 NLog.LogManager.GetCurrentClassLogger().Info($"Case11 value = {value}");
             });
 
+            var dogKey = GnuClayEngine.DataDictionary.GetKey("dog");
+            var remoteKey = GnuClayEngine.DataDictionary.GetKey("remote");
+            var doorKey = GnuClayEngine.DataDictionary.GetKey("door");
+            var keyKey = GnuClayEngine.DataDictionary.GetKey("$key");
+
+            var externalFilter = new ExternalCommandFilter();
+            externalFilter.HolderKey = dogKey;
+            externalFilter.FunctionKey = remoteKey;
+            externalFilter.TargetKey = doorKey;
+
+            externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
+            {
+            });
+
+            externalFilter.Handler = FakeRemoteHandler_1;
+
+            GnuClayEngine.AddRemoteFunction(externalFilter);
+
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine("DEFINE {");
             tmpSb.AppendLine("    fun run<!door!>($a: number, $b: number, $c: number)");
@@ -235,6 +253,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
+            tmpSb.AppendLine("    dog.remote<!door!>(1);");
             tmpSb.AppendLine("    console.log(1);");
             tmpSb.AppendLine("}");
 
@@ -243,6 +262,17 @@ namespace TSTConsoleWorkBench.ParserExecuting
             GnuClayEngine.Query(tmpSb.ToString());
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Case11");
+        }
+
+        private void FakeRemoteHandler_1(IExternalEntityAction action)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action?.ToString(GnuClayEngine.DataDictionary, 0)}");
+
+            var command = action.Command;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 command = {command?.ToString(GnuClayEngine.DataDictionary, 0)}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action?.ToString(GnuClayEngine.DataDictionary, 0)}");
         }
 
         private void Compile(string text)

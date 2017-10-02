@@ -1,31 +1,26 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CommonClientTypes.CommonData
+namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
-    public class ExternalCommandFilter: IExternalCommandFilter
+    public class ExternalCommand : IExternalCommand
     {
-        public ulong FunctionKey { get; set; }
+        public IExternalValue Function { get; set; }
+        public ulong DescriptorOfFunction { get; set; }
+        public IExternalValue Holder { get; set; }
         public ulong TargetKey { get; set; }
-        public ulong HolderKey { get; set; }
-        public Dictionary<ulong, IExternalCommandFilterParam> Params { get; set; } = new Dictionary<ulong, IExternalCommandFilterParam>();
+        public List<IExternalParamInfo> Params { get; set; }
+        public Dictionary<ulong, IExternalValue> NamedParamsDict { get; set; }
 
-        public ExternalCommandHandler Handler { get; set; }
-
-        public ulong GetLongHashCode()
+        public IExternalValue GetParamValue(ulong key)
         {
-            var result = FunctionKey ^ TargetKey ^ HolderKey;
-
-            foreach (var item in Params)
-            {
-                result ^= item.Value.GetLongHashCode();
-            }
-
-            return result;
+            return NamedParamsDict[key];
         }
 
         /// <summary>
@@ -49,23 +44,31 @@ namespace GnuClay.CommonClientTypes.CommonData
             var nextIndent = indent + 4;
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine($"{spacesString}Begin ExternalCommandFilter");
-            tmpSb.AppendLine($"{spacesString}{nameof(FunctionKey)} = {FunctionKey}");
-            if (dataDictionary != null && FunctionKey > 0)
+            if (Function == null)
             {
-                tmpSb.AppendLine($"{spacesString}FunctionName = {dataDictionary.GetValue(FunctionKey)}");
+                tmpSb.AppendLine($"{spacesString}{nameof(Function)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Function)} =");
+                tmpSb.AppendLine(Function.ToString(dataDictionary, nextIndent));
+            }
+            tmpSb.AppendLine($"{spacesString}{nameof(DescriptorOfFunction)} = {DescriptorOfFunction}");
+            if (Holder == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Holder)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Holder)} =");
+                tmpSb.AppendLine(Holder.ToString(dataDictionary, nextIndent));
             }
             tmpSb.AppendLine($"{spacesString}{nameof(TargetKey)} = {TargetKey}");
             if (dataDictionary != null && TargetKey > 0)
             {
                 tmpSb.AppendLine($"{spacesString}TargetName = {dataDictionary.GetValue(TargetKey)}");
             }
-            tmpSb.AppendLine($"{spacesString}{nameof(HolderKey)} = {HolderKey}");
-            if (dataDictionary != null && HolderKey > 0)
-            {
-                tmpSb.AppendLine($"{spacesString}HolderName = {dataDictionary.GetValue(HolderKey)}");
-            }
-
-            if(Params == null)
+            if (Params == null)
             {
                 tmpSb.AppendLine($"{spacesString}{nameof(Params)} = null");
             }
@@ -73,17 +76,9 @@ namespace GnuClay.CommonClientTypes.CommonData
             {
                 tmpSb.AppendLine($"{spacesString}Begin {nameof(Params)}");
 
-                var paramSpacesString = _ObjectHelper.CreateSpaces(nextIndent);
                 foreach (var paramItem in Params)
                 {
-                    var paramKey = paramItem.Key;
-
-                    tmpSb.AppendLine($"{paramSpacesString}{nameof(paramKey)} = {paramKey}");
-                    if (dataDictionary != null && FunctionKey > 0)
-                    {
-                        tmpSb.AppendLine($"{spacesString}ParamName = {dataDictionary.GetValue(paramKey)}");
-                    }
-                    tmpSb.AppendLine(paramItem.Value?.ToString(dataDictionary, nextIndent));
+                    tmpSb.AppendLine(paramItem?.ToString(dataDictionary, nextIndent));
                 }
 
                 tmpSb.AppendLine($"{spacesString}End {nameof(Params)}");

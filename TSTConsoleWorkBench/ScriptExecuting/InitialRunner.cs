@@ -477,7 +477,7 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             var messageParamKey = GnuClayEngine.DataDictionary.GetKey("$message");
 
-            var selfKey = CommonKeysEngine.SelfKey;
+            var selfKey = CommonKeysEngine.SelfInstanceKey;
 
             var remoteKey = GnuClayEngine.DataDictionary.GetKey("some remote");
 
@@ -1004,8 +1004,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 action = {action}");
 
-            action.Result = new EntityValue(15);
-            action.State = EntityActionState.Completed;
+            var command = action.Command;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_1 command = {command}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_1 action = {action}");
         }
@@ -1014,8 +1015,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 action = {action}");
 
-            action.Result = new EntityValue(15);
-            action.State = EntityActionState.Completed;
+            var command = action.Command;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_2 command = {command}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_2 action = {action}");
         }
@@ -1024,8 +1026,9 @@ namespace TSTConsoleWorkBench.ScriptExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 action = {action}");
 
-            action.Result = new EntityValue(15);
-            action.State = EntityActionState.Completed;
+            var command = action.Command;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Begin FakeRemoteHandler_3 command = {command}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"End FakeRemoteHandler_3 action = {action}");
         }

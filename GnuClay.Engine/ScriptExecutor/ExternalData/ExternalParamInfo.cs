@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.Engine.ScriptExecutor.CommonData
+namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
-    public class ExternalValue : IExternalValue
+    public class ExternalParamInfo : IExternalParamInfo
     {
-        public ExternalValueKind Kind { get; set; } = ExternalValueKind.Entity;
-        public ulong TypeKey { get; set; }
-        public object Value { get; set; }
+        public IExternalValue ParamName { get; set; }
+        public IExternalValue ParamValue { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -33,17 +32,28 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public string ToString(IReadOnlyStorageDataDictionary dataDictionary, int indent)
         {
             var spacesString = _ObjectHelper.CreateSpaces(indent);
-
+            var nextIndent = indent + 4;
             var tmpSb = new StringBuilder();
-            tmpSb.AppendLine($"{spacesString}Begin ExternalValue");
-            tmpSb.AppendLine($"{spacesString}{nameof(Kind)} = {Kind}");
-            tmpSb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
-            if(dataDictionary != null && TypeKey > 0)
+            tmpSb.AppendLine($"{spacesString}Begin ExternalEntityAction");
+            if (ParamName == null)
             {
-                tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
+                tmpSb.AppendLine($"{spacesString}{nameof(ParamName)} = null");
             }
-            tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
-            tmpSb.AppendLine($"{spacesString}End ExternalValue");
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(ParamName)} =");
+                tmpSb.AppendLine(ParamName.ToString(dataDictionary, nextIndent));
+            }
+            if (ParamValue == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(ParamValue)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(ParamValue)} =");
+                tmpSb.AppendLine(ParamValue.ToString(dataDictionary, nextIndent));
+            }
+            tmpSb.AppendLine($"{spacesString}End ExternalEntityAction");
             return tmpSb.ToString();
         }
     }
