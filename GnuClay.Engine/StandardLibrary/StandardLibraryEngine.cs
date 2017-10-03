@@ -35,11 +35,14 @@ namespace GnuClay.Engine.StandardLibrary
 
         private void CreateProvidersOfOperators()
         {
-            OperatorAssignProvider = new OperatorAssignProvider(Context);
-            mProvidersList.Add(OperatorAssignProvider);
+            AssignOperatorsProvider = new AssignOperatorsProvider(Context);
+            mProvidersList.Add(AssignOperatorsProvider);
 
-            OperatorAddProvider = new OperatorAddProvider(Context);
-            mProvidersList.Add(OperatorAddProvider);
+            ArithmeticOperatorsProvider = new ArithmeticOperatorsProvider(Context);
+            mProvidersList.Add(ArithmeticOperatorsProvider);
+
+            LogicalOperatorsProvider = new LogicalOperatorsProvider(Context);
+            mProvidersList.Add(LogicalOperatorsProvider);
         }
 
         public override void FirstInit()
@@ -77,8 +80,9 @@ namespace GnuClay.Engine.StandardLibrary
         #endregion
 
         #region Providers of operators
-        private OperatorAssignProvider OperatorAssignProvider = null;
-        private OperatorAddProvider OperatorAddProvider = null;
+        private AssignOperatorsProvider AssignOperatorsProvider = null;
+        private ArithmeticOperatorsProvider ArithmeticOperatorsProvider = null;
+        private LogicalOperatorsProvider LogicalOperatorsProvider = null;
         #endregion
 
     }

@@ -254,7 +254,10 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
             tmpSb.AppendLine("    dog.remote<!door!>(1);");
-            tmpSb.AppendLine("    console.log(1);");
+            tmpSb.AppendLine("    console.log(1 + 2);");
+            tmpSb.AppendLine("    console.log(1 - 1);");
+            tmpSb.AppendLine("    console.log(3 * 2);");
+            tmpSb.AppendLine("    console.log(8 / 2);");
             tmpSb.AppendLine("}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");

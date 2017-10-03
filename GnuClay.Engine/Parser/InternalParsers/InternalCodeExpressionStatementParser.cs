@@ -102,6 +102,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessPlusToken();
                             break;
 
+                        case TokenKind.Div:
+                            ProcessDivToken();
+                            break;
+
                         case TokenKind.OpenRoundBracket:
                             ProcessOpenRoundBracket();
                             break;
@@ -322,6 +326,16 @@ namespace GnuClay.Engine.Parser.InternalParsers
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.AddOperatorKey;
+            result.ClassOfNode = ClassOfNode.Arithmetic;
+
+            SetArithmeticToken(result);
+        }
+
+        private void ProcessDivToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.DivOperatorKey;
             result.ClassOfNode = ClassOfNode.Arithmetic;
 
             SetArithmeticToken(result);

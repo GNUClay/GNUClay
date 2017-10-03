@@ -209,8 +209,9 @@
     <Compile Include="ScriptExecutor\InternalScriptExecutor\InternalThreadExecutor.cs" />
     <Compile Include="ScriptExecutor\ScriptExecutorEngine.cs" />
     <Compile Include="CommonStorages\CommonKeysEngine.cs" />
-    <Compile Include="StandardLibrary\OperatorsSupport\OperatorAddProvider.cs" />
-    <Compile Include="StandardLibrary\OperatorsSupport\OperatorAssignProvider.cs" />
+    <Compile Include="StandardLibrary\OperatorsSupport\ArithmeticOperatorsProvider.cs" />
+    <Compile Include="StandardLibrary\OperatorsSupport\AssignOperatorsProvider.cs" />
+    <Compile Include="StandardLibrary\OperatorsSupport\LogicalOperatorsProvider.cs" />
     <Compile Include="StandardLibrary\StandardLibraryEngine.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BooleanProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\BooleanValue.cs" />
