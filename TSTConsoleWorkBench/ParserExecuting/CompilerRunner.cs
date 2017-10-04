@@ -258,6 +258,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    console.log(1 - 1);");
             tmpSb.AppendLine("    console.log(3 * 2);");
             tmpSb.AppendLine("    console.log(8 / 2);");
+            tmpSb.AppendLine("    console.log($var1 == 2);");
             tmpSb.AppendLine("}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
