@@ -17,13 +17,13 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         public ContextOfVariables(GnuClayEngineComponentContext context)
         {
             mContext = context;
-            mUndefinedValue = mContext.CommonValuesFactory.UndefinedValue();
+            mNullValue = mContext.CommonValuesFactory.NullValue();
         }
 
         [NonSerialized]
         private GnuClayEngineComponentContext mContext = null;
         [NonSerialized]
-        private IValue mUndefinedValue = null;
+        private IValue mNullValue = null;
 
         public IValue GetVariable(ulong variableKey)
         {
@@ -32,7 +32,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return mVariablesDict[variableKey];
             }
 
-            return CreateVariable(variableKey, mUndefinedValue);
+            return CreateVariable(variableKey, mNullValue);
         }
 
         public IValue CreateVariable(ulong variableKey, IValue variableValue)

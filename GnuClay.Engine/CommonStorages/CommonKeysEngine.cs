@@ -29,9 +29,6 @@ namespace GnuClay.Engine.CommonStorages
 
             UniversalTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.UniversalTypeName);
 
-            UndefinedTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.UndefinedTypeMame);
-            InheritanceEngine.SetInheritance(UndefinedTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
-
             NullTypeKey = DataDictionary.GetKey(StandartTypeNamesConstants.NullTypeName);
             InheritanceEngine.SetInheritance(NullTypeKey, UniversalTypeKey, 1, InheritanceAspect.WithOutClause);
 
@@ -133,7 +130,6 @@ namespace GnuClay.Engine.CommonStorages
         #region keys of types
         public ulong UniversalTypeKey { get; private set; }
         public ulong NullTypeKey { get; private set; }
-        public ulong UndefinedTypeKey { get; private set; }
         public ulong NumberKey { get; private set; }
         public ulong BooleanKey { get; private set; }
         public ulong FactTypeKey { get; private set; }

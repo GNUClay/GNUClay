@@ -50,8 +50,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsValueContainer => false;
         public IValue ValueFromContainer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsNull => false;
-        public bool IsUndefined => false;
-        public bool IsNullOrUndefined => false;
         public bool IsFact => true;
         public bool IsArray => false;
 

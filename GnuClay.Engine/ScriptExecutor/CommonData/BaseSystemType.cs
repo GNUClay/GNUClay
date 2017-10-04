@@ -38,8 +38,6 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         }
 
         public bool IsNull => false;
-        public bool IsUndefined => false;
-        public bool IsNullOrUndefined => false;
         public bool IsFact => false;
         public bool IsArray => false;
 

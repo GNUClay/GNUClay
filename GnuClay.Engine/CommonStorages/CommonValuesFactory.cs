@@ -19,7 +19,6 @@ namespace GnuClay.Engine.CommonStorages
         private CommonKeysEngine mCommonKeysEngine = null;
         private ConstTypeProvider mConstTypeProvider = null;
 
-        private IValue mUndefinedValue = null;
         private IValue mNullValue = null;
 
         private static string ParamVarName = "$x1";
@@ -44,7 +43,6 @@ namespace GnuClay.Engine.CommonStorages
 
         public override void SecondInit()
         {
-            mUndefinedValue = new UndefinedValue(mCommonKeysEngine.UndefinedTypeKey);
             mNullValue = new NullValue(mCommonKeysEngine.NullTypeKey);
 
             ParamVarKey = mDataDictionary.GetKey(ParamVarName);
@@ -65,11 +63,6 @@ namespace GnuClay.Engine.CommonStorages
         {
             var tmpName = Guid.NewGuid().ToString("D");
             return mDataDictionary.GetKey(tmpName);
-        }
-
-        public IValue UndefinedValue()
-        {
-            return mUndefinedValue;
         }
 
         public IValue CreateDirectFactValue(ulong key)

@@ -378,7 +378,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if (entityAction.Result == null)
                 {
-                    entityAction.Result = mCommonValuesFactory.UndefinedValue();
+                    entityAction.Result = mCommonValuesFactory.NullValue();
                 }
 
                 result.Result = entityAction.Result;

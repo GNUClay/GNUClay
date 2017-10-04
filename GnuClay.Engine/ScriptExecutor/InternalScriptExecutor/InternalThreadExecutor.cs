@@ -106,7 +106,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 mCurrentFrame = mExecutionFramesStack.Peek();
                 var resultOfCalling = new ResultOfCalling();
                 resultOfCalling.Success = true;
-                resultOfCalling.Result = mCommonValuesFactory.UndefinedValue();
+                resultOfCalling.Result = mCommonValuesFactory.NullValue();
 
                 PostProcessCall(resultOfCalling);
                 return;

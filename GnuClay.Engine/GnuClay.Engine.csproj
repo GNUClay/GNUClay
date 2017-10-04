@@ -155,7 +155,6 @@
     <Compile Include="ScriptExecutor\CommonData\NullValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\SystemPropertyValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\SystemVariableValue.cs" />
-    <Compile Include="ScriptExecutor\CommonData\UndefinedValue.cs" />
     <Compile Include="ScriptExecutor\CommonData\VariableValue.cs" />
     <Compile Include="CommonStorages\CommonValuesFactory.cs" />
     <Compile Include="ScriptExecutor\Compiler\InternalCompiler\BinaryOperatorLeaf.cs" />

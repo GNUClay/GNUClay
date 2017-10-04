@@ -10,7 +10,6 @@ namespace GnuClay.Engine.StandardLibrary.CommonData
     {
         #region names of types
         public const string UniversalTypeName = "⊤";
-        public const string UndefinedTypeMame = "undefined";
         public const string NullTypeName = "null";
         public const string NumberName = "number";
         public const string Boolean = "boolean";

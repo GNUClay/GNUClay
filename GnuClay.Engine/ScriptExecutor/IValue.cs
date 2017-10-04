@@ -19,8 +19,6 @@ namespace GnuClay.Engine.ScriptExecutor
         bool IsValueContainer { get; }
         IValue ValueFromContainer { get; set; }
         bool IsNull { get; }
-        bool IsUndefined { get; }
-        bool IsNullOrUndefined { get; }
         bool IsFact { get; }
         bool IsArray { get; }
 
