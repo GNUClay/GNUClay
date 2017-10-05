@@ -1,6 +1,7 @@
 ﻿using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.ScriptExecutor;
+using GnuClay.Engine.StandardLibrary.SupportingMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         }
 
         private StorageDataDictionary DataDictionary;
+        private CommonValuesFactory CommonValuesFactory;
         private CommonKeysEngine CommonKeysEngine;
         private FunctionsEngine FunctionsEngine;
         private ConstTypeProvider ConstTypeProvider;
@@ -24,6 +26,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         public override void FirstInit()
         {
             DataDictionary = Context.DataDictionary;
+            CommonValuesFactory = Context.CommonValuesFactory;
             CommonKeysEngine = Context.CommonKeysEngine;
             FunctionsEngine = Context.FunctionsEngine;
             ConstTypeProvider = Context.ConstTypeProvider;
@@ -33,6 +36,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private ulong FirstParamKey;
         private ulong SecondParamKey;
         private ulong BooleanKey;
+        private ulong NumberKey;
         private ulong EqualOperatorKey;
         private ulong NotEqualOperatorKey;
         private ulong MoreOperatorKey;
@@ -48,6 +52,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             FirstParamKey = CommonKeysEngine.FirstParamKey;
             SecondParamKey = CommonKeysEngine.SecondParamKey;
             BooleanKey = CommonKeysEngine.BooleanKey;
+            NumberKey = CommonKeysEngine.NumberKey;
             EqualOperatorKey = CommonKeysEngine.EqualOperatorKey;
             NotEqualOperatorKey = CommonKeysEngine.NotEqualOperatorKey;
             MoreOperatorKey = CommonKeysEngine.MoreOperatorKey;
@@ -70,7 +75,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void RegHandlerOfEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfEqual;
+            filter.Handler = HandlerOfEqual_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = EqualOperatorKey;
             filter.TargetKey = 0;
@@ -90,21 +95,104 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfEqual_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = EqualOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfEqual(EntityAction action)
+        private void HandlerOfEqual_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfEqual action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue == tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfEqual_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if(tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if(tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if(tmpParamNumberValue_1.OriginalValue == tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfNotEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfNotEqual;
+            filter.Handler = HandlerOfNotEqual_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = NotEqualOperatorKey;
             filter.TargetKey = 0;
@@ -124,21 +212,104 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfNotEqual_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = NotEqualOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfNotEqual(EntityAction action)
+        private void HandlerOfNotEqual_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfNotEqual action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue != tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfNotEqual_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue != tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfMore()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfMore;
+            filter.Handler = HandlerOfMore_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = MoreOperatorKey;
             filter.TargetKey = 0;
@@ -158,21 +329,124 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfMore_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = MoreOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfMore(EntityAction action)
+        private void HandlerOfMore_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfMore action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if(tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if(tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue > tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfMore_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue > tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfLess()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfLess;
+            filter.Handler = HandlerOfLess_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = LessOperatorKey;
             filter.TargetKey = 0;
@@ -192,21 +466,124 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfLess_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = LessOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfLess(EntityAction action)
+        private void HandlerOfLess_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfLess action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue < tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfLess_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue < tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfAnd()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfAnd;
+            filter.Handler = HandlerOfAnd_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = AndOperatorKey;
             filter.TargetKey = 0;
@@ -228,19 +605,31 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfAnd(EntityAction action)
+        private void HandlerOfAnd_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfAnd action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            var originalResult = Math.Min(tmpParamNumberValue_1.OriginalValue, tmpParamNumberValue_2.OriginalValue);
+            action.Result = ConstTypeProvider.CreateConstValue(BooleanKey, originalResult);
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfOr()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfOr;
+            filter.Handler = HandlerOfOr_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = OrOperatorKey;
             filter.TargetKey = 0;
@@ -262,19 +651,31 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfOr(EntityAction action)
+        private void HandlerOfOr_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfOr action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            var originalResult = Math.Max(tmpParamNumberValue_1.OriginalValue, tmpParamNumberValue_2.OriginalValue);
+            action.Result = ConstTypeProvider.CreateConstValue(BooleanKey, originalResult);
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfMoreOrEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfMoreOrEqual;
+            filter.Handler = HandlerOfMoreOrEqual_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = MoreOrEqualOperatorKey;
             filter.TargetKey = 0;
@@ -294,21 +695,124 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfMoreOrEqual_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = MoreOrEqualOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfMoreOrEqual(EntityAction action)
+        private void HandlerOfMoreOrEqual_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfMoreOrEqual action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue >= tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfMoreOrEqual_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue >= tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfLessOrEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfLessOrEqual;
+            filter.Handler = HandlerOfLessOrEqual_Boolean_Boolean;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = LessOrEqualOperatorKey;
             filter.TargetKey = 0;
@@ -328,15 +832,118 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             });
 
             FunctionsEngine.AddFilter(filter);
+
+            filter = new CommandFilter();
+            filter.Handler = HandlerOfLessOrEqual_Number_Number;
+            filter.HolderKey = SelfInstanceKey;
+            filter.FunctionKey = LessOrEqualOperatorKey;
+            filter.TargetKey = 0;
+
+            filterParams = filter.Params;
+
+            filterParams.Add(FirstParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            filterParams.Add(SecondParamKey, new CommandFilterParam()
+            {
+                IsAnyType = false,
+                TypeKey = NumberKey
+            });
+
+            FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfLessOrEqual(EntityAction action)
+        private void HandlerOfLessOrEqual_Boolean_Boolean(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfLessOrEqual action = {action?.ToString(DataDictionary, 0)}");
-#endif
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            throw new NotImplementedException();
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue <= tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
+        }
+
+        private void HandlerOfLessOrEqual_Number_Number(EntityAction action)
+        {
+            var command = action.Command;
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                if (tmpParam_1.IsNull)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+
+                if (tmpParam_2.IsNull)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            if (tmpParamNumberValue_1.OriginalValue <= tmpParamNumberValue_2.OriginalValue)
+            {
+                action.Result = CommonValuesFactory.TrueValue();
+            }
+            else
+            {
+                action.Result = CommonValuesFactory.FalseValue();
+            }
+
+            action.State = EntityActionState.Completed;
         }
     }
 }

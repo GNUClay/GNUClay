@@ -84,7 +84,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 }
                 else
                 {
-                    var commandParamTypeKey = targetCommandParam.ParamValue.TypeKey;
+                    var targetCommandParamValue = targetCommandParam.ParamValue;
+                    var commandParamTypeKey = targetCommandParamValue.TypeKey;
                     var filterParamTypeKey = filterParam.TypeKey;
 
                     if (commandParamTypeKey == filterParamTypeKey)
@@ -93,14 +94,17 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                     }
                     else
                     {
-                        var rank = mContext.InheritanceEngine.GetRank(commandParamTypeKey, filterParamTypeKey);
-
-                        if (rank == 0)
+                        if(!targetCommandParamValue.IsNull)
                         {
-                            return 0;
-                        }
+                            var rank = mContext.InheritanceEngine.GetRank(commandParamTypeKey, filterParamTypeKey);
 
-                        result *= rank;
+                            if (rank == 0)
+                            {
+                                return 0;
+                            }
+
+                            result *= rank;
+                        }
                     }
                 }
 
@@ -167,12 +171,22 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                         }
                         else
                         {
-                            var tmpCommandParamTypeKey = tmpCommandParam.ParamValue.TypeKey;
+                            var paramValue = tmpCommandParam.ParamValue;
+                            var tmpCommandParamTypeKey = paramValue.TypeKey;
                             var tmpFilterParamTypeKey = tmpFilterParam.TypeKey;
 
                             if (tmpCommandParamTypeKey == tmpFilterParamTypeKey)
                             {
                                 result *= 2;
+                                continue;
+                            }
+
+                            if(paramValue.IsNull)
+                            {
+#if DEBUG
+                                //NLog.LogManager.GetCurrentClassLogger().Info("GetPositionedRank tmpCommandParam.ParamValue.IsNull");
+#endif
+
                                 continue;
                             }
 
@@ -262,6 +276,10 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         public List<T> FindExecutors(Command command)
         {
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"FindExecutors command = {command}");
+#endif
+
             var targetFilters = new List<KeyValuePair<double, T>>();
 
             foreach (var item in mDict)

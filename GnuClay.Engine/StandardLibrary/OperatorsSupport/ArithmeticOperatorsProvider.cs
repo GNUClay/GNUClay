@@ -18,6 +18,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         }
 
         private StorageDataDictionary DataDictionary;
+        private CommonValuesFactory CommonValuesFactory;
         private CommonKeysEngine CommonKeysEngine;
         private FunctionsEngine FunctionsEngine;
         private ConstTypeProvider ConstTypeProvider;
@@ -25,6 +26,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         public override void FirstInit()
         {
             DataDictionary = Context.DataDictionary;
+            CommonValuesFactory = Context.CommonValuesFactory;
             CommonKeysEngine = Context.CommonKeysEngine;
             FunctionsEngine = Context.FunctionsEngine;
             ConstTypeProvider = Context.ConstTypeProvider;
@@ -84,9 +86,19 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void HandlerOfAdd(EntityAction action)
         {
             var command = action.Command;
-            var tmpParam_1 = (NumberValue)command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = (NumberValue)command.GetParamValue(SecondParamKey);
-            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue + tmpParam_2.OriginalValue);
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if(tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+            action.Result = ConstTypeProvider.CreateConstValue(tmpParamNumberValue_1.TypeKey, tmpParamNumberValue_1.OriginalValue + tmpParamNumberValue_2.OriginalValue);
             action.State = EntityActionState.Completed;
         }
 
@@ -118,9 +130,19 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void HandlerOfSub(EntityAction action)
         {
             var command = action.Command;
-            var tmpParam_1 = (NumberValue)command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = (NumberValue)command.GetParamValue(SecondParamKey);
-            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue - tmpParam_2.OriginalValue);
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParamNumberValue_1.OriginalValue - tmpParamNumberValue_2.OriginalValue);
             action.State = EntityActionState.Completed;
         }
 
@@ -152,9 +174,19 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void HandlerOfMul(EntityAction action)
         {
             var command = action.Command;
-            var tmpParam_1 = (NumberValue)command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = (NumberValue)command.GetParamValue(SecondParamKey);
-            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue * tmpParam_2.OriginalValue);
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParamNumberValue_1.OriginalValue * tmpParamNumberValue_2.OriginalValue);
             action.State = EntityActionState.Completed;
         }
 
@@ -186,9 +218,29 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void HandlerOfDiv(EntityAction action)
         {
             var command = action.Command;
-            var tmpParam_1 = (NumberValue)command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = (NumberValue)command.GetParamValue(SecondParamKey);
-            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParam_1.OriginalValue / tmpParam_2.OriginalValue);
+            var tmpParam_1 = command.GetParamValue(FirstParamKey);
+            var tmpParam_2 = command.GetParamValue(SecondParamKey);
+
+            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
+            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
+
+            var tmpParam_2_OriginalValue = tmpParamNumberValue_2.OriginalValue;
+
+            if(tmpParam_2_OriginalValue == 0)
+            {
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
+            }
+
+            action.Result = ConstTypeProvider.CreateConstValue(tmpParam_1.TypeKey, tmpParamNumberValue_1.OriginalValue / tmpParam_2_OriginalValue);
             action.State = EntityActionState.Completed;
         }
     }

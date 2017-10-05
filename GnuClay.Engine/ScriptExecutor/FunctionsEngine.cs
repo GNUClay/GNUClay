@@ -21,14 +21,14 @@ namespace GnuClay.Engine.ScriptExecutor
         {
         }
 
-        private CommonValuesFactory mCommonValuesFactory = null;
-        private CommonKeysEngine mCommonKeysEngine = null;
-        private StorageDataDictionary mDataDictionary = null;
-        private ScriptExecutorEngine mScriptExecutorEngine = null;
+        private CommonValuesFactory mCommonValuesFactory;
+        private CommonKeysEngine mCommonKeysEngine;
+        private StorageDataDictionary mDataDictionary;
+        private ScriptExecutorEngine mScriptExecutorEngine;
 
         private ulong mEntityActionTypeKey = 0;
 
-        private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage = null;
+        private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage;
 
         public override void FirstInit()
         {

@@ -56,11 +56,12 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
 
                 mValue = value;
                 TypeKey = mValue.TypeKey;
+                IsNull = mValue.IsNull;
                 Kind = mValue.Kind;
             }
         }
 
-        public bool IsNull => false;
+        public bool IsNull { get; private set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
