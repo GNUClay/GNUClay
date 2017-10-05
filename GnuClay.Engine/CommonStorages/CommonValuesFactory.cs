@@ -33,6 +33,8 @@ namespace GnuClay.Engine.CommonStorages
         private IValue mTrueValue = null;
         private IValue mFalseValue = null;
 
+        private ulong mEntityActionTypeKey;
+
         public override void FirstInit()
         {
             mDataDictionary = Context.DataDictionary;
@@ -57,6 +59,8 @@ namespace GnuClay.Engine.CommonStorages
 
             mTrueValue = mConstTypeProvider.CreateConstValue(booleanTypeKey, 1.0);
             mFalseValue = mConstTypeProvider.CreateConstValue(booleanTypeKey, 0.0);
+
+            mEntityActionTypeKey = mCommonKeysEngine.EntityActionTypeKey;
         }
 
         public ulong CreateObject()
@@ -88,6 +92,20 @@ namespace GnuClay.Engine.CommonStorages
         public IValue FalseValue()
         {
             return mFalseValue;
+        }
+
+        public EntityAction CreateEntityAction(Command command, EntityAction parentAction)
+        {
+            var key = CreateObject();
+            var entityAction = new EntityAction(key, command, mEntityActionTypeKey);
+
+            if (parentAction != null)
+            {
+                entityAction.Initiator = parentAction.Key;
+                parentAction.InitiatedActions.Add(key);
+            }
+
+            return entityAction;
         }
     }
 }

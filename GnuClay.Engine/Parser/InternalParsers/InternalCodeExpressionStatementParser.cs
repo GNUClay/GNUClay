@@ -86,6 +86,30 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             ProcessAssingToken();
                             break;
 
+                        case TokenKind.PlusAssing:
+                            ProcessPlusAssingToken();
+                            break;
+
+                        case TokenKind.MinusAssing:
+                            ProcessMinusAssingToken();
+                            break;
+
+                        case TokenKind.MulAssing:
+                            ProcessMulAssingToken();
+                            break;
+
+                        case TokenKind.DivAssing:
+                            ProcessDivAssingToken();
+                            break;
+
+                        case TokenKind.AssingFact:
+                            ProcessAssingFactToken();
+                            break;
+
+                        case TokenKind.PlusAssingFact:
+                            ProcessPlusAssingFactToken();
+                            break;
+
                         case TokenKind.Number:
                             ProcessNumberToken();
                             break;
@@ -258,6 +282,66 @@ namespace GnuClay.Engine.Parser.InternalParsers
             var result = new InternalCodeExpressionNode();
             result.Kind = ExpressionKind.BinaryOperator;
             result.TypeKey = mCommonKeysEngine.AssignOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessPlusAssingToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.PlusAssingOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessMinusAssingToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.MinusAssingOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessMulAssingToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.MulAssingOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessDivAssingToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.DivAssingOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessAssingFactToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.AssingFactOperatorKey;
+            result.ClassOfNode = ClassOfNode.Assing;
+
+            SetAssingToken(result);
+        }
+
+        private void ProcessPlusAssingFactToken()
+        {
+            var result = new InternalCodeExpressionNode();
+            result.Kind = ExpressionKind.BinaryOperator;
+            result.TypeKey = mCommonKeysEngine.PlusAssingFactOperatorKey;
             result.ClassOfNode = ClassOfNode.Assing;
 
             SetAssingToken(result);

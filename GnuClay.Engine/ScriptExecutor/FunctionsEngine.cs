@@ -26,8 +26,6 @@ namespace GnuClay.Engine.ScriptExecutor
         private StorageDataDictionary mDataDictionary;
         private ScriptExecutorEngine mScriptExecutorEngine;
 
-        private ulong mEntityActionTypeKey = 0;
-
         private CommandFiltersStorage<CommandFilter> mCommandFiltersStorage;
 
         public override void FirstInit()
@@ -40,16 +38,15 @@ namespace GnuClay.Engine.ScriptExecutor
             mCommandFiltersStorage = new CommandFiltersStorage<CommandFilter>(Context);
         }
 
-        public override void SecondInit()
-        {
-            mEntityActionTypeKey = mCommonKeysEngine.EntityActionTypeKey;
-        }
+        //public override void SecondInit()
+        //{
+        //}
 
         public ResultOfCalling CallCodeFrame(FunctionModel source)
         {
             var executionContext = CreateEmptyExecutionContext();
 
-            var entityAction = CreateEntityAction(new Command(), null);
+            var entityAction = mCommonValuesFactory.CreateEntityAction(new Command(), null);
 
             var tmpNewInternalThreadExecutor = new InternalThreadExecutor(source, Context, executionContext, entityAction);
             ExecuteThread(tmpNewInternalThreadExecutor);
@@ -192,20 +189,19 @@ namespace GnuClay.Engine.ScriptExecutor
             return command;
         }
 
-        private EntityAction CreateEntityAction(Command command, EntityAction parentAction)
-        {
-            var name = Guid.NewGuid().ToString("D");
-            var key = Context.DataDictionary.GetKey(name);
-            var entityAction = new EntityAction(key, command, mEntityActionTypeKey);
+        //private EntityAction CreateEntityAction(Command command, EntityAction parentAction)
+        //{
+        //    var key = mCommonValuesFactory.CreateObject();
+        //    var entityAction = new EntityAction(key, command, mEntityActionTypeKey);
 
-            if (parentAction != null)
-            {
-                entityAction.Initiator = parentAction.Key;
-                parentAction.InitiatedActions.Add(key);
-            }
+        //    if (parentAction != null)
+        //    {
+        //        entityAction.Initiator = parentAction.Key;
+        //        parentAction.InitiatedActions.Add(key);
+        //    }
 
-            return entityAction;
-        }
+        //    return entityAction;
+        //}
 
         private ResultOfCalling InvokeSyncEntityAction(EntityAction action)
         {
@@ -363,7 +359,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ResultOfCalling ProcessSyncCall(Command command, EntityAction parentAction)
         {
-            var entityAction = CreateEntityAction(command, parentAction);
+            var entityAction = mCommonValuesFactory.CreateEntityAction(command, parentAction);
 
             return InvokeSyncEntityAction(entityAction);
         }
@@ -394,7 +390,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ResultOfCalling ProcessAsyncCall(Command command, EntityAction parentAction)
         {
-            var entityAction = CreateEntityAction(command, parentAction);
+            var entityAction = mCommonValuesFactory.CreateEntityAction(command, parentAction);
 
             Task.Run(() => {
                 InvokeAsyncEntityAction(entityAction);
@@ -409,13 +405,13 @@ namespace GnuClay.Engine.ScriptExecutor
 
         private ResultOfCalling ProcessSyncCallForDescriptor(Command command, EntityAction parentAction)
         {
-            var entityAction = CreateEntityAction(command, parentAction);
+            var entityAction = mCommonValuesFactory.CreateEntityAction(command, parentAction);
             return InvokeEntityActionByDescriptor(entityAction);
         }
 
         private ResultOfCalling ProcessAsyncCallForDescriptor(Command command, EntityAction parentAction)
         {
-            var entityAction = CreateEntityAction(command, parentAction);
+            var entityAction = mCommonValuesFactory.CreateEntityAction(command, parentAction);
 
             Task.Run(() => {
                 InvokeAsyncEntityActionByDescriptor(entityAction);
