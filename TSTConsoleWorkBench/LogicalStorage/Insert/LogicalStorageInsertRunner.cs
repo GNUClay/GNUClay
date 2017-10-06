@@ -96,7 +96,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, mLogicalStorageEngine.DataDictionary));*/
 
-            var tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            var tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).FirstOrDefault()?.InsertQuery;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
@@ -109,7 +109,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
             mLogicalStorageEngine.InsertQuery(tmpInsertQuery);*/
 
-            var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            var tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).FirstOrDefault()?.SelectQuery;
             //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
@@ -121,14 +121,14 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             tmpInsertQueryText = "WRITE{>: {son(Alise,Bob)}}";
-            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).FirstOrDefault()?.InsertQuery;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
 
             GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
             tmpSelectQueryText = "DELETE{>: {son(Alise,$X1)}}";
-            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).FirstOrDefault()?.SelectQuery;
             //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText = {tmpSelectQuery}");
@@ -153,7 +153,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             //}
 
             tmpSelectQueryText = "READ{>: {son(Alise,$X1)}}";
-            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).FirstOrDefault()?.SelectQuery;
             tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (2)= {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (2)= {tmpSelectQuery}");
@@ -164,14 +164,14 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpResult (2)= {tmpResult}");
 
             tmpInsertQueryText = "WRITE{>: {son(Alise,Bob)}}";
-            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).FirstOrDefault()?.InsertQuery;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
 
             GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
             tmpSelectQueryText = "READ{>: {son(Alise,$X1)}}";
-            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).FirstOrDefault()?.SelectQuery;
             //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (3)= {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (3)= {tmpSelectQuery}");
@@ -183,7 +183,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
 
 
             tmpInsertQueryText = "REWRITE{>: {son(Alise,Rob)}}";
-            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            tmpInsertQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpInsertQueryText).FirstOrDefault()?.InsertQuery;
             tmpInsertQuery.Rewrite = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{InsertQueryDebugHelper.ConvertToString(tmpInsertQuery, GnuClayEngine.DataDictionary)}`");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpInsertQuery = `{tmpInsertQuery}`");
@@ -191,7 +191,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             GnuClayEngine.LogicalStorage.InsertQuery(tmpInsertQuery);
 
             tmpSelectQueryText = "READ{>: {son(Alise,$X1)}}";
-            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).SelectQuery;
+            tmpSelectQuery = GnuClayEngine.Context.ParserEngine.Parse(tmpSelectQueryText).FirstOrDefault()?.SelectQuery;
             //tmpSelectQuery.SelectDirectFactsOnly = true;
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (4)= {SelectQueryDebugHelper.ConvertToString(tmpSelectQuery, GnuClayEngine.DataDictionary)}");
             NLog.LogManager.GetCurrentClassLogger().Info($"tmpSelectQueryText (4)= {tmpSelectQuery}");
@@ -226,7 +226,7 @@ namespace TSTConsoleWorkBench.LogicalStorage.Insert
             //var tmpInsertQueryText = "INSERT {>: {$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}}";
             //var tmpInsertQueryText = "INSERT #1:{>: {$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}}";
             var tmpInsertQueryText = "INSERT #fact2:{>:{know(Tom, #fact1:{>:{$x1:bit($x2:dog, $x3:hand) & instrument($x1:bit, $x4:teeth) & part($x4:teeth, $x2:dog) & part($x3:hand, Mary)}})}}";
-            var tmpInsertQuery = mainContext.ParserEngine.Parse(tmpInsertQueryText).InsertQuery;
+            var tmpInsertQuery = mainContext.ParserEngine.Parse(tmpInsertQueryText).FirstOrDefault().InsertQuery;
 
             //var tmpReferenceKey = mainContext.DataDictionary.GetKey("*x1");
 

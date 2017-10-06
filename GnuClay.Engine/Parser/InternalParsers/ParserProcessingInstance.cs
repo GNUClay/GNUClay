@@ -1,6 +1,7 @@
 ﻿using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.Parser.CommonData;
 using System;
+using System.Collections.Generic;
 
 namespace GnuClay.Engine.Parser.InternalParsers
 {
@@ -14,14 +15,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private InternalParserContext mContext = null;
 
-        public GnuClayQuery Parse(string queryText)
+        public List<GnuClayQuery> Parse(string queryText)
         {
-#if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Parse query = {queryText}");
-#endif
-
             mContext.Lexer = new Lexer(queryText);
-            var result = new GnuClayQuery();
+            var result = new List<GnuClayQuery>();
             Token token = null;
 
             while((token = mContext.GetToken()) != null)
@@ -33,40 +30,59 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         {
                             case TokenKind.WRITE:
                             case TokenKind.REWRITE:
-                                result.Kind = GnuClayQueryKind.INSERT;
-                                mContext.Recovery(token);
-                                var tmpInternalInsertQueryParser = new InternalInsertQueryParser(mContext);
-                                tmpInternalInsertQueryParser.Run();
-                                result.InsertQuery = tmpInternalInsertQueryParser.Result;
+                                {
+                                    var resultItem = new GnuClayQuery();
+                                    resultItem.Kind = GnuClayQueryKind.INSERT;
+                                    mContext.Recovery(token);
+                                    var tmpInternalInsertQueryParser = new InternalInsertQueryParser(mContext);
+                                    tmpInternalInsertQueryParser.Run();
+                                    resultItem.InsertQuery = tmpInternalInsertQueryParser.Result;
+                                    result.Add(resultItem);
+                                }
                                 break;
 
                             case TokenKind.READ:
-                                result.Kind = GnuClayQueryKind.SELECT;
-                                mContext.Recovery(token);
-                                var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
-                                tmpInternalSelectQueryParser.Run();
-                                result.SelectQuery = tmpInternalSelectQueryParser.Result;
+                                {
+                                    var resultItem = new GnuClayQuery();
+                                    resultItem.Kind = GnuClayQueryKind.SELECT;
+                                    mContext.Recovery(token);
+                                    var tmpInternalSelectQueryParser = new InternalSelectQueryParser(mContext);
+                                    tmpInternalSelectQueryParser.Run();
+                                    resultItem.SelectQuery = tmpInternalSelectQueryParser.Result;
+                                    result.Add(resultItem);
+                                }
                                 break;
 
                             case TokenKind.DELETE:
-                                result.Kind = GnuClayQueryKind.DELETE;
-                                mContext.Recovery(token);
-                                var tmpInternalDeleteQueryParser = new InternalDeleteQueryParser(mContext);
-                                tmpInternalDeleteQueryParser.Run();
-                                result.SelectQuery = tmpInternalDeleteQueryParser.Result;
+                                {
+                                    var resultItem = new GnuClayQuery();
+                                    resultItem.Kind = GnuClayQueryKind.DELETE;
+                                    mContext.Recovery(token);
+                                    var tmpInternalDeleteQueryParser = new InternalDeleteQueryParser(mContext);
+                                    tmpInternalDeleteQueryParser.Run();
+                                    resultItem.SelectQuery = tmpInternalDeleteQueryParser.Result;
+                                    result.Add(resultItem);
+                                }
                                 break;
 
                             case TokenKind.CALL:
-                                result.Kind = GnuClayQueryKind.CALL;
-                                var tmpInternalFunctionBodyParser = new InternalFunctionBodyParser(mContext);
-                                tmpInternalFunctionBodyParser.Run();
-                                result.ASTCodeBlock = tmpInternalFunctionBodyParser.Result;
+                                {
+                                    var resultItem = new GnuClayQuery();
+                                    resultItem.Kind = GnuClayQueryKind.CALL;
+                                    var tmpInternalFunctionBodyParser = new InternalFunctionBodyParser(mContext);
+                                    tmpInternalFunctionBodyParser.Run();
+                                    resultItem.ASTCodeBlock = tmpInternalFunctionBodyParser.Result;
+                                    result.Add(resultItem);
+                                }
                                 break;
 
                             case TokenKind.DEFINE:
-                                var tmpInternalDefineDirectiveParser = new InternalDefineDirectiveParser(mContext);
-                                tmpInternalDefineDirectiveParser.Run();
-                                result = tmpInternalDefineDirectiveParser.Result;
+                                {
+                                    var tmpInternalDefineDirectiveParser = new InternalDefineDirectiveParser(mContext);
+                                    tmpInternalDefineDirectiveParser.Run();
+                                    var resultItem = tmpInternalDefineDirectiveParser.Result;
+                                    result.Add(resultItem);
+                                }
                                 break;
 
                             default: throw new UnexpectedTokenException(token);

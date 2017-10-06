@@ -105,7 +105,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case1 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case1 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -118,7 +118,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case2 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case2 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -131,7 +131,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case3 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case3 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -193,7 +193,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case5 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case5 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -206,7 +206,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case6 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case6 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -224,7 +224,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case7 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case7 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -240,7 +240,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case8 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case8 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -256,7 +256,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -276,7 +276,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case10 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case10 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -296,7 +296,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case11 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case11 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -309,7 +309,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
 
@@ -324,7 +324,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var queryString = tmpSb.ToString();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case13 queryString = `{queryString}`");
-            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(queryString).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Case13 result = {result?.ToString(GnuClayEngine.DataDictionary)}");
         }
     }

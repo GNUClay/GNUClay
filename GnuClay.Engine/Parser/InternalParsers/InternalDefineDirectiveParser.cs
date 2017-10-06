@@ -50,6 +50,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                     var tmpInternalFunctionDefinerParser = new InternalFunctionDefinerParser(Context);
                                     tmpInternalFunctionDefinerParser.Run();
                                     Result.UserDefinedFunction = tmpInternalFunctionDefinerParser.Result;
+                                    Exit();
                                     break;
 
                                 default: throw new UnexpectedTokenException(CurrToken);

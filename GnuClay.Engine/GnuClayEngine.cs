@@ -356,33 +356,45 @@ namespace GnuClay.Engine
             }
         }
 
-        public SelectResult Query(GnuClayQuery queryTree)
+        public SelectResult Query(List<GnuClayQuery> queryTreeList)
         {
             lock (mLockObj)
             {
                 ValidateIsDestroyed();
 
-                var kind = queryTree.Kind;
+                SelectResult lastResult = null;
 
-                switch (kind)
+                foreach(var queryTreeItem in queryTreeList)
                 {
-                    case GnuClayQueryKind.SELECT:
-                        return ProcessSelectQuery(queryTree.SelectQuery);
+                    var kind = queryTreeItem.Kind;
 
-                    case GnuClayQueryKind.INSERT:
-                        return ProcessInsertQuery(queryTree.InsertQuery);
+                    switch (kind)
+                    {
+                        case GnuClayQueryKind.SELECT:
+                            lastResult = ProcessSelectQuery(queryTreeItem.SelectQuery);
+                            break;
 
-                    case GnuClayQueryKind.DELETE:
-                        return ProcessDeleteQuery(queryTree.SelectQuery);
+                        case GnuClayQueryKind.INSERT:
+                            lastResult = ProcessInsertQuery(queryTreeItem.InsertQuery);
+                            break;
 
-                    case GnuClayQueryKind.CALL:
-                        return ProcessCall(queryTree.ASTCodeBlock);
+                        case GnuClayQueryKind.DELETE:
+                            lastResult = ProcessDeleteQuery(queryTreeItem.SelectQuery);
+                            break;
 
-                    case GnuClayQueryKind.USER_DEFINED_FUNCTION:
-                        return ProcessUserDefinedFunction(queryTree.UserDefinedFunction);
+                        case GnuClayQueryKind.CALL:
+                            lastResult = ProcessCall(queryTreeItem.ASTCodeBlock);
+                            break;
 
-                    default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
+                        case GnuClayQueryKind.USER_DEFINED_FUNCTION:
+                            lastResult = ProcessUserDefinedFunction(queryTreeItem.UserDefinedFunction);
+                            break;
+
+                        default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
+                    }
                 }
+
+                return lastResult;
             }
         }
 

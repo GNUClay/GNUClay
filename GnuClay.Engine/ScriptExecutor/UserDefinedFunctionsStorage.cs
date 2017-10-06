@@ -45,7 +45,7 @@ namespace GnuClay.Engine.ScriptExecutor
 
                 if (mDict.ContainsKey(hashCode))
                 {
-                    throw new NotImplementedException();
+                    return;
                 }
 
                 var targetHandler = new UserDefinedFunctionsHandler(Context, function);

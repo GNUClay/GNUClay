@@ -248,9 +248,9 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
 
-            GnuClayEngine.Query(tmpSb.ToString());
+            //GnuClayEngine.Query(tmpSb.ToString());
 
-            tmpSb = new StringBuilder();
+            //tmpSb = new StringBuilder();
             tmpSb.AppendLine("CALL {");
             tmpSb.AppendLine("    dog.run<!door!>(1,2,3);");
             tmpSb.AppendLine("    dog.remote<!door!>(1);");
@@ -287,7 +287,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Compile text = {text}");
 
-            var result = GnuClayEngine.Context.ParserEngine.Parse(text);
+            var result = GnuClayEngine.Context.ParserEngine.Parse(text).FirstOrDefault();
             NLog.LogManager.GetCurrentClassLogger().Info($"Compile result = {result?.ToString(GnuClayEngine.DataDictionary)}");
 
             var tmpCodeFrame = GnuClayEngine.Context.ScriptCompiler.Compile(result.ASTCodeBlock);

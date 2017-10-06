@@ -17,7 +17,7 @@ namespace GnuClay.Engine.Parser
         {
         }
 
-        public GnuClayQuery Parse(string queryText)
+        public List<GnuClayQuery> Parse(string queryText)
         {
             var tmpParserProcess = new ParserProcessingInstance(Context);
             return tmpParserProcess.Parse(queryText);

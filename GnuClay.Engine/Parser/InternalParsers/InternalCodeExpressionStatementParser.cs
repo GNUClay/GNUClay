@@ -712,9 +712,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetArithmeticToken(InternalCodeExpressionNode node)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"SetArithmeticToken node = {node?.ToString(mDataDictionary, 0)}");
-#endif
             var nodePriority = GetArithmeticNodePriority(node.TypeKey);
 
             var currentNode = mCurrentNode;
