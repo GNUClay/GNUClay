@@ -55,7 +55,7 @@ namespace GnuClay.Engine.ScriptExecutor
         public IValue Result { get; set; }
         public IValue Error { get; set; }
 
-        public void AppendResultOfResultOfCalling(ResultOfCalling resultOfCalling)
+        public void AppendResultFromResultOfCalling(ResultOfCalling resultOfCalling)
         {
             if(resultOfCalling.Success)
             {
@@ -98,7 +98,7 @@ namespace GnuClay.Engine.ScriptExecutor
             var tmpSb = new StringBuilder();
 
             tmpSb.AppendLine($"{spacesString}{nameof(Key)} = {Key}");
-            tmpSb.AppendLine($"{spacesString}{nameof(Command)} = {Command}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Command)} = {Command?.ToString(dataDictionary, nextIndent)}");
             tmpSb.AppendLine($"{spacesString}{nameof(State)} = {State}");
             tmpSb.AppendLine($"{spacesString}{nameof(Result)} = {Result}");
             tmpSb.AppendLine($"{spacesString}{nameof(Error)} = {Error}");

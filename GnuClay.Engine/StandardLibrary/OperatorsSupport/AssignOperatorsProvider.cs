@@ -96,14 +96,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    leftParam.ValueFromContainer = rightParam;
-                    action.Result = rightParam;
-                    action.State = EntityActionState.Completed;
+                    NAssing(leftParam, rightParam, action);
                     return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
@@ -111,11 +109,18 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             if(leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
                 var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnValue);
-                action.AppendResultOfResultOfCalling(resultOfCalling);
+                action.AppendResultFromResultOfCalling(resultOfCalling);
                 return;
             }
 
             throw new NotImplementedException();
+        }
+
+        private void NAssing(IValue leftParam, IValue rightParam, EntityAction action)
+        {
+            leftParam.ValueFromContainer = rightParam;
+            action.Result = rightParam;
+            action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfPlusAssing()
@@ -133,10 +138,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfPlusAssing(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfPlusAssing action = {action?.ToString(DataDictionary, 0)}");
-#endif
-
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -145,46 +146,55 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    var opCommand = new Command();
-                    opCommand.ExecutionContext = command.ExecutionContext;
-                    opCommand.Holder = command.Holder;
-                    opCommand.IsCallByNamedParams = true;
-                    opCommand.Function = new EntityValue(AddOperatorKey);
-
-                    opCommand.NamedParams = new List<NamedParamInfo>();
-
-                    foreach (var param in command.NamedParams)
-                    {
-                        opCommand.NamedParams.Add(param);
-                    }
-
-                    opCommand.CreateParamsDict();
-
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfPlusAssing opCommand = {opCommand.ToString(DataDictionary, 0)}");
-#endif
-
-                    var opAction = mCommonValuesFactory.CreateEntityAction(opCommand, action);
-
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfPlusAssing opAction = {opAction.ToString(DataDictionary, 0)}");
-#endif
-
-                    throw new NotImplementedException();
+                    NRunOperationAndAssingNext(leftParam, rightParam, action, AddOperatorKey);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
 
             if (leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
-                throw new NotImplementedException();
+                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.WriteFactReturnValue);
+                action.AppendResultFromResultOfCalling(resultOfCalling);
+                return;
             }
 
             throw new NotImplementedException();
+        }
+
+        private void NRunOperationAndAssingNext(IValue leftParam, IValue rightParam, EntityAction action, ulong targetOperationKey)
+        {
+            var command = action.Command;
+
+            var opCommand = new Command();
+            opCommand.ExecutionContext = command.ExecutionContext;
+            opCommand.Holder = command.Holder;
+            opCommand.IsCallByNamedParams = true;
+            opCommand.Function = new EntityValue(targetOperationKey);
+
+            var opNamedParams = new List<NamedParamInfo>();
+            opCommand.NamedParams = opNamedParams;
+
+            foreach (var param in command.NamedParams)
+            {
+                opNamedParams.Add(param);
+            }
+
+            opCommand.CreateParamsDict();
+
+            var opAction = mCommonValuesFactory.CreateEntityAction(opCommand, action);
+            var opResult = FunctionsEngine.InvokeSyncEntityAction(opAction);
+
+            if (!opResult.Success)
+            {
+                throw new InternalCallException(opResult.Error);
+            }
+
+            NAssing(leftParam, opResult.Result, action);
         }
 
         private void RegHandlerOfMinusAssing()
@@ -202,10 +212,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfMinusAssing(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfMinusAssing action = {action?.ToString(DataDictionary, 0)}");
-#endif
-
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -214,11 +220,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    throw new NotImplementedException();
+                    NRunOperationAndAssingNext(leftParam, rightParam, action, SubOperatorKey);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
@@ -246,9 +253,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfMulAssing(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfMulAssing action = {action?.ToString(DataDictionary, 0)}");
-#endif
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -257,18 +261,21 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    throw new NotImplementedException();
+                    NRunOperationAndAssingNext(leftParam, rightParam, action, MulOperatorKey);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
 
             if (leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
-                throw new NotImplementedException();
+                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.WriteFactReturnValue);
+                action.AppendResultFromResultOfCalling(resultOfCalling);
+                return;
             }
 
             throw new NotImplementedException();
@@ -289,10 +296,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfDivAssing(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfDivAssing action = {action?.ToString(DataDictionary, 0)}");
-#endif
-
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -301,11 +304,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    throw new NotImplementedException();
+                    NRunOperationAndAssingNext(leftParam, rightParam, action, DivOperatorKey);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
@@ -333,10 +337,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfAssingFact(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfAssingFact action = {action?.ToString(DataDictionary, 0)}");
-#endif
-
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -349,14 +349,16 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
 
             if (leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
-                throw new NotImplementedException();
+                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnThisFact);
+                action.AppendResultFromResultOfCalling(resultOfCalling);
+                return;
             }
 
             throw new NotImplementedException();
@@ -377,10 +379,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
         private void HandlerOfPlusAssingFact(EntityAction action)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Begin HandlerOfPlusAssingFact action = {action?.ToString(DataDictionary, 0)}");
-#endif
-
             var command = action.Command;
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
@@ -389,18 +387,21 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             {
                 try
                 {
-                    throw new NotImplementedException();
+                    NRunOperationAndAssingNext(leftParam, rightParam, action, AddOperatorKey);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
-                    action.AppendResultOfResultOfCalling(ice.ToResultOfCalling());
+                    action.AppendResultFromResultOfCalling(ice.ToResultOfCalling());
                     return;
                 }
             }
 
             if (leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
-                throw new NotImplementedException();
+                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnThisFact);
+                action.AppendResultFromResultOfCalling(resultOfCalling);
+                return;
             }
 
             throw new NotImplementedException();

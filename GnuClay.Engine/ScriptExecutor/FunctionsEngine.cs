@@ -189,21 +189,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return command;
         }
 
-        //private EntityAction CreateEntityAction(Command command, EntityAction parentAction)
-        //{
-        //    var key = mCommonValuesFactory.CreateObject();
-        //    var entityAction = new EntityAction(key, command, mEntityActionTypeKey);
-
-        //    if (parentAction != null)
-        //    {
-        //        entityAction.Initiator = parentAction.Key;
-        //        parentAction.InitiatedActions.Add(key);
-        //    }
-
-        //    return entityAction;
-        //}
-
-        private ResultOfCalling InvokeSyncEntityAction(EntityAction action)
+        public ResultOfCalling InvokeSyncEntityAction(EntityAction action)
         {
             var command = action.Command;
             var targetExecutorsList = mCommandFiltersStorage.FindExecutors(command);
@@ -235,7 +221,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return CreateSyncResultOfCalling(action);
         }
 
-        private void InvokeAsyncEntityAction(EntityAction action)
+        public void InvokeAsyncEntityAction(EntityAction action)
         {
             var command = action.Command;
             var targetExecutorsList = mCommandFiltersStorage.FindExecutors(command);
@@ -261,7 +247,7 @@ namespace GnuClay.Engine.ScriptExecutor
             targetExecutor.Handler.Invoke(action);
         }
 
-        private ResultOfCalling InvokeEntityActionByDescriptor(EntityAction action)
+        public ResultOfCalling InvokeEntityActionByDescriptor(EntityAction action)
         {
             var command = action.Command;
             var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);
@@ -290,7 +276,7 @@ namespace GnuClay.Engine.ScriptExecutor
             return CreateSyncResultOfCalling(action);
         }
 
-        private void InvokeAsyncEntityActionByDescriptor(EntityAction action)
+        public void InvokeAsyncEntityActionByDescriptor(EntityAction action)
         {
             var command = action.Command;
             var targetExecutor = mCommandFiltersStorage.GetExecutorByDescriptor(command.DescriptorOfFunction);

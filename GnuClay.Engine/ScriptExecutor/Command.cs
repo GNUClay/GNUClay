@@ -76,7 +76,7 @@ namespace GnuClay.Engine.ScriptExecutor
             sb.AppendLine($"{spacesString}Begin Command");
             sb.AppendLine($"{spacesString}{nameof(ExecutionContext)} = {ExecutionContext}");
             sb.AppendLine($"{spacesString}{nameof(Function)} = {Function?.ToString(dataDictionary, nextIndent)}");
-            sb.AppendLine($"{nameof(DescriptorOfFunction)} = {DescriptorOfFunction}");
+            sb.AppendLine($"{spacesString}{nameof(DescriptorOfFunction)} = {DescriptorOfFunction}");
             sb.AppendLine($"{spacesString}{nameof(Holder)} = {Holder?.ToString(dataDictionary, nextIndent)}");
             sb.AppendLine($"{spacesString}{nameof(TargetKey)} = {TargetKey}");
             sb.AppendLine($"{spacesString}{nameof(PositionedParams)} = {_ListHelper._ToString(PositionedParams)}");
