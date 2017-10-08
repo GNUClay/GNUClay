@@ -282,6 +282,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// </summary>
         public string Content = string.Empty;
 
+        public int Pos;
+        public int Line;
+
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
         /// </summary>
@@ -302,13 +305,15 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpSb.AppendLine($"{nameof(TokenKind)} = {TokenKind}");
             tmpSb.AppendLine($"{nameof(KeyWordTokenKind)} = {KeyWordTokenKind}");
             tmpSb.AppendLine($"{nameof(Content)} = {Content}");
+            tmpSb.AppendLine($"{nameof(Pos)} = {Pos}");
+            tmpSb.AppendLine($"{nameof(Line)} = {Line}");
 
             return tmpSb.ToString();
         }
 
         public string ToDebugString()
         {
-            var tmpSb = new StringBuilder($"`{TokenKind}`");
+            var tmpSb = new StringBuilder($"`{TokenKind}`({Line}, {Pos})");
 
             if(!string.IsNullOrWhiteSpace(Content))
             {

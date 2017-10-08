@@ -25,10 +25,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
             mItems = new Queue<char>(text.ToList());
         }
 
-        private Queue<char> mItems = null;
+        private Queue<char> mItems;
         private LexerState mLexerState = LexerState.Init;
         private Queue<Token> mRecoveriesTokens = new Queue<Token>();
         private CultureInfo mCultureInfo = new CultureInfo(GeneralConstants.DefaultCulture);
+
+        private int mCurrentPos;
+        private int mCurrentLine = 1;
 
         public virtual Token GetToken()
         {
@@ -43,9 +46,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
             {
                 var tmpChar = mItems.Dequeue();
 
-#if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"GetToken tmpChar = {tmpChar} (int)tmpChar = {(int)tmpChar} mLexerState = {mLexerState}");
-#endif
+                mCurrentPos++;
+
                 switch (mLexerState)
                 {
                     case LexerState.Init:
@@ -177,6 +179,8 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
                                     if(intCharCode == 10)
                                     {
+                                        mCurrentPos = 0;
+                                        mCurrentLine++;
                                         break;
                                     }
 
@@ -231,10 +235,13 @@ namespace GnuClay.Engine.Parser.InternalParsers
             char tmpNextChar;
             int id;
             var kindOfKeyWord = TokenKind.Unknown;
+            var contentLength = 0;
 
             switch (kind)
             {
                 case TokenKind.Word:
+                    contentLength = content.Length - 1;
+
                     if (string.Compare(content, "READ", true) == 0)
                     {
                         kindOfKeyWord = TokenKind.READ;
@@ -417,6 +424,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             kind = TokenKind.MulAssing;
                             mItems.Dequeue();
                             break;
+
+                        default:
+                            contentLength = 1;
+                            break;
                     }
                     break;
 
@@ -466,6 +477,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.TokenKind = kind;
             result.KeyWordTokenKind = kindOfKeyWord;
             result.Content = content;
+            result.Pos = mCurrentPos - contentLength;
+            result.Line = mCurrentLine;
+
             return result;
         }
 
