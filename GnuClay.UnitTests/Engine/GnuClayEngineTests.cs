@@ -17,7 +17,7 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var queryString = "SELECT{ >:{son(Piter,$X1)}}";
+            var queryString = "READ{ >:{son(Piter,$X1)}}";
 
             var qr_1 = tmpEngine.Query(queryString);
 
@@ -28,7 +28,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_1.Items, null);
             Assert.AreEqual(qr_1.Items.Count, 0);
 
-            queryString = "SELECT{>:{son(Piter,Tom)}}";
+            queryString = "READ{>:{son(Piter,Tom)}}";
 
             var qr_2 = tmpEngine.Query(queryString);
 
@@ -39,7 +39,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_2.Items, null);
             Assert.AreEqual(qr_2.Items.Count, 0);
 
-            queryString = "INSERT{>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
+            queryString = "WRITE{>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
             var insert_result = tmpEngine.Query(queryString);
 
@@ -50,7 +50,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(insert_result.Items, null);
             Assert.AreEqual(insert_result.Items.Count, 0);
 
-            queryString = "SELECT{ >: {son(Piter,$X1)}}";
+            queryString = "READ{ >: {son(Piter,$X1)}}";
 
             var qr_3 = tmpEngine.Query(queryString);
 
@@ -75,7 +75,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetParam.Kind, ExpressionNodeKind.Entity);
             Assert.AreEqual(targetParam.Value, null);
 
-            queryString = "SELECT{ >: {son(Piter,Tom)}}";
+            queryString = "READ{ >: {son(Piter,Tom)}}";
 
             var qr_4 = tmpEngine.Query(queryString);
 
@@ -93,7 +93,7 @@ namespace GnuClay.UnitTests.Engine
 
             tmpEngine.Clear();
 
-            queryString = "SELECT{ >:{son(Piter,$X1)}}";
+            queryString = "READ{ >:{son(Piter,$X1)}}";
 
             var qr_5 = tmpEngine.Query(queryString);
 
@@ -104,7 +104,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreNotEqual(qr_5.Items, null);
             Assert.AreEqual(qr_5.Items.Count, 0);
 
-            queryString = "SELECT{ >:{son(Piter,Tom)}}";
+            queryString = "READ{ >:{son(Piter,Tom)}}";
 
             var qr_6 = tmpEngine.Query(queryString);
 
@@ -121,7 +121,7 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var queryString = "INSERT {>: {age(Tom, 25)}}";
+            var queryString = "WRITE {>: {age(Tom, 25)}}";
 
             var qr_1 = tmpEngine.Query(queryString);
 
@@ -135,7 +135,7 @@ namespace GnuClay.UnitTests.Engine
             var numberKey = tmpEngine.DataDictionary.GetKey("number");
             var x1VarKey = tmpEngine.DataDictionary.GetKey("$X1");
 
-            queryString = "SELECT {>: {age(Tom, $X1)}}";
+            queryString = "READ {>: {age(Tom, $X1)}}";
 
             var qr_2 = tmpEngine.Query(queryString);
 

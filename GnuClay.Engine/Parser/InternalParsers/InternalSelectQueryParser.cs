@@ -37,14 +37,19 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
-                        case TokenKind.READ:
-                            mState = State.FirstStep;
-                            break;
+                        case TokenKind.Word:
+                            switch (CurrToken.KeyWordTokenKind)
+                            {
+                                case TokenKind.READ:
+                                    mState = State.FirstStep;
+                                    break;
 
-                        case TokenKind.DELETE:
-                            Result.SelectDirectFactsOnly = true;
-                            Result.IsDeleteQuery = true;
-                            mState = State.FirstStep;
+                                case TokenKind.DELETE:
+                                    Result.SelectDirectFactsOnly = true;
+                                    Result.IsDeleteQuery = true;
+                                    mState = State.FirstStep;
+                                    break;
+                            }
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

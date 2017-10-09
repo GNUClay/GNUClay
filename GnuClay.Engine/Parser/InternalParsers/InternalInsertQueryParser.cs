@@ -39,13 +39,18 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
-                        case TokenKind.WRITE:
-                            mState = State.WaitRule;
-                            break;
+                        case TokenKind.Word:
+                            switch(CurrToken.KeyWordTokenKind)
+                            {
+                                case TokenKind.WRITE:
+                                    mState = State.WaitRule;
+                                    break;
 
-                        case TokenKind.REWRITE:
-                            Result.Rewrite = true;
-                            mState = State.WaitRule;
+                                case TokenKind.REWRITE:
+                                    Result.Rewrite = true;
+                                    mState = State.WaitRule;
+                                    break;
+                            }
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

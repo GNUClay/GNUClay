@@ -34,7 +34,7 @@ namespace GnuClay.TextCGParser
         #region Root
         public ulong GetRoot(string content)
         {
-            var queryStr = $"SELECT {{>: {{root({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{root({content}, $X)}}}}";
 
             var result = Engine.Query(queryStr);
 
@@ -123,7 +123,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalPartOfSpeech> GetPartOfSpeech(string content)
         {
-            var queryStr = $"SELECT {{>: {{`part of speech`({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{`part of speech`({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -170,7 +170,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalNumberOfWord> GetNumbers(string content)
         {
-            var queryStr = $"SELECT {{>: {{number({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{number({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -244,7 +244,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalTenses> GetTenses(string content)
         {
-            var queryStr = $"SELECT {{>: {{tense({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{tense({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -298,7 +298,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalComparison> GetComparisons(string content)
         {
-            var queryStr = $"SELECT {{>: {{comparison({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{comparison({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -352,7 +352,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalGender> GetGenders(string content)
         {
-            var queryStr = $"SELECT {{>: {{gender({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{gender({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -399,7 +399,7 @@ namespace GnuClay.TextCGParser
 
         public List<CaseOfPersonalPronoun> GetCasesOfPersonalPronoun(string content)
         {
-            var queryStr = $"SELECT {{>: {{`case of personal pronoun`({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{`case of personal pronoun`({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -480,7 +480,7 @@ namespace GnuClay.TextCGParser
 
         public List<TypeOfPronoun> GetTypesOfPronoun(string content)
         {
-            var queryStr = $"SELECT {{>: {{`type of pronoun`({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{`type of pronoun`({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -534,7 +534,7 @@ namespace GnuClay.TextCGParser
 
         public List<GrammaticalPerson> GetPersons(string content)
         {
-            var queryStr = $"SELECT {{>: {{person({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{person({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -595,7 +595,7 @@ namespace GnuClay.TextCGParser
 
         public List<VerbType> GetVerbTypes(string content)
         {
-            var queryStr = $"SELECT {{>: {{`verb type`({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{`verb type`({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 
@@ -642,7 +642,7 @@ namespace GnuClay.TextCGParser
 
         public List<NumeralType> GetNumeralTypes(string content)
         {
-            var queryStr = $"SELECT {{>: {{`numeral type`({content}, $X)}}}}";
+            var queryStr = $"READ {{>: {{`numeral type`({content}, $X)}}}}";
 
             var queryResult = Engine.Query(queryStr);
 

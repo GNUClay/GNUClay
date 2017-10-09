@@ -17,7 +17,7 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var queryString = "INSERT {>: {is(Dog, Animal)}}";
+            var queryString = "WRITE {>: {is(Dog, Animal)}}";
 
             var insert_result = tmpEngine.Query(queryString);
 
@@ -43,7 +43,7 @@ namespace GnuClay.UnitTests.Engine
 
             Assert.AreEqual(tmpListOfSubClasses.Any(p => p.SubKey == tmpDogKey), true);
 
-            queryString = "INSERT {>: {!is(Dog, Animal)}}";
+            queryString = "WRITE {>: {!is(Dog, Animal)}}";
 
             insert_result = tmpEngine.Query(queryString);
 
@@ -68,7 +68,7 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var queryString = "INSERT {>: {`count of feet`(biped, 2)}}";
+            var queryString = "WRITE {>: {`count of feet`(biped, 2)}}";
 
             var qr_1 = tmpEngine.Query(queryString);
 
@@ -76,21 +76,21 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(qr_1.Success, true);
             Assert.AreEqual(qr_1.HaveBeenFound, false);
 
-            queryString = "INSERT {>: {biped(Robot)}}";
+            queryString = "WRITE {>: {biped(Robot)}}";
             var qr_1_1 = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(qr_1_1, null);
             Assert.AreEqual(qr_1_1.Success, true);
             Assert.AreEqual(qr_1_1.HaveBeenFound, false);
 
-            queryString = "INSERT {>: {is(human, biped)}}";
+            queryString = "WRITE {>: {is(human, biped)}}";
             var qr_2 = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(qr_2, null);
             Assert.AreEqual(qr_2.Success, true);
             Assert.AreEqual(qr_2.HaveBeenFound, false);
 
-            queryString = "INSERT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,human)}}";
+            queryString = "WRITE {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,human)}}";
             var qr_3 = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(qr_3, null);
@@ -100,7 +100,7 @@ namespace GnuClay.UnitTests.Engine
             var numberKey = tmpEngine.DataDictionary.GetKey("number");
             var xVarKey = tmpEngine.DataDictionary.GetKey("$X");
 
-            queryString = "SELECT { >:{`count of feet`(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
+            queryString = "READ { >:{`count of feet`(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
             var qr_4 = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(qr_4, null);
@@ -120,7 +120,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetVarItem.EntityKey, numberKey);
             Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
 
-            queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}}";
+            queryString = "READ {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,biped)}}";
             var tmpSelectResult = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(tmpSelectResult, null);
@@ -133,7 +133,7 @@ namespace GnuClay.UnitTests.Engine
             var humanKey = tmpEngine.DataDictionary.GetKey("human");
             var bipedKey = tmpEngine.DataDictionary.GetKey("biped");
 
-            queryString = "SELECT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
+            queryString = "READ {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,$X)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(tmpSelectResult, null);
@@ -172,7 +172,7 @@ namespace GnuClay.UnitTests.Engine
             var robotKey = tmpEngine.DataDictionary.GetKey("robot");
             var instanceKey = tmpEngine.DataDictionary.GetKey("#957b6203_d200_47e0_b51e_0e8def869b3d");
 
-            queryString = "SELECT {>: {is($X ,biped)}}";
+            queryString = "READ {>: {is($X ,biped)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(tmpSelectResult, null);
@@ -209,7 +209,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetVarItem.ParamKey, xVarKey);
 
 
-            queryString = "SELECT {>: {biped($X)}}";
+            queryString = "READ {>: {biped($X)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(tmpSelectResult, null);
@@ -252,7 +252,7 @@ namespace GnuClay.UnitTests.Engine
             var _propertyresultKey = tmpEngine.DataDictionary.GetKey("_propertyresult");
             var _propertyresultiteratorKey = tmpEngine.DataDictionary.GetKey("_propertyresultiterator");
 
-            queryString = "SELECT {>: {is($X ,$Y)}}";
+            queryString = "READ {>: {is($X ,$Y)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
 
             Assert.AreNotEqual(tmpSelectResult, null);
@@ -452,7 +452,7 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetVarItem.ParamKey, yVarKey);
 
 
-            queryString = "SELECT {>: {is($X ,$X)}}";
+            queryString = "READ {>: {is($X ,$X)}}";
             tmpSelectResult = tmpEngine.Query(queryString);
 
 

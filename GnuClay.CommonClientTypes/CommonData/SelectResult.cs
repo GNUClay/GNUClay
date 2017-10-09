@@ -9,8 +9,8 @@ namespace GnuClay.CommonClientTypes.CommonData
 {
     public class VarResultItem : IToStringData
     {
-        public ulong ParamKey = 0;
-        public ulong EntityKey = 0;
+        public ulong ParamKey;
+        public ulong EntityKey;
         /// <summary>
         /// Kind of node in the result.
         /// </summary>
@@ -45,7 +45,7 @@ namespace GnuClay.CommonClientTypes.CommonData
 
     public class SelectResultItem : IToStringData
     {
-        public ulong Key = 0;
+        public ulong Key;
         public List<VarResultItem> Params = new List<VarResultItem>();
 
         /// <summary>

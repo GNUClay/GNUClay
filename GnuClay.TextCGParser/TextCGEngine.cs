@@ -67,31 +67,31 @@ namespace GnuClay.TextCGParser
         {
             var engine = context.Engine;
 
-            var queryStr = "INSERT {>: {entity(animate)}}";
+            var queryStr = "WRITE {>: {entity(animate)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {entity(physobj)}}";
+            queryStr = "WRITE {>: {entity(physobj)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {animate(animal)}}, {>: {physobj(animal)}}";
+            queryStr = "WRITE {>: {animate(animal)}}, {>: {physobj(animal)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {animal(person)}}";
+            queryStr = "WRITE {>: {animal(person)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(the, article)}}";
+            queryStr = "WRITE {>: {`part of speech`(the, article)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(dog, noun)}}, { >: {number(dog, singular)}}, {>: {animal(dog)}}";
+            queryStr = "WRITE {>: {`part of speech`(dog, noun)}}, { >: {number(dog, singular)}}, {>: {animal(dog)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}, {>: {state(like)}}";
+            queryStr = "WRITE {>: {`part of speech`(like, verb)}}, { >: {tense(like, present)}}, {>: {state(like)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}, {>: {root(likes, like)}}";
+            queryStr = "WRITE {>: {`part of speech`(likes, verb)}}, { >: {tense(likes, present)}}, {>: {root(likes, like)}}";
             engine.Query(queryStr);
 
-            queryStr = "INSERT {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}, {>: {animal(man)}}";
+            queryStr = "WRITE {>: {`part of speech`(man, noun)}}, { >: {number(man, singular)}}, {>: {animal(man)}}";
             engine.Query(queryStr);
         }
     }

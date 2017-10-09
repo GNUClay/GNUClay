@@ -39,7 +39,7 @@ namespace GnuClay.TextCGParser
         {
             NLog.LogManager.GetCurrentClassLogger().Info($"Run LoadSemanticConcepts content = {content}");
 
-            var queryStr = $"SELECT {{>: {{is(`{content}`, $X)}}}}";
+            var queryStr = $"READ {{>: {{is(`{content}`, $X)}}}}";
 
             var queryResult = mEngine.Query(queryStr);
 
