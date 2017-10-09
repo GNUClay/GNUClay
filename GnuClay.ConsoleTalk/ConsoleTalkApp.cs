@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.Engine.LogicalStorage;
 using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using GnuClay.LocalHost;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GnuClay.ConsoleTalk
@@ -29,6 +31,24 @@ namespace GnuClay.ConsoleTalk
             }
 
             mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+
+            mEntityConnection.AddLogHandler((IExternalValue value) => {
+                var tmpSb = new StringBuilder();
+                tmpSb.Append(mEntityConnection.GetValue(value.TypeKey));
+                if(value.Value != null)
+                {
+                    tmpSb.Append($": {value.Value}");
+                }
+
+                var text = tmpSb.ToString();
+
+                lock (mConsoleLock)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(text);
+                    Console.ForegroundColor = mDefaultForegroundColor;
+                }
+            });
         }
 
         private string mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
@@ -36,20 +56,25 @@ namespace GnuClay.ConsoleTalk
         private IGnuClayEntityConnection mEntityConnection = null;
         private ConsoleTalkAppConfig mConfig = null;
         private string mConfigFileName = "config.json";
+        private object mConsoleLock = new object();
+
+        private string ReadContent(string fileName)
+        {
+            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                using (var streamReader = new StreamReader(fileStream))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+        }
 
         private void LoadConfig()
         {
             if(File.Exists(mConfigFileName))
             {
-                using (var fileStream = new FileStream(mConfigFileName, FileMode.Open, FileAccess.Read))
-                {
-                    using (var streamReader = new StreamReader(fileStream))
-                    {
-                        var content = streamReader.ReadToEnd();
-
-                        mConfig = JsonConvert.DeserializeObject<ConsoleTalkAppConfig>(content);
-                    }
-                }
+                var content = ReadContent(mConfigFileName);
+                mConfig = JsonConvert.DeserializeObject<ConsoleTalkAppConfig>(content);
             }
             else
             {
@@ -77,16 +102,16 @@ namespace GnuClay.ConsoleTalk
 
         private void LoadDefaultDump()
         {
-            Console.WriteLine("begin loading...");
+            PrintMessageLine("begin loading...");
             mServerConnection.Load(mConfig.AutoSavedDumpName);
-            Console.WriteLine("dump was loaded successfully");
+            PrintMessageLine("dump was loaded successfully");
         }
 
         private void SaveDefaultDump()
         {
-            Console.WriteLine("begin saving...");
+            PrintMessageLine("begin saving...");
             mServerConnection.Save(mConfig.AutoSavedDumpName);
-            Console.WriteLine("dump was saved successfully");
+            PrintMessageLine("dump was saved successfully");
         }
 
         public void Dispose()
@@ -94,26 +119,36 @@ namespace GnuClay.ConsoleTalk
             mServerConnection.Dispose();
         }
 
+        private ConsoleColor mDefaultForegroundColor = ConsoleColor.White;
+        private string mCommand;
+
         public void Run()
         {
+            mDefaultForegroundColor = Console.ForegroundColor;
+
+            var rx = new Regex("\\s+");
+
             while (true)
             {
-                Console.Write("cnuclay ?: ");
-                var tmpStr = Console.ReadLine();
+                PrintMessage("gnuclay ?: ");
 
-                if(string.IsNullOrWhiteSpace(tmpStr))
+                mCommand = Console.ReadLine();
+
+                if(string.IsNullOrWhiteSpace(mCommand))
                 {
                     continue;
                 }
 
-                var tmpL = 6;
+                mCommand = rx.Replace(mCommand, " ");
 
-                if(tmpStr.Length < 6)
+                var tmpL = 10;
+
+                if(mCommand.Length < 6)
                 {
-                    tmpL = tmpStr.Length;
+                    tmpL = mCommand.Length;
                 }
 
-                var tmpFirstStr = tmpStr.Substring(0, tmpL).ToLower();
+                var tmpFirstStr = mCommand.Substring(0, tmpL).ToLower();
 
                 if(tmpFirstStr.StartsWith("exit"))
                 {
@@ -161,54 +196,92 @@ namespace GnuClay.ConsoleTalk
                     continue;
                 }
 
-                if(tmpFirstStr.StartsWith("clear"))
+                if (tmpFirstStr.StartsWith("clear"))
                 {
                     ProcessClear();
                     continue;
                 }
 
+                if (tmpFirstStr.StartsWith(CallFromCommandName))
+                {
+                    ProcessCallFrom();
+                    continue;
+                }
+
                 if (tmpFirstStr.StartsWith(SaveCommandName))
                 {
-                    ProcessSave(tmpStr);
+                    ProcessSave();
                     continue;
                 }
 
                 if (tmpFirstStr.StartsWith(LoadCommandName))
                 {
-                    ProcessLoad(tmpStr);
+                    ProcessLoad();
                     continue;
                 }
 
-                ProcessQuery(tmpStr);
+                ProcessQuery(mCommand);
             }
         }
 
         private string SaveCommandName = "save";
-        private int SaveCommandNameLength = 4;
         private string LoadCommandName = "load";
-        private int LoadCommandNameLength = 4;
+        private string CallFromCommandName = "call from";
+
+        private void PrintErrorLine(string message)
+        {
+            lock (mConsoleLock)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(message);
+                Console.ForegroundColor = mDefaultForegroundColor;
+            }
+        }
+
+        private void PrintMessage(string message)
+        {
+            lock (mConsoleLock)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(message);
+                Console.ForegroundColor = mDefaultForegroundColor;
+            }
+        }
+
+        private void PrintMessageLine(string message)
+        {
+            lock (mConsoleLock)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(message);
+                Console.ForegroundColor = mDefaultForegroundColor;
+            }
+        }
 
         private void PrintHello()
         {
-            Console.WriteLine("gnuclay (c)metatypeman 2016");
+            var now = DateTime.Today.Year;
+
+            PrintMessageLine($"gnuclay (c)metatypeman 2016 - {now}");
             Console.WriteLine(" ");
         }
 
         private void PrintHelp()
         {
-            Console.WriteLine("h - print help;");
-            Console.WriteLine("help - print help;");
-            Console.WriteLine("man - print help;");
-            Console.WriteLine("eas - enable auto saving. The state of this program will be saved, when command exit will be executed;");
-            Console.WriteLine("das - disable auto saving;");
-            Console.WriteLine("isas - print a state of the auto saving. true if enabled. false if disabled;");
-            Console.WriteLine("clear - reset current state. Remove all rules, facts and other information;");
-            Console.WriteLine("load - load a state of the program from default dump;");
-            Console.WriteLine("load <file name> - load a state of the program from file by the file name;");
-            Console.WriteLine("save - save a state of the program to default dump;");
-            Console.WriteLine("save <file name> - save a state of the program to file with the file name;");
-            Console.WriteLine("exit - exit from this program;");
-            Console.WriteLine("type queries and this program execute its;");
+            PrintMessageLine("h - print help;");
+            PrintMessageLine("help - print help;");
+            PrintMessageLine("man - print help;");
+            PrintMessageLine("eas - enable auto saving. The state of this program will be saved, when command exit will be executed;");
+            PrintMessageLine("das - disable auto saving;");
+            PrintMessageLine("isas - print a state of the auto saving. true if enabled. false if disabled;");
+            PrintMessageLine("clear - reset current state. Remove all rules, facts and other information;");
+            PrintMessageLine("load - load a state of the program from default dump;");
+            PrintMessageLine("load <file name> - load a state of the program from file by the file name;");
+            PrintMessageLine("save - save a state of the program to default dump;");
+            PrintMessageLine("save <file name> - save a state of the program to file with the file name;");
+            PrintMessageLine("call from <file name> - load and execute set of queries from file;");
+            PrintMessageLine("exit - exit from this program;");
+            PrintMessageLine("Type queries and this program execute its;");
             Console.WriteLine(" ");
         }
 
@@ -217,28 +290,33 @@ namespace GnuClay.ConsoleTalk
             try
             {
                 var tmpResult = mEntityConnection.Query(queryText);
-                if(tmpResult == null)
+                PrintMessageLine("Executed successfully");
+
+                if (tmpResult == null)
                 {
-                    Console.WriteLine("yess");
+                    PrintMessageLine("yess");
                     Console.WriteLine(" ");
                     return;
                 }
 
-                Console.WriteLine(SelectResultDebugHelper.ConvertToString(tmpResult, mEntityConnection));
+                lock (mConsoleLock)
+                {
+                    Console.WriteLine(SelectResultDebugHelper.ConvertToString(tmpResult, mEntityConnection));
+                }   
             }
             catch(Exception e)
             {
-                Console.Write("Error: ");
-                Console.WriteLine(e.Message);
+                PrintErrorLine($"Error: {e.Message}");
+                PrintErrorLine($"in query:");
+                PrintErrorLine(mCommand);
             }
         }
 
         private void PrintNotSupportedMessage()
         {
-            Console.WriteLine("This command is not supported yet");
+            PrintErrorLine("This command is not supported yet");
         }
         
-
         private void ProcessEnableAutoSave()
         {
             mConfig.EnabledAutoSave = true;
@@ -253,7 +331,10 @@ namespace GnuClay.ConsoleTalk
 
         private void ProcessIsAutoSave()
         {
-            Console.WriteLine(mConfig.EnabledAutoSave ? "yes" : "no");
+            lock (mConsoleLock)
+            {
+                Console.WriteLine(mConfig.EnabledAutoSave ? "yes" : "no");
+            }          
         }
 
         private void ProcessClear()
@@ -261,13 +342,28 @@ namespace GnuClay.ConsoleTalk
             mEntityConnection.Clear();
         }
 
-        private void ProcessSave(string queryText)
+        private string GetCommandValue(string commandName)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave queryText = `{queryText}`");
+            return mCommand.Remove(0, commandName.Length).Trim();
+        }
 
-            var dumpName = queryText.Remove(0, SaveCommandNameLength);
+        private void ProcessCallFrom()
+        {
+            var fileName = GetCommandValue(CallFromCommandName);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave dumpName = `{dumpName}`");
+            if (!File.Exists(fileName))
+            {
+                PrintErrorLine($"Error: File `{fileName}` is not exists!");
+                return;
+            }
+
+            var content = ReadContent(fileName);
+            ProcessQuery(content);
+        }
+
+        private void ProcessSave()
+        {
+            var dumpName = GetCommandValue(SaveCommandName);
 
             if(string.IsNullOrWhiteSpace(dumpName))
             {
@@ -278,14 +374,9 @@ namespace GnuClay.ConsoleTalk
             mEntityConnection.Save(dumpName);
         }
 
-        private void ProcessLoad(string queryText)
+        private void ProcessLoad()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessLoad queryText = `{queryText}`");
-
-            var dumpName = queryText.Remove(0, LoadCommandNameLength);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessSave dumpName = `{dumpName}`");
-
+            var dumpName = GetCommandValue(LoadCommandName);
             if (string.IsNullOrWhiteSpace(dumpName))
             {
                 LoadDefaultDump();
