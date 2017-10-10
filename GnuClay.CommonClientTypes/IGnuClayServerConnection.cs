@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
+    /// <summary>
+    /// Connector to GnuClay server.
+    /// </summary>
     public interface IGnuClayServerConnection: IDisposable
     {
         IGnuClayEntityConnection ConnectToEntity(string entityName);
@@ -21,7 +24,7 @@ namespace GnuClay.CommonClientTypes
         void Load(string name);
         void Save(string name);
         void Clear();
-        bool IsDestroyed { get; }
+        bool IsDestroyed { get; 
         void Destroy();
     }
 }

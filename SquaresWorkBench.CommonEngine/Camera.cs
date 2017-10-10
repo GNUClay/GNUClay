@@ -25,7 +25,7 @@ namespace SquaresWorkBench.CommonEngine
 
         private RTree mRTree = null;
 
-        private int mCurrIndex = 0;
+        //private int mCurrIndex = 0;
 
         public void Scan()
         {
@@ -221,20 +221,20 @@ namespace SquaresWorkBench.CommonEngine
         private double mAngleC = 0;
         private double mAngleD = 0;
 
-        private double mCurrAngle = 0;
+        //private double mCurrAngle = 0;
 
-        private double mCosA = 0;
-        private double mSinA = 0;
+        //private double mCosA = 0;
+        //private double mSinA = 0;
 
-        private double mCurrRadius = 0;
+        //private double mCurrRadius = 0;
 
-        private double mCurrAngleStep = 1;
+        //private double mCurrAngleStep = 1;
 
-        private bool mResetRay = false;
+        //private bool mResetRay = false;
 
         private double EndRadius = 400;
 
-        private List<BaseEntity> mDetectedEntitiesList = null;
+        //private List<BaseEntity> mDetectedEntitiesList = null;
 
         private List<VisibleResultItem> mResult = new List<VisibleResultItem>();
         private Dictionary<BaseEntity, VisibleResultItem> mResultDict = new Dictionary<BaseEntity, VisibleResultItem>();

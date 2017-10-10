@@ -4,8 +4,14 @@ using System.Collections.Generic;
 
 namespace GnuClay.CommonClientTypes
 {
+    /// <summary>
+    /// Connector to GnuClay entity.
+    /// </summary>
     public interface IGnuClayEntityConnection: IReadOnlyStorageDataDictionary, IDisposable
     {
+        /// <summary>
+        /// The name of the GnuClay entity.
+        /// </summary>
         string Name { get; }
         void Suspend();
         void Resume();
