@@ -36,6 +36,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public bool IsFact => false;
         public bool IsArray => false;
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
             return mValue.GetLongHashCode();

@@ -32,6 +32,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public Dictionary<ulong, CommandFilterParam> Params { get; set; } = new Dictionary<ulong, CommandFilterParam>();
         public bool WithOutClause { get; set; } = true;
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
             var result = FunctionKey ^ TargetKey ^ HolderKey;

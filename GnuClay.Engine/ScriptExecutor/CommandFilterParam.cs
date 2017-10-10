@@ -27,6 +27,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public bool IsAnyValue { get; set; } = true;
         public IValue Value { get; set; }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public virtual ulong GetLongHashCode()
         {
             ulong result = (ulong)IsAnyType.GetHashCode();

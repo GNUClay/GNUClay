@@ -71,6 +71,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public ulong Initiator { get; set; }
         public List<ulong> InitiatedActions { get; set; } = new List<ulong>();
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public override ulong GetLongHashCode()
         {
             return Key;

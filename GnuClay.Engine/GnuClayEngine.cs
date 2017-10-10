@@ -1,5 +1,4 @@
 ﻿using GnuClay.CommonClientTypes.CommonData;
-using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.CommonUtils.Tasking;
 using GnuClay.Engine.Bootstrap;
 using GnuClay.Engine.CommonStorages;
@@ -443,6 +442,11 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Get the string value which is associated with that key.
+        /// </summary>
+        /// <param name="key">Key of the value</param>
+        /// <returns>Associated string value.</returns>
         public string GetValue(ulong key)
         {
             lock (mLockObj)

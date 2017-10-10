@@ -2,13 +2,9 @@
 using GnuClay.Engine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GnuClay.CommonClientTypes.CommonData;
 using System.IO;
 using System.IO.Compression;
-using GnuClay.CommonClientTypes.CommonData;
 
 namespace GnuClay.LocalHost
 {
@@ -98,6 +94,11 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Get the string value which is associated with that key.
+        /// </summary>
+        /// <param name="key">Key of the value</param>
+        /// <returns>Associated string value.</returns>
         public string GetValue(ulong key)
         {
             lock (mLockObj)

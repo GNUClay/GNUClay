@@ -1,10 +1,6 @@
 ﻿using GnuClay.CommonClientTypes.CommonData;
-using GnuClay.CommonClientTypes.CommonData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
@@ -24,7 +20,6 @@ namespace GnuClay.CommonClientTypes
         void Destroy();
 
         ulong GetKey(string val);
-        string GetValue(ulong key);
 
         void SetInheritance(ulong subKey, ulong superKey, double rank);
         List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey);

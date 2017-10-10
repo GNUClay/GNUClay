@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
+    /// <summary>
+    /// Provides methods for more convenient string information.
+    /// </summary>
     public interface ISmartToString
     {
         /// <summary>

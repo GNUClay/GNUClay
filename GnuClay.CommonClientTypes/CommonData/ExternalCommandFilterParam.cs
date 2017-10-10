@@ -12,6 +12,10 @@ namespace GnuClay.CommonClientTypes.CommonData
         public bool IsAnyType { get; set; } = true;
         public ulong TypeKey { get; set; }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public virtual ulong GetLongHashCode()
         {
             ulong result = (ulong)IsAnyType.GetHashCode();

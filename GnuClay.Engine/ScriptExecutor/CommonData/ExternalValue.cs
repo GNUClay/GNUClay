@@ -9,10 +9,24 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.CommonData
 {
+    /// <summary>
+    /// Value which may go beyond GnuClayEngine.
+    /// </summary>
     public class ExternalValue : IExternalValue
     {
+        /// <summary>
+        /// Kind of external value.
+        /// </summary>
         public ExternalValueKind Kind { get; set; } = ExternalValueKind.Entity;
+
+        /// <summary>
+        /// Key of the type.
+        /// </summary>
         public ulong TypeKey { get; set; }
+
+        /// <summary>
+        /// System value.
+        /// </summary>
         public object Value { get; set; }
 
         /// <summary>

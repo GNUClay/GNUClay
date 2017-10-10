@@ -33,6 +33,11 @@ namespace GnuClay.Engine.CommonStorages
             }
         }
 
+        /// <summary>
+        /// Get the string value which is associated with that key.
+        /// </summary>
+        /// <param name="key">Key of the value</param>
+        /// <returns>Associated string value.</returns>
         public string GetValue(ulong key)
         {
             if(key == 0)

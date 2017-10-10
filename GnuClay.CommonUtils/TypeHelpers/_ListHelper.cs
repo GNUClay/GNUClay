@@ -50,7 +50,7 @@ namespace GnuClay.CommonUtils.TypeHelpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsEmpty<T>(IEnumerable<T> list)
+        public static bool IsEmpty<T>(this IEnumerable<T> list)
         {
             if (list == null || list.Count() == 0)
             {

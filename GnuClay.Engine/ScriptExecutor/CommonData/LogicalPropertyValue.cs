@@ -102,6 +102,10 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             return result;
         }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
             return TypeKey;

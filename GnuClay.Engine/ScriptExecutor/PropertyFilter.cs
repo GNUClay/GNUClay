@@ -17,6 +17,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public MethodInfo SetMethod { get; set; }
         public MethodInfo GetMethod { get; set; }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public override ulong GetLongHashCode()
         {
             var result = base.GetLongHashCode() ^ HolderKey;

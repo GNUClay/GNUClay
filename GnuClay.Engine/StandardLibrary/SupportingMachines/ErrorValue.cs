@@ -18,6 +18,10 @@ namespace GnuClay.Engine.StandardLibrary.SupportingMachines
         {
         }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public override ulong GetLongHashCode()
         {
             return TypeKey;

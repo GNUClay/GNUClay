@@ -37,7 +37,7 @@ namespace TSTConsoleWorkBench.OOP
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_2 = {SelectResultDebugHelper.ConvertToString(qr_2, tmpEngine.DataDictionary)}");
                 NLog.LogManager.GetCurrentClassLogger().Info($"{nameof(qr_2)} = {qr_2}");
 
-                var tmpInstanceName = "#957B6203_D200_47E0_B51E_0E8DEF869B3D";
+                //var tmpInstanceName = "#957B6203_D200_47E0_B51E_0E8DEF869B3D";
 
                 queryString = "INSERT {>: {is(#957B6203_D200_47E0_B51E_0E8DEF869B3D,human)}}";
                 var qr_3 = tmpEngine.Query(queryString);

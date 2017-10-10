@@ -13,6 +13,10 @@ namespace GnuClay.Engine.ScriptExecutor
         public IValue ParamValue { get; set; }
         public int Position { get; set; }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
             var result = (ulong)Position;

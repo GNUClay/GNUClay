@@ -16,6 +16,10 @@ namespace GnuClay.CommonClientTypes.CommonData
 
         public ExternalCommandHandler Handler { get; set; }
 
+        /// <summary>
+        /// Serves as the hash function that has size as ulong.
+        /// </summary>
+        /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
             var result = FunctionKey ^ TargetKey ^ HolderKey;
