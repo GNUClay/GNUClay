@@ -524,6 +524,11 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Adds remote function.
+        /// </summary>
+        /// <param name="filter">The filter which describes the signature and handler of the function.</param>
+        /// <returns>The descriptor of the function.</returns>
         public ulong AddRemoteFunction(IExternalCommandFilter filter)
         {
             lock (mLockObj)
@@ -532,6 +537,10 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Removes remote function by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed function.</param>
         public void RemoveRemoteFunction(ulong descriptor)
         {
             lock (mLockObj)
@@ -540,6 +549,12 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Adds a handler for receiving log messages.
+        /// Returns the descriptor of the added handler.
+        /// </summary>
+        /// <param name="handler">The reference to the handler.</param>
+        /// <returns>The descriptor of the added handler.</returns>
         public ulong AddLogHandler(Action<IExternalValue> handler)
         {
             lock(mLockObj)
@@ -548,6 +563,10 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Removes a handler of log messages by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed handler.</param>
         public void RemoveLogHandler(ulong descriptor)
         {
             lock (mLockObj)

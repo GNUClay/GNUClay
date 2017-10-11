@@ -18,6 +18,12 @@ namespace GnuClay.Engine.Console
 
         private object mLockObj = new object();
 
+        /// <summary>
+        /// Adds a handler for receiving log messages.
+        /// Returns the descriptor of the added handler.
+        /// </summary>
+        /// <param name="handler">The reference to the handler.</param>
+        /// <returns>The descriptor of the added handler.</returns>
         public ulong AddLogHandler(Action<IExternalValue> handler)
         {
             lock(mLockObj)
@@ -32,6 +38,10 @@ namespace GnuClay.Engine.Console
             }
         }
 
+        /// <summary>
+        /// Removes a handler of log messages by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed handler.</param>
         public void RemoveLogHandler(ulong descriptor)
         {
             lock (mLockObj)

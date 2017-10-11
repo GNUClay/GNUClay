@@ -110,6 +110,11 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Returns the key of the string value from its internal data dictionary.
+        /// </summary>
+        /// <param name="val">The target string value</param>
+        /// <returns>The key of the string value.</returns>
         public ulong GetKey(string val)
         {
             lock (mLockObj)
@@ -348,6 +353,41 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Adds remote function.
+        /// </summary>
+        /// <param name="filter">The filter which describes the signature and handler of the function.</param>
+        /// <returns>The descriptor of the function.</returns>
+        public ulong AddRemoteFunction(IExternalCommandFilter filter)
+        {
+            lock (mLockObj)
+            {
+                ValidateIsDestroyed();
+
+                return GnuClayEngine.AddRemoteFunction(filter);
+            }
+        }
+
+        /// <summary>
+        /// Removes remote function by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed function.</param>
+        public void RemoveRemoteFunction(ulong descriptor)
+        {
+            lock (mLockObj)
+            {
+                ValidateIsDestroyed();
+
+                GnuClayEngine.RemoveRemoteFunction(descriptor);
+            }
+        }
+
+        /// <summary>
+        /// Adds a handler for receiving log messages.
+        /// Returns the descriptor of the added handler.
+        /// </summary>
+        /// <param name="handler">The reference to the handler.</param>
+        /// <returns>The descriptor of the added handler.</returns>
         public ulong AddLogHandler(Action<IExternalValue> handler)
         {
             lock (mLockObj)
@@ -358,6 +398,10 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Removes a handler of log messages by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed handler.</param>
         public void RemoveLogHandler(ulong descriptor)
         {
             lock (mLockObj)

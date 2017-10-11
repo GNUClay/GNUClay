@@ -76,6 +76,11 @@ namespace GnuClay.Engine.RemoteFunctions
             return result;
         }
 
+        /// <summary>
+        /// Adds remote function.
+        /// </summary>
+        /// <param name="filter">The filter which describes the signature and handler of the function.</param>
+        /// <returns>The descriptor of the function.</returns>
         public ulong AddFilter(IExternalCommandFilter filter)
         {
             if (mDict.Count == 0)
@@ -93,6 +98,10 @@ namespace GnuClay.Engine.RemoteFunctions
             return descriptorKey;
         }
 
+        /// <summary>
+        /// Removes remote function by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed function.</param>
         public void RemoveFilter(ulong descriptor)
         {
             if (mDict.ContainsKey(descriptor))
@@ -118,6 +127,11 @@ namespace GnuClay.Engine.RemoteFunctions
 
         private object mLockObj = new object();
 
+        /// <summary>
+        /// Adds remote function.
+        /// </summary>
+        /// <param name="filter">The filter which describes the signature and handler of the function.</param>
+        /// <returns>The descriptor of the function.</returns>
         public ulong AddFilter(IExternalCommandFilter filter)
         {
             lock (mLockObj)
@@ -145,6 +159,10 @@ namespace GnuClay.Engine.RemoteFunctions
             mDescriptorsDict[descriptor] = handler;
         }
 
+        /// <summary>
+        /// Removes remote function by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed function.</param>
         public void RemoveFilter(ulong descriptor)
         {
             lock (mLockObj)

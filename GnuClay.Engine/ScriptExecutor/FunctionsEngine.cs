@@ -415,6 +415,10 @@ namespace GnuClay.Engine.ScriptExecutor
             return mCommandFiltersStorage.AddFilter(filter);
         }
 
+        /// <summary>
+        /// Removes function by its descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the removed function.</param>
         public void RemoveFilter(ulong descriptor)
         {
             mCommandFiltersStorage.RemoveFilter(descriptor);
