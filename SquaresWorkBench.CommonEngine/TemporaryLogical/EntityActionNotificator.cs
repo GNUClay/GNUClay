@@ -28,7 +28,7 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 
     public class EntityActionNotificator
     {
-        public EntityActionNotificator(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public EntityActionNotificator(IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mCommandFiltersStorage = new CommandFiltersStorage<EntityActionEventsFilter>(entityConnection, cSharpTypesRegistry);
         }

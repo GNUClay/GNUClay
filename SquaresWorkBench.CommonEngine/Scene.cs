@@ -75,6 +75,9 @@ namespace SquaresWorkBench.CommonEngine
             NCreateMainContext();
         }
 
+        /// <summary>
+        /// Stop and free all of internal resources.
+        /// </summary>
         public void Dispose()
         {
             Close();

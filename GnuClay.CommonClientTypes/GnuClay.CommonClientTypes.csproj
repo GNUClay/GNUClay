@@ -55,7 +55,7 @@
     <Compile Include="CommonData\ISmartToString.cs" />
     <Compile Include="CommonData\ILongHashableObject.cs" />
     <Compile Include="IGnuClayServerConnection.cs" />
-    <Compile Include="IGnuClayEntityConnection.cs" />
+    <Compile Include="IGnuClayNPCConnection.cs" />
     <Compile Include="CommonData\InheritanceItem.cs" />
     <Compile Include="IReadOnlyStorageDataDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

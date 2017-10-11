@@ -15,7 +15,7 @@ namespace SquaresWorkBench.CommonEngine
         public BaseLogicalEntity()
         {
             mServerConnection = new GnuClayLocalServer();
-            mEntityConnection = mServerConnection.CreateEntity();
+            mEntityConnection = mServerConnection.CreateNPC();
 
             mCSharpTypesRegistry = new CSharpTypesRegistry(mEntityConnection);
             mCommandsDispatcher = new CommandsDispatcher(mEntityConnection, mCSharpTypesRegistry);
@@ -28,9 +28,9 @@ namespace SquaresWorkBench.CommonEngine
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         private IGnuClayServerConnection mServerConnection = null;
-        protected IGnuClayEntityConnection mEntityConnection = null;
+        protected IGnuClayNPCConnection mEntityConnection = null;
 
-        public IGnuClayEntityConnection EntityConnection
+        public IGnuClayNPCConnection EntityConnection
         {
             get
             {

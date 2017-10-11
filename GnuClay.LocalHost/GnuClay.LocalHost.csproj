@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="GnuClayEntityLocalHost.cs" />
+    <Compile Include="GnuClayNPCLocalHost.cs" />
     <Compile Include="GnuClayLocalServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,17 +8,25 @@ using System.IO;
 
 namespace GnuClay.LocalHost
 {
+    /// <summary>
+    /// The realization of the connector to GnuClay server for a local placing the group of the GnuClay NPCes.
+    /// </summary>
     public class GnuClayLocalServer : IGnuClayServerConnection
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GnuClayLocalServer()
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("GnuClayLocalServer");
         }
 
         private object mLockObj = new object();
 
         private bool mIsRunning = true;
 
+        /// <summary>
+        /// Returns true if this instance is active. Otherwise returns false.
+        /// </summary>
         public bool IsRunning
         {
             get
@@ -30,6 +38,9 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Suspends all GnuClay NPCes which contain on the server.
+        /// </summary>
         public void Suspend()
         {
             lock(mLockObj)
@@ -43,11 +54,12 @@ namespace GnuClay.LocalHost
 
                 mIsRunning = false;
 
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("Suspend");
-
+#endif
                 var tmpTasksList = new List<Task>();
 
-                foreach(var entity in mEntityConnectionDict)
+                foreach(var entity in mNPCConnectionDict)
                 {
                     var tmpTask = new Task(() => {
                         entity.Value.Suspend();
@@ -60,6 +72,9 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Resumes all GnuClay NPCes which contain on the server.
+        /// </summary>
         public void Resume()
         {
             lock (mLockObj)
@@ -73,11 +88,12 @@ namespace GnuClay.LocalHost
 
                 mIsRunning = true;
 
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("Resume");
-
+#endif
                 var tmpTasksList = new List<Task>();
 
-                foreach (var entity in mEntityConnectionDict)
+                foreach (var entity in mNPCConnectionDict)
                 {
                     var tmpTask = new Task(() => {
                         entity.Value.Resume();
@@ -90,106 +106,146 @@ namespace GnuClay.LocalHost
             }
         }
 
-        public IGnuClayEntityConnection ConnectToEntity(string entityName)
+        /// <summary>
+        /// Gets instance of the NPC with the name.
+        /// If the NPC does not exist yet then the NPC with the name will be created and returned.
+        /// </summary>
+        /// <param name="npcName">The name of the target NPC.</param>
+        /// <returns>Reference of the NPC with the name.</returns>
+        public IGnuClayNPCConnection ConnectToNPC(string npcName)
         {
             lock (mLockObj)
             {
                 ValidateIsDestroyed();
 
-                if (mEntityConnectionDict.ContainsKey(entityName))
+                if (mNPCConnectionDict.ContainsKey(npcName))
                 {
-                    return mEntityConnectionDict[entityName];
+                    return mNPCConnectionDict[npcName];
                 }
 
-                var tmpInstance = new GnuClayEntityLocalHost(entityName, this);
-                mEntityConnectionDict[entityName] = tmpInstance;
+                var tmpInstance = new GnuClayNPCLocalHost(npcName, this);
+                mNPCConnectionDict[npcName] = tmpInstance;
 
                 return tmpInstance;
             }
         }
 
-        public IGnuClayEntityConnection CreateEntity()
+        /// <summary>
+        /// Creates a new empty NPC with a random name (Guid) and returns the instance of the NPC.
+        /// </summary>
+        /// <returns>Reference to the created NPC.</returns>
+        public IGnuClayNPCConnection CreateNPC()
         {
             lock (mLockObj)
             {
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("CreateEntity");
-
+#endif
                 ValidateIsDestroyed();
 
-                return ConnectToEntity(_ObjectHelper.CreateName());
+                return ConnectToNPC(_ObjectHelper.CreateName());
             }
         }
 
-        public IGnuClayEntityConnection CreateEntity(byte[] data)
+        /// <summary>
+        /// Creates a new NPC (with a random name (Guid)) by a byte array of the target image and returns the instance of the NPC.
+        /// </summary>
+        /// <param name="data">The byte array of the target image.</param>
+        /// <returns>Reference to the created NPC.</returns>
+        public IGnuClayNPCConnection CreateNPC(byte[] data)
         {
             lock (mLockObj)
             {
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("CreateEntity(byte[] data)");
-
+#endif
                 ValidateIsDestroyed();
 
-                var targetEntity = CreateEntity();
+                var targetEntity = CreateNPC();
                 targetEntity.Load(data);
 
                 return targetEntity;
             }
         }
 
-        public void DestroyEntity(string entityName)
+        /// <summary>
+        /// Destroys the target NPC by its name.
+        /// </summary>
+        /// <param name="npcName">The name of the target NPC.</param>
+        public void DestroyNPC(string npcName)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"DestroyEntity entityName = {entityName}");
-
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"DestroyEntity entityName = {npcName}");
+#endif
                 ValidateIsDestroyed();
 
-                if (mEntityConnectionDict.ContainsKey(entityName))
+                if (mNPCConnectionDict.ContainsKey(npcName))
                 {
-                    var targetEntity = mEntityConnectionDict[entityName];
-                    mEntityConnectionDict.Remove(entityName);
+                    var targetEntity = mNPCConnectionDict[npcName];
+                    mNPCConnectionDict.Remove(npcName);
                     targetEntity.Destroy();
                 }
             }
         }
 
-        internal void RemoveEntity(IGnuClayEntityConnection entity)
+        internal void RemoveNPC(IGnuClayNPCConnection npc)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveEntity entity.Name = {entity.Name}");
-
-            if (mEntityConnectionDict.ContainsKey(entity.Name))
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"RemoveNPC npc.Name = {npc.Name}");
+#endif
+            if (mNPCConnectionDict.ContainsKey(npc.Name))
             {
-                mEntityConnectionDict.Remove(entity.Name);
+                mNPCConnectionDict.Remove(npc.Name);
             }
         }
 
-        public bool ContainsEntity(string entityName)
+        /// <summary>
+        /// Checks containing the NPC with such name on the server.
+        /// Returns true if he NPC with such name contains on the server.
+        /// Otherwise returns false.
+        /// </summary>
+        /// <param name="npcName">The name of target NPC.</param>
+        /// <returns>Result of checking.</returns>
+        public bool ContainsNPC(string npcName)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ContainsEntity entityName = {entityName}");
-
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ContainsEntity entityName = {npcName}");
+#endif
                 ValidateIsDestroyed();
 
-                return mEntityConnectionDict.ContainsKey(entityName);
+                return mNPCConnectionDict.ContainsKey(npcName);
             }
         }
 
-        public string[] EntitiesNames
+        /// <summary>
+        /// Returns array of names of all NPCes which contained on the server.
+        /// </summary>
+        public string[] NPCesNames
         {
             get
             {
-                return mEntityConnectionDict.Keys.ToArray();
+                return mNPCConnectionDict.Keys.ToArray();
             }
         }
 
-        private Dictionary<string, IGnuClayEntityConnection> mEntityConnectionDict = new Dictionary<string, IGnuClayEntityConnection>();
+        private Dictionary<string, IGnuClayNPCConnection> mNPCConnectionDict = new Dictionary<string, IGnuClayNPCConnection>();
 
-        public void Load(string name)
+        /// <summary>
+        /// Loads all GnuClay NPCes from files of target directory activates them next.
+        /// All previous information will be removed.
+        /// </summary>
+        /// <param name="directoryName">The target directory.</param>
+        public void Load(string directoryName)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Load name = {name}");
-
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"Load directoryName = {directoryName}");
+#endif
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -199,26 +255,27 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                var targetFiles = Directory.GetFiles(name, "*.gcd");
+                var targetFiles = Directory.GetFiles(directoryName, "*.gcd");
 
                 foreach(var fileName in targetFiles)
                 {
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"Load fileName = {fileName}");
-
+#endif
                     var tmpFileInfo = new FileInfo(fileName);
                     var targetEntityName = tmpFileInfo.Name.Substring(0, tmpFileInfo.Name.Length - tmpFileInfo.Extension.Length);
-
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"Load targetEntityName = {targetEntityName}");
+#endif
+                    IGnuClayNPCConnection targetEntity = null;
 
-                    IGnuClayEntityConnection targetEntity = null;
-
-                    if (mEntityConnectionDict.ContainsKey(targetEntityName))
+                    if (mNPCConnectionDict.ContainsKey(targetEntityName))
                     {
-                        targetEntity = mEntityConnectionDict[targetEntityName];
+                        targetEntity = mNPCConnectionDict[targetEntityName];
                     }
                     else
                     {
-                        targetEntity = ConnectToEntity(targetEntityName);
+                        targetEntity = ConnectToNPC(targetEntityName);
                         targetEntity.Suspend();
                     }
 
@@ -232,12 +289,18 @@ namespace GnuClay.LocalHost
             }
         }
 
-        public void Save(string name)
+        /// <summary>
+        /// Saves all GnuClay NPCes to their files of target directory.
+        /// After saving running continues if the NPC was activity before saving.
+        /// </summary>
+        /// <param name="directoryName">The target directory.</param>
+        public void Save(string directoryName)
         {
             lock (mLockObj)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Save name = {name}");
-
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"Save directoryName = {directoryName}");
+#endif
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -247,23 +310,23 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                if(Directory.Exists(name))
+                if(Directory.Exists(directoryName))
                 {
-                    Directory.Delete(name, true);
+                    Directory.Delete(directoryName, true);
                 }
 
-                Directory.CreateDirectory(name);
+                Directory.CreateDirectory(directoryName);
 
-                foreach (var entity in mEntityConnectionDict)
+                foreach (var entity in mNPCConnectionDict)
                 {
                     var tmpEntity = entity.Value;
-
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"tmpEntity.Name = `{tmpEntity.Name}`");
-
-                    var targetPath = Path.Combine(name, $"{tmpEntity.Name}.gcd");
-
+#endif
+                    var targetPath = Path.Combine(directoryName, $"{tmpEntity.Name}.gcd");
+#if DEBUG
                     NLog.LogManager.GetCurrentClassLogger().Info($"targetPath = `{targetPath}`");
-
+#endif
                     tmpEntity.Save(targetPath);
                 }
 
@@ -274,12 +337,16 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Clears all of internal resources of each of the NPCes in the instace. And continues working without them. 
+        /// </summary>
         public void Clear()
         {
             lock (mLockObj)
             {
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("Clear");
-
+#endif
                 ValidateIsDestroyed();
 
                 var tmpIsRunning = mIsRunning;
@@ -289,7 +356,7 @@ namespace GnuClay.LocalHost
                     Suspend();
                 }
 
-                foreach (var entity in mEntityConnectionDict)
+                foreach (var entity in mNPCConnectionDict)
                 {
                     entity.Value.Clear();
                 }
@@ -311,6 +378,9 @@ namespace GnuClay.LocalHost
 
         private bool mIsDestroyed = false;
 
+        /// <summary>
+        /// Returns true if this instance is destryed. Otherwise returns false. 
+        /// </summary>
         public bool IsDestroyed
         {
             get
@@ -322,12 +392,16 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Stops and free all of internal resources.
+        /// </summary>
         public void Destroy()
         {
             lock (mLockObj)
             {
+#if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info("Destroy");
-
+#endif
                 if (mIsDestroyed)
                 {
                     return;
@@ -338,7 +412,7 @@ namespace GnuClay.LocalHost
 
                 var tmpTasksList = new List<Task>();
 
-                foreach (var entity in mEntityConnectionDict)
+                foreach (var entity in mNPCConnectionDict)
                 {
                     var tmpTask = new Task(() => {
                         entity.Value.Destroy();
@@ -351,6 +425,9 @@ namespace GnuClay.LocalHost
             }   
         }
 
+        /// <summary>
+        /// Stops and free all of internal resources.
+        /// </summary>
         public void Dispose()
         {
             Destroy();

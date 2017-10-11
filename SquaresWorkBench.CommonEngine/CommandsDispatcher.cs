@@ -27,7 +27,7 @@ namespace SquaresWorkBench.CommonEngine
 
     public class CommandsDispatcher
     {
-        public CommandsDispatcher(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandsDispatcher(IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mCommandFiltersStorage = new CommandFiltersStorage<ActionCommandFilter>(entityConnection, cSharpTypesRegistry);
         }

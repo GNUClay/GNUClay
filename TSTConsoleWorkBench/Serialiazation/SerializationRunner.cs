@@ -74,7 +74,7 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 var mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
                 var mServerConnection = new GnuClayLocalServer();
-                var mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+                var mEntityConnection = mServerConnection.ConnectToNPC(mEntityName);
 
                 mEntityConnection.Save($"{mEntityName}.gcd");
 

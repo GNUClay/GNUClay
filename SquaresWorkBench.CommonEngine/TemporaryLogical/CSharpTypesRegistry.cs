@@ -9,12 +9,12 @@ namespace SquaresWorkBench.CommonEngine.TemporaryLogical
 {
     public class CSharpTypesRegistry
     {
-        public CSharpTypesRegistry(IGnuClayEntityConnection entityConnection)
+        public CSharpTypesRegistry(IGnuClayNPCConnection entityConnection)
         {
             mEntityConnection = entityConnection;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
 
         public void AddType<T>(string typeName)
         {

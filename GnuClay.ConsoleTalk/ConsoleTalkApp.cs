@@ -30,7 +30,7 @@ namespace GnuClay.ConsoleTalk
                 LoadDefaultDump();
             }
 
-            mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+            mEntityConnection = mServerConnection.ConnectToNPC(mEntityName);
 
             mEntityConnection.AddLogHandler((IExternalValue value) => {
                 var tmpSb = new StringBuilder();
@@ -53,7 +53,7 @@ namespace GnuClay.ConsoleTalk
 
         private string mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
         private IGnuClayServerConnection mServerConnection = null;
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
         private ConsoleTalkAppConfig mConfig = null;
         private string mConfigFileName = "config.json";
         private object mConsoleLock = new object();
@@ -114,6 +114,9 @@ namespace GnuClay.ConsoleTalk
             PrintMessageLine("dump was saved successfully");
         }
 
+        /// <summary>
+        /// Stop and free all of internal resources.
+        /// </summary>
         public void Dispose()
         {
             mServerConnection.Dispose();

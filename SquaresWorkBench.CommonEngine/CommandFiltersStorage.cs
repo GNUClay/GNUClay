@@ -11,14 +11,14 @@ namespace SquaresWorkBench.CommonEngine
 {
     public class CommandFiltersStorageParamsFilter<T> where T: BaseCommandFilter
     {
-        public CommandFiltersStorageParamsFilter(T filter, IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageParamsFilter(T filter, IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mEntityConnection = entityConnection;
             mCSharpTypesRegistry = cSharpTypesRegistry;
             mFilter = filter;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
         private T mFilter = null;
 
@@ -130,13 +130,13 @@ namespace SquaresWorkBench.CommonEngine
 
     public class CommandFiltersStorageTargetsFilter<T> where T : BaseCommandFilter
     {
-        public CommandFiltersStorageTargetsFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageTargetsFilter(IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mEntityConnection = entityConnection;
             mCSharpTypesRegistry = cSharpTypesRegistry;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         private Dictionary<int, CommandFiltersStorageParamsFilter<T>> mDict = new Dictionary<int, CommandFiltersStorageParamsFilter<T>>();
@@ -202,13 +202,13 @@ namespace SquaresWorkBench.CommonEngine
 
     public class CommandFiltersStorageCommandFilter<T> where T : BaseCommandFilter
     {
-        public CommandFiltersStorageCommandFilter(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorageCommandFilter(IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mEntityConnection = entityConnection;
             mCSharpTypesRegistry = cSharpTypesRegistry;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         public void AddFilter(T filter)
@@ -260,13 +260,13 @@ namespace SquaresWorkBench.CommonEngine
 
     public class CommandFiltersStorage<T> where T : BaseCommandFilter
     {
-        public CommandFiltersStorage(IGnuClayEntityConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
+        public CommandFiltersStorage(IGnuClayNPCConnection entityConnection, CSharpTypesRegistry cSharpTypesRegistry)
         {
             mEntityConnection = entityConnection;
             mCSharpTypesRegistry = cSharpTypesRegistry;
         }
 
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
         private CSharpTypesRegistry mCSharpTypesRegistry = null;
 
         public void AddFilter(T filter)

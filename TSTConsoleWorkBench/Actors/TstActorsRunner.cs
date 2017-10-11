@@ -26,7 +26,7 @@ namespace TSTConsoleWorkBench.Actors
             NLog.LogManager.GetCurrentClassLogger().Info("Begin Case_1");
 
             var tmpServerConnection = new GnuClayLocalServer();
-            var tmpEntityConnection = tmpServerConnection.CreateEntity();
+            var tmpEntityConnection = tmpServerConnection.CreateNPC();
 
             var tmpContextOfLogicalProcesses = new ContextOfLogicalProcesses(tmpEntityConnection);
 

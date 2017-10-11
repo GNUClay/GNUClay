@@ -19,7 +19,7 @@ namespace TSTConsoleWorkBench.Serialiazation
                 var mServerConnection = new GnuClayLocalServer();
                 var mEntityName = "#0813940A_EAC6_47E7_BF57_9B8C05E2168A";
 
-                var mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+                var mEntityConnection = mServerConnection.ConnectToNPC(mEntityName);
 
                 var queryString = "INSERT{>: {parent($X1,$X2)} -> {child($X2,$X1)}},{>: {son($X1,$X2)} -> {child($X1,$X2) & male($X1)}},{>: {parent(Tom,Piter)}},{>: {parent(Tom,Mary)}},{>: {male(Piter)}},{>: {female(Mary)}},{>: {male(Bob)}}";
 
@@ -29,7 +29,7 @@ namespace TSTConsoleWorkBench.Serialiazation
 
                 mEntityConnection.Save(fileName);
 
-                var entity_2 = mServerConnection.CreateEntity();
+                var entity_2 = mServerConnection.CreateNPC();
 
                 queryString = "SELECT{son(Piter,$X1)}";
 
@@ -47,7 +47,7 @@ namespace TSTConsoleWorkBench.Serialiazation
                 var qr_3 = entity_2.Query(queryString);
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_3 = {SelectResultDebugHelper.ConvertToString(qr_3, entity_2)}");
 
-                var entity_3 = mServerConnection.CreateEntity(mEntityConnection.Save());
+                var entity_3 = mServerConnection.CreateNPC(mEntityConnection.Save());
 
                 var qr_4 = entity_3.Query(queryString);
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_4 = {SelectResultDebugHelper.ConvertToString(qr_4, entity_3)}");
@@ -57,7 +57,7 @@ namespace TSTConsoleWorkBench.Serialiazation
                 mServerConnection.Save(targetServerStateName);
 
                 var tmpServer_2 = new GnuClayLocalServer();
-                var tmpEntityConnection_2 = tmpServer_2.ConnectToEntity(mEntityName);
+                var tmpEntityConnection_2 = tmpServer_2.ConnectToNPC(mEntityName);
 
                 var qr_5 = tmpEntityConnection_2.Query(queryString);
                 NLog.LogManager.GetCurrentClassLogger().Info($"qr_5 = {SelectResultDebugHelper.ConvertToString(qr_5, tmpEntityConnection_2)}");

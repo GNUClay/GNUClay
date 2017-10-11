@@ -15,12 +15,12 @@ namespace TSTConsoleWorkBench.LocalHostExecuting
         public LocalHostRunner()
         {
             mServerConnection = new GnuClayLocalServer();
-            mEntityConnection = mServerConnection.ConnectToEntity(mEntityName);
+            mEntityConnection = mServerConnection.ConnectToNPC(mEntityName);
         }
 
         private string mEntityName = "#0813940A-EAC6-47E7-BF57-9B8C05E2168A";
         private IGnuClayServerConnection mServerConnection = null;
-        private IGnuClayEntityConnection mEntityConnection = null;
+        private IGnuClayNPCConnection mEntityConnection = null;
 
         public void Run()
         {

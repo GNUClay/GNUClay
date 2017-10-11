@@ -49,12 +49,20 @@ namespace GnuClay.Engine.Console
             {
                 var handlers = mHandlersDict.ToList();
                 var externalValue = value.ToExternalValue();
-                Task.Run(() => {
-                    foreach(var handler in handlers)
+
+                var listOfTasks = new List<Task>();
+
+                foreach (var handler in handlers)
+                {
+                    var task = Task.Run(() =>
                     {
                         handler.Value?.Invoke(externalValue);
-                    }
-                });
+                    });
+
+                    listOfTasks.Add(task);
+                }
+
+                Task.WaitAll(listOfTasks.ToArray());
             }
         }
 

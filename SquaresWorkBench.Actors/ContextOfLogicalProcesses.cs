@@ -10,7 +10,7 @@ namespace SquaresWorkBench.Actors
 {
     public class ContextOfLogicalProcesses : IContextOfLogicalProcesses
     {
-        public ContextOfLogicalProcesses(IGnuClayEntityConnection entityConnection)
+        public ContextOfLogicalProcesses(IGnuClayNPCConnection entityConnection)
         {
             mEntityConnection = entityConnection;
 
@@ -20,7 +20,7 @@ namespace SquaresWorkBench.Actors
             mLogicalProcessFactoriesRegistry = new LogicalProcessFactoriesRegistry(this);
         }
 
-        protected IGnuClayEntityConnection mEntityConnection = null;
+        protected IGnuClayNPCConnection mEntityConnection = null;
         protected CSharpTypesRegistry mCSharpTypesRegistry = null;
         private CommandsDispatcher mCommandsDispatcher = null;
         private Blackboard mBlackboard = new Blackboard();

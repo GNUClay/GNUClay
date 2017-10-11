@@ -159,6 +159,9 @@ namespace GnuClay.Engine
 
         private bool mIsRunning = true;
 
+        /// <summary>
+        /// Returns true if this instance is active. Otherwise returns false.
+        /// </summary>
         public bool IsRunning
         {
             get
@@ -232,6 +235,10 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Saves image of GnuClay entity to a byte array. After saving running continues if the entity was activity before saving.
+        /// </summary>
+        /// <returns>Returns target byte array which contains the image of GnuClay entity.</returns>
         public byte[] Save()
         {
             lock (mLockObj)
@@ -256,6 +263,11 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Loads image of GnuClay entity form array of bytes and activates it next.
+        /// All previous information will be removed.
+        /// </summary>
+        /// <param name="data">Reference to the array of bytes.</param>
         public void Load(byte[] value)
         {
             lock (mLockObj)
@@ -278,6 +290,9 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Removes all of internal resources and continues working without them.
+        /// </summary>
         public void Clear()
         {
             lock (mLockObj)
@@ -310,6 +325,9 @@ namespace GnuClay.Engine
 
         private bool mIsDestroyed = false;
 
+        /// <summary>
+        /// Returns true if this instance is destryed. Otherwise returns false. 
+        /// </summary>
         public bool IsDestroyed
         {
             get
@@ -321,6 +339,9 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Stops and free all of internal resources.
+        /// </summary>
         public void Destroy()
         {
             lock (mLockObj)
@@ -339,11 +360,19 @@ namespace GnuClay.Engine
             }
         }
 
+        /// <summary>
+        /// Stops and free all of internal resources.
+        /// </summary>
         public void Dispose()
         {
             Destroy();
         }
 
+        /// <summary>
+        /// Executes query from text and returns result of the executing.
+        /// </summary>
+        /// <param name="queryString">The text with the query.</param>
+        /// <returns>The result of the executing</returns>
         public SelectResult Query(string queryString)
         {
             lock (mLockObj)
