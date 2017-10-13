@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
+    /// <summary>
+    /// Represents definition of the parameter of the function.
+    /// </summary>
     public interface IExternalCommandFilterParam: ILongHashableObject, ISmartToString
     {
+        /// <summary>
+        /// Gets flag which allows using any type for this parameter.
+        /// </summary>
         bool IsAnyType { get; }
+
+        /// <summary>
+        /// Gets the key of type of this parameters. Uses if IsAnyType = false.
+        /// </summary>
         ulong TypeKey { get; }
     }
 }

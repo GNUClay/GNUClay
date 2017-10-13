@@ -9,9 +9,19 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
+    /// <summary>
+    /// Represents information about param of a function.
+    /// </summary>
     public class ExternalParamInfo : IExternalParamInfo
     {
+        /// <summary>
+        /// Represents the name of the param.
+        /// </summary>
         public IExternalValue ParamName { get; set; }
+
+        /// <summary>
+        /// Represents the value of the param.
+        /// </summary>
         public IExternalValue ParamValue { get; set; }
 
         /// <summary>

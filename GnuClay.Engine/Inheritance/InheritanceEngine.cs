@@ -469,6 +469,10 @@ namespace GnuClay.Engine.Inheritance
             }          
         }
 
+        /// <summary>
+        /// Loads all items of relationship of inheritance.
+        /// </summary>
+        /// <returns>The list of all items of relationship of inheritance.</returns>
         public List<InheritanceItem> LoadAllItems()
         {
             lock (mLockObj)

@@ -84,10 +84,40 @@ namespace GnuClay.CommonClientTypes
         /// <returns>The key of the string value.</returns>
         ulong GetKey(string val);
 
+        /// <summary>
+        /// Set relationship of inheritance between two entities.
+        /// </summary>
+        /// <param name="subKey">The key of type of the subclass.</param>
+        /// <param name="superKey">The key of type of the superclass.</param>
+        /// <param name="rank">The rank of the inheritance from 0 to 1 inclusively.</param>
         void SetInheritance(ulong subKey, ulong superKey, double rank);
+
+        /// <summary>
+        /// Loads a list of the superclasses for the target entity.
+        /// </summary>
+        /// <param name="targetKey">The key of type of the target entity.</param>
+        /// <returns>The list of the superclasses for the target entity.</returns>
         List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey);
+
+        /// <summary>
+        /// Gets rank of relationship of inheritance between two entities.
+        /// </summary>
+        /// <param name="subKey">The key of type of the subclass.</param>
+        /// <param name="superKey">The key of type of the superclass.</param>
+        /// <returns>The rank of the inheritance from 0 to 1 inclusively.</returns>
         double GetInheritanceRank(ulong subKey, ulong superKey);
+
+        /// <summary>
+        /// Loads a list of the subclasses for the target entity.
+        /// </summary>
+        /// <param name="targetKey">The key of type of the target entity.</param>
+        /// <returns>The list of the subclasses for the target entity.</returns>
         List<InheritanceItem> LoadListOfSubClasses(ulong targetKey);
+
+        /// <summary>
+        /// Loads all items of relationship of inheritance.
+        /// </summary>
+        /// <returns>The list of all items of relationship of inheritance.</returns>
         List<InheritanceItem> LoadAllInheritanceItems();
 
         /// <summary>

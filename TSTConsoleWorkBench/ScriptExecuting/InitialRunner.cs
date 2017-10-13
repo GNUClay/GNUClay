@@ -803,9 +803,11 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             //NLog.LogManager.GetCurrentClassLogger().Info($"RunMiddleScript resultOfCallByDescription = {resultOfCallByDescription}");
 
             var tmpUserDefinedCodeFrame = new FunctionModel();
-            var tmpCommand = new ScriptCommand();
-            tmpCommand.OperationCode = OperationCode.PushVar;
-            tmpCommand.Key = keyKey;
+            var tmpCommand = new ScriptCommand()
+            {
+                OperationCode = OperationCode.PushVar,
+                Key = keyKey
+            };
             tmpUserDefinedCodeFrame.AddCommand(tmpCommand);
 
             tmpCommand = new ScriptCommand();
@@ -820,18 +822,19 @@ namespace TSTConsoleWorkBench.ScriptExecuting
             filter.Params.Add(keyKey, new CommandFilterParam() {
             });
 
-            var tmpUserDefinedFunctionModel = new UserDefinedFunctionModel();
-
-            tmpUserDefinedFunctionModel.Filter = filter;
-            tmpUserDefinedFunctionModel.FunctionModel = tmpUserDefinedCodeFrame;
-
+            var tmpUserDefinedFunctionModel = new UserDefinedFunctionModel()
+            {
+                Filter = filter,
+                FunctionModel = tmpUserDefinedCodeFrame
+            };
             userDefinedFunctionsStorage.AddFunction(tmpUserDefinedFunctionModel);
 
-            var externalFilter = new ExternalCommandFilter();
-            externalFilter.HolderKey = selfKey;
-            externalFilter.FunctionKey = remoteKey;
-            externalFilter.TargetKey = doorKey;
-
+            var externalFilter = new ExternalCommandFilter()
+            {
+                HolderKey = selfKey,
+                FunctionKey = remoteKey,
+                TargetKey = doorKey
+            };
             externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
@@ -840,11 +843,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            externalFilter = new ExternalCommandFilter();
-            externalFilter.HolderKey = selfKey;
-            externalFilter.FunctionKey = remoteKey;
-            externalFilter.TargetKey = doorKey;
-
+            externalFilter = new ExternalCommandFilter()
+            {
+                HolderKey = selfKey,
+                FunctionKey = remoteKey,
+                TargetKey = doorKey
+            };
             externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });
@@ -853,11 +857,12 @@ namespace TSTConsoleWorkBench.ScriptExecuting
 
             GnuClayEngine.AddRemoteFunction(externalFilter);
 
-            externalFilter = new ExternalCommandFilter();
-            externalFilter.HolderKey = selfKey;
-            externalFilter.FunctionKey = remoteKey;
-            externalFilter.TargetKey = doorKey;
-
+            externalFilter = new ExternalCommandFilter()
+            {
+                HolderKey = selfKey,
+                FunctionKey = remoteKey,
+                TargetKey = doorKey
+            };
             externalFilter.Params.Add(keyKey, new ExternalCommandFilterParam()
             {
             });

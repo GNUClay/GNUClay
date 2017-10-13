@@ -7,13 +7,34 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
+    /// <summary>
+    /// Represents signature of the function.
+    /// </summary>
     public class ExternalCommandFilter: IExternalCommandFilter
     {
+        /// <summary>
+        /// Gets or sets the key of the function.
+        /// </summary>
         public ulong FunctionKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target of the function.
+        /// </summary>
         public ulong TargetKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the holder of the function.
+        /// </summary>
         public ulong HolderKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets definitions of parameters of the function.
+        /// </summary>
         public Dictionary<ulong, IExternalCommandFilterParam> Params { get; set; } = new Dictionary<ulong, IExternalCommandFilterParam>();
 
+        /// <summary>
+        /// Gets or sets the handler of the function.
+        /// </summary>
         public ExternalCommandHandler Handler { get; set; }
 
         /// <summary>

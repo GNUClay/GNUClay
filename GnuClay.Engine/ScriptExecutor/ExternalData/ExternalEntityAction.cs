@@ -9,10 +9,25 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
+    /// <summary>
+    /// Represents an action in the GnuClay engine.
+    /// The action equals task on C#.
+    /// </summary>
     public class ExternalEntityAction : IExternalEntityAction
     {
+        /// <summary>
+        /// Gets or sets key of the action.
+        /// </summary>
         public ulong Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets command of the action.
+        /// </summary>
         public IExternalCommand Command { get; set; }
+
+        /// <summary>
+        /// Gets or sets initiator of the action.
+        /// </summary>
         public ulong Initiator { get; set; }
 
         /// <summary>

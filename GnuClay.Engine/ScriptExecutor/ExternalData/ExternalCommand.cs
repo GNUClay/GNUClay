@@ -9,15 +9,42 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine.ScriptExecutor.ExternalData
 {
+    /// <summary>
+    /// Represents the information for calling a function.
+    /// </summary>
     public class ExternalCommand : IExternalCommand
     {
+        /// <summary>
+        /// Gets or sets information about called function.
+        /// </summary>
         public IExternalValue Function { get; set; }
+
+        /// <summary>
+        /// Gets or sets descriptor of the called function.
+        /// </summary>
         public ulong DescriptorOfFunction { get; set; }
+
+        /// <summary>
+        /// Gets or sets the holder subject of the called function.
+        /// </summary>
         public IExternalValue Holder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key of type of target.
+        /// </summary>
         public ulong TargetKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of all params.
+        /// </summary>
         public List<IExternalParamInfo> Params { get; set; }
         public Dictionary<ulong, IExternalValue> NamedParamsDict { get; set; }
 
+        /// <summary>
+        /// Gets the value of the param by it key.
+        /// </summary>
+        /// <param name="key">The key that corresponds with name of the param.</param>
+        /// <returns>The value of the param by it key.</returns>
         public IExternalValue GetParamValue(ulong key)
         {
             return NamedParamsDict[key];

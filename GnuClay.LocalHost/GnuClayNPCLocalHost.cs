@@ -303,6 +303,12 @@ namespace GnuClay.LocalHost
             Destroy();
         }
 
+        /// <summary>
+        /// Set relationship of inheritance between two entities.
+        /// </summary>
+        /// <param name="subKey">The key of type of the subclass.</param>
+        /// <param name="superKey">The key of type of the superclass.</param>
+        /// <param name="rank">The rank of the inheritance from 0 to 1 inclusively.</param>
         public void SetInheritance(ulong subKey, ulong superKey, double rank)
         {
             lock (mLockObj)
@@ -313,6 +319,11 @@ namespace GnuClay.LocalHost
             }           
         }
 
+        /// <summary>
+        /// Loads a list of the superclasses for the target entity.
+        /// </summary>
+        /// <param name="targetKey">The key of type of the target entity.</param>
+        /// <returns>The list of the superclasses for the target entity.</returns>
         public List<InheritanceItem> LoadListOfSuperClasses(ulong targetKey)
         {
             lock (mLockObj)
@@ -323,6 +334,12 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Gets rank of relationship of inheritance between two entities.
+        /// </summary>
+        /// <param name="subKey">The key of type of the subclass.</param>
+        /// <param name="superKey">The key of type of the superclass.</param>
+        /// <returns>The rank of the inheritance from 0 to 1 inclusively.</returns>
         public double GetInheritanceRank(ulong subKey, ulong superKey)
         {
             lock (mLockObj)
@@ -333,6 +350,11 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Loads a list of the subclasses for the target entity.
+        /// </summary>
+        /// <param name="targetKey">The key of type of the target entity.</param>
+        /// <returns>The list of the subclasses for the target entity.</returns>
         public List<InheritanceItem> LoadListOfSubClasses(ulong targetKey)
         {
             lock (mLockObj)
@@ -343,6 +365,10 @@ namespace GnuClay.LocalHost
             }
         }
 
+        /// <summary>
+        /// Loads all items of relationship of inheritance.
+        /// </summary>
+        /// <returns>The list of all items of relationship of inheritance.</returns>
         public List<InheritanceItem> LoadAllInheritanceItems()
         {
             lock (mLockObj)

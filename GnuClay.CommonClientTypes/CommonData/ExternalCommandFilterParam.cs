@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
+    /// <summary>
+    /// Represents definition of the parameter of the function.
+    /// </summary>
     public class ExternalCommandFilterParam: IExternalCommandFilterParam
     {
+        /// <summary>
+        /// Gets or sets flag which allows using any type for this parameter. By default It is true.
+        /// </summary>
         public bool IsAnyType { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the key of type of this parameters. Uses if IsAnyType = false.
+        /// </summary>
         public ulong TypeKey { get; set; }
 
         /// <summary>
