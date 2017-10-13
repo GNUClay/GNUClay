@@ -7,6 +7,7 @@ using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalBus;
 using GnuClay.Engine.InternalCommonData;
 using GnuClay.Engine.LogicalStorage;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.Parser;
 using GnuClay.Engine.Parser.CommonData;
 using GnuClay.Engine.RemoteFunctions;
@@ -373,18 +374,29 @@ namespace GnuClay.Engine
         /// </summary>
         /// <param name="queryString">The text with the query.</param>
         /// <returns>The result of the executing</returns>
-        public SelectResult Query(string queryString)
+        public ISelectResult Query(string queryString)
         {
             lock (mLockObj)
             {
                 ValidateIsDestroyed();
 
-                var queryTree = mContext.ParserEngine.Parse(queryString);
-                return Query(queryTree);
+                try
+                {
+                    var queryTree = mContext.ParserEngine.Parse(queryString);
+                    return Query(queryTree);
+                }
+                catch (Exception e)
+                {
+                    var result = new ExternalSelectResult();
+                    result.HaveBeenFound = false;
+                    result.Success = false;
+                    result.ErrorText = e.ToString();
+                    return result;
+                }
             }
         }
 
-        public SelectResult Query(List<GnuClayQuery> queryTreeList)
+        private ISelectResult Query(List<GnuClayQuery> queryTreeList)
         {
             lock (mLockObj)
             {
@@ -422,7 +434,7 @@ namespace GnuClay.Engine
                     }
                 }
 
-                return lastResult;
+                return LogicalStorageConvertors.Convert(lastResult);
             }
         }
 

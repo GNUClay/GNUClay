@@ -4,13 +4,31 @@ using GnuClay.CommonUtils.TypeHelpers;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
+    /// <summary>
+    /// Contains information about relationship of inheritance.
+    /// </summary>
     [Serializable]
     public class InheritanceItem : ISmartToString
     {
-        public ulong SubKey = 0;
-        public ulong SuperKey = 0;
-        public double Rank = 0;
-        public int Distance = 0;
+        /// <summary>
+        /// Gets or sets the key of the subclass.
+        /// </summary>
+        public ulong SubKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key of the superclass.
+        /// </summary>
+        public ulong SuperKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rank of relationship of inheritance.
+        /// </summary>
+        public double Rank { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance between subclass and superclass.
+        /// </summary>
+        public int Distance { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

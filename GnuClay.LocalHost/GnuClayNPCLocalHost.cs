@@ -86,7 +86,7 @@ namespace GnuClay.LocalHost
         /// </summary>
         /// <param name="text">The text with the query.</param>
         /// <returns>The result of the executing</returns>
-        public SelectResult Query(string text)
+        public ISelectResult Query(string text)
         {
             lock (mLockObj)
             {
@@ -95,18 +95,7 @@ namespace GnuClay.LocalHost
 #endif
                 ValidateIsDestroyed();
 
-                try
-                {
-                    return GnuClayEngine.Query(text);
-                }
-                catch (Exception e)
-                {
-                    var result = new SelectResult();
-                    result.HaveBeenFound = false;
-                    result.Success = false;
-                    result.ErrorText = e.ToString();
-                    return result;
-                }
+                return GnuClayEngine.Query(text);
             }
         }
 

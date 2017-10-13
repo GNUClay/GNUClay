@@ -2,6 +2,7 @@
 using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.Inheritance;
 using GnuClay.Engine.InternalCommonData;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using GnuClay.Engine.LogicalStorage.InternalResolver;
 using GnuClay.Engine.LogicalStorage.InternalStorage;
 using GnuClay.Engine.Parser.CommonData;

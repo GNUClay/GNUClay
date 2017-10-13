@@ -38,7 +38,7 @@ namespace GnuClay.CommonClientTypes.CommonData
         ulong TypeKey { get; }
 
         /// <summary>
-        /// System value.
+        /// Gets the system value which represents on C#.
         /// </summary>
         object Value { get; }
     }

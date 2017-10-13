@@ -1,21 +1,37 @@
-﻿using GnuClay.CommonUtils.TypeHelpers;
+﻿using GnuClay.CommonClientTypes;
+using GnuClay.CommonUtils.TypeHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GnuClay.CommonClientTypes.CommonData
+namespace GnuClay.Engine.LogicalStorage.CommonData
 {
+    /// <summary>
+    /// Represents the value of the variable for the tuple in the query.
+    /// </summary>
     public class VarResultItem : IToStringData
     {
-        public ulong ParamKey;
-        public ulong EntityKey;
         /// <summary>
-        /// Kind of node in the result.
+        /// Gets or sets the key of the variable.
         /// </summary>
-        public ExpressionNodeKind Kind = ExpressionNodeKind.Unknown;
-        public object Value;
+        public ulong ParamKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key of type of the value.
+        /// </summary>
+        public ulong EntityKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the kind of node in the result.
+        /// </summary>
+        public ExpressionNodeKind Kind { get; set; } = ExpressionNodeKind.Unknown;
+
+        /// <summary>
+        /// Gets or sets the system value which represents on C#.
+        /// </summary>
+        public object Value { get; set; }
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -43,10 +59,20 @@ namespace GnuClay.CommonClientTypes.CommonData
         }
     }
 
+    /// <summary>
+    /// The tuple of found values.
+    /// </summary>
     public class SelectResultItem : IToStringData
     {
-        public ulong Key;
-        public List<VarResultItem> Params = new List<VarResultItem>();
+        /// <summary>
+        /// Gets or sets the key to used fact.
+        /// </summary>
+        public ulong Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of values of the variables for the tuple in the query.
+        /// </summary>
+        public List<VarResultItem> Params { get; set; } = new List<VarResultItem>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)
@@ -72,14 +98,30 @@ namespace GnuClay.CommonClientTypes.CommonData
         }
     }
 
+    /// <summary>
+    /// Contains information about result of executing query.
+    /// </summary>
     public class SelectResult : IToStringData
     {
-        public string ErrorText = string.Empty;
-        public bool Success = true;
+        /// <summary>
+        /// Gets or sets a text of the error of executing. It is always empty if 'Success' = true.
+        /// </summary>
+        public string ErrorText { get; set; } = string.Empty;
 
-        public bool HaveBeenFound = false;
-        
-        public List<SelectResultItem> Items = new List<SelectResultItem>();
+        /// <summary>
+        /// Gets or sets flag about successful of executing query.
+        /// </summary>
+        public bool Success { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets flag about result of searching anything by SELECT query. It is always equals false after non select query.
+        /// </summary>
+        public bool HaveBeenFound { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of tuples of found values.
+        /// </summary>
+        public List<SelectResultItem> Items { get; set; } = new List<SelectResultItem>();
 
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation. Overrides (Object.ToString)

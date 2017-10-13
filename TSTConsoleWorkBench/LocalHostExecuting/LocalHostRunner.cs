@@ -57,7 +57,7 @@ namespace TSTConsoleWorkBench.LocalHostExecuting
             DisplayResult(result);
         }
 
-        private void DisplayResult(SelectResult result)
+        private void DisplayResult(ISelectResult result)
         {
             if(result == null)
             {

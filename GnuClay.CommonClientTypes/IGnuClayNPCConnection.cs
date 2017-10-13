@@ -34,7 +34,7 @@ namespace GnuClay.CommonClientTypes
         /// </summary>
         /// <param name="text">The text with the query.</param>
         /// <returns>The result of the executing</returns>
-        SelectResult Query(string text);
+        ISelectResult Query(string text);
 
         /// <summary>
         /// Loads image of GnuClay NPC form file and activates it next.

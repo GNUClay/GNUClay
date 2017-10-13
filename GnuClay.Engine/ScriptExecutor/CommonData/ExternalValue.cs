@@ -25,7 +25,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public ulong TypeKey { get; set; }
 
         /// <summary>
-        /// System value.
+        /// Gets or sets the system value which represents on C#.
         /// </summary>
         public object Value { get; set; }
 

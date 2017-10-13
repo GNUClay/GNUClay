@@ -1,6 +1,7 @@
 ﻿using GnuClay.CommonClientTypes;
 using GnuClay.CommonClientTypes.CommonData;
 using GnuClay.CommonUtils.TypeHelpers;
+using GnuClay.Engine.LogicalStorage.CommonData;
 using System;
 using System.Text;
 
@@ -9,6 +10,11 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
     public class SelectResultDebugHelper
     {
         public static string ConvertToString(SelectResult source, IReadOnlyStorageDataDictionary dataDictionary)
+        {
+            return ConvertToString(LogicalStorageConvertors.Convert(source), dataDictionary);
+        }
+
+        public static string ConvertToString(ISelectResult source, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpSb = new StringBuilder();
 
@@ -35,6 +41,11 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
         }
 
         public static string ConvertToString(SelectResultItem source, IReadOnlyStorageDataDictionary dataDictionary)
+        {
+            return ConvertToString(LogicalStorageConvertors.Convert(source), dataDictionary);
+        }
+
+        public static string ConvertToString(ISelectResultItem source, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpSb = new StringBuilder();
 
