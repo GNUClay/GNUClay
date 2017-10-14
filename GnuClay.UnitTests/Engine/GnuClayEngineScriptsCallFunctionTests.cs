@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using GnuClay.Engine;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace GnuClay.UnitTests.Engine
         [Test]
         public void CallUserDefinedFunction()
         {
+            var tmpEngine = new GnuClayEngine();
+
             throw new NotImplementedException();
         }
     }
