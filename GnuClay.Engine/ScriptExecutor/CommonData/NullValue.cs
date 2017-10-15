@@ -68,7 +68,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         public IExternalValue ToExternalValue()
         {
             var externalValue = new ExternalValue();
-            externalValue.Kind = ExternalValueKind.Entity;
+            externalValue.Kind = ExternalValueKind.Value;
             externalValue.TypeKey = TypeKey;
             return externalValue;
         }

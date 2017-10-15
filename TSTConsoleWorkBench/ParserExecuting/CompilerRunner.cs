@@ -22,7 +22,9 @@ namespace TSTConsoleWorkBench.ParserExecuting
             //Case8();
             //Case9();
             //Case10();
-            Case11();
+            //Case11();
+            Case12();
+
             NLog.LogManager.GetCurrentClassLogger().Info("End Run");
         }
 
@@ -246,7 +248,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    }");
             tmpSb.AppendLine("}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
 
             //GnuClayEngine.Query(tmpSb.ToString());
 
@@ -265,11 +267,34 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    console.log($var2);");
             tmpSb.AppendLine("}");
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Case9 tmpSb.ToString() = {tmpSb.ToString()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
 
             GnuClayEngine.Query(tmpSb.ToString());
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Case11");
+        }
+
+        private void Case12()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin Case12");
+
+            GnuClayEngine.AddLogHandler((IExternalValue value) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"Case12 value = {value?.ToString(GnuClayEngine.DataDictionary, 0)}");
+            });
+
+            var tmpSb = new StringBuilder();
+            tmpSb.AppendLine("CALL {");
+            tmpSb.AppendLine("    console.log(null + 2);");
+            tmpSb.AppendLine("    console.log(1 + null);");
+            tmpSb.AppendLine("    console.log(null + null);");
+            tmpSb.AppendLine("    console.log(1 + 1);");
+            tmpSb.AppendLine("}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
+
+            GnuClayEngine.Query(tmpSb.ToString());
+
+            NLog.LogManager.GetCurrentClassLogger().Info("End Case12");
         }
 
         private void FakeRemoteHandler_1(IExternalEntityAction action)
