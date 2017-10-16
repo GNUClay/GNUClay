@@ -20,8 +20,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\GnuClay.Engine.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -221,6 +220,7 @@
     <Compile Include="StandardLibrary\SupportingMachines\ConsoleProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\EntityValue.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\ErrorValue.cs" />
+    <Compile Include="StandardLibrary\SupportingMachines\NullProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberProvider.cs" />
     <Compile Include="StandardLibrary\SupportingMachines\NumberValue.cs" />
     <Compile Include="Triggers\KindOfTrigger.cs" />

@@ -263,19 +263,78 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void ProcessWordToken()
         {
+            switch(CurrToken.KeyWordTokenKind)
+            {
+                case TokenKind.NULL:
+                    {
+                        var result = new InternalCodeExpressionNode();
+                        result.Kind = ExpressionKind.ConstExpression;
+                        result.TypeKey = mCommonKeysEngine.NullTypeKey;
+                        result.Value = null;
+                        result.ClassOfNode = ClassOfNode.Leaf;
+
+                        SetLeafToken(result);
+                    }
+                    break;
+
+                case TokenKind.TRUE:
+                    {
+                        var result = new InternalCodeExpressionNode();
+                        result.Kind = ExpressionKind.ConstExpression;
+                        result.TypeKey = mCommonKeysEngine.BooleanKey;
+                        result.Value = 1.0;
+                        result.ClassOfNode = ClassOfNode.Leaf;
+
+                        SetLeafToken(result);
+                    }
+                    break;
+
+                case TokenKind.FALSE:
+                    {
+                        var result = new InternalCodeExpressionNode();
+                        result.Kind = ExpressionKind.ConstExpression;
+                        result.TypeKey = mCommonKeysEngine.BooleanKey;
+                        result.Value = 0.0;
+                        result.ClassOfNode = ClassOfNode.Leaf;
+
+                        SetLeafToken(result);
+                    }
+                    break;
+
+                default:
+                    {
+                        var result = new InternalCodeExpressionNode();
+                        result.Kind = ExpressionKind.EntityExpression;
+                        result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
+                        result.ClassOfNode = ClassOfNode.Leaf;
+
+                        if (mState == State.HasTilde)
+                        {
+                            result.IsAsync = true;
+                            mState = State.Init;
+                        }
+
+                        SetLeafToken(result);
+                    }
+                    break;
+            }
+        }
+
+        /*
+                    Context.Recovery(CurrToken);
+            var tmpInternalNumberParser = new InternalNumberParser(Context);
+            tmpInternalNumberParser.Run();
+
+            var numberResult = tmpInternalNumberParser.Result;
+
             var result = new InternalCodeExpressionNode();
-            result.Kind = ExpressionKind.EntityExpression;
-            result.TypeKey = mDataDictionary.GetKey(CurrToken.Content);
+            result.Kind = ExpressionKind.ConstExpression;
+            result.TypeKey = mCommonKeysEngine.NumberKey;
+            result.Value = numberResult;
             result.ClassOfNode = ClassOfNode.Leaf;
 
-            if(mState == State.HasTilde)
-            {
-                result.IsAsync = true;
-                mState = State.Init;
-            }
-
-            SetLeafToken(result);
-        }
+            SetLeafToken(result); 
+        */
 
         private void ProcessAssingToken()
         {

@@ -55,7 +55,7 @@ namespace GnuClay.UnitTests.Engine
 
             tmpEngine.Query(code);
 
-            Assert.AreNotEqual(n, 0);
+            Assert.AreEqual(n, 4);
         }
 
         [Test]

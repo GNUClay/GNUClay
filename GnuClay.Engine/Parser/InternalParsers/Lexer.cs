@@ -314,6 +314,24 @@ namespace GnuClay.Engine.Parser.InternalParsers
                         break;
                     }
 
+                    if (string.Compare(content, "NULL", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.NULL;
+                        break;
+                    }
+
+                    if (string.Compare(content, "TRUE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.TRUE;
+                        break;
+                    }
+
+                    if (string.Compare(content, "FALSE", true) == 0)
+                    {
+                        kindOfKeyWord = TokenKind.FALSE;
+                        break;
+                    }
+
                     if (content.StartsWith("$"))
                     {
                         if(content.StartsWith("$$"))

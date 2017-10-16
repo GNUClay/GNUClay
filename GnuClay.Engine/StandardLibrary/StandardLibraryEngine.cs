@@ -23,6 +23,9 @@ namespace GnuClay.Engine.StandardLibrary
 
         private void CreateProvidersOfTypes()
         {
+            NullProvider = new NullProvider(Context);
+            mProvidersList.Add(NullProvider);
+
             NumberProvider = new NumberProvider(Context);
             mProvidersList.Add(NumberProvider);
 
@@ -74,6 +77,7 @@ namespace GnuClay.Engine.StandardLibrary
         private List<BaseGnuClayEngineComponent> mProvidersList = new List<BaseGnuClayEngineComponent>();
 
         #region Providers of types
+        public NullProvider NullProvider { get; private set; }
         public NumberProvider NumberProvider { get; private set; }
         public BooleanProvider BooleanProvider { get; private set; }
         public ConsoleProvider ConsoleProvider { get; private set; }

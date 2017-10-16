@@ -259,7 +259,22 @@ namespace GnuClay.Engine.Parser.InternalParsers
         /// <summary>
         /// Represents keyword `return`.
         /// </summary>
-        RETURN
+        RETURN,
+
+        /// <summary>
+        /// Represents 'null' literal.
+        /// </summary>
+        NULL,
+
+        /// <summary>
+        /// Represents 'true' literal.
+        /// </summary>
+        TRUE,
+
+        /// <summary>
+        /// Represents 'false' literal.
+        /// </summary>
+        FALSE
     }
 
     /// <summary>
