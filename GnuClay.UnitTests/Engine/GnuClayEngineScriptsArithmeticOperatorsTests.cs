@@ -45,7 +45,6 @@ namespace GnuClay.UnitTests.Engine
                 }
             });
 
-
             var code = @"CALL {
                 console.log(null + 2);
                 console.log(1 + null);
@@ -63,6 +62,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -70,18 +72,33 @@ namespace GnuClay.UnitTests.Engine
 
                 switch (n)
                 {
+                    case 1:
+                    case 2:
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, numberKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
             });
 
 
-            var code = @"";
+            var code = @"CALL {
+                console.log(null - 2);
+                console.log(1 - null);
+                console.log(null - null);
+                console.log(2 - 1);
+            }";
 
             tmpEngine.Query(code);
 
-            Assert.AreNotEqual(n, 0);
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 4);
         }
 
         [Test]
@@ -89,7 +106,48 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, numberKey);
+                        Assert.AreEqual(value.Value, 4);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, numberKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+            var code = @"CALL {
+                console.log(null * 2);
+                console.log(1 * null);
+                console.log(null * null);
+                console.log(2 * 2);
+                console.log(2 * 0);
+            }";
+
+            tmpEngine.Query(code);
+
+            Assert.AreEqual(n, 5);
         }
 
         [Test]
@@ -97,7 +155,48 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, numberKey);
+                        Assert.AreEqual(value.Value, 2);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+            var code = @"CALL {
+                console.log(null / 2);
+                console.log(1 / null);
+                console.log(null / null);
+                console.log(4 / 2);
+                console.log(2 / 0);
+            }";
+
+            tmpEngine.Query(code);
+
+            Assert.AreEqual(n, 5);
         }
     }
 }

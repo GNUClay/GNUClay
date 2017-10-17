@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,26 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
+
             throw new NotImplementedException();
         }
 
@@ -23,6 +44,26 @@ namespace GnuClay.UnitTests.Engine
         public void PlusAssingOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
 
             throw new NotImplementedException();
         }
@@ -32,6 +73,26 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
+
             throw new NotImplementedException();
         }
 
@@ -39,6 +100,26 @@ namespace GnuClay.UnitTests.Engine
         public void MulAssingOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
 
             throw new NotImplementedException();
         }
@@ -48,6 +129,26 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
+
             throw new NotImplementedException();
         }
 
@@ -56,6 +157,26 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
+
             throw new NotImplementedException();
         }
 
@@ -63,6 +184,26 @@ namespace GnuClay.UnitTests.Engine
         public void PlusAssingFactOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var n = 0;
+
+            tmpEngine.AddLogHandler((IExternalValue value) => {
+                n++;
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+            });
+
+
+            var code = @"CALL {
+            
+            }";
+
+            tmpEngine.Query(code);
+
+            //Assert.AreEqual(n, );
 
             throw new NotImplementedException();
         }

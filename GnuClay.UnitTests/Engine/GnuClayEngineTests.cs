@@ -157,5 +157,13 @@ namespace GnuClay.UnitTests.Engine
             Assert.AreEqual(targetVarItem.EntityKey, numberKey);
             Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
         }
+
+        [Test]
+        public void Queries_Case_2_Write_Rewrite_Remove()
+        {
+            var tmpEngine = new GnuClayEngine();
+
+            throw new NotImplementedException();
+        }
     }
 }
