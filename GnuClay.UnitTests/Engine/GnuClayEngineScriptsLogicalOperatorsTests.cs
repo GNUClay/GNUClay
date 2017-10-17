@@ -17,6 +17,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -44,6 +47,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -70,6 +76,9 @@ namespace GnuClay.UnitTests.Engine
         public void NotEqualOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
             var n = 0;
 
@@ -99,6 +108,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -126,6 +138,9 @@ namespace GnuClay.UnitTests.Engine
         public void MoreOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
             var n = 0;
 
@@ -155,6 +170,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -182,6 +200,9 @@ namespace GnuClay.UnitTests.Engine
         public void LessOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
             var n = 0;
 
@@ -211,6 +232,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -238,6 +262,9 @@ namespace GnuClay.UnitTests.Engine
         public void AndOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
             var n = 0;
 
@@ -267,6 +294,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -294,6 +324,9 @@ namespace GnuClay.UnitTests.Engine
         public void MoreOrEqualOperatorCase1()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
             var n = 0;
 
@@ -323,6 +356,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -351,6 +387,9 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
+
             var n = 0;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
@@ -378,6 +417,9 @@ namespace GnuClay.UnitTests.Engine
         public void LessOrEqualOperatorCase2()
         {
             var tmpEngine = new GnuClayEngine();
+
+            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
 
             var n = 0;
 
