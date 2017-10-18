@@ -38,11 +38,11 @@ namespace GnuClay.Engine.ScriptExecutor
         /// <returns>Return value of the hash.</returns>
         public ulong GetLongHashCode()
         {
-            var result = FunctionKey ^ TargetKey ^ HolderKey;
+            var result = 100*FunctionKey + 100*TargetKey + 100*HolderKey;
 
             foreach (var item in Params)
             {
-                result ^= item.Value.GetLongHashCode();
+                result += item.Value.GetLongHashCode();
             }
 
             return result;

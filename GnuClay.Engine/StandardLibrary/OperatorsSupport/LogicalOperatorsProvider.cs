@@ -94,6 +94,10 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
                 TypeKey = BooleanKey
             });
 
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank filter = {filter}");
+#endif
+
             FunctionsEngine.AddFilter(filter);
 
             filter = new CommandFilter();
@@ -115,6 +119,10 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
                 IsAnyType = false,
                 TypeKey = NumberKey
             });
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank filter = {filter}");
+#endif
 
             FunctionsEngine.AddFilter(filter);
         }

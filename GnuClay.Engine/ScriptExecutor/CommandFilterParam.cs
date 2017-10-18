@@ -35,13 +35,13 @@ namespace GnuClay.Engine.ScriptExecutor
         {
             ulong result = (ulong)IsAnyType.GetHashCode();
 
-            result ^= TypeKey;
+            result += 100*TypeKey;
 
-            result ^= (ulong)IsAnyValue.GetHashCode();
+            result += (ulong)IsAnyValue.GetHashCode();
 
             if (Value != null)
             {
-                result ^= Value.GetLongHashCode();
+                result += Value.GetLongHashCode();
             }
 
             return result;

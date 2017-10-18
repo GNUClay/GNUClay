@@ -66,7 +66,13 @@ namespace GnuClay.Engine.Console
                 {
                     var task = Task.Run(() =>
                     {
-                        handler.Value?.Invoke(externalValue);
+                        try
+                        {
+                            handler.Value?.Invoke(externalValue);
+                        }
+                        catch
+                        {
+                        }                   
                     });
 
                     listOfTasks.Add(task);

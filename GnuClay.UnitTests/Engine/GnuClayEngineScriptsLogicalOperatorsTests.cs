@@ -20,15 +20,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
             var code = @"CALL {
@@ -36,6 +36,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -47,29 +49,57 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
             var code = @"CALL {
-                
+                console.log(null == 2);
+                console.log(1 == null);
+                console.log(null == null);
+                console.log(1 == 1);
+                console.log(1 == 2);
             }";
 
             tmpEngine.Query(code);
 
-            //Assert.AreEqual(n, );
+            n = n - 1;
 
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 5);
         }
 
         [Test]
@@ -80,15 +110,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -97,6 +127,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -109,17 +141,17 @@ namespace GnuClay.UnitTests.Engine
             var tmpEngine = new GnuClayEngine();
 
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -128,6 +160,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -142,15 +176,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -159,6 +193,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -171,17 +207,17 @@ namespace GnuClay.UnitTests.Engine
             var tmpEngine = new GnuClayEngine();
 
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -190,6 +226,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -204,15 +242,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -221,6 +259,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -233,17 +273,17 @@ namespace GnuClay.UnitTests.Engine
             var tmpEngine = new GnuClayEngine();
 
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -252,6 +292,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -266,15 +308,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -283,6 +325,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -297,15 +341,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -314,6 +358,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -328,15 +374,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -345,6 +391,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -357,17 +405,17 @@ namespace GnuClay.UnitTests.Engine
             var tmpEngine = new GnuClayEngine();
 
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -377,8 +425,9 @@ namespace GnuClay.UnitTests.Engine
 
             tmpEngine.Query(code);
 
-            //Assert.AreEqual(n, );
+            n = n - 1;
 
+            //Assert.AreEqual(n, );
             throw new NotImplementedException();
         }
 
@@ -390,15 +439,15 @@ namespace GnuClay.UnitTests.Engine
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
             var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -407,6 +456,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -419,17 +470,17 @@ namespace GnuClay.UnitTests.Engine
             var tmpEngine = new GnuClayEngine();
 
             var nullKey = tmpEngine.Context.CommonKeysEngine.NullTypeKey;
-            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+            var booleanKey = tmpEngine.Context.CommonKeysEngine.BooleanKey;
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -438,6 +489,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 

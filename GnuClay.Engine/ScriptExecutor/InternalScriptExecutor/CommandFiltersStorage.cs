@@ -131,7 +131,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private double GetPositionedRank(Command command)
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank command = {command}");
 #endif
             var tmpCommandParams = command.PositionedParams;
             var tmpFilterParams = mFilter.Params;
@@ -142,7 +142,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank NEXT command = {command}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank NEXT command = {command}");
 #endif
             var tmpCommandParamsEnumerator = tmpCommandParams.GetEnumerator();
             var tmpFilterParamsEnumerator = tmpFilterParams.GetEnumerator();
@@ -162,8 +162,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                         var tmpCommandParam = tmpCommandParamsEnumerator.Current;
 
 #if DEBUG
-                        //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParam = {tmpFilterParam}");
-                        //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParam = {tmpCommandParam}");
+                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParam = {tmpFilterParam}");
+                        NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParam = {tmpCommandParam}");
 #endif
                         if (tmpFilterParam.IsAnyType)
                         {
@@ -184,16 +184,21 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                             if(paramValue.IsNull)
                             {
 #if DEBUG
-                                //NLog.LogManager.GetCurrentClassLogger().Info("GetPositionedRank tmpCommandParam.ParamValue.IsNull");
+                                NLog.LogManager.GetCurrentClassLogger().Info("GetPositionedRank tmpCommandParam.ParamValue.IsNull");
 #endif
 
                                 continue;
                             }
 
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpCommandParamTypeKey = {tmpCommandParamTypeKey}");
+                            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank tmpFilterParamTypeKey = {tmpFilterParamTypeKey}");
+#endif
+
                             var rank = mContext.InheritanceEngine.GetRank(tmpCommandParamTypeKey, tmpFilterParamTypeKey);
 
 #if DEBUG
-                            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank rank = {rank}");
+                            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank rank = {rank}");
 #endif
                             if (rank == 0)
                             {
@@ -232,7 +237,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank result = {result}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank result = {result}");
 #endif
             return result;
         }
@@ -253,7 +258,12 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         public ulong AddFilter(T filter)
         {
             var targetHashCode = filter.GetLongHashCode();
-
+#if DEBUG
+            if (filter.FunctionKey == 25)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"AddFilter targetHashCode = {targetHashCode}");
+            }
+#endif
             if (mDict.ContainsKey(targetHashCode))
             {
                 var tmpExistingStorage = mDict[targetHashCode];

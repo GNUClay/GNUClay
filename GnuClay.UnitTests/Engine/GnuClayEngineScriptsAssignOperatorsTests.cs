@@ -17,15 +17,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -34,6 +34,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -45,15 +47,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -62,6 +64,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -73,15 +77,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -90,6 +94,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -101,15 +107,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -118,6 +124,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -129,15 +137,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -146,6 +154,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -157,15 +167,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -174,6 +184,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
@@ -185,15 +197,15 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            var n = 0;
+            var n = 1;
 
             tmpEngine.AddLogHandler((IExternalValue value) => {
-                n++;
-
                 switch (n)
                 {
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
+
+                n++;
             });
 
 
@@ -202,6 +214,8 @@ namespace GnuClay.UnitTests.Engine
             }";
 
             tmpEngine.Query(code);
+
+            n = n - 1;
 
             //Assert.AreEqual(n, );
 
