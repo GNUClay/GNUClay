@@ -75,7 +75,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
         private void RegHandlerOfEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfEqual_Boolean_Boolean;
+            filter.Handler = HandlerOfEqual;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = EqualOperatorKey;
             filter.TargetKey = 0;
@@ -84,40 +84,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
             filterParams.Add(FirstParamKey, new CommandFilterParam()
             {
-                IsAnyType = false,
-                TypeKey = BooleanKey
+                IsAnyType = true
             });
 
             filterParams.Add(SecondParamKey, new CommandFilterParam()
             {
-                IsAnyType = false,
-                TypeKey = BooleanKey
-            });
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank filter = {filter}");
-#endif
-
-            FunctionsEngine.AddFilter(filter);
-
-            filter = new CommandFilter();
-            filter.Handler = HandlerOfEqual_Number_Number;
-            filter.HolderKey = SelfInstanceKey;
-            filter.FunctionKey = EqualOperatorKey;
-            filter.TargetKey = 0;
-
-            filterParams = filter.Params;
-
-            filterParams.Add(FirstParamKey, new CommandFilterParam()
-            {
-                IsAnyType = false,
-                TypeKey = NumberKey
-            });
-
-            filterParams.Add(SecondParamKey, new CommandFilterParam()
-            {
-                IsAnyType = false,
-                TypeKey = NumberKey
+                IsAnyType = true
             });
 
 #if DEBUG
@@ -127,80 +99,54 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfEqual_Boolean_Boolean(EntityAction action)
+        private void HandlerOfEqual(EntityAction action)
         {
             var command = action.Command;
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_1 = {tmpParam_1.ToString(DataDictionary, 0)}");
+//            NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_2 = {tmpParam_2.ToString(DataDictionary, 0)}");
+//#endif
 
-            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            if(tmpParam_1.TypeKey != tmpParam_2.TypeKey)
             {
                 action.Result = CommonValuesFactory.FalseValue();
                 action.State = EntityActionState.Completed;
                 return;
             }
 
-            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
-            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
-
-            if (tmpParamNumberValue_1.OriginalValue == tmpParamNumberValue_2.OriginalValue)
+            if(tmpParam_1.Kind == KindOfValue.Value)
             {
-                action.Result = CommonValuesFactory.TrueValue();
-            }
-            else
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-            }
+                if(tmpParam_1.Value == null && tmpParam_2.Value == null)
+                {
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
 
-            action.State = EntityActionState.Completed;
-        }
+                if(!tmpParam_1.Value.Equals(tmpParam_2.Value))
+                {
+//#if DEBUG
+//                    NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_1.Value = {tmpParam_1.Value}");
+//                    NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_2.Value = {tmpParam_2.Value}");
+//#endif
 
-        private void HandlerOfEqual_Number_Number(EntityAction action)
-        {
-            var command = action.Command;
-            var tmpParam_1 = command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = command.GetParamValue(SecondParamKey);
-
-            if(tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
             }
 
-            if(tmpParam_1.IsNull || tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
-            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
-            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
-
-            if(tmpParamNumberValue_1.OriginalValue == tmpParamNumberValue_2.OriginalValue)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-            }
-            else
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-            }
-
+            action.Result = CommonValuesFactory.TrueValue();
             action.State = EntityActionState.Completed;
         }
 
         private void RegHandlerOfNotEqual()
         {
             var filter = new CommandFilter();
-            filter.Handler = HandlerOfNotEqual_Boolean_Boolean;
+            filter.Handler = HandlerOfNotEqual;
             filter.HolderKey = SelfInstanceKey;
             filter.FunctionKey = NotEqualOperatorKey;
             filter.TargetKey = 0;
@@ -209,108 +155,58 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
             filterParams.Add(FirstParamKey, new CommandFilterParam()
             {
-                IsAnyType = false,
-                TypeKey = BooleanKey
+                IsAnyType = true
             });
 
             filterParams.Add(SecondParamKey, new CommandFilterParam()
             {
-                IsAnyType = false,
-                TypeKey = BooleanKey
-            });
-
-            FunctionsEngine.AddFilter(filter);
-
-            filter = new CommandFilter();
-            filter.Handler = HandlerOfNotEqual_Number_Number;
-            filter.HolderKey = SelfInstanceKey;
-            filter.FunctionKey = NotEqualOperatorKey;
-            filter.TargetKey = 0;
-
-            filterParams = filter.Params;
-
-            filterParams.Add(FirstParamKey, new CommandFilterParam()
-            {
-                IsAnyType = false,
-                TypeKey = NumberKey
-            });
-
-            filterParams.Add(SecondParamKey, new CommandFilterParam()
-            {
-                IsAnyType = false,
-                TypeKey = NumberKey
+                IsAnyType = true
             });
 
             FunctionsEngine.AddFilter(filter);
         }
 
-        private void HandlerOfNotEqual_Boolean_Boolean(EntityAction action)
+        private void HandlerOfNotEqual(EntityAction action)
         {
             var command = action.Command;
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfNotEqual tmpParam_1 = {tmpParam_1.ToString(DataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfNotEqual tmpParam_2 = {tmpParam_2.ToString(DataDictionary, 0)}");
+#endif
 
-            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
+            if (tmpParam_1.TypeKey != tmpParam_2.TypeKey)
             {
                 action.Result = CommonValuesFactory.TrueValue();
                 action.State = EntityActionState.Completed;
                 return;
             }
 
-            var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
-            var tmpParamNumberValue_2 = (BooleanValue)tmpParam_2;
-
-            if (tmpParamNumberValue_1.OriginalValue != tmpParamNumberValue_2.OriginalValue)
+            if (tmpParam_1.Kind == KindOfValue.Value)
             {
-                action.Result = CommonValuesFactory.TrueValue();
-            }
-            else
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-            }
+                if (tmpParam_1.Value == null && tmpParam_2.Value == null)
+                {
+                    action.Result = CommonValuesFactory.FalseValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
 
-            action.State = EntityActionState.Completed;
-        }
+                if (!tmpParam_1.Value.Equals(tmpParam_2.Value))
+                {
+//#if DEBUG
+//                    NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_1.Value = {tmpParam_1.Value}");
+//                    NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfEqual tmpParam_2.Value = {tmpParam_2.Value}");
+//#endif
 
-        private void HandlerOfNotEqual_Number_Number(EntityAction action)
-        {
-            var command = action.Command;
-            var tmpParam_1 = command.GetParamValue(FirstParamKey);
-            var tmpParam_2 = command.GetParamValue(SecondParamKey);
-
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
+                    action.Result = CommonValuesFactory.TrueValue();
+                    action.State = EntityActionState.Completed;
+                    return;
+                }
             }
 
-            if (tmpParam_1.IsNull || tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
-            var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
-            var tmpParamNumberValue_2 = (NumberValue)tmpParam_2;
-
-            if (tmpParamNumberValue_1.OriginalValue != tmpParamNumberValue_2.OriginalValue)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-            }
-            else
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-            }
-
+            action.Result = CommonValuesFactory.FalseValue();
             action.State = EntityActionState.Completed;
         }
 

@@ -299,6 +299,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
             tmpSb.AppendLine("    console.log(0 == false);");
             tmpSb.AppendLine("    console.log(2 == true);");
             tmpSb.AppendLine("    console.log(2 == false);");
+            tmpSb.AppendLine("    console.log(1 == 1);");
             tmpSb.AppendLine("}");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
