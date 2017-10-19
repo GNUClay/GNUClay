@@ -92,10 +92,6 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
                 IsAnyType = true
             });
 
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetPositionedRank filter = {filter}");
-#endif
-
             FunctionsEngine.AddFilter(filter);
         }
 

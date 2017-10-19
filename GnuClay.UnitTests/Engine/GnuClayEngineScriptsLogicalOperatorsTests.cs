@@ -25,6 +25,81 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 8:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 9:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 10:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 11:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 12:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 13:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 14:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 15:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -32,16 +107,28 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-                
+                console.log(null == true);
+                console.log(null == false);
+                console.log(true == null);
+                console.log(false == null);
+                console.log(null == null);
+                console.log(true == true);
+                console.log(false == false);
+                console.log(true == false);
+                console.log(false == true);
+                console.log(1 == true);
+                console.log(1 == false);
+                console.log(0 == true);
+                console.log(0 == false);
+                console.log(2 == true);
+                console.log(2 == false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 15);
         }
 
         [Test]
