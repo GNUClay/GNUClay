@@ -406,6 +406,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -426,9 +461,7 @@ namespace GnuClay.UnitTests.Engine
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]
@@ -476,6 +509,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -483,16 +551,20 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-            
+                console.log(true < false);
+                console.log(true < null);
+                console.log(false < true);
+                console.log(false < null);
+                console.log(null < null);
+                console.log(true < true);
+                console.log(false < false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]
@@ -540,6 +612,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -547,16 +654,20 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-            
+                console.log(true & false);
+                console.log(true & null);
+                console.log(false & true);
+                console.log(false & null);
+                console.log(null & null);
+                console.log(true & true);
+                console.log(false & false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]
@@ -572,6 +683,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -579,16 +725,20 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-            
+                console.log(true | false);
+                console.log(true | null);
+                console.log(false | true);
+                console.log(false | null);
+                console.log(null | null);
+                console.log(true | true);
+                console.log(false | false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]
@@ -604,6 +754,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -611,16 +796,20 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-            
+                console.log(true >= false);
+                console.log(true >= null);
+                console.log(false >= true);
+                console.log(false >= null);
+                console.log(null >= null);
+                console.log(true >= true);
+                console.log(false >= false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]
@@ -667,6 +856,41 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -674,16 +898,20 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-            
+                console.log(true <= false);
+                console.log(true <= null);
+                console.log(false <= true);
+                console.log(false <= null);
+                console.log(null <= null);
+                console.log(true <= true);
+                console.log(false <= false);
             }";
 
             tmpEngine.Query(code);
 
             n = n - 1;
 
-            //Assert.AreEqual(n, );
-
-            throw new NotImplementedException();
+            Assert.AreEqual(n, 7);
         }
 
         [Test]

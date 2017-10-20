@@ -283,25 +283,15 @@ namespace TSTConsoleWorkBench.ParserExecuting
             });
 
             var tmpSb = new StringBuilder();
-            tmpSb.AppendLine("CALL {");
-            tmpSb.AppendLine("    console.log(null != true);");
-            tmpSb.AppendLine("    console.log(null != false);");
-            tmpSb.AppendLine("    console.log(true != null);");
-            tmpSb.AppendLine("    console.log(false != null);");
-            tmpSb.AppendLine("    console.log(null != null);");
-            tmpSb.AppendLine("    console.log(true != true);");
-            tmpSb.AppendLine("    console.log(false != false);");
-            tmpSb.AppendLine("    console.log(true != false);");
-            tmpSb.AppendLine("    console.log(false != true);");
-            tmpSb.AppendLine("    console.log(1 != true);");
-            tmpSb.AppendLine("    console.log(1 != false);");
-            tmpSb.AppendLine("    console.log(0 != true);");
-            tmpSb.AppendLine("    console.log(0 != false);");
-            tmpSb.AppendLine("    console.log(2 != true);");
-            tmpSb.AppendLine("    console.log(2 != false);");
-            tmpSb.AppendLine("    console.log(1 != 1);");
-            tmpSb.AppendLine("    console.log(0 != null);");
-            tmpSb.AppendLine("}");
+            tmpSb.AppendLine(@"CALL {
+            console.log(true > false);
+            console.log(true > null);
+            console.log(false > true);
+            console.log(false > null);
+            console.log(null > null);
+            console.log(true > true);
+            console.log(false > false);
+            }");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
 
