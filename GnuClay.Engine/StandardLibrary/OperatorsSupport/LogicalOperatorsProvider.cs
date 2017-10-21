@@ -259,28 +259,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if(tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if(tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
@@ -304,28 +287,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
@@ -396,28 +362,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
 
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
@@ -441,28 +391,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.FalseValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
@@ -625,28 +558,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
@@ -670,28 +586,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;
@@ -762,28 +661,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (BooleanValue)tmpParam_1;
@@ -807,28 +689,11 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var tmpParam_1 = command.GetParamValue(FirstParamKey);
             var tmpParam_2 = command.GetParamValue(SecondParamKey);
 
-            if (tmpParam_1.IsNull && tmpParam_2.IsNull)
-            {
-                action.Result = CommonValuesFactory.TrueValue();
-                action.State = EntityActionState.Completed;
-                return;
-            }
-
             if (tmpParam_1.IsNull || tmpParam_2.IsNull)
             {
-                if (tmpParam_1.IsNull)
-                {
-                    action.Result = CommonValuesFactory.TrueValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
-
-                if (tmpParam_2.IsNull)
-                {
-                    action.Result = CommonValuesFactory.FalseValue();
-                    action.State = EntityActionState.Completed;
-                    return;
-                }
+                action.Result = CommonValuesFactory.NullValue();
+                action.State = EntityActionState.Completed;
+                return;
             }
 
             var tmpParamNumberValue_1 = (NumberValue)tmpParam_1;

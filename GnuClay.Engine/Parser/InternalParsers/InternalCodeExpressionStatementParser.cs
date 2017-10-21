@@ -449,6 +449,10 @@ namespace GnuClay.Engine.Parser.InternalParsers
                     ProcessNumberToken();
                     return;
 
+                case ClassOfNode.Logical:
+                    ProcessNumberToken();
+                    return;
+
                 case ClassOfNode.Leaf:
                     var result = new InternalCodeExpressionNode();
                     result.Kind = ExpressionKind.BinaryOperator;

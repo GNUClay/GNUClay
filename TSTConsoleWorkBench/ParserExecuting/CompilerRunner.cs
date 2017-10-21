@@ -284,13 +284,22 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine(@"CALL {
-            console.log(true > false);
-            console.log(true > null);
-            console.log(false > true);
-            console.log(false > null);
-            console.log(null > null);
-            console.log(true > true);
-            console.log(false > false);
+                console.log(1 > 2);
+                console.log(2 > 1);
+                console.log(1 > 0);
+                console.log(0 > 1);
+                console.log(0 > -1);
+                console.log(-1 > 0);
+                console.log(-1 > -2);
+                console.log(-2 > -1);
+                console.log(-1 > 1);
+                console.log(1 > -1);
+                console.log(1 > null);
+                console.log(null > 1);
+                console.log(0 > null);
+                console.log(null > 0);
+                console.log(-1 > null);
+                console.log(null > -1);
             }");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
