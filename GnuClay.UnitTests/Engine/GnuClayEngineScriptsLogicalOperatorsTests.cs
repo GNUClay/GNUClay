@@ -477,6 +477,86 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 8:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 9:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 10:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 11:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 12:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 13:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 14:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 15:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 16:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -593,6 +673,86 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 8:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 9:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    case 10:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, 0);
+                        break;
+
+                    case 11:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 12:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 13:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 14:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 15:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 16:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -851,6 +1011,105 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 8:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    /*
+                                    console.log(1 >= 2);1
+                console.log(2 >= 1);2
+                console.log(1 >= 0);3
+                console.log(0 >= 1);4
+                console.log(0 >= -1);5
+                console.log(-1 >= 0);6
+                console.log(-1 >= -2);7
+                console.log(-2 >= -1);8
+                console.log(-1 >= 1);9
+                console.log(1 >= -1);10
+                console.log(1 >= null);11
+                console.log(null >= 1);12
+                console.log(0 >= null);13
+                console.log(null >= 0);14
+                console.log(-1 >= null);15
+                console.log(null >= -1);16
+                 */
+
+                    case 9:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 10:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 11:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 12:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 13:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 14:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 15:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 16:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
@@ -858,22 +1117,22 @@ namespace GnuClay.UnitTests.Engine
             });
 
             var code = @"CALL {
-                console.log(1 => 2);
-                console.log(2 => 1);
-                console.log(1 => 0);
-                console.log(0 => 1);
-                console.log(0 => -1);
-                console.log(-1 => 0);
-                console.log(-1 => -2);
-                console.log(-2 => -1);
-                console.log(-1 => 1);
-                console.log(1 => -1);
-                console.log(1 => null);
-                console.log(null => 1);
-                console.log(0 => null);
-                console.log(null => 0);
-                console.log(-1 => null);
-                console.log(null => -1);
+                console.log(1 >= 2);
+                console.log(2 >= 1);
+                console.log(1 >= 0);
+                console.log(0 >= 1);
+                console.log(0 >= -1);
+                console.log(-1 >= 0);
+                console.log(-1 >= -2);
+                console.log(-2 >= -1);
+                console.log(-1 >= 1);
+                console.log(1 >= -1);
+                console.log(1 >= null);
+                console.log(null >= 1);
+                console.log(0 >= null);
+                console.log(null >= 0);
+                console.log(-1 >= null);
+                console.log(null >= -1);
             }";
 
             tmpEngine.Query(code);
@@ -967,6 +1226,105 @@ namespace GnuClay.UnitTests.Engine
             tmpEngine.AddLogHandler((IExternalValue value) => {
                 switch (n)
                 {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 2:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 3:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 4:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 5:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 6:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 7:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 8:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    /*
+                                    console.log(1 <= 2);1
+                console.log(2 <= 1);2
+                console.log(1 <= 0);3
+                console.log(0 <= 1);4
+                console.log(0 <= -1);5
+                console.log(-1 <= 0);6
+                console.log(-1 <= -2);7
+                console.log(-2 <= -1);8
+                console.log(-1 <= 1);9
+                console.log(1 <= -1);10
+                console.log(1 <= null);11
+                console.log(null <= 1);12
+                console.log(0 <= null);13
+                console.log(null <= 0);14
+                console.log(-1 <= null);15
+                console.log(null <= -1);16
+                 */
+
+                    case 9:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 10:
+                        Assert.AreEqual(value.TypeKey, booleanKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 11:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 12:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 13:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 14:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 15:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
+                    case 16:
+                        Assert.AreEqual(value.TypeKey, nullKey);
+                        Assert.AreEqual(value.Value, null);
+                        break;
+
                     default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
                 }
 
