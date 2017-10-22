@@ -380,19 +380,19 @@ namespace GnuClay.Engine
             {
                 ValidateIsDestroyed();
 
-                try
-                {
+                //try
+                //{
                     var queryTree = mContext.ParserEngine.Parse(queryString);
                     return Query(queryTree);
-                }
-                catch (Exception e)
-                {
-                    var result = new ExternalSelectResult();
-                    result.HaveBeenFound = false;
-                    result.Success = false;
-                    result.ErrorText = e.ToString();
-                    return result;
-                }
+                //}
+                //catch (Exception e)
+                //{
+                    //var result = new ExternalSelectResult();
+                    //result.HaveBeenFound = false;
+                    //result.Success = false;
+                    //result.ErrorText = e.ToString();
+                    //return result;
+                //}
             }
         }
 

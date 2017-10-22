@@ -1,4 +1,5 @@
-﻿using GnuClay.Engine;
+﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,43 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var numberKey = tmpEngine.Context.CommonKeysEngine.NumberKey;
+
+            var n = 1;
+
+            tmpEngine.AddLogHandler((IExternalValue value) =>
+            {
+                Assert.AreEqual(value.Kind, ExternalValueKind.Value);
+
+                switch (n)
+                {
+                    case 1:
+                        Assert.AreEqual(value.TypeKey, numberKey);
+                        Assert.AreEqual(value.Value, 1);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+
+                n++;
+            });
+
+            var code = @"CALL{
+                $var1 = true;
+                if($var1){
+                    $var2 = 1;
+                }else{
+                    $var2 = 2;
+                };
+
+                console.log($var2);
+            }";
+
+            tmpEngine.Query(code);
+
+            n = n - 1;
+
+            Assert.AreEqual(n, 1);
         }
 
         [Test]
@@ -24,7 +61,29 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var n = 1;
+
+            tmpEngine.AddLogHandler((IExternalValue value) =>
+            {
+                Assert.AreEqual(value.Kind, ExternalValueKind.Value);
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+
+                n++;
+            });
+
+            var code = @"CALL{
+
+            }";
+
+            tmpEngine.Query(code);
+
+            n = n - 1;
+
+            Assert.AreEqual(n, 1);
         }
 
         [Test]
@@ -32,7 +91,29 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var n = 1;
+
+            tmpEngine.AddLogHandler((IExternalValue value) =>
+            {
+                Assert.AreEqual(value.Kind, ExternalValueKind.Value);
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+
+                n++;
+            });
+
+            var code = @"CALL{
+
+            }";
+
+            tmpEngine.Query(code);
+
+            n = n - 1;
+
+            Assert.AreEqual(n, 1);
         }
 
         [Test]
@@ -40,7 +121,29 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var n = 1;
+
+            tmpEngine.AddLogHandler((IExternalValue value) =>
+            {
+                Assert.AreEqual(value.Kind, ExternalValueKind.Value);
+
+                switch (n)
+                {
+                    default: throw new ArgumentOutOfRangeException(nameof(n), n, null);
+                }
+
+                n++;
+            });
+
+            var code = @"CALL{
+
+            }";
+
+            tmpEngine.Query(code);
+
+            n = n - 1;
+
+            Assert.AreEqual(n, 1);
         }
     }
 }

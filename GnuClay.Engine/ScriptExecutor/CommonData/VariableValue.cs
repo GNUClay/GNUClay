@@ -21,7 +21,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         private IValue mValue = null;
         public KindOfValue Kind {get; private set;}= KindOfValue.Undefined;
         public ulong TypeKey { get; private set; }
-        public object Value => throw new NotImplementedException();
+        public object Value => mValue.Value;
         public bool IsProperty => false;
 
         public bool IsVariable => true;
