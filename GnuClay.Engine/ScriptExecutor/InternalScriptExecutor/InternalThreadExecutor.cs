@@ -17,7 +17,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         public InternalThreadExecutor(GnuClayEngineComponentContext mainContext, InternalThreadExecutorData data)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) data = {data}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"constructor (2) data = {data}");
 #endif
 
             Init(mainContext);
@@ -29,7 +29,8 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         public InternalThreadExecutor(FunctionModel source, GnuClayEngineComponentContext mainContext, GnuClayThreadExecutionContext executionContext, EntityAction entityAction)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+            //NLog.LogManager.GetCurrentClassLogger().Info("constructor");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"constructor source = {source.ToString(mainContext.DataDictionary, 0)}");
 #endif
 
             Init(mainContext);
@@ -629,7 +630,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return;
             }
 
-            throw new NotImplementedException();
+            mCurrentFrame.CurrentCommandIsNext();
         }
 
         private void ProcessJumpIfFalse()
@@ -641,7 +642,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
                 return;
             }
 
-            throw new NotImplementedException();
+            mCurrentFrame.CurrentCommandIsNext();
         }
 
         private void ProcessJump()

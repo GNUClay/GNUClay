@@ -285,13 +285,24 @@ namespace TSTConsoleWorkBench.ParserExecuting
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine(@"CALL {
                 $var1 = true;
-                if($var1){
-                    $var2 = 1;
-                }else{
-                    $var2 = 2;
+
+                $var2 = 0;
+
+                console.log($var1);
+
+                while($var1)
+                {
+                    $var2 += 1;
+
+                    if($var2 == 3)
+                    {
+                         $var1 = false;
+                    };
+                    
+                    console.log($var2);
                 };
 
-                console.log($var2);
+                console.log($var1);
             }");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");

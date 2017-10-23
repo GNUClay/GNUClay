@@ -346,6 +346,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
                 try
                 {
                     NAssing(leftParam, rightParam, action);
+                    return;
                 }
                 catch (InternalCallException ice)
                 {
