@@ -95,6 +95,12 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         }
                         else
                         {
+#if DEBUG
+                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {rightOpCode}");
+                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator Context.CommonKeysEngine.PointOperatorKey = {Context.CommonKeysEngine.PointOperatorKey}");
+                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {Context.DataDictionary.GetValue(rightOpCode)}");
+#endif
+
                             throw new NotImplementedException();
                         }
                     }

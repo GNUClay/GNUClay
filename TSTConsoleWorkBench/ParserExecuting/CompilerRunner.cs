@@ -284,23 +284,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine(@"CALL {
-                $var1 = true;
-
-                $var2 = 0;
-
-                console.log($var1);
-
-                while($var1)
-                {
-                    $var2 += 1;
-
-                    if($var2 == 3)
-                    {
-                         $var1 = false;
-                    };
-                    
-                    console.log($var2);
-                };
+                $var1 = dog.color = red;
 
                 console.log($var1);
             }");
