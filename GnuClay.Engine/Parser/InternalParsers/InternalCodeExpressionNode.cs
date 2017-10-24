@@ -52,6 +52,51 @@ namespace GnuClay.Engine.Parser.InternalParsers
         }
 
         /// <summary>
+        /// Converts the value of this instance to its equivalent short string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The short string representation of this instance.</returns>
+        public virtual string ToParentTitle(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            var nextIndent = indent + 4;
+            var tmpSb = new StringBuilder();
+
+            if (dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}Begin InternalCodeExpressionNode");
+            }
+
+            tmpSb.AppendLine($"{spacesString}{nameof(Kind)} = {Kind}");
+            tmpSb.AppendLine($"{spacesString}{nameof(TypeKey)} = {TypeKey}");
+            if (dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}TypeName = {dataDictionary.GetValue(TypeKey)}");
+            }
+            tmpSb.AppendLine($"{spacesString}{nameof(Value)} = {Value}");
+            tmpSb.AppendLine($"{spacesString}{nameof(Priority)} = {Priority}");
+            tmpSb.AppendLine($"{spacesString}{nameof(ClassOfNode)} = {ClassOfNode}");
+            tmpSb.AppendLine($"{spacesString}{nameof(IsAsync)} = {IsAsync}");
+
+            if (Parent == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Parent)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Parent)} = {Parent.ToParentTitle(dataDictionary, nextIndent)}");
+            }
+
+            if (dataDictionary != null)
+            {
+                tmpSb.AppendLine($"{spacesString}End InternalCodeExpressionNode");
+            }
+
+            return tmpSb.ToString();
+        }
+
+        /// <summary>
         /// Provides string data for method ToString.
         /// </summary>
         /// <returns>The string representation of this instance.</returns>
@@ -88,6 +133,14 @@ namespace GnuClay.Engine.Parser.InternalParsers
             tmpSb.AppendLine($"{spacesString}{nameof(ClassOfNode)} = {ClassOfNode}");
             tmpSb.AppendLine($"{spacesString}{nameof(IsAsync)} = {IsAsync}");
             
+            if(Parent == null)
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Parent)} = null");
+            }
+            else
+            {
+                tmpSb.AppendLine($"{spacesString}{nameof(Parent)} = {Parent.ToParentTitle(dataDictionary, nextIndent)}");
+            }
             if (Left == null)
             {
                 tmpSb.AppendLine($"{spacesString}{nameof(Left)} = null");

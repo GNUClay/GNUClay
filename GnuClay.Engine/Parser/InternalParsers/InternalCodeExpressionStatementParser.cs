@@ -72,6 +72,9 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         protected override void OnRun()
         {
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
+//#endif
             switch (mState)
             {
                 case State.Init:
@@ -557,7 +560,37 @@ namespace GnuClay.Engine.Parser.InternalParsers
             result.TypeKey = mCommonKeysEngine.PointOperatorKey;
             result.ClassOfNode = ClassOfNode.Point;
 
-            SetAssingToken(result);
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+//            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointToken mCurrentNode = {mCurrentNode.ToString(mDataDictionary, 0)}");
+//#endif
+
+            var classOfCurrentNode = mCurrentNode.ClassOfNode;
+
+            switch(classOfCurrentNode)
+            {
+                case ClassOfNode.Leaf:
+                    var prevNode = mCurrentNode.Parent;
+                    var oldCurrNode = mCurrentNode;
+
+                    mCurrentNode = result;
+
+                    if(prevNode == null)
+                    {
+                        RootNode = mCurrentNode;
+                    }
+                    else
+                    {
+                        mCurrentNode.Parent = prevNode;
+                        prevNode.Right = mCurrentNode;
+                    }
+
+                    mCurrentNode.Left = oldCurrNode;
+                    oldCurrNode.Parent = mCurrentNode;
+                    break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(classOfCurrentNode), classOfCurrentNode, null);
+            }
         }
 
         private void ProcessEqualToken()
@@ -702,6 +735,11 @@ namespace GnuClay.Engine.Parser.InternalParsers
 
         private void SetAssingToken(InternalCodeExpressionNode node)
         {
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken RootNode = {RootNode.ToString(mDataDictionary, 0)}");
+//            NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken mCurrentNode = {mCurrentNode.ToString(mDataDictionary, 0)}");
+//#endif
+
             var classOfCurrentNode = mCurrentNode.ClassOfNode;
 
             switch (classOfCurrentNode)
@@ -727,7 +765,6 @@ namespace GnuClay.Engine.Parser.InternalParsers
                             switch(classOfOldParent)
                             {
                                 case ClassOfNode.Assing:
-                                case ClassOfNode.Point:
                                 case ClassOfNode.Logical:
                                 case ClassOfNode.Arithmetic:
                                     if(ReferenceEquals(tmpOldParent.Right, tmpNode))
@@ -737,6 +774,49 @@ namespace GnuClay.Engine.Parser.InternalParsers
                                         break;
                                     }
                                     throw new NotSupportedException();
+
+                                case ClassOfNode.Point:
+                            
+                                    while (true)
+                                    {
+//#if DEBUG
+//                                        NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken tmpOldParent = {tmpOldParent.ToString(mDataDictionary, 0)}");
+//#endif
+
+                                        if(tmpOldParent.Parent == null)
+                                        {
+                                            mCurrentNode.Parent = tmpOldParent;
+                                            tmpOldParent.Right = mCurrentNode;
+                                            break;
+                                        }
+
+                                        var oldOldParentNode = tmpOldParent.Parent;
+
+                                        classOfOldParent = oldOldParentNode.ClassOfNode;
+
+                                        if (classOfOldParent == ClassOfNode.Point)
+                                        {
+                                            tmpOldParent = oldOldParentNode;
+                                            continue;
+                                        }
+
+                                        var oldRigth = oldOldParentNode.Right;
+
+//#if DEBUG
+//                                        NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken pre oldOldParentNode = {oldOldParentNode.ToString(mDataDictionary, 0)}");
+//#endif
+
+                                        oldOldParentNode.Right = node;
+                                        node.Parent = oldOldParentNode;
+
+                                        node.Left = oldRigth;
+                                        oldRigth.Parent = node;
+//#if DEBUG
+//                                        NLog.LogManager.GetCurrentClassLogger().Info($"SetAssingToken oldOldParentNode = {oldOldParentNode.ToString(mDataDictionary, 0)}");
+//#endif
+                                        break;
+                                    }
+                                    break;
 
                                 default: throw new ArgumentOutOfRangeException(nameof(classOfOldParent), classOfOldParent, null);
                             }

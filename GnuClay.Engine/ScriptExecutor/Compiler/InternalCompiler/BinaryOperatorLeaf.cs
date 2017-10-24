@@ -22,6 +22,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpression ast)
         {
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
+//#endif
+
             BinaryOperator = ast as ASTBinaryOperator;
             Left = BinaryOperator.Left;
             Right = BinaryOperator.Right;
@@ -41,6 +45,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessPointOperator()
         {
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
+//#endif
+
             var parent = BinaryOperator.Parent;
 
             if(parent == null)
@@ -77,7 +85,6 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 }
             }
 
-
             var rigthKind = Right.Kind;
 
             switch (rigthKind)
@@ -95,11 +102,11 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                         }
                         else
                         {
-#if DEBUG
-                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {rightOpCode}");
-                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator Context.CommonKeysEngine.PointOperatorKey = {Context.CommonKeysEngine.PointOperatorKey}");
-                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {Context.DataDictionary.GetValue(rightOpCode)}");
-#endif
+//#if DEBUG
+//                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {rightOpCode}");
+//                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator Context.CommonKeysEngine.PointOperatorKey = {Context.CommonKeysEngine.PointOperatorKey}");
+//                            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator rightOpCode = {Context.DataDictionary.GetValue(rightOpCode)}");
+//#endif
 
                             throw new NotImplementedException();
                         }
@@ -130,6 +137,10 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessUsualOperator()
         {
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
+//#endif
+
             var leaf = new ExpressionNodeLeaf(Context);
             leaf.Run(Left);
             AddCommands(leaf.Result);

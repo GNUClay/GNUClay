@@ -92,7 +92,12 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
             var leftParam = command.GetParam(FirstParamKey);
             var rightParam = command.GetParamValue(SecondParamKey);
 
-            if(leftParam.IsVariable || (leftParam.IsProperty && leftParam.Kind != KindOfValue.Logical))
+//#if DEBUG
+//            NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfAssign leftParam = {leftParam.ToString(DataDictionary, 0)}");
+//            NLog.LogManager.GetCurrentClassLogger().Info($"HandlerOfAssign rightParam = {rightParam.ToString(DataDictionary, 0)}");
+//#endif
+
+            if (leftParam.IsVariable || (leftParam.IsProperty && leftParam.Kind != KindOfValue.Logical))
             {
                 try
                 {
