@@ -360,10 +360,6 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
 
         private void ProcessPushSystemVar()
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("ProcessPushSystemVar");
-#endif
-
             var varKey = mCurrentCommand.Key;
             var tmpVar = mCurrentFrame.mExecutionContext.ContextOfSystemVariables.GetVariable(varKey);
 

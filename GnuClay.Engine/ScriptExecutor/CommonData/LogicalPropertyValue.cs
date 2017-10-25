@@ -23,13 +23,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             TypeKey = typeKey;
             mHolder = holder;
             mPropertyKey = propertyKey;
-            mContect = context;
-            mLogicalStorage = mContect.LogicalStorage;
-            mDataDictionary = mContect.DataDictionary;
-            mCommonValuesFactory = mContect.CommonValuesFactory;
+            mContext = context;
+            mLogicalStorage = mContext.LogicalStorage;
+            mDataDictionary = mContext.DataDictionary;
+            mCommonValuesFactory = mContext.CommonValuesFactory;
         }
 
-        private GnuClayEngineComponentContext mContect = null;
+        private GnuClayEngineComponentContext mContext = null;
         private LogicalStorageEngine mLogicalStorage = null;
         private StorageDataDictionary mDataDictionary = null;
         private CommonValuesFactory mCommonValuesFactory = null;
@@ -50,7 +50,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
             get
             {
-                return ReadFactsReturnFitstFact();
+                return ReadFactsReturnFirstValue();
             }
 
             set
@@ -175,7 +175,7 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             resultOfCalling.Result = targetFact;
         }
 
-        private IValue ReadFactsReturnFitstFact()
+        private IValue ReadFactsReturnFirstValue()
         {
             var selectResult = mLogicalStorage.GetLogicalPropery(mHolder, mPropertyKey);
 
@@ -185,7 +185,20 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
             }
 
             var targetItem = selectResult.Items.First();
-            return new FactValue(targetItem.Key, selectResult, mContect);
+            var targetValue = targetItem.Params.First();
+            var targetValueKind = targetValue.Kind;
+
+            switch(targetValueKind)
+            {
+                case ExpressionNodeKind.Entity:
+                    return new EntityValue(targetValue.EntityKey);
+
+                case ExpressionNodeKind.Value:
+                    return mContext.ConstTypeProvider.CreateConstValue(targetValue.EntityKey, targetValue.Value);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(targetValueKind), targetValueKind, null);
+            }
         }
 
         public IExternalValue ToExternalValue()

@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonClientTypes.CommonData;
+using GnuClay.Engine.LogicalStorage.DebugHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -282,6 +283,10 @@ namespace TSTConsoleWorkBench.ParserExecuting
                 NLog.LogManager.GetCurrentClassLogger().Info($"Case12 value = {value?.ToString(GnuClayEngine.DataDictionary, 0)}");
             });
 
+            var tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            var tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine(@"CALL {
                 console.log(dog.color);
@@ -290,11 +295,20 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
                 console.log($var1);
                 console.log(dog.color);
+
+                $var1 = dog.color = green;
+
+                console.log($var1);
+                console.log(dog.color);
             }");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
 
             GnuClayEngine.Query(tmpSb.ToString());
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             NLog.LogManager.GetCurrentClassLogger().Info("End Case12");
         }

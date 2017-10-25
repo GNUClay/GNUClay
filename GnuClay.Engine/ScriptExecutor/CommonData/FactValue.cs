@@ -22,13 +22,13 @@ namespace GnuClay.Engine.ScriptExecutor.CommonData
         {
         }
 
-        public FactValue(ulong typeKey, SelectResult selctResult, GnuClayEngineComponentContext context)
+        public FactValue(ulong typeKey, SelectResult selectResult, GnuClayEngineComponentContext context)
         {
             mContect = context;
             mDataDictionary = mContect.DataDictionary;
 
             TypeKey = typeKey;
-            mSelectResult = selctResult;
+            mSelectResult = selectResult;
 
             if(TypeKey > 0)
             {

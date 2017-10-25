@@ -23,7 +23,7 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
         public void Run(ASTExpression ast)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
 #endif
 
             BinaryOperator = ast as ASTBinaryOperator;
@@ -46,7 +46,7 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
         private void ProcessPointOperator()
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
 #endif
 
             var parent = BinaryOperator.Parent;
@@ -62,7 +62,7 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
                 var parentKind = parent.Kind;
 
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator parentKind = {parentKind}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator parentKind = {parentKind}");
 #endif
 
                 switch (parentKind)
@@ -89,9 +89,8 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
                     case ExpressionKind.ParamExpression:
                         {
-                            //var parentExpression = parent as ASTParamExpression;
                             var leaf = new ExpressionNodeLeaf(Context);
-                            leaf.RunMember(BinaryOperator.Left);
+                            leaf.Run(BinaryOperator.Left);
                             AddCommands(leaf.Result);
                         }
                         break;
