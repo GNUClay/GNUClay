@@ -284,9 +284,12 @@ namespace TSTConsoleWorkBench.ParserExecuting
 
             var tmpSb = new StringBuilder();
             tmpSb.AppendLine(@"CALL {
+                console.log(dog.color);
+
                 $var1 = dog.color = red;
 
                 console.log($var1);
+                console.log(dog.color);
             }");
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");

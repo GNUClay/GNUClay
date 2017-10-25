@@ -22,9 +22,9 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         public void Run(ASTExpression ast)
         {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
-//#endif
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run ast = {ast.ToString(Context.DataDictionary, 0)}");
+#endif
 
             BinaryOperator = ast as ASTBinaryOperator;
             Left = BinaryOperator.Left;
@@ -45,9 +45,9 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
 
         private void ProcessPointOperator()
         {
-//#if DEBUG
-//            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
-//#endif
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator");
+#endif
 
             var parent = BinaryOperator.Parent;
 
@@ -61,23 +61,38 @@ namespace GnuClay.Engine.ScriptExecutor.Compiler.InternalCompiler
             {
                 var parentKind = parent.Kind;
 
-                switch(parentKind)
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessPointOperator parentKind = {parentKind}");
+#endif
+
+                switch (parentKind)
                 {
                     case ExpressionKind.BinaryOperator:
-                        var parentExpression = parent as ASTBinaryOperator;
-                        var operatorKey = parentExpression.OperatorKey;
-
-                        if(operatorKey == Context.CommonKeysEngine.PointOperatorKey)
                         {
+                            var parentExpression = parent as ASTBinaryOperator;
+                            var operatorKey = parentExpression.OperatorKey;
+
+                            if (operatorKey == Context.CommonKeysEngine.PointOperatorKey)
+                            {
+                                var leaf = new ExpressionNodeLeaf(Context);
+                                leaf.RunMember(BinaryOperator.Left);
+                                AddCommands(leaf.Result);
+                            }
+                            else
+                            {
+                                var leaf = new ExpressionNodeLeaf(Context);
+                                leaf.Run(BinaryOperator.Left);
+                                AddCommands(leaf.Result);
+                            }
+                        }
+                        break;
+
+                    case ExpressionKind.ParamExpression:
+                        {
+                            //var parentExpression = parent as ASTParamExpression;
                             var leaf = new ExpressionNodeLeaf(Context);
                             leaf.RunMember(BinaryOperator.Left);
                             AddCommands(leaf.Result);
-                        }
-                        else
-                        {
-                            var leaf = new ExpressionNodeLeaf(Context);
-                            leaf.Run(BinaryOperator.Left);
-                            AddCommands(leaf.Result); 
                         }
                         break;
 

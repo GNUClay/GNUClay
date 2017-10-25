@@ -20,6 +20,18 @@ namespace GnuClay.Engine.ScriptExecutor.AST.Expressions
         public ASTExpression Value { get; set; }
 
         /// <summary>
+        /// Converts the value of this instance to its equivalent short string representation.
+        /// </summary>
+        /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
+        /// <param name="indent">Indent for better formatting.</param>
+        /// <returns>The short string representation of this instance.</returns>
+        public virtual string ToParentTitle(IReadOnlyStorageDataDictionary dataDictionary, int indent)
+        {
+            var spacesString = _ObjectHelper.CreateSpaces(indent);
+            return $"{spacesString}ParamExpression";
+        }
+
+        /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
         /// </summary>
         /// <param name="dataDictionary">An instance of the DataDictionary for human readable presentation.</param>
