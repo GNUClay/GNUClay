@@ -405,7 +405,7 @@ namespace GnuClay.Engine.StandardLibrary.OperatorsSupport
 
             if (leftParam.IsProperty && leftParam.Kind == KindOfValue.Logical)
             {
-                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.RewriteFactReturnThisFact);
+                var resultOfCalling = leftParam.ExecuteSetLogicalProperty(rightParam, KindOfLogicalOperator.WriteFactReturnThisFact);
                 action.AppendResultFromResultOfCalling(resultOfCalling);
                 return;
             }

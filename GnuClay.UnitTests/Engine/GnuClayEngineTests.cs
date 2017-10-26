@@ -163,7 +163,140 @@ namespace GnuClay.UnitTests.Engine
         {
             var tmpEngine = new GnuClayEngine();
 
-            throw new NotImplementedException();
+            var redKey = tmpEngine.GetKey("red");
+            var greenKey = tmpEngine.GetKey("green");
+            var yellowKey = tmpEngine.GetKey("yellow");
+            var x1VarKey = tmpEngine.GetKey("$X1");
+
+            var tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            var qr_1 = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(qr_1, null);
+            Assert.AreEqual(qr_1.ErrorText, string.Empty);
+            Assert.AreEqual(qr_1.Success, true);
+            Assert.AreEqual(qr_1.HaveBeenFound, false);
+            Assert.AreNotEqual(qr_1.Items, null);
+            Assert.AreEqual(qr_1.Items.Count, 0);
+
+            tmpQueryText = "WRITE {>: {color(dog,red)}}";
+            var tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, false);
+            Assert.AreNotEqual(tmpResult.Items, null);
+            Assert.AreEqual(tmpResult.Items.Count, 0);
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, true);
+
+            Assert.AreEqual(tmpResult.Items.Count, 1);
+
+            var targetItem = tmpResult.Items.Single();
+
+            Assert.AreEqual(targetItem.Params.Count, 1);
+
+            var targetVarItem = targetItem.Params.Single();
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.EntityKey, redKey);
+            Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
+
+            tmpQueryText = "WRITE {>: {color(dog,yellow)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, false);
+            Assert.AreNotEqual(tmpResult.Items, null);
+            Assert.AreEqual(tmpResult.Items.Count, 0);
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            var qr_2 = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(qr_2, null);
+            Assert.AreEqual(qr_2.ErrorText, string.Empty);
+            Assert.AreEqual(qr_2.Success, true);
+            Assert.AreEqual(qr_2.HaveBeenFound, true);
+
+            Assert.AreEqual(qr_2.Items.Count, 2);
+
+            targetItem = qr_2.Items[0];
+
+            Assert.AreEqual(targetItem.Params.Count, 1);
+
+            targetVarItem = targetItem.Params.Single();
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.EntityKey, redKey);
+            Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
+
+            targetItem = qr_2.Items[1];
+
+            Assert.AreEqual(targetItem.Params.Count, 1);
+
+            targetVarItem = targetItem.Params.Single();
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.EntityKey, yellowKey);
+            Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
+
+            tmpQueryText = "REWRITE {>: {color(dog,green)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, false);
+            Assert.AreNotEqual(tmpResult.Items, null);
+            Assert.AreEqual(tmpResult.Items.Count, 0);
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, true);
+
+            Assert.AreEqual(tmpResult.Items.Count, 1);
+
+            targetItem = tmpResult.Items.Single();
+
+            Assert.AreEqual(targetItem.Params.Count, 1);
+
+            targetVarItem = targetItem.Params.Single();
+
+            Assert.AreEqual(targetVarItem.Kind, ExpressionNodeKind.Entity);
+            Assert.AreEqual(targetVarItem.EntityKey, greenKey);
+            Assert.AreEqual(targetVarItem.ParamKey, x1VarKey);
+
+            tmpQueryText = "DELETE {>: {color(dog,$X1)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, false);
+            Assert.AreNotEqual(tmpResult.Items, null);
+            Assert.AreEqual(tmpResult.Items.Count, 0);
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = tmpEngine.Query(tmpQueryText);
+
+            Assert.AreNotEqual(tmpResult, null);
+            Assert.AreEqual(tmpResult.ErrorText, string.Empty);
+            Assert.AreEqual(tmpResult.Success, true);
+            Assert.AreEqual(tmpResult.HaveBeenFound, false);
+            Assert.AreNotEqual(tmpResult.Items, null);
+            Assert.AreEqual(tmpResult.Items.Count, 0);
         }
     }
 }

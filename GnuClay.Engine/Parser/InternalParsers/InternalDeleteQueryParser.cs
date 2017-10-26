@@ -29,7 +29,7 @@ namespace GnuClay.Engine.Parser.InternalParsers
         protected override void OnRun()
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.Content = {CurrToken.Content}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"OnRun mState = {mState} CurrToken.TokenKind = {CurrToken.TokenKind} CurrToken.KeyWordTokenKind = {CurrToken.KeyWordTokenKind} CurrToken.Content = {CurrToken.Content}");
 #endif
 
             switch (mState)
@@ -37,14 +37,21 @@ namespace GnuClay.Engine.Parser.InternalParsers
                 case State.Init:
                     switch (CurrToken.TokenKind)
                     {
-                        case TokenKind.READ:
-                            mState = State.FirstStep;
-                            break;
+                        case TokenKind.Word:
+                            switch(CurrToken.KeyWordTokenKind)
+                            {
+                                case TokenKind.READ:
+                                    mState = State.FirstStep;
+                                    break;
 
-                        case TokenKind.DELETE:
-                            Result.SelectDirectFactsOnly = true;
-                            Result.IsDeleteQuery = true;
-                            mState = State.FirstStep;
+                                case TokenKind.DELETE:
+                                    Result.SelectDirectFactsOnly = true;
+                                    Result.IsDeleteQuery = true;
+                                    mState = State.FirstStep;
+                                    break;
+
+                                default: throw new UnexpectedTokenException(CurrToken);
+                            }
                             break;
 
                         default: throw new UnexpectedTokenException(CurrToken);

@@ -287,35 +287,33 @@ namespace TSTConsoleWorkBench.ParserExecuting
             var tmpResult = GnuClayEngine.Query(tmpQueryText);
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
-            var tmpSb = new StringBuilder();
-            tmpSb.AppendLine(@"CALL {
-                console.log(dog.color);
-
-                $var1 = dog.color = red;
-                $var1 = dog.color += green;
-
-                console.log($var1);
-                console.log(dog.color);
-            }");
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
-
-            GnuClayEngine.Query(tmpSb.ToString());
+            tmpQueryText = "WRITE {>: {color(dog,red)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             tmpQueryText = "READ {>: {color(dog,$X1)}}";
             tmpResult = GnuClayEngine.Query(tmpQueryText);
             NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
-            var code = @"CALL { 
-                console.log(dog.color);
+            tmpQueryText = "WRITE {>: {color(dog,yellow)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
-                $var1 = dog.color -= green;
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
-                console.log($var1);
-                console.log(dog.color);
-            }";
+            tmpQueryText = "REWRITE {>: {color(dog,green)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
-            GnuClayEngine.Query(code);
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            tmpQueryText = "DELETE {>: {color(dog,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
 
             tmpQueryText = "READ {>: {color(dog,$X1)}}";
             tmpResult = GnuClayEngine.Query(tmpQueryText);

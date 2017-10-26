@@ -64,7 +64,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void SetFrame(FunctionModel source, EntityAction entityAction, GnuClayThreadExecutionContext executionContext)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("SetFrame");
+            //NLog.LogManager.GetCurrentClassLogger().Info("SetFrame");
 #endif
             mCurrentFrame = new InternalFunctionExecutionModel(source, entityAction, executionContext);
             mExecutionFramesStack.Push(mCurrentFrame);
@@ -171,7 +171,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
         private void NRun()
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("NRun");
+            //NLog.LogManager.GetCurrentClassLogger().Info("NRun");
 #endif
             mCurrentCommand = mCurrentFrame.CurrentCommand;
 
@@ -182,7 +182,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"NRun Item {mCurrentCommand.ToShortString(mDataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NRun Item {mCurrentCommand.ToShortString(mDataDictionary, 0)}");
 #endif
             var operationCode = mCurrentCommand.OperationCode;
 
@@ -312,7 +312,7 @@ namespace GnuClay.Engine.ScriptExecutor.InternalScriptExecutor
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"NRun ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"NRun ToDbgString = {mCurrentFrame.ToString(mDataDictionary, 0)}");
 #endif
         }
 
