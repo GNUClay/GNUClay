@@ -292,11 +292,7 @@ namespace TSTConsoleWorkBench.ParserExecuting
                 console.log(dog.color);
 
                 $var1 = dog.color = red;
-
-                console.log($var1);
-                console.log(dog.color);
-
-                $var1 = dog.color = green;
+                $var1 = dog.color += green;
 
                 console.log($var1);
                 console.log(dog.color);
@@ -305,6 +301,21 @@ namespace TSTConsoleWorkBench.ParserExecuting
             NLog.LogManager.GetCurrentClassLogger().Info($"Case12 tmpSb.ToString() = {tmpSb.ToString()}");
 
             GnuClayEngine.Query(tmpSb.ToString());
+
+            tmpQueryText = "READ {>: {color(dog,$X1)}}";
+            tmpResult = GnuClayEngine.Query(tmpQueryText);
+            NLog.LogManager.GetCurrentClassLogger().Info(SelectResultDebugHelper.ConvertToString(tmpResult, GnuClayEngine.DataDictionary));
+
+            var code = @"CALL { 
+                console.log(dog.color);
+
+                $var1 = dog.color -= green;
+
+                console.log($var1);
+                console.log(dog.color);
+            }";
+
+            GnuClayEngine.Query(code);
 
             tmpQueryText = "READ {>: {color(dog,$X1)}}";
             tmpResult = GnuClayEngine.Query(tmpQueryText);
