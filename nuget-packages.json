@@ -1,0 +1,8 @@
+{
+  "items": [
+    "GnuClay.CommonUtils",
+    "GnuClay.CommonClientTypes",
+    "GnuClay.Engine",
+    "GnuClay.LocalHost"
+  ]
+}
