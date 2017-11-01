@@ -17,9 +17,9 @@
 		<dependencies>
 	    <dependency id="NLog" version="4.4.0" />
 		<dependency id="Newtonsoft.Json" version="9.0.1" />
-		<dependency id="GnuClay.CommonUtils" version="0.3.0" />
-		<dependency id="GnuClay.CommonClientTypes" version="0.3.0" />
-		<dependency id="GnuClay.Engine" version="0.3.0" />
+		<dependency id="GnuClay.CommonUtils" version="$version$" />
+		<dependency id="GnuClay.CommonClientTypes" version="$version$" />
+		<dependency id="GnuClay.Engine" version="$version$" />
 	</dependencies>	
   </metadata>
   <files>
