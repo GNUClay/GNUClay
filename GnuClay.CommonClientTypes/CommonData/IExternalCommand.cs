@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Represents the information for calling a function.
     /// </summary>
     public interface IExternalCommand: ISmartToString
