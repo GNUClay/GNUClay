@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Represents the value of the variable for the tuple in the query.
     /// </summary>
     public interface IVarResultItem

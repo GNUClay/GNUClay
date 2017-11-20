@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Represents definition of the parameter of the function.
     /// </summary>
     public interface IExternalCommandFilterParam: ILongHashableObject, ISmartToString

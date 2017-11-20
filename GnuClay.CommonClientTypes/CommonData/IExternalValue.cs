@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="e">
     /// Kind of external value.
     /// </summary>
     public enum ExternalValueKind
@@ -22,7 +22,7 @@ namespace GnuClay.CommonClientTypes.CommonData
         Value
     }
 
-    /// <summary>
+    /// <summary type="i">
     /// Interface of value which may go beyond GnuClayEngine.
     /// </summary>
     public interface IExternalValue : ISmartToString

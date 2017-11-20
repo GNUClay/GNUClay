@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
-    /// <summary>
+    /// <summary type="i">
     /// Connector to GnuClay server.
     /// </summary>
     public interface IGnuClayServerConnection: IDisposable

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="d">
     /// Type of the handler which will be executed during the calling of the function.
     /// </summary>
     /// <param name="action">Reference to the handler.</param>
     public delegate void ExternalCommandHandler(IExternalEntityAction action);
 
-    /// <summary>
+    /// <summary type="i">
     /// Represents signature of the function.
     /// </summary>
     public interface IExternalCommandFilter: ILongHashableObject, ISmartToString

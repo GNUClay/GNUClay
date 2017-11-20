@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Contains information about result of executing query.
     /// </summary>
     public interface ISelectResult

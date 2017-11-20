@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// The tuple of found values.
     /// </summary>
     public interface ISelectResultItem

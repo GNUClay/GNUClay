@@ -23,8 +23,14 @@ using System.Threading.Tasks;
 
 namespace GnuClay.Engine
 {
+    /// <summary>
+    /// The facade of the GnuClay library.
+    /// </summary>
     public class GnuClayEngine: IDisposable
     {
+        /// <summary>
+        /// Constructor of the GnuClayEngine.
+        /// </summary>
         public GnuClayEngine()
         {
             CreateContext();
@@ -33,6 +39,9 @@ namespace GnuClay.Engine
 
         private object mLockObj = new object();
 
+        /// <summary>
+        /// Returns reference to instance of <seealso cref="StorageDataDictionary"/>.
+        /// </summary>
         public StorageDataDictionary DataDictionary
         {
             get

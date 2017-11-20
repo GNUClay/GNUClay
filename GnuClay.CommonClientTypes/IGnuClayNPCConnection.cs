@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GnuClay.CommonClientTypes
 {
-    /// <summary>
+    /// <summary type="i">
     /// Connector to NPC that is an instance of the GnuClay engine.
     /// </summary>
     public interface IGnuClayNPCConnection: IReadOnlyStorageDataDictionary, IDisposable

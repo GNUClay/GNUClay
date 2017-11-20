@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes
 {
-    /// <summary>
+    /// <summary type="i">
     /// Provides access to data dictionary.
     /// </summary>
     public interface IReadOnlyStorageDataDictionary

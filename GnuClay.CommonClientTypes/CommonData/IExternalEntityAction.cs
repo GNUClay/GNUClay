@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Represents an action in the GnuClay engine.
     /// The action equals task on C#.
     /// </summary>

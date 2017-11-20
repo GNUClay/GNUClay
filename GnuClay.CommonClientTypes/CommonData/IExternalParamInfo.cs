@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Represents information about param of a function.
     /// </summary>
     public interface IExternalParamInfo: ISmartToString

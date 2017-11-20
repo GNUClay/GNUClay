@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GnuClay.CommonClientTypes.CommonData
 {
-    /// <summary>
+    /// <summary type="i">
     /// Provides methods for getting more long hashcode.
     /// </summary>
     public interface ILongHashableObject
