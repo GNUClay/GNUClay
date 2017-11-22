@@ -1,6 +1,6 @@
 ﻿namespace GnuClay.CommonClientTypes
 {
-    /// <summary>
+    /// <summary type="e">
     /// The kind of some expression node.
     /// </summary>
     public enum ExpressionNodeKind
