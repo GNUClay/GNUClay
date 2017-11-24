@@ -7,6 +7,9 @@ using System.Text;
 
 namespace GnuClay.Engine.LogicalStorage.DebugHelpers
 {
+    /// <summary>
+    /// Helps in debugging of ISelectResult.
+    /// </summary>
     public class SelectResultDebugHelper
     {
         public static string ConvertToString(SelectResult source, IReadOnlyStorageDataDictionary dataDictionary)
@@ -14,6 +17,12 @@ namespace GnuClay.Engine.LogicalStorage.DebugHelpers
             return ConvertToString(LogicalStorageConvertors.Convert(source), dataDictionary);
         }
 
+        /// <summary>
+        /// Converts instance of ISelectResult to human readable string.
+        /// </summary>
+        /// <param name="source">Instance of ISelectResult.</param>
+        /// <param name="dataDictionary">Target data dictionary.</param>
+        /// <returns>An human readable string.</returns>
         public static string ConvertToString(ISelectResult source, IReadOnlyStorageDataDictionary dataDictionary)
         {
             var tmpSb = new StringBuilder();
