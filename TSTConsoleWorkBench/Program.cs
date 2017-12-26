@@ -3,7 +3,6 @@ using GnuClay.Engine.CommonStorages;
 using GnuClay.Engine.LogicalStorage;
 using System;
 using System.Collections.Generic;
-using TSTConsoleWorkBench.Actors;
 using TSTConsoleWorkBench.CommonTST;
 using TSTConsoleWorkBench.LocalHostExecuting;
 using TSTConsoleWorkBench.LogicalStorage.Insert;
@@ -20,7 +19,6 @@ namespace TSTConsoleWorkBench
         static void Main(string[] args)
         {
             TSTCompilerRunner();
-            //TstActorsRunner();
             //TextCGParserRunner();
             //TSTGnuClayLocalServerInheritanceSelectQueryRunner();
             //TSTGnuClayLocalServerInheritanceQueryRunner();
@@ -41,12 +39,6 @@ namespace TSTConsoleWorkBench
         {
             var tmpCompilerRunner = new CompilerRunner();
             tmpCompilerRunner.Run();
-        }
-
-        private static void TstActorsRunner()
-        {
-            var tmpTstActorsRunner = new TstActorsRunner();
-            tmpTstActorsRunner.Run();
         }
 
         private static void TextCGParserRunner()

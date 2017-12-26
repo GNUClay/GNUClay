@@ -51,16 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\LogicalProcessWithOutCommonClass.cs" />
-    <Compile Include="Actors\OtherCommand.cs" />
-    <Compile Include="Actors\OtherEntityAction.cs" />
-    <Compile Include="Actors\SecondaryCommonClassLogicalProcess.cs" />
-    <Compile Include="Actors\StopLogicalProcess.cs" />
-    <Compile Include="Actors\TstActorsRunner.cs" />
-    <Compile Include="Actors\TstPrimaryCommonClass.cs" />
-    <Compile Include="Actors\TstProcess_1.cs" />
-    <Compile Include="Actors\TstSecondaryCommonClass.cs" />
-    <Compile Include="Actors\WalkLogicalProcess.cs" />
     <Compile Include="BaseRunner.cs" />
     <Compile Include="CommonTST\CommonRunner.cs" />
     <Compile Include="LocalHostExecuting\LocalHostRunner.cs" />
@@ -107,10 +97,6 @@
     <ProjectReference Include="..\GnuClay.TextCGParser\GnuClay.TextCGParser.csproj">
       <Project>{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}</Project>
       <Name>GnuClay.TextCGParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquaresWorkBench.Actors\SquaresWorkBench.Actors.csproj">
-      <Project>{1979822c-6f85-4a4a-a126-d687f7cc76f9}</Project>
-      <Name>SquaresWorkBench.Actors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

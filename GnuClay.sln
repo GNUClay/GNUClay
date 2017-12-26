@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.CommonUtils", "GnuClay.CommonUtils\GnuClay.CommonUtils.csproj", "{C7E73B0F-E4DF-4666-82D4-C0B311FCDD4D}"
 EndProject
@@ -20,18 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.UnitTests", "GnuClay.UnitTests\GnuClay.UnitTests.csproj", "{268DB336-B226-45F8-BD5B-A4117B02948C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay.TextCGParser", "GnuClay.TextCGParser\GnuClay.TextCGParser.csproj", "{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Squares", "Squares", "{92DCB126-D492-4C8F-8700-3508ABAC2679}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.CommonEngine", "SquaresWorkBench.CommonEngine\SquaresWorkBench.CommonEngine.csproj", "{63258204-C529-4F4A-872B-CABB772DEC85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalVisualComponents", "SquaresWorkBench.TypicalVisualComponents\SquaresWorkBench.TypicalVisualComponents.csproj", "{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.TypicalCases", "SquaresWorkBench.TypicalCases\SquaresWorkBench.TypicalCases.csproj", "{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.SimpleGUI", "SquaresWorkBench.SimpleGUI\SquaresWorkBench.SimpleGUI.csproj", "{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquaresWorkBench.Actors", "SquaresWorkBench.Actors\SquaresWorkBench.Actors.csproj", "{1979822C-6F85-4A4A-A126-D687F7CC76F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{50A9666D-BD90-4E14-BDB2-B51050580968}"
 	ProjectSection(SolutionItems) = preProject
@@ -76,36 +64,14 @@ Global
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CFA7EAE-FCC1-46EC-B3D5-E88D4852DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63258204-C529-4F4A-872B-CABB772DEC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63258204-C529-4F4A-872B-CABB772DEC85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1979822C-6F85-4A4A-A126-D687F7CC76F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{268DB336-B226-45F8-BD5B-A4117B02948C} = {145C017E-5C9B-4DD0-9528-E968C43D7119}
-		{63258204-C529-4F4A-872B-CABB772DEC85} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
-		{554D51F3-0A82-4FEE-B2CF-7D85B85B8FE8} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
-		{E08D4CEE-F8A2-4482-9963-3CB1C208A2D2} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
-		{0ED096FE-BB89-477C-8A83-5F4C4BA66D43} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
-		{1979822C-6F85-4A4A-A126-D687F7CC76F9} = {92DCB126-D492-4C8F-8700-3508ABAC2679}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAA45031-28B2-4F2D-9938-A12CF1AF58B9}
 	EndGlobalSection
 EndGlobal
