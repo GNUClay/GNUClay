@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DictionaryGenerator
 {
-    public static class ReaderOfRootNounSourceWordItem
+    public class ReaderOfRootVerbSourceWordItem
     {
-        public static RootNounSourceWordItem Read(string source)
+        public static RootVerbSourceWordItem Read(string source)
         {
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
@@ -14,7 +14,7 @@ namespace DictionaryGenerator
 
             var n = 0;
 
-            var result = new RootNounSourceWordItem();
+            var result = new RootVerbSourceWordItem();
 
             var sb = new StringBuilder();
 
@@ -29,9 +29,9 @@ namespace DictionaryGenerator
                 //NLog.LogManager.GetCurrentClassLogger().Info($"Read ch = {ch} charNum = {charNum}");
 #endif
 
-                if(charNum == 32)
+                if (charNum == 32)
                 {
-                    if(lastCharNum != charNum)
+                    if (lastCharNum != charNum)
                     {
                         n++;
                     }
@@ -40,7 +40,7 @@ namespace DictionaryGenerator
 
                     var strValue = sb.ToString();
 
-                    switch(n)
+                    switch (n)
                     {
                         case 1:
                             {
@@ -54,9 +54,9 @@ namespace DictionaryGenerator
                             break;
 
                         default:
-                            if(n > 5)
+                            if (n > 5)
                             {
-                                if(hasAtsign)
+                                if (hasAtsign)
                                 {
                                     var numOfWord = int.Parse(strValue);
                                     result.ParentWordNum = numOfWord;

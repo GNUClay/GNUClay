@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DictionaryGenerator
 {
-    public class RootNounSourceWordItem: IObjectToString
+    public class RootVerbSourceWordItem : IObjectToString
     {
         public int WordNum { get; set; }
         public string Word { get; set; }

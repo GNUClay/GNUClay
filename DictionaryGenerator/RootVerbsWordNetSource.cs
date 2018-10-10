@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace DictionaryGenerator
 {
-    public class RootNounsWordNetSource: BaseRootWordNetSource
+    public class RootVerbsWordNetSource: BaseRootWordNetSource
     {
-        public RootNounsWordNetSource()
-            : base(@"Resources\WordNet\dict\data.noun", 30)
+        public RootVerbsWordNetSource()
+            : base(@"Resources\WordNet\dict\data.verb", 30)
         {
         }
 
-        public List<RootNounSourceWordItem> ReadAll()
+        public List<RootVerbSourceWordItem> ReadAll()
         {
-            var resultList = new List<RootNounSourceWordItem>();
+            var resultList = new List<RootVerbSourceWordItem>();
 
             Read((string currentLine) => {
-                var item = ReaderOfRootNounSourceWordItem.Read(currentLine);
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read currentLine = {currentLine}");
+#endif
+
+                var item = ReaderOfRootVerbSourceWordItem.Read(currentLine);
 
 #if DEBUG
                 //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
@@ -30,12 +33,12 @@ namespace DictionaryGenerator
             return resultList;
         }
 
-        public List<RootNounSourceWordItem> ReadNormalWords(List<RootNounSourceWordItem> source)
+        public List<RootVerbSourceWordItem> ReadNormalWords(List<RootVerbSourceWordItem> source)
         {
             return source.Where(p => !p.Word.Contains("_") && !p.Word.Contains("-") && !char.IsDigit(p.Word[0]) && !char.IsUpper(p.Word[0])).ToList();
         }
 
-        public List<RootNounSourceWordItem> ReadNormalWords()
+        public List<RootVerbSourceWordItem> ReadNormalWords()
         {
             var initItemsList = ReadAll();
 
