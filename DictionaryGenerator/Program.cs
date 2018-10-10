@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DictionaryGenerator
@@ -9,15 +10,19 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
-            //var rootNounsSource = new RootNounsWordNetSource();
+            var totalNamesList = new List<string>();
 
-            //var rootNounsList = rootNounsSource.ReadAll();
+            var rootNounsSource = new RootNounsWordNetSource();
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNounsList.Count = {rootNounsList.Count}");
+            var rootNounsList = rootNounsSource.ReadAll();
 
-            //var namesList = rootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNounsList.Count = {rootNounsList.Count}");
 
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+            var namesList = rootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            totalNamesList.AddRange(namesList);
 
             //foreach (var rootNoun in namesList)
             //{
@@ -27,13 +32,53 @@ namespace DictionaryGenerator
             var rootVerbsSource = new RootVerbsWordNetSource();
             var rootVerbsList = rootVerbsSource.ReadAll();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootVerbsList.Count = {rootVerbsList.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main rootVerbsList.Count = {rootVerbsList.Count}");
 
-            var namesList = rootVerbsSource.ReadNormalWords(rootVerbsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+            namesList = rootVerbsSource.ReadNormalWords(rootVerbsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
 
-            foreach (var rootVerb in namesList)
+            totalNamesList.AddRange(namesList);
+
+            //foreach (var rootVerb in namesList)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+            //}
+
+            var rootAdjSource = new RootAdjWordNetSource();
+            var rootAdjsList = rootAdjSource.ReadAll();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdjsList.Count = {rootAdjsList.Count}");
+
+            namesList = rootAdjSource.ReadNormalWords(rootAdjsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            totalNamesList.AddRange(namesList);
+
+            //foreach (var rootVerb in namesList)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+            //}
+
+            var rootAdvSource = new RootAdvWordNetSource();
+            var rootAdvsList = rootAdvSource.ReadAll();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdvsList.Count = {rootAdvsList.Count}");
+
+            namesList = rootAdvSource.ReadNormalWords(rootAdvsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            totalNamesList.AddRange(namesList);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count = {totalNamesList.Count}");
+
+            totalNamesList = totalNamesList.Distinct().OrderBy(p => p).ToList();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count (2) = {totalNamesList.Count}");
+
+            foreach (var rootVerb in totalNamesList)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
             }

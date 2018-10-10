@@ -14,13 +14,13 @@ namespace DictionaryGenerator
             var rootPath = AppDomain.CurrentDomain.BaseDirectory;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RootNounsWordNetSource rootPath = {rootPath}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RootNounsWordNetSource rootPath = {rootPath}");
 #endif
 
             mPath = Path.Combine(rootPath, localPath);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"RootNounsWordNetSource mPath = {mPath}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"RootNounsWordNetSource mPath = {mPath}");
 #endif
         }
 
