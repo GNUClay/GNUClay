@@ -10,6 +10,13 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
+            TSTReadWordNetSources();
+        }
+
+        private static void TSTReadWordNetSources()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTReadWordNetSources");
+
             var totalNamesList = new List<string>();
 
             var rootNounsSource = new RootNounsWordNetSource();
