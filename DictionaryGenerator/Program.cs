@@ -10,8 +10,39 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
-            TSTVerbAntiStemmer();
+            TSTNounAntiStemmer();
+            //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTNounAntiStemmer()
+        {
+            var baseForm = "boy";
+
+            NTSTNounAntiStemmer(baseForm);
+
+            baseForm = "man";
+
+            NTSTNounAntiStemmer(baseForm);
+
+            baseForm = "boss";
+
+            NTSTNounAntiStemmer(baseForm);
+
+            baseForm = "aircrafts";
+
+            NTSTNounAntiStemmer(baseForm);
+        }
+
+        private static void NTSTNounAntiStemmer(string baseForm)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTNounAntiStemmer baseForm = {baseForm}");
+
+            var nounAntiStemmer = new NounAntiStemmer();
+
+            var multipleForms = nounAntiStemmer.GetMultipleForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTNounAntiStemmer multipleForms = {multipleForms}");
         }
 
         private static void TSTVerbAntiStemmer()

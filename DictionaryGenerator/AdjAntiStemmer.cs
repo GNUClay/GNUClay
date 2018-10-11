@@ -4,7 +4,11 @@ using System.Text;
 
 namespace DictionaryGenerator
 {
-    public class AdjAntiStemmer
+    public class AdjAntiStemmer : BaseAntiStemmer
     {
+        public AdjAntiStemmer()
+            : base(new AdjExceptionCasesWordNetSource())
+        {
+        }
     }
 }
