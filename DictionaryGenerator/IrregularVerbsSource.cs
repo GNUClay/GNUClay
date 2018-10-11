@@ -17,13 +17,13 @@ namespace DictionaryGenerator
 
             Read((string currentLine) => {
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Read currentLine = {currentLine}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read currentLine = {currentLine}");
 #endif
 
                 var item = ReaderOfIrregularVerbItem.Read(currentLine);
 
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
 #endif
 
                 resultList.Add(item);

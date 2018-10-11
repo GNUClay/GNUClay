@@ -30,6 +30,9 @@ namespace DictionaryGenerator
 
             baseForm = "ship";
             NTSTVerbAntiStemmer(baseForm);
+
+            baseForm = "have";
+            NTSTVerbAntiStemmer(baseForm);
         }
 
         private static void NTSTVerbAntiStemmer(string baseForm)
@@ -41,6 +44,18 @@ namespace DictionaryGenerator
             var pastFormsList = verbAntiStemmer.GetPastForms(baseForm);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"NTSTVerbAntiStemmer pastFormsList = {string.Join(',', pastFormsList)}");
+
+            var particleFormsList = verbAntiStemmer.GetParticleForms(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTVerbAntiStemmer particleFormsList = {string.Join(',', particleFormsList)}");
+
+            var ingForm = verbAntiStemmer.GetIngForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTVerbAntiStemmer ingForm = {ingForm}");
+
+            var presentThirdPersonForm = verbAntiStemmer.GetThirdPersonSingularPresent(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTVerbAntiStemmer presentThirdPersonForm = {presentThirdPersonForm}");
         }
 
         private static void TSTReadWordNetSources()
