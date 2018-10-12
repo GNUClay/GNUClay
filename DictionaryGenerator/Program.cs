@@ -10,9 +10,85 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
-            TSTNounAntiStemmer();
+            TSTMakeIrrTable();
+            //TSTAdvAntiStemmer();
+            //TSTAdjAntiStemmer();
+            //TSTNounAntiStemmer();
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTWordsFactory()
+        {
+            var wordsFactory = new WordsFactory();
+            wordsFactory.Run();
+        }
+
+        private static void TSTMakeIrrTable()
+        {
+            var tstMakeIrrTable = new TSTMakeIrrTable();
+            tstMakeIrrTable.Run();
+        }
+
+        private static void TSTAdvAntiStemmer()
+        {
+            var baseForm = "early";
+
+            NTSTAdvAntiStemmer(baseForm);
+
+            baseForm = "well";
+            NTSTAdvAntiStemmer(baseForm);
+
+            baseForm = "fast";
+            NTSTAdvAntiStemmer(baseForm);
+
+            baseForm = "clearly";
+            NTSTAdvAntiStemmer(baseForm);
+        }
+
+        private static void NTSTAdvAntiStemmer(string baseForm)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdvAntiStemmer baseForm = {baseForm}");
+
+            var advAntiStemmer = new AdvAntiStemmer();
+
+            var comparativeForm = advAntiStemmer.GetComparativeForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdvAntiStemmer comparativeForm = {comparativeForm}");
+
+            var superlativeForm = advAntiStemmer.GetSuperlativeForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdvAntiStemmer superlativeForm = {superlativeForm}");
+        }
+
+        private static void TSTAdjAntiStemmer()
+        {
+            var baseForm = "green";
+
+            NTSTAdjAntiStemmer(baseForm);
+
+            baseForm = "good";
+
+            NTSTAdjAntiStemmer(baseForm);
+
+            baseForm = "acer";
+
+            NTSTAdjAntiStemmer(baseForm);
+        }
+
+        private static void NTSTAdjAntiStemmer(string baseForm)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdjAntiStemmer baseForm = {baseForm}");
+
+            var adjAntiStemmer = new AdjAntiStemmer();
+
+            var comparativeForm = adjAntiStemmer.GetComparativeForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdjAntiStemmer comparativeForm = {comparativeForm}");
+
+            var superlativeForm = adjAntiStemmer.GetSuperlativeForm(baseForm);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"NTSTAdjAntiStemmer superlativeForm = {superlativeForm}");
         }
 
         private static void TSTNounAntiStemmer()
@@ -29,7 +105,7 @@ namespace DictionaryGenerator
 
             NTSTNounAntiStemmer(baseForm);
 
-            baseForm = "aircrafts";
+            baseForm = "aircraft";
 
             NTSTNounAntiStemmer(baseForm);
         }

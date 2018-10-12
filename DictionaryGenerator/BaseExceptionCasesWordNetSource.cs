@@ -20,13 +20,13 @@ namespace DictionaryGenerator
                 //NLog.LogManager.GetCurrentClassLogger().Info($"Read currentLine = {currentLine}");
 #endif
 
-                var item = ReaderOfExceptionCaseItem.Read(currentLine);
+                var itemsList = ReaderOfExceptionCaseItem.Read(currentLine);
 
 #if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read itemsList.Count = {itemsList.Count}");
 #endif
 
-                resultList.Add(item);
+                resultList.AddRange(itemsList);
             });
 
             return resultList;

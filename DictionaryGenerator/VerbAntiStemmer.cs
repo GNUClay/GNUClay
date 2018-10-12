@@ -160,11 +160,11 @@ namespace DictionaryGenerator
                 return ingForm;
             }
 
-            var edEndsWord = listOfExeptWords.Where(p => p.EndsWith("ing")).FirstOrDefault();
+            var ingEndsWord = listOfExeptWords.Where(p => p.EndsWith("ing")).FirstOrDefault();
 
-            if (!string.IsNullOrWhiteSpace(edEndsWord))
+            if (!string.IsNullOrWhiteSpace(ingEndsWord))
             {
-                return edEndsWord;
+                return ingEndsWord;
             }
 
             return ingForm;
@@ -218,13 +218,13 @@ namespace DictionaryGenerator
             //}
 #endif
 
-            var edEndsWord = listOfExeptWords.Where(p => p.EndsWith("s")).FirstOrDefault();
+            var sEndsWord = listOfExeptWords.Where(p => p.EndsWith("s")).FirstOrDefault();
 
-            if (!string.IsNullOrWhiteSpace(edEndsWord))
+            if (!string.IsNullOrWhiteSpace(sEndsWord))
             {
-                if(!GetIrregularPastForms(baseForm).Contains(edEndsWord) && !GetIrregularParticleForms(baseForm).Contains(edEndsWord))
+                if(!GetIrregularPastForms(baseForm).Contains(sEndsWord) && !GetIrregularParticleForms(baseForm).Contains(sEndsWord))
                 {
-                    return edEndsWord;
+                    return sEndsWord;
                 }         
             }
 

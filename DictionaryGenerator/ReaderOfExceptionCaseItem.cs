@@ -6,7 +6,7 @@ namespace DictionaryGenerator
 {
     public class ReaderOfExceptionCaseItem
     {
-        public static ExceptionCaseItem Read(string source)
+        public static List<ExceptionCaseItem> Read(string source)
         {
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
@@ -14,12 +14,14 @@ namespace DictionaryGenerator
 
             var n = 0;
 
-            var result = new ExceptionCaseItem();
+            var result = new List<ExceptionCaseItem>();
 
             var sb = new StringBuilder();
             var strValue = string.Empty;
 
             var lastCharNum = 0;
+
+            var exceptValue = string.Empty;
 
             foreach (var ch in source)
             {
@@ -46,7 +48,20 @@ namespace DictionaryGenerator
                     switch (n)
                     {
                         case 1:
-                            result.ExceptWord = strValue.Trim();
+                            exceptValue = strValue.Trim();
+                            break;
+
+                        default:
+                            {
+                                var item = new ExceptionCaseItem();
+                                item.RootWord = strValue.Trim();
+                                item.ExceptWord = exceptValue;
+                                result.Add(item);
+
+#if DEBUG
+                                //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+#endif
+                            }
                             break;
                     }
 
@@ -66,7 +81,16 @@ namespace DictionaryGenerator
             //NLog.LogManager.GetCurrentClassLogger().Info($"Read strValue = {strValue}");
 #endif
 
-            result.RootWord = strValue.Trim();
+            {
+                var item = new ExceptionCaseItem();
+                item.RootWord = strValue.Trim();
+                item.ExceptWord = exceptValue;
+                result.Add(item);
+
+#if DEBUG
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+#endif
+            }
 
             return result;
         }
