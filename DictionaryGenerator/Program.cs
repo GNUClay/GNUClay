@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DictionaryGenerator
 {
@@ -10,12 +11,44 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
-            TSTMakeIrrTable();
+            //TSTRemoveRoundBreackets();
+            TSTWordsFactory();
+            //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
             //TSTNounAntiStemmer();
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTRemoveRoundBreackets()
+        {
+            var str = "beaten(a)";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets str = {str}");
+
+            var rez = Regex.Match(str, @"\(\w+\)");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets rez = {rez}");
+
+            var rezStr = rez.ToString();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets string.IsNullOrWhiteSpace(rezStr) = {string.IsNullOrWhiteSpace(rezStr)}");
+
+            if(!string.IsNullOrWhiteSpace(rezStr))
+            {
+                var index = rez.Index;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets index = {index}");
+
+                var length = rez.Length;
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets length = {length}");
+
+                str = str.Replace(rezStr, string.Empty);
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets str = {str}");
         }
 
         private static void TSTWordsFactory()
@@ -26,8 +59,8 @@ namespace DictionaryGenerator
 
         private static void TSTMakeIrrTable()
         {
-            var tstMakeIrrTable = new TSTMakeIrrTable();
-            tstMakeIrrTable.Run();
+            //var tstMakeIrrTable = new TSTMakeIrrTable();
+            //tstMakeIrrTable.Run();
         }
 
         private static void TSTAdvAntiStemmer()

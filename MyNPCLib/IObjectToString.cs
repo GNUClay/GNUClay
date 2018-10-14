@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DictionaryGenerator
+namespace MyNPCLib
 {
     public interface IObjectToString
     {
@@ -16,10 +16,12 @@ namespace DictionaryGenerator
         {
             return ToString(0u);
         }
+
         public string ToString(uint n)
         {
             return this.GetDefaultToStringInformation(n);
         }
+
         public string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);

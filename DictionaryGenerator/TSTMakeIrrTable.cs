@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,12 +9,14 @@ namespace DictionaryGenerator
     public class TSTMakeIrrTable: BaseRootWordNetSource
     {
         public TSTMakeIrrTable()
-            : base(@"Resources\MyDicts\irverbs.txt", 0)
+            : base(@"Resources\MyDicts\irverbs_1.txt", 0)
         {
         }
 
         public void Run()
         {
+            var sb = new StringBuilder();
+
             Read((string currentLine) => {
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"Read currentLine = {currentLine}");
@@ -24,7 +27,22 @@ namespace DictionaryGenerator
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
 #endif
+
+                sb.AppendLine($"{item.RootWord} {item.PastForm} {item.ParticleForm}");
             });
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Read sb.ToString() = {sb.ToString()}");
+#endif
+
+            using (var fs = File.OpenWrite(@"Resources\MyDicts\irverbs.txt"))
+            {
+                using (var sw = new StreamWriter(fs))
+                {
+                    sw.Write(sb.ToString());
+                    sw.Flush();
+                }
+            }
         }
     }
 
@@ -33,13 +51,13 @@ namespace DictionaryGenerator
         public static IrregularVerbItem Read(string source)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
 #endif
 
-            source = new string(source.Where(p => !char.IsDigit(p) && (int)p != 9 && (int)p < 125 && p != ',').ToArray()).Replace(" / ", "/").Replace("/ ", "/").Replace(" /", "/").Trim();
+            source = new string(source.Where(p => !char.IsDigit(p) && (int)p != 9 && (int)p < 125 && p != ',').ToArray()).Replace(" / ", "/").Replace("/ ", "/").Replace(" /", "/").Replace("/", ",").Trim();
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Read NEXT source = {source}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Read NEXT source = {source}");
 #endif
 
             var n = 0;
@@ -56,7 +74,7 @@ namespace DictionaryGenerator
                 var charNum = (int)ch;
 
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"Read ch = {ch} charNum = {charNum}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"Read ch = {ch} charNum = {charNum}");
 #endif
 
                 if (charNum == 32)
@@ -71,7 +89,7 @@ namespace DictionaryGenerator
                     strValue = sb.ToString();
 
 #if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Read strValue = {strValue}");
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Read strValue = {strValue}");
 #endif
                     switch (n)
                     {
@@ -101,7 +119,7 @@ namespace DictionaryGenerator
             strValue = sb.ToString();
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Read strValue = {strValue}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Read strValue = {strValue}");
 #endif
 
             result.ParticleForm = strValue.Trim();

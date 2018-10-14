@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="CreateReleaseExe.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

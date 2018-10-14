@@ -1,254 +1,254 @@
 ﻿arise arose arisen
 awake awoke awoke
-4 	bear 	bore 	born 	родиться
-5 	beat 	beat 	beaten 	бить
-6 	become 	became 	become 	становиться
-7 	befall 	befell 	befallen 	приключаться
-8 	beget 	begot/begat 	begot/begotten 	вызывать, порождать
-9 	begin 	began 	begun 	начинать
-10 	behold 	beheld 	beheld 	увидеть, узреть
-11 	bend 	bent 	bent 	сгибать
-12 	beseech 	beseech/ besought 	beseech / besought 	просить, умолять
-13 	beset 	beset 	beset 	осаждать, окружать
-14 	bestride 	bestrode 	bestridden 	садиться, сидеть верхом
-15 	bet 	bet 	bet 	держать пари, быть уверенным
-16 	bid 	bid 	bid 	предлагать цену
-17 	bind 	bound 	bound 	вязать, связывать
-18 	bite 	bit 	bitten 	кусать
-19 	bleed 	bled 	bled 	кровоточить
-20 	bless 	blessed/blest 	blessed /blest 	благословлять
-21 	blow 	blew 	blown 	дуть
-22 	break 	broke 	broken 	ломать
-23 	breed 	bred 	bred 	размножать, порождать
-24 	bring 	brought 	brought 	приносить
-25 	broadcast 	broadcast/ broadcasted 	broadcast/ broadcasted 	транслировать
-26 	browbeat 	browbeat 	browbeaten 	запугивать
-27 	build 	built 	built 	строить
-28 	burn 	burnt 	burnt 	гореть, жечь
-29 	burst 	burst 	burst 	взрываться
-30 	bust 	bust/busted 	bust/busted 	сломать, разрушать
-31 	buy 	bought 	bought 	покупать
-32 	cast 	cast 	cast 	бросать, кидать
-33 	catch 	caught 	caught 	ловить
-34 	choose 	chose 	chosen 	выбирать
-35 	cleave 	cleave/clove/cleft 	cleaved/cloven 	раскалывать
-36 	cling 	clung 	clung 	цепляться
-37 	come 	came 	come 	приходить
-38 	cost 	cost 	cost 	стоить
-39 	creep 	crept 	crept 	ползать, красться
-40 	cut 	cut 	cut 	резать
-41 	deal 	dealt 	dealt 	иметь дело
-42 	dig 	dug 	dug 	копать
-43 	do 	did 	done 	делать
-44 	draw 	drew 	drawn 	рисовать
-45 	dream 	dreamt/dreamed 	dreamt/dreamed 	мечтать
-46 	drink 	drank 	drunk 	пить
-47 	drive 	drove 	driven 	вести машину
-48 	dwell 	dwelt 	dwelt 	подробно останавливаться (на чем-то)
-49 	eat 	ate 	eaten 	есть
-50 	fall 	fell 	fallen 	падать
-51 	feed 	fed 	fed 	кормить
-52 	feel 	felt 	felt 	чувствовать
-53 	fight 	fought 	fought 	драться, бороться
-54 	find 	found 	found 	находить
-55 	fit 	fit 	fit 	быть  в пору, подходить
-56 	flee 	fled 	fled 	убегать, спасаться бегством
-57 	fling 	flung 	flung 	бросать, кидать
-58 	fly 	flew 	flown 	летать
-59 	forbear 	forbore 	forborne 	воздерживаться
-60 	forbid 	forbade/forbad 	forbidden 	запрещать
-61 	forecast 	forecast/forecasted 	forecast/forecasted 	предсказывать
-62 	foresee 	foresaw 	foreseen 	предвидеть
-63 	foretell 	foretold 	foretold 	предсказывать
-64 	forget 	forgot 	forgotten 	забывать
-65 	forgive 	forgave 	forgiven 	прощать
-66 	forsake 	forsook 	forsaken 	оставлять, покидать
-67 	forswear 	forswore 	foresworn 	отказываться, отрекаться
-68 	freeze 	froze 	frozen 	замерзать
-69 	gainsay 	gainsaid 	gainsaid 	отрицать, возражать
-70 	get 	got 	got 	получать
-71 	gird 	girt/girded 	girt/girded 	опоясывать, подпоясываться
-72 	give 	gave 	given 	давать
-73 	go 	went 	gone 	идти
-74 	grind 	ground 	ground 	молоть
-75 	grow 	grew 	grown 	расти
-76 	hang 	hung 	hung 	вешать
-77 	have 	had 	had 	иметь
-78 	hew 	hewed 	hewed/hewn 	разрубать рассекать
-79 	hear 	heard 	heard 	слышать
-80 	hide 	hid 	hidden 	прятаться
-81 	hit 	hit 	hit 	ударять
-82 	hold 	held 	held 	держать
-83 	hurt 	hurt 	hurt 	повредить, ушибить
-84 	input 	input/inputted 	input/inputted 	вводить (в компьютер)
-85 	inset 	inset 	inset 	вставлять, вкладывать
-86 	interweave 	interwove 	interwoven 	переплетать, сплетать
-87 	keep 	kept 	kept 	держать
-88 	kneel 	knelt 	knelt 	стоять на коленях
-89 	knit 	knit/knitted 	knit/knitted 	вязать
-90 	know 	knew 	known 	знать
-91 	lay 	laid 	laid 	класть
-92 	lean 	leant/leaned 	leant/leaned 	наклоняться, прислоняться
-93 	lead 	led 	led 	вести
-94 	learn 	learnt/learned 	learnt/learned 	учить (что-либо)
-95 	leap 	leapt/leaped 	leapt/leaped 	прыгать
-96 	leave 	left 	left 	оставлять
-97 	lend 	lent 	lent 	одалживать
-98 	let 	let 	let 	позволять
-99 	lie 	lay 	lain 	лежать
-100 	light 	lit 	lit 	освещать, зажигать
-101 	lose 	lost 	lost 	терять
-102 	make 	made 	made 	делать
-103 	mean 	meant 	meant 	иметь в виду, намереваться
-104 	meet 	met 	met 	встречать
-105 	miscast 	miscast 	miscast 	дать неподходящую роль
-106 	mishear 	misheard 	misheard 	ослышаться
-107 	mishit 	mishit 	mishit 	промахнуться
-108 	mislay 	mislaid 	mislaid 	положить не на место
-109 	mislead 	misled 	misled 	вводить в заблуждение
-110 	misread 	misread 	misread 	прочитать неправильно
-111 	misspell 	misspelt/ misspelled 	misspelt/misspelled 	писать с орфографическими ошибками
-112 	misspend 	misspent 	misspent 	неразумно, зря тратить
-113 	mistake 	mistook 	mistaken 	ошибаться
-114 	misunderstand 	misunderstood 	misunderstood 	неправильно понять
-115 	mow 	mowed 	mowed/mown 	косить
-116 	outbid 	outbid 	outbid 	перебивать цену
-117 	outdo 	outdid 	outdone 	превзойти
-118 	outgrow 	outgrew 	outgrown 	перерастать, вырастать
-119 	output 	output 	output 	выпускать, выводить (данные)
-120 	outrun 	outran 	outrun 	перегонять, опережать
-121 	outsell 	outsold 	outsold 	продаваться лучше
-122 	outshine 	outshone 	outshone 	затмить
-123 	overbid 	overbid 	overbid 	перебивать цену
-124 	overcome 	overcame 	overcome 	преодолевать, побороть
-125 	overdo 	overdid 	overdone 	перестараться
-126 	overeat 	overate 	overeaten 	объедаться, передать
-127 	overfly 	overflew 	overflown 	перелетать
-128 	overhang 	overhung 	overhung 	нависать
-129 	overhear 	overheard 	overheard 	подслушивать
-130 	overlay 	overlaid 	overlaid 	покрывать
-131 	overpay 	overpaid 	overpaid 	переплачивать
-132 	override 	overrode 	overridden 	отменять, перевешивать
-133 	overrun 	overran 	overrun 	переходить пределы, границы
-134 	oversee 	oversaw 	overseen 	наблюдать, надзирать
-135 	overshoot 	overshot 	overshot 	промахнуться
-136 	oversleep 	overslept 	overslept 	проспать
-137 	overtake 	overtook 	overtaken 	обогнать, овладевать
-138 	overthrow 	overthrew 	overthrown 	перебрасывать, свергать
-139 	partake 	partook 	partaken 	принимать участие
-140 	pay 	paid 	paid 	платить
-141 	prepay 	prepaid 	prepaid 	платить вперёд
-142 	prove 	proved 	proved/proven 	доказывать
-143 	put 	put 	put 	класть
-144 	quit 	quit 	quit 	оставлять, покидать
-145 	read 	read 	read 	читать
-146 	rebuild 	rebuilt 	rebuilt 	отстроить заново, реконструировать
-147 	recast 	recast 	recast 	переделывать, изменять
-148 	redo 	redid 	redone 	делать вновь, переделывать
-149 	remake 	remade 	remade 	переделать
-150 	rend 	rent 	rent 	раздирать на куски
-151 	repay 	repaid 	repaid 	выплатить
-152 	rerun 	reran 	rerun 	повторно показывать
-153 	resell 	resold 	resold 	перепродавать
-154 	reset 	reset 	reset 	вновь устанавливать, сбрасывать
-155 	resit 	resat 	resat 	пересдавать
-156 	retake 	retook 	retaken 	пересдавать экзамен
-157 	retell 	retold 	retold 	пересказывать
-158 	rewrite 	rewrote 	rewritten 	переписать
-159 	ride 	rode 	ridden 	ездить верхом
-160 	ring 	rung 	rung 	звонить
-161 	rise 	rose 	risen 	подниматься
-162 	run 	ran 	run 	бежать
-163 	saw 	sawed 	sawn 	пилить
-164 	say 	said 	said 	говорить
-165 	see 	saw 	seen 	видеть
-166 	seek 	sought 	sought 	искать
-167 	sell 	sold 	sold 	продавать
-168 	send 	sent 	sent 	отправлять
-169 	set 	set 	set 	ставить, устанавливать
-170 	sew 	sewed 	sewn 	шить
-171 	shake 	shook 	shaken 	трясти
-172 	shear 	sheared 	sheared/shorn 	стричь
-173 	shed 	shed 	shed 	проливать
-174 	shine 	shone 	shone 	светить, сиять
-175 	shoe 	shod 	shod 	обувать, подковывать
-176 	shoot 	shot 	shot 	стрелять
-177 	show 	showed 	shown 	показывать
-178 	shrink 	shrank/shrunk 	shrunk 	сокращаться, сжиматься
-179 	shut 	shut 	shut 	закрывать
-180 	sing 	sang 	sung 	петь
-181 	sink 	sank 	sunk 	тонуть, погружаться
-182 	sit 	sat 	sat 	сидеть
-183 	slay 	slew 	slain 	убивать, уничтожать
-184 	sleep 	slept 	slept 	спать
-185 	slide 	slid 	slid 	скользить
-186 	sling 	slung 	slung 	бросать, швырять
-187 	slink 	slunk 	slunk 	красться
-188 	slit 	slit 	slit 	рвать
-189 	smell 	smelt 	smelt 	чувствовать запах, нюхать
-190 	smite 	smote 	smitten 	ударять, бить
-191 	sow 	sowed 	sown 	сеять
-192 	speak 	spoke 	spoken 	говорить
-193 	speed 	sped/speeded 	sped/ speeded 	мчаться, спешить
-194 	spend 	spent 	spent 	тратить
-195 	spell 	spelt/spelled 	spelt/spelled 	писать или произносить по буквам
-196 	spill 	spilt/spilled 	spilt/spilled 	проливать
-197 	spin 	spun 	spun 	прясть, оборачиваться
-198 	spit 	spat 	spat 	плевать
-199 	split 	split 	split 	расколоть, разбить
-200 	spoil 	spoilt/spoiled 	spoilt/spoiled 	портить
-201 	spotlight 	spotlit/spotlighted 	spotlit/spotlighted 	осветить
-202 	spread 	spread 	spread 	распространяться
-203 	spring 	sprang 	sprung 	бросаться, возникнуть
-204 	stand 	stood 	stood 	стоять
-205 	stick 	stuck 	stuck 	приклеивать, сдержаться
-206 	sting 	stung 	stung 	жалить
-207 	stink 	stank/stunk 	stunk 	вонять
-208 	steal 	stole 	stolen 	красть
-209 	strew 	strewed 	strewn 	разбрасывать
-210 	stride 	strode 	stridden 	шагать
-211 	strike 	struck 	struck 	ударять, бить
-212 	string 	strung 	strung 	натягивать, нанизывать
-213 	strive 	strove 	striven 	стараться
-214 	sublet 	sublet 	sublet 	сдавать в субаренду
-215 	swear 	swore 	sworn 	клясться, ругаться
-216 	sweep 	swept 	swept 	подметать, мчаться
-217 	swell 	swelled 	swollen 	разбухать
-218 	swim 	swam 	swum 	плавать
-219 	swing 	swung 	swung 	качаться, вертеться
-220 	take 	took 	taken 	брать
-221 	teach 	taught 	taught 	обучать
-222 	tear 	tore 	torn 	рвать
-223 	tell 	told 	told 	сказать
-224 	think 	thought 	thought 	думать
-225 	thrive 	throve/thrived 	thriven/thrived 	преуспевать, процветать
-226 	throw 	threw 	thrown 	бросать
-227 	thrust 	thrust 	thrust 	толкать, засовывать
-228 	tread 	trod 	trodden 	ступать, наступать
-229 	unbend 	unbent 	unbent 	выпрямляться, разгибаться
-230 	undercut 	undercut 	undercut 	подрезать, сбивать цены
-231 	undergo 	underwent 	undergone 	испытывать, подвергаться
-232 	underlie 	underlay 	underlain 	лежать в основе
-233 	underpay 	underpaid 	underpaid 	недоплачивать
-234 	undersell 	undersold 	undersold 	продавать дешевле
-235 	understand 	understood 	understood 	понимать
-236 	underwrite 	underwrote 	underwritten 	подписывать, гарантировать
-237 	undertake 	undertook 	undertaken 	предпринимать, совершать
-238 	undo 	undid 	undone 	расстёгивать, развязывать
-239 	unwind 	unwound 	unwound 	разматывать
-240 	uphold 	upheld 	upheld 	поддерживать, одобрять
-241 	upset 	upset 	upset 	опрокидывать, расстраивать
-242 	wake 	woke 	woken 	просыпаться, будить
-243 	waylay 	waylaid 	waylaid 	подстерегать
-244 	wear 	wore 	worn 	носить (одежду)
-245 	weave 	wove 	woven 	ткать, плести
-246 	wed 	wed/wedded 	wed/wedded 	жениться, выходить замуж
-247 	weep 	wept 	wept 	плакать
-248 	wet 	wet/wetted 	wet/wetted 	мочить, смачивать
-249 	win 	won 	won 	выигрывать
-250 	wind 	wound 	wound 	обматывать, заводить (часы)
-251 	withdraw 	withdrew 	withdrawn 	взять назад
-252 	withhold 	withheld 	withheld 	воздерживаться, удерживать
-253 	withstand 	withstood 	withstood 	выдержать, противостоять
-254 	wring 	wrung 	wrung 	крутить, жать
-255 	write 	wrote 	written 	писать
+bear bore born
+beat beat beaten
+become became become
+befall befell befallen
+beget begot,begat begot,begotten
+begin began begun
+behold beheld beheld
+bend bent bent
+beseech beseech,besought beseech,besought
+beset beset beset
+bestride bestrode bestridden
+bet bet bet
+bid bid bid
+bind bound bound
+bite bit bitten
+bleed bled bled
+bless blessed,blest blessed,blest
+blow blew blown
+break broke broken
+breed bred bred
+bring brought brought
+broadcast broadcast,broadcasted broadcast,broadcasted
+browbeat browbeat browbeaten
+build built built
+burn burnt burnt
+burst burst burst
+bust bust,busted bust,busted
+buy bought bought
+cast cast cast
+catch caught caught
+choose chose chosen
+cleave cleave,clove,cleft cleaved,cloven
+cling clung clung
+come came come
+cost cost cost
+creep crept crept
+cut cut cut
+deal dealt dealt
+dig dug dug
+do did done
+draw drew drawn
+dream dreamt,dreamed dreamt,dreamed
+drink drank drunk
+drive drove driven
+dwell dwelt dwelt
+eat ate eaten
+fall fell fallen
+feed fed fed
+feel felt felt
+fight fought fought
+find found found
+fit fit fit
+flee fled fled
+fling flung flung
+fly flew flown
+forbear forbore forborne
+forbid forbade,forbad forbidden
+forecast forecast,forecasted forecast,forecasted
+foresee foresaw foreseen
+foretell foretold foretold
+forget forgot forgotten
+forgive forgave forgiven
+forsake forsook forsaken
+forswear forswore foresworn
+freeze froze frozen
+gainsay gainsaid gainsaid
+get got got
+gird girt,girded girt,girded
+give gave given
+go went gone
+grind ground ground
+grow grew grown
+hang hung hung
+have had had
+hew hewed hewed,hewn
+hear heard heard
+hide hid hidden
+hit hit hit
+hold held held
+hurt hurt hurt
+input input,inputted input,inputted
+inset inset inset
+interweave interwove interwoven
+keep kept kept
+kneel knelt knelt
+knit knit,knitted knit,knitted
+know knew known
+lay laid laid
+lean leant,leaned leant,leaned
+lead led led
+learn learnt,learned learnt,learned
+leap leapt,leaped leapt,leaped
+leave left left
+lend lent lent
+let let let
+lie lay lain
+light lit lit
+lose lost lost
+make made made
+mean meant meant
+meet met met
+miscast miscast miscast
+mishear misheard misheard
+mishit mishit mishit
+mislay mislaid mislaid
+mislead misled misled
+misread misread misread
+misspell misspelt,misspelled misspelt,misspelled
+misspend misspent misspent
+mistake mistook mistaken
+misunderstand misunderstood misunderstood
+mow mowed mowed,mown
+outbid outbid outbid
+outdo outdid outdone
+outgrow outgrew outgrown
+output output output
+outrun outran outrun
+outsell outsold outsold
+outshine outshone outshone
+overbid overbid overbid
+overcome overcame overcome
+overdo overdid overdone
+overeat overate overeaten
+overfly overflew overflown
+overhang overhung overhung
+overhear overheard overheard
+overlay overlaid overlaid
+overpay overpaid overpaid
+override overrode overridden
+overrun overran overrun
+oversee oversaw overseen
+overshoot overshot overshot
+oversleep overslept overslept
+overtake overtook overtaken
+overthrow overthrew overthrown
+partake partook partaken
+pay paid paid
+prepay prepaid prepaid
+prove proved proved,proven
+put put put
+quit quit quit
+read read read
+rebuild rebuilt rebuilt
+recast recast recast
+redo redid redone
+remake remade remade
+rend rent rent
+repay repaid repaid
+rerun reran rerun
+resell resold resold
+reset reset reset
+resit resat resat
+retake retook retaken
+retell retold retold
+rewrite rewrote rewritten
+ride rode ridden
+ring rung rung
+rise rose risen
+run ran run
+saw sawed sawn
+say said said
+see saw seen
+seek sought sought
+sell sold sold
+send sent sent
+set set set
+sew sewed sewn
+shake shook shaken
+shear sheared sheared,shorn
+shed shed shed
+shine shone shone
+shoe shod shod
+shoot shot shot
+show showed shown
+shrink shrank,shrunk shrunk
+shut shut shut
+sing sang sung
+sink sank sunk
+sit sat sat
+slay slew slain
+sleep slept slept
+slide slid slid
+sling slung slung
+slink slunk slunk
+slit slit slit
+smell smelt smelt
+smite smote smitten
+sow sowed sown
+speak spoke spoken
+speed sped,speeded sped,speeded
+spend spent spent
+spell spelt,spelled spelt,spelled
+spill spilt,spilled spilt,spilled
+spin spun spun
+spit spat spat
+split split split
+spoil spoilt,spoiled spoilt,spoiled
+spotlight spotlit,spotlighted spotlit,spotlighted
+spread spread spread
+spring sprang sprung
+stand stood stood
+stick stuck stuck
+sting stung stung
+stink stank,stunk stunk
+steal stole stolen
+strew strewed strewn
+stride strode stridden
+strike struck struck
+string strung strung
+strive strove striven
+sublet sublet sublet
+swear swore sworn
+sweep swept swept
+swell swelled swollen
+swim swam swum
+swing swung swung
+take took taken
+teach taught taught
+tear tore torn
+tell told told
+think thought thought
+thrive throve,thrived thriven,thrived
+throw threw thrown
+thrust thrust thrust
+tread trod trodden
+unbend unbent unbent
+undercut undercut undercut
+undergo underwent undergone
+underlie underlay underlain
+underpay underpaid underpaid
+undersell undersold undersold
+understand understood understood
+underwrite underwrote underwritten
+undertake undertook undertaken
+undo undid undone
+unwind unwound unwound
+uphold upheld upheld
+upset upset upset
+wake woke woken
+waylay waylaid waylaid
+wear wore worn
+weave wove woven
+wed wed,wedded wed,wedded
+weep wept wept
+wet wet,wetted wet,wetted
+win won won
+wind wound wound
+withdraw withdrew withdrawn
+withhold withheld withheld
+withstand withstood withstood
+wring wrung wrung
+write wrote written
