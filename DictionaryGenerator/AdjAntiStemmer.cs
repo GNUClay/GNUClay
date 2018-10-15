@@ -15,7 +15,7 @@ namespace DictionaryGenerator
         public string GetComparativeForm(string baseForm)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetComparativeForm baseForm = {baseForm}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetComparativeForm baseForm = {baseForm}");
 #endif
 
             var comparativeForm = GetIrregularComparativeForm(baseForm);
@@ -31,7 +31,7 @@ namespace DictionaryGenerator
         public string GetSuperlativeForm(string baseForm)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetSuperlativeForm baseForm = {baseForm}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"GetSuperlativeForm baseForm = {baseForm}");
 #endif
             var superlativeForm = GetIrregularSuperlativeForm(baseForm);
 

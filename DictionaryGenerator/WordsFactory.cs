@@ -117,7 +117,23 @@ namespace DictionaryGenerator
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");       
 #endif
+        }
+
+        private WordFrame GetWordFrame(string word)
+        {
+            if (mWordsDictData.WordsDict.ContainsKey(word))
+            {
+                return mWordsDictData.WordsDict[word];
+            }
+
+            var wordFrame = new WordFrame();
+            mWordsDictData.WordsDict[word] = wordFrame;
+            wordFrame.Word = word;
+            wordFrame.GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>();
+
+            return wordFrame;
         }
 
         private void ProcessRootWordName(string rootWord)
@@ -134,67 +150,173 @@ namespace DictionaryGenerator
                 rootWord = rootWord.Replace(rezStr, string.Empty);
             }
 
+            var rootWordFrame = new WordFrame();
+            mWordsDictData.WordsDict[rootWord] = rootWordFrame;
+            rootWordFrame.Word = rootWord;
+            rootWordFrame.GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>();
+
             if (mRootNounDict.ContainsKey(rootWord))
             {
-                ProcessNoun(rootWord);
+                ProcessNoun(rootWord, rootWordFrame);
             }
 
             if (mRootVerbsDict.ContainsKey(rootWord))
             {
-                if(rootWord == "be")
-                {
-                    ProcessBe();
-                    return;
-                }
-
-                if (rootWord == "have")
-                {
-                    ProcessHave();
-                    return;
-                }
-
-                ProcessVerb(rootWord);
+                ProcessVerb(rootWord, rootWordFrame);
             }
 
             if (mRootAdjsDict.ContainsKey(rootWord))
             {
-                ProcessAdj(rootWord);
+                ProcessAdj(rootWord, rootWordFrame);
             }
 
             if (mRootAdvsDict.ContainsKey(rootWord))
             {
-                ProcessAdv(rootWord);
+                ProcessAdv(rootWord, rootWordFrame);
             }
         }
 
-        private void ProcessNoun(string rootWord)
+        private void ProcessNoun(string rootWord, WordFrame rootWordFrame)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun rootWord = {rootWord}");
 #endif
             mTotalCount++;
 
+            var rootGrammaticalWordFrame = new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,//tmp?
+                LogicalMeaning = new List<string>()
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
             var multipleForms = mNounAntiStemmer.GetMultipleForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun multipleForms = {multipleForms}");
 
+            var wordFrame = GetWordFrame(multipleForms);
+
+            var secondGrammaticalWordFrame = new NounGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Number = GrammaticalNumberOfWord.Plural,
+                IsCountable = true,//tmp?
+                LogicalMeaning = new List<string>()
+            };
+
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
             mTotalCount++;
         }
 
-        private void ProcessVerb(string rootWord)
+        private void ProcessVerb(string rootWord, WordFrame rootWordFrame)
         {
+            if (rootWord == "be")
+            {
+                ProcessBe(rootWordFrame);
+                return;
+            }
+
+            if(rootWord == "can")
+            {
+                ProcessCan(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "could")
+            {
+                ProcessCould(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "may")
+            {
+                ProcessMay(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "must")
+            {
+                ProcessMust(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "would")
+            {
+                ProcessWould(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "should")
+            {
+                ProcessShould(rootWordFrame);
+                return;
+            }
+
+            if(rootWord == "shell")
+            {
+                ProcessShell(rootWordFrame);
+                return;
+            }
+            
+            if (rootWord == "will")
+            {
+                ProcessWill(rootWordFrame);
+                return;
+            }
+
+            if (rootWord == "have")
+            {
+                ProcessHave(rootWordFrame);
+                return;
+            }
+
+            if(rootWord == "do")
+            {
+                ProcessDo(rootWordFrame);
+                return;
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb rootWord = {rootWord}");
 #endif
             mTotalCount++;
 
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                LogicalMeaning = new List<string>()
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
             var pastFormsList = mVerbAntiStemmer.GetPastForms(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb pastFormsList = {string.Join(',', pastFormsList)}");
 
+            foreach(var pastForm in pastFormsList)
+            {
+                var wordFrame = GetWordFrame(pastForm);
+                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
+                secondGrammaticalWordFrame.Tense = GrammaticalTenses.Past;
+                secondGrammaticalWordFrame.VerbType = VerbType.Form_2;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            }
+
             var particleFormsList = mVerbAntiStemmer.GetParticleForms(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb particleFormsList = {string.Join(',', particleFormsList)}");
+
+            foreach(var particleForm in pastFormsList)
+            {
+                var wordFrame = GetWordFrame(particleForm);
+                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
+                secondGrammaticalWordFrame.VerbType = VerbType.Form_3;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            }
 
             mTotalCount += particleFormsList.Count;
 
@@ -204,68 +326,407 @@ namespace DictionaryGenerator
 
             mTotalCount++;
 
+            {
+                var wordFrame = GetWordFrame(ingForm);
+                var secondGrammaticalWordFrame = new NounGrammaticalWordFrame();
+                secondGrammaticalWordFrame.Number = GrammaticalNumberOfWord.Singular;
+                secondGrammaticalWordFrame.IsGerund = true;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            }
+
             var presentThirdPersonForm = mVerbAntiStemmer.GetThirdPersonSingularPresent(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb presentThirdPersonForm = {presentThirdPersonForm}");
 
             mTotalCount++;
+
+            {
+                var wordFrame = GetWordFrame(presentThirdPersonForm);
+                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
+                secondGrammaticalWordFrame.Tense = GrammaticalTenses.Present;
+                secondGrammaticalWordFrame.Person = GrammaticalPerson.Third;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            }
         }
 
-        private void ProcessBe()
+        private void ProcessBe(WordFrame rootWordFrame)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessBe");
 #endif
+
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
+            var rootWord = "be";
+
+            var word = "been";
+            var wordFrame = GetWordFrame(word);
+
+            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                VerbType = VerbType.Form_3
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "am";
+
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Present,
+                Number = GrammaticalNumberOfWord.Singular,
+                Person = GrammaticalPerson.First
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "is";
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Present,
+                Number = GrammaticalNumberOfWord.Singular,
+                Person = GrammaticalPerson.Second
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "are";
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Present,
+                Number = GrammaticalNumberOfWord.Plural,
+                Person = GrammaticalPerson.Third
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "was";
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Past,
+                Number = GrammaticalNumberOfWord.Singular
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "were";
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Past,
+                Number = GrammaticalNumberOfWord.Plural
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "being";
+
+            wordFrame = GetWordFrame(word);
+            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
+            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
+            secondGrammaticalWordFrame_1.IsGerund = true;
+            secondGrammaticalWordFrame_1.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
         }
 
-        private void ProcessHave()
+        private void ProcessCan(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessCould(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessMay(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessMust(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessWould(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessShell(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessShould(WordFrame rootWordFrame)
+        {
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                IsModal = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessWill(WordFrame rootWordFrame)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessWill");
+#endif
+
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                RootWord = "be",
+                IsFormOfToBe = true,
+                Tense = GrammaticalTenses.Future
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+        }
+
+        private void ProcessHave(WordFrame rootWordFrame)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessHave");
 #endif
+
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToHave = true
+            };
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
+            var rootWord = "have";
+            var word = "has";
+
+            var wordFrame = GetWordFrame(word);
+            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToHave = true,
+                Tense = GrammaticalTenses.Present,
+                Person = GrammaticalPerson.Third
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "had";
+
+            wordFrame = GetWordFrame(word);
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToHave = true,
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2             
+            };
+
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToHave = true,
+                VerbType = VerbType.Form_3
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "having";
+
+            wordFrame = GetWordFrame(word);
+            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
+            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
+            secondGrammaticalWordFrame_1.IsGerund = true;
+            secondGrammaticalWordFrame_1.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
         }
 
-        private void ProcessAdj(string rootWord)
+        private void ProcessDo(WordFrame rootWordFrame)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("ProcessDo");
+#endif
+
+            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToDo = true
+            };
+
+            var rootWord = "do";
+            var word = "does";
+
+            var wordFrame = GetWordFrame(word);
+            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToDo = true,
+                Tense = GrammaticalTenses.Present,
+                Person = GrammaticalPerson.Third
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "did";
+            wordFrame = GetWordFrame(word);
+
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToDo = true,
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2
+            };
+
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "done";
+            wordFrame = GetWordFrame(word);
+
+            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            {
+                IsFormOfToDo = true,
+                VerbType = VerbType.Form_3
+            };
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
+            word = "doing";
+
+            wordFrame = GetWordFrame(word);
+            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
+            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
+            secondGrammaticalWordFrame_1.IsGerund = true;
+            secondGrammaticalWordFrame_1.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
+        }
+
+        private void ProcessAdj(string rootWord, WordFrame rootWordFrame)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj rootWord = {rootWord}");
 #endif
             mTotalCount++;
 
+            var rootGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
             var comparativeForm = mAdjAntiStemmer.GetComparativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj comparativeForm = {comparativeForm}");
             mTotalCount++;
 
+            var wordFrame = GetWordFrame(comparativeForm);
+            var secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
+            secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+
             var superlativeForm = mAdjAntiStemmer.GetSuperlativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj superlativeForm = {superlativeForm}");
             mTotalCount++;
+
+            wordFrame = GetWordFrame(superlativeForm);
+            secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
+            secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
+            secondGrammaticalWordFrame.RootWord = rootWord;
+            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
         }
 
-        private void ProcessAdv(string rootWord)
+        private void ProcessAdv(string rootWord, WordFrame rootWordFrame)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv rootWord = {rootWord}");
 #endif
             mTotalCount++;
 
+            var rootGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
+
+            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+
             var comparativeForm = mAdvAntiStemmer.GetComparativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv comparativeForm = {comparativeForm}");
 
-            if(string.IsNullOrWhiteSpace(comparativeForm))
+            if(!string.IsNullOrWhiteSpace(comparativeForm))
             {
                 mTotalCount++;
+
+                var wordFrame = GetWordFrame(comparativeForm);
+                var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
+                secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
 
             var superlativeForm = mAdvAntiStemmer.GetSuperlativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv superlativeForm = {superlativeForm}");
 
-            if (string.IsNullOrWhiteSpace(superlativeForm))
+            if (!string.IsNullOrWhiteSpace(superlativeForm))
             {
                 mTotalCount++;
+
+                var wordFrame = GetWordFrame(superlativeForm);
+                var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
+                secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
+                secondGrammaticalWordFrame.RootWord = rootWord;
+                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
         }
     }
