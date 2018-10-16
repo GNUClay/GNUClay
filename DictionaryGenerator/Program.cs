@@ -11,6 +11,7 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
+            //TSTClasses();
             //TSTRemoveRoundBreackets();
             TSTWordsFactory();
             //TSTMakeIrrTable();
@@ -20,6 +21,86 @@ namespace DictionaryGenerator
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
         }
+
+        private static void TSTClasses()
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin TSTClasses");
+
+            //var rootVerbsSource = new RootVerbsWordNetSource();
+            //var rootNounsList = rootVerbsSource.ReadAll().Select(p => (BaseWithParentsSourceWordItem)p).ToList();
+
+            var rootNounsSource = new RootNounsWordNetSource();
+
+            var rootNounsList = rootNounsSource.ReadAll();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNounsList.Count = {rootNounsList.Count}");
+
+            var rootNounClassesFactory = new RootNounClassesFactory(rootNounsList);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNounClassesFactory.Result.Count = {rootNounClassesFactory.Result.Count}");
+
+            //mWordIdDict = rootNounsList.ToDictionary(p => p.WordNum, p => p);
+
+            //foreach(var rootNoun in rootNounsList)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootNoun}");
+
+            //    var fullClassesList = new List<string>();
+
+            //    NFillFullClasses(rootNoun.ParentWordNum, ref fullClassesList);
+
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main fullClassesList.Count = {fullClassesList.Count}");
+
+            //    foreach (var className in fullClassesList)
+            //    {
+            //        NLog.LogManager.GetCurrentClassLogger().Info($"Main className = {className}");
+            //    }
+            //}
+
+            //var namesList = rootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            //foreach (var rootNoun in namesList)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootNoun}");
+            //}
+        }
+
+        //private static Dictionary<int, BaseWithParentsSourceWordItem> mWordIdDict;
+        //private static Dictionary<int, List<string>> mFullClassesDict = new Dictionary<int, List<string>>();
+
+        //private static void NFillFullClasses(int wordNum, ref List<string> fullClassesList)
+        //{
+        //    //NLog.LogManager.GetCurrentClassLogger().Info($"NFillFullClasses wordNum = {wordNum}");
+
+        //    if(wordNum == 0)
+        //    {
+        //        return;
+        //    }
+
+        //    //if(mFullClassesDict.ContainsKey(wordNum))
+        //    //{
+        //    //    var targetClassesList = mFullClassesDict[wordNum];
+        //    //    fullClassesList.AddRange(targetClassesList);
+        //    //    return;
+        //    //}
+
+        //    var targetWord = mWordIdDict[wordNum];
+
+        //    //NLog.LogManager.GetCurrentClassLogger().Info($"NFillFullClasses targetWord = {targetWord}");
+
+        //    if (fullClassesList.Contains(targetWord.Word))
+        //    {
+        //        return;
+        //    }
+
+        //    fullClassesList.Add(targetWord.Word);
+
+        //    //NLog.LogManager.GetCurrentClassLogger().Info($"NFillFullClasses targetWordVar = {targetWordVar}");
+
+        //    NFillFullClasses(targetWord.ParentWordNum, ref fullClassesList);
+        //}
 
         private static void TSTRemoveRoundBreackets()
         {

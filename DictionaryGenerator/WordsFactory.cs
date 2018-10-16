@@ -37,6 +37,8 @@ namespace DictionaryGenerator
         private Dictionary<string, List<RootAdjSourceWordItem>> mRootAdjsDict;
         private Dictionary<string, List<RootAdvSourceWordItem>> mRootAdvsDict;
 
+        private Dictionary<string, List<string>> mNounClassesDict;
+
         private int mTotalCount;
 
         private WordsDictData mWordsDictData;
@@ -46,6 +48,9 @@ namespace DictionaryGenerator
             var totalNamesList = new List<string>();
 
             var rootNounsList = mRootNounsSource.ReadAll();
+
+            var rootNounClassesFactory = new RootNounClassesFactory(rootNounsList);
+            mNounClassesDict = rootNounClassesFactory.Result;
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run rootNounsList.Count = {rootNounsList.Count}");
@@ -115,6 +120,13 @@ namespace DictionaryGenerator
                 ProcessRootWordName(rootName);
             }
 
+            ProcessAllPronouns();
+            ProcessAllPrepositions();
+            ProcessAllConjunctions();
+            ProcessAllInterjections();
+            ProcessAllArticles();
+            ProcessAllNumerals();
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");       
@@ -181,13 +193,40 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun rootWord = {rootWord}");
 #endif
+
+            List<string> logicalMeaning = null;
+
+            if(mNounClassesDict.ContainsKey(rootWord))
+            {
+                logicalMeaning = mNounClassesDict[rootWord];
+            }
+            else
+            {
+                logicalMeaning = new List<string>();
+            }
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun logicalMeaning.Count = {logicalMeaning.Count}");
+
+            foreach (var className in logicalMeaning)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun className = {className}");
+            }
+#endif
+
+            var isCountable = logicalMeaning.Contains("logicalMeaning") || logicalMeaning.Contains("causal_agent");
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun isCountable = {isCountable}");
+#endif
+
             mTotalCount++;
 
             var rootGrammaticalWordFrame = new NounGrammaticalWordFrame()
             {
                 Number = GrammaticalNumberOfWord.Singular,
-                IsCountable = true,//tmp?
-                LogicalMeaning = new List<string>()
+                IsCountable = isCountable,
+                LogicalMeaning = logicalMeaning.ToList()
             };
 
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
@@ -202,8 +241,8 @@ namespace DictionaryGenerator
             {
                 RootWord = rootWord,
                 Number = GrammaticalNumberOfWord.Plural,
-                IsCountable = true,//tmp?
-                LogicalMeaning = new List<string>()
+                IsCountable = isCountable,
+                LogicalMeaning = logicalMeaning.ToList()
             };
 
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
@@ -728,6 +767,48 @@ namespace DictionaryGenerator
                 secondGrammaticalWordFrame.RootWord = rootWord;
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
+        }
+
+        private void ProcessAllPronouns()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPronouns");
+#endif
+        }
+
+        private void ProcessAllPrepositions()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPrepositions");
+#endif
+        }
+
+        private void ProcessAllConjunctions()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllConjunctions");
+#endif
+        }
+
+        private void ProcessAllInterjections()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllInterjections");
+#endif
+        }
+
+        private void ProcessAllArticles()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllArticles");
+#endif
+        }
+
+        private void ProcessAllNumerals()
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllNumerals");
+#endif
         }
     }
 }
