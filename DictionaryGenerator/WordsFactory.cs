@@ -214,7 +214,7 @@ namespace DictionaryGenerator
             }
 #endif
 
-            var isCountable = logicalMeaning.Contains("logicalMeaning") || logicalMeaning.Contains("causal_agent");
+            var isCountable = logicalMeaning.Contains("object") || logicalMeaning.Contains("causal_agent");
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun isCountable = {isCountable}");
@@ -774,6 +774,26 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPronouns");
 #endif
+
+            var wordName = "i";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new PronounGrammaticalWordFrame()
+                    {
+                        TypeOfPronoun = TypeOfPronoun.Personal,
+                        Case = CaseOfPersonalPronoun.Subject,
+                        Person = GrammaticalPerson.First,
+                        Number = GrammaticalNumberOfWord.Singular,
+                        LogicalMeaning = new List<string>()
+                        {
+                            "object"
+                        }
+                    }
+                }
+            };
         }
 
         private void ProcessAllPrepositions()
@@ -781,6 +801,16 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPrepositions");
 #endif
+
+            var wordName = "to";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new PrepositionGrammaticalWordFrame()
+                }
+            };
         }
 
         private void ProcessAllConjunctions()
@@ -802,6 +832,16 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllArticles");
 #endif
+
+            var wordName = "the";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new ArticleGrammaticalWordFrame()
+                }
+            };
         }
 
         private void ProcessAllNumerals()
