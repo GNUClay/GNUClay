@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace DictionaryGenerator
 {
-    public class WordsFactory
+    public partial class WordsFactory
     {
         public WordsFactory()
         {
@@ -767,88 +767,6 @@ namespace DictionaryGenerator
                 secondGrammaticalWordFrame.RootWord = rootWord;
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
-        }
-
-        private void ProcessAllPronouns()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPronouns");
-#endif
-
-            var wordName = "i";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
-            {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Subject,
-                        Person = GrammaticalPerson.First,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
-                }
-            };
-        }
-
-        private void ProcessAllPrepositions()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPrepositions");
-#endif
-
-            var wordName = "to";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
-            {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PrepositionGrammaticalWordFrame()
-                }
-            };
-        }
-
-        private void ProcessAllConjunctions()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllConjunctions");
-#endif
-        }
-
-        private void ProcessAllInterjections()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllInterjections");
-#endif
-        }
-
-        private void ProcessAllArticles()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllArticles");
-#endif
-
-            var wordName = "the";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
-            {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                }
-            };
-        }
-
-        private void ProcessAllNumerals()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllNumerals");
-#endif
         }
     }
 }

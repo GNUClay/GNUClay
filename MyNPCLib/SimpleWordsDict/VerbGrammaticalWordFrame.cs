@@ -18,6 +18,7 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsFormOfToBe { get; set; }
         public bool IsFormOfToHave { get; set; }
         public bool IsFormOfToDo { get; set; }
+        public bool MayHaveGerundOrInfinitiveAfterSelf { get; set; }
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -32,6 +33,7 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsFormOfToBe)} = {IsFormOfToBe}");
             sb.AppendLine($"{spaces}{nameof(IsFormOfToHave)} = {IsFormOfToHave}");
             sb.AppendLine($"{spaces}{nameof(IsFormOfToDo)} = {IsFormOfToDo}");
+            sb.AppendLine($"{spaces}{nameof(MayHaveGerundOrInfinitiveAfterSelf)} = {MayHaveGerundOrInfinitiveAfterSelf}");
             return sb.ToString();
         }
     }

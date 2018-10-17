@@ -11,6 +11,7 @@ namespace MyNPCLib.SimpleWordsDict
         public override bool IsNumeral => true;
         public override NumeralGrammaticalWordFrame AsNumeral => this;
         public NumeralType NumeralType { get; set; } = NumeralType.Undefined;
+        public float? RepresentedNumber { get; set; }
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -18,6 +19,7 @@ namespace MyNPCLib.SimpleWordsDict
             var sb = new StringBuilder();
             sb.Append(base.PropertiesToSting(n));
             sb.AppendLine($"{spaces}{nameof(NumeralType)} = {NumeralType}");
+            sb.AppendLine($"{spaces}{nameof(RepresentedNumber)} = {RepresentedNumber}");
             return sb.ToString();
         }
     }

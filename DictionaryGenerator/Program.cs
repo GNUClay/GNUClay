@@ -11,15 +11,47 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
+            TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
-            TSTWordsFactory();
+            //TSTWordsFactory();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
             //TSTNounAntiStemmer();
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTLogicalMeaningsSource()
+        {
+            var verbLogicalMeaningsSource = new VerbLogicalMeaningsSource();
+
+            var word = "know";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource word = {word}");
+
+            var result = verbLogicalMeaningsSource.GetLogicalMeanings(word);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource result.Count = {result.Count}");
+
+            foreach (var className in result)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource className = {className}");
+            }
+
+            word = "run";
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource word = {word}");
+
+            result = verbLogicalMeaningsSource.GetLogicalMeanings(word);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource result.Count = {result.Count}");
+
+            foreach (var className in result)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTLogicalMeaningsSource className = {className}");
+            }
         }
 
         private static void TSTClasses()
