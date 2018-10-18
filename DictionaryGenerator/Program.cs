@@ -11,16 +11,61 @@ namespace DictionaryGenerator
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
 
-            TSTLogicalMeaningsSource();
+            //TSTSeparateWords();
+            //TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
-            //TSTWordsFactory();
+            TSTWordsFactory();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
             //TSTNounAntiStemmer();
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTSeparateWords()
+        {
+            var rootNounsSource = new RootNounsWordNetSource();
+
+            var rootNounsList = rootNounsSource.ReadAll();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords rootNounsList.Count = {rootNounsList.Count}");
+
+            var usualWordsList = new List<string>();
+            var namesWordsList = new List<string>();
+            var digitsWordsList = new List<string>();
+            var complexWordsList = new List<string>();
+
+            ReaderOfRootSourceWordItemHelper.SeparateWords(rootNounsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords usualWordsList.Count = {usualWordsList.Count}");
+
+            foreach (var word in usualWordsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords word = {word}");
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords namesWordsList.Count = {namesWordsList.Count}");
+
+            foreach (var word in namesWordsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords word = {word}");
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords digitsWordsList.Count = {digitsWordsList.Count}");
+
+            foreach (var word in digitsWordsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords word = {word}");
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords complexWordsList.Count = {complexWordsList.Count}");
+
+            foreach (var word in complexWordsList)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords word = {word}");
+            }
         }
 
         private static void TSTLogicalMeaningsSource()
@@ -323,70 +368,75 @@ namespace DictionaryGenerator
 
             NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNounsList.Count = {rootNounsList.Count}");
 
-            var namesList = rootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
-
-            totalNamesList.AddRange(namesList);
-
-            //foreach (var rootNoun in namesList)
-            //{
-            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootNoun}");
-            //}
-
-            var rootVerbsSource = new RootVerbsWordNetSource();
-            var rootVerbsList = rootVerbsSource.ReadAll();
-
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Main rootVerbsList.Count = {rootVerbsList.Count}");
-
-            namesList = rootVerbsSource.ReadNormalWords(rootVerbsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
-
-            totalNamesList.AddRange(namesList);
-
-            //foreach (var rootVerb in namesList)
-            //{
-            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
-            //}
-
-            var rootAdjSource = new RootAdjWordNetSource();
-            var rootAdjsList = rootAdjSource.ReadAll();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdjsList.Count = {rootAdjsList.Count}");
-
-            namesList = rootAdjSource.ReadNormalWords(rootAdjsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
-
-            totalNamesList.AddRange(namesList);
-
-            //foreach (var rootVerb in namesList)
-            //{
-            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
-            //}
-
-            var rootAdvSource = new RootAdvWordNetSource();
-            var rootAdvsList = rootAdvSource.ReadAll();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdvsList.Count = {rootAdvsList.Count}");
-
-            namesList = rootAdvSource.ReadNormalWords(rootAdvsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
-
-            totalNamesList.AddRange(namesList);
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count = {totalNamesList.Count}");
-
-            totalNamesList = totalNamesList.Distinct().OrderBy(p => p).ToList();
-
-            NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count (2) = {totalNamesList.Count}");
-
-            foreach (var rootVerb in totalNamesList)
+            foreach (var rootNoun in rootNounsList)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootNoun}");
             }
+
+            //var namesList = rootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            //totalNamesList.AddRange(namesList);
+
+            ////foreach (var rootNoun in namesList)
+            ////{
+            ////    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootNoun}");
+            ////}
+
+            //var rootVerbsSource = new RootVerbsWordNetSource();
+            //var rootVerbsList = rootVerbsSource.ReadAll();
+
+            ////NLog.LogManager.GetCurrentClassLogger().Info($"Main rootVerbsList.Count = {rootVerbsList.Count}");
+
+            //namesList = rootVerbsSource.ReadNormalWords(rootVerbsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            //totalNamesList.AddRange(namesList);
+
+            ////foreach (var rootVerb in namesList)
+            ////{
+            ////    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+            ////}
+
+            //var rootAdjSource = new RootAdjWordNetSource();
+            //var rootAdjsList = rootAdjSource.ReadAll();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdjsList.Count = {rootAdjsList.Count}");
+
+            //namesList = rootAdjSource.ReadNormalWords(rootAdjsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            //totalNamesList.AddRange(namesList);
+
+            ////foreach (var rootVerb in namesList)
+            ////{
+            ////    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+            ////}
+
+            //var rootAdvSource = new RootAdvWordNetSource();
+            //var rootAdvsList = rootAdvSource.ReadAll();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main rootAdvsList.Count = {rootAdvsList.Count}");
+
+            //namesList = rootAdvSource.ReadNormalWords(rootAdvsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main namesList.Count = {namesList.Count}");
+
+            //totalNamesList.AddRange(namesList);
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count = {totalNamesList.Count}");
+
+            //totalNamesList = totalNamesList.Distinct().OrderBy(p => p).ToList();
+
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Main totalNamesList.Count (2) = {totalNamesList.Count}");
+
+            //foreach (var rootVerb in totalNamesList)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"Main rootNoun = {rootVerb}");
+            //}
         }
     }
 }

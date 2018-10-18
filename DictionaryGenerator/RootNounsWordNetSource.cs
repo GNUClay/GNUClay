@@ -29,17 +29,5 @@ namespace DictionaryGenerator
 
             return resultList;
         }
-
-        public List<RootNounSourceWordItem> ReadNormalWords(List<RootNounSourceWordItem> source)
-        {
-            return source.Where(p => !p.Word.Contains("_") && !p.Word.Contains("-") && !char.IsDigit(p.Word[0]) && !char.IsUpper(p.Word[0])).ToList();
-        }
-
-        public List<RootNounSourceWordItem> ReadNormalWords()
-        {
-            var initItemsList = ReadAll();
-
-            return ReadNormalWords(initItemsList);
-        }
     }
 }

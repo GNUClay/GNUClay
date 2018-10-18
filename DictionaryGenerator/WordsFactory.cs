@@ -45,7 +45,10 @@ namespace DictionaryGenerator
 
         public void Run()
         {
-            var totalNamesList = new List<string>();
+            var usualWordsList = new List<string>();
+            var namesWordsList = new List<string>();
+            var digitsWordsList = new List<string>();
+            var complexWordsList = new List<string>();
 
             var rootNounsList = mRootNounsSource.ReadAll();
 
@@ -55,23 +58,27 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run rootNounsList.Count = {rootNounsList.Count}");
 #endif
-            var namesList = mRootNounsSource.ReadNormalWords(rootNounsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+            ReaderOfRootSourceWordItemHelper.SeparateWords(rootNounsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run namesList.Count = {namesList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords usualWordsList.Count = {usualWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords namesWordsList.Count = {namesWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords digitsWordsList.Count = {digitsWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords complexWordsList.Count = {complexWordsList.Count}");
 #endif
-            totalNamesList.AddRange(namesList);
 
             mRootNounDict = rootNounsList.GroupBy(p => p.Word).ToDictionary(p => p.Key, p => p.ToList());
 
             var rootVerbsList = mRootVerbsSource.ReadAll();
 
-            namesList = mRootVerbsSource.ReadNormalWords(rootVerbsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+            ReaderOfRootSourceWordItemHelper.SeparateWords(rootVerbsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run namesList.Count = {namesList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords usualWordsList.Count = {usualWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords namesWordsList.Count = {namesWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords digitsWordsList.Count = {digitsWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords complexWordsList.Count = {complexWordsList.Count}");
 #endif
-            totalNamesList.AddRange(namesList);
 
             mRootVerbsDict = rootVerbsList.GroupBy(p => p.Word).ToDictionary(p => p.Key, p => p.ToList());
 
@@ -80,12 +87,15 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run rootAdjsList.Count = {rootAdjsList.Count}");
 #endif
-            namesList = mRootAdjSource.ReadNormalWords(rootAdjsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            ReaderOfRootSourceWordItemHelper.SeparateWords(rootAdjsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run namesList.Count = {namesList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords usualWordsList.Count = {usualWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords namesWordsList.Count = {namesWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords digitsWordsList.Count = {digitsWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords complexWordsList.Count = {complexWordsList.Count}");
 #endif
-            totalNamesList.AddRange(namesList);
 
             mRootAdjsDict = rootAdjsList.GroupBy(p => p.Word).ToDictionary(p => p.Key, p => p.ToList());
 
@@ -94,27 +104,39 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run rootAdvsList.Count = {rootAdvsList.Count}");
 #endif
-            namesList = mRootAdvSource.ReadNormalWords(rootAdvsList).Select(p => p.Word).Distinct().OrderBy(p => p).ToList();
+
+            ReaderOfRootSourceWordItemHelper.SeparateWords(rootAdvsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run namesList.Count = {namesList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords usualWordsList.Count = {usualWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords namesWordsList.Count = {namesWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords digitsWordsList.Count = {digitsWordsList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSeparateWords complexWordsList.Count = {complexWordsList.Count}");
 #endif
-            totalNamesList.AddRange(namesList);
 
             mRootAdvsDict = rootAdvsList.GroupBy(p => p.Word).ToDictionary(p => p.Key, p => p.ToList());
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run totalNamesList.Count = {totalNamesList.Count}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run usualWordsList.Count = {usualWordsList.Count}");
 #endif
-            totalNamesList = totalNamesList.Distinct().OrderBy(p => p).ToList();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run totalNamesList.Count (2) = {totalNamesList.Count}");
-#endif
-
+            
             mWordsDictData = new WordsDictData();
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
+            mWordsDictData.NamesList = new List<string>();
 
+            //ProcessUsualWords(usualWordsList);
+            ProcessNames(namesWordsList);
+            ProcessDigits(digitsWordsList);
+            ProcessComplexPhrases(complexWordsList);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");       
+#endif
+        }
+
+        private void ProcessUsualWords(List<string> totalNamesList)
+        {
             foreach (var rootName in totalNamesList)
             {
                 ProcessRootWordName(rootName);
@@ -126,11 +148,6 @@ namespace DictionaryGenerator
             ProcessAllInterjections();
             ProcessAllArticles();
             ProcessAllNumerals();
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");       
-#endif
         }
 
         private WordFrame GetWordFrame(string word)

@@ -85,6 +85,7 @@ namespace DictionaryGenerator
                 sb.Append(ch);
             }
 
+            ReaderOfRootSourceWordItemHelper.FillMetrixOfSourceWordNetItem(result);
             return result;
         }
     }
