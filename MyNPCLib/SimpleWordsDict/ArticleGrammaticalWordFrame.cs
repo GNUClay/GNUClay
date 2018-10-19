@@ -12,6 +12,8 @@ namespace MyNPCLib.SimpleWordsDict
         public override ArticleGrammaticalWordFrame AsArticle => this;
         public GrammaticalNumberOfWord Number { get; set; } = GrammaticalNumberOfWord.Neuter;
         public bool IsDeterminer => true;
+        public KindOfArticle Kind { get; set; } = KindOfArticle.Unknown;
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -20,6 +22,7 @@ namespace MyNPCLib.SimpleWordsDict
             sb.Append(base.PropertiesToSting(n));
             sb.AppendLine($"{spaces}{nameof(Number)} = {Number}");
             sb.AppendLine($"{spaces}{nameof(IsDeterminer)} = {IsDeterminer}");
+            sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             return sb.ToString();
         }
     }

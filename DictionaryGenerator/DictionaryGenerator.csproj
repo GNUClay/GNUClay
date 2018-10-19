@@ -34,7 +34,7 @@
     <None Update="Resources\MyDicts\irverbs.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\MyDicts\MayHasGerundOrInfinitiveAfterSelf.txt">
+    <None Update="Resources\MyDicts\MayHaveGerundOrInfinitiveAfterSelf.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\WordNet\dict\adj.exc">

@@ -20,6 +20,50 @@ namespace DictionaryGenerator
                 GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
                 {
                     new ArticleGrammaticalWordFrame()
+                    {
+                        Kind = KindOfArticle.Definite
+                    }
+                }
+            };
+
+            wordName = "a";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new ArticleGrammaticalWordFrame()
+                    {
+                        Number = GrammaticalNumberOfWord.Singular
+                        Kind = KindOfArticle.Indefinite
+                    }
+                }
+            };
+
+            wordName = "an";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new ArticleGrammaticalWordFrame()
+                    {
+                        Number = GrammaticalNumberOfWord.Singular
+                        Kind = KindOfArticle.Indefinite
+                    }
+                }
+            };
+
+            wordName = "no";
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new ArticleGrammaticalWordFrame()
+                    {
+                        Kind = KindOfArticle.Negative
+                    }
                 }
             };
         }

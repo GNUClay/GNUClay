@@ -20,6 +20,13 @@ namespace DictionaryGenerator
             mVerbAntiStemmer = new VerbAntiStemmer();
             mAdjAntiStemmer = new AdjAntiStemmer();
             mAdvAntiStemmer = new AdvAntiStemmer();
+
+            mMayHaveGerundOrInfinitiveAfterSelfSource = new MayHasGerundOrInfinitiveAfterSelfSource();
+
+            mVerbLogicalMeaningsSource = new VerbLogicalMeaningsSource();
+
+            mAdjLogicalMeaningsSource = new AdjLogicalMeaningsSource();
+            mAdvLogicalMeaningsSource = new AdvLogicalMeaningsSource();
         }
 
         private RootNounsWordNetSource mRootNounsSource;
@@ -31,6 +38,12 @@ namespace DictionaryGenerator
         private VerbAntiStemmer mVerbAntiStemmer;
         private AdjAntiStemmer mAdjAntiStemmer;
         private AdvAntiStemmer mAdvAntiStemmer;
+
+        private MayHaveGerundOrInfinitiveAfterSelfSource mMayHaveGerundOrInfinitiveAfterSelfSource;
+
+        private VerbLogicalMeaningsSource mVerbLogicalMeaningsSource;
+        private AdjLogicalMeaningsSource mAdjLogicalMeaningsSource;
+        private AdvLogicalMeaningsSource mAdvLogicalMeaningsSource;
 
         private Dictionary<string, List<RootNounSourceWordItem>> mRootNounDict;
         private Dictionary<string, List<RootVerbSourceWordItem>> mRootVerbsDict;
@@ -340,9 +353,13 @@ namespace DictionaryGenerator
 #endif
             mTotalCount++;
 
+            var mayHaveGerundOrInfinitiveAfterSelf = mMayHaveGerundOrInfinitiveAfterSelfSource.ContainsWord(rootWord);
+            var rootLogicalMeaningsList = mVerbLogicalMeaningsSource.GetLogicalMeanings(rootWord);
+
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
-                LogicalMeaning = new List<string>()
+                LogicalMeaning = rootLogicalMeaningsList.ToList(),
+                MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf
             };
 
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
@@ -358,6 +375,8 @@ namespace DictionaryGenerator
                 secondGrammaticalWordFrame.Tense = GrammaticalTenses.Past;
                 secondGrammaticalWordFrame.VerbType = VerbType.Form_2;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
+                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
 
@@ -371,6 +390,8 @@ namespace DictionaryGenerator
                 var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
                 secondGrammaticalWordFrame.VerbType = VerbType.Form_3;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
+                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
 
@@ -388,6 +409,7 @@ namespace DictionaryGenerator
                 secondGrammaticalWordFrame.Number = GrammaticalNumberOfWord.Singular;
                 secondGrammaticalWordFrame.IsGerund = true;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
 
@@ -403,6 +425,8 @@ namespace DictionaryGenerator
                 secondGrammaticalWordFrame.Tense = GrammaticalTenses.Present;
                 secondGrammaticalWordFrame.Person = GrammaticalPerson.Third;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
+                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
         }
@@ -717,7 +741,10 @@ namespace DictionaryGenerator
 #endif
             mTotalCount++;
 
+            var rootLogicalMeaningsList = mAdjLogicalMeaningsSource.GetLogicalMeanings(rootWord);
+
             var rootGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
+            rootGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
 
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
 
@@ -730,6 +757,7 @@ namespace DictionaryGenerator
             var secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
             secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
             secondGrammaticalWordFrame.RootWord = rootWord;
+            secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
 
             var superlativeForm = mAdjAntiStemmer.GetSuperlativeForm(rootWord);
@@ -741,6 +769,7 @@ namespace DictionaryGenerator
             secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
             secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
             secondGrammaticalWordFrame.RootWord = rootWord;
+            secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
         }
 
@@ -751,8 +780,10 @@ namespace DictionaryGenerator
 #endif
             mTotalCount++;
 
-            var rootGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
+            var rootLogicalMeaningsList = mAdvLogicalMeaningsSource.GetLogicalMeanings(rootWord);
 
+            var rootGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
+            rootGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
 
             var comparativeForm = mAdvAntiStemmer.GetComparativeForm(rootWord);
@@ -767,6 +798,7 @@ namespace DictionaryGenerator
                 var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
                 secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
 
@@ -782,6 +814,7 @@ namespace DictionaryGenerator
                 var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
                 secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
                 secondGrammaticalWordFrame.RootWord = rootWord;
+                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
                 wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
             }
         }
