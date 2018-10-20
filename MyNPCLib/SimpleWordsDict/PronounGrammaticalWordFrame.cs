@@ -16,6 +16,7 @@ namespace MyNPCLib.SimpleWordsDict
         public TypeOfPronoun TypeOfPronoun { get; set; } = TypeOfPronoun.Undefined;
         public CaseOfPersonalPronoun Case { get; set; } = CaseOfPersonalPronoun.Undefined;
         public bool IsQuestionWord { get; set; }
+        public bool IsNegation { get; set; }
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -28,6 +29,7 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(TypeOfPronoun)} = {TypeOfPronoun}");
             sb.AppendLine($"{spaces}{nameof(Case)} = {Case}");
             sb.AppendLine($"{spaces}{nameof(IsQuestionWord)} = {IsQuestionWord}");
+            sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
     }

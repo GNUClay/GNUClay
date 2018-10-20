@@ -21,7 +21,7 @@ namespace DictionaryGenerator
             mAdjAntiStemmer = new AdjAntiStemmer();
             mAdvAntiStemmer = new AdvAntiStemmer();
 
-            mMayHaveGerundOrInfinitiveAfterSelfSource = new MayHasGerundOrInfinitiveAfterSelfSource();
+            mMayHaveGerundOrInfinitiveAfterSelfSource = new MayHaveGerundOrInfinitiveAfterSelfSource();
 
             mVerbLogicalMeaningsSource = new VerbLogicalMeaningsSource();
 
@@ -137,7 +137,7 @@ namespace DictionaryGenerator
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
             mWordsDictData.NamesList = new List<string>();
 
-            //ProcessUsualWords(usualWordsList);
+            ProcessUsualWords(usualWordsList);
             ProcessNames(namesWordsList);
             ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
@@ -192,10 +192,7 @@ namespace DictionaryGenerator
                 rootWord = rootWord.Replace(rezStr, string.Empty);
             }
 
-            var rootWordFrame = new WordFrame();
-            mWordsDictData.WordsDict[rootWord] = rootWordFrame;
-            rootWordFrame.Word = rootWord;
-            rootWordFrame.GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>();
+            var rootWordFrame = GetWordFrame(rootWord);
 
             if (mRootNounDict.ContainsKey(rootWord))
             {

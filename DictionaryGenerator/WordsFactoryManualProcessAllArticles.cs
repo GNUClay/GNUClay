@@ -34,7 +34,7 @@ namespace DictionaryGenerator
                 {
                     new ArticleGrammaticalWordFrame()
                     {
-                        Number = GrammaticalNumberOfWord.Singular
+                        Number = GrammaticalNumberOfWord.Singular,
                         Kind = KindOfArticle.Indefinite
                     }
                 }
@@ -48,7 +48,7 @@ namespace DictionaryGenerator
                 {
                     new ArticleGrammaticalWordFrame()
                     {
-                        Number = GrammaticalNumberOfWord.Singular
+                        Number = GrammaticalNumberOfWord.Singular,
                         Kind = KindOfArticle.Indefinite
                     }
                 }
