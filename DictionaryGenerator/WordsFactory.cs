@@ -178,6 +178,22 @@ namespace DictionaryGenerator
             return wordFrame;
         }
 
+        private void AddGrammaticalWordFrame(string word, BaseGrammaticalWordFrame grammaticalWordFrame)
+        {
+            if(string.IsNullOrWhiteSpace(word))
+            {
+                throw new ArgumentNullException(nameof(word));
+            }
+
+            if(grammaticalWordFrame == null)
+            {
+                throw new ArgumentNullException(nameof(grammaticalWordFrame));
+            }
+
+            var wordFrame = GetWordFrame(word);
+            wordFrame.GrammaticalWordFrames.Add(grammaticalWordFrame);
+        }
+
         private void ProcessRootWordName(string rootWord)
         {
 #if DEBUG
@@ -192,30 +208,28 @@ namespace DictionaryGenerator
                 rootWord = rootWord.Replace(rezStr, string.Empty);
             }
 
-            var rootWordFrame = GetWordFrame(rootWord);
-
             if (mRootNounDict.ContainsKey(rootWord))
             {
-                ProcessNoun(rootWord, rootWordFrame);
+                ProcessNoun(rootWord);
             }
 
             if (mRootVerbsDict.ContainsKey(rootWord))
             {
-                ProcessVerb(rootWord, rootWordFrame);
+                ProcessVerb(rootWord);
             }
 
             if (mRootAdjsDict.ContainsKey(rootWord))
             {
-                ProcessAdj(rootWord, rootWordFrame);
+                ProcessAdj(rootWord);
             }
 
             if (mRootAdvsDict.ContainsKey(rootWord))
             {
-                ProcessAdv(rootWord, rootWordFrame);
+                ProcessAdv(rootWord);
             }
         }
 
-        private void ProcessNoun(string rootWord, WordFrame rootWordFrame)
+        private void ProcessNoun(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun rootWord = {rootWord}");
@@ -249,6 +263,8 @@ namespace DictionaryGenerator
 
             mTotalCount++;
 
+            AddGrammaticalWordFrame();
+
             var rootGrammaticalWordFrame = new NounGrammaticalWordFrame()
             {
                 Number = GrammaticalNumberOfWord.Singular,
@@ -277,71 +293,71 @@ namespace DictionaryGenerator
             mTotalCount++;
         }
 
-        private void ProcessVerb(string rootWord, WordFrame rootWordFrame)
+        private void ProcessVerb(string rootWord)
         {
             if (rootWord == "be")
             {
-                ProcessBe(rootWordFrame);
+                ProcessBe(rootWord);
                 return;
             }
 
             if(rootWord == "can")
             {
-                ProcessCan(rootWordFrame);
+                ProcessCan(rootWord);
                 return;
             }
 
             if (rootWord == "could")
             {
-                ProcessCould(rootWordFrame);
+                ProcessCould(rootWord);
                 return;
             }
 
             if (rootWord == "may")
             {
-                ProcessMay(rootWordFrame);
+                ProcessMay(rootWord);
                 return;
             }
 
             if (rootWord == "must")
             {
-                ProcessMust(rootWordFrame);
+                ProcessMust(rootWord);
                 return;
             }
 
             if (rootWord == "would")
             {
-                ProcessWould(rootWordFrame);
+                ProcessWould(rootWord);
                 return;
             }
 
             if (rootWord == "should")
             {
-                ProcessShould(rootWordFrame);
+                ProcessShould(rootWord);
                 return;
             }
 
             if(rootWord == "shell")
             {
-                ProcessShell(rootWordFrame);
+                ProcessShell(rootWord);
                 return;
             }
             
             if (rootWord == "will")
             {
-                ProcessWill(rootWordFrame);
+                ProcessWill(rootWord);
                 return;
             }
 
             if (rootWord == "have")
             {
-                ProcessHave(rootWordFrame);
+                ProcessHave(rootWord);
                 return;
             }
 
             if(rootWord == "do")
             {
-                ProcessDo(rootWordFrame);
+                ProcessDo(rootWord);
                 return;
             }
 
@@ -428,7 +444,7 @@ namespace DictionaryGenerator
             }
         }
 
-        private void ProcessBe(WordFrame rootWordFrame)
+        private void ProcessBe(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessBe");
@@ -523,7 +539,7 @@ namespace DictionaryGenerator
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
         }
 
-        private void ProcessCan(WordFrame rootWordFrame)
+        private void ProcessCan(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -534,7 +550,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessCould(WordFrame rootWordFrame)
+        private void ProcessCould(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -545,7 +561,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessMay(WordFrame rootWordFrame)
+        private void ProcessMay(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -556,7 +572,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessMust(WordFrame rootWordFrame)
+        private void ProcessMust(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -567,7 +583,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessWould(WordFrame rootWordFrame)
+        private void ProcessWould(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -578,7 +594,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessShell(WordFrame rootWordFrame)
+        private void ProcessShell(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -589,7 +605,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessShould(WordFrame rootWordFrame)
+        private void ProcessShould(string rootWord)
         {
             var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
             {
@@ -600,7 +616,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessWill(WordFrame rootWordFrame)
+        private void ProcessWill(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessWill");
@@ -616,7 +632,7 @@ namespace DictionaryGenerator
             rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
         }
 
-        private void ProcessHave(WordFrame rootWordFrame)
+        private void ProcessHave(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessHave");
@@ -673,7 +689,7 @@ namespace DictionaryGenerator
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
         }
 
-        private void ProcessDo(WordFrame rootWordFrame)
+        private void ProcessDo(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessDo");
@@ -731,7 +747,7 @@ namespace DictionaryGenerator
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
         }
 
-        private void ProcessAdj(string rootWord, WordFrame rootWordFrame)
+        private void ProcessAdj(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj rootWord = {rootWord}");
@@ -770,7 +786,7 @@ namespace DictionaryGenerator
             wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
         }
 
-        private void ProcessAdv(string rootWord, WordFrame rootWordFrame)
+        private void ProcessAdv(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv rootWord = {rootWord}");

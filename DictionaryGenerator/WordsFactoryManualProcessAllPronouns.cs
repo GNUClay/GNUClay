@@ -15,47 +15,34 @@ namespace DictionaryGenerator
 
             var wordName = "i";
             var currentRootWord = wordName;
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Personal,
+                Case = CaseOfPersonalPronoun.Subject,
+                Person = GrammaticalPerson.First,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Subject,
-                        Person = GrammaticalPerson.First,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
 
             wordName = "me";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Personal,
+                Case = CaseOfPersonalPronoun.Object,
+                Person = GrammaticalPerson.First,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Object,
-                        Person = GrammaticalPerson.First,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
 
             wordName = "my";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -70,74 +57,55 @@ namespace DictionaryGenerator
             };
 
             wordName = "mine";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Possessive,
-                        Case = CaseOfPersonalPronoun.Undefined,
-                        Person = GrammaticalPerson.First,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                    }
-                }
-            };
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Possessive,
+                Case = CaseOfPersonalPronoun.Undefined,
+                Person = GrammaticalPerson.First,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
+            });
 
             wordName = "myself";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Reflexive,
-                        Case = CaseOfPersonalPronoun.Undefined,
-                        Person = GrammaticalPerson.First,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                    }
-                }
-            };
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Reflexive,
+                Case = CaseOfPersonalPronoun.Undefined,
+                Person = GrammaticalPerson.First,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
+            });
 
             wordName = "you";
             currentRootWord = wordName;
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Personal,
+                Case = CaseOfPersonalPronoun.Subject,
+                Person = GrammaticalPerson.Second,
+                Number = GrammaticalNumberOfWord.Neuter,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Subject,
-                        Person = GrammaticalPerson.Second,
-                        Number = GrammaticalNumberOfWord.Neuter,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    },
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Object,
-                        Person = GrammaticalPerson.Second,
-                        Number = GrammaticalNumberOfWord.Neuter,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
+
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
+            {
+                TypeOfPronoun = TypeOfPronoun.Personal,
+                Case = CaseOfPersonalPronoun.Object,
+                Person = GrammaticalPerson.Second,
+                Number = GrammaticalNumberOfWord.Neuter,
+                LogicalMeaning = new List<string>()
+                {
+                    "object"
+                }
+            });
 
             wordName = "your";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -152,6 +120,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "yours";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -170,6 +139,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "yourself";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -188,6 +158,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "yourselves";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -207,6 +178,7 @@ namespace DictionaryGenerator
 
             wordName = "he";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -228,6 +200,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "him";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -250,66 +223,48 @@ namespace DictionaryGenerator
             };
 
             wordName = "his";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Possessive,
-                        Case = CaseOfPersonalPronoun.Undefined,
-                        Person = GrammaticalPerson.Third,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        Gender = GrammaticalGender.Masculine,
-                        LogicalMeaning = new List<string>()
-                    }
-                }
-            };
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Possessive,
+                Case = CaseOfPersonalPronoun.Undefined,
+                Person = GrammaticalPerson.Third,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Masculine,
+                LogicalMeaning = new List<string>()
+            });
 
             wordName = "himself";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Reflexive,
-                        Case = CaseOfPersonalPronoun.Undefined,
-                        Person = GrammaticalPerson.Third,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        Gender = GrammaticalGender.Masculine,
-                        LogicalMeaning = new List<string>()
-                    }
-                }
-            };
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Reflexive,
+                Case = CaseOfPersonalPronoun.Undefined,
+                Person = GrammaticalPerson.Third,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Masculine,
+                LogicalMeaning = new List<string>()
+            });
 
             wordName = "she";
             currentRootWord = wordName;
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Personal,
+                Case = CaseOfPersonalPronoun.Subject,
+                Person = GrammaticalPerson.Third,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Feminine,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Personal,
-                        Case = CaseOfPersonalPronoun.Subject,
-                        Person = GrammaticalPerson.Third,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        Gender = GrammaticalGender.Feminine,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
 
             wordName = "her";
+            AddGrammaticalWordFrame(wordName, );
+
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -337,6 +292,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "hers";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -356,6 +312,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "herself";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -376,6 +333,9 @@ namespace DictionaryGenerator
 
             wordName = "it";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
+
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -408,6 +368,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "its";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -426,6 +387,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "itself";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -445,6 +407,7 @@ namespace DictionaryGenerator
 
             wordName = "we";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -465,6 +428,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "us";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -486,6 +450,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "our";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -500,6 +465,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "ours";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -518,6 +484,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "ourselves";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -537,6 +504,7 @@ namespace DictionaryGenerator
 
             wordName = "they";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -556,6 +524,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "them";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -576,6 +545,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "their";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -590,6 +560,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "theirs";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -611,6 +582,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "themselves";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -632,6 +604,7 @@ namespace DictionaryGenerator
 
             wordName = "this";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -651,6 +624,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "these";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -672,6 +646,7 @@ namespace DictionaryGenerator
 
             wordName = "that";
             currentRootWord = wordName;
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -691,6 +666,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "those";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -711,6 +687,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "former";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -724,6 +701,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "latter";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -737,6 +715,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "who";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -764,6 +743,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "whom";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -793,6 +773,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "which";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -820,6 +801,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "when";
+            AddGrammaticalWordFrame(wordName, );
             var wordFrame = GetWordFrame(wordName);
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
@@ -831,6 +813,7 @@ namespace DictionaryGenerator
                 }
             });
 
+            AddGrammaticalWordFrame(wordName, );
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
@@ -842,6 +825,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "where";
+            AddGrammaticalWordFrame(wordName, );
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
@@ -852,6 +836,7 @@ namespace DictionaryGenerator
                 }
             });
 
+            AddGrammaticalWordFrame(wordName, );
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
@@ -863,6 +848,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "something";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -881,6 +867,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "anything";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -899,6 +886,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "nothing";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -918,6 +906,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "somewhere";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -936,6 +925,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "anywhere";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -953,6 +943,7 @@ namespace DictionaryGenerator
                 }
             };
             wordName = "nowhere";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -972,6 +963,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "someone";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -990,6 +982,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "anyone";
+            AddGrammaticalWordFrame(wordName, );
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,
@@ -1008,6 +1001,7 @@ namespace DictionaryGenerator
             };
 
             wordName = "what";
+            AddGrammaticalWordFrame(wordName, );
             wordFrame = GetWordFrame(wordName);
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
@@ -1020,6 +1014,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "whose";
+            AddGrammaticalWordFrame(wordName, );
             wordFrame = GetWordFrame(wordName);
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
@@ -1033,6 +1028,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "why";
+            AddGrammaticalWordFrame(wordName, );
             wordFrame = GetWordFrame(wordName);
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {
@@ -1045,6 +1041,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "how";
+            AddGrammaticalWordFrame(wordName, );
             wordFrame = GetWordFrame(wordName);
             wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
             {

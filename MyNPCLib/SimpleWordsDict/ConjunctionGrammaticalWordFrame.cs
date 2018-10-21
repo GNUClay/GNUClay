@@ -10,6 +10,7 @@ namespace MyNPCLib.SimpleWordsDict
         public override GrammaticalPartOfSpeech PartOfSpeech => GrammaticalPartOfSpeech.Conjunction;
         public override bool IsConjunction => true;
         public override ConjunctionGrammaticalWordFrame AsConjunction => this;
+        public KindOfConjunction Kind { get; set; } = KindOfConjunction.Unknown;
 
         public override string PropertiesToSting(uint n)
         {
@@ -17,6 +18,7 @@ namespace MyNPCLib.SimpleWordsDict
             var nextN = n + 4;
             var sb = new StringBuilder();
             sb.Append(base.PropertiesToSting(n));
+            sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             return sb.ToString();
         }
     }

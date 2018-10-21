@@ -14,58 +14,30 @@ namespace DictionaryGenerator
 #endif
 
             var wordName = "the";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                    {
-                        Kind = KindOfArticle.Definite
-                    }
-                }
-            };
+                Kind = KindOfArticle.Definite
+            });
 
             wordName = "a";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                    {
-                        Number = GrammaticalNumberOfWord.Singular,
-                        Kind = KindOfArticle.Indefinite
-                    }
-                }
-            };
+                Number = GrammaticalNumberOfWord.Singular,
+                Kind = KindOfArticle.Indefinite
+            });
 
             wordName = "an";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                    {
-                        Number = GrammaticalNumberOfWord.Singular,
-                        Kind = KindOfArticle.Indefinite
-                    }
-                }
-            };
+                Number = GrammaticalNumberOfWord.Singular,
+                Kind = KindOfArticle.Indefinite
+            });
 
             wordName = "no";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                    {
-                        Kind = KindOfArticle.Negative
-                    }
-                }
-            };
+                Kind = KindOfArticle.Negative
+            });
         }
     }
 }
