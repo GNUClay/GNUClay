@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyNPCLib.SimpleWordsDict;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,14 +9,16 @@ namespace DictionaryGenerator
     {
         private void ProcessAllComplexPronouns()
         {
-
+            var wordName = "no_one";
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
+            {
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
+                {
+                    "object",
+                    "people"
+                }
+            });
         }
     }
 }
-
-/*
-https://en.wikipedia.org/wiki/Pronoun
-
-Indefinite:
-no_one (people)
-*/

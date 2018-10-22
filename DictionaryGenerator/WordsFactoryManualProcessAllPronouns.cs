@@ -671,10 +671,10 @@ namespace DictionaryGenerator
             {
                 TypeOfPronoun = TypeOfPronoun.Indefinite,
                 LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "people"
-                        }
+                {
+                    "object",
+                    "people"
+                }
             });
 
             wordName = "what";
