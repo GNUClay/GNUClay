@@ -150,17 +150,17 @@ namespace DictionaryGenerator
 
         private void ProcessUsualWords(List<string> totalNamesList)
         {
-            foreach (var rootName in totalNamesList)
-            {
-                ProcessRootWordName(rootName);
-            }
-
             ProcessAllPronouns();
             ProcessAllPrepositions();
             ProcessAllConjunctions();
             ProcessAllInterjections();
             ProcessAllArticles();
             ProcessAllNumerals();
+
+            foreach (var rootName in totalNamesList)
+            {
+                ProcessRootWordName(rootName);
+            }
         }
 
         private WordFrame GetWordFrame(string word)
@@ -263,32 +263,24 @@ namespace DictionaryGenerator
 
             mTotalCount++;
 
-            AddGrammaticalWordFrame();
-
-            var rootGrammaticalWordFrame = new NounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new NounGrammaticalWordFrame()
             {
                 Number = GrammaticalNumberOfWord.Singular,
                 IsCountable = isCountable,
                 LogicalMeaning = logicalMeaning.ToList()
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
 
             var multipleForms = mNounAntiStemmer.GetMultipleForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun multipleForms = {multipleForms}");
 
-            var wordFrame = GetWordFrame(multipleForms);
-
-            var secondGrammaticalWordFrame = new NounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(multipleForms, new NounGrammaticalWordFrame()
             {
                 RootWord = rootWord,
                 Number = GrammaticalNumberOfWord.Plural,
                 IsCountable = isCountable,
                 LogicalMeaning = logicalMeaning.ToList()
-            };
-
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            });
 
             mTotalCount++;
         }
@@ -369,13 +361,11 @@ namespace DictionaryGenerator
             var mayHaveGerundOrInfinitiveAfterSelf = mMayHaveGerundOrInfinitiveAfterSelfSource.ContainsWord(rootWord);
             var rootLogicalMeaningsList = mVerbLogicalMeaningsSource.GetLogicalMeanings(rootWord);
 
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 LogicalMeaning = rootLogicalMeaningsList.ToList(),
                 MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
 
             var pastFormsList = mVerbAntiStemmer.GetPastForms(rootWord);
 
@@ -383,14 +373,14 @@ namespace DictionaryGenerator
 
             foreach(var pastForm in pastFormsList)
             {
-                var wordFrame = GetWordFrame(pastForm);
-                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
-                secondGrammaticalWordFrame.Tense = GrammaticalTenses.Past;
-                secondGrammaticalWordFrame.VerbType = VerbType.Form_2;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                AddGrammaticalWordFrame(pastForm, new VerbGrammaticalWordFrame()
+                {
+                    Tense = GrammaticalTenses.Past,
+                    VerbType = VerbType.Form_2,
+                    RootWord = rootWord,
+                    LogicalMeaning = rootLogicalMeaningsList.ToList(),
+                    MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf
+                });
             }
 
             var particleFormsList = mVerbAntiStemmer.GetParticleForms(rootWord);
@@ -399,13 +389,13 @@ namespace DictionaryGenerator
 
             foreach(var particleForm in pastFormsList)
             {
-                var wordFrame = GetWordFrame(particleForm);
-                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
-                secondGrammaticalWordFrame.VerbType = VerbType.Form_3;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                AddGrammaticalWordFrame(particleForm, new VerbGrammaticalWordFrame()
+                {
+                    VerbType = VerbType.Form_3,
+                    RootWord = rootWord,
+                    LogicalMeaning = rootLogicalMeaningsList.ToList(),
+                    MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf
+                });
             }
 
             mTotalCount += particleFormsList.Count;
@@ -416,15 +406,13 @@ namespace DictionaryGenerator
 
             mTotalCount++;
 
+            AddGrammaticalWordFrame(ingForm, new NounGrammaticalWordFrame()
             {
-                var wordFrame = GetWordFrame(ingForm);
-                var secondGrammaticalWordFrame = new NounGrammaticalWordFrame();
-                secondGrammaticalWordFrame.Number = GrammaticalNumberOfWord.Singular;
-                secondGrammaticalWordFrame.IsGerund = true;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
-            }
+                Number = GrammaticalNumberOfWord.Singular,
+                IsGerund = true,
+                RootWord = rootWord,
+                LogicalMeaning = rootLogicalMeaningsList.ToList()
+            });
 
             var presentThirdPersonForm = mVerbAntiStemmer.GetThirdPersonSingularPresent(rootWord);
 
@@ -432,16 +420,14 @@ namespace DictionaryGenerator
 
             mTotalCount++;
 
+            AddGrammaticalWordFrame(presentThirdPersonForm, new VerbGrammaticalWordFrame()
             {
-                var wordFrame = GetWordFrame(presentThirdPersonForm);
-                var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame();
-                secondGrammaticalWordFrame.Tense = GrammaticalTenses.Present;
-                secondGrammaticalWordFrame.Person = GrammaticalPerson.Third;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                secondGrammaticalWordFrame.MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf;
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
-            }
+                Tense = GrammaticalTenses.Present,
+                Person = GrammaticalPerson.Third,
+                RootWord = rootWord,
+                LogicalMeaning = rootLogicalMeaningsList.ToList(),
+                MayHaveGerundOrInfinitiveAfterSelf = mayHaveGerundOrInfinitiveAfterSelf
+            });
         }
 
         private void ProcessBe(string rootWord)
@@ -450,170 +436,144 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessBe");
 #endif
 
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
-
-            var rootWord = "be";
+            });
 
             var word = "been";
-            var wordFrame = GetWordFrame(word);
 
-            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
-                VerbType = VerbType.Form_3
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord
+            });
 
             word = "am";
-
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Present,
                 Number = GrammaticalNumberOfWord.Singular,
-                Person = GrammaticalPerson.First
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Person = GrammaticalPerson.First,
+                RootWord = rootWord
+            });
 
             word = "is";
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Present,
                 Number = GrammaticalNumberOfWord.Singular,
-                Person = GrammaticalPerson.Second
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Person = GrammaticalPerson.Second,
+                RootWord = rootWord
+            });
 
             word = "are";
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Present,
                 Number = GrammaticalNumberOfWord.Plural,
-                Person = GrammaticalPerson.Third
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Person = GrammaticalPerson.Third,
+                RootWord = rootWord
+            });
 
             word = "was";
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Past,
-                Number = GrammaticalNumberOfWord.Singular
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Number = GrammaticalNumberOfWord.Singular,
+                RootWord = rootWord
+            });
 
             word = "were";
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Past,
-                Number = GrammaticalNumberOfWord.Plural
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Number = GrammaticalNumberOfWord.Plural,
+                RootWord = rootWord
+            });
 
             word = "being";
-
-            wordFrame = GetWordFrame(word);
-            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
-            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
-            secondGrammaticalWordFrame_1.IsGerund = true;
-            secondGrammaticalWordFrame_1.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsGerund = true,
+                RootWord = rootWord
+            });
         }
 
         private void ProcessCan(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Present,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessCould(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessMay(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Present,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessMust(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Present,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessWould(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessShell(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Present,
                 IsModal = true
-            };
+            });
 
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Future,
+                IsModal = false
+            });
         }
 
         private void ProcessShould(string rootWord)
         {
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
                 IsModal = true
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessWill(string rootWord)
@@ -622,14 +582,12 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessWill");
 #endif
 
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 RootWord = "be",
                 IsFormOfToBe = true,
                 Tense = GrammaticalTenses.Future
-            };
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            });
         }
 
         private void ProcessHave(string rootWord)
@@ -638,55 +596,44 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessHave");
 #endif
 
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
+                Tense = GrammaticalTenses.Present,
                 IsFormOfToHave = true
-            };
+            });
 
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
-
-            var rootWord = "have";
             var word = "has";
-
-            var wordFrame = GetWordFrame(word);
-            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToHave = true,
                 Tense = GrammaticalTenses.Present,
-                Person = GrammaticalPerson.Third
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Person = GrammaticalPerson.Third,
+                RootWord = rootWord
+            });
 
             word = "had";
-
-            wordFrame = GetWordFrame(word);
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToHave = true,
                 Tense = GrammaticalTenses.Past,
-                VerbType = VerbType.Form_2             
-            };
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord
+            });
 
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
-
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToHave = true,
-                VerbType = VerbType.Form_3
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord
+            });
 
             word = "having";
-
-            wordFrame = GetWordFrame(word);
-            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
-            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
-            secondGrammaticalWordFrame_1.IsGerund = true;
-            secondGrammaticalWordFrame_1.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsGerund = true,
+                RootWord = rootWord
+            });
         }
 
         private void ProcessDo(string rootWord)
@@ -695,56 +642,45 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("ProcessDo");
 #endif
 
-            var rootGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
+                Tense = GrammaticalTenses.Present,
                 IsFormOfToDo = true
-            };
+            });
 
-            var rootWord = "do";
             var word = "does";
-
-            var wordFrame = GetWordFrame(word);
-            var secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToDo = true,
                 Tense = GrammaticalTenses.Present,
-                Person = GrammaticalPerson.Third
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                Person = GrammaticalPerson.Third,
+                RootWord = rootWord
+            });
 
             word = "did";
-            wordFrame = GetWordFrame(word);
-
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToDo = true,
                 Tense = GrammaticalTenses.Past,
-                VerbType = VerbType.Form_2
-            };
-
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord
+            });
 
             word = "done";
-            wordFrame = GetWordFrame(word);
-
-            secondGrammaticalWordFrame = new VerbGrammaticalWordFrame()
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToDo = true,
-                VerbType = VerbType.Form_3
-            };
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord
+            });
 
             word = "doing";
-
-            wordFrame = GetWordFrame(word);
-            var secondGrammaticalWordFrame_1 = new NounGrammaticalWordFrame();
-            secondGrammaticalWordFrame_1.Number = GrammaticalNumberOfWord.Singular;
-            secondGrammaticalWordFrame_1.IsGerund = true;
-            secondGrammaticalWordFrame_1.RootWord = rootWord;
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame_1);
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsGerund = true,
+                RootWord = rootWord
+            });
         }
 
         private void ProcessAdj(string rootWord)
@@ -756,34 +692,34 @@ namespace DictionaryGenerator
 
             var rootLogicalMeaningsList = mAdjLogicalMeaningsSource.GetLogicalMeanings(rootWord);
 
-            var rootGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
-            rootGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            AddGrammaticalWordFrame(rootWord, new AdjectiveGrammaticalWordFrame()
+            {
+                LogicalMeaning = rootLogicalMeaningsList.ToList()
+            });
 
             var comparativeForm = mAdjAntiStemmer.GetComparativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj comparativeForm = {comparativeForm}");
             mTotalCount++;
 
-            var wordFrame = GetWordFrame(comparativeForm);
-            var secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
-            secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            AddGrammaticalWordFrame(comparativeForm, new AdjectiveGrammaticalWordFrame()
+            {
+                Comparison = GrammaticalComparison.Comparative,
+                RootWord = rootWord,
+                LogicalMeaning = rootLogicalMeaningsList.ToList()
+            });
 
             var superlativeForm = mAdjAntiStemmer.GetSuperlativeForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj superlativeForm = {superlativeForm}");
             mTotalCount++;
 
-            wordFrame = GetWordFrame(superlativeForm);
-            secondGrammaticalWordFrame = new AdjectiveGrammaticalWordFrame();
-            secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
-            secondGrammaticalWordFrame.RootWord = rootWord;
-            secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-            wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+            AddGrammaticalWordFrame(superlativeForm, new AdjectiveGrammaticalWordFrame()
+            {
+                Comparison = GrammaticalComparison.Superlative,
+                RootWord = rootWord,
+                LogicalMeaning = rootLogicalMeaningsList.ToList()
+            });
         }
 
         private void ProcessAdv(string rootWord)
@@ -795,9 +731,10 @@ namespace DictionaryGenerator
 
             var rootLogicalMeaningsList = mAdvLogicalMeaningsSource.GetLogicalMeanings(rootWord);
 
-            var rootGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
-            rootGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-            rootWordFrame.GrammaticalWordFrames.Add(rootGrammaticalWordFrame);
+            AddGrammaticalWordFrame(rootWord, new AdverbGrammaticalWordFrame()
+            {
+                LogicalMeaning = rootLogicalMeaningsList.ToList()
+            });
 
             var comparativeForm = mAdvAntiStemmer.GetComparativeForm(rootWord);
 
@@ -807,12 +744,12 @@ namespace DictionaryGenerator
             {
                 mTotalCount++;
 
-                var wordFrame = GetWordFrame(comparativeForm);
-                var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
-                secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Comparative;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                AddGrammaticalWordFrame(comparativeForm, new AdverbGrammaticalWordFrame()
+                {
+                    Comparison = GrammaticalComparison.Comparative,
+                    RootWord = rootWord,
+                    LogicalMeaning = rootLogicalMeaningsList.ToList()
+                });
             }
 
             var superlativeForm = mAdvAntiStemmer.GetSuperlativeForm(rootWord);
@@ -823,12 +760,12 @@ namespace DictionaryGenerator
             {
                 mTotalCount++;
 
-                var wordFrame = GetWordFrame(superlativeForm);
-                var secondGrammaticalWordFrame = new AdverbGrammaticalWordFrame();
-                secondGrammaticalWordFrame.Comparison = GrammaticalComparison.Superlative;
-                secondGrammaticalWordFrame.RootWord = rootWord;
-                secondGrammaticalWordFrame.LogicalMeaning = rootLogicalMeaningsList.ToList();
-                wordFrame.GrammaticalWordFrames.Add(secondGrammaticalWordFrame);
+                AddGrammaticalWordFrame(superlativeForm, new AdverbGrammaticalWordFrame()
+                {
+                    Comparison = GrammaticalComparison.Superlative,
+                    RootWord = rootWord,
+                    LogicalMeaning = rootLogicalMeaningsList.ToList()
+                });
             }
         }
     }

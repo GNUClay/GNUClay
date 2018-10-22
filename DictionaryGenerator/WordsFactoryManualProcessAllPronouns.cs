@@ -42,19 +42,11 @@ namespace DictionaryGenerator
             });
 
             wordName = "my";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new ArticleGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        Kind = KindOfArticle.Definite
-                    }
-                }
-            };
+                RootWord = currentRootWord,
+                Kind = KindOfArticle.Definite
+            });
 
             wordName = "mine";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
@@ -426,206 +418,135 @@ namespace DictionaryGenerator
 
             wordName = "this";
             currentRootWord = wordName;
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "near_object"
-                        }
-                    }
+                    "object",
+                    "near_object"
                 }
-            };
+            });
 
             wordName = "these";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                Number = GrammaticalNumberOfWord.Plural,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        Number = GrammaticalNumberOfWord.Plural,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "near_object"
-                        }
-                    }
+                    "object",
+                    "near_object"
                 }
-            };
+            });
 
             wordName = "that";
             currentRootWord = wordName;
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        Number = GrammaticalNumberOfWord.Singular,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "far_object"
-                        }
-                    }
+                    "object",
+                    "far_object"
                 }
-            };
+            });
 
             wordName = "those";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                RootWord = currentRootWord,
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                Number = GrammaticalNumberOfWord.Plural,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        RootWord = currentRootWord,
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        Number = GrammaticalNumberOfWord.Plural,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "far_object"
-                        }
-                    }
+                    "object",
+                    "far_object"
                 }
-            };
+            });
 
             wordName = "former";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative
-                    }
-                }
-            };
+                TypeOfPronoun = TypeOfPronoun.Demonstrative
+            });
 
             wordName = "latter";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative
-                    }
-                }
-            };
+                TypeOfPronoun = TypeOfPronoun.Demonstrative
+            });
 
             wordName = "who";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    },
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Interrogative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
+
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
+            {
+                TypeOfPronoun = TypeOfPronoun.Interrogative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "object"
+                }
+            });
 
             wordName = "whom";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "as_possesive"
-                        }
-                    },
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Interrogative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "as_possesive"
-                        }
-                    }
+                    "object",
+                    "as_possesive"
                 }
-            };
+            });
+
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
+            {
+                TypeOfPronoun = TypeOfPronoun.Interrogative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "object",
+                    "as_possesive"
+                }
+            });
 
             wordName = "which";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Demonstrative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Demonstrative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    },
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Interrogative,
-                        IsQuestionWord = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object"
-                        }
-                    }
+                    "object"
                 }
-            };
+            });
+
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
+            {
+                TypeOfPronoun = TypeOfPronoun.Interrogative,
+                IsQuestionWord = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "object"
+                }
+            });
 
             wordName = "when";
-            AddGrammaticalWordFrame(wordName, );
-            var wordFrame = GetWordFrame(wordName);
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
                 IsQuestionWord = true,
@@ -635,8 +556,7 @@ namespace DictionaryGenerator
                 }
             });
 
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,
@@ -647,8 +567,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "where";
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
                 IsQuestionWord = true,
@@ -658,8 +577,7 @@ namespace DictionaryGenerator
                 }
             });
 
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,
@@ -668,164 +586,99 @@ namespace DictionaryGenerator
                     "place"
                 }
             });
-
+            
             wordName = "something";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "thing"
-                        }
-                    }
+                    "object",
+                    "thing"
                 }
-            };
+            });
 
             wordName = "anything";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "thing"
-                        }
-                    }
+                    "object",
+                    "thing"
                 }
-            };
+            });
 
             wordName = "nothing";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                IsNegation = true,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        IsNegation = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "thing"
-                        }
-                    }
+                    "object",
+                    "thing"
                 }
-            };
+            });
 
             wordName = "somewhere";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "about_place"
-                        }
-                    }
+                    "object",
+                    "about_place"
                 }
-            };
+            });
 
             wordName = "anywhere";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "about_place"
-                        }
-                    }
+                    "object",
+                    "about_place"
                 }
-            };
+            });
+
             wordName = "nowhere";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                IsNegation = true,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        IsNegation = true,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "about_place"
-                        }
-                    }
+                    "object",
+                    "about_place"
                 }
-            };
+            });
 
             wordName = "someone";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                 {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
-                        {
-                            "object",
-                            "people"
-                        }
-                    }
+                    "object",
+                    "people"
                 }
-            };
+            });
 
             wordName = "anyone";
-            AddGrammaticalWordFrame(wordName, );
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PronounGrammaticalWordFrame()
-                    {
-                        TypeOfPronoun = TypeOfPronoun.Indefinite,
-                        LogicalMeaning = new List<string>()
+                TypeOfPronoun = TypeOfPronoun.Indefinite,
+                LogicalMeaning = new List<string>()
                         {
                             "object",
                             "people"
                         }
-                    }
-                }
-            };
+            });
 
             wordName = "what";
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame = GetWordFrame(wordName);
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,
@@ -836,9 +689,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "whose";
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame = GetWordFrame(wordName);
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,
@@ -850,9 +701,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "why";
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame = GetWordFrame(wordName);
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,
@@ -863,9 +712,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "how";
-            AddGrammaticalWordFrame(wordName, );
-            wordFrame = GetWordFrame(wordName);
-            wordFrame.GrammaticalWordFrames.Add(new PronounGrammaticalWordFrame()
+            AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Interrogative,
                 IsQuestionWord = true,

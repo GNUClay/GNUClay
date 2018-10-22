@@ -20,6 +20,8 @@ namespace MyNPCLib.SimpleWordsDict
         public virtual AdverbGrammaticalWordFrame AsAdverb => null;
         public virtual bool IsPreposition => false;
         public virtual PrepositionGrammaticalWordFrame AsPreposition => null;
+        public virtual bool IsPostposition => false;
+        public virtual PostpositionGrammaticalWordFrame AsPostposition => null;
         public virtual bool IsConjunction => false;
         public virtual ConjunctionGrammaticalWordFrame AsConjunction => null;
         public virtual bool IsInterjection => false;
@@ -31,6 +33,9 @@ namespace MyNPCLib.SimpleWordsDict
         public string RootWord { get; set; }
         public IList<string> LogicalMeaning { get; set; }
         public IList<string> FullLogicalMeaning { get; set; }
+        public bool IsArchaic { get; set; }
+        public bool IsDialectal { get; set; }
+        public bool IsPoetic { get; set; }
 
         public override string ToString()
         {
@@ -76,6 +81,9 @@ namespace MyNPCLib.SimpleWordsDict
                 }
                 sb.AppendLine($"{spaces}End {nameof(FullLogicalMeaning)}");
             }
+            sb.AppendLine($"{spaces}{nameof(IsArchaic)} = {IsArchaic}");
+            sb.AppendLine($"{spaces}{nameof(IsDialectal)} = {IsDialectal}");
+            sb.AppendLine($"{spaces}{nameof(IsPoetic)} = {IsPoetic}");
             return sb.ToString();
         }
     }

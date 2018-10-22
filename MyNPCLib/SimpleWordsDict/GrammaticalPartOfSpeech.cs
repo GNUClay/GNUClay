@@ -13,6 +13,7 @@ namespace MyNPCLib.SimpleWordsDict
         Verb,
         Adverb,
         Preposition,
+        Postposition,
         Conjunction,
         Interjection,
         Article,
