@@ -137,9 +137,9 @@ namespace DictionaryGenerator
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
             mWordsDictData.NamesList = new List<string>();
 
-            ProcessUsualWords(usualWordsList);
-            ProcessNames(namesWordsList);
-            ProcessDigits(digitsWordsList);
+            //ProcessUsualWords(usualWordsList);
+            //ProcessNames(namesWordsList);
+            //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
 
 #if DEBUG
@@ -229,11 +229,29 @@ namespace DictionaryGenerator
             }
         }
 
+        private bool IsNumeral(string word)
+        {
+            if(mWordsDictData.WordsDict.ContainsKey(word))
+            {
+                return mWordsDictData.WordsDict[word].GrammaticalWordFrames.Any(p => p.IsNumeral);
+            }
+
+            return false;
+        }
+
         private void ProcessNoun(string rootWord)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun rootWord = {rootWord}");
 #endif
+
+            if(IsNumeral(rootWord))
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessNoun IsNumeral(rootWord) return; !!!!!");
+#endif
+                return;
+            }
 
             List<string> logicalMeaning = null;
 
@@ -727,6 +745,15 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv rootWord = {rootWord}");
 #endif
+
+            if (IsNumeral(rootWord))
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessAdv IsNumeral(rootWord) return; !!!!!");
+#endif
+                return;
+            }
+
             mTotalCount++;
 
             var rootLogicalMeaningsList = mAdvLogicalMeaningsSource.GetLogicalMeanings(rootWord);

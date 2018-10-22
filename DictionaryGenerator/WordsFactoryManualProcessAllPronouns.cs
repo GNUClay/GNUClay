@@ -724,10 +724,3 @@ namespace DictionaryGenerator
         }
     }
 }
-
-/*
-https://en.wikipedia.org/wiki/Pronoun
-
-Indefinite:
-no_one (people)
-*/
