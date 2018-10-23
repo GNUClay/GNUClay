@@ -848,9 +848,308 @@ namespace DictionaryGenerator
                 RootWord = rootWord
             });
 
+            word = "ten";
+            value = 10f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "dime";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "decet";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "10th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "tenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eleven";
+            value = 11f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "11th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eleventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "twelve";
+            value = 12f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "dozen";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "12th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "twelfth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "thirteen";
+            value = 13f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "13th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "thirteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fourteen";
+            value = 14f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "14th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fourteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifteen";
+            value = 15f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "15th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixteen";
+            value = 16f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "16th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventeen";
+            value = 17f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "17th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventeenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighteen";
+            value = 18f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "18th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "nineteen";
+            value = 19f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "19th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "nineteenth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "twenty";
+            value = 20f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "20th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "twentieth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
             //word = "";
             /*     	
-	          		        
+             	  	  			  		 	
 
             */
 
@@ -862,20 +1161,44 @@ namespace DictionaryGenerator
 }
 
 /*
+            word = "";
+            value = ;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            }); 
+*/
+
+/*
 https://en.wikipedia.org/wiki/English_numerals
 
     Cardinal numbers
-
-        	10 	ten 	  	 
-    	 	11 	eleven 	  	 
- 	     	12 	twelve (a dozen) 	20 	twenty (a score)
-    	 	13 	thirteen 	30 	thirty
-    	 	14 	fourteen 	40 	forty (no "u")
-      	 	15 	fifteen (note "f", not "v") 	50 	fifty (note "f", not "v")
-    	  	16 	sixteen 	60 	sixty
-    	 	17 	seventeen 	70 	seventy
-    	 	18 	eighteen (only one "t") 	80 	eighty (only one "t")
-    	 	19 	nineteen 	90 	ninety (note the "e")
+ 	 	  	 
+    	 	 	 	30 	thirty
+    	 	 	 	40 	forty (no "u")
+      	 	    	50 	fifty (note "f", not "v")
+    	  	 	 	60 	sixty
+    	 	 	 	70 	seventy
+    	 	    	80 	eighty (only one "t")
+    	 	 	 	90 	ninety (note the "e")
 
 In English, the hundreds are perfectly regular, except that the word hundred remains in its singular form regardless of the number preceding it.
 100 	one hundred
@@ -926,12 +1249,6 @@ a thousand trillion 	one crore crore crore
 
 A few numbers have special names (in addition to their regular names):
           
-    10:
-        dime (informal American, from the value of the ten-cent US dime, but applied in non-monetary references)
-        decet
-        decade, used for years but also other groups of 10 as in rosary prayers or Braille symbols
-    12: a dozen (first power of the duodecimal base), used mostly in commerce
-
     10,000: a myriad (a hundred hundred), commonly used in the sense of an indefinite very high number
     10100: googol (1 followed by 100 zeros), used in mathematics
     10googol: googolplex (1 followed by a googol of zeros)
@@ -944,15 +1261,12 @@ Compare these specialist multiplicative numbers to express how many times some t
     Ordinal numbers
 
 Ordinal numbers refer to a position in a series. Common ordinals include:
-            	10th 	tenth 	  	 
- 	        	11th 	eleventh 	  	 
- 	        	12th 	twelfth (note "f", not "v") 	20th 	twentieth
- 	        	13th 	thirteenth 	30th 	thirtieth
-            	14th 	fourteenth 	40th 	fortieth
- 	            15th 	fifteenth 	50th 	fiftieth
-            	16th 	sixteenth 	60th 	sixtieth
-            	17th 	seventeenth 	70th 	seventieth
-            	18th 	eighteenth 	80th 	eightieth
-            	19th 	nineteenth 	90th 	ninetieth
- 
+            	 	  	 	        	 	  	 	        	  	
+ 	        	 	30th 	thirtieth
+            	 	40th 	fortieth
+ 	             	50th 	fiftieth
+            	 	60th 	sixtieth
+            	 	70th 	seventieth
+            	 	80th 	eightieth
+            	 	90th 	ninetieth 
 */

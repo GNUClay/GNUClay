@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyNPCLib.SimpleWordsDict;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,6 +9,21 @@ namespace DictionaryGenerator
     {
         private void ProcessAllComplexNumerals()
         {
+            //1
+            var word = "one-off";
+            var value = 1f;
+            var rootWord = "one";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "multiplicating"
+                }
+            });
+
             //21 - 99
 
         }
@@ -15,12 +31,37 @@ namespace DictionaryGenerator
 }
 
 /*
+            word = "";
+            value = ;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            }); 
+*/
+
+/*
 https://en.wikipedia.org/wiki/English_numerals
 
 Cardinal numbers
-× 1 	one-off
-
-
+	
 If a number is in the range 21 to 99, and the second digit is not zero, one typically writes the number as two words separated by a hyphen.
 21 	twenty-one
 25 	twenty-five
