@@ -16,7 +16,7 @@ namespace DictionaryGenerator
 
             foreach (var rootName in totalNamesList)
             {
-                ProcessComplexRootWordName(rootName);
+                //ProcessComplexRootWordName(rootName);
             }
         }
 

@@ -137,14 +137,15 @@ namespace DictionaryGenerator
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
             mWordsDictData.NamesList = new List<string>();
 
-            //ProcessUsualWords(usualWordsList);
+            ProcessUsualWords(usualWordsList);
             //ProcessNames(namesWordsList);
             //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");       
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData.WordsDict.Count = {mWordsDictData.WordsDict.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");
 #endif
         }
 
@@ -159,7 +160,7 @@ namespace DictionaryGenerator
 
             foreach (var rootName in totalNamesList)
             {
-                ProcessRootWordName(rootName);
+                //ProcessRootWordName(rootName);
             }
         }
 

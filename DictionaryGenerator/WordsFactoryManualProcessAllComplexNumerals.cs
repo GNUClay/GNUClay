@@ -553,23 +553,8 @@ namespace DictionaryGenerator
                 RootWord = rootWord
             });
 
-			
-            /*
-  
-     
-  
-   	       
-   
-  
-      	
-            */
-        }
-    }
-}
-
-/*
-            word = "";
-            value = f;
+            word = "thirty-eight";
+            value = 38f;
             rootWord = word;
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
@@ -577,7 +562,7 @@ namespace DictionaryGenerator
                 RepresentedNumber = value
             });
 
-            word = "";
+            word = "38th";
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
                 NumeralType = NumeralType.Ordinal,
@@ -585,198 +570,1836 @@ namespace DictionaryGenerator
                 RootWord = rootWord
             });
 
-            word = "";
-            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
-            {
-                NumeralType = NumeralType.Ordinal,
-                RepresentedNumber = value,
-                RootWord = rootWord
-            }); 
-			
-			word = "";
+            word = "thirty-eighth";
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
                 NumeralType = NumeralType.Ordinal,
                 RepresentedNumber = value,
                 RootWord = rootWord
             });
-*/
 
-/*
+            word = "thirty-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
+            word = "thirty-nine";
+            value = 39f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-38 thirty-eight
-38th thirty-eighth thirty-eighths
+            word = "39th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-39 thirty-nine
-39th thirty-ninth thirty-ninths
+            word = "thirty-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    41 forty-one
-    41st forty-first forty-firsts
+            word = "thirty-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    42 forty-two
-    42nd forty-second forty-seconds
+            word = "forty-one";
+            value = 41f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    43 forty-three
-    43rd forty-third forty-thirds
+            word = "41st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    44 forty-four
-    44th forty-fourth forty-fourths
+            word = "forty-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    45 forty-five
-    45th forty-fifth forty-fifths
+            word = "forty-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    46 forty-six
-    46th forty-sixth forty-sixths
+            word = "forty-two";
+            value = 42f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    47 forty-seven
-    47th forty-seventh forty-sevenths
+            word = "42nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    48 forty-eight
-    48th forty-eighth forty-eighths
+            word = "forty-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    49 forty-nine
-    49th forty-ninth forty-ninths
+            word = "forty-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    51 fifty-one
-    51st fifty-first fifty-firsts
+            word = "forty-three";
+            value = 43f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    52 fifty-two
-    52nd fifty-second fifty-seconds
+            word = "43rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    53 fifty-three
-    53rd fifty-third fifty-thirds
+            word = "forty-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    54 fifty-four
-    54th fifty-fourth fifty-fourths
+            word = "forty-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    55 fifty-five
-    55th fifty-fifth fifty-fifths
+            word = "forty-four";
+            value = 44f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    56 fifty-six
-    56th fifty-sixth ifty-sixths
+            word = "44th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    57 fifty-seven
-    57th fifty-seventh fifty-sevenths
+            word = "forty-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    58 fifty-eight
-    58th fifty-eighth fifty-eighths
+            word = "forty-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    59 fifty-nine
-    59th fifty-ninth ifty-ninths
+            word = "forty-five";
+            value = 45f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    61 sixty-one
-    61st sixty-first sixty-firsts
+            word = "45th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    62 sixty-two
-    62nd sixty-second sixty-seconds
+            word = "forty-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    63 sixty-three
-    63rd sixty-third sixty-thirds
+            word = "forty-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    64 sixty-four
-    64th sixty-fourth ixty-fourths
+            word = "forty-six";
+            value = 46f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    65 sixty-five
-    65th sixty-fifth sixty-fifths
+            word = "46th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    66 sixty-six
-    66th sixty-sixth sixty-sixths
-    
-    67 sixty-seven
-    67th sixty-seventh sixty-sevenths
+            word = "forty-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    68 sixty-eight
-    68th sixty-eighth sixty-eighths
+            word = "forty-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    69 sixty-nine
-    69th sixty-ninth sixty-ninths
+            word = "forty-seven";
+            value = 47f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    71 seventy-one
-    71st seventy-first seventy-firsts
+            word = "47th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    72 seventy-two
-    72nd seventy-second seventy-seconds
+            word = "forty-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    73 seventy-three
-    73rd seventy-third seventy-thirds
+            word = "forty-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    74 seventy-four
-    74th seventy-fourth seventy-fourths
+            word = "forty-eight";
+            value = 48f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    75 seventy-five
-    75th seventy-fifth seventy-fifths
+            word = "48th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    76 seventy-six
-    76th seventy-sixth seventy-sixths
+            word = "forty-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    77 seventy-seven
-    77th seventy-seventh seventy-sevenths
+            word = "forty-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    78 seventy-eight
-    78th seventy-eighth seventy-eighths
+            word = "forty-nine";
+            value = 49f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    79 seventy-nine
-    79th seventy-ninth seventy-ninths
+            word = "49th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    81 eighty-one
-    81st eighty-first eighty-firsts
+            word = "forty-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    82 eighty-two
-    82nd eighty-second eighty-seconds
+            word = "forty-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    83 eighty-three
-    83rd eighty-third eighty-thirds
+            word = "fifty-one";
+            value = 51f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    84 eighty-four
-    84th eighty-fourth eighty-fourths
+            word = "51st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    85 eighty-five
-    85th eighty-fifth eighty-fifths
+            word = "fifty-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    86 eighty-six
-    86th eighty-sixth eighty-sixths
+            word = "fifty-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    87 eighty-seven
-    87th eighty-seventh eighty-sevenths
+            word = "fifty-two";
+            value = 52f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    88 eighty-eight
-    88th eighty-eighth eighty-eighths
+            word = "52nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    89 eighty-nine
-    89th eighty-ninth eighty-ninths
+            word = "fifty-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    91 ninety-one
-    91st ninety-first ninety-firsts
+            word = "fifty-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    92 ninety-two
-    92nd ninety-second ninety-seconds
+            word = "fifty-three";
+            value = 53f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    93 ninety-three
-    93rd ninety-third ninety-thirds
+            word = "53rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    94 ninety-four
-    94th ninety-fourth ninety-fourths
+            word = "fifty-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    95 ninety-five
-    95th ninety-fifth ninety-fifths
+            word = "fifty-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    96 ninety-six
-    96th ninety-sixth ninety-sixths
+            word = "fifty-four";
+            value = 54f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    97 ninety-seven
-    97th ninety-seventh ninety-sevenths
+            word = "54th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    98 ninety-eight
-    98th ninety-eighth ninety-eighths
+            word = "fifty-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    99 ninety-nine
-    99th ninety-ninth ninety-ninths
-*/
+            word = "fifty-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-/*
-https://en.wikipedia.org/wiki/English_numerals
+            word = "fifty-five";
+            value = 55f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
+            word = "55th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-*/
+            word = "fifty-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
+            word = "fifty-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-six";
+            value = 56f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "56th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-seven";
+            value = 57f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "57th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-eight";
+            value = 58f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "58th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-nine";
+            value = 59f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "59th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "fifty-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-one";
+            value = 61f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "61st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-two";
+            value = 62f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "62nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-three";
+            value = 63f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "63rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-four";
+            value = 64f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "64th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-five";
+            value = 65f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "65th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-six";
+            value = 66f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "66th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-seven";
+            value = 67f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "67th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-eight";
+            value = 68f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "68th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-nine";
+            value = 69f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "69th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sixty-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-one";
+            value = 71f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "71st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-two";
+            value = 72f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "72nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-three";
+            value = 73f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "73rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-four";
+            value = 74f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "74th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-five";
+            value = 75f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "75th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+ 
+            word = "seventy-six";
+            value = 76f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "76th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-seven";
+            value = 77f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "77th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-eight";
+            value = 78f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "78th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-nine";
+            value = 79f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "79th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "seventy-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-one";
+            value = 81f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "81st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-two";
+            value = 82f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "82nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-three";
+            value = 83f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "83rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-four";
+            value = 84f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "84th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-five";
+            value = 85f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "85th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-six";
+            value = 86f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "86th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-seven";
+            value = 87f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "87th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-eight";
+            value = 88f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "88th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-nine";
+            value = 89f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "89th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "eighty-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-one";
+            value = 91f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "91st";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-first";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-firsts";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-two";
+            value = 92f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "92nd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-second";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-seconds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-three";
+            value = 93f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "93rd";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-third";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-thirds";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-four";
+            value = 94f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "94th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-fourth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-fourths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-five";
+            value = 95f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "95th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-fifth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-fifths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-six";
+            value = 96f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "96th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-sixth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-sixths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-seven";
+            value = 97f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "97th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-seventh";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-sevenths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-eight";
+            value = 98f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "98th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-eighth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-eighths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-nine";
+            value = 99f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "99th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-ninth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "ninety-ninths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+        }
+    }
+}

@@ -1530,24 +1530,11 @@ namespace DictionaryGenerator
                 NumeralType = NumeralType.Ordinal,
                 RepresentedNumber = value,
                 RootWord = rootWord
-            });			
-			
+            });
+
             //>= 100
-
-
-            //word = "";
-            /*     	
-              	 		 	  		 	  	  			  		 	
- 	 		 	 	
-            */
-
-
-        }
-    }
-}
-/*
-            word = "";
-            value = f;
+            word = "hundred";
+            value = 100f;
             rootWord = word;
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
@@ -1555,7 +1542,19 @@ namespace DictionaryGenerator
                 RepresentedNumber = value
             });
 
-            word = "";
+            word = "hundredfold";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "multiplicating"
+                }
+            });
+
+            word = "100th";
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
                 NumeralType = NumeralType.Ordinal,
@@ -1563,62 +1562,386 @@ namespace DictionaryGenerator
                 RootWord = rootWord
             });
 
-            word = "";
+            word = "hundredth";
             AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
             {
                 NumeralType = NumeralType.Ordinal,
                 RepresentedNumber = value,
                 RootWord = rootWord
-            }); 
-*/
+            });
 
-/*
-https://en.wikipedia.org/wiki/English_numerals
+            word = "hundredths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
+            word = "thousand";
+            value = 1000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-In English, the hundreds are perfectly regular, except that the word hundred remains in its singular form regardless of the number preceding it.
+            word = "1000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    100 	hundred 100th hundredth hundredths
-    ×100 	..... 	hundredfold
+            word = "thousandth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    1000 thousand 1000th thousandth thousandths
+            word = "thousandths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-    1000000 myriad
+            word = "million";
+            value = 1000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-    1000000 million  1000000th millionth millionths
+            word = "1000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
+            word = "millionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
+            word = "millionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-1,000,000,000 	109 	one billion
-a thousand million 	one milliard
-a thousand million 	one hundred crore
-(one arab)
-1,000,000,000,000 	1012 	one trillion
-a thousand billion 	one billion
-a million million 	one lakh crore
-(ten kharab)
-1,000,000,000,000,000 	1015 	one quadrillion
-a thousand trillion 	one billiard
-a thousand billion 	ten crore crore
-(one padm)
-1,000,000,000,000,000,000 	1018 	one quintillion
-a thousand quadrillion 	one trillion
-a million billion 	ten thousand crore crore
-(ten shankh)
-1,000,000,000,000,000,000,000 	1021 	one sextillion
-a thousand quintillion 	one trilliard
-a thousand trillion 	one crore crore crore 
+            word = "milliard";
+            value = 1000000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
 
-A few numbers have special names (in addition to their regular names):
-          
-    10,000: a  (a hundred hundred), commonly used in the sense of an indefinite very high number
-    10100: googol (1 followed by 100 zeros), used in mathematics
-    10googol: googolplex (1 followed by a googol of zeros)
-    10googolplex: googolplexplex (1 followed by a googolplex of zeros)
+            word = "billion";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
-Compare these specialist multiplicative numbers to express how many times some thing exists (adjectives):
-	
-0.5 	half
+            word = "1000000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
 
- 
-*/
+            word = "billionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "billionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "milliardth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "milliardths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trillion";
+            value = 1000000000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "billion";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "1000000000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trillionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trillionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "billionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "billionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quadrillion";
+            value = 1000000000000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "billiard";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "1000000000000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quadrillionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quadrillionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "billiardth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "billiardths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quintillion";
+            value = 1000000000000000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "trillion";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "1000000000000000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quintillionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "quintillionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trillionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trillionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trilliard";
+            value = 1000000000000000000000f;
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            word = "sextillion";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "1000000000000000000000th";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sextillionth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "sextillionths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trilliardth";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "trilliardths";
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value,
+                RootWord = rootWord
+            });
+
+            word = "half";
+            value = 0.5f;
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Cardinal,
+                RepresentedNumber = value
+            });
+
+            AddGrammaticalWordFrame(word, new NumeralGrammaticalWordFrame()
+            {
+                NumeralType = NumeralType.Ordinal,
+                RepresentedNumber = value
+            });
+        }
+    }
+}
