@@ -23,7 +23,6 @@ And, but, for, nor, or, so, yet
 
 Subordinating Conjunctions:
 
-
 Conjunctions Concession
 
     though

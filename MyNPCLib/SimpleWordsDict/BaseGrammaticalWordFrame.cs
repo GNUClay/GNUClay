@@ -36,6 +36,8 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsArchaic { get; set; }
         public bool IsDialectal { get; set; }
         public bool IsPoetic { get; set; }
+        public bool IsAbbreviation { get; set; }
+        public bool IsRare { get; set; }
 
         public override string ToString()
         {
@@ -84,6 +86,8 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsArchaic)} = {IsArchaic}");
             sb.AppendLine($"{spaces}{nameof(IsDialectal)} = {IsDialectal}");
             sb.AppendLine($"{spaces}{nameof(IsPoetic)} = {IsPoetic}");
+            sb.AppendLine($"{spaces}{nameof(IsAbbreviation)} = {IsAbbreviation}");
+            sb.AppendLine($"{spaces}{nameof(IsRare)} = {IsRare}");
             return sb.ToString();
         }
     }

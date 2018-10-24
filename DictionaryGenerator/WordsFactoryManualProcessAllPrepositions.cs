@@ -13,206 +13,931 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllPrepositions");
 #endif
 
-            var wordName = "to";
-            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            var word = "aboard";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
             {
-                Word = wordName,
-                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
-                {
-                    new PrepositionGrammaticalWordFrame()
-                }
-            };
+            });
+
+            word = "about";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "above";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "absent";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "across";
+            var rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "cross";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "after";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "against";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'gainst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "gainst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsPoetic = true
+            });
+
+            word = "again";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "gain";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "along";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'long";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "alongst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "alongside";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "amid";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "amidst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "mid";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "midst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsPoetic = true
+            });
+
+            word = "among";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "amongst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "'mong";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "mong";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "'mongst";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "apropos";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                IsRare = true
+            });
+
+            word = "apud";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "around";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'round";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "round";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "as";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "astride";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "at";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "@";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "atop";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "ontop";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "bar";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "before";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "afore";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "tofore";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsDialectal = true
+            });
+
+            word = "B4";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "behind";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "ahind";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsDialectal = true
+            });
+
+            word = "below";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "ablow";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "allow";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsDialectal = true
+            });
+
+            word = "beneath";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'neath";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "neath";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsPoetic = true
+            });
+
+            word = "beside";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "besides";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "between";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "atween";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsDialectal = true
+            });
+
+            word = "beyond";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "ayond ";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsDialectal = true
+            });
+
+            word = "but";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "by";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "chez";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                IsRare = true
+            });
+
+            word = "circa";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "c.";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "ca.";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "come";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "dehors";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "despite";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "spite";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "down";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "during";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "except";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "for";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "4";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "from";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "in";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "inside";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "into";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "less";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "like";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "minus";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "near";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "nearer";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Comparison = GrammaticalComparison.Comparative
+            });
+
+            word = "nearest ";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Comparison = GrammaticalComparison.Superlative
+            });
+
+            word = "anear";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "notwithstanding";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "of";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "o'";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsPoetic = true,
+                IsDialectal = true
+            });
+
+            word = "off";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "on";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "onto";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "opposite";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "out";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "outen";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true,
+                IsDialectal = true
+            });
+
+            word = "outside";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "over";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "o'er";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsPoetic = true
+            });
+
+            word = "pace";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "past";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "per";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "plus";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "post";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "pre";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "pro";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "qua";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "re";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "sans";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "save";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "sauf";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "short";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "since";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "sithence";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "than";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "through";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "thru";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "throughout";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "thruout";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "till";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "to";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "2";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "toward";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "towards";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord
+            });
+
+            word = "under";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "underneath";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "unlike";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "until";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'til";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "til";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "unto";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "up";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "upon";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "'pon";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "pon";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "upside";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "versus";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "vs.";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "v.";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "via";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "vice";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "vis-à-vis";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "with";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "w/";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "wi'";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "c̄";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "within";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "w/i";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "without";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "w/o";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsAbbreviation = true
+            });
+
+            word = "worth";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "next";
+            AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
+            {
+            });
+
+            //------
+            word = "ago";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "apart";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "aside";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "aslant";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                IsArchaic = true
+            });
+
+            word = "away";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "hence";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+            });
+
+            word = "withal";
+            AddGrammaticalWordFrame(word, new PostpositionGrammaticalWordFrame()
+            {
+                IsArchaic = true
+            });
         }
     }
 }
-
-/*
-https://en.wikipedia.org/wiki/List_of_English_prepositions
-
-Some single words
-
-Prepositions
-
-    aboard
-    about
-    above
-    absent (law)
-    across
-        cross (archaic)
-    after
-    against
-        'gainst, gainst (poetic or archaic); again, gain (archaic)
-    along
-        'long (abbreviation), alongst (archaic)
-    alongside
-    amid
-        amidst, mid, midst (poetic or archaic);
-    among
-        amongst (in US English poetic or archaic)
-        'mong, mong, 'mongst (abbreviations)
-    apropos (rare for apropos of)
-    apud (formal)
-    around
-        'round, round (abbreviations)
-    as
-    astride
-    at
-        @ (abbreviation)
-    atop, ontop
-    bar
-    before
-        afore, tofore (dialectal or archaic)
-        B4 (abbreviation)
-    behind
-        ahind (dialectal or archaic)
-    below
-        ablow, allow (Scotland)
-    beneath
-        'neath, neath (poetic)
-    beside
-    besides
-    between
-        atween (dialectal or archaic)
-    beyond
-        ayond (dialectal or archaic)
-    but
-    by
-    chez (rare)
-    circa
-        c., ca. (abbreviations)
-    come
-    dehors (law)
-    despite
-        spite (abbreviation)
-    down
-    during
-    except
-    for
-        4 (abbreviation)
-    from
-    in
-    inside
-    into
-    less
-    like
-    minus
-    near
-        nearer (comparative), nearest (superlative)
-        anear (archaic)
-    notwithstanding (also postpositional)
-    of
-        o' (poetic or eye-dialect)
-    off
-    on
-    onto
-    opposite
-    out
-        outen (archaic or dialectal)
-    outside
-    over
-        o'er (poetic)
-    pace (formal)
-    past
-    per
-    plus
-    post (often hyphenated)
-    pre (often hyphenated)
-    pro (often hyphenated)
-    qua (formal)
-    re (often used with colon)
-    sans (formal)
-    save
-        sauf (archaic)
-    short
-    since
-        sithence (archaic)
-    than
-    through
-        thru (abbreviation)
-    throughout
-        thruout (abbreviation)
-    till
-    to
-        2 (abbreviation)
-    toward, towards
-    under
-    underneath
-    unlike
-    until
-        'til, til (abbreviations)
-    unto
-    up
-    upon
-        'pon, pon (abbreviations)
-    upside
-    versus
-        vs., v. (abbreviations)
-    via
-    vice (formal)
-    vis-à-vis (formal)
-    with
-        w/, wi', c̄ (abbreviations)
-    within
-        w/i (abbreviation)
-    without
-        w/o (abbreviation)
-    worth
-
-Archaic or dialectal
-
-See also archaic forms of modern prepositions listed above.
-
-    abaft (nautical or archaic)
-    abeam (nautical)
-    aboon, abun, abune (dialectal)
-    afront (dialectal or archaic)
-    ajax (Polari)
-    alongst
-    aloof
-    anenst, anent (rare, U.K. dialectal)
-    athwart (nautical or archaic)
-    atop, ontop
-    behither
-    ben (dialectal)
-    betwixt, atwix (dialectal or archaic)
-        'twixt, twixt (abbreviations)
-    bewest (dialectal or archaic)
-    benorth (dialectal or archaic)
-    emforth
-    ere (poetic or archaic)
-        or
-    forby (dialectal or archaic)
-    foreanent, forenenst (dialectal or archaic)
-    foregain, foregainst (dialectal or archaic)
-    forth
-    fromward, froward, fromwards
-    furth (Scotland)
-    gainward
-    imell (dialectal or archaic)
-    inmid, inmiddes
-    mang (Devon)
-    mauger, maugre
-    nearhand (archaic or dialectal)
-    next (archaic for next to; originally superlative of nigh)
-    nigh, anigh, anighst (poetic or archaic)
-    outwith (dialectal)
-    overthwart (archaic or dialectal)
-    [[wikt:quoad#Preposition|quoad]] (formal; a Latin term)
-    umbe, umb, um (archaic or dialectal)
-    unto (archaic or poetic)
-    uptill
-
-Postpositions
-
-    ago
-    apart
-    aside
-        aslant (archaic)
-    away
-    hence
-    notwithstanding (also prepositional)
-    on
-    short (also prepositional)
-    through
-    withal (archaic) 
-*/

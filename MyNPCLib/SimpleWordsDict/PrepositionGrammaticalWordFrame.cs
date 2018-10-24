@@ -10,6 +10,7 @@ namespace MyNPCLib.SimpleWordsDict
         public override GrammaticalPartOfSpeech PartOfSpeech => GrammaticalPartOfSpeech.Preposition;
         public override bool IsPreposition => true;
         public override PrepositionGrammaticalWordFrame AsPreposition => this;
+        public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
 
         public override string PropertiesToSting(uint n)
         {
@@ -17,6 +18,7 @@ namespace MyNPCLib.SimpleWordsDict
             var nextN = n + 4;
             var sb = new StringBuilder();
             sb.Append(base.PropertiesToSting(n));
+            sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
             return sb.ToString();
         }
     }
