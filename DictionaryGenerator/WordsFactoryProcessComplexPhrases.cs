@@ -16,14 +16,14 @@ namespace DictionaryGenerator
 
             foreach (var rootName in totalNamesList)
             {
-                //ProcessComplexRootWordName(rootName);
+                ProcessComplexRootWordName(rootName);
             }
         }
 
         private void ProcessComplexRootWordName(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
 #endif
 
             var rez = Regex.Match(rootWord, @"\(\w+\)");
@@ -73,21 +73,21 @@ namespace DictionaryGenerator
         private void ProcessComplexVerb(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexVerb rootWord = {rootWord}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexVerb rootWord = {rootWord}");
 #endif
         }
 
         private void ProcessComplexAdj(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexAdj rootWord = {rootWord}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexAdj rootWord = {rootWord}");
 #endif
         }
 
         private void ProcessComplexAdv(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexAdv rootWord = {rootWord}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexAdv rootWord = {rootWord}");
 #endif
 
             if (IsNumeral(rootWord))
@@ -97,6 +97,8 @@ namespace DictionaryGenerator
 #endif
                 return;
             }
+
+
         }
     }
 }

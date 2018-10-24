@@ -11,6 +11,9 @@ namespace MyNPCLib.SimpleWordsDict
         public override bool IsConjunction => true;
         public override ConjunctionGrammaticalWordFrame AsConjunction => this;
         public KindOfConjunction Kind { get; set; } = KindOfConjunction.Unknown;
+        public SecondKindOfConjunction SecondKind { get; set; } = SecondKindOfConjunction.Unknown;
+        public bool IsQuestionWord { get; set; }
+        public bool IsNegation { get; set; }
 
         public override string PropertiesToSting(uint n)
         {
@@ -19,6 +22,9 @@ namespace MyNPCLib.SimpleWordsDict
             var sb = new StringBuilder();
             sb.Append(base.PropertiesToSting(n));
             sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
+            sb.AppendLine($"{spaces}{nameof(SecondKind)} = {SecondKind}");
+            sb.AppendLine($"{spaces}{nameof(IsQuestionWord)} = {IsQuestionWord}");
+            sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
     }

@@ -13,8 +13,11 @@ namespace MyNPCLib.SimpleWordsDict
         Time,
         Reason,
         Adjective,
-        Pronoun,
+        RelativePronoun,
         Manner,
-        Place
+        Place,
+        FullCorrelative,
+        FirstCorrelativePart,
+        SecondCorrelativePart
     }
 }
