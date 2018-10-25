@@ -16,10 +16,10 @@ namespace DictionaryGenerator
             ProcessAllComplexConjunctions();
             ProcessAllComplexNumerals();
 
-            foreach (var rootName in totalNamesList)
-            {
-                ProcessComplexRootWordName(rootName);
-            }
+            //foreach (var rootName in totalNamesList)
+            //{
+            //    ProcessComplexRootWordName(rootName);
+            //}
         }
 
         private void ProcessComplexRootWordName(string rootWord)
@@ -60,13 +60,13 @@ namespace DictionaryGenerator
         private void ProcessComplexNoun(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun rootWord = {rootWord}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun rootWord = {rootWord}");
 #endif
 
             if (IsNumeral(rootWord))
             {
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info("ProcessComplexNoun IsNumeral(rootWord) return; !!!!!");
+                //NLog.LogManager.GetCurrentClassLogger().Info("ProcessComplexNoun IsNumeral(rootWord) return; !!!!!");
 #endif
                 return;
             }
@@ -118,19 +118,40 @@ namespace DictionaryGenerator
 
                 var multipleForms = mNounAntiStemmer.GetMultipleForm(targetWord);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun multipleForms = {multipleForms}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun multipleForms = {multipleForms}");
 
                 multipleForms = mWordSplitter.Join(multipleForms, splitModel);
 
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun after multipleForms = {multipleForms}");
+                //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun after multipleForms = {multipleForms}");
             }
+        }
+
+        private bool DetectWordInComplexPhrase(string word, string phrase)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"DetectWordInComplexPhrase word = {word} phrase = {phrase}");
+#endif
+
+            if(phrase.StartsWith($"{word}_") || phrase.Contains($"_{word}_") || phrase.Contains($"_{word}"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void ProcessComplexVerb(string rootWord)
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexVerb rootWord = {rootWord}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexVerb rootWord = {rootWord}");
 #endif
+
+            if(DetectWordInComplexPhrase("be", rootWord))
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info("ProcessComplexVerb Detect!!!!!");
+#endif
+            }
         }
 
         private void ProcessComplexAdj(string rootWord)

@@ -57,6 +57,7 @@ namespace DictionaryGenerator
         private int mTotalCount;
 
         private WordsDictData mWordsDictData;
+        private WordsDictData mWordsDictDataOfName;
 
         public void Run()
         {
@@ -141,8 +142,12 @@ namespace DictionaryGenerator
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
             mWordsDictData.NamesList = new List<string>();
 
+            mWordsDictDataOfName = new WordsDictData();
+            mWordsDictDataOfName.WordsDict = new Dictionary<string, WordFrame>();
+            mWordsDictDataOfName.NamesList = new List<string>();
+
             ProcessUsualWords(usualWordsList);
-            //ProcessNames(namesWordsList);
+            ProcessNames(namesWordsList);
             //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
 
@@ -150,6 +155,8 @@ namespace DictionaryGenerator
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData.WordsDict.Count = {mWordsDictData.WordsDict.Count}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName.WordsDict.Count = {mWordsDictDataOfName.WordsDict.Count}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName = {mWordsDictDataOfName}");
 #endif
         }
 
@@ -164,7 +171,7 @@ namespace DictionaryGenerator
 
             foreach (var rootName in totalNamesList)
             {
-                //ProcessRootWordName(rootName);
+                ProcessRootWordName(rootName);
             }
         }
 
