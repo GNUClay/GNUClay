@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MyNPCLib.SimpleWordsDict;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -67,6 +69,60 @@ namespace DictionaryGenerator
                 NLog.LogManager.GetCurrentClassLogger().Info("ProcessComplexNoun IsNumeral(rootWord) return; !!!!!");
 #endif
                 return;
+            }
+
+            List<string> logicalMeaning = null;
+
+            if (mNounClassesDict.ContainsKey(rootWord))
+            {
+                logicalMeaning = mNounClassesDict[rootWord];
+            }
+            else
+            {
+                logicalMeaning = new List<string>();
+            }
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun logicalMeaning.Count = {logicalMeaning.Count}");
+
+            //foreach (var className in logicalMeaning)
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun className = {className}");
+            //}
+#endif
+
+            var isCountable = logicalMeaning.Contains("object") || logicalMeaning.Contains("causal_agent");
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun isCountable = {isCountable}");
+#endif
+
+            mTotalCount++;
+
+            AddGrammaticalWordFrame(rootWord, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = isCountable,
+                LogicalMeaning = logicalMeaning.ToList()
+            });
+
+            var splitModel = mWordSplitter.Split(rootWord, GrammaticalPartOfSpeech.Noun);
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun splitModel = {splitModel}");
+#endif
+
+            if(splitModel.IndexOfTargetWord > -1)
+            {
+                var targetWord = splitModel.TargetWord;
+
+                var multipleForms = mNounAntiStemmer.GetMultipleForm(targetWord);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun multipleForms = {multipleForms}");
+
+                multipleForms = mWordSplitter.Join(multipleForms, splitModel);
+
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun after multipleForms = {multipleForms}");
             }
         }
 

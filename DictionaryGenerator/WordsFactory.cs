@@ -50,6 +50,8 @@ namespace DictionaryGenerator
         private Dictionary<string, List<RootAdjSourceWordItem>> mRootAdjsDict;
         private Dictionary<string, List<RootAdvSourceWordItem>> mRootAdvsDict;
 
+        private WordSplitter mWordSplitter;
+
         private Dictionary<string, List<string>> mNounClassesDict;
 
         private int mTotalCount;
@@ -132,7 +134,9 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run usualWordsList.Count = {usualWordsList.Count}");
 #endif
-            
+
+            mWordSplitter = new WordSplitter(mRootNounDict, mRootVerbsDict, mRootAdjsDict, mRootAdvsDict);
+
             mWordsDictData = new WordsDictData();
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
             mWordsDictData.NamesList = new List<string>();
