@@ -116,7 +116,7 @@ namespace DictionaryGenerator
             {
                 var targetWord = splitModel.TargetWord;
 
-                var multipleForms = mNounAntiStemmer.GetMultipleForm(targetWord);
+                var multipleForms = mNounAntiStemmer.GetPluralForm(targetWord);
 
                 //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessComplexNoun multipleForms = {multipleForms}");
 

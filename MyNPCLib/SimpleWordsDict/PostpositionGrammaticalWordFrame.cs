@@ -4,6 +4,7 @@ using System.Text;
 
 namespace MyNPCLib.SimpleWordsDict
 {
+    [Serializable]
     public class PostpositionGrammaticalWordFrame : BaseGrammaticalWordFrame
     {
         public override GrammaticalPartOfSpeech PartOfSpeech => GrammaticalPartOfSpeech.Postposition;

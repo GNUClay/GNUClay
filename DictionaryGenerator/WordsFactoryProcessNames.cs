@@ -59,7 +59,23 @@ namespace DictionaryGenerator
                 LogicalMeaning = logicalMeaning.ToList()
             });
 
-            var multipleForms = mNounAntiStemmer.GetMultipleForm(rootWord);
+            var possesiveSingular = mNounAntiStemmer.GetPossesiveForSingular(rootWord);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName possesiveSingular = {possesiveSingular}");
+#endif
+
+            AddGrammaticalWordFrame(possesiveSingular, new NounGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                IsName = true,
+                LogicalMeaning = logicalMeaning.ToList(),
+                IsPossessive = true
+            });
+
+            var multipleForms = mNounAntiStemmer.GetPluralForm(rootWord);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName multipleForms = {multipleForms}");
 
@@ -70,6 +86,22 @@ namespace DictionaryGenerator
                 IsCountable = true,
                 IsName = true,
                 LogicalMeaning = logicalMeaning.ToList()
+            });
+
+            var possesivePlural = mNounAntiStemmer.GetPossesiveForPlural(multipleForms);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName possesivePlural = {possesivePlural}");
+#endif
+
+            AddGrammaticalWordFrame(possesivePlural, new NounGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Number = GrammaticalNumberOfWord.Plural,
+                IsCountable = true,
+                LogicalMeaning = logicalMeaning.ToList(),
+                IsName = true,
+                IsPossessive = true
             });
         }
 

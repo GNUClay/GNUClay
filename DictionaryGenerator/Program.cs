@@ -307,7 +307,7 @@ namespace DictionaryGenerator
 
             var nounAntiStemmer = new NounAntiStemmer();
 
-            var multipleForms = nounAntiStemmer.GetMultipleForm(baseForm);
+            var multipleForms = nounAntiStemmer.GetPluralForm(baseForm);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"NTSTNounAntiStemmer multipleForms = {multipleForms}");
         }

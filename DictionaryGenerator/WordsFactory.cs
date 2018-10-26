@@ -1,7 +1,9 @@
 ﻿using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -151,6 +153,9 @@ namespace DictionaryGenerator
             //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
 
+            SimpleSaveDict("main.dict", mWordsDictData);
+            SimpleSaveDict("names.dict", mWordsDictDataOfName);
+
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData.WordsDict.Count = {mWordsDictData.WordsDict.Count}");
@@ -158,6 +163,34 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName.WordsDict.Count = {mWordsDictDataOfName.WordsDict.Count}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName = {mWordsDictDataOfName}");
 #endif
+        }
+
+        private void SimpleSaveDict(string localPath, WordsDictData dict)
+        {
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SimpleSaveDict rootPath = {rootPath}");
+#endif
+
+            var fullPath = Path.Combine(rootPath, localPath);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"SimpleSaveDict fullPath = {fullPath}");
+#endif
+
+            if(File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+            }
+
+            var binaryFormatter = new BinaryFormatter();
+
+            using (var fs = File.OpenWrite(fullPath))
+            {
+                binaryFormatter.Serialize(fs, dict);
+                fs.Flush();
+            }
         }
 
         private void ProcessUsualWords(List<string> totalNamesList)
@@ -300,10 +333,26 @@ namespace DictionaryGenerator
                 LogicalMeaning = logicalMeaning.ToList()
             });
 
-            var multipleForms = mNounAntiStemmer.GetMultipleForm(rootWord);
+            var possesiveSingular = mNounAntiStemmer.GetPossesiveForSingular(rootWord);
 
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun possesiveSingular = {possesiveSingular}");
+#endif
+
+            AddGrammaticalWordFrame(possesiveSingular, new NounGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = isCountable,
+                LogicalMeaning = logicalMeaning.ToList(),
+                IsPossessive = true
+            });
+
+            var multipleForms = mNounAntiStemmer.GetPluralForm(rootWord);
+
+#if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun multipleForms = {multipleForms}");
-
+#endif
             AddGrammaticalWordFrame(multipleForms, new NounGrammaticalWordFrame()
             {
                 RootWord = rootWord,
@@ -313,6 +362,21 @@ namespace DictionaryGenerator
             });
 
             mTotalCount++;
+
+            var possesivePlural = mNounAntiStemmer.GetPossesiveForPlural(multipleForms);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun possesivePlural = {possesivePlural}");
+#endif
+
+            AddGrammaticalWordFrame(possesivePlural, new NounGrammaticalWordFrame()
+            {
+                RootWord = rootWord,
+                Number = GrammaticalNumberOfWord.Plural,
+                IsCountable = isCountable,
+                LogicalMeaning = logicalMeaning.ToList(),
+                IsPossessive = true
+            });
         }
 
         private void ProcessVerb(string rootWord)
