@@ -83,11 +83,13 @@ namespace MyNPCLib.SimpleWordsDict
                 }
                 sb.AppendLine($"{spaces}End {nameof(FullLogicalMeaning)}");
             }
+
             sb.AppendLine($"{spaces}{nameof(IsArchaic)} = {IsArchaic}");
             sb.AppendLine($"{spaces}{nameof(IsDialectal)} = {IsDialectal}");
             sb.AppendLine($"{spaces}{nameof(IsPoetic)} = {IsPoetic}");
             sb.AppendLine($"{spaces}{nameof(IsAbbreviation)} = {IsAbbreviation}");
             sb.AppendLine($"{spaces}{nameof(IsRare)} = {IsRare}");
+
             return sb.ToString();
         }
     }

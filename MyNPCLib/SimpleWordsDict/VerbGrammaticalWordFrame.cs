@@ -19,6 +19,7 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsFormOfToHave { get; set; }
         public bool IsFormOfToDo { get; set; }
         public bool MayHaveGerundOrInfinitiveAfterSelf { get; set; }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);

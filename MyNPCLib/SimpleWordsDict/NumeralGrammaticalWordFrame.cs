@@ -12,6 +12,7 @@ namespace MyNPCLib.SimpleWordsDict
         public override NumeralGrammaticalWordFrame AsNumeral => this;
         public NumeralType NumeralType { get; set; } = NumeralType.Undefined;
         public float? RepresentedNumber { get; set; }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);

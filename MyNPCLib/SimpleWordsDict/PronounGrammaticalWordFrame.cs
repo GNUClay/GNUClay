@@ -17,6 +17,7 @@ namespace MyNPCLib.SimpleWordsDict
         public CaseOfPersonalPronoun Case { get; set; } = CaseOfPersonalPronoun.Undefined;
         public bool IsQuestionWord { get; set; }
         public bool IsNegation { get; set; }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);

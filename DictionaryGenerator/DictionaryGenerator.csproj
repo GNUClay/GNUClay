@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="CreateReleaseExe.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -102,6 +98,10 @@
   <ItemGroup>
     <Folder Include="Resources\LogicalMeanings\adv\" />
     <Folder Include="Resources\LogicalMeanings\adj\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
   </ItemGroup>
 
 </Project>
