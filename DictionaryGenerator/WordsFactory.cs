@@ -142,11 +142,11 @@ namespace DictionaryGenerator
 
             mWordsDictData = new WordsDictData();
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
-            mWordsDictData.NamesList = new List<string>();
+            //mWordsDictData.NamesList = new List<string>();
 
             mWordsDictDataOfName = new WordsDictData();
             mWordsDictDataOfName.WordsDict = new Dictionary<string, WordFrame>();
-            mWordsDictDataOfName.NamesList = new List<string>();
+            //mWordsDictDataOfName.NamesList = new List<string>();
 
             ProcessUsualWords(usualWordsList);
             ProcessNames(namesWordsList);
@@ -178,19 +178,22 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"SimpleSaveDict fullPath = {fullPath}");
 #endif
+            var serializationEngine = new WordsDictSerializationEngine();
+            serializationEngine.SaveToFile(dict, fullPath);
 
-            if(File.Exists(fullPath))
-            {
-                File.Delete(fullPath);
-            }
 
-            var binaryFormatter = new BinaryFormatter();
+            //if(File.Exists(fullPath))
+            //{
+            //    File.Delete(fullPath);
+            //}
 
-            using (var fs = File.OpenWrite(fullPath))
-            {
-                binaryFormatter.Serialize(fs, dict);
-                fs.Flush();
-            }
+            //var binaryFormatter = new BinaryFormatter();
+
+            //using (var fs = File.OpenWrite(fullPath))
+            //{
+            //    binaryFormatter.Serialize(fs, dict);
+            //    fs.Flush();
+            //}
         }
 
         private void ProcessUsualWords(List<string> totalNamesList)

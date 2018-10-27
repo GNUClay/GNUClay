@@ -11,7 +11,7 @@ namespace MyNPCLib.SimpleWordsDict
         {
             mWordsDictData = new WordsDictData();
             mWordsDictData.WordsDict = new Dictionary<string, WordFrame>();
-            mWordsDictData.NamesList = new List<string>();
+            //mWordsDictData.NamesList = new List<string>();
 
             DefineCommonClasses();
             DefineWords();
@@ -405,6 +405,16 @@ namespace MyNPCLib.SimpleWordsDict
                 GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
                 {
                     new PrepositionGrammaticalWordFrame()
+                    {
+                        ConditionalLogicalMeaning = new Dictionary<string, IList<string>>()
+                        {
+                            {
+                                "go", new List<string>() {
+                                    "direction"
+                                }
+                            }
+                        }
+                    }
                 }
             };
         }
@@ -417,7 +427,7 @@ namespace MyNPCLib.SimpleWordsDict
         private static void DefineHumanNames()
         {
             var wordName = "Tom";
-            mWordsDictData.NamesList.Add(wordName);
+            //mWordsDictData.NamesList.Add(wordName);
             mWordsDictData.WordsDict[wordName] = new WordFrame()
             {
                 Word = wordName,

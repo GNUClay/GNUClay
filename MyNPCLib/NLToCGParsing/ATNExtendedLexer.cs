@@ -103,12 +103,14 @@ namespace MyNPCLib.NLToCGParsing
             //LogInstance.Log($"tokenContent = {tokenContent}");
 #endif
 
-            if (!mWordsDict.IsName(tokenContent))
-            {
-                tokenContent = tokenContent.ToLower();
-            }
+            //if (!mWordsDict.IsName(tokenContent))
+            //{
+            //    tokenContent = tokenContent.ToLower();
+            //}
 
-            var wordFrame = mWordsDict.GetWordFrame(tokenContent);
+            var wordFrame = GetWordFrame(tokenContent);
+
+            //var wordFrame = mWordsDict.GetWordFrame(tokenContent);
 
 #if DEBUG
             //LogInstance.Log($"wordFrame = {wordFrame}");
@@ -127,6 +129,19 @@ namespace MyNPCLib.NLToCGParsing
             }
 
             return result;
+        }
+
+        private WordFrame GetWordFrame(string content)
+        {
+            var wordFrame = mWordsDict.GetWordFrame(content);
+
+            if(wordFrame == null)
+            {
+                content = content.ToLower();
+                wordFrame = mWordsDict.GetWordFrame(content);
+            }
+
+            return wordFrame;
         }
 
         private ATNExtendedToken CreateExtendToken(ATNToken sourceToken)

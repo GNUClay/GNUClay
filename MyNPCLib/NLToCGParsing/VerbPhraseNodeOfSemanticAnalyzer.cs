@@ -210,7 +210,7 @@ namespace MyNPCLib.NLToCGParsing
                     //LogInstance.Log($"prepositionalObjectsList.Count = {prepositionalObjectsList.Count}");
 #endif
 
-                    var isMoving = verb.FullLogicalMeaning.Contains("moving");
+                    //var isMoving = verb.FullLogicalMeaning.Contains("moving");
 
 #if DEBUG
                     //LogInstance.Log($"isMoving = {isMoving}");
@@ -218,17 +218,15 @@ namespace MyNPCLib.NLToCGParsing
 
                     foreach (var prepositional in prepositionalObjectsList)
                     {
-#if DEBUG
-                        //LogInstance.Log($"prepositional = {prepositional}");
-#endif
-
-                        var isTo = prepositional.ExtendedToken.RootWord == "to";
+                        var conditionalLogicalMeaning = GetConditionalLogicalMeaning(prepositional.ExtendedToken.RootWord, verb.RootWord);
 
 #if DEBUG
-                        //LogInstance.Log($"isTo = {isTo}");
+                        LogInstance.Log($"prepositional = {prepositional}");
+                        
+                        LogInstance.Log($"conditionalLogicalMeaning = {conditionalLogicalMeaning}");
 #endif
 
-                        if(isTo && isMoving)
+                        if(!string.IsNullOrWhiteSpace(conditionalLogicalMeaning))
                         {
                             var nounOfPrepositional = prepositional.NounObject;
 
@@ -245,7 +243,7 @@ namespace MyNPCLib.NLToCGParsing
                             //LogInstance.Log($"phisobjList.Count = {phisobjList.Count}");
 #endif
 
-                            foreach(var phisobj in phisobjList)
+                            foreach (var phisobj in phisobjList)
                             {
 #if DEBUG
                                 //LogInstance.Log($"phisobj = {phisobj}");
@@ -253,7 +251,7 @@ namespace MyNPCLib.NLToCGParsing
 
                                 var directionRelation = new RelationCGNode();
                                 directionRelation.Parent = conceptualGraph;
-                                directionRelation.Name = "direction";
+                                directionRelation.Name = conditionalLogicalMeaning;
 
                                 directionRelation.AddInputNode(mConcept);
                                 directionRelation.AddOutputNode(phisobj);

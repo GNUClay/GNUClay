@@ -1,6 +1,7 @@
 ﻿using MyNPCLib.CG;
 using MyNPCLib.NLToCGParsing.DependencyTree;
 using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,13 @@ namespace MyNPCLib.NLToCGParsing
 {
     public class SemanticAnalyzer
     {
+        public SemanticAnalyzer(IWordsDict wordDict)
+        {
+            mWordsDict = wordDict;
+        }
+
+        private IWordsDict mWordsDict;
+
         private readonly object mRunLockObj = new object();
 
         public ConceptualGraph Run(SentenceDTNode sentence)
@@ -21,6 +29,7 @@ namespace MyNPCLib.NLToCGParsing
                 var outerConceptualGraph = new ConceptualGraph();
                 var context = new ContextOfSemanticAnalyzer();
                 context.OuterConceptualGraph = outerConceptualGraph;
+                context.WordsDict = mWordsDict;
 
                 var sentenceNode = new SentenceNodeOfSemanticAnalyzer(context, sentence);
                 var sentenceResult = sentenceNode.Run();

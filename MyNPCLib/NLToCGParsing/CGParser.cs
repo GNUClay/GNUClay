@@ -22,7 +22,7 @@ namespace MyNPCLib.NLToCGParsing
             mSentenceDetector = new EnglishMaximumEntropySentenceDetector(modelPath);
 
             mATNParser = new ATNParser(options.WordsDict);
-            mSemanticAnalyzer = new SemanticAnalyzer();
+            mSemanticAnalyzer = new SemanticAnalyzer(options.WordsDict);
         }
 
         private EnglishMaximumEntropySentenceDetector mSentenceDetector;

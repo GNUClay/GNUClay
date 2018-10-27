@@ -2,6 +2,7 @@
 using MyNPCLib.CommonServiceGrammaticalElements;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing
@@ -26,6 +27,12 @@ namespace MyNPCLib.NLToCGParsing
             }
 
             return rootWord;
+        }
+
+        protected string GetConditionalLogicalMeaning(string word, string conditionalWord)
+        {
+            var list = Context.WordsDict.GetConditionalLogicalMeaning(word, conditionalWord);
+            return list.FirstOrDefault();
         }
 
         protected void MarkAsEntityCondition(RelationCGNode relation)

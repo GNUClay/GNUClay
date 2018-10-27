@@ -8,7 +8,7 @@ namespace MyNPCLib.SimpleWordsDict
     public class WordsDictData : IObjectToString
     {
         public IDictionary<string, WordFrame> WordsDict { get; set; }
-        public IList<string> NamesList { get; set; }
+        //public IList<string> NamesList { get; set; }
 
         public override string ToString()
         {
@@ -41,19 +41,19 @@ namespace MyNPCLib.SimpleWordsDict
                 sb.AppendLine($"{spaces}End {nameof(WordsDict)}");
             }
 
-            if (NamesList == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(NamesList)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(NamesList)}");
-                foreach (var name in NamesList)
-                {
-                    sb.AppendLine($"{nextNSpaces}{nameof(name)} = {name}");
-                }
-                sb.AppendLine($"{spaces}End {nameof(NamesList)}");
-            }
+            //if (NamesList == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(NamesList)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(NamesList)}");
+            //    foreach (var name in NamesList)
+            //    {
+            //        sb.AppendLine($"{nextNSpaces}{nameof(name)} = {name}");
+            //    }
+            //    sb.AppendLine($"{spaces}End {nameof(NamesList)}");
+            //}
             return sb.ToString();
         }
     }

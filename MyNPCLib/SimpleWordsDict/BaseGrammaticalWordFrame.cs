@@ -33,6 +33,7 @@ namespace MyNPCLib.SimpleWordsDict
         public string RootWord { get; set; }
         public IList<string> LogicalMeaning { get; set; }
         public IList<string> FullLogicalMeaning { get; set; }
+        public IDictionary<string, IList<string>> ConditionalLogicalMeaning { get; set; }
         public bool IsArchaic { get; set; }
         public bool IsDialectal { get; set; }
         public bool IsPoetic { get; set; }
@@ -54,9 +55,14 @@ namespace MyNPCLib.SimpleWordsDict
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var nextNSpaces = StringHelper.Spaces(nextN);
+            var nextNextN = nextN + 4;
+            var nextNextNSpaces = StringHelper.Spaces(nextNextN);
+            var nextNextNextN = nextNextN + 4;
+            var nextNextNextNSpaces = StringHelper.Spaces(nextNextNextN);
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(PartOfSpeech)} = {PartOfSpeech}");
             sb.AppendLine($"{spaces}{nameof(RootWord)} = {RootWord}");
+
             if (LogicalMeaning == null)
             {
                 sb.AppendLine($"{spaces}{nameof(LogicalMeaning)} = null");
@@ -70,6 +76,7 @@ namespace MyNPCLib.SimpleWordsDict
                 }
                 sb.AppendLine($"{spaces}End {nameof(LogicalMeaning)}");
             }
+
             if (FullLogicalMeaning == null)
             {
                 sb.AppendLine($"{spaces}{nameof(FullLogicalMeaning)} = null");
@@ -82,6 +89,29 @@ namespace MyNPCLib.SimpleWordsDict
                     sb.AppendLine($"{nextNSpaces}{item}");
                 }
                 sb.AppendLine($"{spaces}End {nameof(FullLogicalMeaning)}");
+            }
+
+            if(ConditionalLogicalMeaning == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ConditionalLogicalMeaning)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ConditionalLogicalMeaning)}");
+                foreach(var kvpItems in ConditionalLogicalMeaning)
+                {
+                    sb.AppendLine($"{nextNSpaces}Begin Item");
+                    sb.AppendLine($"{nextNextNSpaces}Key = {kvpItems.Key}");
+                    sb.AppendLine($"{nextNextNSpaces}Begin Meanings");
+                    var meaningsList = kvpItems.Value;
+                    foreach(var meaning in meaningsList)
+                    {
+                        sb.AppendLine($"{nextNextNextNSpaces}{meaning}");
+                    }
+                    sb.AppendLine($"{nextNextNSpaces}End Meanings");
+                    sb.AppendLine($"{nextNSpaces}End Item");
+                }
+                sb.AppendLine($"{spaces}End {nameof(ConditionalLogicalMeaning)}");
             }
 
             sb.AppendLine($"{spaces}{nameof(IsArchaic)} = {IsArchaic}");

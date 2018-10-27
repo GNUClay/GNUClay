@@ -48,14 +48,14 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTSaveDict();
+            //TSTSaveDict();
             //TSTQueryWithParams();
             //TSTHostLogicalObjectStorage();
             //TSTParsingUserQuery();
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            //TSTGoToGreenWaypoint();
+            TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
             //TSTATNParsing();
             //TSTWordNet();
@@ -85,7 +85,7 @@ namespace TmpSandBox
 
             LogInstance.Log($"dict = {dict}");
 
-            var serializationEngine = new SerializationEngine<WordsDictData>("WordsDict", 0.1M);
+            var serializationEngine = new SerializationEngine<WordsDictData>("WordsDict", 0.1M, true);
 
             var rootPath = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -103,9 +103,9 @@ namespace TmpSandBox
 
             serializationEngine.SaveToFile(dict, path);
 
-            var dict2 = serializationEngine.LoadFromFile(path);
+            //var dict2 = serializationEngine.LoadFromFile(path);
 
-            LogInstance.Log($"dict2 = {dict2}");
+            //LogInstance.Log($"dict2 = {dict2}");
 
             LogInstance.Log("End");
         }

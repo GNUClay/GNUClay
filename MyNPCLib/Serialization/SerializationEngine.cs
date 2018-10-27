@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
@@ -8,15 +9,17 @@ namespace MyNPCLib.Serialization
 {
     public class SerializationEngine<T>
     {
-        public SerializationEngine(string name, decimal version)
+        public SerializationEngine(string name, decimal version, bool needCompression)
         {
             mName = name;
             mVersion = version;
+            mNeedCompression = needCompression;
             mFormatter = new BinaryFormatter();
         }
 
         private string mName;
         private decimal mVersion;
+        private bool mNeedCompression;
         private BinaryFormatter mFormatter;
 
         public SerializationPackage SaveToPackage(T item)
@@ -25,6 +28,12 @@ namespace MyNPCLib.Serialization
             result.Version = mVersion;
             result.Name = mName;
             result.Value = SaveToBytes(item);
+
+            if (mNeedCompression)
+            {
+                result.Value = Compress(result.Value);
+            }
+
             return result;
         }
 
@@ -38,18 +47,21 @@ namespace MyNPCLib.Serialization
             }
         }
 
-        /*
-                    using (var originalStream = new MemoryStream(result))
+        private byte[] Compress(byte[] bytes)
+        {
+            using (var destStream = new MemoryStream())
             {
-                using (var compressedStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var sourceStream = new MemoryStream(bytes))
                 {
-                    using (var compressionStream = new GZipStream(compressedStream, CompressionMode.Compress))
+                    using (var compressionStream = new GZipStream(destStream, CompressionMode.Compress))
                     {
-                        originalStream.CopyTo(compressionStream);
+                        sourceStream.CopyTo(compressionStream);
+                        compressionStream.Flush();
+                        return destStream.ToArray();
                     }
                 }
             }
-         */
+        }
 
         public void SaveToFile(T item, string fileName)
         {
@@ -104,24 +116,29 @@ namespace MyNPCLib.Serialization
 
         public T LoadFromPackage(SerializationPackage package)
         {
+            if(mNeedCompression)
+            {
+                package.Value = Decompress(package.Value);
+            }
+
             return LoadFromBytes(package.Value);
         }
 
-        /*
-        
-                using (var originalStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
+        private byte[] Decompress(byte[] bytes)
+        {
+            using (var originalStream = new MemoryStream(bytes))
+            {
+                using (var decompressionStream = new GZipStream(originalStream, CompressionMode.Decompress))
                 {
-                    using (var decompressionStream = new GZipStream(originalStream, CompressionMode.Decompress))
+                    using (var decompressedStream = new MemoryStream())
                     {
-                        using (var decompressedStream = new MemoryStream())
-                        {
-                            decompressionStream.CopyTo(decompressedStream);
-
-                            GnuClayEngine.Load(decompressedStream.ToArray());
-                        }
-                    }                     
-                }  
-        */
+                        decompressionStream.Flush();
+                        decompressionStream.CopyTo(decompressedStream);
+                        return decompressedStream.ToArray();
+                    }
+                }        
+            }
+        }
 
         public T LoadFromBytes(byte[] bytes)
         {
