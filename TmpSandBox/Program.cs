@@ -16,6 +16,7 @@ using MyNPCLib.NLToCGParsing;
 using MyNPCLib.Parser.LogicalExpression;
 using MyNPCLib.PersistLogicalData;
 using MyNPCLib.PersistLogicalDataStorage;
+using MyNPCLib.Serialization;
 using MyNPCLib.SimpleWordsDict;
 using OpenNLP.Tools.PosTagger;
 using SharpWordNet;
@@ -47,7 +48,8 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTQueryWithParams();
+            TSTSaveDict();
+            //TSTQueryWithParams();
             //TSTHostLogicalObjectStorage();
             //TSTParsingUserQuery();
             //TSTLogicalSoundBus();
@@ -73,6 +75,39 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTSaveDict()
+        {
+            LogInstance.Log("Begin");
+
+            var dict = TmpFactoryOfWordsDictData.Data;
+
+            LogInstance.Log($"dict = {dict}");
+
+            var serializationEngine = new SerializationEngine<WordsDictData>("WordsDict", 0.1M);
+
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var localPath = "main.dict";
+
+            var path = Path.Combine(rootPath, localPath);
+
+#if DEBUG
+            LogInstance.Log($"path = {path}");
+#endif
+
+            serializationEngine.SaveToFile(dict, path);
+
+            var dict2 = serializationEngine.LoadFromFile(path);
+
+            LogInstance.Log($"dict2 = {dict2}");
+
+            LogInstance.Log("End");
         }
 
         private static void TSTQueryWithParams()

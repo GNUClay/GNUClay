@@ -41,7 +41,7 @@ namespace MyNPCLib.NLToCGParsing
         protected abstract void ImplementInternalState();
         protected abstract void BornNewNodes();
         protected bool SuppressBornNewNodes { get; set; }
-
+        
         protected IList<KeyValuePair<ATNExtendedToken, GoalOfATNExtendToken>> GetСlusterOfExtendedTokensWithGoals()
         {
             var сlusterOfExtendedTokens = Context.GetСlusterOfExtendedTokens();

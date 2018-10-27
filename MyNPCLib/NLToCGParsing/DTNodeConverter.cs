@@ -20,7 +20,7 @@ namespace MyNPCLib.NLToCGParsing
             result.Voice = sentence.Voice;
             result.Mood = sentence.Mood;
             result.Modal = sentence.Modal;
-
+            
             var subject = sentence.NounPhrase;
 
             var verbOfSentence = sentence.VerbPhrase;
