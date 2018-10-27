@@ -38,6 +38,19 @@ namespace MyNPCLib.Serialization
             }
         }
 
+        /*
+                    using (var originalStream = new MemoryStream(result))
+            {
+                using (var compressedStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    using (var compressionStream = new GZipStream(compressedStream, CompressionMode.Compress))
+                    {
+                        originalStream.CopyTo(compressionStream);
+                    }
+                }
+            }
+         */
+
         public void SaveToFile(T item, string fileName)
         {
             if(item == null)
@@ -93,6 +106,22 @@ namespace MyNPCLib.Serialization
         {
             return LoadFromBytes(package.Value);
         }
+
+        /*
+        
+                using (var originalStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    using (var decompressionStream = new GZipStream(originalStream, CompressionMode.Decompress))
+                    {
+                        using (var decompressedStream = new MemoryStream())
+                        {
+                            decompressionStream.CopyTo(decompressedStream);
+
+                            GnuClayEngine.Load(decompressedStream.ToArray());
+                        }
+                    }                     
+                }  
+        */
 
         public T LoadFromBytes(byte[] bytes)
         {
