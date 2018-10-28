@@ -31,6 +31,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TmpSandBox.NPCBehaviour;
 using TmpSandBox.TSTConceptualGraphs;
+using TmpSandBox.VarOfSentences;
 
 namespace TmpSandBox
 {
@@ -55,7 +56,9 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            TSTGoToGreenWaypoint();
+            //TSTSentencesGenerator();
+            TSTParsingOfManyTenses();
+            //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
             //TSTATNParsing();
             //TSTWordNet();
@@ -517,6 +520,679 @@ namespace TmpSandBox
             globalDataSource.SetPropertyValueAsAsObject(firstEntityId, "color", "red");
 
             globalDataSource.SetPropertyValueAsAsObject(firstEntityId, "target", "#dog1");
+        }
+
+        //private static void TSTGenerateCombinationsOfSentences()
+        //{
+
+        //}
+
+        /*private static void TSTParsingOfManyTenses()
+        {
+            //Present Indefinite
+            var sentence = "I know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I know no the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "He knowes the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "He knowes no the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I do not know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I don't know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Do I know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Do not I know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "He does not know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Who does know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Who does not know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them do not I know?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them do I know?";
+            NParsingSentence(sentence);
+
+            //Past Indefinite
+            sentence = "I knew the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "He knew the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I did know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I did not know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Did I know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Did not I know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Who did know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them did I know?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them did not I know?";
+            NParsingSentence(sentence);
+
+            //Future Indefinite
+            sentence = "I will know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "I will not know the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Will not I know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Who will know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Who will not know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which dog will I know?";
+            NParsingSentence(sentence);
+
+            //Present continuous
+            sentence = "I am doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "I am not doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "Am I doing this.";
+            NParsingSentence(sentence);
+
+            //sentence = "Am I no plaing?";??
+            //NParsingSentence(sentence);??
+
+            sentence = "Who is doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "Who is not doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "What am I doing?";
+            NParsingSentence(sentence);
+
+            //Future continuous.
+            sentence = "I will be doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "I will not be doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I be";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+
+            sentence = "";
+            NParsingSentence(sentence);
+        }*/
+
+        private static void TSTSentencesGenerator()
+        {
+            var generator = new SentencesGenerator();
+            generator.Run();
+        }
+
+        private static void TSTParsingOfManyTenses()
+        {
+            //Active: Present Simple
+            var sentence = "I play.";
+            NParsingSentence(sentence);
+
+            sentence = "Do I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I do not play";
+            NParsingSentence(sentence);
+
+            sentence = "We do our work with pleasure.";
+            NParsingSentence(sentence);
+
+            sentence = "The meeting starts at 6 o'clock.";
+            NParsingSentence(sentence);
+
+            sentence = "Who does know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Who does not know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them do not I know?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them do I know?";
+            NParsingSentence(sentence);
+
+            //Passive: Present Simple
+            sentence = "Space is explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Is space explored.";
+            NParsingSentence(sentence);
+
+            sentence = "What is explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Space is not explored.";
+            NParsingSentence(sentence);
+
+            //Active: Past Simple
+            sentence = "I played.";
+            NParsingSentence(sentence);
+
+            sentence = "Did I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I did not play.";
+            NParsingSentence(sentence);
+
+            sentence = "Who did know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them did I know?";
+            NParsingSentence(sentence);
+
+            sentence = "Which of them did not I know?";
+            NParsingSentence(sentence);
+
+            //Passive: Past Simple
+            sentence = "Space was explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Space was not explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Was space explored?";
+            NParsingSentence(sentence);
+
+            sentence = "What was explored?";
+            NParsingSentence(sentence);
+
+            //Active: Future Simple
+            sentence = "I will play.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I will not play.";
+            NParsingSentence(sentence);
+
+            sentence = "Who will know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Who will not know the dog?";
+            NParsingSentence(sentence);
+
+            sentence = "Which dog will I know?";
+            NParsingSentence(sentence);
+
+            //Passive: Future Simple
+            sentence = "Space will be explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Will space be explored?";
+            NParsingSentence(sentence);
+
+            sentence = "What will be explored?";
+            NParsingSentence(sentence);
+
+            sentence = "Space will not be explored.";
+            NParsingSentence(sentence);
+
+            //Active: Present Continuous
+            sentence = "I am playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Am I playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I am not playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Who is doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "Who is not doing this.";
+            NParsingSentence(sentence);
+
+            sentence = "What am I doing?";
+            NParsingSentence(sentence);
+
+            //Passive: Present Continuous
+            sentence = "Space is being explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Space is not being explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Is space being explored?";
+            NParsingSentence(sentence);
+
+            sentence = "What is being explored?";
+            NParsingSentence(sentence);
+
+            //Active: Past Continuous
+            sentence = "I was playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Was I playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I was not playing.";
+            NParsingSentence(sentence);
+
+            //Passive: Past Continuous
+            sentence = "Space was being explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Space was not being explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Was space being explored?";
+            NParsingSentence(sentence);
+
+            sentence = "What was being explored?";
+            NParsingSentence(sentence);
+
+            //Active: Future Continuous
+            sentence = "I will be playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I be playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I will not be playing.";
+            NParsingSentence(sentence);
+
+            //Passive: Future Continuous -> forbidden.
+
+            //Active: Present Perfect
+            sentence = "I have played.";
+            NParsingSentence(sentence);
+
+            sentence = "Have I played?";
+            NParsingSentence(sentence);
+
+            sentence = "I have not played.";
+            NParsingSentence(sentence);
+
+            //Passive: Present Perfect
+            sentence = "Space has been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "What has been explored?";
+            NParsingSentence(sentence);
+
+            sentence = "Space has not been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Has space been explored?";
+            NParsingSentence(sentence);
+
+            //Active: Past Perfect
+            sentence = "I had played.";
+            NParsingSentence(sentence);
+
+            sentence = "Had I played?";
+            NParsingSentence(sentence);
+
+            sentence = "I had not played.";
+            NParsingSentence(sentence);
+
+            //Passive: Past Perfect
+            sentence = "Space had been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "What had been explored?";
+            NParsingSentence(sentence);
+
+            sentence = "Space had not been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Had space been explored?";
+            NParsingSentence(sentence);
+
+            //Active: Future Perfect
+            sentence = "I will have played.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I have played?";
+            NParsingSentence(sentence);
+
+            sentence = "I will not have played.";
+            NParsingSentence(sentence);
+
+            //Passive: Future Perfect
+            sentence = "Space will have been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Space will not have been explored.";
+            NParsingSentence(sentence);
+
+            sentence = "Will space have been explored?";
+            NParsingSentence(sentence);
+
+            sentence = "What will have been explored?";
+            NParsingSentence(sentence);
+
+            sentence = "In which time space will have been explored?";
+            NParsingSentence(sentence);
+
+            //Active: Present Perfect Continuous
+            sentence = "I have been playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Have I been playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I have not been playing";
+            NParsingSentence(sentence);
+
+            //Passive: Present Perfect Continuous -> forbidden.
+
+            //Active: Past Perfect Continuous
+            sentence = "I had been playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Had I been playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I had not been playing.";
+            NParsingSentence(sentence);
+
+            //Passive: Past Perfect Continuous -> forbidden.
+
+            //Active: Future Perfect Continuous
+            sentence = "I will have been playing.";
+            NParsingSentence(sentence);
+
+            sentence = "Will I have been playing?";
+            NParsingSentence(sentence);
+
+            sentence = "I will not have been playing.";
+            NParsingSentence(sentence);
+
+            //Passive: Future Perfect Continuous -> forbidden.
+
+            //Inversion.
+            sentence = "There is some noise outside.";
+            NParsingSentence(sentence);
+
+            sentence = "Here is our new office.";
+            NParsingSentence(sentence);
+
+            sentence = "\"How are you?\" said Winnie-the-Pooh.";
+            NParsingSentence(sentence);
+
+            //Can: 
+            sentence = "I can play.";
+            NParsingSentence(sentence);
+
+            sentence = "Can I play?";
+            NParsingSentence(sentence);
+
+            //Can:
+            sentence = "I can’t play.";
+            NParsingSentence(sentence);
+
+            //Can:
+            sentence = "I cannot play.";
+            NParsingSentence(sentence);
+
+            //Can: 
+            sentence = "I could play.";
+            NParsingSentence(sentence);
+
+            sentence = "Could I play?";
+            NParsingSentence(sentence);
+
+            //Can:
+            sentence = "I could not play.";
+            NParsingSentence(sentence);
+
+            //Can:
+            sentence = "I couldn't play.";
+            NParsingSentence(sentence);
+
+            sentence = "Soon I will be able to read German books without a dictionary.";//be able to -> can
+            NParsingSentence(sentence);
+
+            sentence = "At the moment I cannot talk.";
+            NParsingSentence(sentence);
+
+            //May
+            sentence = "I may play.";
+            NParsingSentence(sentence);
+
+            sentence = "May I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I may not play.";
+            NParsingSentence(sentence);
+
+            sentence = "I mayn't play.";
+            NParsingSentence(sentence);
+
+            sentence = "I might play.";
+            NParsingSentence(sentence);
+
+            sentence = "I might not play.";
+            NParsingSentence(sentence);
+
+            sentence = "I mightn't play.";
+            NParsingSentence(sentence);
+
+            //Must
+            sentence = "I must play.";
+            NParsingSentence(sentence);
+
+            sentence = "Must I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I must not play.";
+            NParsingSentence(sentence);
+
+            sentence = "I mustn't play.";
+            NParsingSentence(sentence);
+
+            //Have to: Present
+            sentence = "I have to play."; //have to -> must
+            NParsingSentence(sentence);
+
+            sentence = "I have to visit my dog every week.";
+            NParsingSentence(sentence);
+
+            sentence = "I don't have to play.";
+            NParsingSentence(sentence);
+
+            //Have to: Past
+            sentence = "I had to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I did not have to play.";
+            NParsingSentence(sentence);
+
+            //Have got to
+            sentence = "Have you got to visit your dog tomorrow?";
+            NParsingSentence(sentence);
+
+            sentence = "You have got to visit your dog tomorrow?";
+            NParsingSentence(sentence);
+
+            //Be to
+            sentence = "I am to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I am not to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I was to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I was not to play.";
+            NParsingSentence(sentence);
+
+            //Ought to
+            sentence = "I ought to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I ought not to play.";
+            NParsingSentence(sentence);
+
+            sentence = "I oughtn't to play.";
+            NParsingSentence(sentence);
+
+            //Should
+            sentence = "I should play."; //ought to -> should
+            NParsingSentence(sentence);
+
+            sentence = "Should I play?";
+            NParsingSentence(sentence);
+
+            sentence = "I should not play.";
+            NParsingSentence(sentence);
+
+            sentence = "I shouldn't play.";
+            NParsingSentence(sentence);
+
+            //Would
+            sentence = "I would play.";
+            NParsingSentence(sentence);
+
+            sentence = "I would not play.";
+            NParsingSentence(sentence);
+
+            sentence = "I wouldn't play.";
+            NParsingSentence(sentence);
+
+            sentence = "Would I play?";
+            NParsingSentence(sentence);
+
+            //Vocative case
+            sentence = "I know, Stephen.";
+            NParsingSentence(sentence);
+
+            sentence = "Jonathan, do not forget your shower gel.";
+            NParsingSentence(sentence);
+
+            sentence = "And that, your Honor, concludes our case.";
+            NParsingSentence(sentence);
+
+            sentence = "Do me a favour, Kev, and ask Tim to stop speaking with the dog.";
+            NParsingSentence(sentence);
+
+            sentence = "Where have you been, you little adventurer?";
+            NParsingSentence(sentence);
+
+            sentence = "She says, \"What time will you be home?\"";
+            NParsingSentence(sentence);
+
+            sentence = "She said, \"What time will you be home?\" and I said, \"I don't know!\"";
+            NParsingSentence(sentence);
+
+            sentence = "\"There's a fly in my soup!\" screamed Simone.";
+            NParsingSentence(sentence);
+
+            sentence = "Is that Olivia’s bag?";
+            NParsingSentence(sentence);
+
+            sentence = "Britain’s coastline is very beautiful.";
+            NParsingSentence(sentence);
+
+            sentence = "We went to Jake’s father’s funeral.";
+            NParsingSentence(sentence);
+
+            sentence = "Is that yesterday’s paper?";
+            NParsingSentence(sentence);
+
+            sentence = "I’ve only had one week’s holiday so far this year.";
+            NParsingSentence(sentence);
+
+            sentence = "My sister-in-law’s friend came with us.";
+            NParsingSentence(sentence);
+
+            sentence = "A friend of mine told me that all of the tickets have already sold out.";
+            NParsingSentence(sentence);
+
+            sentence = "He’s gone to pick up a cousin of his at the station.";
+            NParsingSentence(sentence);
+        }
+
+        private static int mCount;
+
+        private static void NParsingSentence(string sentence)
+        {
+            if(string.IsNullOrWhiteSpace(sentence))
+            {
+                throw new NotImplementedException();
+                //return;
+            }
+
+            LogInstance.Log($"sentence = {sentence}");
+            mCount++;
+            LogInstance.Log($"mCount = {mCount}");
         }
 
         private static void TSTGoToGreenWaypoint()

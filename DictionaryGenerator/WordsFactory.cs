@@ -196,6 +196,60 @@ namespace DictionaryGenerator
             //}
         }
 
+        /*
+         VERBS THAT ARE NOT USUALLY USED IN THE CONTINUOUS FORM
+The verbs in the list below are normally used in the simple form because they refer to states, rather than actions or processes.
+
+SENSES / PERCEPTION
+to feel*
+to hear
+to see*
+to smell
+to taste
+OPINION
+to assume
+to believe
+to consider
+to doubt
+to feel (= to think)
+to find (= to consider)
+to suppose
+to think*
+MENTAL STATES
+to forget
+to imagine
+to know
+to mean
+to notice
+to recognise
+to remember
+to understand
+EMOTIONS / DESIRES
+to envy
+to fear
+to dislike
+to hate
+to hope
+to like
+to love
+to mind
+to prefer
+to regret
+to want
+to wish
+MEASUREMENT
+to contain
+to cost
+to hold
+to measure
+to weigh
+OTHERS
+to look (=resemble)
+to seem
+to be (in most cases)
+to have (when it means "to possess")*
+             */
+
         private void ProcessUsualWords(List<string> totalNamesList)
         {
             ProcessAllPronouns();
