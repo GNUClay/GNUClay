@@ -13,6 +13,8 @@ namespace MyNPCLib.SimpleWordsDict
         public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
         public bool IsQuestionWord { get; set; }
         public bool IsDeterminer { get; set; }
+        public bool IsNegation { get; set; }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -22,6 +24,7 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
             sb.AppendLine($"{spaces}{nameof(IsQuestionWord)} = {IsQuestionWord}");
             sb.AppendLine($"{spaces}{nameof(IsDeterminer)} = {IsDeterminer}");
+            sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
     }

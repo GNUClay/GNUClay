@@ -14,7 +14,7 @@ namespace DictionaryGenerator
 #endif
 
             var wordName = "i";
-            var currentRootWord = wordName;
+            var rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -30,7 +30,7 @@ namespace DictionaryGenerator
             wordName = "me";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.First,
@@ -44,14 +44,14 @@ namespace DictionaryGenerator
             wordName = "my";
             AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 Kind = KindOfArticle.Definite
             });
 
             wordName = "mine";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.First,
@@ -62,7 +62,7 @@ namespace DictionaryGenerator
             wordName = "myself";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.First,
@@ -71,7 +71,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "you";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -99,14 +99,14 @@ namespace DictionaryGenerator
             wordName = "your";
             AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 Kind = KindOfArticle.Definite
             });
 
             wordName = "yours";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Second,
@@ -117,7 +117,7 @@ namespace DictionaryGenerator
             wordName = "yourself";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Second,
@@ -128,7 +128,7 @@ namespace DictionaryGenerator
             wordName = "yourselves";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Second,
@@ -137,7 +137,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "he";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -154,7 +154,7 @@ namespace DictionaryGenerator
             wordName = "him";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.Third,
@@ -169,7 +169,7 @@ namespace DictionaryGenerator
             wordName = "his";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -181,7 +181,7 @@ namespace DictionaryGenerator
             wordName = "himself";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -191,7 +191,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "she";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -208,7 +208,7 @@ namespace DictionaryGenerator
             wordName = "her";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.Third,
@@ -222,14 +222,14 @@ namespace DictionaryGenerator
 
             AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 Kind = KindOfArticle.Definite
             });
 
             wordName = "hers";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -241,7 +241,7 @@ namespace DictionaryGenerator
             wordName = "herself";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -251,7 +251,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "it";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -266,7 +266,7 @@ namespace DictionaryGenerator
 
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.Third,
@@ -280,7 +280,7 @@ namespace DictionaryGenerator
             wordName = "its";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -291,7 +291,7 @@ namespace DictionaryGenerator
             wordName = "itself";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -300,7 +300,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "we";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -316,7 +316,7 @@ namespace DictionaryGenerator
             wordName = "us";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.First,
@@ -330,14 +330,14 @@ namespace DictionaryGenerator
             wordName = "our";
             AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 Kind = KindOfArticle.Definite
             });
 
             wordName = "ours";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.First,
@@ -348,7 +348,7 @@ namespace DictionaryGenerator
             wordName = "ourselves";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.First,
@@ -357,7 +357,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "they";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Personal,
@@ -372,7 +372,7 @@ namespace DictionaryGenerator
             wordName = "them";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Personal,
                 Case = CaseOfPersonalPronoun.Object,
                 Person = GrammaticalPerson.Third,
@@ -385,14 +385,14 @@ namespace DictionaryGenerator
             wordName = "their";
             AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 Kind = KindOfArticle.Definite
             });
 
             wordName = "theirs";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Possessive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -406,7 +406,7 @@ namespace DictionaryGenerator
             wordName = "themselves";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Reflexive,
                 Case = CaseOfPersonalPronoun.Undefined,
                 Person = GrammaticalPerson.Third,
@@ -417,7 +417,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "this";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
@@ -432,7 +432,7 @@ namespace DictionaryGenerator
             wordName = "these";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
                 Number = GrammaticalNumberOfWord.Plural,
                 LogicalMeaning = new List<string>()
@@ -443,7 +443,7 @@ namespace DictionaryGenerator
             });
 
             wordName = "that";
-            currentRootWord = wordName;
+            rootWord = wordName;
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
@@ -458,7 +458,7 @@ namespace DictionaryGenerator
             wordName = "those";
             AddGrammaticalWordFrame(wordName, new PronounGrammaticalWordFrame()
             {
-                RootWord = currentRootWord,
+                RootWord = rootWord,
                 TypeOfPronoun = TypeOfPronoun.Demonstrative,
                 Number = GrammaticalNumberOfWord.Plural,
                 LogicalMeaning = new List<string>()

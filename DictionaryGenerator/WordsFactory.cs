@@ -462,6 +462,12 @@ to have (when it means "to possess")*
                 return;
             }
 
+            if(rootWord == "might")
+            {
+                ProcessMight(rootWord);
+                return;
+            }
+
             if (rootWord == "must")
             {
                 ProcessMust(rootWord);
@@ -589,11 +595,11 @@ to have (when it means "to possess")*
 
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
+                Tense = GrammaticalTenses.Present,
                 IsFormOfToBe = true
             });
 
             var word = "been";
-
             AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
             {
                 IsFormOfToBe = true,
@@ -672,7 +678,8 @@ to have (when it means "to possess")*
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
-                IsModal = true
+                IsModal = true,
+                RootWord = "can"
             });
         }
 
@@ -682,6 +689,16 @@ to have (when it means "to possess")*
             {
                 Tense = GrammaticalTenses.Present,
                 IsModal = true
+            });
+        }
+
+        private void ProcessMight(string rootWord)
+        {
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                IsModal = true,
+                RootWord = "may"
             });
         }
 
@@ -699,7 +716,8 @@ to have (when it means "to possess")*
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
-                IsModal = true
+                IsModal = true,
+                RootWord = "will"
             });
         }
 
@@ -714,7 +732,8 @@ to have (when it means "to possess")*
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Future,
-                IsModal = false
+                IsModal = false,
+                IsRare = true
             });
         }
 
@@ -723,7 +742,8 @@ to have (when it means "to possess")*
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {
                 Tense = GrammaticalTenses.Past,
-                IsModal = true
+                IsModal = true,
+                RootWord = "shell"
             });
         }
 

@@ -13,28 +13,28 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info("Begin ProcessAllArticles");
 #endif
 
-            var wordName = "the";
-            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
+            var word = "the";
+            AddGrammaticalWordFrame(word, new ArticleGrammaticalWordFrame()
             {
                 Kind = KindOfArticle.Definite
             });
 
-            wordName = "a";
-            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
+            word = "a";
+            AddGrammaticalWordFrame(word, new ArticleGrammaticalWordFrame()
             {
                 Number = GrammaticalNumberOfWord.Singular,
                 Kind = KindOfArticle.Indefinite
             });
 
-            wordName = "an";
-            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
+            word = "an";
+            AddGrammaticalWordFrame(word, new ArticleGrammaticalWordFrame()
             {
                 Number = GrammaticalNumberOfWord.Singular,
                 Kind = KindOfArticle.Indefinite
             });
 
-            wordName = "no";
-            AddGrammaticalWordFrame(wordName, new ArticleGrammaticalWordFrame()
+            word = "no";
+            AddGrammaticalWordFrame(word, new ArticleGrammaticalWordFrame()
             {
                 Kind = KindOfArticle.Negative
             });
