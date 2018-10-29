@@ -10,6 +10,7 @@ namespace MyNPCLib.NLToCGParsing
     {
         public ATNExtendedLexer(string text, IWordsDict wordsDict)
         {
+            text = text.Replace("’", "'");
             mLexer = new ATNLexer(text);
             mWordsDict = wordsDict;
         }
@@ -47,7 +48,7 @@ namespace MyNPCLib.NLToCGParsing
                 var token = mLexer.GetToken();
 
 #if DEBUG
-                //LogInstance.Log($"token = {token}");
+                LogInstance.Log($"token = {token}");
 #endif
 
                 if (token == null)
@@ -65,7 +66,7 @@ namespace MyNPCLib.NLToCGParsing
                     {
                         var nextToken = mLexer.GetToken();
 #if DEBUG
-                        //LogInstance.Log($"nextToken = {nextToken}");
+                        LogInstance.Log($"nextToken = {nextToken}");
 #endif
                         var nextTokenKind = nextToken.Kind;
 

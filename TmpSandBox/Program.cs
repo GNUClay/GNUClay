@@ -19,6 +19,7 @@ using MyNPCLib.PersistLogicalDataStorage;
 using MyNPCLib.Serialization;
 using MyNPCLib.SimpleWordsDict;
 using OpenNLP.Tools.PosTagger;
+using OpenNLP.Tools.SentenceDetect;
 using SharpWordNet;
 using System;
 using System.Collections.Generic;
@@ -703,7 +704,7 @@ namespace TmpSandBox
             sentence = "Do I play?";
             NParsingSentence(sentence);
 
-            sentence = "I do not play";
+            sentence = "I do not play.";
             NParsingSentence(sentence);
 
             sentence = "We do our work with pleasure.";
@@ -1182,17 +1183,61 @@ namespace TmpSandBox
 
         private static int mCount;
 
-        private static void NParsingSentence(string sentence)
+        private static void NParsingSentence(string text)
         {
-            if(string.IsNullOrWhiteSpace(sentence))
+            if(string.IsNullOrWhiteSpace(text))
             {
                 throw new NotImplementedException();
                 //return;
             }
 
-            LogInstance.Log($"sentence = {sentence}");
+            LogInstance.Log($"text = {text}");
             mCount++;
             LogInstance.Log($"mCount = {mCount}");
+
+            var wordsDict = new WordsDict();
+
+            var cgParserOptions = new CGParserOptions();
+            cgParserOptions.WordsDict = wordsDict;
+            cgParserOptions.BasePath = AppDomain.CurrentDomain.BaseDirectory;
+
+            var modelPath = OpenNLPPathsHelper.EnglishSDnbinPath(cgParserOptions.BasePath);
+#if DEBUG
+            LogInstance.Log($"modelPath = {modelPath}");
+#endif
+
+            var mSentenceDetector = new EnglishMaximumEntropySentenceDetector(modelPath);
+
+            var sentencesList = mSentenceDetector.SentenceDetect(text);
+
+#if DEBUG
+            LogInstance.Log($"sentencesList.Length = {sentencesList.Length}");
+#endif
+
+            foreach (var sentence in sentencesList)
+            {
+#if DEBUG
+                LogInstance.Log($"sentence = {sentence}");
+#endif
+
+                var extendedLexer = new ATNExtendedLexer(sentence, wordsDict);
+
+                IList<ATNExtendedToken> сlusterOfExtendTokens = null;
+
+                while ((сlusterOfExtendTokens = extendedLexer.GetСlusterOfExtendedTokens()) != null)
+                {
+                    LogInstance.Log($"сlusterOfExtendTokens.Count = {сlusterOfExtendTokens.Count}");
+                    foreach (var extendToken in сlusterOfExtendTokens)
+                    {
+                        LogInstance.Log($"extendToken = {extendToken}");
+
+                        if(extendToken.Kind == KindOfATNToken.Word && extendToken.PartOfSpeech == GrammaticalPartOfSpeech.Undefined)
+                        {
+                            throw new NotSupportedException();
+                        }
+                    }
+                }
+            }
         }
 
         private static void TSTGoToGreenWaypoint()

@@ -365,6 +365,23 @@ namespace MyNPCLib.SimpleWordsDict
                     }
                 }
             };
+
+            wordName = "play";
+            var rootWord = wordName;
+            mWordsDictData.WordsDict[wordName] = new WordFrame()
+            {
+                Word = wordName,
+                GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>()
+                {
+                    new VerbGrammaticalWordFrame()
+                    {
+                        LogicalMeaning = new List<string>()
+                        {
+                            "act"
+                        }
+                    }
+                }
+            };
         }
 
         private static void DefineUsualAdjectives()
