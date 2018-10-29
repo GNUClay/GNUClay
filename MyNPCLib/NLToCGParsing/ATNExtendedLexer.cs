@@ -11,12 +11,15 @@ namespace MyNPCLib.NLToCGParsing
         public ATNExtendedLexer(string text, IWordsDict wordsDict)
         {
             text = text.Replace("’", "'");
-            mLexer = new ATNLexer(text);
+            mLexer = new ATNLexer(text, true);
             mWordsDict = wordsDict;
+
+            InitTransformsDict();
         }
 
         private ATNExtendedLexer()
         {
+            InitTransformsDict();
         }
 
         private readonly object mLockObj = new object();
@@ -34,6 +37,62 @@ namespace MyNPCLib.NLToCGParsing
                 result.mRecoveriesTokens = new Queue<IList<ATNExtendedToken>>(mRecoveriesTokens.ToList());
                 return result;
             }
+        }
+
+        private void InitTransformsDict()
+        {
+            mTransformsDict.Add("can't", new List<string>() { "can", "not" });
+            mTransformsDict.Add("cannot", new List<string>() { "can", "not" });
+            mTransformsDict.Add("couldn't", new List<string>() { "could", "not" });
+            mTransformsDict.Add("mayn't", new List<string>() { "may", "not" });
+            mTransformsDict.Add("mightn't", new List<string>() { "might", "not" });
+            mTransformsDict.Add("mustn't", new List<string>() { "must", "not" });
+            mTransformsDict.Add("haven't", new List<string>() { "have", "not" });
+            mTransformsDict.Add("don't", new List<string>() { "do", "not" });
+            mTransformsDict.Add("doesn't", new List<string>() { "does", "not" });
+            mTransformsDict.Add("didn't", new List<string>() { "did", "not" });
+            mTransformsDict.Add("isn't", new List<string>() { "is", "not" });
+            mTransformsDict.Add("shouldn't", new List<string>() { "should", "not" });
+            mTransformsDict.Add("wouldn't", new List<string>() { "would", "not" });
+            mTransformsDict.Add("oughtn't", new List<string>() { "ought", "not" });
+            //mTransformsDict.Add(, new List<string>() { , });
+        }
+
+        private Dictionary<string, List<string>> mTransformsDict = new Dictionary<string, List<string>>();
+
+        private bool IsTransformed(string word)
+        {
+            if(mTransformsDict.ContainsKey(word))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string GetTransformedContent(string word)
+        {
+            if (mTransformsDict.ContainsKey(word))
+            {
+                var list = mTransformsDict[word];
+
+                var result = list.First();
+
+                list = list.Skip(1).ToList();
+
+                foreach(var item in list)
+                {
+                    var newToken = new ATNToken();
+                    newToken.Kind = KindOfATNToken.Word;
+                    newToken.Content = item;
+
+                    mLexer.Recovery(newToken);
+                }
+
+                return result;
+            }
+
+            return string.Empty;
         }
 
         public IList<ATNExtendedToken> GetСlusterOfExtendedTokens()
@@ -60,32 +119,33 @@ namespace MyNPCLib.NLToCGParsing
 
                 var tokenKind = token.Kind;
 
-                if (tokenKind != KindOfATNToken.Word)
+                if(tokenKind == KindOfATNToken.Word)
                 {
-                    if (tokenKind == KindOfATNToken.SingleQuotationMark)
-                    {
-                        var nextToken = mLexer.GetToken();
-#if DEBUG
-                        LogInstance.Log($"nextToken = {nextToken}");
-#endif
-                        var nextTokenKind = nextToken.Kind;
+                    var content = token.Content;
 
-                        if (nextTokenKind == KindOfATNToken.Word)
+                    if(content.EndsWith("'ll"))
+                    {
+                        token.Content = token.Content.Replace("'ll", string.Empty);
+
+                        var newToken = new ATNToken();
+                        newToken.Kind = KindOfATNToken.Word;
+                        newToken.Content = "will";
+
+                        mLexer.Recovery(newToken);
+
+                        return ProcessWordToken(token);
+                    }
+                    else
+                    {
+                        if(IsTransformed(content))
                         {
-                            if (nextToken.Content == "ll")
-                            {
-                                token.Content = "will";
-                                token.Kind = KindOfATNToken.Word;
-                                return ProcessWordToken(token);
-                            }
-                            mLexer.Recovery(nextToken);
-                        }
-                        else
-                        {
-                            mLexer.Recovery(nextToken);
+                            token.Content = GetTransformedContent(content);
+                            return ProcessWordToken(token);
                         }
                     }
-
+                }
+                else
+                {
                     result.Add(CreateExtendToken(token));
                     return result;
                 }
@@ -101,6 +161,7 @@ namespace MyNPCLib.NLToCGParsing
             var tokenContent = token.Content;
 
 #if DEBUG
+            //LogInstance.Log($"token = {token}");
             //LogInstance.Log($"tokenContent = {tokenContent}");
 #endif
 

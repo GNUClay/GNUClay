@@ -486,6 +486,13 @@ namespace MyNPCLib.SimpleWordsDict
                 IsModal = true,
                 RootWord = rootWord
             });
+
+            word = "ought";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            });
         }
 
         private static void DefinePronouns()
@@ -2476,9 +2483,6 @@ namespace MyNPCLib.SimpleWordsDict
             });
         }
 
-
-
-
         private static void DefineAdverbs()
         {
             var word = "not";
@@ -2486,6 +2490,52 @@ namespace MyNPCLib.SimpleWordsDict
             {
                 IsDeterminer = true,
                 IsNegation = true
+            });
+
+            word = "there";
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame() {
+                LogicalMeaning = new List<string>()
+                {
+                    "place",
+                    "as_far"
+                }
+            });
+
+            word = "here";
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame() {
+                LogicalMeaning = new List<string>()
+                {
+                    "place",
+                    "as_near"
+                }
+            });
+
+            word = "some";
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame() {
+                IsDeterminer = true
+            });
+
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame() {
+                IsDeterminer = true
+            });
+
+            word = "soon";
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame()
+            {
+                LogicalMeaning = new List<string>()
+                {
+                    "time",
+                    "as_near"
+                }
+            });
+
+            word = "tomorrow";
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame()
+            {
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
             });
         }
 
@@ -2536,6 +2586,135 @@ namespace MyNPCLib.SimpleWordsDict
             word = "meeting";
             AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
             {
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
+                {
+                    "event"
+                }
+            });
+
+            word = "o'clock";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame()
+            {
+            });
+
+            word = "moment";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new AdverbGrammaticalWordFrame()
+            {
+            });
+
+            word = "week";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
+            });
+
+            word = "space";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
+                {
+                    "place"
+                }
+            });
+
+            word = "time";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
+            });
+
+            word = "noise";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular
+            });
+
+            word = "office";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "place"
+                }
+            });
+
+            word = "book";
+            var rootWord = word;
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "phisobj"
+                }
+            });
+
+            word = "books";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Plural,
+                IsCountable = true,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "phisobj"
+                }
+            });
+
+            word = "dictionary";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular,
+                IsCountable = true,
+                LogicalMeaning = new List<string>()
+                {
+                    "place"
+                }
+            });
+
+            word = "gel";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                Number = GrammaticalNumberOfWord.Singular
+            });
+
+            word = "honor";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
                 Number = GrammaticalNumberOfWord.Singular
             });
         }
@@ -2576,6 +2755,40 @@ namespace MyNPCLib.SimpleWordsDict
                 }
             });
 
+            word = "played";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "playing";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
             word = "start";
             rootWord = word;
             AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
@@ -2598,6 +2811,187 @@ namespace MyNPCLib.SimpleWordsDict
                     "state"
                 }
             });
+
+            word = "explore";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "explored";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame() {
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "say";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "said";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "read";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                VerbType = VerbType.Form_3,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "talk";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "visit";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "get";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "got";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Past,
+                VerbType = VerbType.Form_2,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "gotten";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                VerbType = VerbType.Form_3,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "forget";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "state"
+                }
+            });
+
+            word = "conclude";
+            rootWord = word;
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
+
+            word = "concludes";
+            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                Person = GrammaticalPerson.First,
+                RootWord = rootWord,
+                LogicalMeaning = new List<string>()
+                {
+                    "act"
+                }
+            });
         }
 
         private static void DefineUsualAdjectives()
@@ -2613,6 +3007,26 @@ namespace MyNPCLib.SimpleWordsDict
                     "color"
                 }
             });
+
+            word = "new";
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame() {
+                LogicalMeaning = new List<string>()
+                {
+                    "time"
+                }
+            });
+
+            word = "able";
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame());
+
+            word = "german";
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame());
+
+            word = "every";
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame());
+
+            word = "shower";
+            AddGrammaticalWordFrame(word, new AdjectiveGrammaticalWordFrame());
         }
 
         private static void DefineUsualPrepositions()
@@ -2629,8 +3043,6 @@ namespace MyNPCLib.SimpleWordsDict
                     }
                 }
             });*/
-
-
         }
 
         private static void DefineNames()
@@ -2641,6 +3053,45 @@ namespace MyNPCLib.SimpleWordsDict
         private static void DefineHumanNames()
         {
             var word = "Tom";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                IsName = true,
+                IsCountable = true,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Masculine,
+                LogicalMeaning = new List<string>()
+                {
+                    "animate"
+                }
+            });
+
+            word = "Winnie-the-Pooh";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                IsName = true,
+                IsCountable = true,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Masculine,
+                LogicalMeaning = new List<string>()
+                {
+                    "animate"
+                }
+            });
+
+            word = "Stephen";
+            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
+            {
+                IsName = true,
+                IsCountable = true,
+                Number = GrammaticalNumberOfWord.Singular,
+                Gender = GrammaticalGender.Masculine,
+                LogicalMeaning = new List<string>()
+                {
+                    "animate"
+                }
+            });
+
+            word = "Jonathan";
             AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame()
             {
                 IsName = true,

@@ -15,9 +15,10 @@ namespace MyNPCLib.NLToCGParsing
             InWord
         }
 
-        public ATNLexer(string text)
+        public ATNLexer(string text, bool nativeLanguageMode = false)
         {
             mItems = new Queue<char>(text.ToList());
+            mNativeLanguageMode = nativeLanguageMode;
         }
 
         private ATNLexer()
@@ -31,6 +32,7 @@ namespace MyNPCLib.NLToCGParsing
         private readonly CultureInfo mCultureInfo = new CultureInfo("en-GB");
         private int mCurrentPos;
         private int mCurrentLine = 1;
+        private bool mNativeLanguageMode;
 
         public ATNLexer Fork()
         {
@@ -42,6 +44,7 @@ namespace MyNPCLib.NLToCGParsing
                 result.mLexerState = mLexerState;
                 result.mCurrentPos = mCurrentPos;
                 result.mCurrentLine = mCurrentLine;
+                result.mNativeLanguageMode = mNativeLanguageMode;
                 return result;
             }
         }
@@ -74,13 +77,26 @@ namespace MyNPCLib.NLToCGParsing
                                 tmpBuffer = new StringBuilder();
                                 tmpBuffer.Append(tmpChar);
 
-                                if (char.IsLetterOrDigit(mItems.Peek()))
+                                var tmpNextChar = mItems.Peek();
+
+#if DEBUG
+                                //LogInstance.Log($"tmpNextChar = {tmpNextChar}");
+#endif
+
+                                if (char.IsLetterOrDigit(tmpNextChar) || tmpNextChar == '_')
                                 {
                                     mLexerState = LexerState.InWord;
                                 }
                                 else
                                 {
-                                    return CreateToken(KindOfATNToken.Word, tmpBuffer.ToString());
+                                    if(mNativeLanguageMode && (tmpNextChar == '\'' || tmpNextChar == '-'))
+                                    {
+                                        mLexerState = LexerState.InWord;
+                                    }
+                                    else
+                                    {
+                                        return CreateToken(KindOfATNToken.Word, tmpBuffer.ToString());
+                                    }                                  
                                 }
                                 break;
                             }
@@ -157,10 +173,17 @@ namespace MyNPCLib.NLToCGParsing
 
                                 var tmpNextChar = mItems.Peek();
 
+#if DEBUG
+                                //LogInstance.Log($"tmpNextChar = {tmpNextChar}");
+#endif
+
                                 if (!char.IsLetterOrDigit(tmpNextChar) && tmpNextChar != '_')
                                 {
-                                    mLexerState = LexerState.Init;
-                                    return CreateToken(KindOfATNToken.Word, tmpBuffer.ToString());
+                                    if(mNativeLanguageMode && tmpNextChar != '\'' && tmpNextChar != '-')
+                                    {
+                                        mLexerState = LexerState.Init;
+                                        return CreateToken(KindOfATNToken.Word, tmpBuffer.ToString());
+                                    }
                                 }
                             }
                             break;
