@@ -55,6 +55,7 @@ namespace MyNPCLib.NLToCGParsing
             mTransformsDict.Add("shouldn't", new List<string>() { "should", "not" });
             mTransformsDict.Add("wouldn't", new List<string>() { "would", "not" });
             mTransformsDict.Add("oughtn't", new List<string>() { "ought", "not" });
+            //mTransformsDict.Add("there's", new List<string>() { "there", "is"});
             //mTransformsDict.Add(, new List<string>() { , });
         }
 
@@ -62,7 +63,11 @@ namespace MyNPCLib.NLToCGParsing
 
         private bool IsTransformed(string word)
         {
-            if(mTransformsDict.ContainsKey(word))
+#if DEBUG
+            LogInstance.Log($"word = {word}");
+#endif
+
+            if (mTransformsDict.ContainsKey(word))
             {
                 return true;
             }
@@ -141,6 +146,69 @@ namespace MyNPCLib.NLToCGParsing
                         {
                             token.Content = GetTransformedContent(content);
                             return ProcessWordToken(token);
+                        }
+                        else
+                        {
+                            var tmpContent = content.ToLower();
+
+                            if (IsTransformed(tmpContent))
+                            {
+                                token.Content = GetTransformedContent(tmpContent);
+                                return ProcessWordToken(token);
+                            }
+                            else
+                            {
+                                if (content.EndsWith("'s"))
+                                {
+                                    var resultsList = ProcessWordToken(token);
+
+#if DEBUG
+                                    LogInstance.Log($"resultsList.Count = {resultsList.Count}");
+#endif
+
+                                    if (resultsList.Any(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Noun && p.IsPossessive == true))
+                                    {
+                                        return resultsList;
+                                    }
+                                    else
+                                    {
+                                        content = content.ToLower();
+
+                                        if (IsTransformed(content))
+                                        {
+                                            token.Content = GetTransformedContent(content);
+                                            return ProcessWordToken(token);
+                                        }
+                                        else
+                                        {
+                                            token.Content = content.Replace("'s", string.Empty);
+
+                                            var newToken = new ATNToken();
+                                            newToken.Kind = KindOfATNToken.Word;
+                                            newToken.Content = "is";
+
+                                            mLexer.Recovery(newToken);
+
+                                            return ProcessWordToken(token);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if(content.EndsWith("'ve"))
+                                    {
+                                        token.Content = token.Content.Replace("'ve", string.Empty);
+
+                                        var newToken = new ATNToken();
+                                        newToken.Kind = KindOfATNToken.Word;
+                                        newToken.Content = "have";
+
+                                        mLexer.Recovery(newToken);
+
+                                        return ProcessWordToken(token);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
