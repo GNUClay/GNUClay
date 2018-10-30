@@ -57,8 +57,8 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            //TSTSentencesGenerator();
-            TSTParsingOfManyTenses();
+            TSTSentencesGenerator();
+            //TSTParsingOfManyTenses();
             //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
             //TSTATNParsing();
@@ -692,7 +692,12 @@ namespace TmpSandBox
         private static void TSTSentencesGenerator()
         {
             var generator = new SentencesGenerator();
-            generator.Run();
+            var result = generator.Run();
+            LogInstance.Log($"result.Count = {result.Count}");
+            foreach(var item in result)
+            {
+                LogInstance.Log($"item = {item.ToDisplayStr()}");
+            }
         }
 
         private static void TSTParsingOfManyTenses()

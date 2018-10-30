@@ -2,6 +2,7 @@
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TmpSandBox.VarOfSentences
@@ -13,6 +14,69 @@ namespace TmpSandBox.VarOfSentences
         public GrammaticalVoice Voice { get; set; } = GrammaticalVoice.Undefined;
         public GrammaticalMood Mood { get; set; } = GrammaticalMood.Undefined;
         public List<TstItemOfSentence> WordsList { get; set; } = new List<TstItemOfSentence>();
+
+        public bool HasMainAdditional
+        {
+            get
+            {
+                return WordsList.Any(p => p.IsMainAdditional);
+            }
+        }
+
+        public int IndexOfMainAdditional
+        {
+            get
+            {
+                var mainAdditional = WordsList.FirstOrDefault(p => p.IsMainAdditional);
+
+                if (mainAdditional == null)
+                {
+                    return -1;
+                }
+
+                return WordsList.IndexOf(mainAdditional);
+            }
+        }
+
+        public int IndexOfSubject
+        {
+            get
+            {
+                var subject = WordsList.FirstOrDefault(p => p.Kind == TstKindOfItemOfSentence.Subj);
+
+                if(subject == null)
+                {
+                    return -1;
+                }
+
+                return WordsList.IndexOf(subject);
+            }
+        }
+
+        public TstSentence Fork()
+        {
+            var result = new TstSentence();
+            result.Tense = Tense;
+            result.Aspect = Aspect;
+            result.Voice = Voice;
+            result.Mood = Mood;
+            foreach(var word in WordsList)
+            {
+                result.WordsList.Add(word.Fork());
+            }
+            return result;
+        }
+
+        public string ToDisplayStr()
+        {
+            var sb = new StringBuilder();
+            foreach(var word in WordsList)
+            {
+                sb.Append($"{word.Kind}_");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
+        }
 
         public override string ToString()
         {

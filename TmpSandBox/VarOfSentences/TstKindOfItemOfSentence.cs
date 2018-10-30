@@ -7,8 +7,9 @@ namespace TmpSandBox.VarOfSentences
     public enum TstKindOfItemOfSentence
     {
         Unknown,
-        Subject,
+        Subj,
         Verb,
+        ModalVerb,
         FToBe,
         FToHave,
         FToDo,
@@ -17,10 +18,10 @@ namespace TmpSandBox.VarOfSentences
         No,
         Ving,
         V3,
-        GenQuestWord,
-        SubjectQuestWord,
         Been,
         Being,
-        Be
+        Be,
+        QWSubj,
+        QWObj
     }
 }
