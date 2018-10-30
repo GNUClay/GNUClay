@@ -85,7 +85,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Not
+                Kind = TstKindOfItemOfSentence.No
             };
 
             return result;
@@ -177,6 +177,26 @@ namespace TmpSandBox.VarOfSentences
             {
                 Kind = TstKindOfItemOfSentence.Verb,
                 IsVerb = true
+            };
+
+            return result;
+        }
+
+        public static TstItemOfSentence CreateCondition()
+        {
+            var result = new TstItemOfSentence()
+            {
+                Kind = TstKindOfItemOfSentence.Condition
+            };
+
+            return result;
+        }
+
+        public static TstItemOfSentence CreateObj()
+        {
+            var result = new TstItemOfSentence()
+            {
+                Kind = TstKindOfItemOfSentence.Obj
             };
 
             return result;

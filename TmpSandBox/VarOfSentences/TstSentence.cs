@@ -53,6 +53,29 @@ namespace TmpSandBox.VarOfSentences
             }
         }
 
+        public bool HasNegation
+        {
+            get
+            {
+                return WordsList.Any(p => p.Kind == TstKindOfItemOfSentence.No || p.Kind == TstKindOfItemOfSentence.Not);
+            }
+        }
+
+        public int IndexOfMainVerb
+        {
+            get
+            {
+                var verb = WordsList.FirstOrDefault(p => p.Kind == TstKindOfItemOfSentence.Verb || p.Kind == TstKindOfItemOfSentence.V3 || p.Kind == TstKindOfItemOfSentence.Ving);
+
+                if(verb == null)
+                {
+                    return -1;
+                }
+
+                return WordsList.IndexOf(verb);
+            }
+        }
+
         public TstSentence Fork()
         {
             var result = new TstSentence();

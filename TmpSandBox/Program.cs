@@ -698,6 +698,9 @@ namespace TmpSandBox
             {
                 LogInstance.Log($"item = {item.ToDisplayStr()}");
             }
+
+            var stateMachineGenerator = new StateMachineOfSentenceGenerator();
+            stateMachineGenerator.Run(result);
         }
 
         private static void TSTParsingOfManyTenses()

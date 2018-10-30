@@ -22,6 +22,9 @@ namespace TmpSandBox.VarOfSentences
         Being,
         Be,
         QWSubj,
-        QWObj
+        QWObj,
+        Condition,
+        Obj,
+        There
     }
 }
