@@ -13,6 +13,7 @@ using MyNPCLib.LogicalHostEnvironment;
 using MyNPCLib.LogicalSearchEngine;
 using MyNPCLib.LogicalSoundModeling;
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing_v2;
 using MyNPCLib.Parser.LogicalExpression;
 using MyNPCLib.PersistLogicalData;
 using MyNPCLib.PersistLogicalDataStorage;
@@ -57,7 +58,8 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            TSTATNNodeGenerator();
+            TSTATNNodeV2();
+            //TSTATNNodeGenerator();
             //TSTSentencesGenerator();
             //TSTParsingOfManyTenses();
             //TSTGoToGreenWaypoint();
@@ -689,6 +691,13 @@ namespace TmpSandBox
             sentence = "";
             NParsingSentence(sentence);
         }*/
+
+        private static void TSTATNNodeV2()
+        {
+            var context = new ContextOfATNParsing_v2();
+            var atnNode = new ATNInitNode_v2(context);
+            atnNode.Run();
+        }
 
         private static void TSTATNNodeGenerator()
         {
