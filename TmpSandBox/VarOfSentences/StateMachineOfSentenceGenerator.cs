@@ -17,66 +17,243 @@ namespace TmpSandBox.VarOfSentences
 
             LogInstance.Log($"maxLength = {maxLength}");
 
-            var flatTable = new List<List<TstKindOfItemOfSentence>>();
+            var totalWordsList = new List<List<TstItemOfSentence>>();
 
-            foreach(var item in sentencesList)
+            foreach(var sentence in sentencesList)
             {
-                var itemList = new List<TstKindOfItemOfSentence>();
+                totalWordsList.Add(sentence.WordsList);
+                mInitStatesList.Add(sentence.ToDisplayStr());
+            }
+           
+            LogInstance.Log($"totalWordsList.Count = {totalWordsList.Count}");
 
-                var wordsList = item.WordsList;
+            var listOfKinds = new List<TstKindOfItemOfSentence>();
 
-                for (var i = 0; i < maxLength + 1; i++)
+            ProcessN(0, string.Empty, listOfKinds, totalWordsList);
+
+            LogInstance.Log($"mNameOfStateList.Count = {mNameOfStateList.Count}");
+
+            var listNewAndOldNameOfStateList = new List<KeyValuePair<string, string>>();
+
+            var initNameOfStateList = mNameOfStateList.ToList();
+
+            mNameOfStateList = new List<string>();
+
+            foreach (var nameOfState in initNameOfStateList)
+            {
+                LogInstance.Log($"nameOfState = {nameOfState}");
+
+                var isInit = false;
+                var isParent = false;
+
+                if (mParentToChildStatesDict.ContainsKey(nameOfState))
                 {
-                    LogInstance.Log($"i = {i}");
+                    LogInstance.Log("IsParent");
+                    isParent = true;
+                }
 
-                    if(i >= wordsList.Count)
+                if (mInitStatesList.Contains(nameOfState))
+                {
+                    LogInstance.Log("IsInit");
+                    isInit = true;
+                }
+
+                var newNameOfState = nameOfState;
+
+                if (isInit || isParent)
+                {
+                    if(isInit && isParent)
                     {
-                        itemList.Add(TstKindOfItemOfSentence.Unknown);
+                        newNameOfState = $"{newNameOfState}_TransOrFin";
                     }
                     else
                     {
-                        itemList.Add(wordsList[i].Kind);
+                        if(isInit)
+                        {
+                            newNameOfState = $"{newNameOfState}_Fin";
+                        }
+                        else
+                        {
+                            newNameOfState = $"{newNameOfState}_Trans";
+                        }
+                    }
+                }
+                else
+                {
+                    newNameOfState = $"{newNameOfState}_Trans";
+                }
+
+                LogInstance.Log($"newNameOfState = {newNameOfState}");
+
+                if(newNameOfState != nameOfState)
+                {
+                    listNewAndOldNameOfStateList.Add(new KeyValuePair<string, string>(nameOfState, newNameOfState));
+                }
+
+                mNameOfStateList.Add(newNameOfState);
+            }
+
+            LogInstance.Log($"listNewAndOldNameOfStateList.Count = {listNewAndOldNameOfStateList.Count}");
+
+            foreach(var listNewAndOldNameOfStateItem in listNewAndOldNameOfStateList)
+            {
+                var nameOfState = listNewAndOldNameOfStateItem.Key;
+                var newNameOfState = listNewAndOldNameOfStateItem.Value;
+
+                if(mParentToChildStatesDict.ContainsKey(nameOfState))
+                {
+                    var childList = mParentToChildStatesDict[nameOfState];
+                    mParentToChildStatesDict.Remove(nameOfState);
+                    mParentToChildStatesDict[newNameOfState] = childList;
+                }
+            }
+
+            var listNewAndOldNameOfStateDict = listNewAndOldNameOfStateList.ToDictionary(p => p.Key, p => p.Value);
+
+            var parentToChildStatesKeysList = mParentToChildStatesDict.Keys.ToList();
+
+            foreach (var parentToChildStatesKey in parentToChildStatesKeysList)
+            {
+                var childList = mParentToChildStatesDict[parentToChildStatesKey];
+
+                var newChildList = new List<string>();
+
+                foreach(var child in childList)
+                {
+                    if(listNewAndOldNameOfStateDict.ContainsKey(child))
+                    {
+                        newChildList.Add(listNewAndOldNameOfStateDict[child]);
+                    }
+                    else
+                    {
+                        newChildList.Add(child);
                     }
                 }
 
-                flatTable.Add(itemList);
+                mParentToChildStatesDict[parentToChildStatesKey] = newChildList;
             }
 
-            DisplayTable(flatTable);
+            //var sb = new StringBuilder();
 
-            var orderedFlatTable = flatTable.OrderBy(p => p[0]);
+            //var n = 0;
 
-            for (var i = 1; i < maxLength; i++)
-            {
-                orderedFlatTable = orderedFlatTable.ThenBy(p => p[i]);
-            }
+            //foreach (var nameOfState in mNameOfStateList)
+            //{
+            //    LogInstance.Log($"nameOfState = {nameOfState}");
 
-            flatTable = orderedFlatTable.ToList();
+            //    n++;
 
-            DisplayTable(flatTable);
+            //    if(n == mNameOfStateList.Count)
+            //    {
+            //        sb.AppendLine(nameOfState);
+            //    }
+            //    else
+            //    {
+            //        sb.AppendLine($"{nameOfState},");
+            //    }
+            //}
+
+            //LogInstance.Log($"sb.ToString() = {sb.ToString()}");
 
             LogInstance.Log("End");
         }
 
-        public void DisplayTable(List<List<TstKindOfItemOfSentence>> flatTable)
+        private List<string> mInitStatesList = new List<string>();
+        private List<string> mNameOfStateList = new List<string>();
+        private Dictionary<string, List<string>> mParentToChildStatesDict = new Dictionary<string, List<string>>();
+
+        private void AddToParentState(string parentState, string state)
         {
-            LogInstance.Log("Begin");
-
-            var sb = new StringBuilder();
-
-            foreach(var item in flatTable)
+            if(string.IsNullOrWhiteSpace(parentState))
             {
-                var sbOfItem = new StringBuilder();
-                foreach(var cell in item)
-                {
-                    sbOfItem.Append($"{cell}|");
-                }
-                sb.AppendLine(sbOfItem.ToString());
+                return;
             }
 
-            LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+            if(mParentToChildStatesDict.ContainsKey(parentState))
+            {
+                mParentToChildStatesDict[parentState].Add(state);
+                return;
+            }
 
-            LogInstance.Log("End");
+            var listOfStates = new List<string>() { state };
+            mParentToChildStatesDict[parentState] = listOfStates;
+        }
+
+        private void ProcessN(int n, string parentCondition, List<TstKindOfItemOfSentence> listOfKinds, List<List<TstItemOfSentence>> wordsList)
+        {
+            LogInstance.Log($"n = {n} wordsList.Count = {wordsList.Count}");
+
+            LogInstance.Log($"parentCondition = {parentCondition}");
+
+            var stateStr = ListOfKindsToDisplay(listOfKinds);
+            LogInstance.Log($"stateStr = {stateStr}");
+
+            if(!string.IsNullOrWhiteSpace(stateStr))
+            {
+                mNameOfStateList.Add(stateStr);
+
+                AddToParentState(parentCondition, stateStr);
+            }
+
+            var kvpItemsList = new List<KeyValuePair<TstKindOfItemOfSentence, List<TstItemOfSentence>>>();
+
+            foreach(var item in wordsList)
+            {
+                var kind = GetCell(n, item);
+
+                //LogInstance.Log($"kind = {kind}");
+
+                if(kind == TstKindOfItemOfSentence.Unknown)
+                {
+                    continue;
+                }
+
+                kvpItemsList.Add(new KeyValuePair<TstKindOfItemOfSentence, List<TstItemOfSentence>>(kind, item));
+            }
+
+            var kvpItemsDict = kvpItemsList.GroupBy(p => p.Key).ToDictionary(p => p.Key, p => p.Select(x => x.Value).ToList());
+
+            LogInstance.Log($"n = {n} kvpItemsDict.Count = {kvpItemsDict.Count}");
+
+            foreach(var kvpItemsDictKVPItem in kvpItemsDict)
+            {
+                var key = kvpItemsDictKVPItem.Key;
+
+                LogInstance.Log($"n = {n} key = {key} kvpItemsDictKVPItem.Value.Count = {kvpItemsDictKVPItem.Value.Count}");
+
+                var newListOfKinds = listOfKinds.ToList();
+                newListOfKinds.Add(key);
+
+                ProcessN(n + 1, stateStr, newListOfKinds, kvpItemsDictKVPItem.Value);
+            }
+        }
+
+        private TstKindOfItemOfSentence GetCell(int n, List<TstItemOfSentence> rowList)
+        {
+            //LogInstance.Log($"n = {n} rowList.Count = {rowList.Count}");
+
+            if(n < rowList.Count)
+            {
+                return rowList[n].Kind;
+            }
+
+            return TstKindOfItemOfSentence.Unknown;
+        }
+
+        private string ListOfKindsToDisplay(List<TstKindOfItemOfSentence> listOfKinds)
+        {
+            if(listOfKinds.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+            foreach (var kind in listOfKinds)
+            {
+                sb.Append($"{kind}_");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
         }
     }
 }

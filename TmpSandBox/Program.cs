@@ -57,7 +57,8 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            TSTSentencesGenerator();
+            TSTATNNodeGenerator();
+            //TSTSentencesGenerator();
             //TSTParsingOfManyTenses();
             //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
@@ -688,6 +689,12 @@ namespace TmpSandBox
             sentence = "";
             NParsingSentence(sentence);
         }*/
+
+        private static void TSTATNNodeGenerator()
+        {
+            var generator = new ATNNodeGenerator(AppDomain.CurrentDomain.BaseDirectory);
+            generator.CreateAndSaveToFile("Subj_FToDo_Not_Verb_Obj_Condition_Fin");
+        }
 
         private static void TSTSentencesGenerator()
         {
