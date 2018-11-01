@@ -49,38 +49,37 @@ namespace MyNPCLib.NLToCGParsing_v2
     public class ANTSubjTransNode_v2: BaseATNNode_v2
     {
         public ANTSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNInitNode_v2 parentNode, ATNExtendedToken token)
-            : base(context)
+            : base(context, token)
         {
             ParentNode = parentNode;
-            mToken = token;
         }
 
         public ANTSubjTransNode_v2(ContextOfATNParsing_v2 context, ANTSubjTransNode_v2 sameNode, InitANTSubjTransNodeAction initAction, ATNExtendedToken token)
-            : base(context)
+            : base(context, token)
         {
             mSameNode = sameNode;
             mInitAction = initAction;
-            mToken = token;
             ParentNode = mSameNode.ParentNode;
             mInitAction?.Invoke(this);
         }
 
+        public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.Subj_Trans;
+
         public ATNInitNode_v2 ParentNode { get; private set; }
         private ANTSubjTransNode_v2 mSameNode;
-        private ATNExtendedToken mToken;
         private InitANTSubjTransNodeAction mInitAction;
 
         protected override void ImplementGoalToken()
         {
             LogInstance.Log($"N = {N}");
-            LogInstance.Log($"mToken = {mToken}");
+            LogInstance.Log($"Token = {Token}");
         }
 
         protected override void ProcessNextToken()
         {
             LogInstance.Log("Begin");
 
-            if(mToken.Content != "-")
+            if(Token.Content != "-")
             {
                 AddTask(new ANTSubjTransNodeFactory_v2(this, new ATNExtendedToken()
                 {

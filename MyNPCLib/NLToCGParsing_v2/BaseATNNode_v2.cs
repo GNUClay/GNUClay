@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyNPCLib.NLToCGParsing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,12 +7,15 @@ namespace MyNPCLib.NLToCGParsing_v2
 {
     public abstract class BaseATNNode_v2
     {
-        public BaseATNNode_v2(ContextOfATNParsing_v2 context)
+        public BaseATNNode_v2(ContextOfATNParsing_v2 context, ATNExtendedToken token)
         {
             Context = context;
+            Token = token;
         }
 
         public ContextOfATNParsing_v2 Context { get; private set; }
+        public ATNExtendedToken Token { get; private set; }
+        public abstract StateOfATNParsing_v2 GlobalState { get; }
 
         public void Run()
         {

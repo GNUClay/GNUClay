@@ -8,9 +8,11 @@ namespace MyNPCLib.NLToCGParsing_v2
     public class ATNInitNode_v2: BaseATNNode_v2
     {
         public ATNInitNode_v2(ContextOfATNParsing_v2 context)
-            : base(context)
+            : base(context, null)
         {
         }
+
+        public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.Init;
 
         protected override void ImplementGoalToken()
         {
