@@ -1,0 +1,87 @@
+using MyNPCLib.NLToCGParsing;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
+{
+    public delegate void InitATNQWSubjConditionVerbObjTransOrFinNodeAction(ATNQWSubjConditionVerbObjTransOrFinNode_v2 item);
+
+    public class ATNQWSubjConditionVerbObjTransOrFinNodeFactory_v2: BaseATNNodeFactory_v2
+    {
+        public ATNQWSubjConditionVerbObjTransOrFinNodeFactory_v2(ATNQWSubjConditionVerbTransOrFinNode_v2 parentNode, ATNExtendedToken token)
+        {
+            mNumberOfConstructor = 1;
+            mParentNode = parentNode;
+            mToken = token;
+        }
+
+        public ATNQWSubjConditionVerbObjTransOrFinNodeFactory_v2(ATNQWSubjConditionVerbObjTransOrFinNode_v2 sameNode, ATNExtendedToken token, InitATNQWSubjConditionVerbObjTransOrFinNodeAction initAction)
+        {
+            mNumberOfConstructor = 2;
+            mSameNode = sameNode;
+            mToken = token;
+            mInitAction = initAction;
+        }
+
+        private int mNumberOfConstructor;
+        private ATNQWSubjConditionVerbTransOrFinNode_v2 mParentNode;
+        private ATNQWSubjConditionVerbObjTransOrFinNode_v2 mSameNode;
+        private ATNExtendedToken mToken;
+        private InitATNQWSubjConditionVerbObjTransOrFinNodeAction mInitAction;
+
+        public override BaseATNNode_v2 Create(ContextOfATNParsing_v2 context)
+        {
+            switch(mNumberOfConstructor)
+            {
+                case 1:
+                    return new ATNQWSubjConditionVerbObjTransOrFinNode_v2(context, mParentNode, mToken);
+
+                case 2:
+                    return new ATNQWSubjConditionVerbObjTransOrFinNode_v2(context, mSameNode, mInitAction, mToken);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mNumberOfConstructor), mNumberOfConstructor, null);
+            }
+        }
+    }
+
+/*Sub states:
+    QWSubj_Condition_Verb_Obj_Condition_Fin
+*/
+
+    public class ATNQWSubjConditionVerbObjTransOrFinNode_v2: BaseATNNode_v2
+    {
+        public ATNQWSubjConditionVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNQWSubjConditionVerbTransOrFinNode_v2 parentNode, ATNExtendedToken token)
+            : base(context, token)
+        {
+            ParentNode = parentNode;
+        }
+
+        public ATNQWSubjConditionVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNQWSubjConditionVerbObjTransOrFinNode_v2 sameNode, InitATNQWSubjConditionVerbObjTransOrFinNodeAction initAction, ATNExtendedToken token)
+            : base(context, token)
+        {
+            mSameNode = sameNode;
+            mInitAction = initAction;
+            ParentNode = mSameNode.ParentNode;
+            mInitAction?.Invoke(this);
+        }
+
+        public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.QWSubj_Condition_Verb_Obj_TransOrFin;
+
+        public ATNQWSubjConditionVerbTransOrFinNode_v2 ParentNode { get; private set; }
+        private ATNQWSubjConditionVerbObjTransOrFinNode_v2 mSameNode;
+        private InitATNQWSubjConditionVerbObjTransOrFinNodeAction mInitAction;
+
+        protected override void ImplementGoalToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ProcessNextToken()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+

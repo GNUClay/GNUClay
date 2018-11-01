@@ -1,5 +1,6 @@
 ﻿using MyNPCLib;
 using MyNPCLib.SimpleWordsDict;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -149,12 +150,52 @@ namespace TmpSandBox.VarOfSentences
 
             var generator = new ATNNodeGenerator(targetDirectory);
 
+            var info = new InfoAboutGenerating();
+
             foreach (var nameOfState in mNameOfStateList)
             {
                 var parentState = GetParent(nameOfState);
                 var subStatesList = GetSubStates(nameOfState);
 
-                generator.CreateAndSaveToFile(nameOfState, parentState, subStatesList);
+                var totalFileName = generator.CreateAndSaveToFile(nameOfState, parentState, subStatesList);
+
+                LogInstance.Log($"totalFileName = {totalFileName}");
+
+                var fileInfo = new FileInfo(totalFileName);
+
+                LogInstance.Log($"fileInfo.Length = {fileInfo.Length}");
+
+                var item = new FileInfoAboutGenerating();
+                item.FileName = fileInfo.Name;
+                item.Size = fileInfo.Length;
+
+                LogInstance.Log($"fileInfo.Name = {fileInfo.Name}");
+
+                info.Items.Add(item);
+            }
+
+            var now = DateTime.Now;
+
+            info.CreationTime = now;
+
+            var infoFileName = $"infoFileName{now.Year}_{now.Month}_{now.Day}_{now.Hour}_{now.Minute}_{now.Second}.info";
+
+            infoFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, infoFileName);
+
+            LogInstance.Log($"infoFileName = {infoFileName}");
+
+            if(File.Exists(infoFileName))
+            {
+                File.Delete(infoFileName);
+            }
+            
+            using (var infoFs = File.OpenWrite(infoFileName))
+            {
+                using (var sw = new StreamWriter(infoFs))
+                {
+                    sw.Write(JsonConvert.SerializeObject(info));
+                    infoFs.Flush();
+                }
             }
 
             //var sb = new StringBuilder();

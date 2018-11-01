@@ -24,9 +24,9 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             LogInstance.Log("Begin");
 
-            AddTask(new ANTSubjTransNodeFactory_v2(this, new ATNExtendedToken() {
-                Content = ":)"
-            }));
+            //AddTask(new ATNSubjTransNodeFactory_v2(this, new ATNExtendedToken() {
+            //    Content = ":)"
+            //}));
         }
     }
 }

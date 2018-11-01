@@ -15,16 +15,16 @@ namespace TmpSandBox.VarOfSentences
             var result = new List<TstSentence>();
 
             result.AddRange(DefineIndefiniteActive());
-            //result.AddRange(DefineContinuousActive());
-            //result.AddRange(DefinePerfectActive());
-            //result.AddRange(DefinePerfectContinuousActive());
+            result.AddRange(DefineContinuousActive());
+            result.AddRange(DefinePerfectActive());
+            result.AddRange(DefinePerfectContinuousActive());
 
-            //result.AddRange(DefineIndefinitePassive());
-            //result.AddRange(DefineContinuousPassive());
-            //result.AddRange(DefinePerfectPassive());
+            result.AddRange(DefineIndefinitePassive());
+            result.AddRange(DefineContinuousPassive());
+            result.AddRange(DefinePerfectPassive());
 
-            //result.AddRange(DefineModal());
-            //result.AddRange(DefineImperative());
+            result.AddRange(DefineModal());
+            result.AddRange(DefineImperative());
 
             var initList = result.ToList();
 

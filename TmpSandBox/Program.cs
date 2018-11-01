@@ -58,9 +58,9 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            //TSTATNNodeV2();
+            TSTATNNodeV2();
             //TSTATNNodeGenerator();
-            TSTSentencesGenerator();
+            //TSTSentencesGenerator();
             //TSTParsingOfManyTenses();
             //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();

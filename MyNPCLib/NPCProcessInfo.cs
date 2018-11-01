@@ -39,13 +39,13 @@ namespace MyNPCLib
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin{nameof(EntryPointsInfoList)}");
+                sb.AppendLine($"{spaces}Begin {nameof(EntryPointsInfoList)}");
                 foreach(var entryPiontInfo in EntryPointsInfoList)
                 {
                     sb.Append(entryPiontInfo.ToString(nextN));
                     sb.AppendLine();
                 }
-                sb.AppendLine($"{spaces}End{nameof(EntryPointsInfoList)}");
+                sb.AppendLine($"{spaces}End {nameof(EntryPointsInfoList)}");
             }
             return sb.ToString();
         }

@@ -1,0 +1,88 @@
+using MyNPCLib.NLToCGParsing;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
+{
+    public delegate void InitATNQWObjFToBeSubjBeingTransNodeAction(ATNQWObjFToBeSubjBeingTransNode_v2 item);
+
+    public class ATNQWObjFToBeSubjBeingTransNodeFactory_v2: BaseATNNodeFactory_v2
+    {
+        public ATNQWObjFToBeSubjBeingTransNodeFactory_v2(ATNQWObjFToBeSubjTransNode_v2 parentNode, ATNExtendedToken token)
+        {
+            mNumberOfConstructor = 1;
+            mParentNode = parentNode;
+            mToken = token;
+        }
+
+        public ATNQWObjFToBeSubjBeingTransNodeFactory_v2(ATNQWObjFToBeSubjBeingTransNode_v2 sameNode, ATNExtendedToken token, InitATNQWObjFToBeSubjBeingTransNodeAction initAction)
+        {
+            mNumberOfConstructor = 2;
+            mSameNode = sameNode;
+            mToken = token;
+            mInitAction = initAction;
+        }
+
+        private int mNumberOfConstructor;
+        private ATNQWObjFToBeSubjTransNode_v2 mParentNode;
+        private ATNQWObjFToBeSubjBeingTransNode_v2 mSameNode;
+        private ATNExtendedToken mToken;
+        private InitATNQWObjFToBeSubjBeingTransNodeAction mInitAction;
+
+        public override BaseATNNode_v2 Create(ContextOfATNParsing_v2 context)
+        {
+            switch(mNumberOfConstructor)
+            {
+                case 1:
+                    return new ATNQWObjFToBeSubjBeingTransNode_v2(context, mParentNode, mToken);
+
+                case 2:
+                    return new ATNQWObjFToBeSubjBeingTransNode_v2(context, mSameNode, mInitAction, mToken);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mNumberOfConstructor), mNumberOfConstructor, null);
+            }
+        }
+    }
+
+/*Sub states:
+    QWObj_FToBe_Subj_Being_V3_TransOrFin
+    QWObj_FToBe_Subj_Being_Condition_Trans
+*/
+
+    public class ATNQWObjFToBeSubjBeingTransNode_v2: BaseATNNode_v2
+    {
+        public ATNQWObjFToBeSubjBeingTransNode_v2(ContextOfATNParsing_v2 context, ATNQWObjFToBeSubjTransNode_v2 parentNode, ATNExtendedToken token)
+            : base(context, token)
+        {
+            ParentNode = parentNode;
+        }
+
+        public ATNQWObjFToBeSubjBeingTransNode_v2(ContextOfATNParsing_v2 context, ATNQWObjFToBeSubjBeingTransNode_v2 sameNode, InitATNQWObjFToBeSubjBeingTransNodeAction initAction, ATNExtendedToken token)
+            : base(context, token)
+        {
+            mSameNode = sameNode;
+            mInitAction = initAction;
+            ParentNode = mSameNode.ParentNode;
+            mInitAction?.Invoke(this);
+        }
+
+        public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.QWObj_FToBe_Subj_Being_Trans;
+
+        public ATNQWObjFToBeSubjTransNode_v2 ParentNode { get; private set; }
+        private ATNQWObjFToBeSubjBeingTransNode_v2 mSameNode;
+        private InitATNQWObjFToBeSubjBeingTransNodeAction mInitAction;
+
+        protected override void ImplementGoalToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ProcessNextToken()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+

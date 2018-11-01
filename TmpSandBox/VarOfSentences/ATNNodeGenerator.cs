@@ -17,7 +17,7 @@ namespace TmpSandBox.VarOfSentences
 
         private string mPath;
 
-        public void CreateAndSaveToFile(string stateName, string parentStateName, List<string> nameOfChildList)
+        public string CreateAndSaveToFile(string stateName, string parentStateName, List<string> nameOfChildList)
         {
             LogInstance.Log($"stateName = {stateName}");
 
@@ -160,6 +160,8 @@ namespace TmpSandBox.VarOfSentences
             }
 
             LogInstance.Log("End");
+
+            return totalFileName;
         }
 
         private string GetATNNodeClassName(string stateName)

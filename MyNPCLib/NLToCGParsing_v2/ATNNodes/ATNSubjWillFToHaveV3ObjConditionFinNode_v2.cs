@@ -1,0 +1,83 @@
+using MyNPCLib.NLToCGParsing;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
+{
+    public delegate void InitATNSubjWillFToHaveV3ObjConditionFinNodeAction(ATNSubjWillFToHaveV3ObjConditionFinNode_v2 item);
+
+    public class ATNSubjWillFToHaveV3ObjConditionFinNodeFactory_v2: BaseATNNodeFactory_v2
+    {
+        public ATNSubjWillFToHaveV3ObjConditionFinNodeFactory_v2(ATNSubjWillFToHaveV3ObjTransOrFinNode_v2 parentNode, ATNExtendedToken token)
+        {
+            mNumberOfConstructor = 1;
+            mParentNode = parentNode;
+            mToken = token;
+        }
+
+        public ATNSubjWillFToHaveV3ObjConditionFinNodeFactory_v2(ATNSubjWillFToHaveV3ObjConditionFinNode_v2 sameNode, ATNExtendedToken token, InitATNSubjWillFToHaveV3ObjConditionFinNodeAction initAction)
+        {
+            mNumberOfConstructor = 2;
+            mSameNode = sameNode;
+            mToken = token;
+            mInitAction = initAction;
+        }
+
+        private int mNumberOfConstructor;
+        private ATNSubjWillFToHaveV3ObjTransOrFinNode_v2 mParentNode;
+        private ATNSubjWillFToHaveV3ObjConditionFinNode_v2 mSameNode;
+        private ATNExtendedToken mToken;
+        private InitATNSubjWillFToHaveV3ObjConditionFinNodeAction mInitAction;
+
+        public override BaseATNNode_v2 Create(ContextOfATNParsing_v2 context)
+        {
+            switch(mNumberOfConstructor)
+            {
+                case 1:
+                    return new ATNSubjWillFToHaveV3ObjConditionFinNode_v2(context, mParentNode, mToken);
+
+                case 2:
+                    return new ATNSubjWillFToHaveV3ObjConditionFinNode_v2(context, mSameNode, mInitAction, mToken);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mNumberOfConstructor), mNumberOfConstructor, null);
+            }
+        }
+    }
+
+    public class ATNSubjWillFToHaveV3ObjConditionFinNode_v2: BaseATNNode_v2
+    {
+        public ATNSubjWillFToHaveV3ObjConditionFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjWillFToHaveV3ObjTransOrFinNode_v2 parentNode, ATNExtendedToken token)
+            : base(context, token)
+        {
+            ParentNode = parentNode;
+        }
+
+        public ATNSubjWillFToHaveV3ObjConditionFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjWillFToHaveV3ObjConditionFinNode_v2 sameNode, InitATNSubjWillFToHaveV3ObjConditionFinNodeAction initAction, ATNExtendedToken token)
+            : base(context, token)
+        {
+            mSameNode = sameNode;
+            mInitAction = initAction;
+            ParentNode = mSameNode.ParentNode;
+            mInitAction?.Invoke(this);
+        }
+
+        public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.Subj_Will_FToHave_V3_Obj_Condition_Fin;
+
+        public ATNSubjWillFToHaveV3ObjTransOrFinNode_v2 ParentNode { get; private set; }
+        private ATNSubjWillFToHaveV3ObjConditionFinNode_v2 mSameNode;
+        private InitATNSubjWillFToHaveV3ObjConditionFinNodeAction mInitAction;
+
+        protected override void ImplementGoalToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ProcessNextToken()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
