@@ -2,6 +2,7 @@
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -120,17 +121,40 @@ namespace TmpSandBox.VarOfSentences
 
                 foreach(var child in childList)
                 {
-                    if(listNewAndOldNameOfStateDict.ContainsKey(child))
+                    var newChild = child;
+
+                    if (listNewAndOldNameOfStateDict.ContainsKey(child))
                     {
-                        newChildList.Add(listNewAndOldNameOfStateDict[child]);
+                        newChild = listNewAndOldNameOfStateDict[child];
                     }
-                    else
-                    {
-                        newChildList.Add(child);
-                    }
+
+                    newChildList.Add(newChild);
+
+                    mChildToParentDict[newChild] = parentToChildStatesKey;
                 }
 
                 mParentToChildStatesDict[parentToChildStatesKey] = newChildList;
+            }
+
+            var targetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ATNNodes");
+
+            LogInstance.Log($"targetDirectory = {targetDirectory}");
+
+            if (Directory.Exists(targetDirectory))
+            {
+                Directory.Delete(targetDirectory, true);
+            }
+
+            Directory.CreateDirectory(targetDirectory);
+
+            var generator = new ATNNodeGenerator(targetDirectory);
+
+            foreach (var nameOfState in mNameOfStateList)
+            {
+                var parentState = GetParent(nameOfState);
+                var subStatesList = GetSubStates(nameOfState);
+
+                generator.CreateAndSaveToFile(nameOfState, parentState, subStatesList);
             }
 
             //var sb = new StringBuilder();
@@ -161,6 +185,27 @@ namespace TmpSandBox.VarOfSentences
         private List<string> mInitStatesList = new List<string>();
         private List<string> mNameOfStateList = new List<string>();
         private Dictionary<string, List<string>> mParentToChildStatesDict = new Dictionary<string, List<string>>();
+        private Dictionary<string, string> mChildToParentDict = new Dictionary<string, string>();
+
+        public List<string> GetSubStates(string state)
+        {
+            if(mParentToChildStatesDict.ContainsKey(state))
+            {
+                return mParentToChildStatesDict[state];
+            }
+
+            return new List<string>();
+        }
+
+        public string GetParent(string state)
+        {
+            if(mChildToParentDict.ContainsKey(state))
+            {
+                return mChildToParentDict[state];
+            }
+
+            return "Init";
+        }
 
         private void AddToParentState(string parentState, string state)
         {

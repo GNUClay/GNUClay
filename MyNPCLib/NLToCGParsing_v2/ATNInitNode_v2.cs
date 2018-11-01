@@ -1,4 +1,5 @@
 ﻿using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing_v2.ATNNodes;
 using System;
 using System.Collections.Generic;
 using System.Text;

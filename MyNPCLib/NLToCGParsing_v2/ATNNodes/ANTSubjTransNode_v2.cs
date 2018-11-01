@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyNPCLib.NLToCGParsing_v2
+namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 {
     public delegate void InitANTSubjTransNodeAction(ANTSubjTransNode_v2 item);
 
