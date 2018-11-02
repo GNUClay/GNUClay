@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TmpSandBox.VarOfSentences
+namespace MyNPCLib.NLToCGParsing
 {
-    public enum TstKindOfItemOfSentence
+    public enum KindOfItemOfSentence
     {
         Unknown,
         Subj,
@@ -25,6 +25,7 @@ namespace TmpSandBox.VarOfSentences
         QWObj,
         Condition,
         Obj,
-        There
+        There,
+        Point
     }
 }

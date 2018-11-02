@@ -1,4 +1,5 @@
 ﻿using MyNPCLib;
+using MyNPCLib.NLToCGParsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace TmpSandBox.VarOfSentences
 
             foreach (var item in initList)
             {
-                if(item.WordsList.Any(p => p.Kind == TstKindOfItemOfSentence.There) && !item.WordsList.Any(p => p.Kind == TstKindOfItemOfSentence.Obj))
+                if(item.WordsList.Any(p => p.Kind == KindOfItemOfSentence.There) && !item.WordsList.Any(p => p.Kind == KindOfItemOfSentence.Obj))
                 {
                     continue;
                 }
@@ -117,7 +118,7 @@ namespace TmpSandBox.VarOfSentences
 
                 var subj = newSentence.WordsList[indexOfSubject];
 
-                subj.Kind = TstKindOfItemOfSentence.There;
+                subj.Kind = KindOfItemOfSentence.There;
 
                 var indexOfVerb = newSentence.IndexOfMainVerb;
 
@@ -125,7 +126,7 @@ namespace TmpSandBox.VarOfSentences
 
                 var verb = newSentence.WordsList[indexOfVerb];
 
-                verb.Kind = TstKindOfItemOfSentence.FToBe;
+                verb.Kind = KindOfItemOfSentence.FToBe;
 
                 //dbgStr = newSentence.ToDisplayStr();
                 //LogInstance.Log($"dbgStr = {dbgStr}");
@@ -236,7 +237,7 @@ namespace TmpSandBox.VarOfSentences
             sentence.WordsList.Add(TstItemOfSentence.CreateSubject());
 
             sentence.WordsList.Add(new TstItemOfSentence() {
-                Kind = TstKindOfItemOfSentence.ModalVerb,
+                Kind = KindOfItemOfSentence.ModalVerb,
                 IsVerb = true,
                 IsMainAdditional = true
             });
@@ -274,7 +275,7 @@ namespace TmpSandBox.VarOfSentences
 
                 var subj = newSentence.WordsList[indexOfSubject];
 
-                subj.Kind = TstKindOfItemOfSentence.There;
+                subj.Kind = KindOfItemOfSentence.There;
 
                 var indexOfVerb = newSentence.IndexOfMainVerb;
 
@@ -282,7 +283,7 @@ namespace TmpSandBox.VarOfSentences
 
                 var verb = newSentence.WordsList[indexOfVerb];
 
-                verb.Kind = TstKindOfItemOfSentence.Be;
+                verb.Kind = KindOfItemOfSentence.Be;
 
                 //dbgStr = newSentence.ToDisplayStr();
                 //LogInstance.Log($"dbgStr = {dbgStr}");
@@ -337,9 +338,9 @@ namespace TmpSandBox.VarOfSentences
             {
                 var mainAdditionalVerb = newSentence.WordsList[indexOfMainAdditional];
 
-                if(mainAdditionalVerb.Kind == TstKindOfItemOfSentence.FToBe)
+                if(mainAdditionalVerb.Kind == KindOfItemOfSentence.FToBe)
                 {
-                    mainAdditionalVerb.Kind = TstKindOfItemOfSentence.Be;
+                    mainAdditionalVerb.Kind = KindOfItemOfSentence.Be;
                 }
 
                 mainAdditionalVerb.IsMutable = false;
@@ -619,7 +620,7 @@ namespace TmpSandBox.VarOfSentences
 
             var subject = newSentence.WordsList[indexOfSubject];
 
-            subject.Kind = TstKindOfItemOfSentence.QWSubj;
+            subject.Kind = KindOfItemOfSentence.QWSubj;
 
             //LogInstance.Log($"after newSentence = {newSentence.ToDisplayStr()}");
 
@@ -648,7 +649,7 @@ namespace TmpSandBox.VarOfSentences
 
             var subject = newSentence.WordsList[indexOfSubject];
 
-            subject.Kind = TstKindOfItemOfSentence.QWSubj;
+            subject.Kind = KindOfItemOfSentence.QWSubj;
 
             newSentence.WordsList.Insert(indexOfSubject + 1, TstItemOfSentence.CreateFToDo());
 
@@ -697,7 +698,7 @@ namespace TmpSandBox.VarOfSentences
 
             var subject = sentence.WordsList[indexOfSubject];
 
-            subject.Kind = TstKindOfItemOfSentence.QWSubj;
+            subject.Kind = KindOfItemOfSentence.QWSubj;
 
             //LogInstance.Log($"after sentence = {sentence.ToDisplayStr()}");
 
@@ -719,7 +720,7 @@ namespace TmpSandBox.VarOfSentences
 
             var subject = sentence.WordsList[indexOfSubject];
 
-            subject.Kind = TstKindOfItemOfSentence.QWSubj;
+            subject.Kind = KindOfItemOfSentence.QWSubj;
 
             sentence.WordsList.Insert(indexOfSubject + 1, TstItemOfSentence.CreateFToDo());
             sentence.WordsList.Insert(indexOfSubject + 2, TstItemOfSentence.CreateNot());
@@ -894,7 +895,7 @@ namespace TmpSandBox.VarOfSentences
 
             var result = new List<TstSentence>();
 
-            if(sentence.WordsList.Any(p => p.Kind == TstKindOfItemOfSentence.QWObj))
+            if(sentence.WordsList.Any(p => p.Kind == KindOfItemOfSentence.QWObj))
             {
                 return result;
             }

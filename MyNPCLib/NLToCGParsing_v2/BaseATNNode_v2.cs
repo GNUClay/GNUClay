@@ -48,5 +48,10 @@ namespace MyNPCLib.NLToCGParsing_v2
                 node.Run();
             }
         }
+
+        protected IList<ATNExtendedToken> GetСlusterOfExtendedTokens()
+        {
+            return Context.GetСlusterOfExtendedTokens();
+        }
     }
 }

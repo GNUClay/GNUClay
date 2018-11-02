@@ -64,7 +64,7 @@ namespace MyNPCLib.NLToCGParsing
         private bool IsTransformed(string word)
         {
 #if DEBUG
-            LogInstance.Log($"word = {word}");
+            //LogInstance.Log($"word = {word}");
 #endif
 
             if (mTransformsDict.ContainsKey(word))
@@ -112,7 +112,7 @@ namespace MyNPCLib.NLToCGParsing
                 var token = mLexer.GetToken();
 
 #if DEBUG
-                LogInstance.Log($"token = {token}");
+                //LogInstance.Log($"token = {token}");
 #endif
 
                 if (token == null)
@@ -215,7 +215,7 @@ namespace MyNPCLib.NLToCGParsing
                 else
                 {
                     result.Add(CreateExtendToken(token));
-                    return result;
+                    return FillKindOfItem(result);
                 }
 
                 return ProcessWordToken(token);
@@ -241,7 +241,7 @@ namespace MyNPCLib.NLToCGParsing
             var wordFrame = GetWordFrame(tokenContent);
 
             //var wordFrame = mWordsDict.GetWordFrame(tokenContent);
-
+            
 #if DEBUG
             //LogInstance.Log($"wordFrame = {wordFrame}");
 #endif
@@ -254,8 +254,376 @@ namespace MyNPCLib.NLToCGParsing
 
             foreach (var grammaticalWordFrame in wordFrame.GrammaticalWordFrames)
             {
-                var extendsToken = CreateExtendToken(token, grammaticalWordFrame);
-                result.Add(extendsToken);
+                var extendedToken = CreateExtendToken(token, grammaticalWordFrame);
+                result.Add(extendedToken);
+            }
+
+            return FillKindOfItem(result);
+        }
+
+        private IList<ATNExtendedToken> FillKindOfItem(IList<ATNExtendedToken> sourceList)
+        {
+            var result = new List<ATNExtendedToken>();
+
+            foreach(var extendedToken in sourceList)
+            {
+                if(extendedToken.Kind != KindOfATNToken.Word)
+                {
+                    var kind = extendedToken.Kind;
+
+                    switch(kind)
+                    {
+                        case KindOfATNToken.Point:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Point;
+                            result.Add(extendedToken);
+                            continue;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
+                    }                
+                }
+
+                var partOfSpeech = extendedToken.PartOfSpeech;
+
+                switch (partOfSpeech)
+                {
+                    case GrammaticalPartOfSpeech.Noun:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Pronoun:
+                        {
+                            if(extendedToken.IsQuestionWord)
+                            {
+                                throw new NotImplementedException();
+                            }
+                            else
+                            {
+                                if(extendedToken.TypeOfPronoun == TypeOfPronoun.Personal)
+                                {
+                                    extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                                    result.Add(extendedToken);
+                                    continue;
+                                }
+
+                                throw new NotImplementedException();
+                            }                        
+                        }
+                        //break;
+
+                    case GrammaticalPartOfSpeech.Adjective:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Verb:
+                        {
+                            if (extendedToken.IsGerund)
+                            {
+                                extendedToken.KindOfItem = KindOfItemOfSentence.Ving;
+                                result.Add(extendedToken);
+
+                                var newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                                result.Add(newExtendedToken);
+
+                                newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                                result.Add(newExtendedToken);
+
+                                var content = extendedToken.Content;
+
+                                if(content == "being")
+                                {
+                                    newExtendedToken = extendedToken.Fork();
+                                    newExtendedToken.KindOfItem = KindOfItemOfSentence.Being;
+                                    result.Add(newExtendedToken);
+                                }
+                            }
+                            else
+                            {
+                                if(extendedToken.IsModal)
+                                {
+                                    extendedToken.KindOfItem = KindOfItemOfSentence.ModalVerb;
+                                    result.Add(extendedToken);
+                                }
+                                else
+                                {
+                                    var verbType = extendedToken.VerbType;
+
+                                    if(extendedToken.IsFormOfToDo)
+                                    {
+                                        switch (verbType)
+                                        {
+                                            case VerbType.BaseForm:
+                                                extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                result.Add(extendedToken);
+                                                break;
+
+                                            case VerbType.Form_2:
+                                                extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                result.Add(extendedToken);
+                                                break;
+
+                                            case VerbType.Form_3:
+                                                extendedToken.KindOfItem = KindOfItemOfSentence.V3;
+                                                result.Add(extendedToken);
+                                                break;
+                                        }
+
+                                        var newExtendedToken = extendedToken.Fork();
+                                        newExtendedToken.KindOfItem = KindOfItemOfSentence.FToDo;
+                                        result.Add(newExtendedToken);
+                                    }
+                                    else
+                                    {
+                                        if(extendedToken.IsFormOfToHave)
+                                        {
+                                            switch (verbType)
+                                            {
+                                                case VerbType.BaseForm:
+                                                    extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                    result.Add(extendedToken);
+                                                    break;
+
+                                                case VerbType.Form_2:
+                                                    extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                    result.Add(extendedToken);
+                                                    break;
+
+                                                case VerbType.Form_3:
+                                                    extendedToken.KindOfItem = KindOfItemOfSentence.V3;
+                                                    result.Add(extendedToken);
+                                                    break;
+                                            }
+
+                                            var newExtendedToken = extendedToken.Fork();
+                                            newExtendedToken.KindOfItem = KindOfItemOfSentence.FToHave;
+                                            result.Add(newExtendedToken);
+                                        }
+                                        else
+                                        {
+                                            if(extendedToken.Tense == GrammaticalTenses.Future)
+                                            {
+                                                extendedToken.KindOfItem = KindOfItemOfSentence.Will;
+                                                result.Add(extendedToken);
+                                            }
+                                            else
+                                            {
+                                                if (extendedToken.IsFormOfToBe)
+                                                {
+                                                    var content = extendedToken.Content;
+
+                                                    if (content == "be")
+                                                    {
+                                                        extendedToken.KindOfItem = KindOfItemOfSentence.Be;
+                                                        result.Add(extendedToken);
+
+                                                        var newExtendedToken = extendedToken.Fork();
+                                                        newExtendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                        result.Add(newExtendedToken);
+                                                    }
+                                                    else
+                                                    {
+                                                        if (content == "been")
+                                                        {
+                                                            extendedToken.KindOfItem = KindOfItemOfSentence.Been;
+                                                            result.Add(extendedToken);
+
+                                                            var newExtendedToken = extendedToken.Fork();
+                                                            newExtendedToken.KindOfItem = KindOfItemOfSentence.V3;
+                                                            result.Add(newExtendedToken);
+                                                        }
+                                                        else
+                                                        {
+                                                            extendedToken.KindOfItem = KindOfItemOfSentence.FToBe;
+                                                            result.Add(extendedToken);
+
+                                                            var newExtendedToken = extendedToken.Fork();
+                                                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                            result.Add(newExtendedToken);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    switch (verbType)
+                                                    {
+                                                        case VerbType.BaseForm:
+                                                            extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                            result.Add(extendedToken);
+                                                            break;
+
+                                                        case VerbType.Form_2:
+                                                            extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                                            result.Add(extendedToken);
+                                                            break;
+
+                                                        case VerbType.Form_3:
+                                                            extendedToken.KindOfItem = KindOfItemOfSentence.V3;
+                                                            result.Add(extendedToken);
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                /*var verbType = extendedToken.VerbType;
+                                switch (verbType)
+                                {
+                                    case VerbType.BaseForm:
+                                        extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                        result.Add(extendedToken);
+                                        break;
+
+                                    case VerbType.Form_2:
+                                        extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
+                                        result.Add(extendedToken);
+                                        break;
+
+                                    case VerbType.Form_3:
+                                        extendedToken.KindOfItem = KindOfItemOfSentence.V3;
+                                        result.Add(extendedToken);
+                                        break;
+                                }
+
+                                if (extendedToken.IsFormOfToDo)
+                                {
+                                    //resultList.Add(GoalOfATNExtendToken.FToDo);
+                                }
+                                else
+                                {
+                                    //if (extendedToken.IsFormOfToHave)
+                                    {
+                                        resultList.Add(GoalOfATNExtendToken.FToHave);
+                                    }
+                                    else
+                                    {
+                                        var content = extendedToken.Content;
+
+                                        if (extendedToken.IsFormOfToBe)
+                                        {
+                                            if (ntent == "will")
+                                            {
+                                                resultList.Add(GoalOfATNExtendToken.Will);
+                                            }
+                                            else
+                                            {
+                                                if (content == "would")
+                                                {
+                                                    resultList.Add(GoalOfATNExtendToken.Would);
+                                                }
+                                                else
+                                                {
+                                                    if (content == "shell")
+                                                    {
+                                                        resultList.Add(GoalOfATNExtendToken.Shell);
+                                                    }
+                                                    else
+                                                    {
+                                                        if (content == "should")
+                                                        {
+                                                            resultList.Add(GoalOfATNExtendToken.Should);
+                                                        }
+                                                        else
+                                                        {
+                                                            if (content == "be")
+                                                            {
+                                                                resultList.Add(GoalOfATNExtendToken.Be);
+                                                            }
+                                                            else
+                                                            {
+                                                                resultList.Add(GoalOfATNExtendToken.FToBe);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (extendedToken.IsFormOfToDo)
+                                            {
+                                                resultList.Add(GoalOfATNExtendToken.FToDo);
+                                            }
+                                            else
+                                            {
+                                                if (extendedToken.IsFormOfToHave)
+                                                {
+                                                    resultList.Add(GoalOfATNExtendToken.FToHave);
+                                                }
+                                                else
+                                                {
+                                                    if (content == "can")
+                                                    {
+                                                        resultList.Add(GoalOfATNExtendToken.Can);
+                                                    }
+                                                    else
+                                                    {
+                                                        if (content == "could")
+                                                        {
+                                                            resultList.Add(GoalOfATNExtendToken.Could);
+                                                        }
+                                                        else
+                                                        {
+                                                            if (content == "must")
+                                                            {
+                                                                resultList.Add(GoalOfATNExtendToken.Must);
+                                                            }
+                                                            else
+                                                            {
+                                                                if (content == "may")
+                                                                {
+                                                                    resultList.Add(GoalOfATNExtendToken.May);
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (content == "might")
+                                                                    {
+                                                                        resultList.Add(GoalOfATNExtendToken.Might);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (content == "let")
+                                                                        {
+                                                                            resultList.Add(GoalOfATNExtendToken.Let);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }*/
+                            }
+                        }
+                        break;
+
+                    case GrammaticalPartOfSpeech.Adverb:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Preposition:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Postposition:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Conjunction:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Interjection:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Article:
+                        throw new NotImplementedException();
+
+                    case GrammaticalPartOfSpeech.Numeral:
+                        throw new NotImplementedException();
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                }
             }
 
             return result;

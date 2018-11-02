@@ -1,4 +1,5 @@
 ﻿using MyNPCLib;
+using MyNPCLib.NLToCGParsing;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace TmpSandBox.VarOfSentences
 {
     public class TstItemOfSentence : IObjectToString
     {
-        public TstKindOfItemOfSentence Kind { get; set; } = TstKindOfItemOfSentence.Unknown;
+        public KindOfItemOfSentence Kind { get; set; } = KindOfItemOfSentence.Unknown;
         public bool IsVerb { get; set; }
         public bool IsWill { get; set; }
         public bool IsMutable { get; set; }
@@ -54,7 +55,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Subj
+                Kind = KindOfItemOfSentence.Subj
             };
 
             return result;
@@ -64,7 +65,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Will,
+                Kind = KindOfItemOfSentence.Will,
                 IsMainAdditional = true,
                 IsWill = true
             };
@@ -75,7 +76,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Not
+                Kind = KindOfItemOfSentence.Not
             };
 
             return result;
@@ -85,7 +86,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.No
+                Kind = KindOfItemOfSentence.No
             };
 
             return result;
@@ -95,7 +96,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.FToBe,
+                Kind = KindOfItemOfSentence.FToBe,
                 IsMainAdditional = true
             };
             return result;
@@ -105,7 +106,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.FToDo,
+                Kind = KindOfItemOfSentence.FToDo,
                 IsMainAdditional = true
             };
             return result;
@@ -115,7 +116,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.FToHave,
+                Kind = KindOfItemOfSentence.FToHave,
                 IsMainAdditional = true
             };
             return result;
@@ -125,7 +126,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Ving
+                Kind = KindOfItemOfSentence.Ving
             };
 
             return result;
@@ -135,7 +136,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.V3
+                Kind = KindOfItemOfSentence.V3
             };
 
             return result;
@@ -145,7 +146,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Been
+                Kind = KindOfItemOfSentence.Been
             };
 
             return result;
@@ -155,7 +156,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Being
+                Kind = KindOfItemOfSentence.Being
             };
 
             return result;
@@ -165,7 +166,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.QWObj
+                Kind = KindOfItemOfSentence.QWObj
             };
 
             return result;
@@ -175,7 +176,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Verb,
+                Kind = KindOfItemOfSentence.Verb,
                 IsVerb = true
             };
 
@@ -186,7 +187,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Condition
+                Kind = KindOfItemOfSentence.Condition
             };
 
             return result;
@@ -196,7 +197,7 @@ namespace TmpSandBox.VarOfSentences
         {
             var result = new TstItemOfSentence()
             {
-                Kind = TstKindOfItemOfSentence.Obj
+                Kind = KindOfItemOfSentence.Obj
             };
 
             return result;

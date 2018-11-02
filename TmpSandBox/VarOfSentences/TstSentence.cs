@@ -1,4 +1,5 @@
 ﻿using MyNPCLib;
+using MyNPCLib.NLToCGParsing;
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace TmpSandBox.VarOfSentences
         {
             get
             {
-                var subject = WordsList.FirstOrDefault(p => p.Kind == TstKindOfItemOfSentence.Subj);
+                var subject = WordsList.FirstOrDefault(p => p.Kind == KindOfItemOfSentence.Subj);
 
                 if(subject == null)
                 {
@@ -57,7 +58,7 @@ namespace TmpSandBox.VarOfSentences
         {
             get
             {
-                return WordsList.Any(p => p.Kind == TstKindOfItemOfSentence.No || p.Kind == TstKindOfItemOfSentence.Not);
+                return WordsList.Any(p => p.Kind == KindOfItemOfSentence.No || p.Kind == KindOfItemOfSentence.Not);
             }
         }
 
@@ -65,7 +66,7 @@ namespace TmpSandBox.VarOfSentences
         {
             get
             {
-                var verb = WordsList.FirstOrDefault(p => p.Kind == TstKindOfItemOfSentence.Verb || p.Kind == TstKindOfItemOfSentence.V3 || p.Kind == TstKindOfItemOfSentence.Ving);
+                var verb = WordsList.FirstOrDefault(p => p.Kind == KindOfItemOfSentence.Verb || p.Kind == KindOfItemOfSentence.V3 || p.Kind == KindOfItemOfSentence.Ving);
 
                 if(verb == null)
                 {

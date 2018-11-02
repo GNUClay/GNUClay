@@ -31,5 +31,10 @@ namespace MyNPCLib.NLToCGParsing_v2
             result.Sentence = Sentence?.Fork();
             return result;
         }
+
+        public IList<ATNExtendedToken> GetСlusterOfExtendedTokens()
+        {
+            return mATNExtendedLexer.GetСlusterOfExtendedTokens();
+        }
     }
 }

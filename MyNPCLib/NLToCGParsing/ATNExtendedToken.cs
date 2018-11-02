@@ -1,6 +1,7 @@
 ﻿using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing
@@ -35,6 +36,51 @@ namespace MyNPCLib.NLToCGParsing
         public IList<string> LogicalMeaning { get; set; }
         public IList<string> FullLogicalMeaning { get; set; }
         public string RootWord { get; set; }
+        public KindOfItemOfSentence KindOfItem { get; set; } = KindOfItemOfSentence.Unknown;
+
+        public ATNExtendedToken Fork()
+        {
+            var item = new ATNExtendedToken();
+            item.Kind = Kind;
+            item.Content = Content;
+            item.Pos = Pos;
+            item.Line = Line;
+            item.PartOfSpeech = PartOfSpeech;
+            item.IsName = IsName;
+            item.IsShortForm = IsShortForm;
+            item.Gender = Gender;
+            item.Number = Number;
+            item.IsCountable = IsCountable;
+            item.IsGerund = IsGerund;
+            item.IsPossessive = IsPossessive;
+            item.Person = Person;
+            item.TypeOfPronoun = TypeOfPronoun;
+            item.CaseOfPersonalPronoun = CaseOfPersonalPronoun;
+            item.VerbType = VerbType;
+            item.Tense = Tense;
+            item.IsModal = IsModal;
+            item.IsFormOfToBe = IsFormOfToBe;
+            item.IsFormOfToHave = IsFormOfToHave;
+            item.IsFormOfToDo = IsFormOfToDo;
+            item.Comparison = Comparison;
+            item.IsQuestionWord = IsQuestionWord;
+            item.IsDeterminer = IsDeterminer;
+            item.NumeralType = NumeralType;
+            if(LogicalMeaning != null)
+            {
+                item.LogicalMeaning = LogicalMeaning.ToList();
+            }
+            
+            if (FullLogicalMeaning != null)
+            {
+                item.FullLogicalMeaning = FullLogicalMeaning.ToList();
+            }
+    
+            item.RootWord = RootWord;
+            item.KindOfItem = KindOfItem;
+
+            return item;
+        }
 
         public override string ToString()
         {
@@ -105,7 +151,8 @@ namespace MyNPCLib.NLToCGParsing
                 sb.AppendLine($"{spaces}End {nameof(FullLogicalMeaning)}");
             }
             sb.AppendLine($"{spaces}{nameof(RootWord)} = {RootWord}");
-            
+            sb.AppendLine($"{spaces}{nameof(KindOfItem)} = {KindOfItem}");
+
             return sb.ToString();
         }
     }

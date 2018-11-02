@@ -21,11 +21,35 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         protected override void ProcessNextToken()
         {
+            var extendedTokensList = GetСlusterOfExtendedTokens();
+
 #if DEBUG
-            LogInstance.Log("Begin");
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
-            throw new NotImplementedException();
+            if(extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG           
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch(kindOfItem)
+                {
+                    case KindOfItemOfSentence.Subj:
+                        AddTask(new ATNSubjTransNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

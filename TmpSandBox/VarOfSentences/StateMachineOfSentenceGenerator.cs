@@ -1,4 +1,5 @@
 ﻿using MyNPCLib;
+using MyNPCLib.NLToCGParsing;
 using MyNPCLib.SimpleWordsDict;
 using Newtonsoft.Json;
 using System;
@@ -29,7 +30,7 @@ namespace TmpSandBox.VarOfSentences
            
             LogInstance.Log($"totalWordsList.Count = {totalWordsList.Count}");
 
-            var listOfKinds = new List<TstKindOfItemOfSentence>();
+            var listOfKinds = new List<KindOfItemOfSentence>();
 
             ProcessN(0, string.Empty, listOfKinds, totalWordsList);
 
@@ -265,7 +266,7 @@ namespace TmpSandBox.VarOfSentences
             mParentToChildStatesDict[parentState] = listOfStates;
         }
 
-        private void ProcessN(int n, string parentCondition, List<TstKindOfItemOfSentence> listOfKinds, List<List<TstItemOfSentence>> wordsList)
+        private void ProcessN(int n, string parentCondition, List<KindOfItemOfSentence> listOfKinds, List<List<TstItemOfSentence>> wordsList)
         {
             LogInstance.Log($"n = {n} wordsList.Count = {wordsList.Count}");
 
@@ -281,7 +282,7 @@ namespace TmpSandBox.VarOfSentences
                 AddToParentState(parentCondition, stateStr);
             }
 
-            var kvpItemsList = new List<KeyValuePair<TstKindOfItemOfSentence, List<TstItemOfSentence>>>();
+            var kvpItemsList = new List<KeyValuePair<KindOfItemOfSentence, List<TstItemOfSentence>>>();
 
             foreach(var item in wordsList)
             {
@@ -289,12 +290,12 @@ namespace TmpSandBox.VarOfSentences
 
                 //LogInstance.Log($"kind = {kind}");
 
-                if(kind == TstKindOfItemOfSentence.Unknown)
+                if(kind == KindOfItemOfSentence.Unknown)
                 {
                     continue;
                 }
 
-                kvpItemsList.Add(new KeyValuePair<TstKindOfItemOfSentence, List<TstItemOfSentence>>(kind, item));
+                kvpItemsList.Add(new KeyValuePair<KindOfItemOfSentence, List<TstItemOfSentence>>(kind, item));
             }
 
             var kvpItemsDict = kvpItemsList.GroupBy(p => p.Key).ToDictionary(p => p.Key, p => p.Select(x => x.Value).ToList());
@@ -314,7 +315,7 @@ namespace TmpSandBox.VarOfSentences
             }
         }
 
-        private TstKindOfItemOfSentence GetCell(int n, List<TstItemOfSentence> rowList)
+        private KindOfItemOfSentence GetCell(int n, List<TstItemOfSentence> rowList)
         {
             //LogInstance.Log($"n = {n} rowList.Count = {rowList.Count}");
 
@@ -323,10 +324,10 @@ namespace TmpSandBox.VarOfSentences
                 return rowList[n].Kind;
             }
 
-            return TstKindOfItemOfSentence.Unknown;
+            return KindOfItemOfSentence.Unknown;
         }
 
-        private string ListOfKindsToDisplay(List<TstKindOfItemOfSentence> listOfKinds)
+        private string ListOfKindsToDisplay(List<KindOfItemOfSentence> listOfKinds)
         {
             if(listOfKinds.Count == 0)
             {
