@@ -17,16 +17,15 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         protected override void ImplementGoalToken()
         {
-            LogInstance.Log("Begin");
         }
 
         protected override void ProcessNextToken()
         {
+#if DEBUG
             LogInstance.Log("Begin");
+#endif
 
-            //AddTask(new ATNSubjTransNodeFactory_v2(this, new ATNExtendedToken() {
-            //    Content = ":)"
-            //}));
+            throw new NotImplementedException();
         }
     }
 }

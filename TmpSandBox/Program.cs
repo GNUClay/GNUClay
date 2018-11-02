@@ -58,10 +58,10 @@ namespace TmpSandBox
             //TSTLogicalSoundBus();
             //TSTQueryWithAccessPolicy();
             //TSTQueryEntityCondition();
-            TSTATNNodeV2();
+            //TSTATNNodeV2();
             //TSTATNNodeGenerator();
             //TSTSentencesGenerator();
-            //TSTParsingOfManyTenses();
+            TSTParsingOfManyTenses();
             //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
             //TSTATNParsing();
@@ -694,9 +694,10 @@ namespace TmpSandBox
 
         private static void TSTATNNodeV2()
         {
-            var context = new ContextOfATNParsing_v2();
-            var atnNode = new ATNInitNode_v2(context);
-            atnNode.Run();
+            ////var commonContext = 
+            //var context = new ContextOfATNParsing_v2();
+            //var atnNode = new ATNInitNode_v2(context);
+            //atnNode.Run();
         }
 
         private static void TSTATNNodeGenerator()
@@ -1246,23 +1247,28 @@ namespace TmpSandBox
                 LogInstance.Log($"sentence = {sentence}");
 #endif
 
-                var extendedLexer = new ATNExtendedLexer(sentence, wordsDict);
+                var commonContext = new CommonContextOfATNParsing_v2();
+                var context = new ContextOfATNParsing_v2(sentence, wordsDict, commonContext);
+                var atnNode = new ATNInitNode_v2(context);
+                atnNode.Run();
 
-                IList<ATNExtendedToken> сlusterOfExtendTokens = null;
+                //var extendedLexer = new ATNExtendedLexer(sentence, wordsDict);
 
-                while ((сlusterOfExtendTokens = extendedLexer.GetСlusterOfExtendedTokens()) != null)
-                {
-                    LogInstance.Log($"сlusterOfExtendTokens.Count = {сlusterOfExtendTokens.Count}");
-                    foreach (var extendToken in сlusterOfExtendTokens)
-                    {
-                        LogInstance.Log($"extendToken = {extendToken}");
+                //IList<ATNExtendedToken> сlusterOfExtendTokens = null;
 
-                        if(extendToken.Kind == KindOfATNToken.Word && extendToken.PartOfSpeech == GrammaticalPartOfSpeech.Undefined)
-                        {
-                            throw new NotSupportedException();
-                        }
-                    }
-                }
+                //while ((сlusterOfExtendTokens = extendedLexer.GetСlusterOfExtendedTokens()) != null)
+                //{
+                //    LogInstance.Log($"сlusterOfExtendTokens.Count = {сlusterOfExtendTokens.Count}");
+                //    foreach (var extendToken in сlusterOfExtendTokens)
+                //    {
+                //        LogInstance.Log($"extendToken = {extendToken}");
+
+                //        if(extendToken.Kind == KindOfATNToken.Word && extendToken.PartOfSpeech == GrammaticalPartOfSpeech.Undefined)
+                //        {
+                //            throw new NotSupportedException();
+                //        }
+                //    }
+                //}
             }
         }
 
