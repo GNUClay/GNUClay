@@ -1,4 +1,5 @@
 ﻿using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,6 +53,14 @@ namespace MyNPCLib.NLToCGParsing_v2
         protected IList<ATNExtendedToken> GetСlusterOfExtendedTokens()
         {
             return Context.GetСlusterOfExtendedTokens();
+        }
+
+        protected Sentence Sentence
+        {
+            get
+            {
+                return Context.Sentence;
+            }
         }
     }
 }

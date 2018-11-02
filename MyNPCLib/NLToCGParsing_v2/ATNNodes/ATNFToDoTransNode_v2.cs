@@ -76,7 +76,18 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            var partOfSpeech = Token.PartOfSpeech;
+
+            switch (partOfSpeech)
+            {
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+            }
         }
 
         protected override void ProcessNextToken()

@@ -1,4 +1,6 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,6 +60,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
     public class ATNSubjTransNode_v2: BaseATNNode_v2
     {
+        public enum State
+        {
+            Init
+        }
+
         public ATNSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNInitNode_v2 parentNode, ATNExtendedToken token)
             : base(context, token)
         {
@@ -79,9 +86,41 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjTransNode_v2 mSameNode;
         private InitATNSubjTransNodeAction mInitAction;
 
+        public State InternalState = State.Init;
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"InternalState = {InternalState}");
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            switch (InternalState)
+            {
+                case State.Init:
+                    {
+                        var partOfSpeech = Token.PartOfSpeech;
+
+                        switch(partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Pronoun:
+                                {
+                                    var nounPhrase = new NounPhrase();
+                                    Context.Sentence.NounPhrase = nounPhrase;
+                                    nounPhrase.Noun = Token;
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
+            }     
         }
 
         protected override void ProcessNextToken()

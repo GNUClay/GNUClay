@@ -1252,6 +1252,14 @@ namespace TmpSandBox
                 var atnNode = new ATNInitNode_v2(context);
                 atnNode.Run();
 
+                var resultList = commonContext.SentencesList;
+
+                LogInstance.Log($"resultList.Count = {resultList.Count}");
+                foreach(var resultItem in resultList)
+                {
+                    LogInstance.Log($"resultItem = {resultItem}");
+                }
+
                 //var extendedLexer = new ATNExtendedLexer(sentence, wordsDict);
 
                 //IList<ATNExtendedToken> сlusterOfExtendTokens = null;

@@ -1,4 +1,5 @@
 ﻿using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
 using MyNPCLib.NLToCGParsing_v2.ATNNodes;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         protected override void ImplementGoalToken()
         {
+            Context.Sentence = new Sentence();
         }
 
         protected override void ProcessNextToken()
@@ -44,6 +46,14 @@ namespace MyNPCLib.NLToCGParsing_v2
                 {
                     case KindOfItemOfSentence.Subj:
                         AddTask(new ATNSubjTransNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.Verb:
+                        AddTask(new ATNVerbTransOrFinNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.FToDo:
+                        AddTask(new ATNFToDoTransNodeFactory_v2(this, item));
                         break;
 
                     default:

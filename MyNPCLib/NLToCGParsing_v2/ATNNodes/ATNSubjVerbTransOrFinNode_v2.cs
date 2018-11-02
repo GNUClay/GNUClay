@@ -1,4 +1,6 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,7 +79,31 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            var partOfSpeech = Token.PartOfSpeech;
+
+            switch (partOfSpeech)
+            {
+                case GrammaticalPartOfSpeech.Verb:
+                    {
+                        var verbPhrase = new VerbPhrase();
+                        verbPhrase.Verb = Token;
+                        Sentence.VerbPhrase = verbPhrase;
+                        Sentence.Aspect = GrammaticalAspect.Simple;
+                        Sentence.Tense = Token.Tense;
+                        Sentence.Mood = GrammaticalMood.Indicative;
+                        Sentence.Voice = GrammaticalVoice.Active;
+                        Sentence.Modal = KindOfModal.None;
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+            }
         }
 
         protected override void ProcessNextToken()
@@ -104,7 +130,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Point:
-                        throw new NotImplementedException();
+                        Context.PutSentenceToResult();
+                        break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
