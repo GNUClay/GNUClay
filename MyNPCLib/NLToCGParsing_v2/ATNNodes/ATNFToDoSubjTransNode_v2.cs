@@ -1,4 +1,6 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,6 +55,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
     public class ATNFToDoSubjTransNode_v2: BaseATNNode_v2
     {
+        public enum State
+        {
+            Init
+        }
+
         public ATNFToDoSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNFToDoTransNode_v2 parentNode, ATNExtendedToken token)
             : base(context, token)
         {
@@ -74,14 +81,73 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNFToDoSubjTransNode_v2 mSameNode;
         private InitATNFToDoSubjTransNodeAction mInitAction;
 
+        public State InternalState = State.Init;
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"InternalState = {InternalState}");
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+            switch (InternalState)
+            {
+                case State.Init:
+                    {
+                        var partOfSpeech = Token.PartOfSpeech;
+
+                        switch (partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Pronoun:
+                                {
+                                    var nounPhrase = new NounPhrase();
+                                    Context.Sentence.NounPhrase = nounPhrase;
+                                    nounPhrase.Noun = Token;
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
+            }
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Verb:
+                        AddTask(new ATNFToDoSubjVerbTransOrFinNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,12 +79,52 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            var verbPhrase = new VerbPhrase();
+            verbPhrase.Verb = Token;
+            Sentence.VerbPhrase = verbPhrase;
+            Sentence.Aspect = GrammaticalAspect.Simple;
+            Sentence.Tense = Token.Tense;
+            Sentence.Mood = GrammaticalMood.Indicative;
+            Sentence.Voice = GrammaticalVoice.Active;
+            Sentence.Modal = KindOfModal.None;
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.QuestionMark:
+                        Context.PutSentenceToResult();
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

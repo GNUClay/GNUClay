@@ -150,6 +150,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         AddTask(new ATNSubjVerbTransOrFinNodeFactory_v2(this, item));
                         break;
 
+                    case KindOfItemOfSentence.FToDo:
+                        AddTask(new ATNSubjFToDoTransNodeFactory_v2(this, item));
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }

@@ -26,6 +26,7 @@ namespace MyNPCLib.NLToCGParsing
         Condition,
         Obj,
         There,
-        Point
+        Point,
+        QuestionMark
     }
 }

@@ -1,4 +1,5 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -81,18 +82,45 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            var partOfSpeech = Token.PartOfSpeech;
-
-            switch (partOfSpeech)
-            {
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
-            }
+            Sentence.Aspect = GrammaticalAspect.Simple;
+            Sentence.Tense = Token.Tense;
+            Sentence.Voice = GrammaticalVoice.Active;
+            Sentence.Modal = KindOfModal.None;
+            Sentence.Mood = GrammaticalMood.Undefined;
+            Sentence.IsQuestion = true;
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Subj:
+                        AddTask(new ATNFToDoSubjTransNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

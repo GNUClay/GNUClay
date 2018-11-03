@@ -12,12 +12,22 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
         public GrammaticalVoice Voice { get; set; } = GrammaticalVoice.Undefined;
         public GrammaticalMood Mood { get; set; } = GrammaticalMood.Undefined;
         public KindOfModal Modal { get; set; } = KindOfModal.Undefined;
+        public bool IsQuestion { get; set; }
+        public bool IsNegation { get; set; }
         public BaseNounLikePhrase NounPhrase { get; set; }
         public VerbPhrase VerbPhrase { get; set; }
 
         public Sentence Fork()
         {
             var result = new Sentence();
+            result.Aspect = Aspect;
+            result.Tense = Tense;
+            result.Voice = Voice;
+            result.Mood = Mood;
+            result.Modal = Modal;
+            result.IsQuestion = IsQuestion;
+            result.IsNegation = IsNegation;
+
             result.NounPhrase = NounPhrase?.Fork();
             result.VerbPhrase = VerbPhrase?.Fork();
             return result;
@@ -43,6 +53,8 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
             sb.AppendLine($"{spaces}{nameof(Modal)} = {Modal}");
             sb.AppendLine($"{spaces}{nameof(Mood)} = {Mood}");
+            sb.AppendLine($"{spaces}{nameof(IsQuestion)} = {IsQuestion}");
+            sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             if (NounPhrase == null)
             {
                 sb.AppendLine($"{spaces}{nameof(NounPhrase)} = null");

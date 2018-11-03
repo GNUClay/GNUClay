@@ -52,6 +52,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
     public class ATNSubjVerbObjTransOrFinNode_v2: BaseATNNode_v2
     {
+        public enum State
+        {
+            Init
+        }
+
         public ATNSubjVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbTransOrFinNode_v2 parentNode, ATNExtendedToken token)
             : base(context, token)
         {
@@ -73,9 +78,33 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjVerbObjTransOrFinNode_v2 mSameNode;
         private InitATNSubjVerbObjTransOrFinNodeAction mInitAction;
 
+        public State InternalState = State.Init;
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"InternalState = {InternalState}");
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            switch (InternalState)
+            {
+                case State.Init:
+                    {
+                        var partOfSpeech = Token.PartOfSpeech;
+
+                        switch(partOfSpeech)
+                        {
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
+            }
         }
 
         protected override void ProcessNextToken()

@@ -267,7 +267,11 @@ namespace MyNPCLib.NLToCGParsing
 
             foreach(var extendedToken in sourceList)
             {
-                if(extendedToken.Kind != KindOfATNToken.Word)
+#if DEBUG
+                //LogInstance.Log($"extendedToken = {extendedToken}");
+#endif
+
+                if (extendedToken.Kind != KindOfATNToken.Word)
                 {
                     var kind = extendedToken.Kind;
 
@@ -275,6 +279,11 @@ namespace MyNPCLib.NLToCGParsing
                     {
                         case KindOfATNToken.Point:
                             extendedToken.KindOfItem = KindOfItemOfSentence.Point;
+                            result.Add(extendedToken);
+                            continue;
+
+                        case KindOfATNToken.QuestionMark:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.QuestionMark;
                             result.Add(extendedToken);
                             continue;
 
@@ -466,142 +475,26 @@ namespace MyNPCLib.NLToCGParsing
                                         }
                                     }
                                 }
-                                /*var verbType = extendedToken.VerbType;
-                                switch (verbType)
-                                {
-                                    case VerbType.BaseForm:
-                                        extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
-                                        result.Add(extendedToken);
-                                        break;
-
-                                    case VerbType.Form_2:
-                                        extendedToken.KindOfItem = KindOfItemOfSentence.Verb;
-                                        result.Add(extendedToken);
-                                        break;
-
-                                    case VerbType.Form_3:
-                                        extendedToken.KindOfItem = KindOfItemOfSentence.V3;
-                                        result.Add(extendedToken);
-                                        break;
-                                }
-
-                                if (extendedToken.IsFormOfToDo)
-                                {
-                                    //resultList.Add(GoalOfATNExtendToken.FToDo);
-                                }
-                                else
-                                {
-                                    //if (extendedToken.IsFormOfToHave)
-                                    {
-                                        resultList.Add(GoalOfATNExtendToken.FToHave);
-                                    }
-                                    else
-                                    {
-                                        var content = extendedToken.Content;
-
-                                        if (extendedToken.IsFormOfToBe)
-                                        {
-                                            if (ntent == "will")
-                                            {
-                                                resultList.Add(GoalOfATNExtendToken.Will);
-                                            }
-                                            else
-                                            {
-                                                if (content == "would")
-                                                {
-                                                    resultList.Add(GoalOfATNExtendToken.Would);
-                                                }
-                                                else
-                                                {
-                                                    if (content == "shell")
-                                                    {
-                                                        resultList.Add(GoalOfATNExtendToken.Shell);
-                                                    }
-                                                    else
-                                                    {
-                                                        if (content == "should")
-                                                        {
-                                                            resultList.Add(GoalOfATNExtendToken.Should);
-                                                        }
-                                                        else
-                                                        {
-                                                            if (content == "be")
-                                                            {
-                                                                resultList.Add(GoalOfATNExtendToken.Be);
-                                                            }
-                                                            else
-                                                            {
-                                                                resultList.Add(GoalOfATNExtendToken.FToBe);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (extendedToken.IsFormOfToDo)
-                                            {
-                                                resultList.Add(GoalOfATNExtendToken.FToDo);
-                                            }
-                                            else
-                                            {
-                                                if (extendedToken.IsFormOfToHave)
-                                                {
-                                                    resultList.Add(GoalOfATNExtendToken.FToHave);
-                                                }
-                                                else
-                                                {
-                                                    if (content == "can")
-                                                    {
-                                                        resultList.Add(GoalOfATNExtendToken.Can);
-                                                    }
-                                                    else
-                                                    {
-                                                        if (content == "could")
-                                                        {
-                                                            resultList.Add(GoalOfATNExtendToken.Could);
-                                                        }
-                                                        else
-                                                        {
-                                                            if (content == "must")
-                                                            {
-                                                                resultList.Add(GoalOfATNExtendToken.Must);
-                                                            }
-                                                            else
-                                                            {
-                                                                if (content == "may")
-                                                                {
-                                                                    resultList.Add(GoalOfATNExtendToken.May);
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (content == "might")
-                                                                    {
-                                                                        resultList.Add(GoalOfATNExtendToken.Might);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        if (content == "let")
-                                                                        {
-                                                                            resultList.Add(GoalOfATNExtendToken.Let);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }*/
                             }
                         }
                         break;
 
                     case GrammaticalPartOfSpeech.Adverb:
-                        throw new NotImplementedException();
+                        {
+                            var content = extendedToken.Content;
+
+                            if(content == "not")
+                            {
+                                extendedToken.KindOfItem = KindOfItemOfSentence.Not;
+                                result.Add(extendedToken);
+                            }
+                            else
+                            {
+                                extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                                result.Add(extendedToken);
+                            }
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Preposition:
                         throw new NotImplementedException();
@@ -616,7 +509,15 @@ namespace MyNPCLib.NLToCGParsing
                         throw new NotImplementedException();
 
                     case GrammaticalPartOfSpeech.Article:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                            result.Add(extendedToken);
+
+                            var newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                            result.Add(newExtendedToken);
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Numeral:
                         throw new NotImplementedException();
