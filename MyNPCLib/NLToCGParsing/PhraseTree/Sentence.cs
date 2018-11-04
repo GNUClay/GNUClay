@@ -5,8 +5,17 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing.PhraseTree
 {
-    public class Sentence : IObjectToString, IShortObjectToString
+    public class Sentence : IObjectToString, IShortObjectToString, IRunTimeSessionKey
     {
+        public Sentence(bool getKey = true)
+        {
+            if (getKey)
+            {
+                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
+            }
+        }
+
+        public ulong RunTimeSessionKey { get; set; }
         public GrammaticalAspect Aspect { get; set; } = GrammaticalAspect.Undefined;
         public GrammaticalTenses Tense { get; set; } = GrammaticalTenses.Undefined;
         public GrammaticalVoice Voice { get; set; } = GrammaticalVoice.Undefined;
@@ -17,9 +26,52 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
         public BaseNounLikePhrase NounPhrase { get; set; }
         public VerbPhrase VerbPhrase { get; set; }
 
+        public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T: class, IRunTimeSessionKey
+        {
+            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
+        }
+
+        public T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey
+        {
+            if (NounPhrase != null)
+            {
+                if (NounPhrase.RunTimeSessionKey == key)
+                {
+                    object obj = NounPhrase;
+                    return (T)obj;
+                }
+
+                var result = NounPhrase.GetByRunTimeSessionKey<T>(key);
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            if (VerbPhrase != null)
+            {
+                if (VerbPhrase.RunTimeSessionKey == key)
+                {
+                    object obj = VerbPhrase;
+                    return (T)obj;
+                }
+
+                var result = VerbPhrase.GetByRunTimeSessionKey<T>(key);
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
         public Sentence Fork()
         {
-            var result = new Sentence();
+            var result = new Sentence(false);
+            result.RunTimeSessionKey = RunTimeSessionKey;
             result.Aspect = Aspect;
             result.Tense = Tense;
             result.Voice = Voice;
@@ -48,6 +100,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");

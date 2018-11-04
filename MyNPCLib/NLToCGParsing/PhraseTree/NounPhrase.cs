@@ -7,16 +7,52 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
 {
     public class NounPhrase : BaseNounLikePhrase
     {
+        public NounPhrase(bool getKey = true)
+            : base(getKey)
+        {
+        }
+
         public override bool IsNounPhrase => true;
         public override NounPhrase AsNounPhrase => this;
 
         public ATNExtendedToken Noun { get; set; }
         public List<ATNExtendedToken> Determiners { get; set; } = new List<ATNExtendedToken>();
 
+        public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
+        {
+            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
+        }
+
+        public override T GetByRunTimeSessionKey<T>(ulong key)
+        {
+            if(Noun != null)
+            {
+                if(Noun.RunTimeSessionKey == key)
+                {
+                    object obj = Noun;
+                    return (T)obj;
+                }
+            }
+
+            if(Determiners != null)
+            {
+                foreach(var determiner in Determiners)
+                {
+                    if (determiner.RunTimeSessionKey == key)
+                    {
+                        object obj = determiner;
+                        return (T)obj;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         public override BaseNounLikePhrase Fork()
         {
-            var result = new NounPhrase();
+            var result = new NounPhrase(false);
+            result.RunTimeSessionKey = RunTimeSessionKey;
             result.Noun = Noun;
             result.Determiners = Determiners.ToList();
             return result;
@@ -27,6 +63,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
             if (Noun == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Noun)} = null");

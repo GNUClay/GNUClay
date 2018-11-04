@@ -1,4 +1,5 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing.PhraseTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,15 +53,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
     public class ATNSubjVerbObjTransOrFinNode_v2: BaseATNNode_v2
     {
-        public enum State
-        {
-            Init
-        }
-
         public ATNSubjVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbTransOrFinNode_v2 parentNode, ATNExtendedToken token)
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new ObjectTargetOfATNSlaveNAPNode());
         }
 
         public ATNSubjVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbObjTransOrFinNode_v2 sameNode, InitATNSubjVerbObjTransOrFinNodeAction initAction, ATNExtendedToken token)
@@ -69,6 +66,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -78,33 +76,50 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjVerbObjTransOrFinNode_v2 mSameNode;
         private InitATNSubjVerbObjTransOrFinNodeAction mInitAction;
 
-        public State InternalState = State.Init;
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
 
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"InternalState = {InternalState}");
             LogInstance.Log($"Token = {Token}");
             LogInstance.Log($"Context = {Context}");
+
+            //var tmpParentVerbPhrase = ParentNode.Context.Sentence.VerbPhrase;
+
+            //LogInstance.Log($"tmpParentVerbPhrase = {tmpParentVerbPhrase}");
+
+            //var tmpCurrentVerbPhrase = Context.Sentence.VerbPhrase;
+
+            //LogInstance.Log($"tmpCurrentVerbPhrase = {tmpCurrentVerbPhrase}");
+
+            //var tmpSecondCurrentVerbPhrase = Context.Sentence.GetByRunTimeSessionKey<VerbPhrase>(tmpParentVerbPhrase);
+
+            //LogInstance.Log($"tmpSecondCurrentVerbPhrase = {tmpSecondCurrentVerbPhrase}");
+
+            //LogInstance.Log($"(tmpSecondCurrentVerbPhrase == tmpCurrentVerbPhrase) = {tmpSecondCurrentVerbPhrase == tmpCurrentVerbPhrase}");
+
+            //LogInstance.Log($"(tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase) = {tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase}");
 #endif
 
-            switch (InternalState)
-            {
-                case State.Init:
-                    {
-                        var partOfSpeech = Token.PartOfSpeech;
+            SlaveNAPNode.Run(Token);
 
-                        switch(partOfSpeech)
-                        {
-                            default:
-                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
-                        }
-                    }
-                    break;
+            //switch (InternalState)
+            //{
+            //    case State.Init:
+            //        {
+            //            var partOfSpeech = Token.PartOfSpeech;
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
-            }
+            //            switch(partOfSpeech)
+            //            {
+            //                default:
+            //                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+            //            }
+            //        }
+            //        break;
+
+            //    default:
+            //        throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
+            //}
         }
 
         protected override void ProcessNextToken()

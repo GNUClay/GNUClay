@@ -8,6 +8,15 @@ namespace MyNPCLib.NLToCGParsing
 {
     public class ATNExtendedToken : IObjectToString
     {
+        public ATNExtendedToken(bool getKey = true)
+        {
+            if(getKey)
+            {
+                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
+            }
+        }
+
+        public ulong RunTimeSessionKey { get; set; }
         public KindOfATNToken Kind { get; set; } = KindOfATNToken.Unknown;
         public string Content { get; set; } = string.Empty;
         public int Pos { get; set; }
@@ -40,7 +49,8 @@ namespace MyNPCLib.NLToCGParsing
 
         public ATNExtendedToken Fork()
         {
-            var item = new ATNExtendedToken();
+            var item = new ATNExtendedToken(false);
+            item.RunTimeSessionKey = RunTimeSessionKey;
             item.Kind = Kind;
             item.Content = Content;
             item.Pos = Pos;
@@ -98,6 +108,7 @@ namespace MyNPCLib.NLToCGParsing
             var nextN = n + 4;
             var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
             sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             sb.AppendLine($"{spaces}{nameof(Content)} = {Content}");
             sb.AppendLine($"{spaces}{nameof(Pos)} = {Pos}");

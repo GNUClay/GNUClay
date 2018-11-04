@@ -4,14 +4,52 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing.PhraseTree
 {
-    public class VerbPhrase : IObjectToString, IShortObjectToString
+    public class VerbPhrase: IObjectToString, IShortObjectToString, IRunTimeSessionKey
     {
+        public VerbPhrase(bool getKey = true)
+        {
+            if (getKey)
+            {
+                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
+            }
+        }
+
+        public ulong RunTimeSessionKey { get; set; }
         public ATNExtendedToken Verb { get; set; }
         public BaseNounLikePhrase Object { get; set; }
 
+        public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
+        {
+            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
+        }
+
+        public T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey
+        {
+            if(Verb != null)
+            {
+                if(Verb.RunTimeSessionKey == key)
+                {
+                    object obj = Verb;
+                    return (T)obj;
+                }
+            }
+
+            if(Object != null)
+            {
+                if(Object.RunTimeSessionKey == key)
+                {
+                    object obj = Object;
+                    return (T)obj;
+                }
+            }
+
+            return null;
+        }
+
         public VerbPhrase Fork()
         {
-            var result = new VerbPhrase();
+            var result = new VerbPhrase(false);
+            result.RunTimeSessionKey = RunTimeSessionKey;
             result.Verb = Verb;
             result.Object = Object?.Fork();
             return result;
@@ -32,6 +70,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
             if (Verb == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Verb)} = null");

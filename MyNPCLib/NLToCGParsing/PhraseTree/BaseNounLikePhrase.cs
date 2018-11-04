@@ -4,8 +4,17 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing.PhraseTree
 {
-    public abstract class BaseNounLikePhrase : IObjectToString, IShortObjectToString
+    public abstract class BaseNounLikePhrase : IObjectToString, IShortObjectToString, IRunTimeSessionKey
     {
+        protected BaseNounLikePhrase(bool getKey = true)
+        {
+            if (getKey)
+            {
+                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
+            }
+        }
+
+        public ulong RunTimeSessionKey { get; set; }
         public virtual bool IsNounPhrase => false;
         public virtual NounPhrase AsNounPhrase => null;
         public virtual bool IsPrepositionalPhrase => false;
@@ -16,6 +25,9 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
         public BaseNounLikePhrase Object { get; set; }
 
         public abstract BaseNounLikePhrase Fork();
+
+        public abstract T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey;
+        public abstract T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey;
 
         public override string ToString()
         {

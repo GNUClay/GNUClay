@@ -60,15 +60,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
     public class ATNSubjTransNode_v2: BaseATNNode_v2
     {
-        public enum State
-        {
-            Init
-        }
-
         public ATNSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNInitNode_v2 parentNode, ATNExtendedToken token)
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new SubjectTargetOfATNSlaveNAPNode());
         }
 
         public ATNSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNSubjTransNode_v2 sameNode, InitATNSubjTransNodeAction initAction, ATNExtendedToken token)
@@ -77,6 +73,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -86,41 +83,16 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjTransNode_v2 mSameNode;
         private InitATNSubjTransNodeAction mInitAction;
 
-        public State InternalState = State.Init;
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
 
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"InternalState = {InternalState}");
             LogInstance.Log($"Token = {Token}");
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            switch (InternalState)
-            {
-                case State.Init:
-                    {
-                        var partOfSpeech = Token.PartOfSpeech;
-
-                        switch(partOfSpeech)
-                        {
-                            case GrammaticalPartOfSpeech.Pronoun:
-                                {
-                                    var nounPhrase = new NounPhrase();
-                                    Context.Sentence.NounPhrase = nounPhrase;
-                                    nounPhrase.Noun = Token;
-                                }
-                                break;
-
-                            default:
-                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
-                        }
-                    }
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
-            }     
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
