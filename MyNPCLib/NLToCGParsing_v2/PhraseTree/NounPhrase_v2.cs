@@ -1,23 +1,24 @@
-﻿using System;
+﻿using MyNPCLib.NLToCGParsing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyNPCLib.NLToCGParsing.PhraseTree
+namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
-    public class NounPhrase : BaseNounLikePhrase
+    public class NounPhrase_v2 : BaseNounLikePhrase_v2
     {
-        public NounPhrase(bool getKey = true)
+        public NounPhrase_v2(bool getKey = true)
             : base(getKey)
         {
         }
 
         public override bool IsNounPhrase => true;
-        public override NounPhrase AsNounPhrase => this;
+        public override NounPhrase_v2 AsNounPhrase => this;
 
         public ATNExtendedToken Noun { get; set; }
         public List<ATNExtendedToken> Determiners { get; set; } = new List<ATNExtendedToken>();
-        public AdjectivePhrase AdjectivePhrase { get; set; }
+        public AdjectivePhrase_v2 AdjectivePhrase { get; set; }
 
         public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
         {
@@ -26,18 +27,18 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
-            if(Noun != null)
+            if (Noun != null)
             {
-                if(Noun.RunTimeSessionKey == key)
+                if (Noun.RunTimeSessionKey == key)
                 {
                     object obj = Noun;
                     return (T)obj;
                 }
             }
 
-            if(Determiners != null)
+            if (Determiners != null)
             {
-                foreach(var determiner in Determiners)
+                foreach (var determiner in Determiners)
                 {
                     if (determiner.RunTimeSessionKey == key)
                     {
@@ -47,9 +48,9 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
                 }
             }
 
-            if(AdjectivePhrase != null)
+            if (AdjectivePhrase != null)
             {
-                if(AdjectivePhrase.RunTimeSessionKey == key)
+                if (AdjectivePhrase.RunTimeSessionKey == key)
                 {
                     object obj = AdjectivePhrase;
                     return (T)obj;
@@ -59,9 +60,9 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             return null;
         }
 
-        public override BaseNounLikePhrase Fork()
+        public override BaseNounLikePhrase_v2 Fork()
         {
-            var result = new NounPhrase(false);
+            var result = new NounPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Noun = Noun?.Fork();
             result.Determiners = Determiners.ToList();

@@ -297,7 +297,15 @@ namespace MyNPCLib.NLToCGParsing
                 switch (partOfSpeech)
                 {
                     case GrammaticalPartOfSpeech.Noun:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                            result.Add(extendedToken);
+
+                            var newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                            result.Add(newExtendedToken);
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Pronoun:
                         {

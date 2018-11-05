@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing
 {
-    public class ATNExtendedToken : IObjectToString
+    public class ATNExtendedToken : IObjectToString, IRunTimeSessionKey
     {
         public ATNExtendedToken(bool getKey = true)
         {

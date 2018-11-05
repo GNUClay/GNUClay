@@ -6,6 +6,8 @@ namespace MyNPCLib.NLToCGParsing_v2
 {
     public enum StateOfATNSlaveNAPNode
     {
-        Init
+        Init,
+        GotNoun,
+        GotDeterminerWitoutNoun
     }
 }

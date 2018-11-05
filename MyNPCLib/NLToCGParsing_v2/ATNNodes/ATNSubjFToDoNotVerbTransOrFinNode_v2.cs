@@ -1,5 +1,6 @@
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -82,7 +83,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            var verbPhrase = new VerbPhrase();
+            var verbPhrase = new VerbPhrase_v2();
             verbPhrase.Verb = Token;
             Sentence.VerbPhrase = verbPhrase;
         }

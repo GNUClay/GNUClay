@@ -102,29 +102,39 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 #endif
 
             SlaveNAPNode.Run(Token);
-
-            //switch (InternalState)
-            //{
-            //    case State.Init:
-            //        {
-            //            var partOfSpeech = Token.PartOfSpeech;
-
-            //            switch(partOfSpeech)
-            //            {
-            //                default:
-            //                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
-            //            }
-            //        }
-            //        break;
-
-            //    default:
-            //        throw new ArgumentOutOfRangeException(nameof(InternalState), InternalState, null);
-            //}
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Subj:
+                        AddTask(new ATNSubjVerbObjTransOrFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

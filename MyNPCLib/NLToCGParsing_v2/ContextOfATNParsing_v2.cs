@@ -1,5 +1,6 @@
 ﻿using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,15 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         private CommonContextOfATNParsing_v2 CommonContext;
         private ATNExtendedLexer mATNExtendedLexer;
-        public Sentence Sentence { get; set; }
-        public Stack<BaseNounLikePhrase> OperativeNounPhrasesStack = new Stack<BaseNounLikePhrase>();
-        public void AddNounLikePhrase(BaseNounLikePhrase nounPhrase)
+        public Sentence_v2 Sentence { get; set; }
+        public Stack<BaseNounLikePhrase_v2> OperativeNounPhrasesStack = new Stack<BaseNounLikePhrase_v2>();
+
+        public void AddNounLikePhrase(BaseNounLikePhrase_v2 nounPhrase)
         {
             OperativeNounPhrasesStack.Push(nounPhrase);
         }
 
-        public BaseNounLikePhrase PeekCurrentNounPhrase()
+        public BaseNounLikePhrase_v2 PeekCurrentNounPhrase()
         {
             if (OperativeNounPhrasesStack.Count == 0)
             {
@@ -39,14 +41,14 @@ namespace MyNPCLib.NLToCGParsing_v2
             return OperativeNounPhrasesStack.Peek();
         }
 
-        public Stack<VerbPhrase> OperativeVerbPhraseStack = new Stack<VerbPhrase>();
+        public Stack<VerbPhrase_v2> OperativeVerbPhraseStack = new Stack<VerbPhrase_v2>();
 
-        public void AddVerbPhrase(VerbPhrase verbPhrase)
+        public void AddVerbPhrase(VerbPhrase_v2 verbPhrase)
         {
             OperativeVerbPhraseStack.Push(verbPhrase);
         }
 
-        public VerbPhrase PeekCurrentVerbPhrase()
+        public VerbPhrase_v2 PeekCurrentVerbPhrase()
         {
             if (OperativeVerbPhraseStack.Count == 0)
             {
@@ -54,6 +56,11 @@ namespace MyNPCLib.NLToCGParsing_v2
             }
 
             return OperativeVerbPhraseStack.Peek();
+        }
+
+        public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
+        {
+            return Sentence.GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
         }
 
         public ContextOfATNParsing_v2 Fork()
