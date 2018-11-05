@@ -10,7 +10,7 @@ namespace MyNPCLib.NLToCGParsing_v2
     {
         public void SetNode(BaseNounLikePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-            context.Sentence.VerbPhrase.Object = node;
+            context.Sentence.LastVerbPhrase.ObjectsList.Add(node);
         }
     }
 }

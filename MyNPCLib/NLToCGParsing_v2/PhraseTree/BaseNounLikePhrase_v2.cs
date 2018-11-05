@@ -19,8 +19,6 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public virtual NounPhrase_v2 AsNounPhrase => null;
         public virtual bool IsPrepositionalPhrase => false;
         public virtual PrepositionalPhrase_v2 AsPrepositionalPhrase => null;
-        public virtual bool IsAdjectivePhrase => false;
-        public virtual AdjectivePhrase_v2 AsAdjectivePhrase => null;
 
         public BaseNounLikePhrase_v2 Object { get; set; }
 

@@ -5,24 +5,25 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
-    public class AdjectivePhrase_v2 : BaseNounLikePhrase_v2
+    public class AdjectivePhrase_v2 : IObjectToString, IShortObjectToString, IRunTimeSessionKey
     {
         public AdjectivePhrase_v2(bool getKey = true)
-            : base(getKey)
         {
+            if (getKey)
+            {
+                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
+            }
         }
 
-        public override bool IsAdjectivePhrase => true;
-        public override AdjectivePhrase_v2 AsAdjectivePhrase => this;
-
+        public ulong RunTimeSessionKey { get; set; }
         public ATNExtendedToken Adjective { get; set; }
 
-        public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
+        public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {
             return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
         }
 
-        public override T GetByRunTimeSessionKey<T>(ulong key)
+        public T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey
         {
             if (Adjective != null)
             {
@@ -36,16 +37,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return null;
         }
 
-        public override BaseNounLikePhrase_v2 Fork()
+        public AdjectivePhrase_v2 Fork()
         {
             var result = new AdjectivePhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Adjective = Adjective;
-            result.Object = Object?.Fork();
             return result;
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string ToString()
+        {
+            return ToString(0u);
+        }
+
+        public string ToString(uint n)
+        {
+            return this.GetDefaultToStringInformation(n);
+        }
+
+        public string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -61,20 +71,21 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Adjective.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Adjective)}");
             }
-            if (Object == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(Object)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-                sb.Append(Object.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Object)}");
-            }
+
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public string ToShortString()
+        {
+            return ToShortString(0u);
+        }
+
+        public string ToShortString(uint n)
+        {
+            return this.GetDefaultToShortStringInformation(n);
+        }
+
+        public string PropertiesToShortSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

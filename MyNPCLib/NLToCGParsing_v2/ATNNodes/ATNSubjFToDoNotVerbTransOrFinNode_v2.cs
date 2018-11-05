@@ -85,7 +85,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             var verbPhrase = new VerbPhrase_v2();
             verbPhrase.Verb = Token;
-            Sentence.VerbPhrase = verbPhrase;
+            Sentence.AddVerbPhrase(verbPhrase);
         }
 
         protected override void ProcessNextToken()

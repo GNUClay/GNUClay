@@ -17,7 +17,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public ulong RunTimeSessionKey { get; set; }
         public ATNExtendedToken Verb { get; set; }
-        public BaseNounLikePhrase_v2 Object { get; set; }
+        public List<BaseNounLikePhrase_v2> ObjectsList { get; set; } = new List<BaseNounLikePhrase_v2>();
 
         public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {
@@ -35,12 +35,22 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
-            if (Object != null)
+            if (ObjectsList != null)
             {
-                if (Object.RunTimeSessionKey == key)
+                foreach(var noun in ObjectsList)
                 {
-                    object obj = Object;
-                    return (T)obj;
+                    if (noun.RunTimeSessionKey == key)
+                    {
+                        object obj = noun;
+                        return (T)obj;
+                    }
+
+                    var result = noun.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
                 }
             }
 
@@ -52,7 +62,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var result = new VerbPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Verb = Verb;
-            result.Object = Object?.Fork();
+
+            if(ObjectsList == null)
+            {
+                result.ObjectsList = null;
+            }
+            else
+            {
+                foreach (var noun in ObjectsList)
+                {
+                    result.ObjectsList.Add(noun.Fork());
+                }
+            }
+
             return result;
         }
 
@@ -82,15 +104,18 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Verb.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Verb)}");
             }
-            if (Object == null)
+            if (ObjectsList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(Object)} = null");
+                sb.AppendLine($"{spaces}{nameof(ObjectsList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-                sb.Append(Object.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Object)}");
+                sb.AppendLine($"{spaces}Begin {nameof(ObjectsList)}");
+                foreach (var noun in ObjectsList)
+                {
+                    sb.Append(noun.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ObjectsList)}");
             }
             return sb.ToString();
         }
@@ -120,15 +145,18 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Verb.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Verb)}");
             }
-            if (Object == null)
+            if (ObjectsList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(Object)} = null");
+                sb.AppendLine($"{spaces}{nameof(ObjectsList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-                sb.Append(Object.ToShortString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Object)}");
+                sb.AppendLine($"{spaces}Begin {nameof(ObjectsList)}");
+                foreach (var noun in ObjectsList)
+                {
+                    sb.Append(noun.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ObjectsList)}");
             }
             return sb.ToString();
         }

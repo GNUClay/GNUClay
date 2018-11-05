@@ -17,8 +17,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public override NounPhrase_v2 AsNounPhrase => this;
 
         public ATNExtendedToken Noun { get; set; }
-        public List<ATNExtendedToken> Determiners { get; set; } = new List<ATNExtendedToken>();
-        public AdjectivePhrase_v2 AdjectivePhrase { get; set; }
+        public List<ATNExtendedToken> DeterminersList { get; set; } = new List<ATNExtendedToken>();
+        public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
         {
@@ -36,9 +36,9 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
-            if (Determiners != null)
+            if (DeterminersList != null)
             {
-                foreach (var determiner in Determiners)
+                foreach (var determiner in DeterminersList)
                 {
                     if (determiner.RunTimeSessionKey == key)
                     {
@@ -48,12 +48,15 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
-            if (AdjectivePhrase != null)
+            if (AdjectivePhrasesList != null)
             {
-                if (AdjectivePhrase.RunTimeSessionKey == key)
+                foreach(var adj in AdjectivePhrasesList)
                 {
-                    object obj = AdjectivePhrase;
-                    return (T)obj;
+                    if (adj.RunTimeSessionKey == key)
+                    {
+                        object obj = adj;
+                        return (T)obj;
+                    }
                 }
             }
 
@@ -65,8 +68,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var result = new NounPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Noun = Noun?.Fork();
-            result.Determiners = Determiners.ToList();
-            result.AdjectivePhrase?.Fork();
+
+            foreach (var determiner in DeterminersList)
+            {
+                result.DeterminersList.Add(determiner.Fork());
+            }
+
+            foreach (var adj in AdjectivePhrasesList)
+            {
+                result.AdjectivePhrasesList.Add(adj.Fork());
+            }
+
             return result;
         }
 
@@ -88,29 +100,32 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.AppendLine($"{spaces}End {nameof(Noun)}");
             }
 
-            if (Determiners == null)
+            if (DeterminersList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(Determiners)} = null");
+                sb.AppendLine($"{spaces}{nameof(DeterminersList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(Determiners)}");
-                foreach (var determiner in Determiners)
+                sb.AppendLine($"{spaces}Begin {nameof(DeterminersList)}");
+                foreach (var determiner in DeterminersList)
                 {
                     sb.Append(determiner.ToString(nextN));
                 }
-                sb.AppendLine($"{spaces}End {nameof(Determiners)}");
+                sb.AppendLine($"{spaces}End {nameof(DeterminersList)}");
             }
 
-            if (AdjectivePhrase == null)
+            if (AdjectivePhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(AdjectivePhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrase)}");
-                sb.Append(AdjectivePhrase.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    sb.Append(adj.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
             }
             return sb.ToString();
         }
@@ -131,29 +146,32 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.AppendLine($"{spaces}End {nameof(Noun)}");
             }
 
-            if (Determiners == null)
+            if (DeterminersList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(Determiners)} = null");
+                sb.AppendLine($"{spaces}{nameof(DeterminersList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(Determiners)}");
-                foreach (var determiner in Determiners)
+                sb.AppendLine($"{spaces}Begin {nameof(DeterminersList)}");
+                foreach (var determiner in DeterminersList)
                 {
                     sb.Append(determiner.ToString(nextN));
                 }
-                sb.AppendLine($"{spaces}End {nameof(Determiners)}");
+                sb.AppendLine($"{spaces}End {nameof(DeterminersList)}");
             }
 
-            if (AdjectivePhrase == null)
+            if (AdjectivePhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(AdjectivePhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrase)}");
-                sb.Append(AdjectivePhrase.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    sb.Append(adj.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
             }
             return sb.ToString();
         }

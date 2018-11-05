@@ -23,8 +23,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public KindOfModal Modal { get; set; } = KindOfModal.Undefined;
         public bool IsQuestion { get; set; }
         public bool IsNegation { get; set; }
-        public BaseNounLikePhrase_v2 NounPhrase { get; set; }
-        public VerbPhrase_v2 VerbPhrase { get; set; }
+        public List<BaseNounLikePhrase_v2> NounPhrasesList { get; set; } = new List<BaseNounLikePhrase_v2>();
+        public List<VerbPhrase_v2> VerbPhrasesList { get; set; } = new List<VerbPhrase_v2>();
+
+        public void AddVerbPhrase(VerbPhrase_v2 verb)
+        {
+            VerbPhrasesList.Add(verb);
+            LastVerbPhrase = verb;
+        }
+
+        public VerbPhrase_v2 LastVerbPhrase { get; private set; }
 
         public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {
@@ -33,35 +41,41 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey
         {
-            if (NounPhrase != null)
+            if (NounPhrasesList != null)
             {
-                if (NounPhrase.RunTimeSessionKey == key)
+                foreach (var noun in NounPhrasesList)
                 {
-                    object obj = NounPhrase;
-                    return (T)obj;
-                }
+                    if (noun.RunTimeSessionKey == key)
+                    {
+                        object obj = noun;
+                        return (T)obj;
+                    }
 
-                var result = NounPhrase.GetByRunTimeSessionKey<T>(key);
+                    var result = noun.GetByRunTimeSessionKey<T>(key);
 
-                if (result != null)
-                {
-                    return result;
+                    if (result != null)
+                    {
+                        return result;
+                    }
                 }
             }
 
-            if (VerbPhrase != null)
+            if (VerbPhrasesList != null)
             {
-                if (VerbPhrase.RunTimeSessionKey == key)
+                foreach(var verb in VerbPhrasesList)
                 {
-                    object obj = VerbPhrase;
-                    return (T)obj;
-                }
+                    if (verb.RunTimeSessionKey == key)
+                    {
+                        object obj = verb;
+                        return (T)obj;
+                    }
 
-                var result = VerbPhrase.GetByRunTimeSessionKey<T>(key);
+                    var result = verb.GetByRunTimeSessionKey<T>(key);
 
-                if (result != null)
-                {
-                    return result;
+                    if (result != null)
+                    {
+                        return result;
+                    }
                 }
             }
 
@@ -80,8 +94,37 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             result.IsQuestion = IsQuestion;
             result.IsNegation = IsNegation;
 
-            result.NounPhrase = NounPhrase?.Fork();
-            result.VerbPhrase = VerbPhrase?.Fork();
+            if (NounPhrasesList == null)
+            {
+                result.NounPhrasesList = null;
+            }
+            else
+            {
+                foreach (var noun in NounPhrasesList)
+                {
+                    result.NounPhrasesList.Add(noun.Fork());
+                }
+            }
+
+            if(VerbPhrasesList == null)
+            {
+                result.VerbPhrasesList = null;
+            }
+            else
+            {
+                foreach (var verb in VerbPhrasesList)
+                {
+                    var newVerb = verb.Fork();
+
+                    if(verb == LastVerbPhrase)
+                    {
+                        result.LastVerbPhrase = newVerb;
+                    }
+
+                    result.VerbPhrasesList.Add(newVerb);
+                }
+            }
+
             return result;
         }
 
@@ -108,25 +151,41 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             sb.AppendLine($"{spaces}{nameof(Mood)} = {Mood}");
             sb.AppendLine($"{spaces}{nameof(IsQuestion)} = {IsQuestion}");
             sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
-            if (NounPhrase == null)
+            if (NounPhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(NounPhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(NounPhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(NounPhrase)}");
-                sb.Append(NounPhrase.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(NounPhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(NounPhrasesList)}");
+                foreach (var noun in NounPhrasesList)
+                {
+                    sb.Append(noun.ToString(nextN));
+                }               
+                sb.AppendLine($"{spaces}End {nameof(NounPhrasesList)}");
             }
-            if (VerbPhrase == null)
+            if (VerbPhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(VerbPhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(VerbPhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(VerbPhrase)}");
-                sb.Append(VerbPhrase.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(VerbPhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(VerbPhrasesList)}");
+                foreach (var verb in VerbPhrasesList)
+                {
+                    sb.Append(verb.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(VerbPhrasesList)}");
+            }
+            if (LastVerbPhrase == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
+                sb.Append(LastVerbPhrase.ToString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
             }
             return sb.ToString();
         }
@@ -151,25 +210,42 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
             sb.AppendLine($"{spaces}{nameof(Modal)} = {Modal}");
             sb.AppendLine($"{spaces}{nameof(Mood)} = {Mood}");
-            if (NounPhrase == null)
+            if (NounPhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(NounPhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(NounPhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(NounPhrase)}");
-                sb.Append(NounPhrase.ToShortString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(NounPhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(NounPhrasesList)}");
+                foreach (var noun in NounPhrasesList)
+                {
+                    sb.Append(noun.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(NounPhrasesList)}");
             }
-            if (VerbPhrase == null)
+
+            if (VerbPhrasesList == null)
             {
-                sb.AppendLine($"{spaces}{nameof(VerbPhrase)} = null");
+                sb.AppendLine($"{spaces}{nameof(VerbPhrasesList)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(VerbPhrase)}");
-                sb.Append(VerbPhrase.ToShortString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(VerbPhrase)}");
+                sb.AppendLine($"{spaces}Begin {nameof(VerbPhrasesList)}");
+                foreach (var verb in VerbPhrasesList)
+                {
+                    sb.Append(verb.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(VerbPhrasesList)}");
+            }
+            if (LastVerbPhrase == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
+                sb.Append(LastVerbPhrase.ToShortString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
             }
             return sb.ToString();
         }

@@ -93,7 +93,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                     {
                         var verbPhrase = new VerbPhrase_v2();
                         verbPhrase.Verb = Token;
-                        Sentence.VerbPhrase = verbPhrase;
+                        Sentence.AddVerbPhrase(verbPhrase);
                         Sentence.Aspect = GrammaticalAspect.Simple;
                         Sentence.Tense = Token.Tense;
                         Sentence.Mood = GrammaticalMood.Indicative;
