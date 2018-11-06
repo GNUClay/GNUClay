@@ -5,17 +5,16 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
-    public class Sentence_v2 : IObjectToString, IShortObjectToString, IRunTimeSessionKey
+    public class Sentence_v2 : BasePhrase_v2
     {
         public Sentence_v2(bool getKey = true)
+            : base(getKey)
         {
-            if (getKey)
-            {
-                RunTimeSessionKey = RunTimeSessionKeyHelper.GeyKey();
-            }
         }
 
-        public ulong RunTimeSessionKey { get; set; }
+        public override bool IsSentence => true;
+        public override Sentence_v2 AsSentence => this;
+
         public GrammaticalAspect Aspect { get; set; } = GrammaticalAspect.Undefined;
         public GrammaticalTenses Tense { get; set; } = GrammaticalTenses.Undefined;
         public GrammaticalVoice Voice { get; set; } = GrammaticalVoice.Undefined;
@@ -23,7 +22,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public KindOfModal Modal { get; set; } = KindOfModal.Undefined;
         public bool IsQuestion { get; set; }
         public bool IsNegation { get; set; }
-        public List<BaseNounLikePhrase_v2> NounPhrasesList { get; set; } = new List<BaseNounLikePhrase_v2>();
+        public List<NounPhrase_v2> NounPhrasesList { get; set; } = new List<NounPhrase_v2>();
         public List<VerbPhrase_v2> VerbPhrasesList { get; set; } = new List<VerbPhrase_v2>();
 
         public void AddVerbPhrase(VerbPhrase_v2 verb)
@@ -34,12 +33,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public VerbPhrase_v2 LastVerbPhrase { get; private set; }
 
-        public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
-        {
-            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
-        }
-
-        public T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey
+        public override T GetByRunTimeSessionKey<T>(ulong key)
         {
             if (NounPhrasesList != null)
             {
@@ -128,22 +122,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return result;
         }
 
-        public override string ToString()
+        public override BasePhrase_v2 ForkAsBasePhrase()
         {
-            return ToString(0u);
+            return Fork();
         }
 
-        public string ToString(uint n)
-        {
-            return this.GetDefaultToStringInformation(n);
-        }
-
-        public string PropertiesToSting(uint n)
+        public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
+            sb.Append(base.PropertiesToSting(n));
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
@@ -190,21 +179,12 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return sb.ToString();
         }
 
-        public string ToShortString()
-        {
-            return ToShortString(0u);
-        }
-
-        public string ToShortString(uint n)
-        {
-            return this.GetDefaultToShortStringInformation(n);
-        }
-
-        public string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.Append(base.PropertiesToShortSting(n));
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");

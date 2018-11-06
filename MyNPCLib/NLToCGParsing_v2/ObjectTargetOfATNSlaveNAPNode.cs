@@ -8,9 +8,11 @@ namespace MyNPCLib.NLToCGParsing_v2
 {
     public class ObjectTargetOfATNSlaveNAPNode: ITargetOfATNSlaveNAPNode
     {
-        public void SetNode(BaseNounLikePhrase_v2 node, ContextOfATNParsing_v2 context)
+        public void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-            context.Sentence.LastVerbPhrase.ObjectsList.Add(node);
+            var nounNode = node.AsNounPhrase;
+
+            context.Sentence.LastVerbPhrase.ObjectsList.Add(nounNode);
         }
     }
 }

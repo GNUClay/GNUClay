@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
-    public class NounPhrase_v2 : BaseNounLikePhrase_v2
+    public class NounPhrase_v2 : BaseWordPhrase_v2
     {
         public NounPhrase_v2(bool getKey = true)
             : base(getKey)
@@ -19,11 +19,6 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public ATNExtendedToken Noun { get; set; }
         public List<ATNExtendedToken> DeterminersList { get; set; } = new List<ATNExtendedToken>();
         public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
-
-        public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
-        {
-            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
-        }
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -63,7 +58,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return null;
         }
 
-        public override BaseNounLikePhrase_v2 Fork()
+        public NounPhrase_v2 Fork()
         {
             var result = new NounPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
@@ -82,12 +77,22 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return result;
         }
 
+        public override BasePhrase_v2 ForkAsBasePhrase()
+        {
+            return Fork();
+        }
+
+        public override BaseWordPhrase_v2 ForkAsBaseWordPhrase()
+        {
+            return Fork();
+        }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
+            sb.Append(base.PropertiesToSting(n));
 
             if (Noun == null)
             {
@@ -135,6 +140,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.Append(base.PropertiesToShortSting(n));
             if (Noun == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Noun)} = null");

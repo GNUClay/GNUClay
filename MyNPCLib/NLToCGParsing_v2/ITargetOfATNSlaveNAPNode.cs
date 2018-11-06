@@ -8,6 +8,6 @@ namespace MyNPCLib.NLToCGParsing_v2
 {
     public interface ITargetOfATNSlaveNAPNode
     {
-        void SetNode(BaseNounLikePhrase_v2 node, ContextOfATNParsing_v2 context);
+        void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context);
     }
 }

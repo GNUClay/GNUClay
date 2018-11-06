@@ -1,4 +1,5 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,6 +53,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new MainConditionTargetOfATNSlaveNAPNode());
         }
 
         public ATNSubjVerbObjConditionFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbObjConditionFinNode_v2 sameNode, InitATNSubjVerbObjConditionFinNodeAction initAction, ATNExtendedToken token)
@@ -60,6 +62,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -69,6 +72,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjVerbObjConditionFinNode_v2 mSameNode;
         private InitATNSubjVerbObjConditionFinNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+
         protected override void ImplementGoalToken()
         {
 #if DEBUG
@@ -76,7 +81,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            throw new NotImplementedException();
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()

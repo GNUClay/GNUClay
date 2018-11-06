@@ -6,7 +6,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
     public abstract class BasePhrase_v2 : IObjectToString, IShortObjectToString, IRunTimeSessionKey
     {
-        protected BasePhrase_v2(bool getKey = true)
+        protected BasePhrase_v2(bool getKey)
         {
             if (getKey)
             {
@@ -16,8 +16,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public ulong RunTimeSessionKey { get; set; }
 
-        public abstract T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey;
+        public virtual bool IsSentence => false;
+        public virtual Sentence_v2 AsSentence => null;
+        public virtual bool IsBaseWordPhrase => false;
+        public virtual BaseWordPhrase_v2 AsBaseWordPhrase => null;
+        public virtual bool IsNounPhrase => false;
+        public virtual NounPhrase_v2 AsNounPhrase => null;
+        public virtual bool IsAdjectivePhrase => false;
+        public virtual AdjectivePhrase_v2 AsAdjectivePhrase => null;
+        public virtual bool IsPrepositionalPhrase => false;
+        public virtual PrepositionalPhrase_v2 AsPrepositionalPhrase => null;
+
+        public virtual T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
+        {
+            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
+        }
+
         public abstract T GetByRunTimeSessionKey<T>(ulong key) where T : class, IRunTimeSessionKey;
+
+        public abstract BasePhrase_v2 ForkAsBasePhrase();
 
         public override string ToString()
         {

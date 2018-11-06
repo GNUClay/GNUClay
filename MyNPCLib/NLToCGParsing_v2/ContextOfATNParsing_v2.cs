@@ -24,39 +24,39 @@ namespace MyNPCLib.NLToCGParsing_v2
         private CommonContextOfATNParsing_v2 CommonContext;
         private ATNExtendedLexer mATNExtendedLexer;
         public Sentence_v2 Sentence { get; set; }
-        public Stack<BaseNounLikePhrase_v2> OperativeNounPhrasesStack = new Stack<BaseNounLikePhrase_v2>();
+        //public Stack<BaseNounLikePhrase_v2> OperativeNounPhrasesStack = new Stack<BaseNounLikePhrase_v2>();
 
-        public void AddNounLikePhrase(BaseNounLikePhrase_v2 nounPhrase)
-        {
-            OperativeNounPhrasesStack.Push(nounPhrase);
-        }
+        //public void AddNounLikePhrase(BaseNounLikePhrase_v2 nounPhrase)
+        //{
+        //    OperativeNounPhrasesStack.Push(nounPhrase);
+        //}
 
-        public BaseNounLikePhrase_v2 PeekCurrentNounPhrase()
-        {
-            if (OperativeNounPhrasesStack.Count == 0)
-            {
-                return null;
-            }
+        //public BaseNounLikePhrase_v2 PeekCurrentNounPhrase()
+        //{
+        //    if (OperativeNounPhrasesStack.Count == 0)
+        //    {
+        //        return null;
+        //    }
 
-            return OperativeNounPhrasesStack.Peek();
-        }
+        //    return OperativeNounPhrasesStack.Peek();
+        //}
 
-        public Stack<VerbPhrase_v2> OperativeVerbPhraseStack = new Stack<VerbPhrase_v2>();
+        //public Stack<VerbPhrase_v2> OperativeVerbPhraseStack = new Stack<VerbPhrase_v2>();
 
-        public void AddVerbPhrase(VerbPhrase_v2 verbPhrase)
-        {
-            OperativeVerbPhraseStack.Push(verbPhrase);
-        }
+        //public void AddVerbPhrase(VerbPhrase_v2 verbPhrase)
+        //{
+        //    OperativeVerbPhraseStack.Push(verbPhrase);
+        //}
 
-        public VerbPhrase_v2 PeekCurrentVerbPhrase()
-        {
-            if (OperativeVerbPhraseStack.Count == 0)
-            {
-                return null;
-            }
+        //public VerbPhrase_v2 PeekCurrentVerbPhrase()
+        //{
+        //    if (OperativeVerbPhraseStack.Count == 0)
+        //    {
+        //        return null;
+        //    }
 
-            return OperativeVerbPhraseStack.Peek();
-        }
+        //    return OperativeVerbPhraseStack.Peek();
+        //}
 
         public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {
@@ -107,34 +107,34 @@ namespace MyNPCLib.NLToCGParsing_v2
                 sb.Append(Sentence.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Sentence)}");
             }
-            if (OperativeNounPhrasesStack == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(OperativeNounPhrasesStack)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(OperativeNounPhrasesStack)}");
-                var operativeNounPhrasesList = OperativeNounPhrasesStack.ToList();
-                foreach (var operativeNounPhrase in operativeNounPhrasesList)
-                {
-                    sb.Append(operativeNounPhrase.ToString(nextN));
-                }
-                sb.AppendLine($"{spaces}End {nameof(OperativeNounPhrasesStack)}");
-            }
-            if (OperativeVerbPhraseStack == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(OperativeVerbPhraseStack)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(OperativeVerbPhraseStack)}");
-                var operativeVerbPhraseList = OperativeVerbPhraseStack.ToList();
-                foreach (var operativeVerbPhrase in OperativeVerbPhraseStack)
-                {
-                    sb.Append(operativeVerbPhrase.ToString(nextN));
-                }
-                sb.AppendLine($"{spaces}End {nameof(OperativeVerbPhraseStack)}");
-            }
+            //if (OperativeNounPhrasesStack == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(OperativeNounPhrasesStack)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(OperativeNounPhrasesStack)}");
+            //    var operativeNounPhrasesList = OperativeNounPhrasesStack.ToList();
+            //    foreach (var operativeNounPhrase in operativeNounPhrasesList)
+            //    {
+            //        sb.Append(operativeNounPhrase.ToString(nextN));
+            //    }
+            //    sb.AppendLine($"{spaces}End {nameof(OperativeNounPhrasesStack)}");
+            //}
+            //if (OperativeVerbPhraseStack == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(OperativeVerbPhraseStack)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(OperativeVerbPhraseStack)}");
+            //    var operativeVerbPhraseList = OperativeVerbPhraseStack.ToList();
+            //    foreach (var operativeVerbPhrase in OperativeVerbPhraseStack)
+            //    {
+            //        sb.Append(operativeVerbPhrase.ToString(nextN));
+            //    }
+            //    sb.AppendLine($"{spaces}End {nameof(OperativeVerbPhraseStack)}");
+            //}
             return sb.ToString();
         }
     }

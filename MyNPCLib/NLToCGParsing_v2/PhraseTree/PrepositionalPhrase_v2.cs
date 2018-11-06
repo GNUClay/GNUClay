@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 {
-    public class PrepositionalPhrase_v2 : BaseNounLikePhrase_v2
+    public class PrepositionalPhrase_v2 : BaseWordPhrase_v2
     {
         public PrepositionalPhrase_v2(bool getKey = true)
             : base(getKey)
@@ -15,11 +15,6 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public ATNExtendedToken Preposition { get; set; }
         public override bool IsPrepositionalPhrase => true;
         public override PrepositionalPhrase_v2 AsPrepositionalPhrase => this;
-
-        public override T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node)
-        {
-            return GetByRunTimeSessionKey<T>(node.RunTimeSessionKey);
-        }
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -35,13 +30,23 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return null;
         }
 
-        public override BaseNounLikePhrase_v2 Fork()
+        public PrepositionalPhrase_v2 Fork()
         {
             var result = new PrepositionalPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Preposition = Preposition;
-            result.Object = Object?.Fork();
+            //result.Object = Object?.Fork();
             return result;
+        }
+
+        public override BasePhrase_v2 ForkAsBasePhrase()
+        {
+            return Fork();
+        }
+
+        public override BaseWordPhrase_v2 ForkAsBaseWordPhrase()
+        {
+            return Fork();
         }
 
         public override string PropertiesToSting(uint n)
@@ -49,7 +54,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(RunTimeSessionKey)} = {RunTimeSessionKey}");
+            sb.Append(base.PropertiesToSting(n));
             if (Preposition == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Preposition)} = null");
@@ -60,16 +65,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Preposition.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Preposition)}");
             }
-            if (Object == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(Object)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-                sb.Append(Object.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Object)}");
-            }
+            //if (Object == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(Object)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(Object)}");
+            //    sb.Append(Object.ToString(nextN));
+            //    sb.AppendLine($"{spaces}End {nameof(Object)}");
+            //}
             return sb.ToString();
         }
 
@@ -78,6 +83,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.Append(base.PropertiesToShortSting(n));
             if (Preposition == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Preposition)} = null");
@@ -88,16 +94,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Preposition.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Preposition)}");
             }
-            if (Object == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(Object)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-                sb.Append(Object.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Object)}");
-            }
+            //if (Object == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(Object)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(Object)}");
+            //    sb.Append(Object.ToString(nextN));
+            //    sb.AppendLine($"{spaces}End {nameof(Object)}");
+            //}
             return sb.ToString();
         }
     }
