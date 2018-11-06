@@ -128,7 +128,14 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Subj:
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
                         AddTask(new ATNSubjVerbObjTransOrFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Condition:
+                        AddTask(new ATNSubjVerbObjConditionFinNodeFactory_v2(this, item));
                         break;
 
                     default:

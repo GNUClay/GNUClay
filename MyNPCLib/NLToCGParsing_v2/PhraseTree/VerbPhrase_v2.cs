@@ -18,6 +18,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public ulong RunTimeSessionKey { get; set; }
         public ATNExtendedToken Verb { get; set; }
         public List<BaseNounLikePhrase_v2> ObjectsList { get; set; } = new List<BaseNounLikePhrase_v2>();
+        public List<PrepositionalPhrase_v2> ConditionsList { get; set; } = new List<PrepositionalPhrase_v2>();
 
         public T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {

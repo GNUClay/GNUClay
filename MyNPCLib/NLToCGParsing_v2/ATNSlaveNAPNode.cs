@@ -80,7 +80,34 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Article:
                                 {
                                     mDeterminers.Add(token);
-                                    State = StateOfATNSlaveNAPNode.GotDeterminerWitoutNoun;
+                                    State = StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun;
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                case StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun:
+                    {
+                        var partOfSpeech = token.PartOfSpeech;
+
+                        switch (partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Noun:
+                                {
+                                    var nounPhrase = new NounPhrase_v2();
+                                    mNounPhrase = nounPhrase;
+                                    Target.SetNode(nounPhrase, mContext);
+                                    nounPhrase.Noun = token;
+                                    State = StateOfATNSlaveNAPNode.GotNoun;
+
+                                    if(!mDeterminers.IsEmpty())
+                                    {
+                                        nounPhrase.DeterminersList = mDeterminers;
+                                    }
                                 }
                                 break;
 

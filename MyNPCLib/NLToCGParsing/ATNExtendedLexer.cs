@@ -505,7 +505,11 @@ namespace MyNPCLib.NLToCGParsing
                         break;
 
                     case GrammaticalPartOfSpeech.Preposition:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                            result.Add(extendedToken);
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Postposition:
                         throw new NotImplementedException();

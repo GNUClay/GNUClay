@@ -8,6 +8,6 @@ namespace MyNPCLib.NLToCGParsing_v2
     {
         Init,
         GotNoun,
-        GotDeterminerWitoutNoun
+        GotDeterminerWithoutNoun
     }
 }
