@@ -51,6 +51,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
+            TSTStack();
             //TSTSaveDict();
             //TSTQueryWithParams();
             //TSTHostLogicalObjectStorage();
@@ -82,6 +83,45 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTStack()
+        {
+            LogInstance.Log("Begin");
+
+            var stack1 = new Stack<int>();
+            stack1.Push(1);
+            stack1.Push(2);
+            stack1.Push(3);
+
+            var list1 = stack1.ToList();
+
+            var list2 = new List<int>();
+
+            foreach(var item1 in list1)
+            {
+                list2.Add(item1);
+            }
+
+            list2.Reverse();
+
+            var stack2 = new Stack<int>(list2);
+
+            LogInstance.Log($"stack1.Count = {stack1.Count}");
+
+            while(stack1.Count > 0)
+            {
+                LogInstance.Log($"item = {stack1.Pop()}");
+            }
+
+            LogInstance.Log($"stack2.Count = {stack2.Count}");
+
+            while (stack2.Count > 0)
+            {
+                LogInstance.Log($"item = {stack2.Pop()}");
+            }
+
+            LogInstance.Log("End");
         }
 
         private static void TSTSaveDict()

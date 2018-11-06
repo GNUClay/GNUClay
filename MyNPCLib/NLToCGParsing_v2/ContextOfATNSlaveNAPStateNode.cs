@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -34,7 +35,21 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             var result = new ContextOfATNSlaveNAPStateNode();
 
-            throw new NotImplementedException();
+            if(mStateNodesStack.Count > 0)
+            {
+                var sourceList = mStateNodesStack.ToList();
+
+                var destList = new List<ATNSlaveNAPBaseStateNode>();
+
+                foreach(var item in sourceList)
+                {
+                    destList.Add(item.Fork(context, result));
+                }
+
+                destList.Reverse();
+
+                result.mStateNodesStack = new Stack<ATNSlaveNAPBaseStateNode>(destList);
+            }
 
             return result;
         }

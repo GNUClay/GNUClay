@@ -1,10 +1,18 @@
 ﻿using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
 {
+    public enum KindOfATNSlaveNAPPrepositionalStateNode
+    {
+        Init,
+        GotPreposition
+    }
+
     public class ATNSlaveNAPPrepositionalStateNode: ATNSlaveNAPBaseStateNode
     {
         public ATNSlaveNAPPrepositionalStateNode(ContextOfATNParsing_v2 context, ITargetOfATNSlaveNAPNode target, ContextOfATNSlaveNAPStateNode contextOfState)
@@ -17,14 +25,53 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
         }
 
+        private KindOfATNSlaveNAPPrepositionalStateNode State = KindOfATNSlaveNAPPrepositionalStateNode.Init;
+        private PrepositionalPhrase_v2 mPrepositionalPhrase;
+
         public override ATNSlaveNAPBaseStateNode Fork(ContextOfATNParsing_v2 context, ContextOfATNSlaveNAPStateNode contextOfState)
         {
-            throw new NotImplementedException();
+            var result = new ATNSlaveNAPPrepositionalStateNode(context, contextOfState);
+            result.State = State;
+            result.Target = Target;
+            result.mPrepositionalPhrase = context.GetByRunTimeSessionKey<PrepositionalPhrase_v2>(mPrepositionalPhrase);
+
+            return result;
         }
 
         public override void Run(ATNExtendedToken token)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"State = {State}");
+            LogInstance.Log($"token = {token}");
+#endif
+
+            switch (State)
+            {
+                case KindOfATNSlaveNAPPrepositionalStateNode.Init:
+                    {
+                        var partOfSpeech = token.PartOfSpeech;
+
+                        switch (partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Preposition:
+                                {
+                                    var prepositionPhrase = new PrepositionalPhrase_v2();
+                                    mPrepositionalPhrase = prepositionPhrase;
+                                    Target.SetNode(prepositionPhrase, Context);
+                                    prepositionPhrase.Preposition = token;
+                                    State = KindOfATNSlaveNAPPrepositionalStateNode.GotPreposition;
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(State), State, null);
+            }
         }
     }
 }

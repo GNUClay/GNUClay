@@ -66,6 +66,9 @@ namespace MyNPCLib.NLToCGParsing_v2
                 case GrammaticalPartOfSpeech.Article:
                     return new ATNSlaveNAPNounStateNode(mContext, Target, ContextOfState);
 
+                case GrammaticalPartOfSpeech.Preposition:
+                    return new ATNSlaveNAPPrepositionalStateNode(mContext, Target, ContextOfState);
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
             }

@@ -14,7 +14,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public ATNExtendedToken Verb { get; set; }
         public List<NounPhrase_v2> ObjectsList { get; set; } = new List<NounPhrase_v2>();
-        public List<PrepositionalPhrase_v2> ConditionsList { get; set; } = new List<PrepositionalPhrase_v2>();
+        public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -46,6 +46,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if(ConditionsList != null)
+            {
+                foreach(var condition in ConditionsList)
+                {
+                    if (condition.RunTimeSessionKey == key)
+                    {
+                        object obj = condition;
+                        return (T)obj;
+                    }
+
+                    var result = condition.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
             return null;
         }
 
@@ -53,7 +72,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         {
             var result = new VerbPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
-            result.Verb = Verb;
+            result.Verb = Verb?.Fork();
 
             if(ObjectsList == null)
             {
@@ -64,6 +83,18 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 foreach (var noun in ObjectsList)
                 {
                     result.ObjectsList.Add(noun.Fork());
+                }
+            }
+
+            if(ConditionsList == null)
+            {
+                result.ConditionsList = null;
+            }
+            else
+            {
+                foreach (var condition in ConditionsList)
+                {
+                    result.ConditionsList.Add(condition.ForkAsBaseWordPhrase());
                 }
             }
 
@@ -96,6 +127,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Verb.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Verb)}");
             }
+
             if (ObjectsList == null)
             {
                 sb.AppendLine($"{spaces}{nameof(ObjectsList)} = null");
@@ -108,6 +140,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     sb.Append(noun.ToString(nextN));
                 }
                 sb.AppendLine($"{spaces}End {nameof(ObjectsList)}");
+            }
+
+            if (ConditionsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ConditionsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ConditionsList)}");
+                foreach (var condition in ConditionsList)
+                {
+                    sb.Append(condition.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
             return sb.ToString();
         }
@@ -128,6 +174,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Verb.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Verb)}");
             }
+
             if (ObjectsList == null)
             {
                 sb.AppendLine($"{spaces}{nameof(ObjectsList)} = null");
@@ -140,6 +187,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     sb.Append(noun.ToShortString(nextN));
                 }
                 sb.AppendLine($"{spaces}End {nameof(ObjectsList)}");
+            }
+
+            if (ConditionsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ConditionsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ConditionsList)}");
+                foreach (var condition in ConditionsList)
+                {
+                    sb.Append(condition.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
             return sb.ToString();
         }

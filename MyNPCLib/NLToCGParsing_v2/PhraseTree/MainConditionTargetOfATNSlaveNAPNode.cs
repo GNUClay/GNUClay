@@ -8,7 +8,9 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
     {
         public void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-            throw new NotImplementedException();
+            var baseWordPhrase = node.AsBaseWordPhrase;
+
+            context.Sentence.LastVerbPhrase.ConditionsList.Add(baseWordPhrase);
         }
     }
 }
