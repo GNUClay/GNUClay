@@ -108,6 +108,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 throw new NotImplementedException();
             }
 
+            var hasObjOrSubj = false;
+
             foreach (var item in extendedTokensList)
             {
 #if DEBUG

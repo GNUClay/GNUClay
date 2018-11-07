@@ -783,11 +783,11 @@ namespace TmpSandBox
             sentence = "Who does know the dog?";
             NParsingSentence(sentence);
 
-            sentence = "Who does not know the dog?";
-            NParsingSentence(sentence);
+            //sentence = "Who does not know the dog?";
+            //NParsingSentence(sentence);
 
-            sentence = "Which of them do not I know?";
-            NParsingSentence(sentence);
+            //sentence = "Which of them do not I know?";
+            //NParsingSentence(sentence);
 
             sentence = "Which of them do I know?";
             NParsingSentence(sentence);

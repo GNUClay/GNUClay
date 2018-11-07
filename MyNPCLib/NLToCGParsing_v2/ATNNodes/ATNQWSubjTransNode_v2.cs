@@ -62,6 +62,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new SubjectTargetOfATNSlaveNAPNode());
         }
 
         public ATNQWSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNQWSubjTransNode_v2 sameNode, InitATNQWSubjTransNodeAction initAction, ATNExtendedToken token)
@@ -70,6 +71,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -79,6 +81,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNQWSubjTransNode_v2 mSameNode;
         private InitATNQWSubjTransNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+
         protected override void ImplementGoalToken()
         {
 #if DEBUG
@@ -86,12 +90,46 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            throw new NotImplementedException();
+            Context.Sentence.IsQuestion = true;
+
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Verb:
+                        AddTask(new ATNQWSubjVerbTransOrFinNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.FToDo:
+                        AddTask(new ATNQWSubjFToDoTransNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using MyNPCLib.NLToCGParsing_v2.ATNNodes;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -35,6 +36,8 @@ namespace MyNPCLib.NLToCGParsing_v2
                 throw new NotImplementedException();
             }
 
+            var supressCondition = extendedTokensList.Any(p => p.KindOfItem == KindOfItemOfSentence.Subj || p.KindOfItem == KindOfItemOfSentence.Obj || p.KindOfItem == KindOfItemOfSentence.QWSubj || p.KindOfItem == KindOfItemOfSentence.QWObj);
+
             foreach (var item in extendedTokensList)
             {
 #if DEBUG           
@@ -65,11 +68,19 @@ namespace MyNPCLib.NLToCGParsing_v2
                         break;
 
                     case KindOfItemOfSentence.Condition:
+                        if(supressCondition)
+                        {
+                            break;
+                        }
                         AddTask(new ATNConditionTransNodeFactory_v2(this, item));
                         break;
 
                     case KindOfItemOfSentence.Conjunction:
-                        break;
+                        if (supressCondition)
+                        {
+                            break;
+                        }
+                        throw new NotImplementedException();
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
