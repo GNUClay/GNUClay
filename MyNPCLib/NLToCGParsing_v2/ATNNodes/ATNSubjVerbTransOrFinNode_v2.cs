@@ -144,6 +144,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         AddTask(new ATNSubjVerbObjTransOrFinNodeFactory_v2(this, item));
                         break;
 
+                    case KindOfItemOfSentence.Condition:
+                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item));
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }

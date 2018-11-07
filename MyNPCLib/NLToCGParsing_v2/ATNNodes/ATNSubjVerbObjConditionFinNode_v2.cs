@@ -97,6 +97,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 throw new NotImplementedException();
             }
 
+            var hasObjOrSubj = false;
+
             foreach (var item in extendedTokensList)
             {
 #if DEBUG
@@ -108,10 +110,29 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Subj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+
+                        hasObjOrSubj = true;
+
+                        AddTask(new ATNSubjVerbObjConditionFinNodeFactory_v2(this, item, null));
                         break;
 
                     case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+
+                        hasObjOrSubj = true;
+
                         AddTask(new ATNSubjVerbObjConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Point:
+                        Context.PutSentenceToResult();
                         break;
 
                     default:

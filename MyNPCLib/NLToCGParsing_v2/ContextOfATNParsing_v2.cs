@@ -79,7 +79,10 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         public void PutSentenceToResult()
         {
-            CommonContext.AddSentence(Sentence);
+            if(Sentence.IsValid)
+            {
+                CommonContext.AddSentence(Sentence);
+            }          
         }
 
         public override string ToString()

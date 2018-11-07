@@ -17,6 +17,7 @@ namespace MyNPCLib.SimpleWordsDict
         Conjunction,
         Interjection,
         Article,
-        Numeral
+        Numeral,
+        Number
     }
 }

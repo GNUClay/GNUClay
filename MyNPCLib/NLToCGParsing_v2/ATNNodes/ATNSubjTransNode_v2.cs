@@ -126,6 +126,13 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         AddTask(new ATNSubjFToDoTransNodeFactory_v2(this, item));
                         break;
 
+                    case KindOfItemOfSentence.Subj:
+                        AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }

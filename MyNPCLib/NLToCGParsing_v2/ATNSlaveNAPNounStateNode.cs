@@ -24,6 +24,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         private NounPhrase_v2 mNounPhrase;
         private List<ATNExtendedToken> mDeterminers = new List<ATNExtendedToken>();
+        private float? mNumberValue;
 
         public override ATNSlaveNAPBaseStateNode Fork(ContextOfATNParsing_v2 context, ContextOfATNSlaveNAPStateNode contextOfState)
         {
@@ -44,6 +45,8 @@ namespace MyNPCLib.NLToCGParsing_v2
                 }
             }
 
+            result.mNumberValue = mNumberValue;
+
             return result;
         }
 
@@ -62,6 +65,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
                         switch (partOfSpeech)
                         {
+                            case GrammaticalPartOfSpeech.Noun:
                             case GrammaticalPartOfSpeech.Pronoun:
                                 {
                                     var nounPhrase = new NounPhrase_v2();
@@ -75,6 +79,13 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Article:
                                 {
                                     mDeterminers.Add(token);
+                                    State = StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun;
+                                }
+                                break;
+
+                            case GrammaticalPartOfSpeech.Number:
+                                {
+                                    mNumberValue = token.RepresentedNumber;
                                     State = StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun;
                                 }
                                 break;
@@ -103,7 +114,16 @@ namespace MyNPCLib.NLToCGParsing_v2
                                     {
                                         nounPhrase.DeterminersList = mDeterminers;
                                     }
+
+                                    if(mNumberValue.HasValue)
+                                    {
+                                        nounPhrase.NumberValue = mNumberValue;
+                                    }
                                 }
+                                break;
+
+                            case GrammaticalPartOfSpeech.Adverb:
+                                mDeterminers.Add(token);
                                 break;
 
                             default:

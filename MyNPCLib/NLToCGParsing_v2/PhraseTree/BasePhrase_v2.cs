@@ -36,6 +36,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public abstract BasePhrase_v2 ForkAsBasePhrase();
 
+        public abstract bool IsValid { get; }
+
         public override string ToString()
         {
             return ToString(0u);

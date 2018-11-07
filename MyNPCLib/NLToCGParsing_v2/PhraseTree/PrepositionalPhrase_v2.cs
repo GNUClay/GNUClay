@@ -11,10 +11,12 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             : base(getKey)
         {
         }
-
-        public ATNExtendedToken Preposition { get; set; }
+       
         public override bool IsPrepositionalPhrase => true;
         public override PrepositionalPhrase_v2 AsPrepositionalPhrase => this;
+
+        public ATNExtendedToken Preposition { get; set; }
+        public List<BaseWordPhrase_v2> ChildrenNodesList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -27,6 +29,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if(ChildrenNodesList != null)
+            {
+                foreach(var child in ChildrenNodesList)
+                {
+                    if (child.RunTimeSessionKey == key)
+                    {
+                        object obj = child;
+                        return (T)obj;
+                    }
+
+                    var result = child.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
             return null;
         }
 
@@ -35,7 +56,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             var result = new PrepositionalPhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Preposition = Preposition;
-            //result.Object = Object?.Fork();
+
+            if (ChildrenNodesList == null)
+            {
+                result.ChildrenNodesList = null;
+            }
+            else
+            {
+                foreach (var child in ChildrenNodesList)
+                {
+                    result.ChildrenNodesList.Add(child.ForkAsBaseWordPhrase());
+                }
+            }
+
             return result;
         }
 
@@ -47,6 +80,24 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public override BaseWordPhrase_v2 ForkAsBaseWordPhrase()
         {
             return Fork();
+        }
+
+        public override bool IsValid
+        {
+            get
+            {
+                if(Preposition == null)
+                {
+                    return false;
+                }
+
+                if(ChildrenNodesList.IsEmpty())
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         public override string PropertiesToSting(uint n)
@@ -65,16 +116,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Preposition.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Preposition)}");
             }
-            //if (Object == null)
-            //{
-            //    sb.AppendLine($"{spaces}{nameof(Object)} = null");
-            //}
-            //else
-            //{
-            //    sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-            //    sb.Append(Object.ToString(nextN));
-            //    sb.AppendLine($"{spaces}End {nameof(Object)}");
-            //}
+            
+            if (ChildrenNodesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ChildrenNodesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ChildrenNodesList)}");
+                foreach (var child in ChildrenNodesList)
+                {
+                    sb.Append(child.ToString(nextN));
+                }              
+                sb.AppendLine($"{spaces}End {nameof(ChildrenNodesList)}");
+            }
             return sb.ToString();
         }
 
@@ -94,16 +149,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Preposition.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Preposition)}");
             }
-            //if (Object == null)
-            //{
-            //    sb.AppendLine($"{spaces}{nameof(Object)} = null");
-            //}
-            //else
-            //{
-            //    sb.AppendLine($"{spaces}Begin {nameof(Object)}");
-            //    sb.Append(Object.ToString(nextN));
-            //    sb.AppendLine($"{spaces}End {nameof(Object)}");
-            //}
+
+            if (ChildrenNodesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ChildrenNodesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ChildrenNodesList)}");
+                foreach (var child in ChildrenNodesList)
+                {
+                    sb.Append(child.ToShortString(nextN));
+                }                
+                sb.AppendLine($"{spaces}End {nameof(ChildrenNodesList)}");
+            }
             return sb.ToString();
         }
     }

@@ -49,12 +49,26 @@ namespace MyNPCLib.NLToCGParsing_v2
                         AddTask(new ATNSubjTransNodeFactory_v2(this, item));
                         break;
 
+                    case KindOfItemOfSentence.Obj:
+                        break;
+
                     case KindOfItemOfSentence.Verb:
                         AddTask(new ATNVerbTransOrFinNodeFactory_v2(this, item));
                         break;
 
                     case KindOfItemOfSentence.FToDo:
                         AddTask(new ATNFToDoTransNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.QWSubj:
+                        AddTask(new ATNQWSubjTransNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.Condition:
+                        AddTask(new ATNConditionTransNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.Conjunction:
                         break;
 
                     default:

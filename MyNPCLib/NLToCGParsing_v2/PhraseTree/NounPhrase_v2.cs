@@ -19,6 +19,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public ATNExtendedToken Noun { get; set; }
         public List<ATNExtendedToken> DeterminersList { get; set; } = new List<ATNExtendedToken>();
         public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
+        public float? NumberValue { get; set; }
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -52,6 +53,13 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                         object obj = adj;
                         return (T)obj;
                     }
+
+                    var result = adj.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
                 }
             }
 
@@ -74,6 +82,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 result.AdjectivePhrasesList.Add(adj.Fork());
             }
 
+            result.NumberValue = NumberValue;
+
             return result;
         }
 
@@ -85,6 +95,30 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public override BaseWordPhrase_v2 ForkAsBaseWordPhrase()
         {
             return Fork();
+        }
+
+        public override bool IsValid
+        {
+            get
+            {
+                if(Noun == null)
+                {
+                    return false;
+                }
+
+                if(!AdjectivePhrasesList.IsEmpty())
+                {
+                    foreach (var adj in AdjectivePhrasesList)
+                    {
+                        if(!adj.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
         }
 
         public override string PropertiesToSting(uint n)
@@ -132,6 +166,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
             }
+            sb.AppendLine($"{spaces}{nameof(NumberValue)} = {NumberValue}");         
             return sb.ToString();
         }
 
@@ -179,6 +214,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
             }
+            sb.AppendLine($"{spaces}{nameof(NumberValue)} = {NumberValue}");
             return sb.ToString();
         }
     }

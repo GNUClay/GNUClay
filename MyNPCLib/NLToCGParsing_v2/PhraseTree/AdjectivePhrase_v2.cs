@@ -49,6 +49,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return Fork();
         }
 
+        public override bool IsValid
+        {
+            get
+            {
+                if(Adjective == null)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         public override string PropertiesToSting(uint n)
         {
             var spaces = StringHelper.Spaces(n);

@@ -287,6 +287,11 @@ namespace MyNPCLib.NLToCGParsing
                             result.Add(extendedToken);
                             continue;
 
+                        case KindOfATNToken.Number:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Number;
+                            result.Add(extendedToken);
+                            continue;
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                     }                
@@ -311,7 +316,38 @@ namespace MyNPCLib.NLToCGParsing
                         {
                             if(extendedToken.IsQuestionWord)
                             {
-                                throw new NotImplementedException();
+                                var content = extendedToken.Content.ToLower();
+
+                                if(content == "who")
+                                {
+                                    extendedToken.KindOfItem = KindOfItemOfSentence.QWSubj;
+                                    result.Add(extendedToken);
+
+                                    var newExtendedToken = extendedToken.Fork();
+                                    newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                                    result.Add(newExtendedToken);
+                                }
+                                else
+                                {
+                                    if(content == "what")
+                                    {
+                                        extendedToken.KindOfItem = KindOfItemOfSentence.QWSubj;
+                                        result.Add(extendedToken);
+
+                                        var newExtendedToken = extendedToken.Fork();
+                                        newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                                        result.Add(newExtendedToken);
+                                    }
+                                    else
+                                    {
+                                        extendedToken.KindOfItem = KindOfItemOfSentence.QWObj;
+                                        result.Add(extendedToken);
+
+                                        var newExtendedToken = extendedToken.Fork();
+                                        newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                                        result.Add(newExtendedToken);
+                                    }
+                                }
                             }
                             else
                             {
@@ -323,9 +359,9 @@ namespace MyNPCLib.NLToCGParsing
                                 }
 
                                 throw new NotImplementedException();
-                            }                        
+                            }
                         }
-                        //break;
+                        break;
 
                     case GrammaticalPartOfSpeech.Adjective:
                         throw new NotImplementedException();
@@ -515,7 +551,11 @@ namespace MyNPCLib.NLToCGParsing
                         throw new NotImplementedException();
 
                     case GrammaticalPartOfSpeech.Conjunction:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Conjunction;
+                            result.Add(extendedToken);
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Interjection:
                         throw new NotImplementedException();
@@ -562,6 +602,17 @@ namespace MyNPCLib.NLToCGParsing
             result.Content = sourceToken.Content;
             result.Pos = sourceToken.Pos;
             result.Line = sourceToken.Line;
+
+            if(sourceToken.Kind == KindOfATNToken.Number)
+            {
+#if DEBUG
+                LogInstance.Log($"sourceToken = {sourceToken}");
+#endif
+
+                result.PartOfSpeech = GrammaticalPartOfSpeech.Number;
+                result.RepresentedNumber = float.Parse(sourceToken.Content);
+            }
+
             return result;
         }
 

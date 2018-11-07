@@ -46,6 +46,7 @@ namespace MyNPCLib.NLToCGParsing
         public IList<string> FullLogicalMeaning { get; set; }
         public string RootWord { get; set; }
         public KindOfItemOfSentence KindOfItem { get; set; } = KindOfItemOfSentence.Unknown;
+        public float? RepresentedNumber { get; set; }
 
         public ATNExtendedToken Fork()
         {
@@ -88,6 +89,7 @@ namespace MyNPCLib.NLToCGParsing
     
             item.RootWord = RootWord;
             item.KindOfItem = KindOfItem;
+            item.RepresentedNumber = RepresentedNumber;
 
             return item;
         }
@@ -163,6 +165,7 @@ namespace MyNPCLib.NLToCGParsing
             }
             sb.AppendLine($"{spaces}{nameof(RootWord)} = {RootWord}");
             sb.AppendLine($"{spaces}{nameof(KindOfItem)} = {KindOfItem}");
+            sb.AppendLine($"{spaces}{nameof(RepresentedNumber)} = {RepresentedNumber}");
 
             return sb.ToString();
         }

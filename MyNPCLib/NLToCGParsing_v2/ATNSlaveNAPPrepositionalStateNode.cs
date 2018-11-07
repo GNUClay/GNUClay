@@ -69,6 +69,30 @@ namespace MyNPCLib.NLToCGParsing_v2
                     }
                     break;
 
+                case KindOfATNSlaveNAPPrepositionalStateNode.GotPreposition:
+                    {
+                        var partOfSpeech = token.PartOfSpeech;
+
+                        switch (partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Pronoun:
+                            case GrammaticalPartOfSpeech.Noun:
+                            case GrammaticalPartOfSpeech.Article:
+                            case GrammaticalPartOfSpeech.Number:
+                                {
+                                    var target = new PrepositionalTargetOfATNSlaveNAPNode(mPrepositionalPhrase);
+                                    var nextState = new ATNSlaveNAPNounStateNode(Context, target, ContextOfState);
+                                    ContextOfState.AddNode(nextState);
+                                    nextState.Run(token);
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(State), State, null);
             }

@@ -27,6 +27,8 @@ namespace MyNPCLib.NLToCGParsing
         Obj,
         There,
         Point,
-        QuestionMark
+        QuestionMark,
+        Number,
+        Conjunction
     }
 }

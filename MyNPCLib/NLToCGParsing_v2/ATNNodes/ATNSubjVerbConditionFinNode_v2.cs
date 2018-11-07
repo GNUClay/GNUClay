@@ -1,6 +1,8 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
@@ -52,6 +54,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new MainConditionTargetOfATNSlaveNAPNode());
         }
 
         public ATNSubjVerbConditionFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbConditionFinNode_v2 sameNode, InitATNSubjVerbConditionFinNodeAction initAction, ATNExtendedToken token)
@@ -60,6 +63,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -69,14 +73,79 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjVerbConditionFinNode_v2 mSameNode;
         private InitATNSubjVerbConditionFinNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Number:
+                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        if(hasObjOrSubj)
+                        {
+                            break;
+                        }
+
+                        hasObjOrSubj = true;
+                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Subj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+
+                        hasObjOrSubj = true;
+                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Condition:
+                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Point:
+                        Context.PutSentenceToResult();
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }
