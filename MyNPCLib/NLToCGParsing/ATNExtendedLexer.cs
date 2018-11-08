@@ -544,6 +544,19 @@ namespace MyNPCLib.NLToCGParsing
                         {
                             extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
                             result.Add(extendedToken);
+
+                            if(extendedToken.Content == "of")
+                            {
+                                extendedToken.IsOf = true;
+
+                                var newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                                result.Add(newExtendedToken);
+
+                                newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                                result.Add(newExtendedToken);
+                            }
                         }
                         break;
 

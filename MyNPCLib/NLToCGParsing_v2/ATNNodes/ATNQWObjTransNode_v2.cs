@@ -1,4 +1,5 @@
 using MyNPCLib.NLToCGParsing;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -60,6 +61,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new QuestionToObjectOfSentenceTargetOfATNSlaveNAPNode());
         }
 
         public ATNQWObjTransNode_v2(ContextOfATNParsing_v2 context, ATNQWObjTransNode_v2 sameNode, InitATNQWObjTransNodeAction initAction, ATNExtendedToken token)
@@ -68,6 +70,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -76,6 +79,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         public ATNInitNode_v2 ParentNode { get; private set; }
         private ATNQWObjTransNode_v2 mSameNode;
         private InitATNQWObjTransNodeAction mInitAction;
+
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
 
         protected override void ImplementGoalToken()
         {
@@ -86,12 +91,70 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             Context.Sentence.IsQuestion = true;
 
-            throw new NotImplementedException();
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Condition:
+                        if(item.IsOf)
+                        {
+                            break;
+                        }
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+
+                    case KindOfItemOfSentence.Subj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjTransNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjTransNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Verb:
+                        break;
+
+                    case KindOfItemOfSentence.FToDo:
+                        AddTask(new ATNQWObjFToDoTransNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

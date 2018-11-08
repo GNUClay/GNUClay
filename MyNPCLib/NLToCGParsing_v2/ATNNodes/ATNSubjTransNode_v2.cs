@@ -129,10 +129,21 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Subj:
+                        if(hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
                         AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                         break;
 
                     case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                         break;
 
                     default:
