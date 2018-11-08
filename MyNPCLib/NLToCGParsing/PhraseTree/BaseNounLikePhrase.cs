@@ -39,7 +39,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             return this.GetDefaultToStringInformation(n);
         }
 
-        public abstract string PropertiesToSting(uint n);
+        public abstract string PropertiesToString(uint n);
 
         public string ToShortString()
         {
@@ -51,6 +51,6 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             return this.GetDefaultToShortStringInformation(n);
         }
 
-        public abstract string PropertiesToShortSting(uint n);
+        public abstract string PropertiesToShortString(uint n);
     }
 }

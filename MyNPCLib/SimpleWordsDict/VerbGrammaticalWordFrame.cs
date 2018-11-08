@@ -20,12 +20,12 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsFormOfToDo { get; set; }
         public bool MayHaveGerundOrInfinitiveAfterSelf { get; set; }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(VerbType)} = {VerbType}");
             sb.AppendLine($"{spaces}{nameof(Number)} = {Number}");
             sb.AppendLine($"{spaces}{nameof(Person)} = {Person}");

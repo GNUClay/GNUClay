@@ -44,7 +44,7 @@ namespace MyNPCLib.PersistLogicalData
             return result;
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -65,7 +65,7 @@ namespace MyNPCLib.PersistLogicalData
                 }
                 sb.AppendLine($"{spaces}End {nameof(Params)}");
             }
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             if (LinkedVars == null)
             {
                 sb.AppendLine($"{spaces}{nameof(LinkedVars)} = null");
@@ -82,7 +82,7 @@ namespace MyNPCLib.PersistLogicalData
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -103,7 +103,7 @@ namespace MyNPCLib.PersistLogicalData
                 }
                 sb.AppendLine($"{spaces}End {nameof(Params)}");
             }
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             if (LinkedVars == null)
             {
                 sb.AppendLine($"{spaces}{nameof(LinkedVars)} = null");

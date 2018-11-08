@@ -146,12 +146,12 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             }
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             if (Verb == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Verb)} = null");
@@ -193,12 +193,12 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             if (Verb == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Verb)} = null");

@@ -30,7 +30,7 @@ namespace MyNPCLib
             var sb = new StringBuilder();
             var nameOfType = targetObject.GetType().FullName;
             sb.AppendLine($"{spaces}Begin {nameOfType}");
-            sb.Append(targetObject.PropertiesToSting(nextN));
+            sb.Append(targetObject.PropertiesToString(nextN));
             sb.AppendLine($"{spaces}End {nameOfType}");
             return sb.ToString();
         }
@@ -42,7 +42,7 @@ namespace MyNPCLib
             var sb = new StringBuilder();
             var nameOfType = targetObject.GetType().FullName;
             sb.AppendLine($"{spaces}Begin {nameOfType}");
-            sb.Append(targetObject.PropertiesToShortSting(nextN));
+            sb.Append(targetObject.PropertiesToShortString(nextN));
             sb.AppendLine($"{spaces}End {nameOfType}");
             return sb.ToString();
         }

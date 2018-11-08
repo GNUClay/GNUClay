@@ -12,12 +12,12 @@ namespace MyNPCLib.SimpleWordsDict
         public override AdjectiveGrammaticalWordFrame AsAdjective => this;
         public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
         public bool IsDeterminer { get; set; }
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
             sb.AppendLine($"{spaces}{nameof(IsDeterminer)} = {IsDeterminer}");
             return sb.ToString();

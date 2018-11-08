@@ -40,7 +40,7 @@ namespace MyNPCLib.Parser.LogicalExpression
             return this.GetDefaultToStringInformation(n);
         }
 
-        public string PropertiesToSting(uint n)
+        public string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -208,7 +208,7 @@ namespace MyNPCLib.Parser.LogicalExpression
             return this.GetDefaultToShortStringInformation(n);
         }
 
-        public string PropertiesToShortSting(uint n)
+        public string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

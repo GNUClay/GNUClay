@@ -68,6 +68,10 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Noun:
                             case GrammaticalPartOfSpeech.Pronoun:
                                 {
+                                    if(token.IsPossessive)
+                                    {
+                                        throw new NotImplementedException();
+                                    }
                                     var nounPhrase = new NounPhrase_v2();
                                     mNounPhrase = nounPhrase;
                                     Target.SetNode(nounPhrase, Context);

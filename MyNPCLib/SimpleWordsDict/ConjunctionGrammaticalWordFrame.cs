@@ -15,12 +15,12 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsQuestionWord { get; set; }
         public bool IsNegation { get; set; }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             sb.AppendLine($"{spaces}{nameof(SecondKind)} = {SecondKind}");
             sb.AppendLine($"{spaces}{nameof(IsQuestionWord)} = {IsQuestionWord}");

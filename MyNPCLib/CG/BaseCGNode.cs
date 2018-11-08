@@ -123,7 +123,7 @@ namespace MyNPCLib.CG
             return this.GetDefaultToStringInformation(n);
         }
 
-        public virtual string PropertiesToSting(uint n)
+        public virtual string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -137,21 +137,21 @@ namespace MyNPCLib.CG
             else
             {
                 sb.AppendLine($"{spaces}Begin {nameof(Parent)}");
-                sb.Append(Parent.PropertiesToShortSting(nextN));
+                sb.Append(Parent.PropertiesToShortString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Parent)}");
             }
 
             sb.AppendLine($"{spaces}Begin {nameof(Inputs)}");
             foreach(var inputNode in Inputs)
             {
-                sb.Append(inputNode.PropertiesToShortSting(nextN));
+                sb.Append(inputNode.PropertiesToShortString(nextN));
             }
             sb.AppendLine($"{spaces}End {nameof(Inputs)}");
 
             sb.AppendLine($"{spaces}Begin {nameof(Outputs)}");
             foreach(var outputNode in Outputs)
             {
-                sb.Append(outputNode.PropertiesToShortSting(nextN));
+                sb.Append(outputNode.PropertiesToShortString(nextN));
             }
             sb.AppendLine($"{spaces}End {nameof(Outputs)}");
             return sb.ToString();
@@ -167,7 +167,7 @@ namespace MyNPCLib.CG
             return this.GetDefaultToShortStringInformation(n);
         }
 
-        public string PropertiesToShortSting(uint n)
+        public string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();

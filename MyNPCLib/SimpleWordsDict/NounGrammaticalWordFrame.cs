@@ -20,12 +20,12 @@ namespace MyNPCLib.SimpleWordsDict
         /// Example: `father's` is possessive, `father` is not possessive. 
         /// </summary>
         public bool IsPossessive { get; set; }
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(IsName)} = {IsName}");
             sb.AppendLine($"{spaces}{nameof(IsShortForm)} = {IsShortForm}");
             sb.AppendLine($"{spaces}{nameof(Gender)} = {Gender}");

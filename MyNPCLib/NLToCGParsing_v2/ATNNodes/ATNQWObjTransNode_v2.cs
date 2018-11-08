@@ -79,6 +79,13 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ImplementGoalToken()
         {
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            Context.Sentence.IsQuestion = true;
+
             throw new NotImplementedException();
         }
 

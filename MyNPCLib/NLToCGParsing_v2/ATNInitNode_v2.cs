@@ -67,6 +67,10 @@ namespace MyNPCLib.NLToCGParsing_v2
                         AddTask(new ATNQWSubjTransNodeFactory_v2(this, item));
                         break;
 
+                    case KindOfItemOfSentence.QWObj:
+                        AddTask(new ATNQWObjTransNodeFactory_v2(this, item));
+                        break;
+
                     case KindOfItemOfSentence.Condition:
                         if(supressCondition)
                         {

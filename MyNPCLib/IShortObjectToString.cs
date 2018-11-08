@@ -8,7 +8,7 @@ namespace MyNPCLib
     {
         string ToShortString();
         string ToShortString(uint n);
-        string PropertiesToShortSting(uint n);
+        string PropertiesToShortString(uint n);
     }
 }
 
@@ -23,7 +23,7 @@ namespace MyNPCLib
             return this.GetDefaultToShortStringInformation(n);
         }
 
-        public string PropertiesToShortSting(uint n)
+        public string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

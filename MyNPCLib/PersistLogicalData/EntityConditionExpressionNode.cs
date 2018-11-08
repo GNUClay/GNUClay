@@ -21,23 +21,23 @@ namespace MyNPCLib.PersistLogicalData
             return result;
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(VariableName)} = {VariableName}");
             sb.AppendLine($"{spaces}{nameof(Key)} = {Key}");
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             sb.AppendLine($"{spaces}{nameof(VariableName)} = {VariableName}");
             sb.AppendLine($"{spaces}{nameof(VariableKey)} = {VariableKey}");
             return sb.ToString();

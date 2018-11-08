@@ -104,7 +104,7 @@ namespace MyNPCLib.NLToCGParsing
             return this.GetDefaultToStringInformation(n);
         }
 
-        public string PropertiesToSting(uint n)
+        public string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

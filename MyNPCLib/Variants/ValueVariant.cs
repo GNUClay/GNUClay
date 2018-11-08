@@ -26,12 +26,12 @@ namespace MyNPCLib.Variants
         public IList<LogicalAnnotation> Annotations { get; private set; }
         public object Value { get; private set; }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(Value)} = {Value}");
             return sb.ToString();
         }

@@ -69,7 +69,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             return result;
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -114,7 +114,7 @@ namespace MyNPCLib.NLToCGParsing.PhraseTree
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

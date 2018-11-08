@@ -115,13 +115,13 @@ namespace MyNPCLib.InternalCG
 
         public int MaxVarCount { get; set; }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var nextNSpace = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(Number)} = {Number}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
@@ -132,7 +132,7 @@ namespace MyNPCLib.InternalCG
             sb.AppendLine($"{spaces}Begin {nameof(Children)}");
             foreach (var child in Children)
             {
-                sb.Append(child.PropertiesToShortSting(nextN));
+                sb.Append(child.PropertiesToShortString(nextN));
             }
             sb.AppendLine($"{spaces}End {nameof(Children)}");
             sb.AppendLine($"{spaces}Begin RealtionLinkedVarNameDict");
@@ -145,7 +145,7 @@ namespace MyNPCLib.InternalCG
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -165,7 +165,7 @@ namespace MyNPCLib.InternalCG
             }
             sb.AppendLine($"{spaces}End RealtionLinkedVarNameDict");
             sb.AppendLine($"{spaces}{nameof(MaxVarCount)} = {MaxVarCount}");
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             return sb.ToString();
         }
     }

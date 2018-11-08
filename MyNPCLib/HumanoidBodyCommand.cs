@@ -9,7 +9,7 @@ namespace MyNPCLib
         public abstract HumanoidBodyCommandKind Kind { get; }
         public ulong InitiatingProcessId { get; set; }
         public abstract string ToString(uint n);
-        public virtual string PropertiesToSting(uint n)
+        public virtual string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();

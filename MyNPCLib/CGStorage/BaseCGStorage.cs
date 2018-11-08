@@ -328,7 +328,7 @@ namespace MyNPCLib.CGStorage
             return this.GetDefaultToStringInformation(n);
         }
 
-        public virtual string PropertiesToSting(uint n)
+        public virtual string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();

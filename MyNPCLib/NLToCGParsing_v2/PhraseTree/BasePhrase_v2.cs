@@ -48,7 +48,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return this.GetDefaultToStringInformation(n);
         }
 
-        public virtual string PropertiesToSting(uint n)
+        public virtual string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
@@ -66,7 +66,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             return this.GetDefaultToShortStringInformation(n);
         }
 
-        public virtual string PropertiesToShortSting(uint n)
+        public virtual string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();

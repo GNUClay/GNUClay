@@ -46,23 +46,23 @@ namespace MyNPCLib.InternalCG
             node.NRemoveInputNode(this);
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(KindOfGraphOrConcept)} = {KindOfGraphOrConcept}");
             sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
-            sb.Append(base.PropertiesToSting(n)); 
+            sb.Append(base.PropertiesToString(n)); 
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(KindOfGraphOrConcept)} = {KindOfGraphOrConcept}");
             sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             return sb.ToString();
         }
     }

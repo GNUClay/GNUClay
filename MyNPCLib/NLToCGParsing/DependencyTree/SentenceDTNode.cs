@@ -106,7 +106,7 @@ namespace MyNPCLib.NLToCGParsing.DependencyTree
             return KindOfDTChild.Undefined;
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
@@ -129,7 +129,7 @@ namespace MyNPCLib.NLToCGParsing.DependencyTree
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

@@ -20,6 +20,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public List<ATNExtendedToken> DeterminersList { get; set; } = new List<ATNExtendedToken>();
         public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
         public float? NumberValue { get; set; }
+        public List<BaseWordPhrase_v2> PossesiveList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -63,6 +64,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if(PossesiveList != null)
+            {
+                foreach(var item in PossesiveList)
+                {
+                    if (item.RunTimeSessionKey == key)
+                    {
+                        object obj = item;
+                        return (T)obj;
+                    }
+
+                    var result = item.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+            
             return null;
         }
 
@@ -72,18 +92,44 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             result.RunTimeSessionKey = RunTimeSessionKey;
             result.Noun = Noun?.Fork();
 
-            foreach (var determiner in DeterminersList)
+            if(DeterminersList == null)
             {
-                result.DeterminersList.Add(determiner.Fork());
+                result.DeterminersList = null;
+            }
+            else
+            {
+                foreach (var determiner in DeterminersList)
+                {
+                    result.DeterminersList.Add(determiner.Fork());
+                }
             }
 
-            foreach (var adj in AdjectivePhrasesList)
+            if(AdjectivePhrasesList == null)
             {
-                result.AdjectivePhrasesList.Add(adj.Fork());
+                result.AdjectivePhrasesList = null;
+            }
+            else
+            {
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    result.AdjectivePhrasesList.Add(adj.Fork());
+                }
             }
 
             result.NumberValue = NumberValue;
 
+            if(PossesiveList == null)
+            {
+                result.PossesiveList = null;
+            }
+            else
+            {
+                foreach(var item in PossesiveList)
+                {
+                    result.PossesiveList.Add(item.ForkAsBaseWordPhrase());
+                }
+            }
+            
             return result;
         }
 
@@ -117,65 +163,28 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     }
                 }
 
+                if(!PossesiveList.IsEmpty())
+                {
+                    foreach(var item in PossesiveList)
+                    {
+                        if (!item.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                
                 return true;
             }
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
 
-            if (Noun == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(Noun)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(Noun)}");
-                sb.Append(Noun.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(Noun)}");
-            }
-
-            if (DeterminersList == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(DeterminersList)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(DeterminersList)}");
-                foreach (var determiner in DeterminersList)
-                {
-                    sb.Append(determiner.ToString(nextN));
-                }
-                sb.AppendLine($"{spaces}End {nameof(DeterminersList)}");
-            }
-
-            if (AdjectivePhrasesList == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
-                foreach (var adj in AdjectivePhrasesList)
-                {
-                    sb.Append(adj.ToString(nextN));
-                }
-                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
-            }
-            sb.AppendLine($"{spaces}{nameof(NumberValue)} = {NumberValue}");         
-            return sb.ToString();
-        }
-
-        public override string PropertiesToShortSting(uint n)
-        {
-            var spaces = StringHelper.Spaces(n);
-            var nextN = n + 4;
-            var sb = new StringBuilder();
-            sb.Append(base.PropertiesToShortSting(n));
             if (Noun == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Noun)} = null");
@@ -215,6 +224,84 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
             }
             sb.AppendLine($"{spaces}{nameof(NumberValue)} = {NumberValue}");
+
+            if(PossesiveList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(PossesiveList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(PossesiveList)}");
+                foreach (var item in PossesiveList)
+                {
+                    sb.Append(item.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(PossesiveList)}");
+            }
+        
+            return sb.ToString();
+        }
+
+        public override string PropertiesToShortString(uint n)
+        {
+            var spaces = StringHelper.Spaces(n);
+            var nextN = n + 4;
+            var sb = new StringBuilder();
+            sb.Append(base.PropertiesToShortString(n));
+            if (Noun == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(Noun)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(Noun)}");
+                sb.Append(Noun.ToString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(Noun)}");
+            }
+
+            if (DeterminersList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(DeterminersList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(DeterminersList)}");
+                foreach (var determiner in DeterminersList)
+                {
+                    sb.Append(determiner.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(DeterminersList)}");
+            }
+
+            if (AdjectivePhrasesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    sb.Append(adj.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
+            }
+            sb.AppendLine($"{spaces}{nameof(NumberValue)} = {NumberValue}");
+
+            if (PossesiveList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(PossesiveList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(PossesiveList)}");
+                foreach (var item in PossesiveList)
+                {
+                    sb.Append(item.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(PossesiveList)}");
+            }
+
             return sb.ToString();
         }
     }

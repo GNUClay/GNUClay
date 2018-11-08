@@ -189,16 +189,16 @@ namespace MyNPCLib.CG
             }        
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}Begin {nameof(Children)}");
             foreach(var child in Children)
             {
-                sb.Append(child.PropertiesToShortSting(nextN));
+                sb.Append(child.PropertiesToShortString(nextN));
             }
             sb.AppendLine($"{spaces}End {nameof(Children)}");
             if (PrevGraph == null)

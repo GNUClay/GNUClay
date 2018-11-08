@@ -45,7 +45,7 @@ namespace MyNPCLib
             return this.GetDefaultToStringInformation(n);
         }
 
-        public virtual string PropertiesToSting(uint n)
+        public virtual string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

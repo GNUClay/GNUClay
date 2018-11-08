@@ -24,6 +24,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public bool IsNegation { get; set; }
         public List<NounPhrase_v2> NounPhrasesList { get; set; } = new List<NounPhrase_v2>();
         public List<VerbPhrase_v2> VerbPhrasesList { get; set; } = new List<VerbPhrase_v2>();
+        public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
+        public List<BaseWordPhrase_v2> QuestionToObjectsList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public void AddVerbPhrase(VerbPhrase_v2 verb)
         {
@@ -73,6 +75,44 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if (ConditionsList != null)
+            {
+                foreach (var condition in ConditionsList)
+                {
+                    if (condition.RunTimeSessionKey == key)
+                    {
+                        object obj = condition;
+                        return (T)obj;
+                    }
+
+                    var result = condition.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            if(QuestionToObjectsList != null)
+            {
+                foreach(var item in QuestionToObjectsList)
+                {
+                    if (item.RunTimeSessionKey == key)
+                    {
+                        object obj = item;
+                        return (T)obj;
+                    }
+
+                    var result = item.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+            
             return null;
         }
 
@@ -119,6 +159,30 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if (ConditionsList == null)
+            {
+                result.ConditionsList = null;
+            }
+            else
+            {
+                foreach (var condition in ConditionsList)
+                {
+                    result.ConditionsList.Add(condition.ForkAsBaseWordPhrase());
+                }
+            }
+
+            if (QuestionToObjectsList == null)
+            {
+                result.QuestionToObjectsList = null;
+            }
+            else
+            {
+                foreach (var item in QuestionToObjectsList)
+                {
+                    result.QuestionToObjectsList.Add(item.ForkAsBaseWordPhrase());
+                }
+            }
+
             return result;
         }
 
@@ -158,16 +222,38 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     }
                 }
 
+                if (!ConditionsList.IsEmpty())
+                {
+                    foreach (var condition in ConditionsList)
+                    {
+                        if (!condition.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                if(!QuestionToObjectsList.IsEmpty())
+                {
+                    foreach (var item in QuestionToObjectsList)
+                    {
+                        if (!item.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                
                 return true;
             }
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
@@ -211,15 +297,44 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(LastVerbPhrase.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
             }
+
+            if (ConditionsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ConditionsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ConditionsList)}");
+                foreach (var condition in ConditionsList)
+                {
+                    sb.Append(condition.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
+            }
+               
+            if (QuestionToObjectsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(QuestionToObjectsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(QuestionToObjectsList)}");
+                foreach (var item in QuestionToObjectsList)
+                {
+                    sb.Append(item.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(QuestionToObjectsList)}");
+            }
+
             return sb.ToString();
         }
 
-        public override string PropertiesToShortSting(uint n)
+        public override string PropertiesToShortString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToShortSting(n));
+            sb.Append(base.PropertiesToShortString(n));
             sb.AppendLine($"{spaces}{nameof(Aspect)} = {Aspect}");
             sb.AppendLine($"{spaces}{nameof(Tense)} = {Tense}");
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
@@ -262,6 +377,35 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(LastVerbPhrase.ToShortString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
             }
+
+            if (ConditionsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(ConditionsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(ConditionsList)}");
+                foreach (var condition in ConditionsList)
+                {
+                    sb.Append(condition.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
+            }
+               
+            if (QuestionToObjectsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(QuestionToObjectsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(QuestionToObjectsList)}");
+                foreach (var item in QuestionToObjectsList)
+                {
+                    sb.Append(item.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(QuestionToObjectsList)}");
+            }
+
             return sb.ToString();
         }
     }

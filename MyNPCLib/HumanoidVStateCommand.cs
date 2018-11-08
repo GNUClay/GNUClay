@@ -19,11 +19,11 @@ namespace MyNPCLib
             return this.GetDefaultToStringInformation(n);
         }
 
-        public override string PropertiesToSting(uint n)
+        public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToSting(n));
+            sb.Append(base.PropertiesToString(n));
             sb.AppendLine($"{spaces}{nameof(State)} = {State}");
             return sb.ToString();
         }

@@ -55,7 +55,7 @@ namespace MyNPCLib
             return this.GetDefaultToStringInformation(n);
         }
 
-        public string PropertiesToSting(uint n)
+        public string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
