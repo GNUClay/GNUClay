@@ -101,6 +101,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 throw new NotImplementedException();
             }
 
+            var hasObjOrSubj = false;
+
             foreach (var item in extendedTokensList)
             {
 #if DEBUG
@@ -111,6 +113,24 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
                 switch (kindOfItem)
                 {
+                    case KindOfItemOfSentence.Subj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjFToDoSubjTransNodeFactory_v2(this, item));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjFToDoSubjTransNodeFactory_v2(this, item));
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }
