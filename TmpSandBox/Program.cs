@@ -1260,7 +1260,7 @@ namespace TmpSandBox
 
             LogInstance.Log($"text = {text}");
             mCount++;
-            LogInstance.Log($"mCount = {mCount}");
+            LogInstance.Log($"mCount = {mCount}/144");
 
             var wordsDict = new WordsDict();
 

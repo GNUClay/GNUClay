@@ -48,6 +48,7 @@ namespace MyNPCLib.NLToCGParsing
         public KindOfItemOfSentence KindOfItem { get; set; } = KindOfItemOfSentence.Unknown;
         public float? RepresentedNumber { get; set; }
         public bool IsOf { get; set; }
+        public bool IsSimple => Person == GrammaticalPerson.Neuter && (Tense == GrammaticalTenses.Present || Tense == GrammaticalTenses.All);
 
         public ATNExtendedToken Fork()
         {

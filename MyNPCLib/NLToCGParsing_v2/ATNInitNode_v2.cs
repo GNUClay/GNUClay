@@ -56,6 +56,18 @@ namespace MyNPCLib.NLToCGParsing_v2
                         break;
 
                     case KindOfItemOfSentence.Verb:
+                        if(extendedTokensList.Any(p => p.KindOfItem == KindOfItemOfSentence.FToBe))
+                        {
+                            break;
+                        }
+                        if(extendedTokensList.Any(p => p.KindOfItem == KindOfItemOfSentence.FToDo && !p.IsSimple))
+                        {
+                            break;
+                        }
+                        if (extendedTokensList.Any(p => p.KindOfItem == KindOfItemOfSentence.FToHave && !p.IsSimple))
+                        {
+                            break;
+                        }
                         AddTask(new ATNVerbTransOrFinNodeFactory_v2(this, item));
                         break;
 
@@ -86,6 +98,10 @@ namespace MyNPCLib.NLToCGParsing_v2
                         }
                         throw new NotImplementedException();
 
+                    case KindOfItemOfSentence.FToBe:
+                        AddTask(new ATNFToBeTransNodeFactory_v2(this, item));
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }
@@ -93,3 +109,33 @@ namespace MyNPCLib.NLToCGParsing_v2
         }
     }
 }
+
+/*
+            var extendedTokensList = GetСlusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            } 
+*/
