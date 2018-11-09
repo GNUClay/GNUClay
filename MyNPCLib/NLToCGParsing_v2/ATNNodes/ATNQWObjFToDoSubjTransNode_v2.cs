@@ -57,6 +57,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new SubjectTargetOfATNSlaveNAPNode());
         }
 
         public ATNQWObjFToDoSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNQWObjFToDoSubjTransNode_v2 sameNode, InitATNQWObjFToDoSubjTransNodeAction initAction, ATNExtendedToken token)
@@ -65,6 +66,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             mInitAction?.Invoke(this);
         }
 
@@ -74,6 +76,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNQWObjFToDoSubjTransNode_v2 mSameNode;
         private InitATNQWObjFToDoSubjTransNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+
         protected override void ImplementGoalToken()
         {
 #if DEBUG
@@ -81,7 +85,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            throw new NotImplementedException();
+            SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
@@ -109,6 +113,24 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
                 switch (kindOfItem)
                 {
+                    case KindOfItemOfSentence.Subj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjFToDoSubjTransNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNQWObjFToDoSubjTransNodeFactory_v2(this, item, null));
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }
