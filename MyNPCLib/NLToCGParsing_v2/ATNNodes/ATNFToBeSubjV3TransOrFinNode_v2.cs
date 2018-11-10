@@ -101,7 +101,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                throw new NotImplementedException();
+                Context.PutSentenceToResult();
+                return;
             }
 
             foreach (var item in extendedTokensList)
@@ -115,6 +116,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Point:
+                        Context.PutSentenceToResult();
+                        break;
+
+                    case KindOfItemOfSentence.QuestionMark:
                         Context.PutSentenceToResult();
                         break;
 

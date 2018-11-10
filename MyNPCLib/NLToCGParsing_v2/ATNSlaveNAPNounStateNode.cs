@@ -25,6 +25,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         private NounPhrase_v2 mNounPhrase;
         private List<ATNExtendedToken> mDeterminers = new List<ATNExtendedToken>();
         private float? mNumberValue;
+        private List<BaseWordPhrase_v2> mPossesiveNounPhrases = new List<BaseWordPhrase_v2>();
 
         public override ATNSlaveNAPBaseStateNode Fork(ContextOfATNParsing_v2 context, ContextOfATNSlaveNAPStateNode contextOfState)
         {
@@ -35,6 +36,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             if (mNounPhrase == null)
             {
                 result.mDeterminers = mDeterminers.ToList();
+                result.mPossesiveNounPhrases = mPossesiveNounPhrases.ToList();
             }
             else
             {
@@ -42,6 +44,10 @@ namespace MyNPCLib.NLToCGParsing_v2
                 foreach (var determiner in mDeterminers)
                 {
                     result.mDeterminers.Add(context.GetByRunTimeSessionKey<ATNExtendedToken>(determiner));
+                }
+                foreach (var possesivePhrase in mPossesiveNounPhrases)
+                {
+                    result.mPossesiveNounPhrases.Add(context.GetByRunTimeSessionKey<NounPhrase_v2>(possesivePhrase));
                 }
             }
 
@@ -70,7 +76,11 @@ namespace MyNPCLib.NLToCGParsing_v2
                                 {
                                     if(token.IsPossessive)
                                     {
-                                        throw new NotImplementedException();
+                                        var possesiveNounPhrase = new NounPhrase_v2();
+                                        mPossesiveNounPhrases.Add(possesiveNounPhrase);
+                                        possesiveNounPhrase.Noun = token;
+                                        State = StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun;
+                                        break;
                                     }
                                     var nounPhrase = new NounPhrase_v2();
                                     mNounPhrase = nounPhrase;
@@ -117,6 +127,11 @@ namespace MyNPCLib.NLToCGParsing_v2
                                     if (!mDeterminers.IsEmpty())
                                     {
                                         nounPhrase.DeterminersList = mDeterminers;
+                                    }
+
+                                    if(!mPossesiveNounPhrases.IsEmpty())
+                                    {
+                                        nounPhrase.PossesiveList = mPossesiveNounPhrases;
                                     }
 
                                     if(mNumberValue.HasValue)

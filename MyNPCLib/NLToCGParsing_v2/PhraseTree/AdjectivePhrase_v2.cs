@@ -100,5 +100,60 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             }
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = 0;
+
+            if(Adjective != null)
+            {
+                result ^= Adjective.GetHashCode();
+            }
+
+            return result;
+        }
+
+        public static bool NEquals(AdjectivePhrase_v2 left, AdjectivePhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return ATNExtendedToken.NEquals(left.Adjective, right.Adjective);
+        }
+    }
+
+    public class ComparerOfAdjectivePhrase_v2 : IEqualityComparer<AdjectivePhrase_v2>
+    {
+        bool IEqualityComparer<AdjectivePhrase_v2>.Equals(AdjectivePhrase_v2 left, AdjectivePhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return AdjectivePhrase_v2.NEquals(left, right);
+        }
+
+        int IEqualityComparer<AdjectivePhrase_v2>.GetHashCode(AdjectivePhrase_v2 obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

@@ -117,12 +117,24 @@ namespace MyNPCLib.NLToCGParsing
 
                 if (token == null)
                 {
-                    return null;
+                    return new List<ATNExtendedToken>();
                 }
 
                 var result = new List<ATNExtendedToken>();
 
                 var tokenKind = token.Kind;
+
+                while(tokenKind == KindOfATNToken.Point)
+                {
+                    token = mLexer.GetToken();
+
+                    if (token == null)
+                    {
+                        return new List<ATNExtendedToken>();
+                    }
+
+                    tokenKind = token.Kind;
+                }
 
                 if(tokenKind == KindOfATNToken.Word)
                 {
@@ -364,7 +376,19 @@ namespace MyNPCLib.NLToCGParsing
                         break;
 
                     case GrammaticalPartOfSpeech.Adjective:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                            result.Add(extendedToken);
+
+                            var newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                            result.Add(newExtendedToken);
+
+                            newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                            result.Add(newExtendedToken);
+                        }
+                        break;
 
                     case GrammaticalPartOfSpeech.Verb:
                         {
@@ -536,6 +560,14 @@ namespace MyNPCLib.NLToCGParsing
                             {
                                 extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
                                 result.Add(extendedToken);
+
+                                var newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                                result.Add(newExtendedToken);
+
+                                newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                                result.Add(newExtendedToken);
                             }
                         }
                         break;
@@ -580,6 +612,10 @@ namespace MyNPCLib.NLToCGParsing
 
                             var newExtendedToken = extendedToken.Fork();
                             newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                            result.Add(newExtendedToken);
+
+                            newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
                             result.Add(newExtendedToken);
                         }
                         break;

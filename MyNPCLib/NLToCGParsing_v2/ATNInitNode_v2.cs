@@ -122,8 +122,6 @@ namespace MyNPCLib.NLToCGParsing_v2
                 throw new NotImplementedException();
             }
 
-            var hasObjOrSubj = false;
-
             foreach (var item in extendedTokensList)
             {
 #if DEBUG

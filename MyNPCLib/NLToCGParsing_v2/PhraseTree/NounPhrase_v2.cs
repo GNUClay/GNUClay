@@ -304,5 +304,51 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+
+        }
+
+        public static bool NEquals(NounPhrase_v2 left, NounPhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+        }
+    }
+
+    public class ComparerOfNounPhrase_v2 : IEqualityComparer<NounPhrase_v2>
+    {
+        bool IEqualityComparer<NounPhrase_v2>.Equals(NounPhrase_v2 left, NounPhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return NounPhrase_v2.NEquals(left, right);
+        }
+
+        int IEqualityComparer<NounPhrase_v2>.GetHashCode(NounPhrase_v2 obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

@@ -172,5 +172,76 @@ namespace MyNPCLib.NLToCGParsing
             sb.AppendLine($"{spaces}{nameof(IsOf)} = {IsOf}"); 
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = Kind.GetHashCode();
+
+            if(!string.IsNullOrWhiteSpace(Content))
+            {
+                result ^= Content.GetHashCode();
+            }
+
+            result ^= PartOfSpeech.GetHashCode() ^ IsName.GetHashCode() ^ IsShortForm.GetHashCode() ^ Gender.GetHashCode() ^ Number.GetHashCode();
+            result ^= IsCountable.GetHashCode() ^ IsGerund.GetHashCode() ^ IsPossessive.GetHashCode() ^ Person.GetHashCode();
+            result ^= TypeOfPronoun.GetHashCode() ^ CaseOfPersonalPronoun.GetHashCode() ^ VerbType.GetHashCode() ^ Tense.GetHashCode();
+            result ^= IsModal.GetHashCode() ^ IsFormOfToBe.GetHashCode() ^ IsFormOfToHave.GetHashCode() ^ IsFormOfToDo.GetHashCode();
+            result ^= Comparison.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsDeterminer.GetHashCode() ^ NumeralType.GetHashCode();
+            if(!string.IsNullOrWhiteSpace(RootWord))
+            {
+                result ^= RootWord.GetHashCode();
+            }
+
+            result ^= KindOfItem.GetHashCode();
+
+            if(RepresentedNumber.HasValue)
+            {
+                result ^= RepresentedNumber.GetHashCode();
+            }
+
+            result ^= IsOf.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(ATNExtendedToken left, ATNExtendedToken right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+        }
+    }
+
+    public class ComparerOfATNExtendedToken : IEqualityComparer<ATNExtendedToken>
+    {
+        bool IEqualityComparer<ATNExtendedToken>.Equals(ATNExtendedToken left, ATNExtendedToken right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return ATNExtendedToken.NEquals(left, right);
+        }
+
+        int IEqualityComparer<ATNExtendedToken>.GetHashCode(ATNExtendedToken obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

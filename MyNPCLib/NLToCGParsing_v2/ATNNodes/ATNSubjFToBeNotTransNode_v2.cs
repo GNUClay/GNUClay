@@ -78,12 +78,50 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            Context.Sentence.IsNegation = true;
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            //var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Verb:
+                        break;
+
+                    case KindOfItemOfSentence.V3:
+                        AddTask(new ATNSubjFToBeNotV3TransOrFinNodeFactory_v2(this, item));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

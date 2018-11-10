@@ -112,12 +112,12 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var extendedTokensList = Get—lusterOfExtendedTokens();
 
 #if DEBUG
-            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList?.Count}");
 #endif
 
-            if (extendedTokensList.Count == 0)
+            if (extendedTokensList.IsEmpty())
             {
-                throw new NotImplementedException();
+                Context.PutSentenceToResult();
             }
 
             foreach (var item in extendedTokensList)

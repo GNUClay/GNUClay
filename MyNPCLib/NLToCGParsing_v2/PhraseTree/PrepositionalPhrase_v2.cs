@@ -165,5 +165,51 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             }
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+
+        }
+
+        public static bool NEquals(PrepositionalPhrase_v2 left, PrepositionalPhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+        }
+    }
+
+    public class ComparerOfPrepositionalPhrase_v2 : IEqualityComparer<PrepositionalPhrase_v2>
+    {
+        bool IEqualityComparer<PrepositionalPhrase_v2>.Equals(PrepositionalPhrase_v2 left, PrepositionalPhrase_v2 right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return PrepositionalPhrase_v2.NEquals(left, right);
+        }
+
+        int IEqualityComparer<PrepositionalPhrase_v2>.GetHashCode(PrepositionalPhrase_v2 obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }
