@@ -26,6 +26,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         private List<ATNExtendedToken> mDeterminers = new List<ATNExtendedToken>();
         private float? mNumberValue;
         private List<BaseWordPhrase_v2> mPossesiveNounPhrases = new List<BaseWordPhrase_v2>();
+        private AdjectivePhrase_v2 mAdjectivePhrase;
 
         public override ATNSlaveNAPBaseStateNode Fork(ContextOfATNParsing_v2 context, ContextOfATNSlaveNAPStateNode contextOfState)
         {
@@ -33,10 +34,15 @@ namespace MyNPCLib.NLToCGParsing_v2
             result.State = State;
             result.Target = Target;
 
+            if(mAdjectivePhrase != null)
+            {
+                result.mAdjectivePhrase = context.GetByRunTimeSessionKey<AdjectivePhrase_v2>(mAdjectivePhrase);
+            }
+
             if (mNounPhrase == null)
             {
-                result.mDeterminers = mDeterminers.ToList();
-                result.mPossesiveNounPhrases = mPossesiveNounPhrases.ToList();
+                result.mDeterminers = mDeterminers.Select(p => p.Fork()).ToList();
+                result.mPossesiveNounPhrases = mPossesiveNounPhrases.Select(p => p.ForkAsBaseWordPhrase()).ToList();
             }
             else
             {
@@ -104,6 +110,23 @@ namespace MyNPCLib.NLToCGParsing_v2
                                 }
                                 break;
 
+                            case GrammaticalPartOfSpeech.Adjective:
+                                {
+                                    var adjectivePhrase = new AdjectivePhrase_v2();
+                                    mAdjectivePhrase = adjectivePhrase;
+                                    Target.SetNode(adjectivePhrase, Context);
+                                    adjectivePhrase.Adjective = token;
+                                    State = StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun;
+                                }
+                                break;
+
+                            case GrammaticalPartOfSpeech.Adverb:
+                                {
+                                    mDeterminers.Add(token);
+                                    State = StateOfATNSlaveNAPNode.GotDeterminerWithoutNoun;
+                                }
+                                break;
+
                             default:
                                 throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
                         }
@@ -126,23 +149,44 @@ namespace MyNPCLib.NLToCGParsing_v2
 
                                     if (!mDeterminers.IsEmpty())
                                     {
-                                        nounPhrase.DeterminersList = mDeterminers;
+                                        nounPhrase.DeterminersList = mDeterminers.ToList();
+                                        mDeterminers.Clear();
                                     }
 
-                                    if(!mPossesiveNounPhrases.IsEmpty())
+                                    if (!mPossesiveNounPhrases.IsEmpty())
                                     {
-                                        nounPhrase.PossesiveList = mPossesiveNounPhrases;
+                                        nounPhrase.PossesiveList = mPossesiveNounPhrases.ToList();
+                                        mPossesiveNounPhrases.Clear();
                                     }
 
                                     if(mNumberValue.HasValue)
                                     {
                                         nounPhrase.NumberValue = mNumberValue;
                                     }
+
+                                    if(mAdjectivePhrase != null)
+                                    {
+                                        mNounPhrase.AdjectivePhrasesList.Add(mAdjectivePhrase);
+                                        mAdjectivePhrase = null;
+                                    }                     
                                 }
                                 break;
 
                             case GrammaticalPartOfSpeech.Adverb:
                                 mDeterminers.Add(token);
+                                break;
+
+                            case GrammaticalPartOfSpeech.Adjective:
+                                {
+                                    throw new NotImplementedException();
+
+                                    var oldAdjectivePhrase = mAdjectivePhrase;
+                                    var adjectivePhrase = new AdjectivePhrase_v2();
+                                    mAdjectivePhrase = adjectivePhrase;
+                                    Target.ReplaceNode(adjectivePhrase, Context);
+                                    adjectivePhrase.Adjective = token;
+                                    State = StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun;
+                                }
                                 break;
 
                             default:
@@ -167,6 +211,38 @@ namespace MyNPCLib.NLToCGParsing_v2
                                     var target = new PossesiveTargetOfATNSlaveNAPNode(mNounPhrase);
                                     var nextState = new ATNSlaveNAPNounStateNode(Context, target, ContextOfState);
                                     ContextOfState.AddNode(nextState);
+                                }
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
+                        }
+                    }
+                    break;
+
+                case StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun:
+                    {
+                        var partOfSpeech = token.PartOfSpeech;
+
+                        switch (partOfSpeech)
+                        {
+                            case GrammaticalPartOfSpeech.Adjective:
+                                {
+                                    var oldAdjectivePhrase = mAdjectivePhrase;
+
+#if DEBUG
+                                    LogInstance.Log($"oldAdjectivePhrase = {oldAdjectivePhrase}");
+                                    LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
+#endif
+
+                                    throw new NotImplementedException();
+
+                                    
+                                    var adjectivePhrase = new AdjectivePhrase_v2();
+                                    mAdjectivePhrase = adjectivePhrase;
+                                    Target.ReplaceNode(adjectivePhrase, Context);
+                                    adjectivePhrase.Adjective = token;
+                                    State = StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun;
                                 }
                                 break;
 

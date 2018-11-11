@@ -377,14 +377,17 @@ namespace MyNPCLib.NLToCGParsing
 
                     case GrammaticalPartOfSpeech.Adjective:
                         {
-                            extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                            //extendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                            //result.Add(extendedToken);
+
+                            //var newExtendedToken = extendedToken.Fork();
+                            //newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                            //result.Add(newExtendedToken);
+
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
                             result.Add(extendedToken);
 
                             var newExtendedToken = extendedToken.Fork();
-                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Subj;
-                            result.Add(newExtendedToken);
-
-                            newExtendedToken = extendedToken.Fork();
                             newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
                             result.Add(newExtendedToken);
                         }
@@ -614,9 +617,9 @@ namespace MyNPCLib.NLToCGParsing
                             newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
                             result.Add(newExtendedToken);
 
-                            newExtendedToken = extendedToken.Fork();
-                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
-                            result.Add(newExtendedToken);
+                            //newExtendedToken = extendedToken.Fork();
+                            //newExtendedToken.KindOfItem = KindOfItemOfSentence.Condition;
+                            //result.Add(newExtendedToken);
                         }
                         break;
 

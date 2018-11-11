@@ -92,7 +92,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             Context.Sentence.IsQuestion = true;
 
-            SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()

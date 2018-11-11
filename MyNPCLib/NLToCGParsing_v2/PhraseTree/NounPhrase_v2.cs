@@ -307,7 +307,70 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public override int GetHashCode()
         {
+            var result = 0;
 
+            if(Noun != null)
+            {
+                result ^= Noun.GetHashCode();
+            }
+
+            result ^= GetHashCodeOfDeterminersList();
+
+            result ^= GetHashCodeOfAdjectivePhrasesList();
+
+            if(NumberValue.HasValue)
+            {
+                result ^= NumberValue.Value.GetHashCode();
+            }
+
+            result ^= GetHashCodeOfPossesiveList();
+
+            return result;
+        }
+
+        private int GetHashCodeOfDeterminersList()
+        {
+            var result = 0;
+
+            if (DeterminersList != null)
+            {
+                foreach (var item in DeterminersList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
+        }
+
+        private int GetHashCodeOfAdjectivePhrasesList()
+        {
+            var result = 0;
+
+            if (AdjectivePhrasesList != null)
+            {
+                foreach (var item in AdjectivePhrasesList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
+        }
+
+        private int GetHashCodeOfPossesiveList()
+        {
+            var result = 0;
+
+            if (PossesiveList != null)
+            {
+                foreach (var item in PossesiveList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
         }
 
         public static bool NEquals(NounPhrase_v2 left, NounPhrase_v2 right)
@@ -321,6 +384,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             {
                 return false;
             }
+
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

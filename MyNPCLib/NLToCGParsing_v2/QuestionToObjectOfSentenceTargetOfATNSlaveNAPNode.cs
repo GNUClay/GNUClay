@@ -12,5 +12,10 @@ namespace MyNPCLib.NLToCGParsing_v2
             var wordNode = node.AsBaseWordPhrase;
             context.Sentence.QuestionToObjectsList.Add(wordNode);
         }
+
+        public void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

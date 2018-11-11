@@ -182,21 +182,22 @@ namespace MyNPCLib.NLToCGParsing
                 result ^= Content.GetHashCode();
             }
 
-            result ^= PartOfSpeech.GetHashCode() ^ IsName.GetHashCode() ^ IsShortForm.GetHashCode() ^ Gender.GetHashCode() ^ Number.GetHashCode();
+            result ^= PartOfSpeech.GetHashCode();
+            /*result ^= PartOfSpeech.GetHashCode() ^ IsName.GetHashCode() ^ IsShortForm.GetHashCode() ^ Gender.GetHashCode() ^ Number.GetHashCode();
             result ^= IsCountable.GetHashCode() ^ IsGerund.GetHashCode() ^ IsPossessive.GetHashCode() ^ Person.GetHashCode();
             result ^= TypeOfPronoun.GetHashCode() ^ CaseOfPersonalPronoun.GetHashCode() ^ VerbType.GetHashCode() ^ Tense.GetHashCode();
             result ^= IsModal.GetHashCode() ^ IsFormOfToBe.GetHashCode() ^ IsFormOfToHave.GetHashCode() ^ IsFormOfToDo.GetHashCode();
-            result ^= Comparison.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsDeterminer.GetHashCode() ^ NumeralType.GetHashCode();
-            if(!string.IsNullOrWhiteSpace(RootWord))
-            {
-                result ^= RootWord.GetHashCode();
-            }
+            result ^= Comparison.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsDeterminer.GetHashCode() ^ NumeralType.GetHashCode();*/
+            //if (!string.IsNullOrWhiteSpace(RootWord))
+            //{
+            //    result ^= RootWord.GetHashCode();
+            //}
 
-            result ^= KindOfItem.GetHashCode();
+            //result ^= KindOfItem.GetHashCode();
 
             if(RepresentedNumber.HasValue)
             {
-                result ^= RepresentedNumber.GetHashCode();
+                result ^= RepresentedNumber.Value.GetHashCode();
             }
 
             result ^= IsOf.GetHashCode();
@@ -214,6 +215,8 @@ namespace MyNPCLib.NLToCGParsing
             {
                 return false;
             }
+
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

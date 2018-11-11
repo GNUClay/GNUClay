@@ -52,7 +52,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
     Subj_FToBe_Not_Trans
     Subj_FToBe_V3_TransOrFin
     Subj_FToBe_Being_Trans
-    Subj_FToBe_Condition_Trans
+    Subj_FToBe_Condition_Trans//Obsolete
 */
 
     public class ATNSubjFToBeTransNode_v2: BaseATNNode_v2
@@ -125,7 +125,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Condition:
-                        AddTask(new ATNSubjFToBeConditionTransNodeFactory_v2(this, item));
+                        //AddTask(new ATNSubjFToBeConditionTransNodeFactory_v2(this, item));
                         break;
 
                     case KindOfItemOfSentence.Subj:

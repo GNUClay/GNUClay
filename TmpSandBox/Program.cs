@@ -765,6 +765,7 @@ namespace TmpSandBox
         private static void TSTParsingOfManyTenses()
         {
             var runner = new TSTSentenceParser();
+            //runner.ProcessAll = true;
             runner.Run();
         }
 

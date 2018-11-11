@@ -287,16 +287,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(VerbPhrasesList)}");
             }
-            if (LastVerbPhrase == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
-                sb.Append(LastVerbPhrase.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
-            }
+            //if (LastVerbPhrase == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
+            //    sb.Append(LastVerbPhrase.ToString(nextN));
+            //    sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
+            //}
 
             if (ConditionsList == null)
             {
@@ -367,16 +367,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(VerbPhrasesList)}");
             }
-            if (LastVerbPhrase == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
-                sb.Append(LastVerbPhrase.ToShortString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
-            }
+            //if (LastVerbPhrase == null)
+            //{
+            //    sb.AppendLine($"{spaces}{nameof(LastVerbPhrase)} = null");
+            //}
+            //else
+            //{
+            //    sb.AppendLine($"{spaces}Begin {nameof(LastVerbPhrase)}");
+            //    sb.Append(LastVerbPhrase.ToShortString(nextN));
+            //    sb.AppendLine($"{spaces}End {nameof(LastVerbPhrase)}");
+            //}
 
             if (ConditionsList == null)
             {
@@ -411,7 +411,41 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public override int GetHashCode()
         {
+            var result = Aspect.GetHashCode() ^ Tense.GetHashCode() ^ Voice.GetHashCode() ^ Mood.GetHashCode() ^ Modal.GetHashCode() ^ IsQuestion.GetHashCode() ^ IsNegation.GetHashCode();
 
+            if (NounPhrasesList != null)
+            {
+                foreach (var item in NounPhrasesList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            if (VerbPhrasesList != null)
+            {
+                foreach (var item in VerbPhrasesList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            if (ConditionsList != null)
+            {
+                foreach (var item in ConditionsList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            if (QuestionToObjectsList != null)
+            {
+                foreach (var item in QuestionToObjectsList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
         }
 
         public static bool NEquals(Sentence_v2 left, Sentence_v2 right)
@@ -425,6 +459,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             {
                 return false;
             }
+
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

@@ -36,6 +36,8 @@ namespace MyNPCLib.NLToCGParsing_v2
             mTasksList.Add(factory);
         }
 
+        private bool mIsSuccess = true;
+
         private void ProcessTasks()
         {
             if(mTasksList.Count == 0)
@@ -43,12 +45,20 @@ namespace MyNPCLib.NLToCGParsing_v2
                 return;
             }
 
-            foreach (var task in mTasksList)
+            if(mIsSuccess)
             {
-                var newContext = Context.Fork();
-                var node = task.Create(newContext);
-                node.Run();
+                foreach (var task in mTasksList)
+                {
+                    var newContext = Context.Fork();
+                    var node = task.Create(newContext);
+                    node.Run();
+                }
             }
+        }
+
+        protected void SetAsSuccess(bool result)
+        {
+            mIsSuccess = result;
         }
 
         protected IList<ATNExtendedToken> GetСlusterOfExtendedTokens()

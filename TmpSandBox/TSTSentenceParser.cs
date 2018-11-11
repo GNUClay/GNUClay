@@ -1,10 +1,12 @@
 ﻿using MyNPCLib;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2;
+using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using MyNPCLib.SimpleWordsDict;
 using OpenNLP.Tools.SentenceDetect;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TmpSandBox
@@ -554,8 +556,19 @@ namespace TmpSandBox
                 var resultList = commonContext.SentencesList;
 
                 LogInstance.Log($"resultList.Count = {resultList.Count}");
+
+                if(resultList.Count > 1)
+                {
+                    resultList = resultList.Distinct(new ComparerOfSentence_v2()).ToList();
+
+                    LogInstance.Log($"resultList.Count (2) = {resultList.Count}");
+
+                    //throw new NotImplementedException();
+                }
+
                 foreach (var resultItem in resultList)
                 {
+                    LogInstance.Log($"resultItem.GetHashCode() = {resultItem.GetHashCode()}");
                     LogInstance.Log($"resultItem = {resultItem}");
                 }
             }

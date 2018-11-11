@@ -22,5 +22,10 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             actualTarget.PossesiveList.Add(wordNode);
         }
+
+        public void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

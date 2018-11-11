@@ -101,7 +101,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             //LogInstance.Log($"(tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase) = {tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase}");
 #endif
 
-            SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()
@@ -114,7 +114,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                throw new NotImplementedException();
+                Context.PutSentenceToResult();
+                return;
             }
 
             var hasObjOrSubj = false;

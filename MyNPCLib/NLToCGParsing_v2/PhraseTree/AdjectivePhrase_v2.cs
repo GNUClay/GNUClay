@@ -16,7 +16,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public override AdjectivePhrase_v2 AsAdjectivePhrase => this;
 
         public ATNExtendedToken Adjective { get; set; }
-
+        
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
             if (Adjective != null)

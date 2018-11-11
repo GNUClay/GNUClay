@@ -37,7 +37,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             return result;
         }
 
-        public void Run(ATNExtendedToken token)
+        public bool Run(ATNExtendedToken token)
         {
 #if DEBUG
             //LogInstance.Log($"State = {State}");
@@ -52,7 +52,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                 ContextOfState.AddNode(currentNode);
             }
 
-            currentNode.Run(token);
+            return currentNode.Run(token);
         }
 
         private ATNSlaveNAPBaseStateNode CreateFirstNode(ATNExtendedToken token)
@@ -64,6 +64,8 @@ namespace MyNPCLib.NLToCGParsing_v2
                 case GrammaticalPartOfSpeech.Pronoun:
                 case GrammaticalPartOfSpeech.Noun:
                 case GrammaticalPartOfSpeech.Article:
+                case GrammaticalPartOfSpeech.Adjective:
+                case GrammaticalPartOfSpeech.Adverb:
                     return new ATNSlaveNAPNounStateNode(mContext, Target, ContextOfState);
 
                 case GrammaticalPartOfSpeech.Preposition:

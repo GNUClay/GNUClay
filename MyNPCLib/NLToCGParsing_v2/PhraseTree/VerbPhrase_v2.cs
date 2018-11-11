@@ -13,7 +13,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         }
 
         public ATNExtendedToken Verb { get; set; }
-        public List<NounPhrase_v2> ObjectsList { get; set; } = new List<NounPhrase_v2>();
+        public List<BaseWordPhrase_v2> ObjectsList { get; set; } = new List<BaseWordPhrase_v2>();
         public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
@@ -80,9 +80,9 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             }
             else
             {
-                foreach (var noun in ObjectsList)
+                foreach (var item in ObjectsList)
                 {
-                    result.ObjectsList.Add(noun.Fork());
+                    result.ObjectsList.Add(item.ForkAsBaseWordPhrase());
                 }
             }
 
@@ -242,7 +242,30 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public override int GetHashCode()
         {
+            var result = 0;
 
+            if(Verb != null)
+            {
+                result ^= Verb.GetHashCode();
+            }
+
+            if (ObjectsList != null)
+            {
+                foreach(var item in ObjectsList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            if (ConditionsList != null)
+            {
+                foreach (var item in ConditionsList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
         }
 
         public static bool NEquals(VerbPhrase_v2 left, VerbPhrase_v2 right)
@@ -256,6 +279,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             {
                 return false;
             }
+
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

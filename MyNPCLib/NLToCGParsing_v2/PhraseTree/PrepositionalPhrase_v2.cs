@@ -168,7 +168,22 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
 
         public override int GetHashCode()
         {
+            var result = 0;
 
+            if(Preposition != null)
+            {
+                result ^= Preposition.GetHashCode();
+            }
+
+            if(ChildrenNodesList != null)
+            {
+                foreach(var item in ChildrenNodesList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
+
+            return result;
         }
 
         public static bool NEquals(PrepositionalPhrase_v2 left, PrepositionalPhrase_v2 right)
@@ -182,6 +197,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             {
                 return false;
             }
+
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

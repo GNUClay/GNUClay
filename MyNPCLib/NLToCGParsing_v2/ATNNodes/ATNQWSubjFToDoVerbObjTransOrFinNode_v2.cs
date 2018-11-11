@@ -84,7 +84,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token);
         }
 
         protected override void ProcessNextToken()

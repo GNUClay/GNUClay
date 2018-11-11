@@ -7,6 +7,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 {
     public delegate void InitATNSubjFToBeConditionTransNodeAction(ATNSubjFToBeConditionTransNode_v2 item);
 
+    [Obsolete("I am not sure in this case")]
     public class ATNSubjFToBeConditionTransNodeFactory_v2: BaseATNNodeFactory_v2
     {
         public ATNSubjFToBeConditionTransNodeFactory_v2(ATNSubjFToBeTransNode_v2 parentNode, ATNExtendedToken token)
@@ -46,11 +47,12 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         }
     }
 
-/*Sub states:
-    Subj_FToBe_Condition_Ving_TransOrFin
-    Subj_FToBe_Condition_V3_TransOrFin
-*/
+    /*Sub states:
+        Subj_FToBe_Condition_Ving_TransOrFin
+        Subj_FToBe_Condition_V3_TransOrFin
+    */
 
+    [Obsolete("I am not sure in this case")]
     public class ATNSubjFToBeConditionTransNode_v2: BaseATNNode_v2
     {
         public ATNSubjFToBeConditionTransNode_v2(ContextOfATNParsing_v2 context, ATNSubjFToBeTransNode_v2 parentNode, ATNExtendedToken token)
