@@ -23,6 +23,10 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         public void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
+#if DEBUG
+            //LogInstance.Log($"node = {node}");
+#endif
+
             var wordNode = node.AsBaseWordPhrase;
 
             var itemsList = context.Sentence.LastVerbPhrase.ObjectsList;
@@ -38,7 +42,16 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         private void NSetNode(BaseWordPhrase_v2 wordNode, ContextOfATNParsing_v2 context)
         {
+#if DEBUG
+            //LogInstance.Log($"wordNode = {wordNode}");
+            //LogInstance.Log($"context = {context}");
+#endif
+
             context.Sentence.LastVerbPhrase.ObjectsList.Add(wordNode);
+
+#if DEBUG
+            //LogInstance.Log($"context = {context}");
+#endif
         }
     }
 }

@@ -16,6 +16,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public override AdjectivePhrase_v2 AsAdjectivePhrase => this;
 
         public ATNExtendedToken Adjective { get; set; }
+        public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
         
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -28,6 +29,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if (AdjectivePhrasesList != null)
+            {
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    if (adj.RunTimeSessionKey == key)
+                    {
+                        object obj = adj;
+                        return (T)obj;
+                    }
+
+                    var result = adj.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
             return null;
         }
 
@@ -35,7 +55,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         {
             var result = new AdjectivePhrase_v2(false);
             result.RunTimeSessionKey = RunTimeSessionKey;
-            result.Adjective = Adjective;
+            result.Adjective = Adjective?.Fork();
+
+            if (AdjectivePhrasesList == null)
+            {
+                result.AdjectivePhrasesList = null;
+            }
+            else
+            {
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    result.AdjectivePhrasesList.Add(adj.Fork());
+                }
+            }
+
             return result;
         }
 
@@ -58,6 +91,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     return false;
                 }
 
+                if (!AdjectivePhrasesList.IsEmpty())
+                {
+                    foreach (var adj in AdjectivePhrasesList)
+                    {
+                        if (!adj.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
                 return true;
             }
         }
@@ -78,7 +122,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Adjective.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Adjective)}");
             }
-
+            if (AdjectivePhrasesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    sb.Append(adj.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
+            }
             return sb.ToString();
         }
 
@@ -98,6 +154,21 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.Append(Adjective.ToString(nextN));
                 sb.AppendLine($"{spaces}End {nameof(Adjective)}");
             }
+
+            if (AdjectivePhrasesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(AdjectivePhrasesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(AdjectivePhrasesList)}");
+                foreach (var adj in AdjectivePhrasesList)
+                {
+                    sb.Append(adj.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdjectivePhrasesList)}");
+            }
+
             return sb.ToString();
         }
 
@@ -108,6 +179,14 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             if(Adjective != null)
             {
                 result ^= Adjective.GetHashCode();
+            }
+
+            if (AdjectivePhrasesList != null)
+            {
+                foreach (var item in AdjectivePhrasesList)
+                {
+                    result ^= item.GetHashCode();
+                }
             }
 
             return result;
@@ -125,7 +204,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 return false;
             }
 
-            return ATNExtendedToken.NEquals(left.Adjective, right.Adjective);
+            return left.GetHashCode() == right.GetHashCode();
         }
     }
 

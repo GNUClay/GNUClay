@@ -75,5 +75,13 @@ namespace MyNPCLib.NLToCGParsing_v2
                     throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
             }
         }
+
+        public bool IsDirty
+        {
+            get
+            {
+
+            }
+        }
     }
 }

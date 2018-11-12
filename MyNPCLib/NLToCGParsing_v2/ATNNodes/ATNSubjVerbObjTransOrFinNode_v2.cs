@@ -1,5 +1,6 @@
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,6 +59,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         {
             ParentNode = parentNode;
             SlaveNAPNode = new ATNSlaveNAPNode(context, new ObjectTargetOfATNSlaveNAPNode());
+            RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
         public ATNSubjVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNSubjVerbObjTransOrFinNode_v2 sameNode, InitATNSubjVerbObjTransOrFinNodeAction initAction, ATNExtendedToken token)
@@ -67,6 +69,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
             SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
+            RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
         }
 
@@ -101,7 +104,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             //LogInstance.Log($"(tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase) = {tmpSecondCurrentVerbPhrase == tmpParentVerbPhrase}");
 #endif
 
-            SetAsSuccess(SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token));
         }
 
         protected override void ProcessNextToken()
@@ -114,6 +117,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
+#if DEBUG
+                //LogInstance.Log($"Context = {Context}");
+#endif
+
                 Context.PutSentenceToResult();
                 return;
             }
@@ -151,7 +158,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Condition:
-                        AddTask(new ATNSubjVerbObjConditionFinNodeFactory_v2(this, item));
+                        if(item.PartOfSpeech == GrammaticalPartOfSpeech.Preposition)
+                        {
+                            AddTask(new ATNSubjVerbObjConditionFinNodeFactory_v2(this, item));
+                        }                    
                         break;
 
                     default:

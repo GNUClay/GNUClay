@@ -145,7 +145,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Condition:
-                        AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item));
+                        if(item.PartOfSpeech == GrammaticalPartOfSpeech.Preposition)
+                        {
+                            AddTask(new ATNSubjVerbConditionFinNodeFactory_v2(this, item));
+                        }
                         break;
 
                     case KindOfItemOfSentence.Verb:

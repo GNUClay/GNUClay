@@ -22,8 +22,11 @@ namespace MyNPCLib.NLToCGParsing_v2
         public void Run()
         {
             ImplementGoalToken();
-            ProcessNextToken();
-            ProcessTasks();
+            if (mIsSuccess)
+            {
+                ProcessNextToken();
+                ProcessTasks();
+            }
         }
 
         protected abstract void ImplementGoalToken();
@@ -45,14 +48,11 @@ namespace MyNPCLib.NLToCGParsing_v2
                 return;
             }
 
-            if(mIsSuccess)
+            foreach (var task in mTasksList)
             {
-                foreach (var task in mTasksList)
-                {
-                    var newContext = Context.Fork();
-                    var node = task.Create(newContext);
-                    node.Run();
-                }
+                var newContext = Context.Fork();
+                var node = task.Create(newContext);
+                node.Run();
             }
         }
 
@@ -72,6 +72,26 @@ namespace MyNPCLib.NLToCGParsing_v2
             {
                 return Context.Sentence;
             }
+        }
+
+        protected void RegATNSlaveNAPNode(ATNSlaveNAPNode node)
+        {
+            mATNSlaveNAPNode = node;
+        }
+
+        private ATNSlaveNAPNode mATNSlaveNAPNode;
+
+        protected void PutSentenceToResult()
+        {
+            if(mATNSlaveNAPNode != null)
+            {
+                if(mATNSlaveNAPNode.IsDirty)
+                {
+                    return;
+                }
+            }
+
+            Context.PutSentenceToResult();
         }
     }
 }

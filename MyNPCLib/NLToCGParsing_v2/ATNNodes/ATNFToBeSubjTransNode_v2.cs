@@ -60,6 +60,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         {
             ParentNode = parentNode;
             SlaveNAPNode = new ATNSlaveNAPNode(context, new SubjectTargetOfATNSlaveNAPNode());
+            RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
         public ATNFToBeSubjTransNode_v2(ContextOfATNParsing_v2 context, ATNFToBeSubjTransNode_v2 sameNode, InitATNFToBeSubjTransNodeAction initAction, ATNExtendedToken token)
@@ -69,6 +70,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
             SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
+            RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
         }
 
@@ -87,7 +89,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            SetAsSuccess(SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token));
         }
 
         protected override void ProcessNextToken()

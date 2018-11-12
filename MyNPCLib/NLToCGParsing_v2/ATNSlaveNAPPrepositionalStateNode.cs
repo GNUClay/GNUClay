@@ -38,7 +38,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             return result;
         }
 
-        public override void Run(ATNExtendedToken token)
+        public override bool Run(ATNExtendedToken token)
         {
 #if DEBUG
             LogInstance.Log($"State = {State}");
@@ -96,6 +96,8 @@ namespace MyNPCLib.NLToCGParsing_v2
                 default:
                     throw new ArgumentOutOfRangeException(nameof(State), State, null);
             }
+
+            return true;
         }
     }
 }

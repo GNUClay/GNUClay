@@ -62,7 +62,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             return result;
         }
 
-        public override void Run(ATNExtendedToken token)
+        public override bool Run(ATNExtendedToken token)
         {
 #if DEBUG
             LogInstance.Log($"State = {State}");
@@ -178,13 +178,36 @@ namespace MyNPCLib.NLToCGParsing_v2
 
                             case GrammaticalPartOfSpeech.Adjective:
                                 {
-                                    throw new NotImplementedException();
+#if DEBUG
+                                    LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
+#endif
+
+                                    if (mDeterminers.Count > 0)
+                                    {
+#if DEBUG
+                                        LogInstance.Log($"mDeterminers.Count > 0 (1) Context = {Context}");
+#endif
+
+                                        return false;
+                                    }
 
                                     var oldAdjectivePhrase = mAdjectivePhrase;
+
+#if DEBUG
+                                    LogInstance.Log($"oldAdjectivePhrase = {oldAdjectivePhrase}");
+#endif
+
                                     var adjectivePhrase = new AdjectivePhrase_v2();
+                                    adjectivePhrase.Adjective = token;
+
                                     mAdjectivePhrase = adjectivePhrase;
                                     Target.ReplaceNode(adjectivePhrase, Context);
-                                    adjectivePhrase.Adjective = token;
+                                    
+                                    if(oldAdjectivePhrase != null)
+                                    {
+                                        adjectivePhrase.AdjectivePhrasesList.Add(oldAdjectivePhrase);
+                                    }
+                                    
                                     State = StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun;
                                 }
                                 break;
@@ -228,20 +251,36 @@ namespace MyNPCLib.NLToCGParsing_v2
                         {
                             case GrammaticalPartOfSpeech.Adjective:
                                 {
-                                    var oldAdjectivePhrase = mAdjectivePhrase;
-
 #if DEBUG
-                                    LogInstance.Log($"oldAdjectivePhrase = {oldAdjectivePhrase}");
                                     LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
 #endif
 
-                                    throw new NotImplementedException();
+                                    if(mDeterminers.Count > 0)
+                                    {
+#if DEBUG
+                                        LogInstance.Log($"mDeterminers.Count > 0 (2) Context = {Context}");
+#endif
 
-                                    
+                                        return false;
+                                    }
+
+                                    var oldAdjectivePhrase = mAdjectivePhrase;
+
+#if DEBUG
+                                    LogInstance.Log($"oldAdjectivePhrase = {oldAdjectivePhrase}");                               
+#endif
+
                                     var adjectivePhrase = new AdjectivePhrase_v2();
+                                    adjectivePhrase.Adjective = token;
+
                                     mAdjectivePhrase = adjectivePhrase;
                                     Target.ReplaceNode(adjectivePhrase, Context);
-                                    adjectivePhrase.Adjective = token;
+                                    
+                                    if(oldAdjectivePhrase != null)
+                                    {
+                                        adjectivePhrase.AdjectivePhrasesList.Add(oldAdjectivePhrase);
+                                    }
+                                    
                                     State = StateOfATNSlaveNAPNode.GotAjectiveWithoutNoun;
                                 }
                                 break;
@@ -255,6 +294,12 @@ namespace MyNPCLib.NLToCGParsing_v2
                 default:
                     throw new ArgumentOutOfRangeException(nameof(State), State, null);
             }
+
+#if DEBUG
+            LogInstance.Log($"mDeterminers.Count (end)= {mDeterminers.Count}");
+#endif
+
+            return true;
         }
     }
 }

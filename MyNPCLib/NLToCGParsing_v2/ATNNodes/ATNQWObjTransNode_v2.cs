@@ -62,6 +62,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         {
             ParentNode = parentNode;
             SlaveNAPNode = new ATNSlaveNAPNode(context, new QuestionToObjectOfSentenceTargetOfATNSlaveNAPNode());
+            RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
         public ATNQWObjTransNode_v2(ContextOfATNParsing_v2 context, ATNQWObjTransNode_v2 sameNode, InitATNQWObjTransNodeAction initAction, ATNExtendedToken token)
@@ -71,6 +72,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
             SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
+            RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
         }
 
@@ -91,7 +93,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             Context.Sentence.IsQuestion = true;
 
-            SetAsSuccess(SlaveNAPNode.Run(Token);
+            SetAsSuccess(SlaveNAPNode.Run(Token));
         }
 
         protected override void ProcessNextToken()

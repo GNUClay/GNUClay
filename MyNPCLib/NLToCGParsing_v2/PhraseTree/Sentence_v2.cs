@@ -1,6 +1,7 @@
 ﻿using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
@@ -30,10 +31,15 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public void AddVerbPhrase(VerbPhrase_v2 verb)
         {
             VerbPhrasesList.Add(verb);
-            LastVerbPhrase = verb;
         }
 
-        public VerbPhrase_v2 LastVerbPhrase { get; private set; }
+        public VerbPhrase_v2 LastVerbPhrase
+        {
+            get
+            {
+                return VerbPhrasesList?.LastOrDefault();
+            }
+        }
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -148,14 +154,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             {
                 foreach (var verb in VerbPhrasesList)
                 {
-                    var newVerb = verb.Fork();
-
-                    if(verb == LastVerbPhrase)
-                    {
-                        result.LastVerbPhrase = newVerb;
-                    }
-
-                    result.VerbPhrasesList.Add(newVerb);
+                    result.VerbPhrasesList.Add(verb.Fork());
                 }
             }
 
