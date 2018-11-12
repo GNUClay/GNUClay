@@ -37,5 +37,10 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         {
             context.Sentence.LastVerbPhrase.ConditionsList.Add(wordNode);
         }
+
+        public void ResetNodes(ContextOfATNParsing_v2 context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

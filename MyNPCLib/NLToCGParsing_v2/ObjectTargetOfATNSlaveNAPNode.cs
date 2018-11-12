@@ -53,5 +53,10 @@ namespace MyNPCLib.NLToCGParsing_v2
             //LogInstance.Log($"context = {context}");
 #endif
         }
+
+        public void ResetNodes(ContextOfATNParsing_v2 context)
+        {
+            context.Sentence.LastVerbPhrase.ObjectsList.Clear();
+        }
     }
 }

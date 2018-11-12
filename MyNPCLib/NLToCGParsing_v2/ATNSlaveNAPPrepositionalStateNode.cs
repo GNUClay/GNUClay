@@ -38,7 +38,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             return result;
         }
 
-        public override bool Run(ATNExtendedToken token)
+        public override bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction)
         {
 #if DEBUG
             LogInstance.Log($"State = {State}");
@@ -83,7 +83,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                                     var target = new PrepositionalTargetOfATNSlaveNAPNode(mPrepositionalPhrase);
                                     var nextState = new ATNSlaveNAPNounStateNode(Context, target, ContextOfState);
                                     ContextOfState.AddNode(nextState);
-                                    nextState.Run(token);
+                                    nextState.Run(token, commaInstruction);
                                 }
                                 break;
 

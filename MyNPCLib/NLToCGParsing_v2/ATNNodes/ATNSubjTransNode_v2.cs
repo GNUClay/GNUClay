@@ -74,6 +74,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            CommaInstruction = mSameNode.CommaInstruction;
             SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
@@ -86,15 +87,17 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private InitATNSubjTransNodeAction mInitAction;
 
         public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+        public CommaInstructionsOfATNSlaveNAPNode CommaInstruction { get; set; } = CommaInstructionsOfATNSlaveNAPNode.None;
 
         protected override void ImplementGoalToken()
         {
 #if DEBUG
             LogInstance.Log($"Token = {Token}");
             LogInstance.Log($"Context = {Context}");
+            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
 
-            SetAsSuccess(SlaveNAPNode.Run(Token));
+            SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
         }
 
         protected override void ProcessNextToken()
@@ -102,6 +105,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var extendedTokensList = GetÑlusterOfExtendedTokens();
 
 #if DEBUG
+            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
             LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
@@ -123,11 +127,49 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Verb:
-                        AddTask(new ATNSubjVerbTransOrFinNodeFactory_v2(this, item));
+#if DEBUG
+                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+#endif
+                        switch(CommaInstruction)
+                        {
+                            case CommaInstructionsOfATNSlaveNAPNode.None:
+                                AddTask(new ATNSubjVerbTransOrFinNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.FirstVocativePhrase:
+                                AddTask(new ATNInitNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
+                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(CommaInstruction), CommaInstruction, null);
+                        }                
                         break;
 
                     case KindOfItemOfSentence.FToDo:
-                        AddTask(new ATNSubjFToDoTransNodeFactory_v2(this, item));
+#if DEBUG
+                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+#endif
+                        switch (CommaInstruction)
+                        {
+                            case CommaInstructionsOfATNSlaveNAPNode.None:
+                                AddTask(new ATNSubjFToDoTransNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.FirstVocativePhrase:
+                                AddTask(new ATNInitNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
+                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(CommaInstruction), CommaInstruction, null);
+                        }                 
                         break;
 
                     case KindOfItemOfSentence.Subj:
@@ -149,10 +191,46 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.FToBe:
-                        AddTask(new ATNSubjFToBeTransNodeFactory_v2(this, item));
+#if DEBUG
+                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+#endif
+                        switch (CommaInstruction)
+                        {
+                            case CommaInstructionsOfATNSlaveNAPNode.None:
+                                AddTask(new ATNSubjFToBeTransNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.FirstVocativePhrase:
+                                AddTask(new ATNInitNodeFactory_v2(this, item));
+                                break;
+
+                            case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
+                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(CommaInstruction), CommaInstruction, null);
+                        }         
                         break;
 
                     case KindOfItemOfSentence.V3:
+                        break;
+
+                    case KindOfItemOfSentence.Comma:
+#if DEBUG
+                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+#endif
+
+                        switch (CommaInstruction)
+                        {
+                            case CommaInstructionsOfATNSlaveNAPNode.None:
+                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, (ATNSubjTransNode_v2 newItem) => { newItem.CommaInstruction = CommaInstructionsOfATNSlaveNAPNode.FirstVocativePhrase; }));
+                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, (ATNSubjTransNode_v2 newItem) => { newItem.CommaInstruction = CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo; }));
+                                break;
+
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(CommaInstruction), CommaInstruction, null);
+                        }
                         break;
 
                     default:

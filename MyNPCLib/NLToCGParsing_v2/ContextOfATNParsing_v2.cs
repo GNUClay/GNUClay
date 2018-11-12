@@ -77,6 +77,11 @@ namespace MyNPCLib.NLToCGParsing_v2
             return mATNExtendedLexer.GetСlusterOfExtendedTokens();
         }
 
+        public void Recovery(ATNExtendedToken token)
+        {
+            mATNExtendedLexer.Recovery(token);
+        }
+
         public void PutSentenceToResult()
         {
             if(Sentence.IsValid)

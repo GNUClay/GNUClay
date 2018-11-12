@@ -69,6 +69,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            CommaInstruction = mSameNode.CommaInstruction;
             SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
             RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
@@ -81,6 +82,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private InitATNFToDoSubjTransNodeAction mInitAction;
 
         public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+        public CommaInstructionsOfATNSlaveNAPNode CommaInstruction { get; set; } = CommaInstructionsOfATNSlaveNAPNode.None;
 
         protected override void ImplementGoalToken()
         {
@@ -90,7 +92,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            SetAsSuccess(SlaveNAPNode.Run(Token));
+            SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
         }
 
         protected override void ProcessNextToken()

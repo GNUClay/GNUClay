@@ -17,5 +17,10 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             throw new NotImplementedException();
         }
+
+        public void ResetNodes(ContextOfATNParsing_v2 context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

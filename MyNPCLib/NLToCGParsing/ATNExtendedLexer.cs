@@ -304,6 +304,11 @@ namespace MyNPCLib.NLToCGParsing
                             result.Add(extendedToken);
                             continue;
 
+                        case KindOfATNToken.Comma:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Comma;
+                            result.Add(extendedToken);
+                            continue;
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
                     }                
@@ -814,6 +819,11 @@ namespace MyNPCLib.NLToCGParsing
             dest.LogicalMeaning = source.LogicalMeaning;
             dest.FullLogicalMeaning = source.FullLogicalMeaning;
             dest.RootWord = source.RootWord;
+        }
+
+        public void Recovery(ATNExtendedToken token)
+        {
+            Recovery(new List<ATNExtendedToken>() { token });
         }
 
         public void Recovery(IList<ATNExtendedToken> tokensList)

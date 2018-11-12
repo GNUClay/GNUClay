@@ -51,7 +51,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTStack();
+            //TSTStack();
             //TSTSaveDict();
             //TSTQueryWithParams();
             //TSTHostLogicalObjectStorage();

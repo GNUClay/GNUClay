@@ -5,22 +5,22 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
 {
-    public class PrepositionalTargetOfATNSlaveNAPNode: ITargetOfATNSlaveNAPNode
+    public class AdditionalInfoTargetOfATNSlaveNAPNode : ITargetOfATNSlaveNAPNode
     {
-        public PrepositionalTargetOfATNSlaveNAPNode(PrepositionalPhrase_v2 prepositionalPhrase)
+        public AdditionalInfoTargetOfATNSlaveNAPNode(NounPhrase_v2 nounPhrase)
         {
-            mPrepositionalPhrase = prepositionalPhrase;
+            mNounPhrase = nounPhrase;
         }
 
-        private PrepositionalPhrase_v2 mPrepositionalPhrase;
+        private NounPhrase_v2 mNounPhrase;
 
         public void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-            var actualTarget = context.GetByRunTimeSessionKey<PrepositionalPhrase_v2>(mPrepositionalPhrase);
+            var actualTarget = context.GetByRunTimeSessionKey<NounPhrase_v2>(mNounPhrase);
 
             var wordNode = node.AsBaseWordPhrase;
 
-            actualTarget.ChildrenNodesList.Add(wordNode);
+            actualTarget.AdditionalInfoList.Add(wordNode);
         }
 
         public void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)

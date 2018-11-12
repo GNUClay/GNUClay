@@ -27,6 +27,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public List<VerbPhrase_v2> VerbPhrasesList { get; set; } = new List<VerbPhrase_v2>();
         public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
         public List<BaseWordPhrase_v2> QuestionToObjectsList { get; set; } = new List<BaseWordPhrase_v2>();
+        public List<NounPhrase_v2> VocativePhrasesList { get; set; } = new List<NounPhrase_v2>();
 
         public void AddVerbPhrase(VerbPhrase_v2 verb)
         {
@@ -118,7 +119,26 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     }
                 }
             }
-            
+
+            if (VocativePhrasesList != null)
+            {
+                foreach (var item in VocativePhrasesList)
+                {
+                    if (item.RunTimeSessionKey == key)
+                    {
+                        object obj = item;
+                        return (T)obj;
+                    }
+
+                    var result = item.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
             return null;
         }
 
@@ -179,6 +199,18 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 foreach (var item in QuestionToObjectsList)
                 {
                     result.QuestionToObjectsList.Add(item.ForkAsBaseWordPhrase());
+                }
+            }
+     
+            if (VocativePhrasesList == null)
+            {
+                result.VocativePhrasesList = null;
+            }
+            else
+            {
+                foreach (var item in VocativePhrasesList)
+                {
+                    result.VocativePhrasesList.Add(item.Fork());
                 }
             }
 
@@ -242,7 +274,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                         }
                     }
                 }
-                
+  
+                if (!VocativePhrasesList.IsEmpty())
+                {
+                    foreach (var item in VocativePhrasesList)
+                    {
+                        if (!item.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
                 return true;
             }
         }
@@ -324,7 +366,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(QuestionToObjectsList)}");
             }
-
+     
+            if (VocativePhrasesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(VocativePhrasesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(VocativePhrasesList)}");
+                foreach (var item in VocativePhrasesList)
+                {
+                    sb.Append(item.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(VocativePhrasesList)}");
+            }
             return sb.ToString();
         }
 
@@ -405,6 +460,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.AppendLine($"{spaces}End {nameof(QuestionToObjectsList)}");
             }
 
+            if (VocativePhrasesList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(VocativePhrasesList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(VocativePhrasesList)}");
+                foreach (var item in VocativePhrasesList)
+                {
+                    sb.Append(item.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(VocativePhrasesList)}");
+            }
             return sb.ToString();
         }
 
@@ -444,6 +512,13 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            if (VocativePhrasesList != null)
+            {
+                foreach (var item in VocativePhrasesList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
             return result;
         }
 

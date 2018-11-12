@@ -21,6 +21,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public List<AdjectivePhrase_v2> AdjectivePhrasesList { get; set; } = new List<AdjectivePhrase_v2>();
         public float? NumberValue { get; set; }
         public List<BaseWordPhrase_v2> PossesiveList { get; set; } = new List<BaseWordPhrase_v2>();
+        public List<BaseWordPhrase_v2> AdditionalInfoList { get; set; } = new List<BaseWordPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -82,7 +83,25 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     }
                 }
             }
-            
+         
+            if (AdditionalInfoList != null)
+            {
+                foreach (var item in AdditionalInfoList)
+                {
+                    if (item.RunTimeSessionKey == key)
+                    {
+                        object obj = item;
+                        return (T)obj;
+                    }
+
+                    var result = item.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
             return null;
         }
 
@@ -129,7 +148,18 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     result.PossesiveList.Add(item.ForkAsBaseWordPhrase());
                 }
             }
-            
+      
+            if (AdditionalInfoList == null)
+            {
+                result.AdditionalInfoList = null;
+            }
+            else
+            {
+                foreach (var item in AdditionalInfoList)
+                {
+                    result.AdditionalInfoList.Add(item.ForkAsBaseWordPhrase());
+                }
+            }
             return result;
         }
 
@@ -173,7 +203,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                         }
                     }
                 }
-                
+        
+                if (!AdditionalInfoList.IsEmpty())
+                {
+                    foreach (var item in AdditionalInfoList)
+                    {
+                        if (!item.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
                 return true;
             }
         }
@@ -238,7 +278,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(PossesiveList)}");
             }
-        
+            
+            if (AdditionalInfoList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(AdditionalInfoList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(AdditionalInfoList)}");
+                foreach (var item in AdditionalInfoList)
+                {
+                    sb.Append(item.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdditionalInfoList)}");
+            }
             return sb.ToString();
         }
 
@@ -301,7 +354,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(PossesiveList)}");
             }
-
+            
+            if (AdditionalInfoList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(AdditionalInfoList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(AdditionalInfoList)}");
+                foreach (var item in AdditionalInfoList)
+                {
+                    sb.Append(item.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(AdditionalInfoList)}");
+            }
             return sb.ToString();
         }
 
@@ -324,6 +390,14 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             }
 
             result ^= GetHashCodeOfPossesiveList();
+    
+            if (AdditionalInfoList != null)
+            {
+                foreach (var item in AdditionalInfoList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
 
             return result;
         }

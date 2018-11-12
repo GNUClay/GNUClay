@@ -56,6 +56,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new ObjectTargetOfATNSlaveNAPNode());
+            RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
         public ATNFToDoNotVerbObjTransOrFinNode_v2(ContextOfATNParsing_v2 context, ATNFToDoNotVerbObjTransOrFinNode_v2 sameNode, InitATNFToDoNotVerbObjTransOrFinNodeAction initAction, ATNExtendedToken token)
@@ -64,6 +66,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            CommaInstruction = mSameNode.CommaInstruction;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
+            RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
         }
 
@@ -73,14 +78,68 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNFToDoNotVerbObjTransOrFinNode_v2 mSameNode;
         private InitATNFToDoNotVerbObjTransOrFinNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+        public CommaInstructionsOfATNSlaveNAPNode CommaInstruction { get; set; } = CommaInstructionsOfATNSlaveNAPNode.None;
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
         }
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = Get—lusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                PutSentenceToResult();
+                return;
+            }
+
+            var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch (kindOfItem)
+                {
+                    case KindOfItemOfSentence.Subj:
+                        if(hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNFToDoNotVerbObjTransOrFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        if (hasObjOrSubj)
+                        {
+                            break;
+                        }
+                        hasObjOrSubj = true;
+                        AddTask(new ATNFToDoNotVerbObjTransOrFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

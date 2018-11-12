@@ -10,5 +10,6 @@ namespace MyNPCLib.NLToCGParsing_v2
     {
         void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context);
         void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context);
+        void ResetNodes(ContextOfATNParsing_v2 context);
     }
 }

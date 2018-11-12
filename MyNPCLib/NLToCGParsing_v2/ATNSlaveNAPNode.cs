@@ -37,11 +37,11 @@ namespace MyNPCLib.NLToCGParsing_v2
             return result;
         }
 
-        public bool Run(ATNExtendedToken token)
+        public bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction)
         {
 #if DEBUG
-            //LogInstance.Log($"State = {State}");
             LogInstance.Log($"token = {token}");
+            LogInstance.Log($"commaInstruction = {commaInstruction}");
 #endif
 
             var currentNode = ContextOfState.CurrentNode;
@@ -52,7 +52,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                 ContextOfState.AddNode(currentNode);
             }
 
-            return currentNode.Run(token);
+            return currentNode.Run(token, commaInstruction);
         }
 
         private ATNSlaveNAPBaseStateNode CreateFirstNode(ATNExtendedToken token)

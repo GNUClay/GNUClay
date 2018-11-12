@@ -25,7 +25,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         protected ContextOfATNSlaveNAPStateNode ContextOfState;
 
         public abstract ATNSlaveNAPBaseStateNode Fork(ContextOfATNParsing_v2 context, ContextOfATNSlaveNAPStateNode contextOfState);
-        public abstract bool Run(ATNExtendedToken token);
+        public abstract bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction);
         public abstract bool IsDirty { get; }
     }
 }

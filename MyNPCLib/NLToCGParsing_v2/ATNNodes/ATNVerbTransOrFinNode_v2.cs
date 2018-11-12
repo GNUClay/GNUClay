@@ -85,26 +85,14 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             LogInstance.Log($"Context = {Context}");
 #endif
 
-            var partOfSpeech = Token.PartOfSpeech;
-
-            switch (partOfSpeech)
-            {
-                case GrammaticalPartOfSpeech.Verb:
-                    {
-                        var verbPhrase = new VerbPhrase_v2();
-                        verbPhrase.Verb = Token;
-                        Sentence.AddVerbPhrase(verbPhrase);
-                        Sentence.Aspect = GrammaticalAspect.Simple;
-                        Sentence.Tense = Token.Tense;
-                        Sentence.Mood = GrammaticalMood.Imperative;
-                        Sentence.Voice = GrammaticalVoice.Active;
-                        Sentence.Modal = KindOfModal.None;
-                    }
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);
-            }
+            var verbPhrase = new VerbPhrase_v2();
+            verbPhrase.Verb = Token;
+            Sentence.AddVerbPhrase(verbPhrase);
+            Sentence.Aspect = GrammaticalAspect.Simple;
+            Sentence.Tense = Token.Tense;
+            Sentence.Mood = GrammaticalMood.Imperative;
+            Sentence.Voice = GrammaticalVoice.Active;
+            Sentence.Modal = KindOfModal.None;
         }
 
         protected override void ProcessNextToken()
@@ -131,6 +119,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Subj:
+                        break;
+
+                    case KindOfItemOfSentence.Not:
                         break;
 
                     default:

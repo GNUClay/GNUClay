@@ -456,7 +456,7 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Jonathan, do not forget your shower gel.";
-            NParsingSentence(sentence, false);
+            NParsingSentence(sentence, true);//true
 
             sentence = "And that, your Honor, concludes our case.";
             NParsingSentence(sentence, false);
@@ -480,7 +480,7 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Britain’s coastline is very beautiful.";
-            NParsingSentence(sentence, true);
+            NParsingSentence(sentence, false);
 
             sentence = "We went to Jake’s father’s funeral.";
             NParsingSentence(sentence, false);

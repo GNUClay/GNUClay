@@ -9,6 +9,32 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
 {
+    public class ATNInitNodeFactory_v2: BaseATNNodeFactory_v2
+    {
+        public ATNInitNodeFactory_v2(ATNSubjTransNode_v2 parentNode, ATNExtendedToken token)
+        {
+            mNumberOfConstructor = 1;
+            mParentNode = parentNode;
+            mToken = token;
+        }
+
+        private int mNumberOfConstructor;
+        private ATNSubjTransNode_v2 mParentNode;
+        private ATNExtendedToken mToken;
+
+        public override BaseATNNode_v2 Create(ContextOfATNParsing_v2 context)
+        {
+            switch (mNumberOfConstructor)
+            {
+                case 1:
+                    return new ATNInitNode_v2(context, mToken);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mNumberOfConstructor), mNumberOfConstructor, null);
+            }
+        }
+    }
+
     public class ATNInitNode_v2: BaseATNNode_v2
     {
         public ATNInitNode_v2(ContextOfATNParsing_v2 context)
@@ -16,11 +42,27 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
         }
 
+        public ATNInitNode_v2(ContextOfATNParsing_v2 context, ATNExtendedToken token)
+            : base(context, token)
+        {
+        }
+
         public override StateOfATNParsing_v2 GlobalState => StateOfATNParsing_v2.Init;
 
         protected override void ImplementGoalToken()
         {
-            Context.Sentence = new Sentence_v2();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+#endif
+
+            if (Token == null)
+            {
+                Context.Sentence = new Sentence_v2();               
+            }
+            else
+            {
+                Context.Recovery(Token);
+            }         
         }
 
         protected override void ProcessNextToken()
