@@ -98,7 +98,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                Context.PutSentenceToResult();
+                PutSentenceToResult();
             }
 
             var hasObjOrSubj = false;
@@ -142,7 +142,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Point:
-                        Context.PutSentenceToResult();
+                        PutSentenceToResult();
                         break;
 
                     default:

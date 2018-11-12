@@ -80,7 +80,14 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             get
             {
+                var currentNode = ContextOfState.CurrentNode;
 
+                if(currentNode == null)
+                {
+                    return true;
+                }
+
+                return currentNode.IsDirty;
             }
         }
     }

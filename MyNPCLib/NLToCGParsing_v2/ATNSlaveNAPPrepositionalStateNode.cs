@@ -99,5 +99,18 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             return true;
         }
+
+        public override bool IsDirty
+        {
+            get
+            {
+                if(mPrepositionalPhrase == null)
+                {
+                    return true;
+                }
+
+                return mPrepositionalPhrase.ChildrenNodesList.IsEmpty();
+            }
+        }
     }
 }

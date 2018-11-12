@@ -101,7 +101,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                Context.PutSentenceToResult();
+                PutSentenceToResult();
                 return;
             }
 
@@ -116,11 +116,11 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 switch (kindOfItem)
                 {
                     case KindOfItemOfSentence.Point:
-                        Context.PutSentenceToResult();
+                        PutSentenceToResult();
                         break;
 
                     case KindOfItemOfSentence.QuestionMark:
-                        Context.PutSentenceToResult();
+                        PutSentenceToResult();
                         break;
 
                     default:

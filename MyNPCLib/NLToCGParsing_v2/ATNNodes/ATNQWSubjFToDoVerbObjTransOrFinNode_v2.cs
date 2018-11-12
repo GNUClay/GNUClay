@@ -135,7 +135,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.QuestionMark:
-                        Context.PutSentenceToResult();
+                        PutSentenceToResult();
                         break;
 
                     default:

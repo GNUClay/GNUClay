@@ -100,7 +100,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                Context.PutSentenceToResult();
+                PutSentenceToResult();
                 return;
             }
 

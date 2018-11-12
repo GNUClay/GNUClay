@@ -121,7 +121,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 //LogInstance.Log($"Context = {Context}");
 #endif
 
-                Context.PutSentenceToResult();
+                PutSentenceToResult();
                 return;
             }
 

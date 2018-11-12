@@ -162,6 +162,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                                     if(mNumberValue.HasValue)
                                     {
                                         nounPhrase.NumberValue = mNumberValue;
+                                        mNumberValue = null;
                                     }
 
                                     if(mAdjectivePhrase != null)
@@ -300,6 +301,24 @@ namespace MyNPCLib.NLToCGParsing_v2
 #endif
 
             return true;
+        }
+
+        public override bool IsDirty
+        {
+            get
+            {
+                if(mNounPhrase == null && mAdjectivePhrase == null)
+                {
+                    return true;
+                }
+
+                if(mNounPhrase != null && mAdjectivePhrase != null)
+                {
+                    return true;
+                }
+
+                return mDeterminers.Count > 0 || mNumberValue.HasValue || mPossesiveNounPhrases.Count > 0;
+            }
         }
     }
 }
