@@ -23,6 +23,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public List<BaseWordPhrase_v2> PossesiveList { get; set; } = new List<BaseWordPhrase_v2>();
         public List<BaseWordPhrase_v2> AdditionalInfoList { get; set; } = new List<BaseWordPhrase_v2>();
 
+
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
             if (Noun != null)

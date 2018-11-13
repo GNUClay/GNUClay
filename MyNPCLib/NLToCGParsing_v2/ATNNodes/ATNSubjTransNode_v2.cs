@@ -141,7 +141,6 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                                 break;
 
                             case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
-                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                                 break;
 
                             default:
@@ -164,7 +163,6 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                                 break;
 
                             case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
-                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                                 break;
 
                             default:
@@ -205,7 +203,6 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                                 break;
 
                             case CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo:
-                                AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                                 break;
 
                             default:

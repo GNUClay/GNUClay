@@ -26,6 +26,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public virtual AdjectivePhrase_v2 AsAdjectivePhrase => null;
         public virtual bool IsPrepositionalPhrase => false;
         public virtual PrepositionalPhrase_v2 AsPrepositionalPhrase => null;
+        public virtual bool IsConjunctionalPhrase => false;
+        public virtual ConjunctionalPhrase_v2 AsConjunctionalPhrase => null;
 
         public virtual T GetByRunTimeSessionKey<T>(IRunTimeSessionKey node) where T : class, IRunTimeSessionKey
         {
