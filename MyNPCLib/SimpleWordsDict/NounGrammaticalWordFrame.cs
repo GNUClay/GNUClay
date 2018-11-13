@@ -20,6 +20,7 @@ namespace MyNPCLib.SimpleWordsDict
         /// Example: `father's` is possessive, `father` is not possessive. 
         /// </summary>
         public bool IsPossessive { get; set; }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -34,6 +35,56 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsGerund)} = {IsGerund}");
             sb.AppendLine($"{spaces}{nameof(IsPossessive)} = {IsPossessive}");
             return sb.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= IsName.GetHashCode() ^ IsShortForm.GetHashCode() ^ Gender.GetHashCode() ^ Number.GetHashCode() ^ IsCountable.GetHashCode() ^ IsGerund.GetHashCode() ^ IsPossessive.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(NounGrammaticalWordFrame left, NounGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfNounGrammaticalWordFrame : IEqualityComparer<NounGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<NounGrammaticalWordFrame>.Equals(NounGrammaticalWordFrame left, NounGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return NounGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<NounGrammaticalWordFrame>.GetHashCode(NounGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
         }
     }
 }

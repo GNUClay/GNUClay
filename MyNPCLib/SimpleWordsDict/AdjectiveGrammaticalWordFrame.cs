@@ -12,6 +12,7 @@ namespace MyNPCLib.SimpleWordsDict
         public override AdjectiveGrammaticalWordFrame AsAdjective => this;
         public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
         public bool IsDeterminer { get; set; }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
@@ -21,6 +22,56 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(Comparison)} = {Comparison}");
             sb.AppendLine($"{spaces}{nameof(IsDeterminer)} = {IsDeterminer}");
             return sb.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= Comparison.GetHashCode() ^ IsDeterminer.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(AdjectiveGrammaticalWordFrame left, AdjectiveGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfAdjectiveGrammaticalWordFrame : IEqualityComparer<AdjectiveGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<AdjectiveGrammaticalWordFrame>.Equals(AdjectiveGrammaticalWordFrame left, AdjectiveGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return AdjectiveGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<AdjectiveGrammaticalWordFrame>.GetHashCode(AdjectiveGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
         }
     }
 }

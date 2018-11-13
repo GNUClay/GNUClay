@@ -19,5 +19,54 @@ namespace MyNPCLib.SimpleWordsDict
             sb.Append(base.PropertiesToString(n));
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            return result;
+        }
+
+        public static bool NEquals(InterjectionGrammaticalWordFrame left, InterjectionGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfInterjectionGrammaticalWordFrame : IEqualityComparer<InterjectionGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<InterjectionGrammaticalWordFrame>.Equals(InterjectionGrammaticalWordFrame left, InterjectionGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return InterjectionGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<InterjectionGrammaticalWordFrame>.GetHashCode(InterjectionGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

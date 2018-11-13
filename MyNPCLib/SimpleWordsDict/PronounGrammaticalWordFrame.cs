@@ -33,5 +33,55 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= Gender.GetHashCode() ^ Number.GetHashCode() ^ Person.GetHashCode() ^ TypeOfPronoun.GetHashCode() ^ Case.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsNegation.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(PronounGrammaticalWordFrame left, PronounGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfPronounGrammaticalWordFrame : IEqualityComparer<PronounGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<PronounGrammaticalWordFrame>.Equals(PronounGrammaticalWordFrame left, PronounGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return PronounGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<PronounGrammaticalWordFrame>.GetHashCode(PronounGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

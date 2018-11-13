@@ -27,5 +27,55 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= Kind.GetHashCode() ^ SecondKind.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsNegation.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(ConjunctionGrammaticalWordFrame left, ConjunctionGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfConjunctionGrammaticalWordFrame : IEqualityComparer<ConjunctionGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<ConjunctionGrammaticalWordFrame>.Equals(ConjunctionGrammaticalWordFrame left, ConjunctionGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return ConjunctionGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<ConjunctionGrammaticalWordFrame>.GetHashCode(ConjunctionGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

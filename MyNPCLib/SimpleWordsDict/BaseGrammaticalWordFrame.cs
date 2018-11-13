@@ -122,5 +122,25 @@ namespace MyNPCLib.SimpleWordsDict
 
             return sb.ToString();
         }
+
+        protected int GetHashCodeOfBaseFrame()
+        {
+            var result = PartOfSpeech.GetHashCode();
+
+            if(!string.IsNullOrWhiteSpace(RootWord))
+            {
+                result ^= RootWord.GetHashCode();
+            }
+
+            result ^= IsArchaic
+        }
+
+        /*
+        public bool  { get; set; }
+        public bool IsDialectal { get; set; }
+        public bool IsPoetic { get; set; }
+        public bool IsAbbreviation { get; set; }
+        public bool IsRare { get; set; }
+        */
     }
 }

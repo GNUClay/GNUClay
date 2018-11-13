@@ -25,5 +25,55 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= Number.GetHashCode() ^ IsDeterminer.GetHashCode() ^ Kind.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(ArticleGrammaticalWordFrame left, ArticleGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfArticleGrammaticalWordFrame : IEqualityComparer<ArticleGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<ArticleGrammaticalWordFrame>.Equals(ArticleGrammaticalWordFrame left, ArticleGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return ArticleGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<ArticleGrammaticalWordFrame>.GetHashCode(ArticleGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

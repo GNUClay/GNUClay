@@ -27,5 +27,55 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= Comparison.GetHashCode() ^ IsQuestionWord.GetHashCode() ^ IsDeterminer.GetHashCode() ^ IsNegation.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(AdverbGrammaticalWordFrame left, AdverbGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfAdverbGrammaticalWordFrame : IEqualityComparer<AdverbGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<AdverbGrammaticalWordFrame>.Equals(AdverbGrammaticalWordFrame left, AdverbGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return AdverbGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<AdverbGrammaticalWordFrame>.GetHashCode(AdverbGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

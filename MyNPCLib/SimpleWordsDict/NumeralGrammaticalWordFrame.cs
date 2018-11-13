@@ -23,5 +23,61 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(RepresentedNumber)} = {RepresentedNumber}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= NumeralType.GetHashCode();
+
+            if(RepresentedNumber.HasValue)
+            {
+                result ^= RepresentedNumber.Value.GetHashCode();
+            }
+
+            return result;
+        }
+
+        public static bool NEquals(NumeralGrammaticalWordFrame left, NumeralGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfNumeralGrammaticalWordFrame : IEqualityComparer<NumeralGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<NumeralGrammaticalWordFrame>.Equals(NumeralGrammaticalWordFrame left, NumeralGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return NumeralGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<NumeralGrammaticalWordFrame>.GetHashCode(NumeralGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }

@@ -37,5 +37,56 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(MayHaveGerundOrInfinitiveAfterSelf)} = {MayHaveGerundOrInfinitiveAfterSelf}");
             return sb.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            var result = GetHashCodeOfBaseFrame();
+            result ^= VerbType.GetHashCode() ^ Number.GetHashCode() ^ Person.GetHashCode() ^ Tense.GetHashCode() ^ IsModal.GetHashCode();
+            result ^= IsFormOfToBe.GetHashCode() ^ IsFormOfToHave.GetHashCode() ^ IsFormOfToDo.GetHashCode() ^ MayHaveGerundOrInfinitiveAfterSelf.GetHashCode();
+            return result;
+        }
+
+        public static bool NEquals(VerbGrammaticalWordFrame left, VerbGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfVerbGrammaticalWordFrame : IEqualityComparer<VerbGrammaticalWordFrame>
+    {
+        bool IEqualityComparer<VerbGrammaticalWordFrame>.Equals(VerbGrammaticalWordFrame left, VerbGrammaticalWordFrame right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return VerbGrammaticalWordFrame.NEquals(left, right);
+        }
+
+        int IEqualityComparer<VerbGrammaticalWordFrame>.GetHashCode(VerbGrammaticalWordFrame obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }
