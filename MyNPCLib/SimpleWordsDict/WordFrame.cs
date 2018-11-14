@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.SimpleWordsDict
@@ -9,6 +10,21 @@ namespace MyNPCLib.SimpleWordsDict
     {
         public string Word { get; set; }
         public IList<BaseGrammaticalWordFrame> GrammaticalWordFrames { get; set; }
+
+        public WordFrame Fork()
+        {
+            var result = new WordFrame();
+            result.Word = Word;
+            if(GrammaticalWordFrames == null)
+            {
+                result.GrammaticalWordFrames = null;
+            }
+            else
+            {
+                result.GrammaticalWordFrames = GrammaticalWordFrames.Select(p => p.Fork()).Distinct(new ComparerOfBaseGrammaticalWordFrame()).ToList();
+            }
+            return result;
+        }
 
         public override string ToString()
         {

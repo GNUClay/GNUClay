@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MyNPCLib;
+using MyNPCLib.SimpleWordsDict;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,15 +10,24 @@ namespace DictionaryGenerator
 {
     class Program
     {
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info($"CurrentDomain_UnhandledException e.ExceptionObject = {e.ExceptionObject}");
+        }
+
         static void Main(string[] args)
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("Main Begin");
+            var logProxy = new LogProxyForNLog();
+            LogInstance.SetLogProxy(logProxy);
+
+            LogInstance.Log("Begin");
 
             //TSTSeparateWords();
             //TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
-            TSTWordsFactory();
+            //TSTWordsFactory();
+            TSTMergeDictionaries();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -213,6 +225,54 @@ namespace DictionaryGenerator
         {
             var wordsFactory = new WordsFactory();
             wordsFactory.Run();
+        }
+
+        private static void TSTMergeDictionaries()
+        {
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries rootPath = {rootPath}");
+#endif
+
+            var serializator = new WordsDictSerializationEngine();
+
+            //            var mainDictLocalName = "main.dict";
+
+            //            var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
+
+            //#if DEBUG
+            //            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries mainDictFullPath = {mainDictFullPath}");
+            //#endif
+
+            //            var mainDict = serializator.LoadFromFile(mainDictFullPath);
+
+            //            var namesDictLocalName = "names.dict";
+
+            //            var namesDictFullPath = Path.Combine(rootPath, namesDictLocalName);
+
+            //#if DEBUG
+            //            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries namesDictFullPath = {namesDictFullPath}");
+            //#endif
+
+            //            var namesDict = serializator.LoadFromFile(namesDictFullPath);
+
+            var mainDict = TmpFactoryOfWordsDictData.Data;
+
+            var workingDict = new WordsDictData();
+            workingDict.WordsDict = new Dictionary<string, WordFrame>();
+
+            DictionaryMerger.Merge(mainDict, workingDict);
+
+            var workingDictLocalName = "working.dict";
+
+            var workingDictFullName = Path.Combine(rootPath, workingDictLocalName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries workingDictFullName = {workingDictFullName}");
+#endif
+
+            serializator.SaveToFile(workingDict, workingDictFullName);
         }
 
         private static void TSTMakeIrrTable()

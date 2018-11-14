@@ -135,5 +135,48 @@ namespace MyNPCLib.SimpleWordsDict
             result ^= IsArchaic.GetHashCode() ^ IsDialectal.GetHashCode() ^ IsPoetic.GetHashCode() ^ IsAbbreviation.GetHashCode() ^ IsRare.GetHashCode();
             return result;
         }
+
+        public static bool NBaseEquals( left,  right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.GetHashCode() == right.GetHashCode();
+        }
+    }
+
+    public class ComparerOfBaseGrammaticalWordFrame : IEqualityComparer<>
+    {
+        bool IEqualityComparer<NounGrammaticalWordFrame>.Equals( left,  right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return .NBaseEquals(left, right);
+        }
+
+        int IEqualityComparer<>.GetHashCode( obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return 0;
+            }
+
+            return obj.GetHashCode();
+        }
     }
 }
