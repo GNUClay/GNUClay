@@ -132,15 +132,8 @@ namespace MyNPCLib.SimpleWordsDict
                 result ^= RootWord.GetHashCode();
             }
 
-            result ^= IsArchaic
+            result ^= IsArchaic.GetHashCode() ^ IsDialectal.GetHashCode() ^ IsPoetic.GetHashCode() ^ IsAbbreviation.GetHashCode() ^ IsRare.GetHashCode();
+            return result;
         }
-
-        /*
-        public bool  { get; set; }
-        public bool IsDialectal { get; set; }
-        public bool IsPoetic { get; set; }
-        public bool IsAbbreviation { get; set; }
-        public bool IsRare { get; set; }
-        */
     }
 }
