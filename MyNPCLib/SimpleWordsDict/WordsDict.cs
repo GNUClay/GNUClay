@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,25 @@ namespace MyNPCLib.SimpleWordsDict
     {
         public WordsDict()
         {
-            var data = TmpFactoryOfWordsDictData.Data;//tmp
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var workingDictLocalName = "working.dict";
+
+            var workingDictFullName = Path.Combine(rootPath, workingDictLocalName);
+
+#if DEBUG
+            LogInstance.Log($"workingDictFullName = {workingDictFullName}");
+#endif
+
+            var serializator = new WordsDictSerializationEngine();
+
+            var data = serializator.LoadFromFile(workingDictFullName);
+
+            //var data = TmpFactoryOfWordsDictData.Data;//tmp
             mWordsDict = data.WordsDict;
             //mNamesList = data.NamesList;
         }

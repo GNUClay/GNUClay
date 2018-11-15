@@ -237,32 +237,33 @@ namespace DictionaryGenerator
 
             var serializator = new WordsDictSerializationEngine();
 
-            //            var mainDictLocalName = "main.dict";
+            var mainDictLocalName = "main.dict";
 
-            //            var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
+            var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
 
-            //#if DEBUG
-            //            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries mainDictFullPath = {mainDictFullPath}");
-            //#endif
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries mainDictFullPath = {mainDictFullPath}");
+#endif
 
-            //            var mainDict = serializator.LoadFromFile(mainDictFullPath);
+            var mainDict = serializator.LoadFromFile(mainDictFullPath);
 
-            //            var namesDictLocalName = "names.dict";
+            var namesDictLocalName = "names.dict";
 
-            //            var namesDictFullPath = Path.Combine(rootPath, namesDictLocalName);
+            var namesDictFullPath = Path.Combine(rootPath, namesDictLocalName);
 
-            //#if DEBUG
-            //            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries namesDictFullPath = {namesDictFullPath}");
-            //#endif
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries namesDictFullPath = {namesDictFullPath}");
+#endif
 
-            //            var namesDict = serializator.LoadFromFile(namesDictFullPath);
+            var namesDict = serializator.LoadFromFile(namesDictFullPath);
 
-            var mainDict = TmpFactoryOfWordsDictData.Data;
+            //var mainDict = TmpFactoryOfWordsDictData.Data;
 
             var workingDict = new WordsDictData();
             workingDict.WordsDict = new Dictionary<string, WordFrame>();
 
             DictionaryMerger.Merge(mainDict, workingDict);
+            DictionaryMerger.Merge(namesDict, workingDict);
 
             var workingDictLocalName = "working.dict";
 

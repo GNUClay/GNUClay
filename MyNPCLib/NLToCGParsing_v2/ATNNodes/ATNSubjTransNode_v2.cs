@@ -213,6 +213,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                     case KindOfItemOfSentence.V3:
                         break;
 
+                    case KindOfItemOfSentence.Not:
+                        break;
+
                     case KindOfItemOfSentence.Comma:
 #if DEBUG
                         LogInstance.Log($"CommaInstruction = {CommaInstruction}");

@@ -13,6 +13,20 @@ namespace TmpSandBox
 {
     public class TSTSentenceParser
     {
+        public TSTSentenceParser()
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+            var modelPath = OpenNLPPathsHelper.EnglishSDnbinPath(basePath);
+#if DEBUG
+            LogInstance.Log($"modelPath = {modelPath}");
+#endif
+
+            mSentenceDetector = new EnglishMaximumEntropySentenceDetector(modelPath);
+
+            mWordsDict = new WordsDict();
+        }
+
         public void Run()
         {
             LogInstance.Log("Begin");
@@ -505,6 +519,8 @@ namespace TmpSandBox
 
         public bool ProcessAll { get; set; }
         private int mCount;
+        private EnglishMaximumEntropySentenceDetector mSentenceDetector;
+        private WordsDict mWordsDict;
 
         private void NParsingSentence(string text, bool isActual)
         {
@@ -523,18 +539,9 @@ namespace TmpSandBox
             mCount++;
             LogInstance.Log($"mCount = {mCount}/144");
 
-            var wordsDict = new WordsDict();
-
             var cgParserOptions = new CGParserOptions();
-            cgParserOptions.WordsDict = wordsDict;
+            cgParserOptions.WordsDict = mWordsDict;
             cgParserOptions.BasePath = AppDomain.CurrentDomain.BaseDirectory;
-
-            var modelPath = OpenNLPPathsHelper.EnglishSDnbinPath(cgParserOptions.BasePath);
-#if DEBUG
-            LogInstance.Log($"modelPath = {modelPath}");
-#endif
-
-            var mSentenceDetector = new EnglishMaximumEntropySentenceDetector(modelPath);
 
             var sentencesList = mSentenceDetector.SentenceDetect(text);
 
@@ -549,7 +556,7 @@ namespace TmpSandBox
 #endif
 
                 var commonContext = new CommonContextOfATNParsing_v2();
-                var context = new ContextOfATNParsing_v2(sentence, wordsDict, commonContext);
+                var context = new ContextOfATNParsing_v2(sentence, mWordsDict, commonContext);
                 var atnNode = new ATNInitNode_v2(context);
                 atnNode.Run();
 
