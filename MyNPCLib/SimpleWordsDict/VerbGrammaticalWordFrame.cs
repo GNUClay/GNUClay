@@ -20,6 +20,22 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsFormOfToDo { get; set; }
         public bool MayHaveGerundOrInfinitiveAfterSelf { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new VerbGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.VerbType = VerbType;
+            result.Number = Number;
+            result.Person = Person;
+            result.Tense = Tense;
+            result.IsModal = IsModal;
+            result.IsFormOfToBe = IsFormOfToBe;
+            result.IsFormOfToHave = IsFormOfToHave;
+            result.IsFormOfToDo = IsFormOfToDo;
+            result.MayHaveGerundOrInfinitiveAfterSelf = MayHaveGerundOrInfinitiveAfterSelf;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

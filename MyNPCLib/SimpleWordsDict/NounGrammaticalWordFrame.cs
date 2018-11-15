@@ -21,6 +21,20 @@ namespace MyNPCLib.SimpleWordsDict
         /// </summary>
         public bool IsPossessive { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new NounGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.IsName = IsName;
+            result.IsShortForm = IsShortForm;
+            result.Gender = Gender;
+            result.Number = Number;
+            result.IsCountable = IsCountable;
+            result.IsGerund = IsGerund;
+            result.IsPossessive = IsPossessive;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

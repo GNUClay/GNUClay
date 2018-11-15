@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.SimpleWordsDict
@@ -30,6 +31,7 @@ namespace MyNPCLib.SimpleWordsDict
         public virtual ArticleGrammaticalWordFrame AsArticle => null;
         public virtual bool IsNumeral => false;
         public virtual NumeralGrammaticalWordFrame AsNumeral => null;
+
         public string RootWord { get; set; }
         public IList<string> LogicalMeaning { get; set; }
         public IList<string> FullLogicalMeaning { get; set; }
@@ -39,6 +41,21 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsPoetic { get; set; }
         public bool IsAbbreviation { get; set; }
         public bool IsRare { get; set; }
+
+        protected void FillAsBaseGrammaticalWordFrame(BaseGrammaticalWordFrame item)
+        {
+            item.RootWord = RootWord;
+            item.LogicalMeaning = LogicalMeaning?.ToList();
+            item.FullLogicalMeaning = FullLogicalMeaning?.ToList();
+            item.ConditionalLogicalMeaning = ConditionalLogicalMeaning?.ToDictionary(p => p.Key, p => p.Value?.ToList() as IList<string>);
+            item.IsArchaic = IsArchaic;
+            item.IsDialectal = IsDialectal;
+            item.IsPoetic = IsPoetic;
+            item.IsAbbreviation = IsAbbreviation;
+            item.IsRare = IsRare;
+        }
+
+        public abstract BaseGrammaticalWordFrame Fork();
 
         public override string ToString()
         {
@@ -136,7 +153,7 @@ namespace MyNPCLib.SimpleWordsDict
             return result;
         }
 
-        public static bool NBaseEquals( left,  right)
+        public static bool NBaseEquals(BaseGrammaticalWordFrame left, BaseGrammaticalWordFrame right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -152,9 +169,9 @@ namespace MyNPCLib.SimpleWordsDict
         }
     }
 
-    public class ComparerOfBaseGrammaticalWordFrame : IEqualityComparer<>
+    public class ComparerOfBaseGrammaticalWordFrame : IEqualityComparer<BaseGrammaticalWordFrame>
     {
-        bool IEqualityComparer<NounGrammaticalWordFrame>.Equals( left,  right)
+        bool IEqualityComparer<BaseGrammaticalWordFrame>.Equals(BaseGrammaticalWordFrame left, BaseGrammaticalWordFrame right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -166,10 +183,10 @@ namespace MyNPCLib.SimpleWordsDict
                 return false;
             }
 
-            return .NBaseEquals(left, right);
+            return BaseGrammaticalWordFrame.NBaseEquals(left, right);
         }
 
-        int IEqualityComparer<>.GetHashCode( obj)
+        int IEqualityComparer<BaseGrammaticalWordFrame>.GetHashCode(BaseGrammaticalWordFrame obj)
         {
             if (ReferenceEquals(obj, null))
             {

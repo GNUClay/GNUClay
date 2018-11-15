@@ -15,6 +15,17 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsDeterminer { get; set; }
         public bool IsNegation { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new AdverbGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Comparison = Comparison;
+            result.IsQuestionWord = IsQuestionWord;
+            result.IsDeterminer = IsDeterminer;
+            result.IsNegation = IsNegation;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

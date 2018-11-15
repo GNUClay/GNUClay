@@ -14,6 +14,15 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsDeterminer => true;
         public KindOfArticle Kind { get; set; } = KindOfArticle.Unknown;
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new ArticleGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Number = Number;
+            result.Kind = Kind;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

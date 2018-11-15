@@ -11,6 +11,13 @@ namespace MyNPCLib.SimpleWordsDict
         public override bool IsPostposition => true;
         public override PostpositionGrammaticalWordFrame AsPostposition => this;
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new PostpositionGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

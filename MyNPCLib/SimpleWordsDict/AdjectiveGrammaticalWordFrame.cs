@@ -13,6 +13,15 @@ namespace MyNPCLib.SimpleWordsDict
         public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
         public bool IsDeterminer { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new AdjectiveGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Comparison = Comparison;
+            result.IsDeterminer = IsDeterminer;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

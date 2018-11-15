@@ -12,6 +12,14 @@ namespace MyNPCLib.SimpleWordsDict
         public override PrepositionGrammaticalWordFrame AsPreposition => this;
         public GrammaticalComparison Comparison { get; set; } = GrammaticalComparison.None;
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new PrepositionGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Comparison = Comparison;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

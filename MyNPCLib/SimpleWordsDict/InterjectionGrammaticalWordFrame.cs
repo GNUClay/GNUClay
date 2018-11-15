@@ -11,6 +11,13 @@ namespace MyNPCLib.SimpleWordsDict
         public override bool IsInterjection => true;
         public override InterjectionGrammaticalWordFrame AsInterjection => this;
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new InterjectionGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

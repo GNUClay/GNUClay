@@ -13,6 +13,15 @@ namespace MyNPCLib.SimpleWordsDict
         public NumeralType NumeralType { get; set; } = NumeralType.Undefined;
         public float? RepresentedNumber { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new NumeralGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.NumeralType = NumeralType;
+            result.RepresentedNumber = RepresentedNumber;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

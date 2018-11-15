@@ -15,6 +15,17 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsQuestionWord { get; set; }
         public bool IsNegation { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new ConjunctionGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Kind = Kind;
+            result.SecondKind = SecondKind;
+            result.IsQuestionWord = IsQuestionWord;
+            result.IsNegation = IsNegation;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

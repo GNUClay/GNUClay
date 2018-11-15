@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MyNPCLib.SimpleWordsDict
 {
@@ -33,8 +34,31 @@ namespace MyNPCLib.SimpleWordsDict
                 var word = wordsDictKVPItem.Key;
                 var wordFrame = wordsDictKVPItem.Value;
 
+                var sourceGrammaticalWordFramesList = wordFrame.GrammaticalWordFrames.ToList();
 
+                if (destWordsDict.ContainsKey(word))
+                {
+                    if(sourceGrammaticalWordFramesList.IsEmpty())
+                    {
+                        continue;
+                    }
+
+                    var destItem = destWordsDict[word];
+
+                    var targetGrammaticalWordFrames = destItem.GrammaticalWordFrames.ToList();
+                    targetGrammaticalWordFrames.AddRange(sourceGrammaticalWordFramesList.Select(p => p.Fork()).ToList());
+
+                    destItem.GrammaticalWordFrames = targetGrammaticalWordFrames.Distinct(new ComparerOfBaseGrammaticalWordFrame()).ToList();
+                    continue;
+                }
+
+                destWordsDict[word] = wordFrame.Fork();
             }
+
+#if DEBUG
+            LogInstance.Log($"after sourceWordsDict.Count = {sourceWordsDict.Count}");
+            LogInstance.Log($"after destWordsDict.Count = {destWordsDict.Count}");
+#endif
         }
     }
 }

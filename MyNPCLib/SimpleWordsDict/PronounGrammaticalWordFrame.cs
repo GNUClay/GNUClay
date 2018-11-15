@@ -18,6 +18,20 @@ namespace MyNPCLib.SimpleWordsDict
         public bool IsQuestionWord { get; set; }
         public bool IsNegation { get; set; }
 
+        public override BaseGrammaticalWordFrame Fork()
+        {
+            var result = new PronounGrammaticalWordFrame();
+            FillAsBaseGrammaticalWordFrame(result);
+            result.Gender = Gender;
+            result.Number = Number;
+            result.Person = Person;
+            result.TypeOfPronoun = TypeOfPronoun;
+            result.Case = Case;
+            result.IsQuestionWord = IsQuestionWord;
+            result.IsNegation = IsNegation;
+            return result;
+        }
+
         public override string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
