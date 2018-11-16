@@ -315,14 +315,28 @@ to have (when it means "to possess")*
                 ProcessNoun(rootWord);
             }
 
+            var isEndsWithEr = false;
+
             if (mRootVerbsDict.ContainsKey(rootWord))
             {
                 ProcessVerb(rootWord);
+
+                if(rootWord.EndsWith("er"))
+                {
+                    isEndsWithEr = true;
+                }
             }
 
             if (mRootAdjsDict.ContainsKey(rootWord))
             {
                 ProcessAdj(rootWord);
+            }
+            else
+            {
+                if(isEndsWithEr)
+                {
+                    ProcessAdj(rootWord);
+                }
             }
 
             if (mRootAdvsDict.ContainsKey(rootWord))

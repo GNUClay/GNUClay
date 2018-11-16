@@ -28,6 +28,7 @@ namespace DictionaryGenerator
             //TSTRemoveRoundBreackets();
             //TSTWordsFactory();
             TSTMergeDictionaries();
+            //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -262,8 +263,11 @@ namespace DictionaryGenerator
             var workingDict = new WordsDictData();
             workingDict.WordsDict = new Dictionary<string, WordFrame>();
 
-            DictionaryMerger.Merge(mainDict, workingDict);
-            DictionaryMerger.Merge(namesDict, workingDict);
+            var tagretWorsList = new List<string>() { "dog", "shower" };
+            tagretWorsList.Clear();
+
+            DictionaryMerger.Merge(mainDict, workingDict, tagretWorsList);
+            DictionaryMerger.Merge(namesDict, workingDict, tagretWorsList);
 
             var workingDictLocalName = "working.dict";
 
@@ -274,6 +278,34 @@ namespace DictionaryGenerator
 #endif
 
             serializator.SaveToFile(workingDict, workingDictFullName);
+        }
+
+        private static void TSTDiscoverDictionary()
+        {
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries rootPath = {rootPath}");
+#endif
+
+            var serializator = new WordsDictSerializationEngine();
+
+            //var mainDictLocalName = "main.dict";
+            var mainDictLocalName = "working.dict";
+
+            var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries mainDictFullPath = {mainDictFullPath}");
+#endif
+
+            var mainDict = serializator.LoadFromFile(mainDictFullPath);
+
+            var wordFrame = mainDict.WordsDict["shower"];
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+#endif
         }
 
         private static void TSTMakeIrrTable()

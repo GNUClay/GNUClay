@@ -7,7 +7,7 @@ namespace MyNPCLib.SimpleWordsDict
 {
     public static class DictionaryMerger
     {
-        public static void Merge(WordsDictData source, WordsDictData dest)
+        public static void Merge(WordsDictData source, WordsDictData dest, IList<string> tagretWorsList = null)
         {
             var sourceWordsDict = source.WordsDict;
 
@@ -24,14 +24,26 @@ namespace MyNPCLib.SimpleWordsDict
                 dest.WordsDict = destWordsDict;
             }
 
+            var needTargetWords = !tagretWorsList.IsEmpty();
+
 #if DEBUG
             LogInstance.Log($"sourceWordsDict.Count = {sourceWordsDict.Count}");
             LogInstance.Log($"destWordsDict.Count = {destWordsDict.Count}");
+            LogInstance.Log($"needTargetWords = {needTargetWords}");
 #endif
 
-            foreach(var wordsDictKVPItem in sourceWordsDict)
+            foreach (var wordsDictKVPItem in sourceWordsDict)
             {
                 var word = wordsDictKVPItem.Key;
+
+                if(needTargetWords)
+                {
+                    if(!tagretWorsList.Contains(word))
+                    {
+                        continue;
+                    }
+                }
+
                 var wordFrame = wordsDictKVPItem.Value;
 
                 var sourceGrammaticalWordFramesList = wordFrame.GrammaticalWordFrames.ToList();
