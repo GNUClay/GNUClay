@@ -35,18 +35,18 @@ namespace MyNPCLib.SimpleWordsDict
             foreach (var wordsDictKVPItem in sourceWordsDict)
             {
                 var word = wordsDictKVPItem.Key;
+                var wordFrame = wordsDictKVPItem.Value;
+                var sourceGrammaticalWordFramesList = wordFrame.GrammaticalWordFrames.ToList();
 
-                if(needTargetWords)
+                if (needTargetWords)
                 {
-                    if(!tagretWorsList.Contains(word))
+                    var rootWordsList = sourceGrammaticalWordFramesList.Select(p => p.RootWord).Where(p => !string.IsNullOrWhiteSpace(p)).Distinct().ToList();
+
+                    if (!NeedProcessTargetWord(tagretWorsList, word, rootWordsList))
                     {
                         continue;
                     }
                 }
-
-                var wordFrame = wordsDictKVPItem.Value;
-
-                var sourceGrammaticalWordFramesList = wordFrame.GrammaticalWordFrames.ToList();
 
                 if (destWordsDict.ContainsKey(word))
                 {
@@ -71,6 +71,19 @@ namespace MyNPCLib.SimpleWordsDict
             LogInstance.Log($"after sourceWordsDict.Count = {sourceWordsDict.Count}");
             LogInstance.Log($"after destWordsDict.Count = {destWordsDict.Count}");
 #endif
+        }
+
+        private static bool NeedProcessTargetWord(IList<string> tagretWorsList, string word, List<string> rootWordsList)
+        {
+            foreach(var rootWord in rootWordsList)
+            {
+                if(tagretWorsList.Contains(rootWord))
+                {
+                    return true;
+                }
+            }
+
+            return tagretWorsList.Contains(word);
         }
     }
 }

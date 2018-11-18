@@ -27,8 +27,8 @@ namespace DictionaryGenerator
             //TSTClasses();
             //TSTRemoveRoundBreackets();
             //TSTWordsFactory();
-            TSTMergeDictionaries();
-            //TSTDiscoverDictionary();
+            //TSTMergeDictionaries();
+            TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -264,7 +264,7 @@ namespace DictionaryGenerator
             workingDict.WordsDict = new Dictionary<string, WordFrame>();
 
             var tagretWorsList = new List<string>() { "dog", "shower" };
-            tagretWorsList.Clear();
+            //tagretWorsList.Clear();
 
             DictionaryMerger.Merge(mainDict, workingDict, tagretWorsList);
             DictionaryMerger.Merge(namesDict, workingDict, tagretWorsList);
@@ -302,6 +302,12 @@ namespace DictionaryGenerator
             var mainDict = serializator.LoadFromFile(mainDictFullPath);
 
             var wordFrame = mainDict.WordsDict["shower"];
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+#endif
+
+            wordFrame = mainDict.WordsDict["dogs"];
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
