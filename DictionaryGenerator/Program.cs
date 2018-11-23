@@ -26,9 +26,10 @@ namespace DictionaryGenerator
             //TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
+            TSTClassDiscovering();
             //TSTWordsFactory();
             //TSTMergeDictionaries();
-            TSTDiscoverDictionary();
+            //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -220,6 +221,12 @@ namespace DictionaryGenerator
             }
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTRemoveRoundBreackets str = {str}");
+        }
+
+        private static void TSTClassDiscovering()
+        {
+            var service = new ClassDiscovering();
+            service.Run();
         }
 
         private static void TSTWordsFactory()
