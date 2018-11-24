@@ -19,8 +19,12 @@ namespace DictionaryGenerator
                 //NLog.LogManager.GetCurrentClassLogger().Info($"RootNounClassesFactory rootNoun = {rootNoun}");
 #endif
                 var fullClassesList = new List<string>();
-                throw new NotImplementedException();
-                //NFillFullClasses(rootNoun.ParentWordNumsList, ref fullClassesList);//Верни
+
+                var parentWordNumsList = rootNoun.ParentWordNumsList;
+                foreach(var parentWordNum in parentWordNumsList)
+                {
+                    NFillFullClasses(parentWordNum, ref fullClassesList);
+                }
 
                 fullClassesList = fullClassesList.Distinct().ToList();
 
@@ -53,17 +57,21 @@ namespace DictionaryGenerator
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"NFillFullClasses targetWord = {targetWord}");
 #endif
-            if (fullClassesList.Contains(targetWord.Word))
-            {
-                return;
-            }
+            //if (fullClassesList.Contains(targetWord.Word))
+            //{
+            //    return;
+            //}
 
             fullClassesList.Add(targetWord.Word);
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"NFillFullClasses targetWordVar = {targetWordVar}");
 #endif
-            //NFillFullClasses(targetWord.ParentWordNumsList, ref fullClassesList);//Верни
-            throw new NotImplementedException();
+            var parentWordNumsList = targetWord.ParentWordNumsList;
+
+            foreach (var parentWordNum in parentWordNumsList)
+            {
+                NFillFullClasses(parentWordNum, ref fullClassesList);
+            }
         }
     }
 }

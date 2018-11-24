@@ -40,8 +40,6 @@ namespace DictionaryGenerator
             var initWordsListList = mWordIdDict.Keys.ToList();
             var classesIdList = new List<int>();
 
-            throw new NotImplementedException();
-
             //foreach (var rootNoun in rootNounsList)
             //{
             //    //LogInstance.Log($"rootNoun = {rootNoun}");
@@ -109,25 +107,25 @@ namespace DictionaryGenerator
             //    }
             //}
 
-            var livingThingsList = new List<string>();
+            //var livingThingsList = new List<string>();
 
-            foreach (var wordClessesKVPItem in mNounClassesDict)
-            {
-                if (wordClessesKVPItem.Value.Contains("causal_agent"))//causal_agent //living_thing
-                {
-                    //LogInstance.Log($"wordClessesKVPItem.Key = {wordClessesKVPItem.Key}");
-                    livingThingsList.Add(wordClessesKVPItem.Key);
-                }
-            }
+            //foreach (var wordClessesKVPItem in mNounClassesDict)
+            //{
+            //    if (wordClessesKVPItem.Value.Contains("causal_agent"))//causal_agent //living_thing
+            //    {
+            //        //LogInstance.Log($"wordClessesKVPItem.Key = {wordClessesKVPItem.Key}");
+            //        livingThingsList.Add(wordClessesKVPItem.Key);
+            //    }
+            //}
 
-            LogInstance.Log($"livingThingsList.Count = {livingThingsList.Count}");
+            //LogInstance.Log($"livingThingsList.Count = {livingThingsList.Count}");
 
-            livingThingsList = livingThingsList.OrderBy(p => p).ToList();
+            //livingThingsList = livingThingsList.OrderBy(p => p).ToList();
 
-            foreach (var livingThing in livingThingsList)
-            {
-                LogInstance.Log($"livingThing = {livingThing}");
-            }
+            //foreach (var livingThing in livingThingsList)
+            //{
+            //    LogInstance.Log($"livingThing = {livingThing}");
+            //}
 
             LogInstance.Log("dog");
             var dogsClassesList = mNounClassesDict["dog"];
