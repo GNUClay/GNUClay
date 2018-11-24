@@ -9,7 +9,7 @@ namespace DictionaryGenerator
         public static RootNounSourceWordItem Read(string source)
         {
 #if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Read source = {source}");
 #endif
 
             var n = 0;
@@ -59,7 +59,7 @@ namespace DictionaryGenerator
                                 if(hasAtsign)
                                 {
                                     var numOfWord = int.Parse(strValue);
-                                    result.ParentWordNum = numOfWord;
+                                    result.ParentWordNumsList.Add(numOfWord);
                                     hasAtsign = false;
                                 }
                                 else

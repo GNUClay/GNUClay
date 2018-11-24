@@ -21,7 +21,11 @@ namespace DictionaryGenerator
                 var item = ReaderOfRootNounSourceWordItem.Read(currentLine);
 
 #if DEBUG
-                //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+                if(item.ParentWordNumsList.Count > 1)
+                {
+                    throw new NotImplementedException();
+                }
 #endif
 
                 resultList.Add(item);

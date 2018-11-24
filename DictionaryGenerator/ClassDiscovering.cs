@@ -33,22 +33,24 @@ namespace DictionaryGenerator
 
             LogInstance.Log($"mWordIdDict.Count = {mWordIdDict.Count}");
 
-            var parentWordsDict = rootNounsList.GroupBy(p => p.ParentWordNum).ToDictionary(p => p.Key, p => p.ToList());
+            var parentWordsDict = rootNounsList.GroupBy(p => p.ParentWordNumsList).ToDictionary(p => p.Key, p => p.ToList());
 
             LogInstance.Log($"parentWordsDict.Count = {parentWordsDict.Count}");
 
             var initWordsListList = mWordIdDict.Keys.ToList();
             var classesIdList = new List<int>();
 
-            foreach (var rootNoun in rootNounsList)
-            {
-                //LogInstance.Log($"rootNoun = {rootNoun}");
+            throw new NotImplementedException();
 
-                if (rootNoun.ParentWordNum > 0)
-                {
-                    classesIdList.Add(rootNoun.ParentWordNum);
-                }
-            }
+            //foreach (var rootNoun in rootNounsList)
+            //{
+            //    //LogInstance.Log($"rootNoun = {rootNoun}");
+
+            //    if (rootNoun.ParentWordNumsList > 0)
+            //    {
+            //        classesIdList.Add(rootNoun.ParentWordNumsList);
+            //    }
+            //}
 
             classesIdList = classesIdList.Distinct().ToList();
 
@@ -56,56 +58,56 @@ namespace DictionaryGenerator
 
             //classesIdList = classesIdList.Take(100).ToList();
 
-            foreach (var classId in classesIdList)
-            {
-                var word = mWordIdDict[classId];
+            //foreach (var classId in classesIdList)
+            //{
+            //    var word = mWordIdDict[classId];
 
-                if(word.ParentWordNum == 0)
-                {
-                    if(word.IsName)
-                    {
-                        continue;
-                    }
+            //    if(word.ParentWordNumsList == 0)
+            //    {
+            //        if(word.IsName)
+            //        {
+            //            continue;
+            //        }
 
-                    LogInstance.Log($"word = {word}");
+            //        LogInstance.Log($"word = {word}");
 
-                    var childrenList_1 = parentWordsDict[word.WordNum];
+            //        var childrenList_1 = parentWordsDict[word.WordNum];
 
-                    LogInstance.Log($"childrenList_1.Count = {childrenList_1.Count}");
+            //        LogInstance.Log($"childrenList_1.Count = {childrenList_1.Count}");
 
-                    foreach(var child_1 in childrenList_1)
-                    {
-                        LogInstance.Log($"child_1 = {child_1}");
+            //        foreach(var child_1 in childrenList_1)
+            //        {
+            //            LogInstance.Log($"child_1 = {child_1}");
 
-                        if(parentWordsDict.ContainsKey(child_1.WordNum))
-                        {
-                            var childrenList_2 = parentWordsDict[child_1.WordNum];
+            //            if(parentWordsDict.ContainsKey(child_1.WordNum))
+            //            {
+            //                var childrenList_2 = parentWordsDict[child_1.WordNum];
 
-                            LogInstance.Log($"childrenList_2.Count = {childrenList_2.Count}");
+            //                LogInstance.Log($"childrenList_2.Count = {childrenList_2.Count}");
 
-                            foreach (var child_2 in childrenList_2)
-                            {
-                                LogInstance.Log($"child_2 = {child_2}");
+            //                foreach (var child_2 in childrenList_2)
+            //                {
+            //                    LogInstance.Log($"child_2 = {child_2}");
 
-                                if(parentWordsDict.ContainsKey(child_2.WordNum))
-                                {
-                                    var childrenList_3 = parentWordsDict[child_2.WordNum];
+            //                    if(parentWordsDict.ContainsKey(child_2.WordNum))
+            //                    {
+            //                        var childrenList_3 = parentWordsDict[child_2.WordNum];
 
-                                    LogInstance.Log($"childrenList_3.Count = {childrenList_3.Count}");
+            //                        LogInstance.Log($"childrenList_3.Count = {childrenList_3.Count}");
 
-                                    foreach (var child_3 in childrenList_3)
-                                    {
-                                        LogInstance.Log($"child_3 = {child_3}");
-                                    }
-                                }
-                                LogInstance.Log("===========================================================================================================");
-                            }
-                        }
+            //                        foreach (var child_3 in childrenList_3)
+            //                        {
+            //                            LogInstance.Log($"child_3 = {child_3}");
+            //                        }
+            //                    }
+            //                    LogInstance.Log("===========================================================================================================");
+            //                }
+            //            }
 
-                        LogInstance.Log("-----------------------------------------------------------------------------------------------------------");
-                    }
-                }
-            }
+            //            LogInstance.Log("-----------------------------------------------------------------------------------------------------------");
+            //        }
+            //    }
+            //}
 
             var livingThingsList = new List<string>();
 

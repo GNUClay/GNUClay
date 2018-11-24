@@ -59,7 +59,7 @@ namespace DictionaryGenerator
                                 if (hasAtsign)
                                 {
                                     var numOfWord = int.Parse(strValue);
-                                    result.ParentWordNum = numOfWord;
+                                    result.ParentWordNumsList.Add(numOfWord);
                                     hasAtsign = false;
                                 }
                                 else
