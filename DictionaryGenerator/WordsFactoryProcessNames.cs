@@ -19,6 +19,14 @@ namespace DictionaryGenerator
 
         private void ProcessName(string rootWord)
         {
+            if (mTargetWordsList != null)
+            {
+                if (!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName rootWord = {rootWord}");
 #endif

@@ -33,6 +33,9 @@
     <None Update="Resources\MyDicts\MayHaveGerundOrInfinitiveAfterSelf.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Ogden.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\WordNet\dict\adj.exc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

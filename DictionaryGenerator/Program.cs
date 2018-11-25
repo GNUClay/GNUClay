@@ -27,9 +27,11 @@ namespace DictionaryGenerator
             //TSTClasses();
             //TSTRemoveRoundBreackets();
             //TSTClassDiscovering();
-            TSTWordsFactory();
+            //TSTOgdenList();
+            //TSTWordsFactory();
+            TSTCustomWordsFactory();
             //TSTMergeDictionaries();
-            //TSTDiscoverDictionary();
+            TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -229,9 +231,34 @@ namespace DictionaryGenerator
             service.Run();
         }
 
-        private static void TSTWordsFactory()
+        private static void TSTOgdenList()
         {
+            var wordsList = OgdenListGenerator.Get();
+
+            wordsList = wordsList.OrderBy(p => p).ToList();
+
+            LogInstance.Log($"wordsList.Count = {wordsList.Count}");
+
+            foreach(var word in wordsList)
+            {
+                LogInstance.Log($"word = {word}");
+            }
+
+            //var wordsFactory = new WordsFactory();
+            //wordsFactory.Run(wordsList);
+        }
+
+        private static void TSTWordsFactory()
+        { 
+            var tragetWordsList = new List<string>() { "dog" };
+
             var wordsFactory = new WordsFactory();
+            wordsFactory.Run(tragetWordsList);
+        }
+
+        private static void TSTCustomWordsFactory()
+        {
+            var wordsFactory = new CustomWordsFactory();
             wordsFactory.Run();
         }
 
@@ -297,8 +324,8 @@ namespace DictionaryGenerator
 
             var serializator = new WordsDictSerializationEngine();
 
-            //var mainDictLocalName = "main.dict";
-            var mainDictLocalName = "working.dict";
+            var mainDictLocalName = "main.dict";
+            //var mainDictLocalName = "working.dict";
 
             var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
 
@@ -308,17 +335,50 @@ namespace DictionaryGenerator
 
             var mainDict = serializator.LoadFromFile(mainDictFullPath);
 
-            var wordFrame = mainDict.WordsDict["shower"];
+            if (mainDict.WordsDict.ContainsKey("show"))
+            {
+                var wordFrame = mainDict.WordsDict["show"];
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
 #endif
+            }
 
-            wordFrame = mainDict.WordsDict["dogs"];
+            if (mainDict.WordsDict.ContainsKey("shower"))
+            {
+                var wordFrame = mainDict.WordsDict["shower"];
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
 #endif
+            }
+
+            if (mainDict.WordsDict.ContainsKey("dogs"))
+            {
+                var wordFrame = mainDict.WordsDict["dogs"];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+#endif
+            }
+
+            if (mainDict.WordsDict.ContainsKey("go"))
+            {
+                var wordFrame = mainDict.WordsDict["go"];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+#endif
+            }
+
+            if (mainDict.WordsDict.ContainsKey("red"))
+            {
+                var wordFrame = mainDict.WordsDict["red"];
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries wordFrame = {wordFrame}");
+#endif
+            }
         }
 
         private static void TSTMakeIrrTable()

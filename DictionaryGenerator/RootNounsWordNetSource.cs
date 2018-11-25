@@ -21,10 +21,10 @@ namespace DictionaryGenerator
                 var item = ReaderOfRootNounSourceWordItem.Read(currentLine);
 
 #if DEBUG
-                if(item.Word == "elephant")
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
-                }
+                //if(item.Word == "elephant")
+                //{
+                //    NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
+                //}
                 //NLog.LogManager.GetCurrentClassLogger().Info($"Read item = {item}");
                 //if(item.ParentWordNumsList.Count > 1)
                 //{

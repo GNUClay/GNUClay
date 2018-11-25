@@ -1,4 +1,5 @@
-﻿using MyNPCLib.SimpleWordsDict;
+﻿using MyNPCLib;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,8 +62,16 @@ namespace DictionaryGenerator
         private WordsDictData mWordsDictData;
         private WordsDictData mWordsDictDataOfName;
 
-        public void Run()
+        private List<string> mTargetWordsList;
+
+        public void Run(List<string> targetWordsList = null)
         {
+            mTargetWordsList = targetWordsList;
+
+#if DEBUG
+            LogInstance.Log($"mTargetWordsList.Count = {mTargetWordsList?.Count}");
+#endif
+
             var usualWordsList = new List<string>();
             var namesWordsList = new List<string>();
             var digitsWordsList = new List<string>();
@@ -74,7 +83,7 @@ namespace DictionaryGenerator
             //mNounClassesDict = rootNounClassesFactory.Result;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Run rootNounsList.Count = {rootNounsList.Count}");
+            LogInstance.Log($"rootNounsList.Count = {rootNounsList.Count}");
 #endif
             ReaderOfRootSourceWordItemHelper.SeparateWords(rootNounsList, ref usualWordsList, ref namesWordsList, ref digitsWordsList, ref complexWordsList);
 
@@ -311,6 +320,14 @@ to have (when it means "to possess")*
 
         private void ProcessRootWordName(string rootWord)
         {
+            if(mTargetWordsList != null)
+            {
+                if(!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
 #endif
