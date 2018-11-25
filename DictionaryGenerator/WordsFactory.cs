@@ -54,7 +54,7 @@ namespace DictionaryGenerator
 
         private WordSplitter mWordSplitter;
 
-        private Dictionary<string, List<string>> mNounClassesDict;
+        //private Dictionary<string, List<string>> mNounClassesDict;
 
         private int mTotalCount;
 
@@ -70,8 +70,8 @@ namespace DictionaryGenerator
 
             var rootNounsList = mRootNounsSource.ReadAll();
 
-            var rootNounClassesFactory = new RootNounClassesFactory(rootNounsList);
-            mNounClassesDict = rootNounClassesFactory.Result;
+            //var rootNounClassesFactory = new RootNounClassesFactory(rootNounsList);
+            //mNounClassesDict = rootNounClassesFactory.Result;
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Run rootNounsList.Count = {rootNounsList.Count}");
@@ -293,6 +293,19 @@ to have (when it means "to possess")*
             }
 
             var wordFrame = GetWordFrame(word);
+
+            if(grammaticalWordFrame.PartOfSpeech == GrammaticalPartOfSpeech.Noun || grammaticalWordFrame.PartOfSpeech == GrammaticalPartOfSpeech.Pronoun)
+            {
+                grammaticalWordFrame.LogicalMeaning = new List<string>() { "entity" };
+            }
+
+            if(grammaticalWordFrame.LogicalMeaning == null)
+            {
+                grammaticalWordFrame.LogicalMeaning = new List<string>();
+            }
+
+            grammaticalWordFrame.FullLogicalMeaning = grammaticalWordFrame.LogicalMeaning.ToList();
+
             wordFrame.GrammaticalWordFrames.Add(grammaticalWordFrame);
         }
 
@@ -369,16 +382,18 @@ to have (when it means "to possess")*
                 return;
             }
 
-            List<string> logicalMeaning = null;
+            var logicalMeaning = new List<string>() { "entity" };
 
-            if(mNounClassesDict.ContainsKey(rootWord))
-            {
-                logicalMeaning = mNounClassesDict[rootWord];
-            }
-            else
-            {
-                logicalMeaning = new List<string>();
-            }
+            //List<string> logicalMeaning = null;
+
+            //if(mNounClassesDict.ContainsKey(rootWord))
+            //{
+            //    logicalMeaning = mNounClassesDict[rootWord];
+            //}
+            //else
+            //{
+            //    logicalMeaning = new List<string>();
+            //}
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun logicalMeaning.Count = {logicalMeaning.Count}");

@@ -31,16 +31,18 @@ namespace DictionaryGenerator
                 rootWord = rootWord.Replace(rezStr, string.Empty);
             }
 
-            List<string> logicalMeaning = null;
+            var logicalMeaning = new List<string>() { "entity" };
 
-            if (mNounClassesDict.ContainsKey(rootWord))
-            {
-                logicalMeaning = mNounClassesDict[rootWord];
-            }
-            else
-            {
-                logicalMeaning = new List<string>();
-            }
+            //List<string> logicalMeaning = null;
+
+            //if (mNounClassesDict.ContainsKey(rootWord))
+            //{
+            //    logicalMeaning = mNounClassesDict[rootWord];
+            //}
+            //else
+            //{
+            //    logicalMeaning = new List<string>();
+            //}
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName logicalMeaning.Count = {logicalMeaning.Count}");

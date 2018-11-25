@@ -26,8 +26,8 @@ namespace DictionaryGenerator
             //TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
-            TSTClassDiscovering();
-            //TSTWordsFactory();
+            //TSTClassDiscovering();
+            TSTWordsFactory();
             //TSTMergeDictionaries();
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
