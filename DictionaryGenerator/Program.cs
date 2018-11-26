@@ -29,9 +29,9 @@ namespace DictionaryGenerator
             //TSTClassDiscovering();
             //TSTOgdenList();
             //TSTWordsFactory();
-            TSTCustomWordsFactory();
-            //TSTMergeDictionaries();
-            TSTDiscoverDictionary();
+            //TSTCustomWordsFactory();
+            TSTMergeDictionaries();
+            //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
             //TSTAdjAntiStemmer();
@@ -298,7 +298,7 @@ namespace DictionaryGenerator
             workingDict.WordsDict = new Dictionary<string, WordFrame>();
 
             var tagretWorsList = new List<string>() { "dog", "shower" };
-            //tagretWorsList.Clear();
+            tagretWorsList.Clear();
 
             DictionaryMerger.Merge(mainDict, workingDict, tagretWorsList);
             DictionaryMerger.Merge(namesDict, workingDict, tagretWorsList);

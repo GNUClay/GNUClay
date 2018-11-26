@@ -309,9 +309,19 @@ namespace MyNPCLib.NLToCGParsing
                             result.Add(extendedToken);
                             continue;
 
+                        case KindOfATNToken.DoubleQuotationMark:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.DoubleQuotationMark;
+                            result.Add(extendedToken);
+                            continue;
+
+                        case KindOfATNToken.ExclamationMark:
+                            extendedToken.KindOfItem = KindOfItemOfSentence.ExclamationMark;
+                            result.Add(extendedToken);
+                            continue;
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
-                    }                
+                    }
                 }
 
                 var partOfSpeech = extendedToken.PartOfSpeech;
@@ -375,7 +385,12 @@ namespace MyNPCLib.NLToCGParsing
                                     continue;
                                 }
 
-                                throw new NotImplementedException();
+                                extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                                result.Add(extendedToken);
+
+                                var newExtendedToken = extendedToken.Fork();
+                                newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                                result.Add(newExtendedToken);
                             }
                         }
                         break;
@@ -629,7 +644,15 @@ namespace MyNPCLib.NLToCGParsing
                         break;
 
                     case GrammaticalPartOfSpeech.Numeral:
-                        throw new NotImplementedException();
+                        {
+                            extendedToken.KindOfItem = KindOfItemOfSentence.Subj;
+                            result.Add(extendedToken);
+
+                            var newExtendedToken = extendedToken.Fork();
+                            newExtendedToken.KindOfItem = KindOfItemOfSentence.Obj;
+                            result.Add(newExtendedToken);
+                        }
+                        break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);

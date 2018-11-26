@@ -30,6 +30,8 @@ namespace MyNPCLib.NLToCGParsing
         QuestionMark,
         Number,
         Conjunction,
-        Comma
+        Comma,
+        DoubleQuotationMark,
+        ExclamationMark
     }
 }

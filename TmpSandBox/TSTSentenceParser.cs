@@ -13,6 +13,13 @@ namespace TmpSandBox
 {
     public class TSTSentenceParser
     {
+        private enum State
+        {
+            Init,
+            CalculateTotalCount,
+            Run
+        }
+
         public TSTSentenceParser()
         {
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -28,6 +35,31 @@ namespace TmpSandBox
         }
 
         public void Run()
+        {
+            mState = State.CalculateTotalCount;
+            ProcessAllSentences();
+            mState = State.Run;
+            mTargetImpl = new TSTSentenceParserImpl(mWordsDict, AppDomain.CurrentDomain.BaseDirectory, mSentenceDetector);
+            ProcessAllSentences();
+        }
+
+        public void DetectUnknownWords()
+        {
+            mState = State.CalculateTotalCount;
+            ProcessAllSentences();
+            mState = State.Run;
+
+            var unknownWordsList = new List<string>();
+
+            mTargetImpl = new TSTSentenceParserUnknownWordsDetectorImpl(mWordsDict, AppDomain.CurrentDomain.BaseDirectory, mSentenceDetector, unknownWordsList);
+            ProcessAllSentences();
+
+#if DEBUG
+            LogInstance.Log($"unknownWordsList.Count = {unknownWordsList.Count}");
+#endif
+        }
+
+        private void ProcessAllSentences()
         {
             LogInstance.Log("Begin");
 
@@ -519,9 +551,12 @@ namespace TmpSandBox
 
         public bool ProcessAll { get; set; }
         private int mCount;
+        private int mTotalCount;
         private EnglishMaximumEntropySentenceDetector mSentenceDetector;
         private WordsDict mWordsDict;
-
+        private State mState = State.Init;
+        private ITSTSentenceParserImpl mTargetImpl;
+        
         private void NParsingSentence(string text, bool isActual)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -535,50 +570,24 @@ namespace TmpSandBox
                 return;
             }
 
+            switch(mState)
+            {
+                case State.CalculateTotalCount:
+                    mTotalCount++;
+                    return;
+
+                case State.Run:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
+            }
+
             LogInstance.Log($"text = {text}");
             mCount++;
-            LogInstance.Log($"mCount = {mCount}/144");
+            LogInstance.Log($"mCount = {mCount}/{mTotalCount}");
 
-            var cgParserOptions = new CGParserOptions();
-            cgParserOptions.WordsDict = mWordsDict;
-            cgParserOptions.BasePath = AppDomain.CurrentDomain.BaseDirectory;
-
-            var sentencesList = mSentenceDetector.SentenceDetect(text);
-
-#if DEBUG
-            LogInstance.Log($"sentencesList.Length = {sentencesList.Length}");
-#endif
-
-            foreach (var sentence in sentencesList)
-            {
-#if DEBUG
-                LogInstance.Log($"sentence = {sentence}");
-#endif
-
-                var commonContext = new CommonContextOfATNParsing_v2();
-                var context = new ContextOfATNParsing_v2(sentence, mWordsDict, commonContext);
-                var atnNode = new ATNInitNode_v2(context);
-                atnNode.Run();
-
-                var resultList = commonContext.SentencesList;
-
-                LogInstance.Log($"resultList.Count = {resultList.Count}");
-
-                if(resultList.Count > 1)
-                {
-                    resultList = resultList.Distinct(new ComparerOfSentence_v2()).ToList();
-
-                    LogInstance.Log($"resultList.Count (2) = {resultList.Count}");
-
-                    //throw new NotImplementedException();
-                }
-
-                foreach (var resultItem in resultList)
-                {
-                    LogInstance.Log($"resultItem.GetHashCode() = {resultItem.GetHashCode()}");
-                    LogInstance.Log($"resultItem = {resultItem}");
-                }
-            }
+            mTargetImpl.Parse(text);
         }
     }
 }
