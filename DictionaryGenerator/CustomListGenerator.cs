@@ -9,7 +9,9 @@ namespace DictionaryGenerator
         public static List<string> Get()
         {
             var wordsList = new List<string>() {
-                "shower"
+                "shower",
+                "o'clock",
+                "Tom"
             };
 
             return wordsList;

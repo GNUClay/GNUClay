@@ -18,10 +18,12 @@ namespace DictionaryGenerator
         {
             return ToString(0u);
         }
+
         public string ToString(uint n)
         {
             return this.GetDefaultToStringInformation(n);
         }
+
         public string PropertiesToString(uint n)
         {
             var spaces = StringHelper.Spaces(n);

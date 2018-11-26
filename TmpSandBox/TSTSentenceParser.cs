@@ -354,7 +354,7 @@ namespace TmpSandBox
             sentence = "Here is our new office.";
             NParsingSentence(sentence, false);
 
-            sentence = "\"How are you?\" said Winnie-the-Pooh.";
+            sentence = "\"How are you?\" said Tom.";
             NParsingSentence(sentence, false);
 
             //Can: 
@@ -502,16 +502,16 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             //Vocative case
-            sentence = "I know, Stephen.";
+            sentence = "I know, Tom.";
             NParsingSentence(sentence, false);
 
-            sentence = "Jonathan, do not forget your shower gel.";
+            sentence = "Tom, do not forget your shower gel.";
             NParsingSentence(sentence, true);//true
 
             sentence = "And that, your Honor, concludes our case.";
             NParsingSentence(sentence, false);
 
-            sentence = "Do me a favour, Kev, and ask Tim to stop speaking with the dog.";
+            sentence = "Do me a favour, Tom, and ask Tim to stop speaking with the dog.";
             NParsingSentence(sentence, false);
 
             sentence = "Where have you been, you little adventurer?";
@@ -523,16 +523,16 @@ namespace TmpSandBox
             sentence = "She said, \"What time will you be home?\" and I said, \"I don't know!\"";
             NParsingSentence(sentence, false);
 
-            sentence = "\"There's a fly in my soup!\" screamed Simone.";
+            sentence = "\"There's a fly in my soup!\" screamed Tom.";
             NParsingSentence(sentence, false);
 
-            sentence = "Is that Olivia’s bag?";
+            sentence = "Is that Tom’s bag?";
             NParsingSentence(sentence, false);
 
             sentence = "Britain’s coastline is very beautiful.";
             NParsingSentence(sentence, false);
 
-            sentence = "We went to Jake’s father’s funeral.";
+            sentence = "We went to Tom’s father’s funeral.";
             NParsingSentence(sentence, false);
 
             sentence = "Is that yesterday’s paper?";

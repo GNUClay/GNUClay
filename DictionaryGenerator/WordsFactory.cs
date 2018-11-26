@@ -78,7 +78,7 @@ namespace DictionaryGenerator
             var complexWordsList = new List<string>();
 
             var rootNounsList = mRootNounsSource.ReadAll();
-
+            
             //var rootNounClassesFactory = new RootNounClassesFactory(rootNounsList);
             //mNounClassesDict = rootNounClassesFactory.Result;
 
@@ -307,6 +307,16 @@ to have (when it means "to possess")*
             {
                 grammaticalWordFrame.LogicalMeaning = new List<string>() { "entity" };
             }
+            else
+            {
+                if(grammaticalWordFrame.PartOfSpeech == GrammaticalPartOfSpeech.Verb)
+                {
+                    if(ListHelper.IsEmpty(grammaticalWordFrame.LogicalMeaning))
+                    {
+                        grammaticalWordFrame.LogicalMeaning = new List<string>() { "entity" };
+                    }            
+                }
+            }
 
             if(grammaticalWordFrame.LogicalMeaning == null)
             {
@@ -320,14 +330,6 @@ to have (when it means "to possess")*
 
         private void ProcessRootWordName(string rootWord)
         {
-            if(mTargetWordsList != null)
-            {
-                if(!mTargetWordsList.Contains(rootWord))
-                {
-                    return;
-                }
-            }
-
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
 #endif
@@ -387,6 +389,14 @@ to have (when it means "to possess")*
 
         private void ProcessNoun(string rootWord)
         {
+            if (mTargetWordsList != null)
+            {
+                if (!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessNoun rootWord = {rootWord}");
 #endif
@@ -554,6 +564,14 @@ to have (when it means "to possess")*
             {
                 ProcessDo(rootWord);
                 return;
+            }
+
+            if (mTargetWordsList != null)
+            {
+                if (!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
             }
 
 #if DEBUG
@@ -902,6 +920,14 @@ to have (when it means "to possess")*
 
         private void ProcessAdj(string rootWord)
         {
+            if (mTargetWordsList != null)
+            {
+                if (!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdj rootWord = {rootWord}");
 #endif
@@ -941,6 +967,14 @@ to have (when it means "to possess")*
 
         private void ProcessAdv(string rootWord)
         {
+            if (mTargetWordsList != null)
+            {
+                if (!mTargetWordsList.Contains(rootWord))
+                {
+                    return;
+                }
+            }
+
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessAdv rootWord = {rootWord}");
 #endif

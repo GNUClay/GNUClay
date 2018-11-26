@@ -29,7 +29,7 @@ namespace DictionaryGenerator
             //TSTClassDiscovering();
             //TSTOgdenList();
             //TSTWordsFactory();
-            //TSTCustomWordsFactory();
+            TSTCustomWordsFactory();
             TSTMergeDictionaries();
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();

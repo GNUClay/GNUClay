@@ -69,6 +69,11 @@ namespace TmpSandBox
                         LogInstance.Log($"word = {word}");
 #endif
 
+                        foreach(var extendedToken in extendedTokensList)
+                        {
+                            LogInstance.Log($"extendedToken = {extendedToken}");
+                        }
+
                         mUnknownWordsList.Add(word);
                     }
                 }
