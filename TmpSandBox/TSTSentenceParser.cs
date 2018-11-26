@@ -54,9 +54,13 @@ namespace TmpSandBox
             mTargetImpl = new TSTSentenceParserUnknownWordsDetectorImpl(mWordsDict, AppDomain.CurrentDomain.BaseDirectory, mSentenceDetector, unknownWordsList);
             ProcessAllSentences();
 
-#if DEBUG
+            unknownWordsList = unknownWordsList.Distinct().ToList();
+
             LogInstance.Log($"unknownWordsList.Count = {unknownWordsList.Count}");
-#endif
+            foreach(var unknownWord in unknownWordsList)
+            {
+                LogInstance.Log($"unknownWord = {unknownWord}");
+            }
         }
 
         private void ProcessAllSentences()

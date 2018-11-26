@@ -62,7 +62,14 @@ namespace TmpSandBox
 
                     if(extendedTokensList.Any(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Undefined))
                     {
-                        var word = extendedTokensList.First().;
+                        var word = extendedTokensList.First(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Undefined).Content;
+
+#if DEBUG
+                        LogInstance.Log($"extendedTokensList.First(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Undefined) = {extendedTokensList.First(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Undefined)}");
+                        LogInstance.Log($"word = {word}");
+#endif
+
+                        mUnknownWordsList.Add(word);
                     }
                 }
             }
