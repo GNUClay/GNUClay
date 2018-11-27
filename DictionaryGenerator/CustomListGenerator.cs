@@ -11,7 +11,32 @@ namespace DictionaryGenerator
             var wordsList = new List<string>() {
                 "shower",
                 "o'clock",
-                "Tom"
+                "Tom",
+                "Tim",
+                "explore",
+                "soon",
+                "German",
+                "dictionary",
+                "moment",
+                "visit",
+                "every",
+                "ought",
+                "gel",
+                "honor",
+                "conclude",
+                "case",
+                "favour",
+                "ask",
+                "adventurer",
+                "home",
+                "scream",
+                "Britain",
+                "coastline",
+                "funeral",
+                "holiday",
+                "already",
+                "pick",
+                "cousin"
             };
 
             return wordsList;

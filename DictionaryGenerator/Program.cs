@@ -297,11 +297,11 @@ namespace DictionaryGenerator
             var workingDict = new WordsDictData();
             workingDict.WordsDict = new Dictionary<string, WordFrame>();
 
-            var tagretWorsList = new List<string>() { "dog", "shower" };
-            tagretWorsList.Clear();
+            //var tagretWorsList = new List<string>() { "dog", "shower" };
+            //tagretWorsList.Clear();
 
-            DictionaryMerger.Merge(mainDict, workingDict, tagretWorsList);
-            DictionaryMerger.Merge(namesDict, workingDict, tagretWorsList);
+            DictionaryMerger.Merge(mainDict, workingDict/*, tagretWorsList*/);
+            DictionaryMerger.Merge(namesDict, workingDict/*, tagretWorsList*/);
 
             var workingDictLocalName = "working.dict";
 

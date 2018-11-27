@@ -12,8 +12,11 @@ namespace DictionaryGenerator
 {
     public partial class WordsFactory
     {
-        public WordsFactory()
+        public WordsFactory(string nameOfMainDict = "main.dict", string nameOfNamesDict = "names.dict")
         {
+            mNameOfMainDict = nameOfMainDict;
+            mNameOfNamesDict = nameOfNamesDict;
+
             mRootNounsSource = new RootNounsWordNetSource();
             mRootVerbsSource = new RootVerbsWordNetSource();
             mRootAdjSource = new RootAdjWordNetSource();
@@ -31,6 +34,9 @@ namespace DictionaryGenerator
             mAdjLogicalMeaningsSource = new AdjLogicalMeaningsSource();
             mAdvLogicalMeaningsSource = new AdvLogicalMeaningsSource();
         }
+
+        private string mNameOfMainDict;
+        private string mNameOfNamesDict;
 
         private RootNounsWordNetSource mRootNounsSource;
         private RootVerbsWordNetSource mRootVerbsSource;
@@ -162,8 +168,8 @@ namespace DictionaryGenerator
             //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
 
-            SimpleSaveDict("main.dict", mWordsDictData);
-            SimpleSaveDict("names.dict", mWordsDictDataOfName);
+            SimpleSaveDict(mNameOfMainDict, mWordsDictData);
+            SimpleSaveDict(mNameOfNamesDict, mWordsDictDataOfName);
 
 #if DEBUG
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mTotalCount = {mTotalCount}");
@@ -171,6 +177,9 @@ namespace DictionaryGenerator
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictData = {mWordsDictData}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName.WordsDict.Count = {mWordsDictDataOfName.WordsDict.Count}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName = {mWordsDictDataOfName}");
+
+            var tmpWordFrame = mWordsDictData.WordsDict["gone"];
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpWordFrame = {tmpWordFrame}");
 #endif
         }
 
@@ -267,6 +276,8 @@ to have (when it means "to possess")*
             ProcessAllInterjections();
             ProcessAllArticles();
             ProcessAllNumerals();
+            ProcessAllVerbs();
+            ProcessSpecialWords();
 
             foreach (var rootName in totalNamesList)
             {
@@ -301,6 +312,10 @@ to have (when it means "to possess")*
                 throw new ArgumentNullException(nameof(grammaticalWordFrame));
             }
 
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"AddGrammaticalWordFrame word = {word}");
+#endif
+
             var wordFrame = GetWordFrame(word);
 
             if(grammaticalWordFrame.PartOfSpeech == GrammaticalPartOfSpeech.Noun || grammaticalWordFrame.PartOfSpeech == GrammaticalPartOfSpeech.Pronoun)
@@ -331,7 +346,12 @@ to have (when it means "to possess")*
         private void ProcessRootWordName(string rootWord)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+            if (rootWord == "britain")
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+                throw new NotImplementedException();
+            }
+            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
 #endif
 
             var rez = Regex.Match(rootWord, @"\(\w+\)");
@@ -492,77 +512,81 @@ to have (when it means "to possess")*
             });
         }
 
+        private void ProcessAllVerbs()
+        {
+            ProcessBe("be");
+            ProcessCan("can");
+            ProcessCould("could");
+            ProcessMay("may");
+            ProcessMight("might");
+            ProcessMust("must");
+            ProcessWould("would");
+            ProcessShould("should");
+            ProcessShell("shell");
+            ProcessWill("will");
+            ProcessHave("have");
+            ProcessDo("do");
+        }
+
         private void ProcessVerb(string rootWord)
         {
             if (rootWord == "be")
-            {
-                ProcessBe(rootWord);
+            {      
                 return;
             }
 
             if(rootWord == "can")
-            {
-                ProcessCan(rootWord);
+            {              
                 return;
             }
 
             if (rootWord == "could")
             {
-                ProcessCould(rootWord);
                 return;
             }
 
             if (rootWord == "may")
             {
-                ProcessMay(rootWord);
                 return;
             }
 
             if(rootWord == "might")
             {
-                ProcessMight(rootWord);
                 return;
             }
 
             if (rootWord == "must")
             {
-                ProcessMust(rootWord);
                 return;
             }
 
             if (rootWord == "would")
             {
-                ProcessWould(rootWord);
                 return;
             }
 
             if (rootWord == "should")
             {
-                ProcessShould(rootWord);
                 return;
             }
 
             if(rootWord == "shell")
             {
-                ProcessShell(rootWord);
                 return;
             }
             
             if (rootWord == "will")
             {
-                ProcessWill(rootWord);
                 return;
             }
 
             if (rootWord == "have")
             {
-                ProcessHave(rootWord);
                 return;
             }
 
             if(rootWord == "do")
             {
-                ProcessDo(rootWord);
                 return;
             }
 
@@ -608,7 +632,7 @@ to have (when it means "to possess")*
 
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessVerb particleFormsList = {string.Join(',', particleFormsList)}");
 
-            foreach(var particleForm in pastFormsList)
+            foreach(var particleForm in particleFormsList)
             {
                 AddGrammaticalWordFrame(particleForm, new VerbGrammaticalWordFrame()
                 {
