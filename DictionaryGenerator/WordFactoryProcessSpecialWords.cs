@@ -7,20 +7,16 @@ namespace DictionaryGenerator
 {
     public partial class WordsFactory
     {
-        private void ProcessSpecialWords()
+        private void AddUsualSpecialWords(ref List<string> usualWordsList)
         {
             var word = "ought";
-            AddGrammaticalWordFrame(word, new VerbGrammaticalWordFrame()
-            {
-                Tense = GrammaticalTenses.Present,
-                IsModal = true
-            });
+            AddSpecialWordToUsualWords(word, ref usualWordsList);
+            AddSpecialWordToRootNounDict(word);
+            AddSpecialWordToRootVerbsDict(word);
+        }
 
-            AddGrammaticalWordFrame(word, new NounGrammaticalWordFrame
-            {
-                IsCountable = true,
-
-            });
+        private void ProcessSpecialWords()
+        {
         }
     }
 }

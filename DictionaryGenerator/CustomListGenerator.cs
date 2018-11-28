@@ -20,7 +20,6 @@ namespace DictionaryGenerator
                 "moment",
                 "visit",
                 "every",
-                "ought",
                 "gel",
                 "honor",
                 "conclude",

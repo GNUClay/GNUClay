@@ -27,7 +27,7 @@ namespace DictionaryGenerator
 #if DEBUG
                     LogInstance.Log($"content = {content}");
 #endif
-                    var initWordsList = content.Split('\n', ',', '.', ' ').ToList();
+                    var initWordsList = content.Split('\n', ',', '.', '/', ' ').ToList();
 
 #if DEBUG
                     LogInstance.Log($"initWordsList.Count = {initWordsList.Count}");
@@ -42,7 +42,7 @@ namespace DictionaryGenerator
 #if DEBUG
                         //LogInstance.Log($"word = {word}");
 #endif
-                        wordsList.Add(word);
+                        wordsList.Add(word.ToLower().Trim());
                     }
                 }
             }

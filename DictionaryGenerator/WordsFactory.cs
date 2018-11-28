@@ -163,10 +163,70 @@ namespace DictionaryGenerator
             mWordsDictDataOfName.WordsDict = new Dictionary<string, WordFrame>();
             //mWordsDictDataOfName.NamesList = new List<string>();
 
+            var usualTargetWordsList = new List<string>();
+            var namesTargetWordsList = new List<string>();
+
+            if (!mTargetWordsList.IsEmpty())
+            {
+                SeparateTargetWordsList(ref usualTargetWordsList, ref namesTargetWordsList);
+
+                if(namesTargetWordsList.Count > 0)
+                {
+                    var notFoundTargetNamesList = namesTargetWordsList.Where(p => !namesWordsList.Contains(p)).Distinct().ToList();
+
+                    if(notFoundTargetNamesList.Count > 0)
+                    {
+                        namesWordsList.AddRange(notFoundTargetNamesList);
+                    }
+
+#if DEBUG
+                    //NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundTargetNamesList.Count = {notFoundTargetNamesList.Count}");
+                    //foreach(var notFoundTargetName in notFoundTargetNamesList)
+                    //{
+                    //    NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundTargetName = {notFoundTargetName}");
+                    //}
+#endif
+                }
+            }
+
+            AddUsualSpecialWords(ref usualWordsList);
+
+            usualWordsList = usualWordsList.Distinct().ToList();
+            namesWordsList = namesWordsList.Distinct().ToList();
+            complexWordsList = complexWordsList.Distinct().ToList();
+
             ProcessUsualWords(usualWordsList);
             ProcessNames(namesWordsList);
             //ProcessDigits(digitsWordsList);
             ProcessComplexPhrases(complexWordsList);
+
+            if (!mTargetWordsList.IsEmpty())
+            {
+                if(usualTargetWordsList.Count > 0)
+                {
+                    var notFoundUsualTargetWordsList = new List<string>();
+
+                    foreach(var usualTargetWord in usualTargetWordsList)
+                    {
+                        if(mWordsDictData.WordsDict.ContainsKey(usualTargetWord))
+                        {
+                            continue;
+                        }
+
+                        notFoundUsualTargetWordsList.Add(usualTargetWord);
+                    }
+
+                    notFoundUsualTargetWordsList = notFoundUsualTargetWordsList.Distinct().ToList();
+
+#if DEBUG
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundUsualTargetWordsList.Count = {notFoundUsualTargetWordsList.Count}");
+                    foreach(var notFoundUsualTargetWord in notFoundUsualTargetWordsList)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundUsualTargetWord = '{notFoundUsualTargetWord}'");
+                    }
+#endif
+                }
+            }
 
             SimpleSaveDict(mNameOfMainDict, mWordsDictData);
             SimpleSaveDict(mNameOfNamesDict, mWordsDictDataOfName);
@@ -178,9 +238,84 @@ namespace DictionaryGenerator
             NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName.WordsDict.Count = {mWordsDictDataOfName.WordsDict.Count}");
             //NLog.LogManager.GetCurrentClassLogger().Info($"Run mWordsDictDataOfName = {mWordsDictDataOfName}");
 
-            var tmpWordFrame = mWordsDictData.WordsDict["gone"];
+            var tmpWordFrame = mWordsDictData.WordsDict["ought"];
+            NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpWordFrame = {tmpWordFrame}");
+
+            tmpWordFrame = mWordsDictDataOfName.WordsDict["Tim"];
             NLog.LogManager.GetCurrentClassLogger().Info($"Run tmpWordFrame = {tmpWordFrame}");
 #endif
+        }
+
+        private void AddSpecialWordToUsualWords(string word, ref List<string> usualWordsList)
+        {
+            usualWordsList.Add(word);
+
+            if (mTargetWordsList != null)
+            {
+                if(!mTargetWordsList.Contains(word))
+                {
+                    mTargetWordsList.Add(word);
+                }
+            }
+        }
+
+        private void AddSpecialWordToRootNounDict(string word)
+        {
+            if(mRootNounDict.ContainsKey(word))
+            {
+                return;
+            }
+
+            mRootNounDict[word] = new List<RootNounSourceWordItem>();
+        }
+
+        private void AddSpecialWordToRootVerbsDict(string word)
+        {
+            if(mRootVerbsDict.ContainsKey(word))
+            {
+                return;
+            }
+
+            mRootVerbsDict[word] = new List<RootVerbSourceWordItem>();
+        }
+
+        private void AddSpecialWordToRootAdjsDict(string word)
+        {
+            if(mRootAdjsDict.ContainsKey(word))
+            {
+                return;
+            }
+
+            mRootAdjsDict[word] = new List<RootAdjSourceWordItem>();
+        }
+
+        private void AddSpecialWordToRootAdvsDict(string word)
+        {
+            if(mRootAdvsDict.ContainsKey(word))
+            {
+                return;
+            }
+
+            mRootAdvsDict[word] = new List<RootAdvSourceWordItem>();
+        }
+
+        private void SeparateTargetWordsList(ref List<string> usualTargetWordsList, ref List<string> namesTargetWordsList)
+        {
+            if (mTargetWordsList == null)
+            {
+                return;
+            }
+
+            foreach(var targetWord in mTargetWordsList)
+            {
+                if(char.IsUpper(targetWord[0]))
+                {
+                    namesTargetWordsList.Add(targetWord);
+                    continue;
+                }
+
+                usualTargetWordsList.Add(targetWord);
+            }
         }
 
         private void SimpleSaveDict(string localPath, WordsDictData dict)
@@ -328,7 +463,7 @@ to have (when it means "to possess")*
                 {
                     if(ListHelper.IsEmpty(grammaticalWordFrame.LogicalMeaning))
                     {
-                        grammaticalWordFrame.LogicalMeaning = new List<string>() { "entity" };
+                        grammaticalWordFrame.LogicalMeaning = new List<string>() { "act" };
                     }            
                 }
             }
@@ -346,12 +481,12 @@ to have (when it means "to possess")*
         private void ProcessRootWordName(string rootWord)
         {
 #if DEBUG
-            if (rootWord == "britain")
-            {
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
-                throw new NotImplementedException();
-            }
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+            //if (rootWord.ToLower() == "britain")
+            //{
+            //    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+            //    throw new NotImplementedException();
+            //}
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = '{rootWord}'");
 #endif
 
             var rez = Regex.Match(rootWord, @"\(\w+\)");
@@ -360,6 +495,12 @@ to have (when it means "to possess")*
             if (!string.IsNullOrWhiteSpace(rezStr))
             {
                 rootWord = rootWord.Replace(rezStr, string.Empty);
+            }
+
+            if(rootWord.Contains("("))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = '{rootWord}'");
+                throw new NotImplementedException();
             }
 
             if (mRootNounDict.ContainsKey(rootWord))
@@ -526,6 +667,7 @@ to have (when it means "to possess")*
             ProcessWill("will");
             ProcessHave("have");
             ProcessDo("do");
+            ProcessOught("ought");
         }
 
         private void ProcessVerb(string rootWord)
@@ -586,6 +728,11 @@ to have (when it means "to possess")*
             }
 
             if(rootWord == "do")
+            {
+                return;
+            }
+
+            if(rootWord == "ought")
             {
                 return;
             }
@@ -791,6 +938,15 @@ to have (when it means "to possess")*
         }
 
         private void ProcessMust(string rootWord)
+        {
+            AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
+            {
+                Tense = GrammaticalTenses.Present,
+                IsModal = true
+            });
+        }
+
+        private void ProcessOught(string rootWord)
         {
             AddGrammaticalWordFrame(rootWord, new VerbGrammaticalWordFrame()
             {

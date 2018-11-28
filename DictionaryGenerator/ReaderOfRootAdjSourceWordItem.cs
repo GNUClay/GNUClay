@@ -49,7 +49,7 @@ namespace DictionaryGenerator
                             break;
 
                         case 5:
-                            result.Word = strValue.Trim();
+                            result.Word = strValue.Replace("(a)", string.Empty).Replace("(p)", string.Empty).Trim();
                             break;
                     }
 
