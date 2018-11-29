@@ -31,7 +31,7 @@ namespace DictionaryGenerator
             //TSTOgdenList();
             TSTDictionaryDiscoverer();
             //TSTWordsFactory();
-            ///TSTCustomWordsFactory();
+            //TSTCustomWordsFactory();
             //TSTMergeDictionaries();
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
@@ -270,7 +270,10 @@ namespace DictionaryGenerator
 
             var mainDict = serializator.LoadFromFile(mainDictFullPath);
 
-            var discoverer = new AdjWithoutClassesDictionaryDiscoverer(mainDict);
+            //var discoverer = new AdjWithoutClassesDictionaryDiscoverer(mainDict);
+            //var discoverer = new AdvWithoutClassesDictionaryDiscoverer(mainDict);
+            //var discoverer = new ActVerbDictionaryDiscoverer(mainDict);
+            var discoverer = new StateVerbDictionaryDiscoverer(mainDict);
             discoverer.Run();
         }
 

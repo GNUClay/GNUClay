@@ -7,9 +7,9 @@ using System.Text;
 
 namespace DictionaryGenerator.DictionaryDiscovering
 {
-    public class AdjWithoutClassesDictionaryDiscoverer: BaseDictionaryDiscoverer
+    public class ActVerbDictionaryDiscoverer : BaseDictionaryDiscoverer
     {
-        public AdjWithoutClassesDictionaryDiscoverer(WordsDictData dict)
+        public ActVerbDictionaryDiscoverer(WordsDictData dict)
             : base(dict)
         {
         }
@@ -20,7 +20,7 @@ namespace DictionaryGenerator.DictionaryDiscovering
             //LogInstance.Log($"wordFrame = {wordFrame}");
 #endif
 
-            return wordFrame.GrammaticalWordFrames.Count(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Adjective && p.LogicalMeaning.IsEmpty()) > 0;
+            return wordFrame.GrammaticalWordFrames.Count(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Verb && p.LogicalMeaning.Contains("act")) > 0;
         }
     }
 }

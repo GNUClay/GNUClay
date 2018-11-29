@@ -1,5 +1,4 @@
-﻿using MyNPCLib;
-using MyNPCLib.SimpleWordsDict;
+﻿using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 
 namespace DictionaryGenerator.DictionaryDiscovering
 {
-    public class AdjWithoutClassesDictionaryDiscoverer: BaseDictionaryDiscoverer
+    public class StateVerbDictionaryDiscoverer : BaseDictionaryDiscoverer
     {
-        public AdjWithoutClassesDictionaryDiscoverer(WordsDictData dict)
+        public StateVerbDictionaryDiscoverer(WordsDictData dict)
             : base(dict)
         {
         }
@@ -20,7 +19,7 @@ namespace DictionaryGenerator.DictionaryDiscovering
             //LogInstance.Log($"wordFrame = {wordFrame}");
 #endif
 
-            return wordFrame.GrammaticalWordFrames.Count(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Adjective && p.LogicalMeaning.IsEmpty()) > 0;
+            return wordFrame.GrammaticalWordFrames.Count(p => p.PartOfSpeech == GrammaticalPartOfSpeech.Verb && p.LogicalMeaning.Contains("state")) > 0;
         }
     }
 }
