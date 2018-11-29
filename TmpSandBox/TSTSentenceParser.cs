@@ -541,7 +541,7 @@ namespace TmpSandBox
             sentence = "I’ve only had one week’s holiday so far this year.";
             NParsingSentence(sentence, false);
 
-            sentence = "My sister-in-law’s friend came with us.";
+            sentence = "My sister’s friend came with us.";
             NParsingSentence(sentence, false);
 
             sentence = "A friend of mine told me that all of the tickets have already sold out.";

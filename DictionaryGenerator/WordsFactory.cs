@@ -183,7 +183,7 @@ namespace DictionaryGenerator
                     //NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundTargetNamesList.Count = {notFoundTargetNamesList.Count}");
                     //foreach(var notFoundTargetName in notFoundTargetNamesList)
                     //{
-                    //    NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundTargetName = {notFoundTargetName}");
+                    //    LogInstance.Log($"notFoundTargetName = {notFoundTargetName}");
                     //}
 #endif
                 }
@@ -219,10 +219,10 @@ namespace DictionaryGenerator
                     notFoundUsualTargetWordsList = notFoundUsualTargetWordsList.Distinct().ToList();
 
 #if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundUsualTargetWordsList.Count = {notFoundUsualTargetWordsList.Count}");
+                    LogInstance.Log($"notFoundUsualTargetWordsList.Count = {notFoundUsualTargetWordsList.Count}");
                     foreach(var notFoundUsualTargetWord in notFoundUsualTargetWordsList)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Info($"Run notFoundUsualTargetWord = '{notFoundUsualTargetWord}'");
+                        LogInstance.Log($"notFoundUsualTargetWord = '{notFoundUsualTargetWord}'");
                     }
 #endif
                 }

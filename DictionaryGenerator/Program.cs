@@ -1,4 +1,5 @@
-﻿using MyNPCLib;
+﻿using DictionaryGenerator.DictionaryDiscovering;
+using MyNPCLib;
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,10 @@ namespace DictionaryGenerator
             //TSTRemoveRoundBreackets();
             //TSTClassDiscovering();
             //TSTOgdenList();
+            TSTDictionaryDiscoverer();
             //TSTWordsFactory();
-            TSTCustomWordsFactory();
-            TSTMergeDictionaries();
+            ///TSTCustomWordsFactory();
+            //TSTMergeDictionaries();
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
@@ -248,6 +250,30 @@ namespace DictionaryGenerator
             //wordsFactory.Run(wordsList);
         }
 
+        private static void TSTDictionaryDiscoverer()
+        {
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var serializator = new WordsDictSerializationEngine();
+
+            var mainDictLocalName = "main.dict";
+
+            var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
+
+#if DEBUG
+            LogInstance.Log($"mainDictFullPath = {mainDictFullPath}");
+#endif
+
+            var mainDict = serializator.LoadFromFile(mainDictFullPath);
+
+            var discoverer = new AdjWithoutClassesDictionaryDiscoverer(mainDict);
+            discoverer.Run();
+        }
+
         private static void TSTWordsFactory()
         { 
             var tragetWordsList = new List<string>() { "dog" };
@@ -267,7 +293,7 @@ namespace DictionaryGenerator
             var rootPath = AppDomain.CurrentDomain.BaseDirectory;
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries rootPath = {rootPath}");
+            LogInstance.Log($"rootPath = {rootPath}");
 #endif
 
             var serializator = new WordsDictSerializationEngine();
@@ -277,7 +303,7 @@ namespace DictionaryGenerator
             var mainDictFullPath = Path.Combine(rootPath, mainDictLocalName);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries mainDictFullPath = {mainDictFullPath}");
+            LogInstance.Log($"mainDictFullPath = {mainDictFullPath}");
 #endif
 
             var mainDict = serializator.LoadFromFile(mainDictFullPath);
@@ -287,7 +313,7 @@ namespace DictionaryGenerator
             var namesDictFullPath = Path.Combine(rootPath, namesDictLocalName);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTMergeDictionaries namesDictFullPath = {namesDictFullPath}");
+            LogInstance.Log($"namesDictFullPath = {namesDictFullPath}");
 #endif
 
             var namesDict = serializator.LoadFromFile(namesDictFullPath);

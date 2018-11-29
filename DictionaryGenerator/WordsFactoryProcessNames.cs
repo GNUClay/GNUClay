@@ -1,4 +1,5 @@
-﻿using MyNPCLib.SimpleWordsDict;
+﻿using MyNPCLib;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,10 @@ namespace DictionaryGenerator
 #if DEBUG
             //if (rootWord.ToLower() == "britain")
             //{
-            //    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName rootWord = {rootWord}");
+            //    LogInstance.Log($"rootWord = {rootWord}");
             //    throw new NotImplementedException();
             //}
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessRootWordName rootWord = {rootWord}");
+            //LogInstance.Log($"rootWord = {rootWord}");
 #endif
 
             if (mTargetWordsList != null)
@@ -37,7 +38,7 @@ namespace DictionaryGenerator
             }
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessName rootWord = {rootWord}");
+            LogInstance.Log($"rootWord = {rootWord}");
 #endif
 
             var rez = Regex.Match(rootWord, @"\(\w+\)");
