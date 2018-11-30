@@ -18,6 +18,9 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\LogicalMeanings\adj\color.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\LogicalMeanings\verb\state.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -100,7 +103,6 @@
 
   <ItemGroup>
     <Folder Include="Resources\LogicalMeanings\adv\" />
-    <Folder Include="Resources\LogicalMeanings\adj\" />
   </ItemGroup>
 
   <ItemGroup>
