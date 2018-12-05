@@ -74,7 +74,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             if(commaInstruction == CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo)
             {
-
+                throw new NotImplementedException();
             }
 
             switch (State)
@@ -217,6 +217,9 @@ namespace MyNPCLib.NLToCGParsing_v2
                                         ContextOfState.AddNode(nextState);
                                     }
                                     break;
+
+                                case GrammaticalPartOfSpeech.Noun:
+                                    return false;
 
                                 default:
                                     throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null);

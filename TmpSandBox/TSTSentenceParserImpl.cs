@@ -1,4 +1,5 @@
 ﻿using MyNPCLib;
+using MyNPCLib.Dot;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
@@ -18,11 +19,14 @@ namespace TmpSandBox
             mWordsDict = wordsDict;
             mBasePath = basePath;
             mSentenceDetector = sentencesDetector;
+            mSemanticAnalyzer = new SemanticAnalyzer_v2(wordsDict);
         }
 
         private EnglishMaximumEntropySentenceDetector mSentenceDetector;
         private IWordsDict mWordsDict;
         private string mBasePath;
+        private SemanticAnalyzer_v2 mSemanticAnalyzer;
+        public bool ConvertToConceptualGraph { get; set; }
 
         public void Parse(string text)
         {
@@ -64,6 +68,17 @@ namespace TmpSandBox
                 {
                     LogInstance.Log($"resultItem.GetHashCode() = {resultItem.GetHashCode()}");
                     LogInstance.Log($"resultItem = {resultItem}");
+
+                    if(ConvertToConceptualGraph)
+                    {
+                        var graph = mSemanticAnalyzer.Run(resultItem);
+
+                        LogInstance.Log($"graph = {graph}");
+
+                        var dotStr = DotConverter.ConvertToString(graph);
+
+                        LogInstance.Log($"dotStr = {dotStr}");
+                    }
                 }
             }
         }

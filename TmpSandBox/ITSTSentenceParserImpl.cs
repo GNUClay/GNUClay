@@ -6,6 +6,7 @@ namespace TmpSandBox
 {
     public interface ITSTSentenceParserImpl
     {
+        bool ConvertToConceptualGraph { get; set; }
         void Parse(string text);
     }
 }

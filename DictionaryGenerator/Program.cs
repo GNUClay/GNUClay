@@ -30,10 +30,10 @@ namespace DictionaryGenerator
             //TSTClassDiscovering();
             //TSTOgdenList();
             TSTCustomWordsFactory();
-            TSTDictionaryDiscoverer();
+            //TSTDictionaryDiscoverer();
             //TSTWordsFactory();
             //TSTCustomWordsFactory();
-            //TSTMergeDictionaries();
+            TSTMergeDictionaries();
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();

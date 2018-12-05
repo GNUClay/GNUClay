@@ -24,6 +24,7 @@ namespace TmpSandBox
         private IWordsDict mWordsDict;
         private string mBasePath;
         private List<string> mUnknownWordsList;
+        public bool ConvertToConceptualGraph { get; set; }
 
         public void Parse(string text)
         {

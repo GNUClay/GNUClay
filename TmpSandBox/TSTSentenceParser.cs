@@ -69,7 +69,7 @@ namespace TmpSandBox
 
             //Active: Present Simple
             var sentence = "I play.";
-            NParsingSentence(sentence, false);
+            NParsingSentence(sentence, true);
 
             sentence = "Do I play?";
             NParsingSentence(sentence, false);
@@ -506,7 +506,7 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Tom, do not forget your shower gel.";
-            NParsingSentence(sentence, true);//true
+            NParsingSentence(sentence, false);//true
 
             sentence = "And that, your Honor, concludes our case.";
             NParsingSentence(sentence, false);
@@ -560,7 +560,8 @@ namespace TmpSandBox
         private WordsDict mWordsDict;
         private State mState = State.Init;
         private ITSTSentenceParserImpl mTargetImpl;
-        
+        public bool ConvertToConceptualGraph { get; set; }
+
         private void NParsingSentence(string text, bool isActual)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -591,6 +592,7 @@ namespace TmpSandBox
             mCount++;
             LogInstance.Log($"mCount = {mCount}/{mTotalCount}");
 
+            mTargetImpl.ConvertToConceptualGraph = ConvertToConceptualGraph;
             mTargetImpl.Parse(text);
         }
     }

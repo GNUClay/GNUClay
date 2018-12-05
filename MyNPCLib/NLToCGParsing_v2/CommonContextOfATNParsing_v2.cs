@@ -1,5 +1,6 @@
 ﻿using MyNPCLib.NLToCGParsing.PhraseTree;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,11 @@ namespace MyNPCLib.NLToCGParsing_v2
 #if DEBUG
             //LogInstance.Log($"sentence = {sentence}");
 #endif
+
+            if(sentence.Tense == GrammaticalTenses.All)
+            {
+                sentence.Tense = GrammaticalTenses.Present;
+            }
 
             mSentencesList.Add(sentence);
         }
