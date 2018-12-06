@@ -394,6 +394,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
             sb.AppendLine($"{spaces}{nameof(Voice)} = {Voice}");
             sb.AppendLine($"{spaces}{nameof(Modal)} = {Modal}");
             sb.AppendLine($"{spaces}{nameof(Mood)} = {Mood}");
+            sb.AppendLine($"{spaces}{nameof(IsQuestion)} = {IsQuestion}");
+            sb.AppendLine($"{spaces}{nameof(IsNegation)} = {IsNegation}");
             if (NounPhrasesList == null)
             {
                 sb.AppendLine($"{spaces}{nameof(NounPhrasesList)} = null");
