@@ -46,11 +46,34 @@ namespace MyNPCLib.NLToCGParsing_v2
             LogInstance.Log($"subject = {subject}");
 #endif
 
+            ResultOfNodeOfSemanticAnalyzer subjectResult = null;
+
+            if (subject != null)
+            {
+                var subjectNode = new NounPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, subject);
+                subjectResult = subjectNode.Run();
+
+#if DEBUG
+                LogInstance.Log($"subjectResult = {subjectResult}");
+#endif
+            }
+
             var rootVerb = mSentence.VerbPhrase;
            
 #if DEBUG
             LogInstance.Log($"rootVerb = {rootVerb}");
 #endif
+
+            ResultOfNodeOfSemanticAnalyzer verbResult = null;
+
+            if (rootVerb != null)
+            {
+                var verbNode = new VerbPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, rootVerb);
+                verbResult = verbNode.Run();
+#if DEBUG
+                LogInstance.Log($"verbResult = {verbResult}");
+#endif
+            }
 
             throw new NotImplementedException();
         }
