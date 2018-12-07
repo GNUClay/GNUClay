@@ -33,22 +33,17 @@ namespace MyNPCLib.NLToCGParsing_v2
             LogInstance.Log($"plainSentencesList.Count = {plainSentencesList.Count}");
 #endif
 
-            throw new NotImplementedException();
-
-            //var sentenceNode = new SentenceNodeOfSemanticAnalyzer_v2(context, sentence);
-            //var sentenceResult = sentenceNode.Run();
-
-#if DEBUG
-            LogInstance.Log($"sentenceResult = {sentenceResult}");
-#endif
-
-            var result = outerConceptualGraph;
+            foreach(var plainSentence in plainSentencesList)
+            {
+                var sentenceNode = new SentenceNodeOfSemanticAnalyzer_v2(context, plainSentence);
+                sentenceNode.Run();
+            }
 
 #if DEBUG
             LogInstance.Log("End");
 #endif
 
-            return result;
+            return outerConceptualGraph;
         }
 
         private List<PlainSentence> ConvertToPlainSentencesList(Sentence_v2 sentence)
@@ -65,20 +60,13 @@ namespace MyNPCLib.NLToCGParsing_v2
                     item.Aspect = sentence.Aspect;
                     item.Tense = sentence.Tense;
                     item.Voice = sentence.Voice;
-                    item. = sentence.;
-                    item. = sentence.;
-                    item. = sentence.;
-                    item. = sentence.;
-                    item. = sentence.;
-                    /*
-        public GrammaticalMood Mood { get; set; } = GrammaticalMood.Undefined;
-        public KindOfModal Modal { get; set; } = KindOfModal.Undefined;
-        public bool IsQuestion { get; set; }
-        public bool IsNegation { get; set; }
-                public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
-        public List<BaseWordPhrase_v2> QuestionToObjectsList { get; set; } = new List<BaseWordPhrase_v2>();
-        public List<NounPhrase_v2> VocativePhrasesList { get; set; } = new List<NounPhrase_v2>();
-                    */
+                    item.Mood = sentence.Mood;
+                    item.Modal = sentence.Modal;
+                    item.IsQuestion = sentence.IsQuestion;
+                    item.IsNegation = sentence.IsNegation;
+                    item.ConditionsList = sentence.ConditionsList;
+                    item.QuestionToObjectsList = sentence.QuestionToObjectsList;
+                    item.VocativePhrasesList = sentence.VocativePhrasesList;
 
                     result.Add(item);
                 }

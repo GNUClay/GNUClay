@@ -17,29 +17,40 @@ namespace MyNPCLib.NLToCGParsing_v2
         }
 
         private PlainSentence mSentence;
-        //private ConceptualGraph mConceptualGraph;
+        private ConceptualGraph mConceptualGraph;
 
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG
             LogInstance.Log($"mSentence = {mSentence}");
 #endif
-//            var result = new ResultOfNodeOfSemanticAnalyzer();
-//            var resultPrimaryRolesDict = result.PrimaryRolesDict;
-//            var resultSecondaryRolesDict = result.SecondaryRolesDict;
+            var result = new ResultOfNodeOfSemanticAnalyzer();
+            var resultPrimaryRolesDict = result.PrimaryRolesDict;
+            var resultSecondaryRolesDict = result.SecondaryRolesDict;
 
-//            mConceptualGraph = new ConceptualGraph();
-//            mConceptualGraph.Parent = Context.OuterConceptualGraph;
-//            Context.ConceptualGraph = mConceptualGraph;
-//            mConceptualGraph.Name = NamesHelper.CreateEntityName();
+            mConceptualGraph = new ConceptualGraph();
+            mConceptualGraph.Parent = Context.OuterConceptualGraph;
+            Context.ConceptualGraph = mConceptualGraph;
+            mConceptualGraph.Name = NamesHelper.CreateEntityName();
 
-//            CreateGrammaticalRelations();
+            CreateGrammaticalRelations();
 
-//            var rootVerb = mSentence.VerbPhrasesList;
+            if(!mSentence.VocativePhrasesList.IsEmpty())
+            {
+                throw new NotImplementedException();
+            }
 
-//#if DEBUG
-//            LogInstance.Log($"rootVerb = {rootVerb}");
-//#endif
+            var subject = mSentence.NounPhrase;
+
+#if DEBUG
+            LogInstance.Log($"subject = {subject}");
+#endif
+
+            var rootVerb = mSentence.VerbPhrase;
+           
+#if DEBUG
+            LogInstance.Log($"rootVerb = {rootVerb}");
+#endif
 
             throw new NotImplementedException();
         }
