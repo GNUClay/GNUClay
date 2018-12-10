@@ -710,6 +710,14 @@ namespace DictionaryGenerator
             rootWord = word;
             AddGrammaticalWordFrame(word, new PrepositionGrammaticalWordFrame()
             {
+                ConditionalLogicalMeaning = new Dictionary<string, IList<string>>()
+                {
+                    {
+                        "go", new List<string>() {
+                            "direction"
+                        }
+                    }
+                }
             });
 
             word = "2";

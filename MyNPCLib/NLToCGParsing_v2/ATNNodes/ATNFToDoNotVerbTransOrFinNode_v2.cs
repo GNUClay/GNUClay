@@ -76,6 +76,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNFToDoNotVerbTransOrFinNode_v2 mSameNode;
         private InitATNFToDoNotVerbTransOrFinNodeAction mInitAction;
 
+        public VerbPhrase_v2 VerbPhrase { get; private set; }
+
         protected override void ImplementGoalToken()
         {
 #if DEBUG
@@ -90,6 +92,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var verbPhrase = new VerbPhrase_v2();
             verbPhrase.Verb = Token;
             Sentence.AddVerbPhrase(verbPhrase);
+
+            VerbPhrase = verbPhrase;
         }
 
         protected override void ProcessNextToken()

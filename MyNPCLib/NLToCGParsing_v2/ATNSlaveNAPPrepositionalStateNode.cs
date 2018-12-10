@@ -79,6 +79,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Noun:
                             case GrammaticalPartOfSpeech.Article:
                             case GrammaticalPartOfSpeech.Number:
+                            case GrammaticalPartOfSpeech.Adjective:
                                 {
                                     var target = new PrepositionalTargetOfATNSlaveNAPNode(mPrepositionalPhrase);
                                     var nextState = new ATNSlaveNAPNounStateNode(Context, target, ContextOfState);

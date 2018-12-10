@@ -58,7 +58,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
-            SlaveNAPNode = new ATNSlaveNAPNode(context, new ObjectTargetOfATNSlaveNAPNode());
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new ObjectTargetOfATNSlaveNAPNode(parentNode.VerbPhrase));
             RegATNSlaveNAPNode(SlaveNAPNode);
         }
 

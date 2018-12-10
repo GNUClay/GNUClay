@@ -153,6 +153,19 @@ namespace DictionaryGenerator
             }
 
             var wordFrame = GetWordFrameOfName(word);
+
+            if(grammaticalWordFrame.LogicalMeaning.IsEmpty())
+            {
+                grammaticalWordFrame.LogicalMeaning = new List<string>() { "entity" };
+            }
+
+            grammaticalWordFrame.FullLogicalMeaning = grammaticalWordFrame.LogicalMeaning.ToList();
+
+            if (string.IsNullOrWhiteSpace(grammaticalWordFrame.RootWord))
+            {
+                grammaticalWordFrame.RootWord = word;
+            }
+
             wordFrame.GrammaticalWordFrames.Add(grammaticalWordFrame);
         }
     }

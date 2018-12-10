@@ -475,6 +475,11 @@ to have (when it means "to possess")*
 
             grammaticalWordFrame.FullLogicalMeaning = grammaticalWordFrame.LogicalMeaning.ToList();
 
+            if(string.IsNullOrWhiteSpace(grammaticalWordFrame.RootWord))
+            {
+                grammaticalWordFrame.RootWord = word;
+            }
+
             wordFrame.GrammaticalWordFrames.Add(grammaticalWordFrame);
         }
 

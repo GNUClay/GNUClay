@@ -4,6 +4,7 @@ using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -78,45 +79,45 @@ namespace MyNPCLib.NLToCGParsing_v2
             if (!ajectivesList.IsEmpty())
             {
 #if DEBUG
-                //LogInstance.Log($"ajectivesList.Count = {ajectivesList.Count}");
+                LogInstance.Log($"ajectivesList.Count = {ajectivesList.Count}");
 #endif
-                throw new NotImplementedException();
-//                foreach (var ajective in ajectivesList)
-//                {
-//#if DEBUG
-//                    //LogInstance.Log($"ajective = {ajective}");
-//#endif
 
-//                    var ajectiveNode = new AjectivePhraseNodeOfSemanticAnalyzer(Context, ajective);
-//                    var ajectiveNodeResult = ajectiveNode.Run();
+                foreach (var ajective in ajectivesList)
+                {
+#if DEBUG
+                    LogInstance.Log($"ajective = {ajective}");
+#endif
 
-//#if DEBUG
-//                    //LogInstance.Log($"ajectiveNodeResult = {ajectiveNodeResult}");
-//#endif
-//                    var role = ajective.Adjective.LogicalMeaning.FirstOrDefault();
+                    var ajectiveNode = new AjectivePhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, ajective);
+                    var ajectiveNodeResult = ajectiveNode.Run();
 
-//#if DEBUG
-//                    //LogInstance.Log($"role = {role}");
-//#endif
+#if DEBUG
+                    //LogInstance.Log($"ajectiveNodeResult = {ajectiveNodeResult}");
+#endif
+                    var role = ajective.Adjective.LogicalMeaning.FirstOrDefault();
 
-//                    if (!string.IsNullOrWhiteSpace(role))
-//                    {
-//                        var ajectiveConcept = ajectiveNodeResult.RootConcept;
+#if DEBUG
+                    //LogInstance.Log($"role = {role}");
+#endif
 
-//#if DEBUG
-//                        //LogInstance.Log($"ajectiveConcept = {ajectiveConcept.ToBriefString()}");
-//#endif
+                    if (!string.IsNullOrWhiteSpace(role))
+                    {
+                        var ajectiveConcept = ajectiveNodeResult.RootConcept;
 
-//                        var ajectiveRelation = new RelationCGNode();
-//                        ajectiveRelation.Parent = conceptualGraph;
-//                        ajectiveRelation.Name = role;
+#if DEBUG
+                        //LogInstance.Log($"ajectiveConcept = {ajectiveConcept.ToBriefString()}");
+#endif
 
-//                        MarkAsEntityCondition(ajectiveRelation);
+                        var ajectiveRelation = new RelationCGNode();
+                        ajectiveRelation.Parent = conceptualGraph;
+                        ajectiveRelation.Name = role;
 
-//                        ajectiveRelation.AddInputNode(mConcept);
-//                        ajectiveRelation.AddOutputNode(ajectiveConcept);
-//                    }
-//                }
+                        MarkAsEntityCondition(ajectiveRelation);
+
+                        ajectiveRelation.AddInputNode(mConcept);
+                        ajectiveRelation.AddOutputNode(ajectiveConcept);
+                    }
+                }
             }
 
             var additionalInfoList = mNounPhrase.AdditionalInfoList;

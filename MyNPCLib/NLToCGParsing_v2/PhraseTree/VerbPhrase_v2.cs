@@ -66,7 +66,24 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
-            PrepositionalList
+            if(PrepositionalList != null)
+            {
+                foreach(var item in PrepositionalList)
+                {
+                    if (item.RunTimeSessionKey == key)
+                    {
+                        object obj = item;
+                        return (T)obj;
+                    }
+
+                    var result = item.GetByRunTimeSessionKey<T>(key);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
 
             return null;
         }
@@ -101,7 +118,17 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
-            PrepositionalList
+            if(PrepositionalList == null)
+            {
+                result.PrepositionalList = null;
+            }
+            else
+            {
+                foreach (var item in PrepositionalList)
+                {
+                    result.PrepositionalList.Add(item.Fork());
+                }
+            }
 
             return result;
         }
@@ -147,7 +174,16 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     }
                 }
 
-                PrepositionalList
+                if(!PrepositionalList.IsEmpty())
+                {
+                    foreach (var item in PrepositionalList)
+                    {
+                        if (!item.IsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
 
                 return true;
             }
@@ -197,9 +233,20 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
-
-            PrepositionalList
-
+           
+            if (PrepositionalList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(PrepositionalList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(PrepositionalList)}");
+                foreach (var item in PrepositionalList)
+                {
+                    sb.Append(item.ToString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(PrepositionalList)}");
+            }
             return sb.ToString();
         }
 
@@ -248,7 +295,19 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
 
-            PrepositionalList
+            if (PrepositionalList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(PrepositionalList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(PrepositionalList)}");
+                foreach (var item in PrepositionalList)
+                {
+                    sb.Append(item.ToShortString(nextN));
+                }
+                sb.AppendLine($"{spaces}End {nameof(PrepositionalList)}");
+            }
 
             return sb.ToString();
         }
@@ -277,9 +336,14 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     result ^= item.GetHashCode();
                 }
             }
-
-            PrepositionalList
-
+ 
+            if (PrepositionalList != null)
+            {
+                foreach (var item in PrepositionalList)
+                {
+                    result ^= item.GetHashCode();
+                }
+            }
             return result;
         }
 

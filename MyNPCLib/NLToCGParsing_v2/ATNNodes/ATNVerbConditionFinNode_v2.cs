@@ -1,6 +1,7 @@
 using MyNPCLib.NLToCGParsing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
@@ -52,7 +53,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
-            SlaveNAPNode = new ATNSlaveNAPNode(context, new ());
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new PrepositionalTargetOfCurrentVerbOfATNSlaveNAPNode(parentNode.VerbPhrase));
             RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
@@ -89,7 +90,61 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
         protected override void ProcessNextToken()
         {
-            throw new NotImplementedException();
+            var extendedTokensList = GetÑlusterOfExtendedTokens();
+
+#if DEBUG
+            LogInstance.Log($"Context = {Context}");
+            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+#endif
+
+            if (extendedTokensList.Count == 0)
+            {
+                Context.PutSentenceToResult();
+                return;
+            }
+
+            //var hasObjOrSubj = false;
+            //var hasObjOrSubj = false;
+
+            foreach (var item in extendedTokensList)
+            {
+#if DEBUG
+                LogInstance.Log($"item = {item}");
+#endif
+
+                var kindOfItem = item.KindOfItem;
+
+                switch(kindOfItem)
+                {
+                    case KindOfItemOfSentence.Subj:
+                        //if (hasObjOrSubj)
+                        //{
+                        //    break;
+                        //}
+                        //hasObjOrSubj = true;
+                        AddTask(new ATNVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Obj:
+                        //if (hasObjOrSubj)
+                        //{
+                        //    break;
+                        //}
+                        //hasObjOrSubj = true;
+                        AddTask(new ATNVerbConditionFinNodeFactory_v2(this, item, null));
+                        break;
+
+                    case KindOfItemOfSentence.Verb:
+                        if(extendedTokensList.Any(p => p.KindOfItem == KindOfItemOfSentence.Subj || p.KindOfItem == KindOfItemOfSentence.Obj))
+                        {
+                            break;
+                        }
+                        throw new NotImplementedException();
+                        
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
+                }
+            }
         }
     }
 }

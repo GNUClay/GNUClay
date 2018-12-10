@@ -1,5 +1,4 @@
-﻿using MyNPCLib.NLToCGParsing.PhraseTree;
-using MyNPCLib.NLToCGParsing_v2.PhraseTree;
+﻿using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
 {
-    public class ObjectTargetOfATNSlaveNAPNode: ITargetOfATNSlaveNAPNode
+    public class PrepositionalTargetOfCurrentVerbOfATNSlaveNAPNode: ITargetOfATNSlaveNAPNode
     {
-        public ObjectTargetOfATNSlaveNAPNode(VerbPhrase_v2 verbPhrase)
+        public PrepositionalTargetOfCurrentVerbOfATNSlaveNAPNode(VerbPhrase_v2 verbPhrase)
         {
             mVerbPhrase = verbPhrase;
         }
@@ -18,9 +17,9 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         public void SetNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-            var wordNode = node.AsBaseWordPhrase;
+            var wordNode = node.AsPrepositionalPhrase;
 
-            if(wordNode == null)
+            if (wordNode == null)
             {
                 throw new ArgumentNullException(nameof(wordNode));
             }
@@ -30,15 +29,11 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         public void ReplaceNode(BasePhrase_v2 node, ContextOfATNParsing_v2 context)
         {
-#if DEBUG
-            //LogInstance.Log($"node = {node}");
-#endif
-
-            var wordNode = node.AsBaseWordPhrase;
+            var wordNode = node.AsPrepositionalPhrase;
 
             var actualTarget = context.GetByRunTimeSessionKey<VerbPhrase_v2>(mVerbPhrase);
 
-            var itemsList = actualTarget.ObjectsList;
+            var itemsList = actualTarget.PrepositionalList;
 
             if (itemsList.Count > 0)
             {
@@ -49,7 +44,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             NSetNode(wordNode, context);
         }
 
-        private void NSetNode(BaseWordPhrase_v2 wordNode, ContextOfATNParsing_v2 context)
+        private void NSetNode(PrepositionalPhrase_v2 wordNode, ContextOfATNParsing_v2 context)
         {
 #if DEBUG
             //LogInstance.Log($"wordNode = {wordNode}");
@@ -58,7 +53,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             var actualTarget = context.GetByRunTimeSessionKey<VerbPhrase_v2>(mVerbPhrase);
 
-            actualTarget.ObjectsList.Add(wordNode);
+            actualTarget.PrepositionalList.Add(wordNode);
 
 #if DEBUG
             //LogInstance.Log($"context = {context}");
@@ -69,7 +64,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             var actualTarget = context.GetByRunTimeSessionKey<VerbPhrase_v2>(mVerbPhrase);
 
-            actualTarget.ObjectsList.Clear();
+            actualTarget.PrepositionalList.Clear();
         }
     }
 }

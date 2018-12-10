@@ -70,6 +70,7 @@ namespace MyNPCLib.SimpleWordsDict
             }
 
 #if DEBUG
+            LogInstance.Log($"wordFrame = {wordFrame}");
             LogInstance.Log($"NEXT word = {word} conditionalWord = {conditionalWord}");
 #endif
 

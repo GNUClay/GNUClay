@@ -78,6 +78,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNSubjVerbTransOrFinNode_v2 mSameNode;
         private InitATNSubjVerbTransOrFinNodeAction mInitAction;
 
+        public VerbPhrase_v2 VerbPhrase { get; private set; }
+
         protected override void ImplementGoalToken()
         {
 #if DEBUG
@@ -99,6 +101,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         Sentence.Mood = GrammaticalMood.Indicative;
                         Sentence.Voice = GrammaticalVoice.Active;
                         Sentence.Modal = KindOfModal.None;
+
+                        VerbPhrase = verbPhrase;
                     }
                     break;
 

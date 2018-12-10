@@ -3,6 +3,7 @@ using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -79,6 +80,70 @@ namespace MyNPCLib.NLToCGParsing_v2
 
                     throw new NotImplementedException();
                 }
+            }
+
+            var prepositionalList = mVerbPhrase.PrepositionalList;
+
+            if(!prepositionalList.IsEmpty())
+            {
+#if DEBUG
+                LogInstance.Log($"prepositionalList.Count = {prepositionalList.Count}");
+#endif
+
+                foreach(var prepositional in prepositionalList)
+                {
+#if DEBUG
+                    LogInstance.Log($"prepositional = {prepositional}");
+#endif
+
+                    var conditionalLogicalMeaning = GetConditionalLogicalMeaning(prepositional.Preposition.RootWord, verb.RootWord);
+
+#if DEBUG
+                    LogInstance.Log($"conditionalLogicalMeaning = {conditionalLogicalMeaning}");
+#endif
+                    if (!string.IsNullOrWhiteSpace(conditionalLogicalMeaning))
+                    {
+                        var nounOfPrepositionalList = prepositional.ChildrenNodesList.Select(p => p.AsNounPhrase).Where(p => p != null).ToList();
+
+#if DEBUG
+                        LogInstance.Log($"nounOfPrepositionalList.Count = {nounOfPrepositionalList.Count}");
+#endif
+
+                        foreach (var nounOfPrepositional in nounOfPrepositionalList)
+                        {
+#if DEBUG
+                            LogInstance.Log($"nounOfPrepositional = {nounOfPrepositional}");
+#endif
+
+                            var nodeOfNounOfPrepositional = new NounPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, nounOfPrepositional);
+                            var nounOfPrepositionalResult = nodeOfNounOfPrepositional.Run();
+
+#if DEBUG
+                            LogInstance.Log($"nounOfPrepositionalResult = {nounOfPrepositionalResult}");
+#endif
+
+                            var phisobjList = nounOfPrepositionalResult.PrimaryRolesDict.GetByRole("entity");
+
+#if DEBUG
+                            LogInstance.Log($"phisobjList.Count = {phisobjList.Count}");
+#endif
+
+                            foreach (var phisobj in phisobjList)
+                            {
+#if DEBUG
+                                LogInstance.Log($"phisobj = {phisobj}");
+#endif
+
+                                var directionRelation = new RelationCGNode();
+                                directionRelation.Parent = conceptualGraph;
+                                directionRelation.Name = conditionalLogicalMeaning;
+
+                                directionRelation.AddInputNode(mConcept);
+                                directionRelation.AddOutputNode(phisobj);
+                            }
+                        }
+                    }             
+                }     
             }
 
             return result;

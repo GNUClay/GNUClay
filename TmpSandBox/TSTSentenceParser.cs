@@ -32,6 +32,11 @@ namespace TmpSandBox
             mSentenceDetector = new EnglishMaximumEntropySentenceDetector(modelPath);
 
             mWordsDict = new WordsDict();
+
+#if DEBUG
+            //var wordFrame = mWordsDict.GetWordFrame("green");
+            //LogInstance.Log($"wordFrame = {wordFrame}");
+#endif
         }
 
         public void Run()
