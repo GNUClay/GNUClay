@@ -15,6 +15,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         public ATNExtendedToken Verb { get; set; }
         public List<BaseWordPhrase_v2> ObjectsList { get; set; } = new List<BaseWordPhrase_v2>();
         public List<BaseWordPhrase_v2> ConditionsList { get; set; } = new List<BaseWordPhrase_v2>();
+        public List<PrepositionalPhrase_v2> PrepositionalList { get; set; } = new List<PrepositionalPhrase_v2>();
 
         public override T GetByRunTimeSessionKey<T>(ulong key)
         {
@@ -65,6 +66,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
             }
 
+            PrepositionalList
+
             return null;
         }
 
@@ -97,6 +100,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     result.ConditionsList.Add(condition.ForkAsBaseWordPhrase());
                 }
             }
+
+            PrepositionalList
 
             return result;
         }
@@ -141,6 +146,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                         }
                     }
                 }
+
+                PrepositionalList
 
                 return true;
             }
@@ -190,6 +197,9 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
+
+            PrepositionalList
+
             return sb.ToString();
         }
 
@@ -237,6 +247,9 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                 }
                 sb.AppendLine($"{spaces}End {nameof(ConditionsList)}");
             }
+
+            PrepositionalList
+
             return sb.ToString();
         }
 
@@ -264,6 +277,8 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
                     result ^= item.GetHashCode();
                 }
             }
+
+            PrepositionalList
 
             return result;
         }

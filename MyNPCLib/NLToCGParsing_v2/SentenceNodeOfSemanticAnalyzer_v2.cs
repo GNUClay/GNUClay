@@ -75,7 +75,46 @@ namespace MyNPCLib.NLToCGParsing_v2
 #endif
             }
 
-            throw new NotImplementedException();
+            if(subjectResult != null && verbResult != null)
+            {
+                var entitiesList = subjectResult.PrimaryRolesDict.GetByRole("entity");
+
+                if (!entitiesList.IsEmpty())
+                {
+                    //state -> experiencer -> animate
+
+                    var primaryStatesList = verbResult.PrimaryRolesDict.GetByRole("state");
+
+                    if (!primaryStatesList.IsEmpty())
+                    {
+                        foreach (var state in primaryStatesList)
+                        {
+                            foreach (var entity in entitiesList)
+                            {
+                                CreateExperiencerRelation(state, entity);
+                                CreateStateRelation(state, entity);
+                            }
+                        }
+                    }
+                    //act -> agent -> animate
+
+                    var primaryActsList = verbResult.PrimaryRolesDict.GetByRole("act");
+
+                    if (!primaryActsList.IsEmpty())
+                    {
+                        foreach (var act in primaryActsList)
+                        {
+                            foreach (var entity in entitiesList)
+                            {
+                                CreateAgentRelation(act, entity);
+                                CreateActionRelation(act, entity);
+                            }
+                        }
+                    }
+                }                   
+            }
+            
+            return result;
         }
 
         private void CreateGrammaticalRelations()
@@ -181,6 +220,95 @@ namespace MyNPCLib.NLToCGParsing_v2
                 conceptualGraph.AddOutputNode(grammarRelation);
                 grammarRelation.AddOutputNode(grammarConcept);
             }
+        }
+
+        private void CreateAgentRelation(ConceptCGNode verbConcept, ConceptCGNode nounConcept)
+        {
+            var relationName = SpecialNamesOfRelations.AgentRelationName;
+
+            if (Context.RelationStorage.ContainsRelation(verbConcept.Name, nounConcept.Name, relationName))
+            {
+                return;
+            }
+
+            var conceptualGraph = Context.ConceptualGraph;
+
+            var relation = new RelationCGNode();
+            relation.Parent = conceptualGraph;
+            relation.Name = relationName;
+
+            verbConcept.AddOutputNode(relation);
+            relation.AddOutputNode(nounConcept);
+
+            Context.RelationStorage.AddRelation(verbConcept.Name, nounConcept.Name, relationName);
+        }
+
+        private void CreateActionRelation(ConceptCGNode verbConcept, ConceptCGNode nounConcept)
+        {
+            var relationName = SpecialNamesOfRelations.ActionRelationName;
+
+            if (Context.RelationStorage.ContainsRelation(nounConcept.Name, verbConcept.Name, relationName))
+            {
+                return;
+            }
+
+            var conceptualGraph = Context.ConceptualGraph;
+
+            var relation = new RelationCGNode();
+            relation.Parent = conceptualGraph;
+            relation.Name = relationName;
+
+            nounConcept.AddOutputNode(relation);
+            relation.AddOutputNode(verbConcept);
+
+            Context.RelationStorage.AddRelation(nounConcept.Name, verbConcept.Name, relationName);
+        }
+
+        private void CreateExperiencerRelation(ConceptCGNode verbConcept, ConceptCGNode nounConcept)
+        {
+#if DEBUG
+            //LogInstance.Log($"verbConcept = {verbConcept}");
+            //LogInstance.Log($"nounConcept = {nounConcept}");
+#endif
+
+            var relationName = SpecialNamesOfRelations.ExperiencerRelationName;
+
+            if (Context.RelationStorage.ContainsRelation(verbConcept.Name, nounConcept.Name, relationName))
+            {
+                return;
+            }
+
+            var conceptualGraph = Context.ConceptualGraph;
+
+            var relation = new RelationCGNode();
+            relation.Parent = conceptualGraph;
+            relation.Name = relationName;
+
+            verbConcept.AddOutputNode(relation);
+            relation.AddOutputNode(nounConcept);
+
+            Context.RelationStorage.AddRelation(verbConcept.Name, nounConcept.Name, relationName);
+        }
+
+        private void CreateStateRelation(ConceptCGNode verbConcept, ConceptCGNode nounConcept)
+        {
+            var relationName = SpecialNamesOfRelations.StateRelationName;
+
+            if (Context.RelationStorage.ContainsRelation(nounConcept.Name, verbConcept.Name, relationName))
+            {
+                return;
+            }
+
+            var conceptualGraph = Context.ConceptualGraph;
+
+            var relation = new RelationCGNode();
+            relation.Parent = conceptualGraph;
+            relation.Name = relationName;
+
+            nounConcept.AddOutputNode(relation);
+            relation.AddOutputNode(verbConcept);
+
+            Context.RelationStorage.AddRelation(verbConcept.Name, nounConcept.Name, relationName);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace TmpSandBox
 
             //Active: Present Simple
             var sentence = "I play.";
-            NParsingSentence(sentence, true);
+            NParsingSentence(sentence, false);
 
             sentence = "Do I play?";
             NParsingSentence(sentence, false);
@@ -549,6 +549,9 @@ namespace TmpSandBox
 
             sentence = "He’s gone to pick up a cousin of his at the station.";
             NParsingSentence(sentence, false);
+
+            sentence = "Go to green place";
+            NParsingSentence(sentence, true);
 
             LogInstance.Log("End");
         }

@@ -52,6 +52,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             : base(context, token)
         {
             ParentNode = parentNode;
+            SlaveNAPNode = new ATNSlaveNAPNode(context, new ());
+            RegATNSlaveNAPNode(SlaveNAPNode);
         }
 
         public ATNVerbConditionFinNode_v2(ContextOfATNParsing_v2 context, ATNVerbConditionFinNode_v2 sameNode, InitATNVerbConditionFinNodeAction initAction, ATNExtendedToken token)
@@ -60,6 +62,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             mSameNode = sameNode;
             mInitAction = initAction;
             ParentNode = mSameNode.ParentNode;
+            SlaveNAPNode = mSameNode.SlaveNAPNode.Fork(context);
+            RegATNSlaveNAPNode(SlaveNAPNode);
             mInitAction?.Invoke(this);
         }
 
@@ -69,9 +73,18 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private ATNVerbConditionFinNode_v2 mSameNode;
         private InitATNVerbConditionFinNodeAction mInitAction;
 
+        public ATNSlaveNAPNode SlaveNAPNode { get; set; }
+        public CommaInstructionsOfATNSlaveNAPNode CommaInstruction { get; set; } = CommaInstructionsOfATNSlaveNAPNode.None;
+
         protected override void ImplementGoalToken()
         {
-            throw new NotImplementedException();
+#if DEBUG
+            LogInstance.Log($"Token = {Token}");
+            LogInstance.Log($"Context = {Context}");
+            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+#endif
+
+            SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
         }
 
         protected override void ProcessNextToken()

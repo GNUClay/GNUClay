@@ -233,6 +233,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         }
                         break;
 
+                    case KindOfItemOfSentence.Condition:
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(kindOfItem), kindOfItem, null);
                 }
