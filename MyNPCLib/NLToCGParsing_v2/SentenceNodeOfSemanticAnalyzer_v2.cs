@@ -37,7 +37,26 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             if(!mSentence.VocativePhrasesList.IsEmpty())
             {
-                throw new NotImplementedException();
+                foreach(var vocative in mSentence.VocativePhrasesList)
+                {
+#if DEBUG
+                    LogInstance.Log($"vocative = {vocative}");
+#endif
+
+                    var vocativeNode = new NounPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, vocative);
+                    var vocativeResult = vocativeNode.Run();
+
+#if DEBUG
+                    LogInstance.Log($"vocativeResult = {vocativeResult}");
+#endif
+
+                    var entitiesList = vocativeResult.PrimaryRolesDict.GetByRole("entity");
+
+                    foreach(var vocativeEntity in entitiesList)
+                    {
+                        CreateAdresatRelation(vocativeEntity);
+                    }
+                }              
             }
 
             var subject = mSentence.NounPhrase;
@@ -262,6 +281,21 @@ namespace MyNPCLib.NLToCGParsing_v2
             relation.AddOutputNode(verbConcept);
 
             Context.RelationStorage.AddRelation(nounConcept.Name, verbConcept.Name, relationName);
+        }
+
+        private void CreateAdresatRelation(ConceptCGNode nounConcept)
+        {
+            var conceptualGraph = Context.ConceptualGraph;
+            var outerConceptualGraph = Context.OuterConceptualGraph;
+
+            nounConcept.Parent = outerConceptualGraph;
+
+            var grammarRelation = new RelationCGNode();
+            grammarRelation.Parent = outerConceptualGraph;
+            grammarRelation.Name = SpecialNamesOfRelations.AdresatRelationName;
+
+            conceptualGraph.AddOutputNode(grammarRelation);
+            grammarRelation.AddOutputNode(nounConcept);
         }
 
         private void CreateExperiencerRelation(ConceptCGNode verbConcept, ConceptCGNode nounConcept)

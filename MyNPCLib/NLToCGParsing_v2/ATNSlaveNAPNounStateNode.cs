@@ -74,7 +74,15 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             if(commaInstruction == CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo)
             {
-                throw new NotImplementedException();
+                Target.ResetNodes(Context);
+                Context.Sentence.VocativePhrasesList.Add(mNounPhrase);
+                mNounPhrase = null;
+                mDeterminers.Clear();
+                mPossesiveNounPhrases.Clear();
+                mNumberValue = null;
+                mAdjectivePhrase = null;
+                State = StateOfATNSlaveNAPNode.Init;
+                return true;
             }
 
             switch (State)
