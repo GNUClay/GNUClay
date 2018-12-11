@@ -1,4 +1,7 @@
 ﻿using MyNPCLib;
+using MyNPCLib.ConvertingCGToInternal;
+using MyNPCLib.ConvertingInternalCGToPersistLogicalData;
+using MyNPCLib.DebugHelperForPersistLogicalData;
 using MyNPCLib.Dot;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2;
@@ -20,6 +23,8 @@ namespace TmpSandBox
             mBasePath = basePath;
             mSentenceDetector = sentencesDetector;
             mSemanticAnalyzer = new SemanticAnalyzer_v2(wordsDict);
+
+            mEntityDictionary = new EntityDictionary();
         }
 
         private EnglishMaximumEntropySentenceDetector mSentenceDetector;
@@ -27,6 +32,7 @@ namespace TmpSandBox
         private string mBasePath;
         private SemanticAnalyzer_v2 mSemanticAnalyzer;
         public bool ConvertToConceptualGraph { get; set; }
+        private EntityDictionary mEntityDictionary;
 
         public void Parse(string text)
         {
@@ -78,6 +84,27 @@ namespace TmpSandBox
                         var dotStr = DotConverter.ConvertToString(graph);
 
                         LogInstance.Log($"dotStr = {dotStr}");
+
+                        var internalCG = ConvertorCGToInternal.Convert(graph, mEntityDictionary);
+
+                        dotStr = DotConverter.ConvertToString(internalCG);
+
+                        LogInstance.Log($"dotStr (2) = {dotStr}");
+
+                        var ruleInstancesList = ConvertorInternalCGToPersistLogicalData.ConvertConceptualGraph(internalCG, mEntityDictionary);
+
+                        LogInstance.Log($"ruleInstancesList.Count = {ruleInstancesList.Count}");
+
+                        foreach (var ruleInstance in ruleInstancesList)
+                        {
+                            LogInstance.Log($"ruleInstance = {ruleInstance}");
+
+                            {
+                                var debugStr = DebugHelperForRuleInstance.ToString(ruleInstance);
+
+                                LogInstance.Log($"debugStr = {debugStr}");
+                            }
+                        }
                     }
                 }
             }

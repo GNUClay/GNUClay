@@ -777,8 +777,9 @@ namespace TmpSandBox
 
             var globalEntityDictionary = new EntityDictionary();
             var context = new ContextOfCGStorage(globalEntityDictionary);
-            
-            var paragraph = "Go to Green Waypoint";
+
+            //var paragraph = "Go to Green Waypoint";
+            var paragraph = "I know the dog";
 
             var wordsDict = new WordsDict();
 

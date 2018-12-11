@@ -38,22 +38,22 @@ namespace MyNPCLib.NLToCGParsing_v2
             }
             
             var conceptualGraph = Context.ConceptualGraph;
+
             var noun = mNounPhrase.Noun;
 
 #if DEBUG
             LogInstance.Log($"noun = {noun}");
 #endif
+
             if (noun == null)
             {
                 return result;
             }
 
-            mConcept = new ConceptCGNode();
-            result.RootConcept = mConcept;
-            mConcept.Parent = conceptualGraph;
-            mConcept.Name = GetName(noun);
+            ProcessNoun(result);
 
             var determinersList = mNounPhrase.DeterminersList;
+            var ajectivesList = mNounPhrase.AdjectivePhrasesList;
 
             if (!determinersList.IsEmpty())
             {
@@ -73,8 +73,6 @@ namespace MyNPCLib.NLToCGParsing_v2
 
                 //throw new NotImplementedException();
             }
-
-            var ajectivesList = mNounPhrase.AdjectivePhrasesList;
 
             if (!ajectivesList.IsEmpty())
             {
@@ -157,6 +155,46 @@ namespace MyNPCLib.NLToCGParsing_v2
 #endif
 
             return result;
+        }
+
+        private void ProcessNoun(ResultOfNodeOfSemanticAnalyzer result)
+        {
+            var noun = mNounPhrase.Noun;
+
+#if DEBUG
+            LogInstance.Log($"noun = {noun}");
+#endif
+            var conceptualGraph = Context.ConceptualGraph;
+
+            if(noun.IsName)
+            {
+                mConcept = new ConceptCGNode();
+                result.RootConcept = mConcept;
+                mConcept.Parent = conceptualGraph;
+                mConcept.Name = "entity";
+
+                var nameConcept = new ConceptCGNode();
+                nameConcept.Parent = conceptualGraph;
+                nameConcept.Name = GetName(noun);
+
+                var nameRelation = new RelationCGNode();
+                nameRelation.Parent = conceptualGraph;
+                nameRelation.Name = "name";
+
+                mConcept.AddOutputNode(nameRelation);
+                nameRelation.AddOutputNode(nameConcept);
+
+                Context.RelationStorage.AddRelation(mConcept.Name, nameConcept.Name, nameRelation.Name);
+
+                MarkAsEntityCondition(nameRelation);
+
+                return;
+            }
+
+            mConcept = new ConceptCGNode();
+            result.RootConcept = mConcept;
+            mConcept.Parent = conceptualGraph;
+            mConcept.Name = GetName(noun);
         }
 
         private void CreateDeterminerMark(ConceptCGNode concept, ATNExtendedToken conceptExtendedToken, ATNExtendedToken determiner)
