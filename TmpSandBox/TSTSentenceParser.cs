@@ -559,6 +559,9 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Tom, Go to green place";
+            NParsingSentence(sentence, false);
+
+            sentence = "Tom";
             NParsingSentence(sentence, true);
 
             LogInstance.Log("End");

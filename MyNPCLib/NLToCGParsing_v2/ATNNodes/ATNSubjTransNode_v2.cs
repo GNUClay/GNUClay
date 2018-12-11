@@ -3,6 +3,7 @@ using MyNPCLib.NLToCGParsing.PhraseTree;
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
@@ -100,6 +101,27 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
         }
 
+        private void ImplementAsNounSentence()
+        {
+#if DEBUG
+            LogInstance.Log($"Context = {Context}");
+#endif
+
+            var sentence = Context.Sentence;
+
+            sentence.Aspect = GrammaticalAspect.Simple;
+            sentence.Tense = GrammaticalTenses.Present;
+            sentence.Voice = GrammaticalVoice.Active;
+            sentence.Modal = KindOfModal.None;
+            sentence.Mood = GrammaticalMood.Indicative;
+
+#if DEBUG
+            LogInstance.Log($"after Context = {Context}");
+#endif
+
+            Context.PutSentenceToResult();
+        }
+
         protected override void ProcessNextToken()
         {
             var extendedTokensList = Get—lusterOfExtendedTokens();
@@ -111,10 +133,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                throw new NotImplementedException();
+                ImplementAsNounSentence();
+                return;
             }
-
-            var hasObjOrSubj = false;
 
             foreach (var item in extendedTokensList)
             {
@@ -171,20 +192,10 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                         break;
 
                     case KindOfItemOfSentence.Subj:
-                        if(hasObjOrSubj)
-                        {
-                            break;
-                        }
-                        hasObjOrSubj = true;
                         AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                         break;
 
                     case KindOfItemOfSentence.Obj:
-                        if (hasObjOrSubj)
-                        {
-                            break;
-                        }
-                        hasObjOrSubj = true;
                         AddTask(new ATNSubjTransNodeFactory_v2(this, item, null));
                         break;
 

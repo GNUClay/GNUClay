@@ -50,34 +50,29 @@ namespace MyNPCLib.NLToCGParsing_v2
         {
             var result = new List<PlainSentence>();
 
-            if(sentence.NounPhrasesList.IsEmpty())
+            if(sentence.NounPhrasesList.IsEmpty() && sentence.VerbPhrasesList.IsEmpty())
             {
-                foreach (var verbPhrase in sentence.VerbPhrasesList)
-                {
-                    var item = new PlainSentence();
-                    item.VerbPhrase = verbPhrase;
-                    item.Aspect = sentence.Aspect;
-                    item.Tense = sentence.Tense;
-                    item.Voice = sentence.Voice;
-                    item.Mood = sentence.Mood;
-                    item.Modal = sentence.Modal;
-                    item.IsQuestion = sentence.IsQuestion;
-                    item.IsNegation = sentence.IsNegation;
-                    item.ConditionsList = sentence.ConditionsList;
-                    item.QuestionToObjectsList = sentence.QuestionToObjectsList;
-                    item.VocativePhrasesList = sentence.VocativePhrasesList;
+                var item = new PlainSentence();
+                item.Aspect = sentence.Aspect;
+                item.Tense = sentence.Tense;
+                item.Voice = sentence.Voice;
+                item.Mood = sentence.Mood;
+                item.Modal = sentence.Modal;
+                item.IsQuestion = sentence.IsQuestion;
+                item.IsNegation = sentence.IsNegation;
+                item.ConditionsList = sentence.ConditionsList;
+                item.QuestionToObjectsList = sentence.QuestionToObjectsList;
+                item.VocativePhrasesList = sentence.VocativePhrasesList;
 
-                    result.Add(item);
-                }
+                result.Add(item);
             }
             else
             {
-                foreach (var nounPhrase in sentence.NounPhrasesList)
+                if (sentence.NounPhrasesList.IsEmpty())
                 {
                     foreach (var verbPhrase in sentence.VerbPhrasesList)
                     {
                         var item = new PlainSentence();
-                        item.NounPhrase = nounPhrase;
                         item.VerbPhrase = verbPhrase;
                         item.Aspect = sentence.Aspect;
                         item.Tense = sentence.Tense;
@@ -91,6 +86,53 @@ namespace MyNPCLib.NLToCGParsing_v2
                         item.VocativePhrasesList = sentence.VocativePhrasesList;
 
                         result.Add(item);
+                    }
+                }
+                else
+                {
+                    if(sentence.VerbPhrasesList.IsEmpty())
+                    {
+                        foreach (var nounPhrase in sentence.NounPhrasesList)
+                        {
+                            var item = new PlainSentence();
+                            item.NounPhrase = nounPhrase;
+                            item.Aspect = sentence.Aspect;
+                            item.Tense = sentence.Tense;
+                            item.Voice = sentence.Voice;
+                            item.Mood = sentence.Mood;
+                            item.Modal = sentence.Modal;
+                            item.IsQuestion = sentence.IsQuestion;
+                            item.IsNegation = sentence.IsNegation;
+                            item.ConditionsList = sentence.ConditionsList;
+                            item.QuestionToObjectsList = sentence.QuestionToObjectsList;
+                            item.VocativePhrasesList = sentence.VocativePhrasesList;
+
+                            result.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var nounPhrase in sentence.NounPhrasesList)
+                        {
+                            foreach (var verbPhrase in sentence.VerbPhrasesList)
+                            {
+                                var item = new PlainSentence();
+                                item.NounPhrase = nounPhrase;
+                                item.VerbPhrase = verbPhrase;
+                                item.Aspect = sentence.Aspect;
+                                item.Tense = sentence.Tense;
+                                item.Voice = sentence.Voice;
+                                item.Mood = sentence.Mood;
+                                item.Modal = sentence.Modal;
+                                item.IsQuestion = sentence.IsQuestion;
+                                item.IsNegation = sentence.IsNegation;
+                                item.ConditionsList = sentence.ConditionsList;
+                                item.QuestionToObjectsList = sentence.QuestionToObjectsList;
+                                item.VocativePhrasesList = sentence.VocativePhrasesList;
+
+                                result.Add(item);
+                            }
+                        }
                     }
                 }
             }

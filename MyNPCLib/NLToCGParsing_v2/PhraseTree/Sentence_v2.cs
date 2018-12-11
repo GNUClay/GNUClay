@@ -226,7 +226,7 @@ namespace MyNPCLib.NLToCGParsing_v2.PhraseTree
         {
             get
             {
-                if(NounPhrasesList.IsEmpty() && VerbPhrasesList.IsEmpty())
+                if(NounPhrasesList.IsEmpty() && VerbPhrasesList.IsEmpty() && VocativePhrasesList.IsEmpty())
                 {
                     return false;
                 }

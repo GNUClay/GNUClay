@@ -153,6 +153,10 @@ namespace MyNPCLib.Dot
         {
             if (begin.IsContainer)
             {
+                if(begin.SomeChildLeaf == null)
+                {
+                    return;
+                }
                 Sb.Append(begin.SomeChildLeaf.Name);
             }
             else
@@ -164,6 +168,10 @@ namespace MyNPCLib.Dot
 
             if (end.IsContainer)
             {
+                if(end.SomeChildLeaf == null)
+                {
+                    return;
+                }
                 Sb.Append(end.SomeChildLeaf.Name);
             }
             else
