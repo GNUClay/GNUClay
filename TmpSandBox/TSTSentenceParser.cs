@@ -556,13 +556,13 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Go to green place";
-            NParsingSentence(sentence, false);
+            NParsingSentence(sentence, true);
 
             sentence = "Tom, Go to green place";
             NParsingSentence(sentence, false);
 
             sentence = "Tom";
-            NParsingSentence(sentence, true);
+            NParsingSentence(sentence, false);
 
             LogInstance.Log("End");
         }

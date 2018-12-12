@@ -1,4 +1,5 @@
 ﻿using MyNPCLib.CG;
+using MyNPCLib.CommonServiceGrammaticalElements;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using System;
@@ -66,7 +67,39 @@ namespace MyNPCLib.NLToCGParsing_v2
 
             var objectsRolesStorage = new RolesStorageOfSemanticAnalyzer();
 
-            if (!nounObjectsList.IsEmpty())
+            if (nounObjectsList.IsEmpty())
+            {
+                var isAct = verb.FullLogicalMeaning.Contains("act");
+                var isState = verb.FullLogicalMeaning.Contains("state");
+
+#if DEBUG
+                //LogInstance.Log($"isAct = {isAct}");
+                //LogInstance.Log($"isState = {isState}");
+#endif
+
+                if (isAct)
+                {
+                    var relationName = SpecialNamesOfRelations.ActionRelationName;
+                    var relation = new RelationCGNode();
+                    relation.Parent = conceptualGraph;
+                    relation.Name = relationName;
+
+                    relation.AddOutputNode(mConcept);
+                }
+                else
+                {
+                    if (isState)
+                    {
+                        var relationName = SpecialNamesOfRelations.StateRelationName;
+                        var relation = new RelationCGNode();
+                        relation.Parent = conceptualGraph;
+                        relation.Name = relationName;
+
+                        relation.AddOutputNode(mConcept);
+                    }
+                }
+            }
+            else
             {
 #if DEBUG
                 LogInstance.Log($"nounObjectsList.Count = {nounObjectsList.Count}");
