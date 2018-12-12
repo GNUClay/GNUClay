@@ -781,7 +781,13 @@ namespace TmpSandBox
             //var paragraph = "Go to Green Waypoint";
             var paragraph = "I know the dog";
 
-            var wordsDict = new WordsDict();
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var wordsDict = new WordsDict(rootPath);
 
             var cgParserOptions = new CGParserOptions_v2();
             cgParserOptions.WordsDict = wordsDict;
@@ -1616,7 +1622,13 @@ namespace TmpSandBox
         {
             LogInstance.Log($"text = {text}");
 
-            var wordsDict = new WordsDict();
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var wordsDict = new WordsDict(rootPath);
             var extendedLexer = new ATNExtendedLexer(text, wordsDict);
 
             IList<ATNExtendedToken> сlusterOfExtendTokens = null;
@@ -1714,7 +1726,7 @@ namespace TmpSandBox
             var globalEntityDictionary = new EntityDictionary();
 
             var context = new ContextOfCGStorage(globalEntityDictionary);
-            
+
             //var path = AppDomain.CurrentDomain.BaseDirectory;
 
             //LogInstance.Log($"path = {path}");
@@ -1743,7 +1755,13 @@ namespace TmpSandBox
 
             //ParseSentence(sentence);
 
-            var wordsDict = new WordsDict();
+            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if DEBUG
+            LogInstance.Log($"rootPath = {rootPath}");
+#endif
+
+            var wordsDict = new WordsDict(rootPath);
 
             var cgParserOptions = new CGParserOptions_v2();
             cgParserOptions.WordsDict = wordsDict;

@@ -8,14 +8,8 @@ namespace MyNPCLib.SimpleWordsDict
 {
     public class WordsDict: IWordsDict
     {
-        public WordsDict()
+        public WordsDict(string rootPath)
         {
-            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
-
-#if DEBUG
-            LogInstance.Log($"rootPath = {rootPath}");
-#endif
-
             var workingDictLocalName = "working.dict";
 
             var workingDictFullName = Path.Combine(rootPath, workingDictLocalName);
