@@ -105,6 +105,8 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 #if DEBUG
             LogInstance.Log($"source = {source}");
             LogInstance.Log($"dest = {dest}");
+            var dotStr = DotConverter.ConvertToString(source);
+            LogInstance.Log($"dotStr (5) = {dotStr}");
 #endif
 
             var contextForSingleRuleInstance = new ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData();
@@ -142,8 +144,8 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 
 #if DEBUG
             //LogInstance.Log($"expression = {expression}");
-            //var debugStr = DebugHelperForRuleInstance.ToString(expression);
-            //LogInstance.Log($"debugStr = {debugStr}");
+            var debugStr = DebugHelperForRuleInstance.ToString(expression);
+            LogInstance.Log($"debugStr = {debugStr}");
 #endif
 
             //throw new NotImplementedException();
@@ -205,7 +207,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 #endif
 
                 var kindOfSpecialRelation = SpecialElementsHeper.GetKindOfSpecialRelation(initRelation.Name);
-
+                initRelation.KindOfSpecialRelation = kindOfSpecialRelation;
 #if DEBUG
                 LogInstance.Log($"kindOfSpecialRelation = {kindOfSpecialRelation}");
 #endif
@@ -286,6 +288,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
                         LogInstance.Log($"initRelation = {initRelation}");
                         LogInstance.Log($"kindOfSpecialRelation = {kindOfSpecialRelation}");
 #endif
+                        Please create yet another list for annotations for command
 
                         if (!relationsForRemoving.Contains(initRelation))
                         {
@@ -590,7 +593,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
             var relationsList = source.Children.Where(p => p.IsRelationNode).Select(p => p.AsRelationNode).ToList();
 
 #if DEBUG
-            //LogInstance.Log($"relationsList.Count = {relationsList.Count}");
+            LogInstance.Log($"relationsList.Count = {relationsList.Count}");
 #endif
 
             if(relationsList.Count == 0)
@@ -651,7 +654,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
         private static BaseExpressionNode CreateExpressionByRelation(InternalRelationCGNode relation, InternalConceptualGraph internalConceptualGraph, RuleInstance ruleInstance, ContextOfConvertingInternalCGToPersistLogicalData context, ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData contextForSingleRuleInstance)
         {
 #if DEBUG
-            LogInstance.Log($"relation = {relation}");
+            LogInstance.Log($"relation (!) = {relation}");
 #endif
 
             var linkedVarName = internalConceptualGraph.GetVarNameForRelation(relation.Name);
