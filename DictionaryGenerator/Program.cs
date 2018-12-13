@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 
 namespace DictionaryGenerator
@@ -23,17 +24,18 @@ namespace DictionaryGenerator
 
             LogInstance.Log("Begin");
 
+            //TSTSerializeToJSON();
             //TSTSeparateWords();
             //TSTLogicalMeaningsSource();
             //TSTClasses();
             //TSTRemoveRoundBreackets();
             //TSTClassDiscovering();
             //TSTOgdenList();
-            TSTCustomWordsFactory();
+            //TSTCustomWordsFactory();//<<<<<
             //TSTDictionaryDiscoverer();
             //TSTWordsFactory();
             //TSTCustomWordsFactory();
-            TSTMergeDictionaries();
+            TSTMergeDictionaries();//<<<<<
             //TSTDiscoverDictionary();
             //TSTMakeIrrTable();
             //TSTAdvAntiStemmer();
@@ -41,6 +43,28 @@ namespace DictionaryGenerator
             //TSTNounAntiStemmer();
             //TSTVerbAntiStemmer();
             //TSTReadWordNetSources();
+        }
+
+        private static void TSTSerializeToJSON()
+        {
+            var jsonSerializer = new DataContractJsonSerializer(typeof(WordFrame));
+
+            var wordFrame = new WordFrame();
+            wordFrame.Word = "green";
+            wordFrame.GrammaticalWordFrames = new List<BaseGrammaticalWordFrame>();
+
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "d.j");
+
+            if(File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            using (var fs = File.OpenWrite(fileName))
+            {
+                jsonSerializer.WriteObject(fs, wordFrame);
+                fs.Flush();
+            }
         }
 
         private static void TSTSeparateWords()
@@ -300,7 +324,7 @@ namespace DictionaryGenerator
             LogInstance.Log($"rootPath = {rootPath}");
 #endif
 
-            var serializator = new WordsDictSerializationEngine();
+            var serializator = new WordsDictJSONSerializationEngine(); //new WordsDictSerializationEngine();
 
             var mainDictLocalName = "main.dict";
 

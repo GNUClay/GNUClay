@@ -18,7 +18,7 @@ namespace MyNPCLib.SimpleWordsDict
             LogInstance.Log($"workingDictFullName = {workingDictFullName}");
 #endif
 
-            var serializator = new WordsDictSerializationEngine();
+            var serializator = new WordsDictJSONSerializationEngine();//new WordsDictSerializationEngine();
 
             var data = serializator.LoadFromFile(workingDictFullName);
 
@@ -64,6 +64,8 @@ namespace MyNPCLib.SimpleWordsDict
             }
 
 #if DEBUG
+            LogInstance.Log($"wordFrame.Word = {wordFrame.Word}");
+            LogInstance.Log($"wordFrame.GrammaticalWordFrames.Count = {wordFrame.GrammaticalWordFrames.Count}");
             LogInstance.Log($"wordFrame = {wordFrame}");
             LogInstance.Log($"NEXT word = {word} conditionalWord = {conditionalWord}");
 #endif

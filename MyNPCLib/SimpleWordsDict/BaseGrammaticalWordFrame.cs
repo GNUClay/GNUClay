@@ -80,6 +80,10 @@ namespace MyNPCLib.SimpleWordsDict
             sb.AppendLine($"{spaces}{nameof(PartOfSpeech)} = {PartOfSpeech}");
             sb.AppendLine($"{spaces}{nameof(RootWord)} = {RootWord}");
 
+#if DEBUG
+            LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+#endif
+
             if (LogicalMeaning == null)
             {
                 sb.AppendLine($"{spaces}{nameof(LogicalMeaning)} = null");
@@ -93,6 +97,10 @@ namespace MyNPCLib.SimpleWordsDict
                 }
                 sb.AppendLine($"{spaces}End {nameof(LogicalMeaning)}");
             }
+
+#if DEBUG
+            LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+#endif
 
             if (FullLogicalMeaning == null)
             {
@@ -108,15 +116,30 @@ namespace MyNPCLib.SimpleWordsDict
                 sb.AppendLine($"{spaces}End {nameof(FullLogicalMeaning)}");
             }
 
-            if(ConditionalLogicalMeaning == null)
+#if DEBUG
+            LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+#endif
+
+            if (ConditionalLogicalMeaning == null)
             {
                 sb.AppendLine($"{spaces}{nameof(ConditionalLogicalMeaning)} = null");
             }
             else
             {
                 sb.AppendLine($"{spaces}Begin {nameof(ConditionalLogicalMeaning)}");
-                foreach(var kvpItems in ConditionalLogicalMeaning)
+
+#if DEBUG
+                LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+                LogInstance.Log($"ConditionalLogicalMeaning.GetType().FullName = {ConditionalLogicalMeaning.GetType().FullName}");
+                //LogInstance.Log($"ConditionalLogicalMeaning?.Count = {ConditionalLogicalMeaning?.Count}");
+#endif
+
+                foreach (var kvpItems in ConditionalLogicalMeaning)
                 {
+#if DEBUG
+                    LogInstance.Log($"kvpItems.Value == null = {kvpItems.Value == null}");
+#endif
+
                     sb.AppendLine($"{nextNSpaces}Begin Item");
                     sb.AppendLine($"{nextNextNSpaces}Key = {kvpItems.Key}");
                     sb.AppendLine($"{nextNextNSpaces}Begin Meanings");
@@ -130,6 +153,10 @@ namespace MyNPCLib.SimpleWordsDict
                 }
                 sb.AppendLine($"{spaces}End {nameof(ConditionalLogicalMeaning)}");
             }
+
+#if DEBUG
+            LogInstance.Log($"sb.ToString() = {sb.ToString()}");
+#endif
 
             sb.AppendLine($"{spaces}{nameof(IsArchaic)} = {IsArchaic}");
             sb.AppendLine($"{spaces}{nameof(IsDialectal)} = {IsDialectal}");

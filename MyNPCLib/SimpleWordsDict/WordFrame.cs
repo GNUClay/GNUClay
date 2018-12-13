@@ -51,6 +51,10 @@ namespace MyNPCLib.SimpleWordsDict
                 sb.AppendLine($"{spaces}Begin {nameof(GrammaticalWordFrames)}");
                 foreach (var grammaticalWordFrame in GrammaticalWordFrames)
                 {
+#if DEBUG
+                    LogInstance.Log($"grammaticalWordFrame == null = {grammaticalWordFrame == null}");
+#endif
+
                     sb.Append(grammaticalWordFrame.ToString(nextN));
                 }
                 sb.AppendLine($"{spaces}End {nameof(GrammaticalWordFrames)}");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Text;
 
 namespace MyNPCLib.Serialization
@@ -15,12 +16,14 @@ namespace MyNPCLib.Serialization
             mVersion = version;
             mNeedCompression = needCompression;
             mFormatter = new BinaryFormatter();
+            //mJsonSerializer = new DataContractJsonSerializer(typeof(T));
         }
 
         private string mName;
         private decimal mVersion;
         private bool mNeedCompression;
         private BinaryFormatter mFormatter;
+        //private DataContractJsonSerializer mJsonSerializer;
 
         public SerializationPackage SaveToPackage(T item)
         {
@@ -42,6 +45,7 @@ namespace MyNPCLib.Serialization
             using (var packageStream = new MemoryStream())
             {
                 mFormatter.Serialize(packageStream, item);
+                //mJsonSerializer.WriteObject(packageStream, item);
                 packageStream.Flush();
                 return packageStream.ToArray();
             }

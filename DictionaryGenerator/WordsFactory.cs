@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -331,9 +332,41 @@ namespace DictionaryGenerator
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"SimpleSaveDict fullPath = {fullPath}");
 #endif
-            var serializationEngine = new WordsDictSerializationEngine();
+            var serializationEngine = new WordsDictJSONSerializationEngine();//new WordsDictSerializationEngine();
             serializationEngine.SaveToFile(dict, fullPath);
 
+            //localPath = $"{localPath}.fs";
+
+            //fullPath = Path.Combine(rootPath, localPath);
+
+#if DEBUG
+            //NLog.LogManager.GetCurrentClassLogger().Info($"SimpleSaveDict fullPath = {fullPath}");
+#endif
+
+            //var jsonSerializer = new DataContractJsonSerializer(typeof(WordsDictData), new List<Type> {
+            //    typeof(PronounGrammaticalWordFrame),
+            //    typeof(AdjectiveGrammaticalWordFrame),
+            //    typeof(AdverbGrammaticalWordFrame),
+            //    typeof(ArticleGrammaticalWordFrame),
+            //    typeof(ConjunctionGrammaticalWordFrame),
+            //    typeof(NounGrammaticalWordFrame),
+            //    typeof(NumeralGrammaticalWordFrame),
+            //    typeof(PostpositionGrammaticalWordFrame),
+            //    typeof(PrepositionGrammaticalWordFrame),
+            //    typeof(PronounGrammaticalWordFrame),
+            //    typeof(VerbGrammaticalWordFrame)
+            //});
+
+            //if (File.Exists(fullPath))
+            //{
+            //    File.Delete(fullPath);
+            //}
+
+            //using (var fs = File.OpenWrite(fullPath))
+            //{
+            //    jsonSerializer.WriteObject(fs, dict);
+            //    fs.Flush();
+            //}
 
             //if(File.Exists(fullPath))
             //{
