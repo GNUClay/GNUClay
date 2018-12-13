@@ -12,5 +12,6 @@ namespace MyNPCLib.CommonServiceGrammaticalElements
         public const string AgentRelationName = "agent";
         public const string ActionRelationName = "action";
         public const string AdresatRelationName = "adresat";
+        public const string CommandRelationName = "command";
     }
 }

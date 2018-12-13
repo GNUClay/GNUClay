@@ -2,6 +2,7 @@
 using MyNPCLib.CommonServiceGrammaticalElements;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2.PhraseTree;
+using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -92,6 +93,15 @@ namespace MyNPCLib.NLToCGParsing_v2
 #if DEBUG
                 LogInstance.Log($"verbResult = {verbResult}");
 #endif
+
+                if(mSentence.Mood == GrammaticalMood.Imperative)
+                {
+                    var commandRelation = new RelationCGNode();
+                    commandRelation.Name = SpecialNamesOfRelations.CommandRelationName;
+                    commandRelation.Parent = mConceptualGraph;
+
+                    commandRelation.AddOutputNode(verbResult.RootConcept);
+                }
             }
 
             if(subjectResult != null && verbResult != null)

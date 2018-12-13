@@ -11,6 +11,7 @@ namespace MyNPCLib.CommonServiceGrammaticalElements
         Experiencer,
         State,
         Agent,
-        Action
+        Action,
+        Command
     }
 }

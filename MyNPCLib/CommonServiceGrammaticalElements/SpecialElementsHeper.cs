@@ -38,6 +38,11 @@ namespace MyNPCLib.CommonServiceGrammaticalElements
                 return KindOfSpecialRelation.Action;
             }
 
+            if(relationName == SpecialNamesOfRelations.CommandRelationName)
+            {
+                return KindOfSpecialRelation.Command;
+            }
+
             return KindOfSpecialRelation.Undefinded;
         }
     }

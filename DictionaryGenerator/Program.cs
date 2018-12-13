@@ -31,7 +31,7 @@ namespace DictionaryGenerator
             //TSTRemoveRoundBreackets();
             //TSTClassDiscovering();
             //TSTOgdenList();
-            //TSTCustomWordsFactory();//<<<<<
+            TSTCustomWordsFactory();//<<<<<
             //TSTDictionaryDiscoverer();
             //TSTWordsFactory();
             //TSTCustomWordsFactory();
