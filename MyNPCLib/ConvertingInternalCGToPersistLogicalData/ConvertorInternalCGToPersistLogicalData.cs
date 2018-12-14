@@ -36,7 +36,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
                 FillRuleInstances(ruleInstancesDictKVPItem.Key, ruleInstancesDictKVPItem.Value, context);
             }
 
-            var resultsList = context.RuleInstancesDict.Values.Where(p => p.Part_1 != null || p.Part_2 != null).ToList();
+            var resultsList = context.RuleInstancesDict.Values.Where(p => (p.Part_1 != null && p.Part_1.Expression != null) || (p.Part_2 != null && p.Part_2.Expression != null)).ToList();
 
             resultsList.AddRange(context.AnnotationsList);
 

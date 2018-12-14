@@ -18,7 +18,7 @@ namespace MyNPCLib.LogicalSoundModeling
         }
 
         private Vector3 mDirection;
-
+        
         public Vector3 Direction
         {
             get

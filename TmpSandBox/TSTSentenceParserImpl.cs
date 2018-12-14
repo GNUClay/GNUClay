@@ -46,6 +46,8 @@ namespace TmpSandBox
             LogInstance.Log($"sentencesList.Length = {sentencesList.Length}");
 #endif
 
+
+
             foreach (var sentence in sentencesList)
             {
 #if DEBUG
