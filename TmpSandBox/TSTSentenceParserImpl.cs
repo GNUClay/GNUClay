@@ -97,7 +97,7 @@ namespace TmpSandBox
 
                         foreach (var ruleInstance in ruleInstancesList)
                         {
-                            LogInstance.Log($"ruleInstance = {ruleInstance}");
+                            //LogInstance.Log($"ruleInstance = {ruleInstance}");
 
                             {
                                 var debugStr = DebugHelperForRuleInstance.ToString(ruleInstance);

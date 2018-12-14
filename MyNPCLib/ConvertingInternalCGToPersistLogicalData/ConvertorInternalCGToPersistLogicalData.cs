@@ -288,12 +288,12 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
                         LogInstance.Log($"initRelation = {initRelation}");
                         LogInstance.Log($"kindOfSpecialRelation = {kindOfSpecialRelation}");
 #endif
-                        Please create yet another list for annotations for command
+                        //Please create yet another list for annotations for command
 
                         if (!relationsForRemoving.Contains(initRelation))
                         {
 #if DEBUG
-                            LogInstance.Log("NEXT");
+                            //LogInstance.Log("NEXT");
 #endif
                             ModifyClusterAroundSpecialRelation(source, initRelation, kindOfSpecialRelation, context);
 
@@ -338,6 +338,13 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 #if DEBUG
             LogInstance.Log($"outputNode = {outputNode}");
 #endif
+
+            context.AddRelationAsAnnotation(outputNode, relation);
+
+            if(kindOfSpecialRelation == KindOfSpecialRelation.Command)
+            {
+                return;
+            }
 
             var objectRelationsList = outputNode.Outputs.Where(p => p.IsRelationNode && p.Name == SpecialNamesOfRelations.ObjectRelationName).Select(p => p.AsRelationNode).ToList();
 
@@ -401,6 +408,8 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 
                         resultRelation.AddInputNode(firstConcept);
                         resultRelation.AddOutputNode(objectConcept);
+
+                        context.ModifiedRelationsDict[resultRelation] = outputNode;
                     }
                 }
             }
@@ -683,7 +692,7 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
             var outputNode = relation.Outputs.Where(p => p.IsGraphOrConceptNode).Select(p => p.AsGraphOrConceptNode).FirstOrDefault();
 
 #if DEBUG
-            //LogInstance.Log($"outputNode = {outputNode}");
+            LogInstance.Log($"outputNode = {outputNode}");
 #endif
 
             if(outputNode != null)
@@ -713,30 +722,23 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
                 ruleInstance.VariablesQuantification.Items.Add(varNodeForQuantification);
             }
 
-            var kindOfSpecialRelation = relation.KindOfSpecialRelation;
+            var annotionRelationsList = context.GetAnnotationRelations(relation);
 
 #if DEBUG
-            LogInstance.Log($"kindOfSpecialRelation = {kindOfSpecialRelation}");
+            LogInstance.Log($"relation (!!) = {relation}");
+            LogInstance.Log($"annotadedRelationsList.Count = {annotionRelationsList.Count}");
 #endif
 
-            switch (kindOfSpecialRelation)
+            if(annotionRelationsList.Count > 0)
             {
-                case KindOfSpecialRelation.Undefinded:
-                    break;
+                foreach(var annotionRelation in annotionRelationsList)
+                {
+                    LogInstance.Log($"annotionRelation = {annotionRelation}");
 
-                case KindOfSpecialRelation.Command:
-                    AddAnnotationForCommand(relationExpr, context, contextForSingleRuleInstance);
-                    break;
+                    AddAnnotationForRelation(annotionRelation.Name, relationExpr, context, contextForSingleRuleInstance);
+                }
 
-                case KindOfSpecialRelation.State:
-                    AddAnnotationForState(relationExpr, context, contextForSingleRuleInstance);
-                    break;
-
-                case KindOfSpecialRelation.Action:
-                    AddAnnotationForAction(relationExpr, context, contextForSingleRuleInstance);
-                    break;
-
-                default: throw new ArgumentOutOfRangeException(nameof(kindOfSpecialRelation), kindOfSpecialRelation, null);
+                //throw new NotImplementedException();
             }
 
             //throw new NotImplementedException();
@@ -746,33 +748,6 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
 #endif
 
             return relationExpr;
-        }
-
-        private static void AddAnnotationForCommand(BaseExpressionNode relation, ContextOfConvertingInternalCGToPersistLogicalData context, ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData contextForSingleRuleInstance)
-        {
-#if DEBUG
-            LogInstance.Log($"relation = {relation}");
-#endif
-
-            AddAnnotationForRelation("command", relation, context, contextForSingleRuleInstance);
-        }
-
-        private static void AddAnnotationForState(BaseExpressionNode relation, ContextOfConvertingInternalCGToPersistLogicalData context, ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData contextForSingleRuleInstance)
-        {
-#if DEBUG
-            //LogInstance.Log($"relation = {relation}");
-#endif
-
-            AddAnnotationForRelation("state", relation, context, contextForSingleRuleInstance);
-        }
-
-        private static void AddAnnotationForAction(BaseExpressionNode relation, ContextOfConvertingInternalCGToPersistLogicalData context, ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData contextForSingleRuleInstance)
-        {
-#if DEBUG
-            //LogInstance.Log($"relation = {relation}");
-#endif
-
-            AddAnnotationForRelation("action", relation, context, contextForSingleRuleInstance);
         }
 
         private static void AddAnnotationForRelation(string annotationName, BaseExpressionNode relation, ContextOfConvertingInternalCGToPersistLogicalData context, ContextForSingleRuleInstanceOfConvertingInternalCGToPersistLogicalData contextForSingleRuleInstance)
@@ -822,7 +797,11 @@ namespace MyNPCLib.ConvertingInternalCGToPersistLogicalData
             context.AnnotationsList.Add(annotationInstance);
 
             var annotation = new LogicalAnnotation();
-            relation.Annotations = new List<LogicalAnnotation>();
+            if(relation.Annotations.IsEmpty())
+            {
+                relation.Annotations = new List<LogicalAnnotation>();
+            }
+            
             relation.Annotations.Add(annotation);
             annotation.RuleInstanceKey = annotationInstance.Key;
         }
