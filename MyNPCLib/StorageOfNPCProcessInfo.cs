@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyNPCLib.LogicalSoundModeling;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,8 +21,12 @@ namespace MyNPCLib
         private NPCProcessInfoFactory mFactory;
         private Dictionary<Type, NPCProcessInfo> mNPCProcessInfoDictByType = new Dictionary<Type, NPCProcessInfo>();
         private Dictionary<ulong, NPCProcessInfo> mNPCProcessInfoDictByKey = new Dictionary<ulong, NPCProcessInfo>();
-        private object mDisposeLockObj = new object();
+        private readonly object mDisposeLockObj = new object();
         private bool mIsDisposed;
+        private readonly object mSoundProcessesLockObj = new object();
+        private Dictionary<string, NPCProcessInfo> mNPCProcessInfoDictByLogicalSoundActions = new Dictionary<string, NPCProcessInfo>();
+        private NPCProcessInfo mNPCProcessInfoForLogicalSoundEntityCondition;
+        private NPCProcessInfo mNPCProcessInfoForLogicalSoundFact;
         #endregion
 
         [MethodForLoggingSupport]
@@ -61,21 +66,87 @@ namespace MyNPCLib
                 throw new ArgumentNullException(nameof(type));
             }
 
+            return NAddTypeOfProcess(type).Key;        
+        }
+
+        public bool AddTypeOfProcess(Type type, SoundEventProcessOptions soundEventProcessOptions)
+        {
+#if DEBUG
+            Log($"type = {type?.FullName}");
+            Log($"soundEventProcessOptions = {soundEventProcessOptions}");
+#endif
+
+            var resultOfTypeOfProcess = NAddTypeOfProcess(type);
+
+            var boolResult = resultOfTypeOfProcess.Key;
+
+#if DEBUG
+            Log($"boolResult = {boolResult}");
+#endif
+
+            if (!boolResult)
+            {
+                return false;
+            }
+
+            var processInfo = resultOfTypeOfProcess.Value;
+
+#if DEBUG
+            Log($"processInfo == null = {processInfo == null}");
+#endif
+
+            lock (mSoundProcessesLockObj)
+            {
+                var kindOfSoundEvent = soundEventProcessOptions.Kind;
+
+#if DEBUG
+                Log($"kindOfSoundEvent = {kindOfSoundEvent}");
+#endif
+
+                switch (kindOfSoundEvent)
+                {
+                    case KindOfSoundEvent.EntityCondition:
+                        mNPCProcessInfoForLogicalSoundEntityCondition = processInfo;
+#if DEBUG
+                        LogInstance.Log($"mNPCProcessInfoForLogicalSoundEntityCondition == null = {mNPCProcessInfoForLogicalSoundEntityCondition == null}");
+#endif
+                        break;
+
+                    case KindOfSoundEvent.Command:
+                        {
+                            mNPCProcessInfoDictByLogicalSoundActions[soundEventProcessOptions.ActionName] = processInfo;
+                        }
+                        break;
+
+                    case KindOfSoundEvent.Fact:
+                        mNPCProcessInfoForLogicalSoundFact = processInfo;
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfSoundEvent), kindOfSoundEvent, null);
+                }
+            }
+
+            return true;
+        }
+
+        private KeyValuePair<bool, NPCProcessInfo> NAddTypeOfProcess(Type type)
+        {
             lock (mLockObj)
             {
-                if(mNPCProcessInfoDictByType.ContainsKey(type))
+                if (mNPCProcessInfoDictByType.ContainsKey(type))
                 {
-                    return false;
+                    return new KeyValuePair<bool, NPCProcessInfo>(false, null);
                 }
 
                 NPCProcessInfo info = null;
 
-                if(mNPCProcessInfoCache != null)
+                if (mNPCProcessInfoCache != null)
                 {
                     info = mNPCProcessInfoCache.Get(type);
                 }
 
-                if(info == null)
+                if (info == null)
                 {
                     info = mFactory.CreateInfo(type);
 
@@ -83,28 +154,28 @@ namespace MyNPCLib
                     {
                         var resultOfPutToCache = mNPCProcessInfoCache.Set(info);
 
-                        if(resultOfPutToCache == false)
+                        if (resultOfPutToCache == false)
                         {
                             info = mNPCProcessInfoCache.Get(type);
                         }
-                    }             
+                    }
                 }
 
-                if(info != null)
+                if (info != null)
                 {
                     var key = info.Key;
 
                     if (mNPCProcessInfoDictByKey.ContainsKey(key))
                     {
-                        return false;
+                        return new KeyValuePair<bool, NPCProcessInfo>(false, null);
                     }
 
                     mNPCProcessInfoDictByType[type] = info;
                     mNPCProcessInfoDictByKey[key] = info;
                 }
 
-                return true;
-            }         
+                return new KeyValuePair<bool, NPCProcessInfo>(true, info);
+            }
         }
 
         public NPCProcessInfo GetNPCProcessInfo(Type type)
@@ -161,6 +232,50 @@ namespace MyNPCLib
                 if(mNPCProcessInfoDictByKey.ContainsKey(key))
                 {
                     return mNPCProcessInfoDictByKey[key];
+                }
+
+                return null;
+            }
+        }
+
+        public NPCProcessInfo GetNPCProcessInfo(LogicalSoundInfo logicalSoundInfo)
+        {
+            lock (mDisposeLockObj)
+            {
+                if (mIsDisposed)
+                {
+                    throw new ElementIsNotActiveException();
+                }
+            }
+
+            lock (mSoundProcessesLockObj)
+            {
+                var kindOfSoundEvent = logicalSoundInfo.Kind;
+
+#if DEBUG
+                //LogInstance.Log($"kindOfSoundEvent = {kindOfSoundEvent}");
+#endif
+
+                switch (kindOfSoundEvent)
+                {
+                    case KindOfSoundEvent.EntityCondition:
+#if DEBUG
+                        //LogInstance.Log($"mNPCProcessInfoForLogicalSoundEntityCondition == null = {mNPCProcessInfoForLogicalSoundEntityCondition == null}");
+#endif
+                        return mNPCProcessInfoForLogicalSoundEntityCondition;
+
+                    case KindOfSoundEvent.Command:
+                        if(mNPCProcessInfoDictByLogicalSoundActions.ContainsKey(logicalSoundInfo.ActionName))
+                        {
+                            return mNPCProcessInfoDictByLogicalSoundActions[logicalSoundInfo.ActionName];
+                        }
+                        break;
+
+                    case KindOfSoundEvent.Fact:
+                        return mNPCProcessInfoForLogicalSoundFact;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfSoundEvent), kindOfSoundEvent, null);
                 }
 
                 return null;

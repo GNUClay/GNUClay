@@ -1,5 +1,7 @@
 ﻿using MyNPCLib.CGStorage;
 using MyNPCLib.Logical;
+using MyNPCLib.PersistLogicalData;
+using MyNPCLib.Variants;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,6 +47,10 @@ namespace MyNPCLib
 
         BaseAbstractLogicalObject SelfLogicalObject { get; }
         BaseAbstractLogicalObject GetLogicalObject(string query, params QueryParam[] paramsCollection);
+        BaseAbstractLogicalObject GetLogicalObject(ICGStorage query);
+        BaseAbstractLogicalObject GetLogicalObject(RuleInstancePackage query);
+        BaseAbstractLogicalObject GetLogicalObject(RuleInstance query);
+        BaseAbstractLogicalObject GetLogicalObject(BaseVariant query);
 
         IList<VisionObject> VisibleObjects { get; }
     }

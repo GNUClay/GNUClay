@@ -112,7 +112,7 @@ namespace MyNPCLib.IndexedPersistLogicalData
             var indexedRulePartsOfFactsList = dataSource.GetIndexedRulePartOfFactsByKeyOfRelation(Key);
 
 #if DEBUG
-            //LogInstance.Log($"indexedRulePartsOfFactsList?.Count = {indexedRulePartsOfFactsList?.Count}");
+            LogInstance.Log($"indexedRulePartsOfFactsList?.Count = {indexedRulePartsOfFactsList?.Count}");
 #endif
 
             var mergingResult = QueryExecutingCardAboutKnownInfoHelper.Merge(KnownInfoList, VarsInfoList, queryExecutingCard.KnownInfoList, false);
@@ -132,7 +132,7 @@ namespace MyNPCLib.IndexedPersistLogicalData
             //}
 #endif
 
-            if (indexedRulePartsOfFactsList.Count > 0)
+            if (!indexedRulePartsOfFactsList.IsEmpty())
             {
                 foreach (var indexedRulePartsOfFacts in indexedRulePartsOfFactsList)
                 {

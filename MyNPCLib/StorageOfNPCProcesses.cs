@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyNPCLib.LogicalSoundModeling;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -66,6 +67,51 @@ namespace MyNPCLib
             return mStorageOfNPCProcessInfo.AddTypeOfProcess(type);
         }
 
+        public bool AddTypeOfProcess(Type type, SoundEventProcessOptions soundEventProcessOptions)
+        {
+            lock (mDisposeLockObj)
+            {
+                if (mIsDisposed)
+                {
+                    throw new ElementIsNotActiveException();
+                }
+            }
+
+            return mStorageOfNPCProcessInfo.AddTypeOfProcess(type, soundEventProcessOptions);
+        }
+
+        public BaseNPCProcessInvocablePackage GetProcess(LogicalSoundInfo logicalSoundInfo)
+        {
+            lock (mDisposeLockObj)
+            {
+                if (mIsDisposed)
+                {
+                    throw new ElementIsNotActiveException();
+                }
+            }
+
+            var processInfo = mStorageOfNPCProcessInfo.GetNPCProcessInfo(logicalSoundInfo);
+
+#if DEBUG
+            //LogInstance.Log($"processInfo == null = {processInfo == null}");
+#endif
+
+            if (processInfo == null)
+            {
+                return null;
+            }
+
+            var paramKey = mEntityDictionary.GetKey("logicalSoundInfo");
+
+            var commandParams = new Dictionary<ulong, object>();
+            commandParams[paramKey] = logicalSoundInfo;
+
+            var command = new NPCInternalCommand();
+            command.Params = commandParams;
+
+            return CreateProcessInvocablePackageBy(processInfo, NPCProcessPriorities.Normal, command, commandParams);
+        }
+
         public BaseNPCProcessInvocablePackage GetProcess(NPCInternalCommand command)
         {
 #if DEBUG
@@ -96,7 +142,16 @@ namespace MyNPCLib
                 return null;
             }
 
-            var targetEntryPoint = mActivatorOfNPCProcessEntryPointInfo.GetTopEntryPoint(processInfo, command.Params);
+            return CreateProcessInvocablePackageBy(processInfo, NPCProcessPriorities.Normal, command, command.Params);
+        }
+
+        private BaseNPCProcessInvocablePackage CreateProcessInvocablePackageBy(NPCProcessInfo processInfo, float priority, NPCInternalCommand command, Dictionary<ulong, object> paramsDict)
+        {
+            var targetEntryPoint = mActivatorOfNPCProcessEntryPointInfo.GetTopEntryPoint(processInfo, paramsDict);
+
+#if DEBUG
+            //Log($"targetEntryPoint == null = {targetEntryPoint == null}");
+#endif
 
             if (targetEntryPoint == null)
             {
@@ -105,20 +160,20 @@ namespace MyNPCLib
 
             var key = processInfo.Key;
             var startupMode = processInfo.StartupMode;
-
+            
             BaseNPCProcess instance = null;
 
             switch (processInfo.StartupMode)
             {
                 case NPCProcessStartupMode.Singleton:
                     {
-                        if(mSingletonsDict.ContainsKey(key))
+                        if (mSingletonsDict.ContainsKey(key))
                         {
                             instance = mSingletonsDict[key];
                         }
                         else
                         {
-                            instance = CreateInstanceByProcessInfo(processInfo, command.Priority, startupMode);
+                            instance = CreateInstanceByProcessInfo(processInfo, priority, startupMode);
                             mSingletonsDict[key] = instance;
                         }
                     }
@@ -127,14 +182,15 @@ namespace MyNPCLib
                 case NPCProcessStartupMode.NewInstance:
                 case NPCProcessStartupMode.NewStandaloneInstance:
                     {
-                        instance = CreateInstanceByProcessInfo(processInfo, command.Priority, startupMode);
+                        instance = CreateInstanceByProcessInfo(processInfo, priority, startupMode);
                     }
                     break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(startupMode), startupMode, null);
             }
 
-            var result = new BaseNPCProcessInvocablePackage() {
+            var result = new BaseNPCProcessInvocablePackage()
+            {
                 Process = instance,
                 Command = command,
                 EntryPoint = targetEntryPoint.EntryPoint,

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MyNPCLib
 {
@@ -85,7 +86,24 @@ namespace MyNPCLib
             //Log($"logicalSoundPackage = {logicalSoundPackage}");
 #endif
 
-            OnLogicalSound(logicalSoundPackage);
+            Task.Run(() => {
+                //OnLogicalSound(logicalSoundPackage);
+
+                var info = LogicalSoundDiscoverer.GetInfo(logicalSoundPackage.SoundFactsDataSource);
+
+#if DEBUG
+                //Log($"info = {info}");
+#endif
+
+                var invocablePackage = mStorageOfNPCProcesses.GetProcess(info);
+
+#if DEBUG
+                //Log($"info = {info}");
+                //Log($"invocablePackage == null = {invocablePackage == null}");
+#endif
+
+                invocablePackage.RunAsync();
+            });
         }
 
         protected virtual void OnLogicalSound(OutputLogicalSoundPackage logicalSoundPackage)
@@ -257,6 +275,16 @@ namespace MyNPCLib
             }
 
             return mStorageOfNPCProcesses.AddTypeOfProcess(type);
+        }
+
+        public bool AddTypeOfProcess<T>(SoundEventProcessOptions soundEventProcessOptions)
+        {
+            return AddTypeOfProcess(typeof(T), soundEventProcessOptions);
+        }
+
+        public bool AddTypeOfProcess(Type type, SoundEventProcessOptions soundEventProcessOptions)
+        {
+            return mStorageOfNPCProcesses.AddTypeOfProcess(type, soundEventProcessOptions);
         }
 
         public void Bootstrap<T>()

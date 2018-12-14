@@ -43,6 +43,7 @@ namespace MyNPCLib.PersistLogicalDataStorage
             {
                 case KindOfRuleInstance.Fact:
                 case KindOfRuleInstance.Annotation:
+                case KindOfRuleInstance.EntityCondition:
                     {
                         if (indexedRuleInstance.IsPart_1_Active)
                         {
@@ -73,8 +74,8 @@ namespace MyNPCLib.PersistLogicalDataStorage
                     }
                     break;
 
-                case KindOfRuleInstance.EntityCondition:
-                    break;
+                //case KindOfRuleInstance.EntityCondition:
+                    //break;
 
                 case KindOfRuleInstance.QuestionVars:
                     break;
