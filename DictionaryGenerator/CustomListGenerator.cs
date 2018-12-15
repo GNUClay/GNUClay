@@ -36,7 +36,7 @@ namespace DictionaryGenerator
                 "already",
                 "pick",
                 "cousin",
-                "Jonh",
+                "John",
                 "Jake",
                 "continue"
             };

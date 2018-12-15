@@ -570,8 +570,8 @@ namespace TmpSandBox
             sentence = "Tom";
             NParsingSentence(sentence, false);
 
-            sentence = "Jonh";
-            NParsingSentence(sentence, false);
+            sentence = "john";
+            NParsingSentence(sentence, true);
 
             sentence = "Jake";
             NParsingSentence(sentence, false);
@@ -585,8 +585,8 @@ namespace TmpSandBox
             sentence = "Go to yellow place";
             NParsingSentence(sentence, false);
 
-            sentence = "Go to blue place";
-            NParsingSentence(sentence, true);
+            sentence = "go to blue place";
+            NParsingSentence(sentence, false);
 
             sentence = "Go to purple place";
             NParsingSentence(sentence, false);
