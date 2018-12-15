@@ -109,7 +109,12 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
             if (extendedTokensList.Count == 0)
             {
-                throw new NotImplementedException();
+#if DEBUG
+                LogInstance.Log($"Context = {Context}");
+#endif
+                Context.Sentence.Mood = GrammaticalMood.Imperative;
+                PutSentenceToResult();
+                return;
             }
 
             foreach (var item in extendedTokensList)

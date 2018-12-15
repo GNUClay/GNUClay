@@ -3,6 +3,7 @@ using MyNPCLib.NLToCGParsing_v2.PhraseTree;
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -23,6 +24,12 @@ namespace MyNPCLib.NLToCGParsing_v2
             }
 
             mSentencesList.Add(sentence);
+
+            if(mSentencesList.Any(p => p.Mood == GrammaticalMood.Imperative) && mSentencesList.Any(p => p.Mood != GrammaticalMood.Imperative))
+            {
+                var nonImperativeSentence = mSentencesList.First(p => p.Mood != GrammaticalMood.Imperative);
+                mSentencesList.Remove(nonImperativeSentence);
+            }
         }
 
         public IList<Sentence_v2> SentencesList

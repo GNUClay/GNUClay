@@ -35,7 +35,10 @@ namespace DictionaryGenerator
                 "holiday",
                 "already",
                 "pick",
-                "cousin"
+                "cousin",
+                "Jonh",
+                "Jake",
+                "continue"
             };
 
             return wordsList;

@@ -19,7 +19,7 @@ namespace MyNPCLib.NLToCGParsing_v2
 
         private PlainSentence mSentence;
         private ConceptualGraph mConceptualGraph;
-
+        
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG

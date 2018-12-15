@@ -568,7 +568,28 @@ namespace TmpSandBox
             NParsingSentence(sentence, false);
 
             sentence = "Tom";
+            NParsingSentence(sentence, false);
+
+            sentence = "Jonh";
+            NParsingSentence(sentence, false);
+
+            sentence = "Jake";
+            NParsingSentence(sentence, false);
+
+            sentence = "Stop";
+            NParsingSentence(sentence, false);
+
+            sentence = "Continue";
+            NParsingSentence(sentence, false);
+
+            sentence = "Go to yellow place";
+            NParsingSentence(sentence, false);
+
+            sentence = "Go to blue place";
             NParsingSentence(sentence, true);
+
+            sentence = "Go to purple place";
+            NParsingSentence(sentence, false);
 
             LogInstance.Log("End");
         }
