@@ -41,8 +41,8 @@ namespace MyNPCLib.NLToCGParsing_v2
         public override bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction)
         {
 #if DEBUG
-            LogInstance.Log($"State = {State}");
-            LogInstance.Log($"token = {token}");
+            //LogInstance.Log($"State = {State}");
+            //LogInstance.Log($"token = {token}");
 #endif
 
             switch (State)

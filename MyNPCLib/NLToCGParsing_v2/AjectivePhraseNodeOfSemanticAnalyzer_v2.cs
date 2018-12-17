@@ -23,7 +23,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG
-            LogInstance.Log($"mAdjectivePhrase = {mAdjectivePhrase}");
+            //LogInstance.Log($"mAdjectivePhrase = {mAdjectivePhrase}");
 #endif
 
             var result = new ResultOfNodeOfSemanticAnalyzer();
@@ -34,7 +34,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var ajective = mAdjectivePhrase.Adjective;
 
 #if DEBUG
-            LogInstance.Log($"ajective = {ajective}");
+            //LogInstance.Log($"ajective = {ajective}");
 #endif
 
             mConcept = new ConceptCGNode();

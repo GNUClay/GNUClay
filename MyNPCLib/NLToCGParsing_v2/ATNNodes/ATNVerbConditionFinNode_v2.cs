@@ -80,9 +80,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"Token = {Token}");
-            LogInstance.Log($"Context = {Context}");
-            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+            //LogInstance.Log($"Token = {Token}");
+            //LogInstance.Log($"Context = {Context}");
+            //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
 
             SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
@@ -93,8 +93,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var extendedTokensList = Get—lusterOfExtendedTokens();
 
 #if DEBUG
-            LogInstance.Log($"Context = {Context}");
-            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+            //LogInstance.Log($"Context = {Context}");
+            //LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
             if (extendedTokensList.Count == 0)
@@ -109,7 +109,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             foreach (var item in extendedTokensList)
             {
 #if DEBUG
-                LogInstance.Log($"item = {item}");
+                //LogInstance.Log($"item = {item}");
 #endif
 
                 var kindOfItem = item.KindOfItem;
