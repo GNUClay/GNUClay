@@ -72,8 +72,8 @@ namespace MyNPCLib
         public bool AddTypeOfProcess(Type type, SoundEventProcessOptions soundEventProcessOptions)
         {
 #if DEBUG
-            Log($"type = {type?.FullName}");
-            Log($"soundEventProcessOptions = {soundEventProcessOptions}");
+            //Log($"type = {type?.FullName}");
+            //Log($"soundEventProcessOptions = {soundEventProcessOptions}");
 #endif
 
             var resultOfTypeOfProcess = NAddTypeOfProcess(type);
@@ -81,7 +81,7 @@ namespace MyNPCLib
             var boolResult = resultOfTypeOfProcess.Key;
 
 #if DEBUG
-            Log($"boolResult = {boolResult}");
+            //Log($"boolResult = {boolResult}");
 #endif
 
             if (!boolResult)
@@ -92,7 +92,7 @@ namespace MyNPCLib
             var processInfo = resultOfTypeOfProcess.Value;
 
 #if DEBUG
-            Log($"processInfo == null = {processInfo == null}");
+            //Log($"processInfo == null = {processInfo == null}");
 #endif
 
             lock (mSoundProcessesLockObj)
@@ -100,7 +100,7 @@ namespace MyNPCLib
                 var kindOfSoundEvent = soundEventProcessOptions.Kind;
 
 #if DEBUG
-                Log($"kindOfSoundEvent = {kindOfSoundEvent}");
+                //Log($"kindOfSoundEvent = {kindOfSoundEvent}");
 #endif
 
                 switch (kindOfSoundEvent)
@@ -108,7 +108,7 @@ namespace MyNPCLib
                     case KindOfSoundEvent.EntityCondition:
                         mNPCProcessInfoForLogicalSoundEntityCondition = processInfo;
 #if DEBUG
-                        LogInstance.Log($"mNPCProcessInfoForLogicalSoundEntityCondition == null = {mNPCProcessInfoForLogicalSoundEntityCondition == null}");
+                        //Log($"mNPCProcessInfoForLogicalSoundEntityCondition == null = {mNPCProcessInfoForLogicalSoundEntityCondition == null}");
 #endif
                         break;
 
