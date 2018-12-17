@@ -2,6 +2,7 @@
 using MyNPCLib.SimpleWordsDict;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyNPCLib.NLToCGParsing_v2
@@ -28,6 +29,11 @@ namespace MyNPCLib.NLToCGParsing_v2
             atnNode.Run();
 
             var sentencesList = commonContext.SentencesList;
+
+            if (sentencesList.Count > 1)
+            {
+                sentencesList = sentencesList.Distinct(new ComparerOfSentence_v2()).ToList();
+            }
 
 #if DEBUG
             //LogInstance.Log($"sentencesList.Count = {sentencesList.Count}");

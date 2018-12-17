@@ -15,7 +15,7 @@ namespace MyNPCLib.SimpleWordsDict
             var workingDictFullName = Path.Combine(rootPath, workingDictLocalName);
 
 #if DEBUG
-            LogInstance.Log($"workingDictFullName = {workingDictFullName}");
+            //LogInstance.Log($"workingDictFullName = {workingDictFullName}");
 #endif
 
             var serializator = new WordsDictJSONSerializationEngine();//new WordsDictSerializationEngine();
@@ -53,7 +53,7 @@ namespace MyNPCLib.SimpleWordsDict
         public IList<string> GetConditionalLogicalMeaning(string word, string conditionalWord)
         {
 #if DEBUG
-            LogInstance.Log($"word = {word} conditionalWord = {conditionalWord}");
+            //LogInstance.Log($"word = {word} conditionalWord = {conditionalWord}");
 #endif
 
             var wordFrame = GetWordFrame(word);
@@ -64,16 +64,16 @@ namespace MyNPCLib.SimpleWordsDict
             }
 
 #if DEBUG
-            LogInstance.Log($"wordFrame.Word = {wordFrame.Word}");
-            LogInstance.Log($"wordFrame.GrammaticalWordFrames.Count = {wordFrame.GrammaticalWordFrames.Count}");
-            LogInstance.Log($"wordFrame = {wordFrame}");
-            LogInstance.Log($"NEXT word = {word} conditionalWord = {conditionalWord}");
+            //LogInstance.Log($"wordFrame.Word = {wordFrame.Word}");
+            //LogInstance.Log($"wordFrame.GrammaticalWordFrames.Count = {wordFrame.GrammaticalWordFrames.Count}");
+            //LogInstance.Log($"wordFrame = {wordFrame}");
+            //LogInstance.Log($"NEXT word = {word} conditionalWord = {conditionalWord}");
 #endif
 
             var dict = wordFrame.GrammaticalWordFrames.Where(p => !p.ConditionalLogicalMeaning.IsEmpty()).SelectMany(p => p.ConditionalLogicalMeaning).ToDictionary(p => p.Key, p => p.Value);
 
 #if DEBUG
-            LogInstance.Log($"dict.Count = {dict.Count}");
+            //LogInstance.Log($"dict.Count = {dict.Count}");
 #endif
 
             if(dict.ContainsKey(conditionalWord))

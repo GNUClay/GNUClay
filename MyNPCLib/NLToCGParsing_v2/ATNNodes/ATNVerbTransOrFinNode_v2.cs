@@ -83,8 +83,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"Token = {Token}");
-            LogInstance.Log($"Context = {Context}");
+            //LogInstance.Log($"Token = {Token}");
+            //LogInstance.Log($"Context = {Context}");
 #endif
 
             var verbPhrase = new VerbPhrase_v2();
@@ -104,13 +104,13 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var extendedTokensList = Get—lusterOfExtendedTokens();
 
 #if DEBUG
-            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+            //LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
             if (extendedTokensList.Count == 0)
             {
 #if DEBUG
-                LogInstance.Log($"Context = {Context}");
+                //LogInstance.Log($"Context = {Context}");
 #endif
                 Context.Sentence.Mood = GrammaticalMood.Imperative;
                 PutSentenceToResult();
@@ -120,7 +120,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             foreach (var item in extendedTokensList)
             {
 #if DEBUG
-                LogInstance.Log($"item = {item}");
+                //LogInstance.Log($"item = {item}");
 #endif
 
                 var kindOfItem = item.KindOfItem;

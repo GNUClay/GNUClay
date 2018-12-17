@@ -47,8 +47,8 @@ namespace TmpSandBox
 
         public void Parse(string text)
         {
-            UsualParsing(text);
-            //DispatchText(text);
+            //UsualParsing(text);
+            DispatchText(text);
         }
 
         private void UsualParsing(string text)

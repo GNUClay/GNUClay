@@ -93,9 +93,9 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"Token = {Token}");
-            LogInstance.Log($"Context = {Context}");
-            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+            //LogInstance.Log($"Token = {Token}");
+            //LogInstance.Log($"Context = {Context}");
+            //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
 
             SetAsSuccess(SlaveNAPNode.Run(Token, CommaInstruction));
@@ -104,7 +104,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
         private void ImplementAsNounSentence()
         {
 #if DEBUG
-            LogInstance.Log($"Context = {Context}");
+            //LogInstance.Log($"Context = {Context}");
 #endif
 
             var sentence = Context.Sentence;
@@ -116,7 +116,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             sentence.Mood = GrammaticalMood.Indicative;
 
 #if DEBUG
-            LogInstance.Log($"after Context = {Context}");
+            //LogInstance.Log($"after Context = {Context}");
 #endif
 
             Context.PutSentenceToResult();
@@ -127,8 +127,8 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             var extendedTokensList = Get—lusterOfExtendedTokens();
 
 #if DEBUG
-            LogInstance.Log($"CommaInstruction = {CommaInstruction}");
-            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+            //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+            //LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
             if (extendedTokensList.Count == 0)
@@ -140,7 +140,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
             foreach (var item in extendedTokensList)
             {
 #if DEBUG
-                LogInstance.Log($"item = {item}");
+                //LogInstance.Log($"item = {item}");
 #endif
 
                 var kindOfItem = item.KindOfItem;
@@ -149,7 +149,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
                 {
                     case KindOfItemOfSentence.Verb:
 #if DEBUG
-                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+                        //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
                         switch(CommaInstruction)
                         {
@@ -171,7 +171,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
                     case KindOfItemOfSentence.FToDo:
 #if DEBUG
-                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+                        //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
                         switch (CommaInstruction)
                         {
@@ -201,7 +201,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
                     case KindOfItemOfSentence.FToBe:
 #if DEBUG
-                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+                        //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
                         switch (CommaInstruction)
                         {
@@ -229,7 +229,7 @@ namespace MyNPCLib.NLToCGParsing_v2.ATNNodes
 
                     case KindOfItemOfSentence.Comma:
 #if DEBUG
-                        LogInstance.Log($"CommaInstruction = {CommaInstruction}");
+                        //LogInstance.Log($"CommaInstruction = {CommaInstruction}");
 #endif
 
                         switch (CommaInstruction)

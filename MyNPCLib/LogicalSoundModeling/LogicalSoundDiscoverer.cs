@@ -29,24 +29,24 @@ namespace MyNPCLib.LogicalSoundModeling
                 var query = queryStorage.MainRuleInstance;
 
 #if DEBUG
-                {
-                    var debugStr = DebugHelperForRuleInstance.ToString(query);
+                //{
+                    //var debugStr = DebugHelperForRuleInstance.ToString(query);
 
-                    LogInstance.Log($"debugStr = {debugStr}");
-                }
+                    //LogInstance.Log($"debugStr = {debugStr}");
+                //}
 #endif
                 var querySearchResultCGStorage = localStorage.Search(queryStorage);
 
                 var keyOfActionQuestionVar = entitydictionary.GetKey("?Z");
 
 #if DEBUG
-                LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
+                //LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
 #endif
 
                 var actionExpression = querySearchResultCGStorage.GetResultOfVar(keyOfActionQuestionVar);
 
 #if DEBUG
-                LogInstance.Log($"actionExpression = {actionExpression}");
+                //LogInstance.Log($"actionExpression = {actionExpression}");
 #endif
                 if (actionExpression != null)
                 {
@@ -55,7 +55,7 @@ namespace MyNPCLib.LogicalSoundModeling
             }
 
 #if DEBUG
-            LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
+            //LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
 #endif
 
             if(!string.IsNullOrWhiteSpace(actionName))
@@ -72,24 +72,24 @@ namespace MyNPCLib.LogicalSoundModeling
                 var query = queryStorage.MainRuleInstance;
 
 #if DEBUG
-                {
-                    var debugStr = DebugHelperForRuleInstance.ToString(query);
+                //{
+                    //var debugStr = DebugHelperForRuleInstance.ToString(query);
 
-                    LogInstance.Log($"debugStr = {debugStr}");
-                }
+                    //LogInstance.Log($"debugStr = {debugStr}");
+                //}
 #endif
                 var querySearchResultCGStorage = localStorage.Search(queryStorage);
 
                 var keyOfActionQuestionVar = entitydictionary.GetKey("?Z");
 
 #if DEBUG
-                LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
+                //LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
 #endif
 
                 var actionExpression = querySearchResultCGStorage.GetResultOfVar(keyOfActionQuestionVar);
 
 #if DEBUG
-                LogInstance.Log($"actionExpression = {actionExpression}");
+                //LogInstance.Log($"actionExpression = {actionExpression}");
 #endif
                 if (actionExpression != null)
                 {
@@ -98,7 +98,7 @@ namespace MyNPCLib.LogicalSoundModeling
             }
 
 #if DEBUG
-            LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
+            //LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
 #endif
 
             if(!string.IsNullOrWhiteSpace(actionName))
@@ -115,24 +115,24 @@ namespace MyNPCLib.LogicalSoundModeling
                 var query = queryStorage.MainRuleInstance;
 
 #if DEBUG
-                {
-                    var debugStr = DebugHelperForRuleInstance.ToString(query);
+                //{
+                    //var debugStr = DebugHelperForRuleInstance.ToString(query);
 
-                    LogInstance.Log($"debugStr = {debugStr}");
-                }
+                    //LogInstance.Log($"debugStr = {debugStr}");
+                //}
 #endif
                 var querySearchResultCGStorage = localStorage.Search(queryStorage);
 
                 var keyOfActionQuestionVar = entitydictionary.GetKey("?Z");
 
 #if DEBUG
-                LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
+                //LogInstance.Log($"keyOfActionQuestionVar = {keyOfActionQuestionVar}");
 #endif
 
                 var actionExpression = querySearchResultCGStorage.GetResultOfVar(keyOfActionQuestionVar);
 
 #if DEBUG
-                LogInstance.Log($"actionExpression = {actionExpression}");
+                //LogInstance.Log($"actionExpression = {actionExpression}");
 #endif
                 if (actionExpression != null)
                 {
@@ -141,7 +141,7 @@ namespace MyNPCLib.LogicalSoundModeling
             }
 
 #if DEBUG
-            LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
+            //LogInstance.Log($"!!!!!!!! :) actionName = {actionName}");
 #endif
 
             if (!string.IsNullOrWhiteSpace(actionName))
@@ -149,28 +149,6 @@ namespace MyNPCLib.LogicalSoundModeling
                 result.ActionName = actionName;
                 result.Kind = KindOfSoundEvent.Fact;
                 return result;
-            }
-
-            {
-                var queryStr = "{: name(?X,?Y) :}";
-
-                var queryStorage = RuleInstanceFactory.ConvertStringToQueryCGStorage(queryStr, entitydictionary);
-                var query = queryStorage.MainRuleInstance;
-
-                var querySearchResultCGStorage = localStorage.Search(queryStorage);
-
-                var keyOfActionQuestionVar = entitydictionary.GetKey("?Y");
-
-                var actionExpression = querySearchResultCGStorage.GetResultOfVar(keyOfActionQuestionVar);
-
-#if DEBUG
-                LogInstance.Log($"actionExpression = {actionExpression}");
-#endif
-
-                if (actionExpression != null)
-                {
-                    //targetName = actionExpression?.FoundExpression?.AsConcept.Name;
-                }
             }
 
             result.Kind = KindOfSoundEvent.EntityCondition;

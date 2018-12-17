@@ -52,7 +52,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         protected override void ImplementGoalToken()
         {
 #if DEBUG
-            LogInstance.Log($"Token = {Token}");
+            //LogInstance.Log($"Token = {Token}");
 #endif
 
             if (Token == null)
@@ -70,7 +70,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var extendedTokensList = GetСlusterOfExtendedTokens();
 
 #if DEBUG
-            LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
+            //LogInstance.Log($"extendedTokensList.Count = {extendedTokensList.Count}");
 #endif
 
             if(extendedTokensList.Count == 0)
@@ -83,7 +83,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             foreach (var item in extendedTokensList)
             {
 #if DEBUG           
-                LogInstance.Log($"item = {item}");
+                //LogInstance.Log($"item = {item}");
 #endif
 
                 var kindOfItem = item.KindOfItem;

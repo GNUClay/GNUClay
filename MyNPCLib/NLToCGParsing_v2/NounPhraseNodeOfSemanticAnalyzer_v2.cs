@@ -25,7 +25,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG
-            LogInstance.Log($"mNounPhrase = {mNounPhrase}");
+            //LogInstance.Log($"mNounPhrase = {mNounPhrase}");
 #endif
 
             var result = new ResultOfNodeOfSemanticAnalyzer();
@@ -42,7 +42,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var noun = mNounPhrase.Noun;
 
 #if DEBUG
-            LogInstance.Log($"noun = {noun}");
+            //LogInstance.Log($"noun = {noun}");
 #endif
 
             if (noun == null)
@@ -77,13 +77,13 @@ namespace MyNPCLib.NLToCGParsing_v2
             if (!ajectivesList.IsEmpty())
             {
 #if DEBUG
-                LogInstance.Log($"ajectivesList.Count = {ajectivesList.Count}");
+                //LogInstance.Log($"ajectivesList.Count = {ajectivesList.Count}");
 #endif
 
                 foreach (var ajective in ajectivesList)
                 {
 #if DEBUG
-                    LogInstance.Log($"ajective = {ajective}");
+                    //LogInstance.Log($"ajective = {ajective}");
 #endif
 
                     var ajectiveNode = new AjectivePhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, ajective);
@@ -162,7 +162,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var noun = mNounPhrase.Noun;
 
 #if DEBUG
-            LogInstance.Log($"noun = {noun}");
+            //LogInstance.Log($"noun = {noun}");
 #endif
             var conceptualGraph = Context.ConceptualGraph;
 

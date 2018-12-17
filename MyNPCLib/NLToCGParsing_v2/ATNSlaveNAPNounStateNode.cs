@@ -67,9 +67,9 @@ namespace MyNPCLib.NLToCGParsing_v2
         public override bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction)
         {
 #if DEBUG
-            LogInstance.Log($"State = {State}");
-            LogInstance.Log($"token = {token}");
-            LogInstance.Log($"commaInstruction = {commaInstruction}");
+            //LogInstance.Log($"State = {State}");
+            //LogInstance.Log($"token = {token}");
+            //LogInstance.Log($"commaInstruction = {commaInstruction}");
 #endif
 
             if(commaInstruction == CommaInstructionsOfATNSlaveNAPNode.NounAdditionalInfo)
@@ -166,7 +166,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Adjective:
                                 {
 #if DEBUG
-                                    LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
+                                    //LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
 #endif
                                     PutAdjective(token);
 
@@ -198,7 +198,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                                         State = StateOfATNSlaveNAPNode.Init;
 
 #if DEBUG
-                                        LogInstance.Log($"KindOfItemOfSentence.Comma: Context = {Context}");
+                                        //LogInstance.Log($"KindOfItemOfSentence.Comma: Context = {Context}");
 #endif
                                     }
                                     break;
@@ -245,7 +245,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                             case GrammaticalPartOfSpeech.Adjective:
                                 {
 #if DEBUG
-                                    LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
+                                    //LogInstance.Log($"mDeterminers.Count = {mDeterminers.Count}");
 #endif
 
                                     PutAdjective(token);

@@ -25,7 +25,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG
-            LogInstance.Log($"mVerbPhrase = {mVerbPhrase}");
+            //LogInstance.Log($"mVerbPhrase = {mVerbPhrase}");
 #endif
 
             var result = new ResultOfNodeOfSemanticAnalyzer();
@@ -40,7 +40,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             mConcept.Name = GetName(verb);
 
 #if DEBUG
-            LogInstance.Log($"verb = {verb}");
+            //LogInstance.Log($"verb = {verb}");
 #endif
 
             var verbsRolesStorage = new RolesStorageOfSemanticAnalyzer();
@@ -50,7 +50,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             foreach (var logicalMeaning in verbFullLogicalMeaning)
             {
 #if DEBUG
-                LogInstance.Log($"logicalMeaning = {logicalMeaning}");
+                //LogInstance.Log($"logicalMeaning = {logicalMeaning}");
 #endif
 
                 PrimaryRolesDict.Add(logicalMeaning, mConcept);
@@ -102,13 +102,13 @@ namespace MyNPCLib.NLToCGParsing_v2
             else
             {
 #if DEBUG
-                LogInstance.Log($"nounObjectsList.Count = {nounObjectsList.Count}");
+                //LogInstance.Log($"nounObjectsList.Count = {nounObjectsList.Count}");
 #endif
 
                 foreach (var nounObject in nounObjectsList)
                 {
 #if DEBUG
-                    LogInstance.Log($"nounObject = {nounObject}");
+                    //LogInstance.Log($"nounObject = {nounObject}");
 #endif
 
                     throw new NotImplementedException();
@@ -120,51 +120,51 @@ namespace MyNPCLib.NLToCGParsing_v2
             if(!prepositionalList.IsEmpty())
             {
 #if DEBUG
-                LogInstance.Log($"prepositionalList.Count = {prepositionalList.Count}");
+                //LogInstance.Log($"prepositionalList.Count = {prepositionalList.Count}");
 #endif
 
                 foreach(var prepositional in prepositionalList)
                 {
 #if DEBUG
-                    LogInstance.Log($"prepositional = {prepositional}");
+                    //LogInstance.Log($"prepositional = {prepositional}");
 #endif
 
                     var conditionalLogicalMeaning = GetConditionalLogicalMeaning(prepositional.Preposition.RootWord, verb.RootWord);
 
 #if DEBUG
-                    LogInstance.Log($"conditionalLogicalMeaning = {conditionalLogicalMeaning}");
+                    //LogInstance.Log($"conditionalLogicalMeaning = {conditionalLogicalMeaning}");
 #endif
                     if (!string.IsNullOrWhiteSpace(conditionalLogicalMeaning))
                     {
                         var nounOfPrepositionalList = prepositional.ChildrenNodesList.Select(p => p.AsNounPhrase).Where(p => p != null).ToList();
 
 #if DEBUG
-                        LogInstance.Log($"nounOfPrepositionalList.Count = {nounOfPrepositionalList.Count}");
+                        //LogInstance.Log($"nounOfPrepositionalList.Count = {nounOfPrepositionalList.Count}");
 #endif
 
                         foreach (var nounOfPrepositional in nounOfPrepositionalList)
                         {
 #if DEBUG
-                            LogInstance.Log($"nounOfPrepositional = {nounOfPrepositional}");
+                            //LogInstance.Log($"nounOfPrepositional = {nounOfPrepositional}");
 #endif
 
                             var nodeOfNounOfPrepositional = new NounPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, nounOfPrepositional);
                             var nounOfPrepositionalResult = nodeOfNounOfPrepositional.Run();
 
 #if DEBUG
-                            LogInstance.Log($"nounOfPrepositionalResult = {nounOfPrepositionalResult}");
+                            //LogInstance.Log($"nounOfPrepositionalResult = {nounOfPrepositionalResult}");
 #endif
 
                             var phisobjList = nounOfPrepositionalResult.PrimaryRolesDict.GetByRole("entity");
 
 #if DEBUG
-                            LogInstance.Log($"phisobjList.Count = {phisobjList.Count}");
+                            //LogInstance.Log($"phisobjList.Count = {phisobjList.Count}");
 #endif
 
                             foreach (var phisobj in phisobjList)
                             {
 #if DEBUG
-                                LogInstance.Log($"phisobj = {phisobj}");
+                                //LogInstance.Log($"phisobj = {phisobj}");
 #endif
 
                                 var directionRelation = new RelationCGNode();

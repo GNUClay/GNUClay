@@ -40,8 +40,8 @@ namespace MyNPCLib.NLToCGParsing_v2
         public bool Run(ATNExtendedToken token, CommaInstructionsOfATNSlaveNAPNode commaInstruction)
         {
 #if DEBUG
-            LogInstance.Log($"token = {token}");
-            LogInstance.Log($"commaInstruction = {commaInstruction}");
+            //LogInstance.Log($"token = {token}");
+            //LogInstance.Log($"commaInstruction = {commaInstruction}");
 #endif
 
             var currentNode = ContextOfState.CurrentNode;

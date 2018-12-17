@@ -20,7 +20,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         public ConceptualGraph Run(Sentence_v2 sentence)
         {
 #if DEBUG
-            LogInstance.Log($"sentence = {sentence}");
+            //LogInstance.Log($"sentence = {sentence}");
 #endif
             var outerConceptualGraph = new ConceptualGraph();
             var context = new ContextOfSemanticAnalyzer();
@@ -30,7 +30,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var plainSentencesList = ConvertToPlainSentencesList(sentence);
 
 #if DEBUG
-            LogInstance.Log($"plainSentencesList.Count = {plainSentencesList.Count}");
+            //LogInstance.Log($"plainSentencesList.Count = {plainSentencesList.Count}");
 #endif
 
             foreach(var plainSentence in plainSentencesList)
@@ -40,7 +40,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             }
 
 #if DEBUG
-            LogInstance.Log("End");
+            //LogInstance.Log("End");
 #endif
 
             return outerConceptualGraph;

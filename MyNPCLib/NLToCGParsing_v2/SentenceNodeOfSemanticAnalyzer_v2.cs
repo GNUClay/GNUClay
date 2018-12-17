@@ -23,7 +23,7 @@ namespace MyNPCLib.NLToCGParsing_v2
         public ResultOfNodeOfSemanticAnalyzer Run()
         {
 #if DEBUG
-            LogInstance.Log($"mSentence = {mSentence}");
+            //LogInstance.Log($"mSentence = {mSentence}");
 #endif
             var result = new ResultOfNodeOfSemanticAnalyzer();
             var resultPrimaryRolesDict = result.PrimaryRolesDict;
@@ -41,14 +41,14 @@ namespace MyNPCLib.NLToCGParsing_v2
                 foreach(var vocative in mSentence.VocativePhrasesList)
                 {
 #if DEBUG
-                    LogInstance.Log($"vocative = {vocative}");
+                    //LogInstance.Log($"vocative = {vocative}");
 #endif
 
                     var vocativeNode = new NounPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, vocative);
                     var vocativeResult = vocativeNode.Run();
 
 #if DEBUG
-                    LogInstance.Log($"vocativeResult = {vocativeResult}");
+                    //LogInstance.Log($"vocativeResult = {vocativeResult}");
 #endif
 
                     var entitiesList = vocativeResult.PrimaryRolesDict.GetByRole("entity");
@@ -63,7 +63,7 @@ namespace MyNPCLib.NLToCGParsing_v2
             var subject = mSentence.NounPhrase;
 
 #if DEBUG
-            LogInstance.Log($"subject = {subject}");
+            //LogInstance.Log($"subject = {subject}");
 #endif
 
             ResultOfNodeOfSemanticAnalyzer subjectResult = null;
@@ -74,14 +74,14 @@ namespace MyNPCLib.NLToCGParsing_v2
                 subjectResult = subjectNode.Run();
 
 #if DEBUG
-                LogInstance.Log($"subjectResult = {subjectResult}");
+                //LogInstance.Log($"subjectResult = {subjectResult}");
 #endif
             }
 
             var rootVerb = mSentence.VerbPhrase;
            
 #if DEBUG
-            LogInstance.Log($"rootVerb = {rootVerb}");
+            //LogInstance.Log($"rootVerb = {rootVerb}");
 #endif
 
             ResultOfNodeOfSemanticAnalyzer verbResult = null;
@@ -91,7 +91,7 @@ namespace MyNPCLib.NLToCGParsing_v2
                 var verbNode = new VerbPhraseNodeOfSemanticAnalyzer_v2(Context, mSentence, rootVerb);
                 verbResult = verbNode.Run();
 #if DEBUG
-                LogInstance.Log($"verbResult = {verbResult}");
+                //LogInstance.Log($"verbResult = {verbResult}");
 #endif
 
                 if(mSentence.Mood == GrammaticalMood.Imperative)
