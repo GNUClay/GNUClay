@@ -103,11 +103,11 @@ namespace MyNPCLib.InternalCG
             return sb.ToString();
         }
 
-        public override string PropertiesToBriefSting(uint n)
+        public override string PropertiesToBriefString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();
-            sb.Append(base.PropertiesToBriefSting(n));
+            sb.Append(base.PropertiesToBriefString(n));
             sb.AppendLine($"{spaces}{nameof(LinkedVarName)} = {LinkedVarName}");
             return sb.ToString();
         }

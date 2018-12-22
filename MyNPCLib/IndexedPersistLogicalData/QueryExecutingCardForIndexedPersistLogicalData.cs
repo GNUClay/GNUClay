@@ -130,7 +130,7 @@ namespace MyNPCLib.IndexedPersistLogicalData
             return this.GetDefaultToBriefStringInformation(n);
         }
 
-        public string PropertiesToBriefSting(uint n)
+        public string PropertiesToBriefString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;

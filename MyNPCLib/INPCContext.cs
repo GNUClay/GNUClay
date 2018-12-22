@@ -1,5 +1,6 @@
 ﻿using MyNPCLib.CGStorage;
 using MyNPCLib.Logical;
+using MyNPCLib.NavigationSupport;
 using MyNPCLib.PersistLogicalData;
 using MyNPCLib.Variants;
 using System;
@@ -53,5 +54,7 @@ namespace MyNPCLib
         BaseAbstractLogicalObject GetLogicalObject(BaseVariant query);
 
         IList<VisionObject> VisibleObjects { get; }
+
+        IRoute GetRouteForPosition(IPositionInfo positionInfo);
     }
 }

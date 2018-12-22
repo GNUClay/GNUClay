@@ -2,6 +2,7 @@
 using MyNPCLib.ConvertingPersistLogicalData;
 using MyNPCLib.Logical;
 using MyNPCLib.LogicalSoundModeling;
+using MyNPCLib.NavigationSupport;
 using MyNPCLib.PersistLogicalData;
 using MyNPCLib.Variants;
 using System;
@@ -906,6 +907,15 @@ namespace MyNPCLib
             {
                 return mVisionObjectsStorage.VisibleObjects;
             }
+        }
+
+        public IRoute GetRouteForPosition(IPositionInfo positionInfo)
+        {
+#if DEBUG
+            Log($"positionInfo = {positionInfo}");
+#endif
+
+            throw new NotImplementedException();
         }
 
         public void Dispose()

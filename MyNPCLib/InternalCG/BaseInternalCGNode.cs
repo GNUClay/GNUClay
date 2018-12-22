@@ -247,7 +247,7 @@ namespace MyNPCLib.InternalCG
             return this.GetDefaultToBriefStringInformation(n);
         }
 
-        public virtual string PropertiesToBriefSting(uint n)
+        public virtual string PropertiesToBriefString(uint n)
         {
             var spaces = StringHelper.Spaces(n);
             var sb = new StringBuilder();

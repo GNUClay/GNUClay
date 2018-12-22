@@ -54,7 +54,7 @@ namespace MyNPCLib
             var sb = new StringBuilder();
             var nameOfType = targetObject.GetType().FullName;
             sb.AppendLine($"{spaces}Begin {nameOfType}");
-            sb.Append(targetObject.PropertiesToBriefSting(nextN));
+            sb.Append(targetObject.PropertiesToBriefString(nextN));
             sb.AppendLine($"{spaces}End {nameOfType}");
             return sb.ToString();
         }
