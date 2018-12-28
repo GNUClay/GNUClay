@@ -31,6 +31,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using TmpSandBox.Navigation;
 using TmpSandBox.NPCBehaviour;
 using TmpSandBox.TSTConceptualGraphs;
 using TmpSandBox.VarOfSentences;
@@ -51,6 +52,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
+            TSTRect();
             //TSTStack();
             //TSTSaveDict();
             //TSTQueryWithParams();
@@ -62,7 +64,7 @@ namespace TmpSandBox
             //TSTATNNodeV2();
             //TSTATNNodeGenerator();
             //TSTSentencesGenerator();
-            TSTParsingOfManyTenses();//<<
+            //TSTParsingOfManyTenses();//<<
             //TSTGoToGreenWaypoint();
             //TSTProcessAnnotations();
             //TSTATNParsing();
@@ -83,6 +85,19 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTRect()
+        {
+            LogInstance.Log("Begin");
+
+            var transformModel = new TransformModel();
+            transformModel.Position = new Vector3(2, 0, 2);
+            transformModel.Scale = new Vector3(3, 0, 3);
+
+            LogInstance.Log("----");
+
+            transformModel.Rotation = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), 90);
         }
 
         private static void TSTStack()
