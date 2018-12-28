@@ -11,6 +11,6 @@ namespace MyNPCLib.NavigationSupport
         KindOfPoint KindOfPoint { get; }
         KindOfLocation KindOfLocation { get; }
         Vector3? Point { get; }
-        BaseAbstractLogicalObject PlaneOfThePoint { get; }
+        IList<BaseAbstractLogicalObject> PlanesOfThePoint { get; }
     }
 }

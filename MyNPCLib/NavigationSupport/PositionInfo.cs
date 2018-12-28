@@ -11,7 +11,7 @@ namespace MyNPCLib.NavigationSupport
         public KindOfPoint KindOfPoint { get; set; }
         public KindOfLocation KindOfLocation { get; set; }
         public Vector3? Point { get; set; }
-        public BaseAbstractLogicalObject PlaneOfThePoint { get; set; }
+        public IList<BaseAbstractLogicalObject> PlanesOfThePoint { get; set; }
 
         public override string ToString()
         {
@@ -31,15 +31,18 @@ namespace MyNPCLib.NavigationSupport
             sb.Append($"{spaces}{nameof(KindOfPoint)} = {KindOfPoint}");
             sb.Append($"{spaces}{nameof(KindOfLocation)} = {KindOfLocation}");
             sb.Append($"{spaces}{nameof(Point)} = {Point}");
-            if (PlaneOfThePoint == null)
+            if (PlanesOfThePoint == null)
             {
-                sb.AppendLine($"{spaces}{nameof(PlaneOfThePoint)} = null");
+                sb.AppendLine($"{spaces}{nameof(PlanesOfThePoint)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(PlaneOfThePoint)}");
-                sb.Append(PlaneOfThePoint.ToString(nextN));
-                sb.AppendLine($"{spaces}End {nameof(PlaneOfThePoint)}");
+                sb.AppendLine($"{spaces}Begin {nameof(PlanesOfThePoint)}");
+                foreach(var item in PlanesOfThePoint)
+                {
+                    sb.Append(item.ToString(nextN));
+                }            
+                sb.AppendLine($"{spaces}End {nameof(PlanesOfThePoint)}");
             }
             return sb.ToString();
         }
