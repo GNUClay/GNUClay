@@ -52,7 +52,8 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTRect();
+            TSTRoutes();
+            //TSTRect();
             //TSTStack();
             //TSTSaveDict();
             //TSTQueryWithParams();
@@ -85,6 +86,13 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTRoutes()
+        {
+            LogInstance.Log("Begin");
+
+
         }
 
         private static void TSTRect()
