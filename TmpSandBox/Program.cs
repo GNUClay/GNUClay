@@ -92,7 +92,37 @@ namespace TmpSandBox
         {
             LogInstance.Log("Begin");
 
+            var registry = new TstNavigationRegistry();
 
+            var p1 = new TstPlane() { Name = "p1" };
+            registry.RegPlane(p1);
+
+            var p2 = new TstPlane() { Name = "p2" };
+            registry.RegPlane(p2);
+
+            var p3 = new TstPlane() { Name = "p3" };
+            registry.RegPlane(p3);
+
+            var point1 = new TstWayPoint() { Name = "point1" };
+            point1.PlanesList.Add(p1);
+
+            registry.RegWayPoint(point1);
+
+            var point2 = new TstWayPoint() { Name = "point2" };
+            point2.PlanesList.Add(p2);
+            registry.RegWayPoint(point2);
+
+            var point3 = new TstWayPoint() { Name = "point3" };
+            point3.PlanesList.Add(p2);
+            point3.PlanesList.Add(p3);
+            registry.RegWayPoint(point3);
+
+            var path = new TstLinkOfPoints() { Name = "path" };
+            path.Point1 = point1;
+            path.Point2 = point2;
+            registry.RegLinkOfPoints(path);
+
+            registry.CalculatePaths();
         }
 
         private static void TSTRect()
