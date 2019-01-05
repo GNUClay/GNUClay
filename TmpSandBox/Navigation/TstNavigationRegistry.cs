@@ -11,7 +11,7 @@ namespace TmpSandBox.Navigation
         private List<TstPlane> mPlanesList = new List<TstPlane>();
         private List<TstWayPoint> mPointsList = new List<TstWayPoint>();
         private List<TstLinkOfPoints> mLinksOfPointsList = new List<TstLinkOfPoints>();
-        private List<(TstWayPoint, TstWayPoint)> mPointsOfLinksOfPointsList = new List<(TstWayPoint, TstWayPoint)>();
+        private List<KeyValuePair<TstWayPoint, TstWayPoint>> mPointsOfLinksOfPointsList = new List<KeyValuePair<TstWayPoint, TstWayPoint>>();
 
         public void RegPlane(TstPlane plane)
         {
@@ -52,8 +52,8 @@ namespace TmpSandBox.Navigation
 
             mLinksOfPointsList.Add(linkOfPoints);
 
-            mPointsOfLinksOfPointsList.Add((linkOfPoints.Point1, linkOfPoints.Point2));
-            mPointsOfLinksOfPointsList.Add((linkOfPoints.Point2, linkOfPoints.Point1));
+            mPointsOfLinksOfPointsList.Add(new KeyValuePair<TstWayPoint, TstWayPoint>(linkOfPoints.Point1, linkOfPoints.Point2));
+            mPointsOfLinksOfPointsList.Add(new KeyValuePair<TstWayPoint, TstWayPoint>(linkOfPoints.Point2, linkOfPoints.Point1));
         }
 
         private int mCurrIndex;
@@ -70,7 +70,7 @@ namespace TmpSandBox.Navigation
 #endif
 
             mPlanesDict = new bool?[mPlanesList.Count, mPlanesList.Count];
-            var pointsOfLinksOfPointsDict = mPointsOfLinksOfPointsList.GroupBy(p => p.Item1).ToDictionary(p => p.Key, p => p.Select(x => x.Item2).ToList());
+            var pointsOfLinksOfPointsDict = mPointsOfLinksOfPointsList.GroupBy(p => p.Key).ToDictionary(p => p.Key, p => p.Select(x => x.Value).ToList());
 
             var listOfPaths = new List<List<TstPlane>>();
 
