@@ -1,6 +1,7 @@
 ﻿using MyNPCLib;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace TmpSandBox.Navigation
@@ -9,6 +10,28 @@ namespace TmpSandBox.Navigation
     {
         public string Name { get; set; } = string.Empty;
         public List<TstWayPoint> PointsList { get; set; } = new List<TstWayPoint>();
+
+        public bool Contains(Vector3 position)
+        {
+            switch(Name)
+            {
+                case "p1":
+                    if(position == new Vector3(0, 0, 0))
+                    {
+                        return true;
+                    }
+                    break;
+
+                case "p3":
+                    if (position == new Vector3(4, 4, 4))
+                    {
+                        return true;
+                    }
+                    break;
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {

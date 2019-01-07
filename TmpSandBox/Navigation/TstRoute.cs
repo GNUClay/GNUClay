@@ -1,13 +1,16 @@
-﻿using System;
+﻿using MyNPCLib;
+using MyNPCLib.NavigationSupport;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyNPCLib.NavigationSupport
+namespace TmpSandBox.Navigation
 {
-    public class Route : IRoute
+    public class TstRoute: IRoute
     {
         public IList<IStepOfRoute> NextSteps { get; set; }
         public IList<IPointInfo> NextPoints { get; set; }
+        public IList<IList<TstPlane>> InitPathsList { get; set; }
 
         public override string ToString()
         {
@@ -23,6 +26,7 @@ namespace MyNPCLib.NavigationSupport
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
+            var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
             if (NextSteps == null)
             {
@@ -51,6 +55,21 @@ namespace MyNPCLib.NavigationSupport
                 }
                 sb.AppendLine($"{spaces}End {nameof(NextPoints)}");
             }
+
+            if (InitPathsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(InitPathsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(InitPathsList)}");
+                foreach (var item in InitPathsList)
+                {
+                    sb.AppendLine($"{nextNSpaces}{TstPathsHelper.DisplayPath(item)}");
+                }
+                sb.AppendLine($"{spaces}End {nameof(InitPathsList)}");
+            }
+
             return sb.ToString();
         }
 
@@ -68,6 +87,7 @@ namespace MyNPCLib.NavigationSupport
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
+            var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
 
             if (NextSteps == null)
@@ -96,6 +116,20 @@ namespace MyNPCLib.NavigationSupport
                     sb.Append($"{item.ToShortString(nextN)}");
                 }
                 sb.AppendLine($"{spaces}End {nameof(NextPoints)}");
+            }
+
+            if (InitPathsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(InitPathsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(InitPathsList)}");
+                foreach (var item in InitPathsList)
+                {
+                    sb.AppendLine($"{nextNSpaces}{TstPathsHelper.DisplayPath(item)}");
+                }
+                sb.AppendLine($"{spaces}End {nameof(InitPathsList)}");
             }
 
             return sb.ToString();
@@ -115,6 +149,7 @@ namespace MyNPCLib.NavigationSupport
         {
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
+            var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
 
             if (NextSteps == null)
@@ -143,6 +178,20 @@ namespace MyNPCLib.NavigationSupport
                     sb.Append($"{item.ToBriefString(nextN)}");
                 }
                 sb.AppendLine($"{spaces}End {nameof(NextPoints)}");
+            }
+
+            if (InitPathsList == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(InitPathsList)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(InitPathsList)}");
+                foreach (var item in InitPathsList)
+                {
+                    sb.AppendLine($"{nextNSpaces}{TstPathsHelper.DisplayPath(item)}");
+                }
+                sb.AppendLine($"{spaces}End {nameof(InitPathsList)}");
             }
 
             return sb.ToString();

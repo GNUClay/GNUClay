@@ -6,8 +6,7 @@ namespace MyNPCLib.NavigationSupport
 {
     public interface IRoute: IObjectToString, IObjectToBriefString, IShortObjectToString
     {
-        IPositionInfo Target { get; }
-        IPositionInfo LocalTarget { get; }
-        IList<IRoute> PossibleNextSteps { get; }
+        IList<IStepOfRoute> NextSteps { get; }
+        IList<IPointInfo> NextPoints { get; }
     }
 }

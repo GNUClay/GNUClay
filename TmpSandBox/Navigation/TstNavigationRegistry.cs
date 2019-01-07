@@ -1,7 +1,9 @@
 ﻿using MyNPCLib;
+using MyNPCLib.NavigationSupport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace TmpSandBox.Navigation
@@ -60,6 +62,56 @@ namespace TmpSandBox.Navigation
         private Dictionary<TstPlane, int> mIndexOfPlanesDict = new Dictionary<TstPlane, int>();
         private Dictionary<int, TstPlane> mBackIndexOfPlanesDict = new Dictionary<int, TstPlane>();
         private bool?[,] mPlanesDict;
+        private Dictionary<TstPlane, Dictionary<TstPlane, IList<IList<TstPlane>>>> mPathsDict = new Dictionary<TstPlane, Dictionary<TstPlane, IList<IList<TstPlane>>>>();
+
+        private Dictionary<TstPlane, Dictionary<TstPlane, IList<TstPlanesConnectionInfo>>> mPlanesConnectionDict = new Dictionary<TstPlane, Dictionary<TstPlane, IList<TstPlanesConnectionInfo>>>();
+
+        private void RegConnectionPoint(TstPlane from, TstPlane to, IList<TstPlanesConnectionInfo> connectionsInfoList)
+        {
+            Dictionary<TstPlane, IList<TstPlanesConnectionInfo>> targetDict = null;
+
+            if (mPlanesConnectionDict.ContainsKey(from))
+            {
+                targetDict = mPlanesConnectionDict[from];
+            }
+            else
+            {
+                targetDict = new Dictionary<TstPlane, IList<TstPlanesConnectionInfo>>();
+                mPlanesConnectionDict[from] = targetDict;
+            }
+
+            targetDict[to] = connectionsInfoList;
+        }
+
+        private IList<TstPlanesConnectionInfo> GetConnectionPoints(TstPlane from, TstPlane to)
+        {
+            if (mPlanesConnectionDict.ContainsKey(from))
+            {
+                var targetDict = mPlanesConnectionDict[from];
+
+                if(targetDict.ContainsKey(to))
+                {
+                    return targetDict[to];
+                }
+            }
+
+            return new List<TstPlanesConnectionInfo>();
+        }
+
+        private IList<IList<TstPlane>> GetPathsListByPlanes(TstPlane startPlane, TstPlane targePlane)
+        {
+            if(mPathsDict.ContainsKey(startPlane))
+            {
+                var targetDict = mPathsDict[startPlane];
+
+                if(targetDict.ContainsKey(targePlane))
+                {
+                    return targetDict[targePlane];
+                }
+            }
+
+            return new List<IList<TstPlane>>();
+        }
 
         public void CalculatePaths()
         {
@@ -102,6 +154,9 @@ namespace TmpSandBox.Navigation
                     LogInstance.Log($"innerPlane = {innerPlane}");
 #endif
 
+                    var connectionsList1 = new List<TstPlanesConnectionInfo>();
+                    var connectionsList2 = new List<TstPlanesConnectionInfo>();
+
                     var outerPointsList = outerPlane.PointsList.ToList();
 
                     foreach(var outerPoint in outerPlane.PointsList)
@@ -118,6 +173,22 @@ namespace TmpSandBox.Navigation
 
                     var innerPointsList = innerPlane.PointsList.ToList();
 
+                    var directCommonPointsList = outerPlane.PointsList.Intersect(innerPlane.PointsList).ToList();
+
+#if DEBUG
+                    LogInstance.Log($"directCommonPointsList.Count = {directCommonPointsList.Count}");
+#endif
+
+                    foreach(var directCommonPoint in directCommonPointsList)
+                    {
+                        var directPointConnectionItem = new TstPlanesConnectionInfo();
+                        directPointConnectionItem.IsDirect = true;
+                        directPointConnectionItem.WayPoint = directCommonPoint;
+
+                        connectionsList1.Add(directPointConnectionItem);
+                        connectionsList2.Add(directPointConnectionItem);
+                    }
+
                     foreach (var innerPoint in innerPlane.PointsList)
                     {
 #if DEBUG
@@ -131,7 +202,6 @@ namespace TmpSandBox.Navigation
                     }
 
                     var intersectedPointsList = outerPointsList.Intersect(innerPointsList).ToList();
-
 #if DEBUG
                     LogInstance.Log($"intersectedPointsList.Count = {intersectedPointsList.Count}");
                     foreach(var intersectedPoint in intersectedPointsList)
@@ -140,7 +210,51 @@ namespace TmpSandBox.Navigation
                     }
 #endif
 
-                    if(intersectedPointsList.Count == 0)
+                    var indirectCommonPointsList = intersectedPointsList.Except(directCommonPointsList).ToList();
+
+#if DEBUG
+                    LogInstance.Log($"indirectCommonPointsList.Count = {indirectCommonPointsList.Count}");
+                    foreach (var indirectCommonPoint in indirectCommonPointsList)
+                    {
+                        LogInstance.Log($"indirectCommonPoint = {indirectCommonPoint}");
+                    }
+#endif
+
+                    foreach(var indirectCommonPoint in indirectCommonPointsList)
+                    {
+                        var directPointConnectionItem = new TstPlanesConnectionInfo();
+                        directPointConnectionItem.IsDirect = false;
+                        directPointConnectionItem.WayPoint = indirectCommonPoint;
+
+                        if(outerPlane.PointsList.Contains(indirectCommonPoint))
+                        {
+                            connectionsList1.Add(directPointConnectionItem);
+                        }
+
+                        if(innerPlane.PointsList.Contains(indirectCommonPoint))
+                        {
+                            connectionsList2.Add(directPointConnectionItem);
+                        }               
+                    }
+
+#if DEBUG
+                    LogInstance.Log($"connectionsList1.Count = {connectionsList1.Count}");
+                    foreach (var connectionItem in connectionsList1)
+                    {
+                        LogInstance.Log($"connectionItem = {connectionItem}");
+                    }
+
+                    LogInstance.Log($"connectionsList2.Count = {connectionsList2.Count}");
+                    foreach (var connectionItem in connectionsList2)
+                    {
+                        LogInstance.Log($"connectionItem = {connectionItem}");
+                    }
+#endif
+
+                    RegConnectionPoint(outerPlane, innerPlane, connectionsList1);
+                    RegConnectionPoint(innerPlane, outerPlane, connectionsList2);
+
+                    if (intersectedPointsList.Count == 0)
                     {
                         mPlanesDict[outerIndex, innerIndex] = false;
                         mPlanesDict[innerIndex, outerIndex] = false;
@@ -176,22 +290,40 @@ namespace TmpSandBox.Navigation
 
 #if DEBUG
             LogInstance.Log($"listOfPaths.Count = {listOfPaths.Count}");
-            foreach(var path in listOfPaths)
+#endif
+
+            var pathListForGrouping = new List<PathGroupItem>();
+
+            foreach (var path in listOfPaths)
             {
-                var sb = new StringBuilder();
+                var firstItem = path.First();
+                var lastItem = path.Last();
 
-                foreach(var item in path)
-                {
-                    sb.Append($"{item.Name},");
-                }
-                sb.Remove(sb.Length - 1, 1);
+                var itemForGrouping = new PathGroupItem();
+                itemForGrouping.FirstItem = firstItem;
+                itemForGrouping.LastItem = lastItem;
+                itemForGrouping.StepItems = path;
 
-                var str = sb.ToString().Replace(",", " -> ");
+                pathListForGrouping.Add(itemForGrouping);
 
+#if DEBUG
+                var str = TstPathsHelper.DisplayPath(path);
                 LogInstance.Log(str);
+#endif
             }
+
+            mPathsDict = pathListForGrouping.GroupBy(p => p.FirstItem).ToDictionary(p => p.Key, p => p.GroupBy(x => x.LastItem).ToDictionary(x => x.Key, x => (IList<IList<TstPlane>>)x.Select(y => y.StepItems).ToList()));
+
+#if DEBUG
             LogInstance.Log("End");
 #endif
+        }
+
+        private class PathGroupItem
+        {
+            public TstPlane FirstItem { get; set; }
+            public TstPlane LastItem { get; set; }
+            public IList<TstPlane> StepItems { get; set; }
         }
 
         private void FillPaths(TstPlane plane, List<TstPlane> localPath, ref List<List<TstPlane>> result)
@@ -237,6 +369,175 @@ namespace TmpSandBox.Navigation
                     FillPaths(nextPlane, localPath, ref result);
                 }
             }
+        }
+
+        public IList<TstPlane> GetPlanesByPoint(Vector3 position)
+        {
+#if DEBUG
+            LogInstance.Log($"position = {position}");
+#endif
+
+            var result = new List<TstPlane>();
+
+            foreach(var plane in mPlanesList)
+            {
+                if (plane.Contains(position))
+                {
+                    result.Add(plane);
+                }
+            }
+
+            return result;
+        }
+
+        public IRoute GetRouteForPosition(IPointInfo pointInfo)
+        {
+#if DEBUG
+            LogInstance.Log($"pointInfo = {pointInfo}");
+#endif
+
+            throw new NotImplementedException();
+        }
+
+        public IRoute GetRouteForPosition(Vector3 startPosition, Vector3 targetPosition)
+        {
+#if DEBUG
+            LogInstance.Log($"startPosition = {startPosition}");
+            LogInstance.Log($"targetPosition = {targetPosition}");
+#endif
+
+            var initialPathsList = GetPathsListForPosition(startPosition, targetPosition);
+
+#if DEBUG
+            LogInstance.Log($"initialPathsList.Count = {initialPathsList.Count}");
+#endif
+
+            var result = new TstRoute();
+
+            if(initialPathsList.Count == 0)
+            {
+                return result;
+            }
+
+            result.InitPathsList = initialPathsList.SelectMany(p => p.PathsList).ToList();
+
+            var nextPathsList = new List<IList<TstPlane>>();
+
+            foreach (var initialPathsItem in initialPathsList)
+            {
+                var pathsList = initialPathsItem.PathsList;
+
+#if DEBUG
+                LogInstance.Log($"pathsList.Count = {pathsList.Count}");
+#endif
+
+                foreach (var path in pathsList)
+                {
+#if DEBUG
+                    LogInstance.Log(TstPathsHelper.DisplayPath(path));
+#endif
+
+                    var firstItem = path.First();
+
+                    path.Remove(firstItem);
+
+                    var nextItem = path.First();
+
+#if DEBUG
+                    LogInstance.Log($"firstItem.Name = {firstItem.Name}");
+                    LogInstance.Log($"nextItem.Name = {nextItem.Name}");
+                    LogInstance.Log(TstPathsHelper.DisplayPath(path));
+#endif
+
+                    var connectionList = GetConnectionPoints(firstItem, nextItem);
+
+#if DEBUG
+                    LogInstance.Log($"connectionList.Count = {connectionList.Count}");
+                    foreach(var connection in connectionList)
+                    {
+                        LogInstance.Log($"connection = {connection}");
+                    }
+#endif
+                }
+            }
+
+            return result;
+        }
+
+        private class PathInfo
+        {
+            public TstPlane FirstItem { get; set; }
+            public TstPlane LastItem { get; set; }
+            public IList<IList<TstPlane>> PathsList { get; set; }
+        }
+
+        private List<PathInfo> GetPathsListForPosition(Vector3 startPosition, Vector3 targetPosition)
+        {
+#if DEBUG
+            LogInstance.Log($"startPosition = {startPosition}");
+            LogInstance.Log($"targetPosition = {targetPosition}");
+#endif
+
+            var planesListForStartPosition = GetPlanesByPoint(startPosition);
+
+#if DEBUG
+            LogInstance.Log($"planesListForStartPosition.Count = {planesListForStartPosition.Count}");
+            foreach(var item in planesListForStartPosition)
+            {
+                LogInstance.Log($"item.Name = {item.Name}");
+            }
+#endif
+
+            if (planesListForStartPosition.Count == 0)
+            {
+                return new List<PathInfo>();
+            }
+
+            var planesListForTargetPosition = GetPlanesByPoint(targetPosition);
+
+#if DEBUG
+            LogInstance.Log($"planesListForTargetPosition.Count = {planesListForTargetPosition.Count}");
+            foreach (var item in planesListForTargetPosition)
+            {
+                LogInstance.Log($"item.Name = {item.Name}");
+            }
+#endif
+
+            if(planesListForTargetPosition.Count == 0)
+            {
+                return new List<PathInfo>();
+            }
+
+            var result = new List<PathInfo>();
+
+            foreach (var startPlane in planesListForStartPosition)
+            {
+                foreach(var targetPlane in planesListForTargetPosition)
+                {
+                    var pathsList = GetPathsListByPlanes(startPlane, targetPlane);
+
+                    if(pathsList.Count == 0)
+                    {
+                        continue;
+                    }
+
+#if DEBUG
+                    LogInstance.Log($"pathsList.Count = {pathsList.Count}");
+                    foreach(var path in pathsList)
+                    {
+                        LogInstance.Log(TstPathsHelper.DisplayPath(path));
+                    }
+#endif
+
+                    var item = new PathInfo();
+                    item.FirstItem = startPlane;
+                    item.LastItem = targetPlane;
+                    item.PathsList = pathsList;
+                    result.Add(item);
+                }
+            }
+
+            return result;
         }
     }
 }

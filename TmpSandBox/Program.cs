@@ -103,26 +103,49 @@ namespace TmpSandBox
             var p3 = new TstPlane() { Name = "p3" };
             registry.RegPlane(p3);
 
-            var point1 = new TstWayPoint() { Name = "point1" };
+            var point1 = new TstWayPoint()
+            {
+                Name = "point1",
+                Position = new Vector3(1, 1, 1)
+            };
+
             point1.PlanesList.Add(p1);
 
             registry.RegWayPoint(point1);
 
-            var point2 = new TstWayPoint() { Name = "point2" };
+            var point2 = new TstWayPoint()
+            {
+                Name = "point2",
+                Position = new Vector3(2, 2, 2)
+            };
+
             point2.PlanesList.Add(p2);
             registry.RegWayPoint(point2);
 
-            var point3 = new TstWayPoint() { Name = "point3" };
+            var point3 = new TstWayPoint()
+            {
+                Name = "point3",
+                Position = new Vector3(3, 3, 3)
+            };
+
             point3.PlanesList.Add(p2);
             point3.PlanesList.Add(p3);
             registry.RegWayPoint(point3);
 
             var path = new TstLinkOfPoints() { Name = "path" };
+
             path.Point1 = point1;
             path.Point2 = point2;
             registry.RegLinkOfPoints(path);
 
             registry.CalculatePaths();
+
+            var startPosition = new Vector3(0, 0, 0);
+            var targetPoint = new Vector3(4, 4, 4);
+
+            var route = registry.GetRouteForPosition(startPosition, targetPoint);
+
+            LogInstance.Log($"route = {route}");
         }
 
         private static void TSTRect()

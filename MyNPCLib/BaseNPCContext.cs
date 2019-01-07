@@ -8,6 +8,7 @@ using MyNPCLib.Variants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -909,10 +910,19 @@ namespace MyNPCLib
             }
         }
 
-        public IRoute GetRouteForPosition(IPositionInfo positionInfo)
+        public IRoute GetRouteForPosition(IPointInfo pointInfo)
         {
 #if DEBUG
-            Log($"positionInfo = {positionInfo}");
+            Log($"pointInfo = {pointInfo}");
+#endif
+
+            throw new NotImplementedException();
+        }
+
+        public IRoute GetRouteForPosition(Vector3 position)
+        {
+#if DEBUG
+            Log($"position = {position}");
 #endif
 
             throw new NotImplementedException();

@@ -5,6 +5,7 @@ using MyNPCLib.PersistLogicalData;
 using MyNPCLib.Variants;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace MyNPCLib
@@ -55,6 +56,7 @@ namespace MyNPCLib
 
         IList<VisionObject> VisibleObjects { get; }
 
-        IRoute GetRouteForPosition(IPositionInfo positionInfo);
+        IRoute GetRouteForPosition(IPointInfo pointInfo);
+        IRoute GetRouteForPosition(Vector3 position);
     }
 }
