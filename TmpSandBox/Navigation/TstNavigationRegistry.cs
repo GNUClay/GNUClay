@@ -14,6 +14,7 @@ namespace TmpSandBox.Navigation
         private List<TstWayPoint> mPointsList = new List<TstWayPoint>();
         private List<TstLinkOfPoints> mLinksOfPointsList = new List<TstLinkOfPoints>();
         private List<KeyValuePair<TstWayPoint, TstWayPoint>> mPointsOfLinksOfPointsList = new List<KeyValuePair<TstWayPoint, TstWayPoint>>();
+        private Dictionary<TstWayPoint, List<TstLinkOfPoints>> mLinksOfPointsByPointDict = new Dictionary<TstWayPoint, List<TstLinkOfPoints>>();
 
         public void RegPlane(TstPlane plane)
         {
@@ -56,6 +57,26 @@ namespace TmpSandBox.Navigation
 
             mPointsOfLinksOfPointsList.Add(new KeyValuePair<TstWayPoint, TstWayPoint>(linkOfPoints.Point1, linkOfPoints.Point2));
             mPointsOfLinksOfPointsList.Add(new KeyValuePair<TstWayPoint, TstWayPoint>(linkOfPoints.Point2, linkOfPoints.Point1));
+
+            RegLinkOfPointsByPoint(linkOfPoints.Point1, linkOfPoints);
+            RegLinkOfPointsByPoint(linkOfPoints.Point2, linkOfPoints);
+        }
+
+        private void RegLinkOfPointsByPoint(TstWayPoint point, TstLinkOfPoints linkOfPoints)
+        {
+#if DEBUG
+            LogInstance.Log($"point = {point}");
+            LogInstance.Log($"linkOfPoints = {linkOfPoints}");
+#endif
+
+            if(mLinksOfPointsByPointDict.ContainsKey(point))
+            {
+                var targetList = mLinksOfPointsByPointDict[point];
+                targetList.Add(linkOfPoints);
+                return;
+            }
+
+            mLinksOfPointsByPointDict[point] = new List<TstLinkOfPoints>() { linkOfPoints };
         }
 
         private int mCurrIndex;
