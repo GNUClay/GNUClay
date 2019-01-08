@@ -420,6 +420,12 @@ namespace TmpSandBox.Navigation
             LogInstance.Log($"pointInfo = {pointInfo}");
 #endif
 
+            var initialRoute = pointInfo.Route;
+
+#if DEBUG
+            LogInstance.Log($"initialRoute = {initialRoute}");
+#endif
+
             throw new NotImplementedException();
         }
 
