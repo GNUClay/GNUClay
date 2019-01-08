@@ -247,7 +247,10 @@ namespace TmpSandBox.Navigation
                         directPointConnectionItem.IsDirect = false;
                         directPointConnectionItem.WayPoint = indirectCommonPoint;
 
-                        if(outerPlane.PointsList.Contains(indirectCommonPoint))
+                        var linksList = mLinksOfPointsByPointDict[indirectCommonPoint];
+                        directPointConnectionItem.LinksList = linksList;
+
+                        if (outerPlane.PointsList.Contains(indirectCommonPoint))
                         {
                             connectionsList1.Add(directPointConnectionItem);
                         }
@@ -442,7 +445,7 @@ namespace TmpSandBox.Navigation
 
             result.InitPathsList = initialPathsList.SelectMany(p => p.PathsList).ToList();
 
-            var nextPathsList = new List<IList<TstPlane>>();
+            var stepOfRouteDicts = new Dictionary<TstPlane, TstStepOfRoute>();
 
             foreach (var initialPathsItem in initialPathsList)
             {
@@ -460,11 +463,14 @@ namespace TmpSandBox.Navigation
 
                     var firstItem = path.First();
 
+                    var originPath = path.ToList();
+
                     path.Remove(firstItem);
 
                     var nextItem = path.First();
 
 #if DEBUG
+                    LogInstance.Log(TstPathsHelper.DisplayPath(originPath));
                     LogInstance.Log($"firstItem.Name = {firstItem.Name}");
                     LogInstance.Log($"nextItem.Name = {nextItem.Name}");
                     LogInstance.Log(TstPathsHelper.DisplayPath(path));
@@ -472,13 +478,76 @@ namespace TmpSandBox.Navigation
 
                     var connectionList = GetConnectionPoints(firstItem, nextItem);
 
+                    if(connectionList.Count == 0)
+                    {
+                        throw new NotSupportedException();
+                    }
+
 #if DEBUG
                     LogInstance.Log($"connectionList.Count = {connectionList.Count}");
-                    foreach(var connection in connectionList)
-                    {
-                        LogInstance.Log($"connection = {connection}");
-                    }
 #endif
+
+                    foreach (var connection in connectionList)
+                    {
+#if DEBUG
+                        LogInstance.Log($"connection = {connection}");
+#endif
+
+                        TstStepOfRoute stepOfRoute = null;
+
+                        if(connection.IsDirect)
+                        {
+                            if (stepOfRouteDicts.ContainsKey(nextItem))
+                            {
+                                stepOfRoute = stepOfRouteDicts[nextItem];
+                            }
+                            else
+                            {
+                                stepOfRoute = new TstStepOfRoute();
+                                stepOfRouteDicts[nextItem] = stepOfRoute;
+                                stepOfRoute.CurrentPlane = nextItem;
+                                result.NextSteps.Add(stepOfRoute);
+                            }
+
+                            stepOfRoute.PathsList.Add(path);
+
+                            var pointInfo = new TstPointInfo();
+                            pointInfo.Route = result;
+                            pointInfo.StepOfRoute = stepOfRoute;
+                            pointInfo.Position = connection.WayPoint.Position;
+                            pointInfo.WayPoint = connection.WayPoint;
+
+                            result.NextPoints.Add(pointInfo);
+                            stepOfRoute.TargetPoints.Add(pointInfo);
+                        }
+                        else
+                        {
+                            if (stepOfRouteDicts.ContainsKey(firstItem))
+                            {
+                                stepOfRoute = stepOfRouteDicts[firstItem];
+                            }
+                            else
+                            {
+                                stepOfRoute = new TstStepOfRoute();
+                                stepOfRouteDicts[firstItem] = stepOfRoute;
+                                result.NextSteps.Add(stepOfRoute);
+                            }
+                            stepOfRoute.PathsList.Add(originPath);
+
+                            var pointInfo = new TstPointInfo();
+                            pointInfo.Route = result;
+                            pointInfo.StepOfRoute = stepOfRoute;
+                            pointInfo.Position = connection.WayPoint.Position;
+                            pointInfo.WayPoint = connection.WayPoint;
+
+                            result.NextPoints.Add(pointInfo);
+                            stepOfRoute.TargetPoints.Add(pointInfo);
+                        }
+
+#if DEBUG
+                        LogInstance.Log($"stepOfRoute = {stepOfRoute}");
+#endif
+                    }
                 }
             }
 

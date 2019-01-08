@@ -8,8 +8,8 @@ namespace TmpSandBox.Navigation
 {
     public class TstRoute: IRoute
     {
-        public IList<IStepOfRoute> NextSteps { get; set; }
-        public IList<IPointInfo> NextPoints { get; set; }
+        public IList<IStepOfRoute> NextSteps { get; set; } = new List<IStepOfRoute>();
+        public IList<IPointInfo> NextPoints { get; set; } = new List<IPointInfo>();
         public IList<IList<TstPlane>> InitPathsList { get; set; }
 
         public override string ToString()
