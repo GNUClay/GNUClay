@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace MyNPCLib.NavigationSupport
 {
     public class Route : IRoute
     {
+        public Vector3 TargetPosition { get; set; }
         public IList<IStepOfRoute> NextSteps { get; set; }
         public IList<IPointInfo> NextPoints { get; set; }
 

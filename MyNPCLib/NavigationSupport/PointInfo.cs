@@ -12,6 +12,7 @@ namespace MyNPCLib.NavigationSupport
         public bool IsInTheSamePlane { get; set; }
         public bool IsFinal { get; set; }
         public Vector3? Position { get; set; }
+        public bool IsFirstPartOfLink { get; set; }
 
         public override string ToString()
         {

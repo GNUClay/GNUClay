@@ -1,6 +1,7 @@
 ﻿using MyNPCLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 
@@ -28,6 +29,9 @@ namespace TmpSandBox.Navigation
                         return true;
                     }
                     break;
+
+                default:
+                    return PointsList.Any(p => p.Position == position);
             }
 
             return false;

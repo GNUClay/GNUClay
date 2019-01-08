@@ -12,5 +12,6 @@ namespace MyNPCLib.NavigationSupport
         bool IsInTheSamePlane { get; }
         bool IsFinal { get; }
         Vector3? Position { get; }
+        bool IsFirstPartOfLink { get; }
     }
 }

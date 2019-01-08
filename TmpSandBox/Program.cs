@@ -154,6 +154,22 @@ namespace TmpSandBox
             route = registry.GetRouteForPosition(pointInfo);
 
             LogInstance.Log($"route (2) = {route}");
+
+            pointInfo = route.NextPoints.First();
+
+            LogInstance.Log($"pointInfo = {pointInfo}");
+
+            route = registry.GetRouteForPosition(pointInfo);
+
+            LogInstance.Log($"route (3) = {route}");
+
+            pointInfo = route.NextPoints.First();
+
+            LogInstance.Log($"pointInfo = {pointInfo}");
+
+            route = registry.GetRouteForPosition(pointInfo);
+
+            LogInstance.Log($"route (4) = {route}");
         }
 
         private static void TSTRect()

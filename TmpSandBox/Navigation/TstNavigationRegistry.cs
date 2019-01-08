@@ -79,6 +79,16 @@ namespace TmpSandBox.Navigation
             mLinksOfPointsByPointDict[point] = new List<TstLinkOfPoints>() { linkOfPoints };
         }
 
+        private List<TstLinkOfPoints> GetLinkOfPointsByPoint(TstWayPoint point)
+        {
+            if (mLinksOfPointsByPointDict.ContainsKey(point))
+            {
+                return mLinksOfPointsByPointDict[point];
+            }
+
+            return new List<TstLinkOfPoints>();
+        }
+
         private int mCurrIndex;
         private Dictionary<TstPlane, int> mIndexOfPlanesDict = new Dictionary<TstPlane, int>();
         private Dictionary<int, TstPlane> mBackIndexOfPlanesDict = new Dictionary<int, TstPlane>();
@@ -363,7 +373,11 @@ namespace TmpSandBox.Navigation
 
             localPath.Add(plane);
 
-            if(localPath.Count > 1)
+#if DEBUG
+            LogInstance.Log(TstPathsHelper.DisplayPath(localPath));
+#endif
+
+            if (localPath.Count > 1)
             {
                 result.Add(localPath.ToList());
             }
@@ -371,7 +385,7 @@ namespace TmpSandBox.Navigation
             var index = mIndexOfPlanesDict[plane];
 
 #if DEBUG
-            LogInstance.Log($"index = {index}");
+            LogInstance.Log($"index = {index} plane = {plane}");
 #endif
 
             for (var i = 0; i < mPlanesList.Count; i++)
@@ -390,7 +404,7 @@ namespace TmpSandBox.Navigation
                     LogInstance.Log($"nextPlane = {nextPlane}");
 #endif
 
-                    FillPaths(nextPlane, localPath, ref result);
+                    FillPaths(nextPlane, localPath.ToList(), ref result);
                 }
             }
         }
@@ -420,13 +434,145 @@ namespace TmpSandBox.Navigation
             LogInstance.Log($"pointInfo = {pointInfo}");
 #endif
 
+            if(pointInfo.IsFirstPartOfLink)
+            {
+                return NGetRouteForPositionOfFirstPartOfLink(pointInfo);
+            }
+
+            return GetRouteForPosition(pointInfo.Position.Value, pointInfo.Route.TargetPosition);
+        }
+
+        private IRoute NGetRouteForPositionOfFirstPartOfLink(IPointInfo pointInfo)
+        {
+#if DEBUG
+            LogInstance.Log($"pointInfo = {pointInfo}");
+#endif
+
+            var tstPointInfo = (TstPointInfo)pointInfo;
+
             var initialRoute = pointInfo.Route;
 
 #if DEBUG
             LogInstance.Log($"initialRoute = {initialRoute}");
 #endif
 
-            throw new NotImplementedException();
+            var stepOfRoute = (TstStepOfRoute)pointInfo.StepOfRoute;
+
+#if DEBUG
+            LogInstance.Log($"stepOfRoute = {stepOfRoute}");
+#endif
+
+            var currentPlane = stepOfRoute.CurrentPlane;
+
+            var nextPathsList = new List<IList<TstPlane>>();
+
+            foreach (var path in stepOfRoute.PathsList)
+            {
+#if DEBUG
+                LogInstance.Log(TstPathsHelper.DisplayPath(path));
+#endif
+
+                var firstItem = path.First();
+
+#if DEBUG
+                LogInstance.Log($"firstItem = {firstItem}");
+#endif
+
+                if(firstItem != currentPlane)
+                {
+                    continue;
+                }
+
+                path.Remove(firstItem);
+
+#if DEBUG
+                LogInstance.Log(TstPathsHelper.DisplayPath(path));
+#endif
+
+                nextPathsList.Add(path);
+            }
+
+            var nextPathsDict = nextPathsList.GroupBy(p => p.First()).ToDictionary(p => p.Key, p => p.ToList());
+
+#if DEBUG
+            LogInstance.Log($"nextPathsDict.Count = {nextPathsDict.Count}");
+#endif
+
+            var result = new TstRoute();
+            result.TargetPosition = initialRoute.TargetPosition;
+
+            var linksList = GetLinkOfPointsByPoint(tstPointInfo.WayPoint);
+
+            var nextPointsList = linksList.Where(p => p.Point1 == tstPointInfo.WayPoint).Select(p => p.Point2).ToList();
+            nextPointsList.AddRange(linksList.Where(p => p.Point2 == tstPointInfo.WayPoint).Select(p => p.Point1));
+
+#if DEBUG
+            LogInstance.Log($"nextPointsList.Count = {nextPointsList.Count}");
+            foreach(var link in nextPointsList)
+            {
+                LogInstance.Log($"link = {link}");
+            }
+#endif
+
+            var stepOfRouteDicts = new Dictionary<TstPlane, TstStepOfRoute>();
+
+            foreach (var nextPathsKVPItem in nextPathsDict)
+            {
+                var firstItem = nextPathsKVPItem.Key;
+#if DEBUG
+                LogInstance.Log($"firstItem = {firstItem}");
+#endif
+
+                var targetPointsList = nextPointsList.Where(p => p.PlanesList.Contains(firstItem)).ToList();
+
+#if DEBUG
+                LogInstance.Log($"targetPointsList.Count = {targetPointsList.Count}");
+#endif
+
+                if(targetPointsList.Count == 0)
+                {
+                    continue;
+                }
+
+                var pathsList = nextPathsKVPItem.Value;
+
+                foreach (var targetPoint in targetPointsList)
+                {
+#if DEBUG
+                    LogInstance.Log($"targetPoint = {targetPoint}");
+#endif
+                    TstStepOfRoute targetStepOfRoute = null;
+
+                    if (stepOfRouteDicts.ContainsKey(firstItem))
+                    {
+                        targetStepOfRoute = stepOfRouteDicts[firstItem];
+                    }
+                    else
+                    {
+                        targetStepOfRoute = new TstStepOfRoute();
+                        stepOfRouteDicts[firstItem] = targetStepOfRoute;
+                        targetStepOfRoute.CurrentPlane = firstItem;
+                        result.NextSteps.Add(targetStepOfRoute);
+                    }
+
+                    foreach(var path in pathsList)
+                    {
+                        stepOfRoute.PathsList.Add(path);
+                    }
+                    
+                    var targetPointInfo = new TstPointInfo();
+                    targetPointInfo.Route = result;
+                    targetPointInfo.StepOfRoute = targetStepOfRoute;
+                    targetPointInfo.Position = targetPoint.Position;
+                    targetPointInfo.WayPoint = targetPoint;
+                    targetPointInfo.Plane = firstItem;
+
+                    result.NextPoints.Add(targetPointInfo);
+                    targetStepOfRoute.TargetPoints.Add(targetPointInfo);
+                }
+            }
+
+            return result;
         }
 
         public IRoute GetRouteForPosition(Vector3 startPosition, Vector3 targetPosition)
@@ -443,8 +589,9 @@ namespace TmpSandBox.Navigation
 #endif
 
             var result = new TstRoute();
+            result.TargetPosition = targetPosition;
 
-            if(initialPathsList.Count == 0)
+            if (initialPathsList.Count == 0)
             {
                 return result;
             }
@@ -469,9 +616,17 @@ namespace TmpSandBox.Navigation
 
                     var firstItem = path.First();
 
+#if DEBUG
+                    LogInstance.Log($"firstItem.Name = {firstItem.Name}");
+#endif
+
                     var originPath = path.ToList();
 
                     path.Remove(firstItem);
+
+#if DEBUG
+                    LogInstance.Log($"path.Count = {path.Count}");
+#endif
 
                     var nextItem = path.First();
 
@@ -522,6 +677,7 @@ namespace TmpSandBox.Navigation
                             pointInfo.StepOfRoute = stepOfRoute;
                             pointInfo.Position = connection.WayPoint.Position;
                             pointInfo.WayPoint = connection.WayPoint;
+                            pointInfo.Plane = nextItem;
 
                             result.NextPoints.Add(pointInfo);
                             stepOfRoute.TargetPoints.Add(pointInfo);
@@ -536,8 +692,10 @@ namespace TmpSandBox.Navigation
                             {
                                 stepOfRoute = new TstStepOfRoute();
                                 stepOfRouteDicts[firstItem] = stepOfRoute;
+                                stepOfRoute.CurrentPlane = firstItem;
                                 result.NextSteps.Add(stepOfRoute);
                             }
+
                             stepOfRoute.PathsList.Add(originPath);
 
                             var pointInfo = new TstPointInfo();
@@ -545,6 +703,8 @@ namespace TmpSandBox.Navigation
                             pointInfo.StepOfRoute = stepOfRoute;
                             pointInfo.Position = connection.WayPoint.Position;
                             pointInfo.WayPoint = connection.WayPoint;
+                            pointInfo.Plane = firstItem;
+                            pointInfo.IsFirstPartOfLink = true;
 
                             result.NextPoints.Add(pointInfo);
                             stepOfRoute.TargetPoints.Add(pointInfo);

@@ -15,6 +15,8 @@ namespace TmpSandBox.Navigation
         public bool IsFinal { get; set; }
         public Vector3? Position { get; set; }
         public TstWayPoint WayPoint { get; set; }
+        public TstPlane Plane { get; set; }
+        public bool IsFirstPartOfLink { get; set; }
 
         public override string ToString()
         {
@@ -35,6 +37,8 @@ namespace TmpSandBox.Navigation
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");
+            sb.AppendLine($"{spaces}{nameof(Plane)} = {Plane?.Name}");
+            sb.AppendLine($"{spaces}{nameof(IsFirstPartOfLink)} = {IsFirstPartOfLink}");
             return sb.ToString();
         }
 
@@ -57,6 +61,8 @@ namespace TmpSandBox.Navigation
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");
+            sb.AppendLine($"{spaces}{nameof(Plane)} = {Plane?.Name}");
+            sb.AppendLine($"{spaces}{nameof(IsFirstPartOfLink)} = {IsFirstPartOfLink}");
             return sb.ToString();
         }
 
@@ -79,6 +85,8 @@ namespace TmpSandBox.Navigation
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");
+            sb.AppendLine($"{spaces}{nameof(Plane)} = {Plane?.Name}");
+            sb.AppendLine($"{spaces}{nameof(IsFirstPartOfLink)} = {IsFirstPartOfLink}");
             return sb.ToString();
         }
     }

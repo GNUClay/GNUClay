@@ -42,6 +42,7 @@ namespace TmpSandBox.Navigation
                 }
                 sb.AppendLine($"{spaces}End {nameof(PathsList)}");
             }
+            sb.AppendLine($"{spaces}{nameof(CurrentPlane)} = {CurrentPlane?.Name}");
             return sb.ToString();
         }
 
@@ -74,6 +75,7 @@ namespace TmpSandBox.Navigation
                 }
                 sb.AppendLine($"{spaces}End {nameof(PathsList)}");
             }
+            sb.AppendLine($"{spaces}{nameof(CurrentPlane)} = {CurrentPlane?.Name}");
             return sb.ToString();
         }
 
@@ -106,6 +108,9 @@ namespace TmpSandBox.Navigation
                 }
                 sb.AppendLine($"{spaces}End {nameof(PathsList)}");
             }
+
+            sb.AppendLine($"{spaces}{nameof(CurrentPlane)} = {CurrentPlane?.Name}");
+
             return sb.ToString();
         }
     }
