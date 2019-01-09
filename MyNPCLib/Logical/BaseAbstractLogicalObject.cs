@@ -86,11 +86,6 @@ namespace MyNPCLib.Logical
             return result;
         }
 
-        public IPositionInfo GetPosition()
-        {
-            throw new NotImplementedException();
-        }
-
         public override string ToString()
         {
             return ToString(0u);

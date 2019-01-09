@@ -11,7 +11,6 @@ namespace TmpSandBox.Navigation
     {
         public IRoute Route { get; set; }
         public IStepOfRoute StepOfRoute { get; set; }
-        public bool IsInTheSamePlane { get; set; }
         public bool IsFinal { get; set; }
         public Vector3? Position { get; set; }
         public TstWayPoint WayPoint { get; set; }
@@ -33,7 +32,6 @@ namespace TmpSandBox.Navigation
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(IsInTheSamePlane)} = {IsInTheSamePlane}");
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");
@@ -57,7 +55,6 @@ namespace TmpSandBox.Navigation
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(IsInTheSamePlane)} = {IsInTheSamePlane}");
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");
@@ -81,7 +78,6 @@ namespace TmpSandBox.Navigation
             var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(IsInTheSamePlane)} = {IsInTheSamePlane}");
             sb.AppendLine($"{spaces}{nameof(IsFinal)} = {IsFinal}");
             sb.AppendLine($"{spaces}{nameof(Position)} = {Position}");
             sb.AppendLine($"{spaces}{nameof(WayPoint)} = {WayPoint?.Name}");

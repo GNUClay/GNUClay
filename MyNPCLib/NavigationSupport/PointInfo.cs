@@ -9,7 +9,6 @@ namespace MyNPCLib.NavigationSupport
     {
         public IRoute Route { get; set; }
         public IStepOfRoute StepOfRoute { get; set; }
-        public bool IsInTheSamePlane { get; set; }
         public bool IsFinal { get; set; }
         public Vector3? Position { get; set; }
         public bool IsFirstPartOfLink { get; set; }
