@@ -919,10 +919,11 @@ namespace MyNPCLib
             throw new NotImplementedException();
         }
 
-        public IRoute GetRouteForPosition(Vector3 position)
+        public IRoute GetRouteForPosition(Vector3 startPosition, Vector3 targetPosition)
         {
 #if DEBUG
-            Log($"position = {position}");
+            Log($"startPosition = {startPosition}");
+            Log($"targetPosition = {targetPosition}");
 #endif
 
             throw new NotImplementedException();

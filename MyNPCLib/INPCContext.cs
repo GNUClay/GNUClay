@@ -57,6 +57,6 @@ namespace MyNPCLib
         IList<VisionObject> VisibleObjects { get; }
 
         IRoute GetRouteForPosition(IPointInfo pointInfo);
-        IRoute GetRouteForPosition(Vector3 position);
+        IRoute GetRouteForPosition(Vector3 startPosition, Vector3 targetPosition);
     }
 }

@@ -161,6 +161,8 @@ namespace TmpSandBox.NPCBehaviour
 
         public event OnLogicalSoundAction OnLogicalSound;
 
+        public INavigationRegistry NavigationRegistry => throw new NotImplementedException();
+
         [MethodForLoggingSupport]
         protected void Log(string message)
         {

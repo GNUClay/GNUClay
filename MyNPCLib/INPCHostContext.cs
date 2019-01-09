@@ -22,5 +22,6 @@ namespace MyNPCLib
         IList<IHostVisionObject> VisibleObjects { get; }
         Vector3 GlobalPosition { get; }
         event OnLogicalSoundAction OnLogicalSound;
+        INavigationRegistry NavigationRegistry { get; }
     }
 }
