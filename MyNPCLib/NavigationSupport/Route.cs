@@ -7,6 +7,7 @@ namespace MyNPCLib.NavigationSupport
 {
     public class Route : IRoute
     {
+        public StatusOfRoute Status { get; set; } = StatusOfRoute.Unknown;
         public Vector3 TargetPosition { get; set; }
         public IList<IStepOfRoute> NextSteps { get; set; }
         public IList<IPointInfo> NextPoints { get; set; }

@@ -9,6 +9,7 @@ namespace TmpSandBox.Navigation
 {
     public class TstRoute: IRoute
     {
+        public StatusOfRoute Status { get; set; } = StatusOfRoute.Unknown;
         public Vector3 TargetPosition { get; set; }
         public IList<IStepOfRoute> NextSteps { get; set; } = new List<IStepOfRoute>();
         public IList<IPointInfo> NextPoints { get; set; } = new List<IPointInfo>();
@@ -30,7 +31,9 @@ namespace TmpSandBox.Navigation
             var nextN = n + 4;
             var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(Status)} = {Status}");
             sb.AppendLine($"{spaces}{nameof(TargetPosition)} = {TargetPosition}");
+            
             if (NextSteps == null)
             {
                 sb.AppendLine($"{spaces}{nameof(NextSteps)} = null");
@@ -92,6 +95,7 @@ namespace TmpSandBox.Navigation
             var nextN = n + 4;
             var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(Status)} = {Status}");
             sb.AppendLine($"{spaces}{nameof(TargetPosition)} = {TargetPosition}");
 
             if (NextSteps == null)
@@ -155,6 +159,8 @@ namespace TmpSandBox.Navigation
             var nextN = n + 4;
             var nextNSpaces = StringHelper.Spaces(nextN);
             var sb = new StringBuilder();
+
+            sb.AppendLine($"{spaces}{nameof(Status)} = {Status}");
             sb.AppendLine($"{spaces}{nameof(TargetPosition)} = {TargetPosition}");
 
             if (NextSteps == null)

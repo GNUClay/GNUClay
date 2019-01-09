@@ -12,6 +12,7 @@ using MyNPCLib.Logical;
 using MyNPCLib.LogicalHostEnvironment;
 using MyNPCLib.LogicalSearchEngine;
 using MyNPCLib.LogicalSoundModeling;
+using MyNPCLib.NavigationSupport;
 using MyNPCLib.NLToCGParsing;
 using MyNPCLib.NLToCGParsing_v2;
 using MyNPCLib.Parser.LogicalExpression;
@@ -145,31 +146,62 @@ namespace TmpSandBox
 
             var route = registry.GetRouteForPosition(startPosition, targetPoint);
 
+            while (route.Status == StatusOfRoute.Processed)
+            {
+                LogInstance.Log($"route = {route}");
+
+                var pointInfo = route.NextPoints.First();
+
+                LogInstance.Log($"pointInfo = {pointInfo}");
+
+                route = registry.GetRouteForPosition(pointInfo);
+
+                LogInstance.Log($"next route = {route}");
+            }
+
+            targetPoint = new Vector3(5, 5, 5);
+
+            route = registry.GetRouteForPosition(startPosition, targetPoint);
+
             LogInstance.Log($"route = {route}");
 
-            var pointInfo = route.NextPoints.First();
+            //var route = registry.GetRouteForPosition(startPosition, targetPoint);
 
-            LogInstance.Log($"pointInfo = {pointInfo}");
+            //LogInstance.Log($"route = {route}");
 
-            route = registry.GetRouteForPosition(pointInfo);
+            //var pointInfo = route.NextPoints.First();
 
-            LogInstance.Log($"route (2) = {route}");
+            //LogInstance.Log($"pointInfo = {pointInfo}");
 
-            pointInfo = route.NextPoints.First();
+            //route = registry.GetRouteForPosition(pointInfo);
 
-            LogInstance.Log($"pointInfo = {pointInfo}");
+            //LogInstance.Log($"route (2) = {route}");
 
-            route = registry.GetRouteForPosition(pointInfo);
+            //pointInfo = route.NextPoints.First();
 
-            LogInstance.Log($"route (3) = {route}");
+            //LogInstance.Log($"pointInfo = {pointInfo}");
 
-            pointInfo = route.NextPoints.First();
+            //route = registry.GetRouteForPosition(pointInfo);
 
-            LogInstance.Log($"pointInfo = {pointInfo}");
+            //LogInstance.Log($"route (3) = {route}");
 
-            route = registry.GetRouteForPosition(pointInfo);
+            //pointInfo = route.NextPoints.First();
 
-            LogInstance.Log($"route (4) = {route}");
+            //LogInstance.Log($"pointInfo = {pointInfo}");
+
+            //route = registry.GetRouteForPosition(pointInfo);
+
+            //LogInstance.Log($"route (4) = {route}");
+
+            //pointInfo = route.NextPoints.First();
+
+            //LogInstance.Log($"pointInfo = {pointInfo}");
+
+            //route = registry.GetRouteForPosition(pointInfo);
+
+            //LogInstance.Log($"route (5) = {route}");
+
+            LogInstance.Log("End");
         }
 
         private static void TSTRect()

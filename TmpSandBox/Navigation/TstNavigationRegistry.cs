@@ -572,6 +572,18 @@ namespace TmpSandBox.Navigation
                 }
             }
 
+            if (result.Status == StatusOfRoute.Unknown)
+            {
+                if (result.NextPoints.Count == 0)
+                {
+                    result.Status = StatusOfRoute.Impossible;
+                }
+                else
+                {
+                    result.Status = StatusOfRoute.Processed;
+                }
+            }
+
             return result;
         }
 
@@ -582,17 +594,24 @@ namespace TmpSandBox.Navigation
             LogInstance.Log($"targetPosition = {targetPosition}");
 #endif
 
+            var result = new TstRoute();
+            result.TargetPosition = targetPosition;
+
+            if(startPosition == targetPosition)
+            {
+                result.Status = StatusOfRoute.Finished;
+                return result;
+            }
+
             var initialPathsList = GetPathsListForPosition(startPosition, targetPosition);
 
 #if DEBUG
             LogInstance.Log($"initialPathsList.Count = {initialPathsList.Count}");
 #endif
 
-            var result = new TstRoute();
-            result.TargetPosition = targetPosition;
-
             if (initialPathsList.Count == 0)
             {
+                result.Status = StatusOfRoute.Impossible;
                 return result;
             }
 
@@ -619,6 +638,40 @@ namespace TmpSandBox.Navigation
 #if DEBUG
                     LogInstance.Log($"firstItem.Name = {firstItem.Name}");
 #endif
+
+                    if(firstItem.Contains(targetPosition))
+                    {
+#if DEBUG
+                        LogInstance.Log("firstItem.Contains(targetPosition)");
+#endif
+                        TstStepOfRoute stepOfRoute = null;
+
+                        if (stepOfRouteDicts.ContainsKey(firstItem))
+                        {
+                            stepOfRoute = stepOfRouteDicts[firstItem];
+                        }
+                        else
+                        {
+                            stepOfRoute = new TstStepOfRoute();
+                            stepOfRouteDicts[firstItem] = stepOfRoute;
+                            stepOfRoute.CurrentPlane = firstItem;
+                            result.NextSteps.Add(stepOfRoute);
+                        }
+
+                        stepOfRoute.PathsList.Add(path);
+
+                        var pointInfo = new TstPointInfo();
+                        pointInfo.IsFinal = true;
+                        pointInfo.Route = result;
+                        pointInfo.StepOfRoute = stepOfRoute;
+                        pointInfo.Position = targetPosition;
+                        pointInfo.Plane = firstItem;
+
+                        result.NextPoints.Add(pointInfo);
+                        stepOfRoute.TargetPoints.Add(pointInfo);
+
+                        continue;
+                    }
 
                     var originPath = path.ToList();
 
@@ -715,6 +768,18 @@ namespace TmpSandBox.Navigation
 #endif
                     }
                 }
+            }
+
+            if(result.Status == StatusOfRoute.Unknown)
+            {
+                if(result.NextPoints.Count == 0)
+                {
+                    result.Status = StatusOfRoute.Impossible;
+                }
+                else
+                {
+                    result.Status = StatusOfRoute.Processed;
+                }               
             }
 
             return result;
