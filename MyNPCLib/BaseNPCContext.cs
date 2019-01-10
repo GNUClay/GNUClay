@@ -144,6 +144,8 @@ namespace MyNPCLib
             mVisionObjectsStorage.BusOfHostStorage = mNPCHostContext.BusOfCGStorages;
             mVisionObjectsStorage.LogicalStorage = mainStorage;
 
+            mNavigationRegistry = mNPCHostContext.NavigationRegistry;
+
 #if DEBUG
             //Log("NEXT");
 #endif
@@ -171,7 +173,8 @@ namespace MyNPCLib
         private INPCHostContext mNPCHostContext;
         private readonly IdFactory mIdFactory;
         private readonly IEntityDictionary mEntityDictionary;
-        
+        private INavigationRegistry mNavigationRegistry;
+
         private readonly SystemPropertiesDictionary mSystemPropertiesDictionary;
         private readonly VisionObjectsStorage mVisionObjectsStorage;
         private readonly NPCBodyResourcesManager mBodyResourcesManager;
@@ -915,8 +918,7 @@ namespace MyNPCLib
 #if DEBUG
             Log($"pointInfo = {pointInfo}");
 #endif
-
-            throw new NotImplementedException();
+            return mNavigationRegistry.GetRouteForPosition(pointInfo);
         }
 
         public IRoute GetRouteForPosition(Vector3 startPosition, Vector3 targetPosition)
@@ -926,7 +928,7 @@ namespace MyNPCLib
             Log($"targetPosition = {targetPosition}");
 #endif
 
-            throw new NotImplementedException();
+            return mNavigationRegistry.GetRouteForPosition(startPosition, targetPosition);
         }
 
         public void Dispose()
