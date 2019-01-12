@@ -118,6 +118,11 @@ namespace TmpSandBox.NPCBehaviour
 
             return "The Beatles!!!";
         }
+
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StubOfNPCHostContext: INPCHostContext

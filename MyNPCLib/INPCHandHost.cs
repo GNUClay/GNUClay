@@ -8,5 +8,6 @@ namespace MyNPCLib
     {
         INPCProcess Send(INPCCommand command);
         object Get(string propertyName);
+        void Die();
     }
 }

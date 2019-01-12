@@ -453,6 +453,8 @@ namespace MyNPCLib
                 }
 
                 mState = StateOfNPCContext.Destroyed;
+
+                mNPCHandHost.Die();
             }
         }
     }
