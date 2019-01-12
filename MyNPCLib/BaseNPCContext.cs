@@ -860,6 +860,15 @@ namespace MyNPCLib
             return new LogicalObject(mEntityLogger, query, paramsCollection, mEntityDictionary, mContextOfCGStorage.MainCGStorage, mSystemPropertiesDictionary, mVisionObjectsStorage);
         }
 
+        public BaseAbstractLogicalObject GetLogicalObject(ulong entityId)
+        {
+#if DEBUG
+            Log($"GetLogicalObject entityId = {entityId}");
+#endif
+
+            return new ConcreteLogicalObject(mEntityLogger, entityId, mEntityDictionary, mContextOfCGStorage.MainCGStorage, mSystemPropertiesDictionary);
+        }
+
         public BaseAbstractLogicalObject GetLogicalObject(ICGStorage query)
         {
 #if DEBUG

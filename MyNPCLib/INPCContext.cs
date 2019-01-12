@@ -49,6 +49,7 @@ namespace MyNPCLib
 
         BaseAbstractLogicalObject SelfLogicalObject { get; }
         BaseAbstractLogicalObject GetLogicalObject(string query, params QueryParam[] paramsCollection);
+        BaseAbstractLogicalObject GetLogicalObject(ulong entityId);
         BaseAbstractLogicalObject GetLogicalObject(ICGStorage query);
         BaseAbstractLogicalObject GetLogicalObject(RuleInstancePackage query);
         BaseAbstractLogicalObject GetLogicalObject(RuleInstance query);
