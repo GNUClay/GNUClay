@@ -462,5 +462,10 @@ namespace MyNPCLib
         public CancellationTokenSource CancellationToken { get; set; }
         public abstract float LocalPriority { get; set; }
         public abstract float GlobalPriority { get; }
+
+        public void Cancel()
+        {
+            State = StateOfNPCProcess.Canceled;
+        }
     }
 }

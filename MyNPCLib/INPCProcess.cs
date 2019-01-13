@@ -24,5 +24,6 @@ namespace MyNPCLib
         Task Task { get; }
         float LocalPriority { get; set; }
         float GlobalPriority { get; }
+        void Cancel();
     }
 }

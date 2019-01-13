@@ -487,7 +487,10 @@ namespace MyNPCLib
                 //Log($"proxy.Id = {proxy.Id} proxy.State = {proxy.State} Step 4");
 #endif
 
-                proxy.State = StateOfNPCProcess.RanToCompletion;
+                if (proxy.State == StateOfNPCProcess.Running)
+                {
+                    proxy.State = StateOfNPCProcess.RanToCompletion;
+                }
             }
             //catch (TargetInvocationException)
             //{
