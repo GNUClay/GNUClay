@@ -494,7 +494,7 @@ namespace MyNPCLib
         public void UnRegProcess(INPCProcess process)
         {
 #if DEBUG
-            //Log($"process.Id = {process.Id}");
+            Log($"process.Id = {process.Id}");
 #endif
 
             lock (mStateLockObj)
@@ -525,6 +525,10 @@ namespace MyNPCLib
                 {
                     return;
                 }
+
+#if DEBUG
+                Log($"NEXT process.Id = {process.Id}");
+#endif
 
                 mProcessesDict.Remove(id);
 

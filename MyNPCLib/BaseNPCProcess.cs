@@ -144,7 +144,7 @@ namespace MyNPCLib
         public INPCProcess ExecuteBody(HumanoidBodyCommand command)
         {
 #if DEBUG
-            //Log($"command = {command}");
+            Log($"command = {command}");
 #endif
             var cancelationToken = GetCancellationToken();
             cancelationToken?.ThrowIfCancellationRequested();
