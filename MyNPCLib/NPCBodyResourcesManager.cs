@@ -180,7 +180,7 @@ namespace MyNPCLib
         public INPCProcess Send(IHumanoidBodyCommand command)
         {
 #if DEBUG
-            Log($"command = {command}");
+            //Log($"command = {command}");
 #endif
 
             lock (mStateLockObj)
@@ -221,7 +221,7 @@ namespace MyNPCLib
         private void NExecute(IHumanoidBodyCommand command, ProxyForNPCResourceProcess process)
         {
 #if DEBUG
-            Log($"Begin command = {command}");
+            //Log($"Begin command = {command}");
 #endif
             ulong processId = 0;
 
@@ -232,12 +232,13 @@ namespace MyNPCLib
                 var targetState = CreateTargetState(command);
 
 #if DEBUG
-                Log($"targetState = {targetState}");
+                //Log($"targetState = {targetState}");
 #endif
                 var resolution = CreateResolution(mNPCBodyHost.States, targetState, processId);
 
 #if DEBUG
-                Log($"resolution = {resolution}");
+                //Log($"resolution = {resolution}");
+                resolution.KindOfResult = NPCResourcesResolutionKind.Allow;
 #endif
 
                 var kindOfResolution = resolution.KindOfResult;
@@ -278,6 +279,7 @@ namespace MyNPCLib
             }
             catch (OperationCanceledException)
             {
+                //UnRegProcess(processId);
 #if DEBUG
                 Error("catch(OperationCanceledException)");
 #endif
@@ -285,6 +287,7 @@ namespace MyNPCLib
             catch (Exception e)
             {
                 process.State = StateOfNPCProcess.Faulted;
+                //UnRegProcess(processId);
 
 #if DEBUG
                 Error($"End e = {e}");
@@ -295,7 +298,6 @@ namespace MyNPCLib
                 var taskId = Task.CurrentId;
 
                 mContext.UnRegCancellationToken(taskId.Value);
-                UnRegProcess(processId);
             }
 
 #if DEBUG
@@ -415,10 +417,10 @@ namespace MyNPCLib
         private NPCBodyResourcesResolution CreateResolution(IStatesOfHumanoidBodyHost sourceState, TargetStateOfHumanoidBody targetState, ulong processId)
         {
 #if DEBUG
-            Log($"sourceState = {sourceState}");
-            Log($"targetState = {targetState}");
-            Log($"processId = {processId}");
-            DumpProcesses();
+            //Log($"sourceState = {sourceState}");
+            //Log($"targetState = {targetState}");
+            //Log($"processId = {processId}");
+            //DumpProcesses();
 #endif
 
             lock(mDataLockObj)
@@ -731,20 +733,20 @@ namespace MyNPCLib
         private void ProcessAllow(TargetStateOfHumanoidBody targetState, ulong processId, ProxyForNPCResourceProcess process, NPCResourcesResolutionKind resolutionKind)
         {
 #if DEBUG
-            Log($"targetState = {targetState}");
-            Log($"processId = {processId}");
+            //Log($"targetState = {targetState}");
+            //Log($"processId = {processId}");
 #endif
 
             RegProcessId(targetState, processId, process, resolutionKind);
 
 #if DEBUG
-            Log("before mNPCBodyHost.ExecuteAsync");
+            //Log("before mNPCBodyHost.ExecuteAsync");
 #endif
 
             mNPCBodyHost.Execute(targetState);
 
 #if DEBUG
-            Log("after mNPCBodyHost.ExecuteAsync");
+            //Log("after mNPCBodyHost.ExecuteAsync");
 #endif
 
             process.State = StateOfNPCProcess.Running;
@@ -990,7 +992,7 @@ namespace MyNPCLib
         public void UnRegProcess(ulong processId)
         {
 #if DEBUG
-            Log($"processId = {processId}");
+            //Log($"processId = {processId}");
 #endif
 
             lock (mStateLockObj)
