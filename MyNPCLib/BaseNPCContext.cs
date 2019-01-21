@@ -681,6 +681,11 @@ namespace MyNPCLib
 
             tmpExistingProcessesIdList = tmpExistingProcessesIdList.Distinct().ToList();
 
+            if(!mProcessesDict.ContainsKey(targetProcessId))
+            {
+                return NPCResourcesResolutionKind.Allow;
+            }
+
             var targetProcessInfo = mProcessesDict[targetProcessId];
 
             var targetPriority = targetProcessInfo.GlobalPriority;
@@ -693,6 +698,11 @@ namespace MyNPCLib
 #if DEBUG
                 //Log($"existingProcessesId = {existingProcessesId}");
 #endif
+
+                if(!mProcessesDict.ContainsKey(existingProcessesId))
+                {
+                    return NPCResourcesResolutionKind.Allow;
+                }
 
                 var currentProcessInfo = mProcessesDict[existingProcessesId];
 

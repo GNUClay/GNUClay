@@ -207,7 +207,7 @@ namespace MyNPCLib
 
             process.Task = task;
 
-            process.Task = task;
+            //process.Task = task;
 
             var taskId = task.Id;
 
@@ -227,7 +227,8 @@ namespace MyNPCLib
 
             try
             {
-                processId = command.InitiatingProcessId;
+                //processId = command.InitiatingProcessId;
+                processId = process.Id;
 
                 var targetState = CreateTargetState(command);
 
@@ -238,7 +239,11 @@ namespace MyNPCLib
 
 #if DEBUG
                 //Log($"resolution = {resolution}");
-                resolution.KindOfResult = NPCResourcesResolutionKind.Allow;
+                //resolution.KindOfResult = NPCResourcesResolutionKind.Allow;
+#endif
+
+#if DEBUG
+                Log($"resolution = {resolution}");
 #endif
 
                 var kindOfResolution = resolution.KindOfResult;
@@ -281,8 +286,11 @@ namespace MyNPCLib
             {
                 //UnRegProcess(processId);
 #if DEBUG
-                Error("catch(OperationCanceledException)");
+                Error("catch(OperationCanceledException) !!!!!!!!!!!!!!!!!!!!!!!!");
 #endif
+
+                //UnRegProcessWithoutCancelation(processId);
+                UnRegProcess(processId);
             }
             catch (Exception e)
             {
@@ -754,6 +762,10 @@ namespace MyNPCLib
 
         private void RegProcessId(TargetStateOfHumanoidBody targetState, ulong processId, ProxyForNPCResourceProcess process, NPCResourcesResolutionKind resolutionKind)
         {
+#if DEBUG
+            Log($"processId = {processId}");
+#endif
+
             lock (mDataLockObj)
             {
                 var displacedProcessesIdList = new List<ulong>();
@@ -989,10 +1001,36 @@ namespace MyNPCLib
             process.State = StateOfNPCProcess.Canceled;
         }
 
+        public void UnRegProcessWithoutCancelation(ulong processId)
+        {
+#if DEBUG
+            Log($"processId = {processId}");
+#endif
+
+            lock (mStateLockObj)
+            {
+                if (mState == StateOfNPCContext.Destroyed)
+                {
+                    return;
+                }
+            }
+
+            lock (mDataLockObj)
+            {
+                if (!mProcessesDict.ContainsKey(processId))
+                {
+                    return;
+                }
+
+                RemoveProcessIdWithoutCancelation(processId);
+            }
+        }
+
+
         public void UnRegProcess(ulong processId)
         {
 #if DEBUG
-            //Log($"processId = {processId}");
+            Log($"processId = {processId}");
 #endif
 
             lock (mStateLockObj)
@@ -1014,7 +1052,29 @@ namespace MyNPCLib
             }
         }
 
+        private void RemoveProcessIdWithoutCancelation(ulong processId)
+        {
+            UnRegProcessFromStates(processId);
+
+            if (mProcessesDict.ContainsKey(processId))
+            {
+                mProcessesDict.Remove(processId);
+            }
+        }
+
         private void RemoveProcessId(ulong processId)
+        {
+            UnRegProcessFromStates(processId);
+
+            if (mProcessesDict.ContainsKey(processId))
+            {
+                var displacedTask = mProcessesDict[processId];
+                //displacedTask.State = StateOfNPCProcess.Canceled;
+                mProcessesDict.Remove(processId);
+            }
+        }
+
+        private void UnRegProcessFromStates(ulong processId)
         {
             if (mHState.Contains(processId))
             {
@@ -1051,12 +1111,9 @@ namespace MyNPCLib
                 mTargetHeadPosition.Remove(processId);
             }
 
-            if(mProcessesDict.ContainsKey(processId))
-            {
-                var displacedTask = mProcessesDict[processId];
-                displacedTask.State = StateOfNPCProcess.Canceled;
-                mProcessesDict.Remove(processId);
-            }
+#if DEBUG
+            //DumpProcesses();
+#endif
         }
 
         public void CallInMainUI(Action function)

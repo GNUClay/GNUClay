@@ -568,13 +568,14 @@ namespace MyNPCLib
                 {
                     if (mState == StateOfNPCProcess.Destroyed)
                     {
-                        break;
+                        return;
                     }
                 }
 
                 if(!tasksList.Any(p => p.State == StateOfNPCProcess.Created || p.State == StateOfNPCProcess.Running))
                 {
-                    break;
+                    cancelationToken?.ThrowIfCancellationRequested();
+                    return;
                 }
 
                 cancelationToken?.ThrowIfCancellationRequested();
@@ -586,7 +587,7 @@ namespace MyNPCLib
 #endif
             }
 
-            cancelationToken?.ThrowIfCancellationRequested();
+            //cancelationToken?.ThrowIfCancellationRequested();
         }
 
         public void Wait()
