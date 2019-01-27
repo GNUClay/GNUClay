@@ -4,5 +4,23 @@
         <name>GnuClay</name>
     </assembly>
     <members>
+        <member name="T:GnuClay.Engine">
+            <summary>
+            The class of instance of GnuClayEngine.
+            Represents an NPC.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Engine.#ctor(System.String,GnuClay.IHost)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="appFileName">File name of application of the NPC.</param>
+            <param name="host">Reference to instance of host.</param>
+        </member>
+        <member name="T:GnuClay.IHost">
+            <summary>
+            Represent host of the NPC.
+            </summary>
+        </member>
     </members>
 </doc>
