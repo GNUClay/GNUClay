@@ -56,7 +56,7 @@ namespace MyNPCLib.Logical
                 var count = mVisionItems.Count;
 
 #if DEBUG
-                //LogInstance.Log($"count = {count}");
+                LogInstance.Log($"count = {count}");
 #endif
 
                 if (count == 0)

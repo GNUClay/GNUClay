@@ -111,6 +111,18 @@ namespace MyNPCLib.Logical
         private readonly object mPrimaryEntityIdLockObj = new object(); 
         private ulong mPrimaryEntityId;
 
+        protected override void OnDemandUpdateCurrentVisionObjectImpl()
+        {
+#if DEBUG
+            //Log($"mPrimaryEntityId = {mPrimaryEntityId}");
+#endif
+
+            if (mPrimaryEntityId > 0)
+            {
+                CurrentVisionObjectImpl = mVisionObjectsStorage.GetVisionObjectImpl(mPrimaryEntityId);
+            }
+        }
+
         private void FindPrimaryEntityId()
         {
 #if DEBUG
@@ -267,7 +279,7 @@ namespace MyNPCLib.Logical
             get
             {
 #if DEBUG
-                //Log($"propertyKey = {propertyKey}");
+                Log($"propertyKey = {propertyKey}");
 #endif
 
                 return NGetProperty(propertyKey);
@@ -290,7 +302,7 @@ namespace MyNPCLib.Logical
                 var propertyKey = mEntityDictionary.GetKey(propertyName);
 
 #if DEBUG
-                //Log($"propertyName = {propertyName} propertyKey = {propertyKey}");
+                Log($"propertyName = {propertyName} propertyKey = {propertyKey}");
 #endif
 
                 return NGetProperty(propertyKey);

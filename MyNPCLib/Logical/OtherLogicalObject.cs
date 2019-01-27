@@ -12,6 +12,9 @@ namespace MyNPCLib.Logical
         }
 
         protected VisionObjectImpl CurrentVisionObjectImpl { get; set; }
+        protected virtual void OnDemandUpdateCurrentVisionObjectImpl()
+        {
+        }
 
         protected object CommonGetProperty(ulong propertyKey)
         {
@@ -20,6 +23,10 @@ namespace MyNPCLib.Logical
 #endif
 
             var kindOfSystemProperty = GetKindOfSystemProperty(propertyKey);
+
+#if DEBUG
+            //Log($"kindOfSystemProperty = {kindOfSystemProperty}");
+#endif
 
             switch (kindOfSystemProperty)
             {
@@ -56,12 +63,22 @@ namespace MyNPCLib.Logical
 
             if(CurrentVisionObjectImpl == null)
             {
+                OnDemandUpdateCurrentVisionObjectImpl();
+
+#if DEBUG
+                //Log($"NEXT propertyKey = {propertyKey} (CurrentVisionObjectImpl == null) = {CurrentVisionObjectImpl == null}");
+#endif
+
                 return ConcreteGetPropertyFromStorage(propertyKey);
             }
 
             var globalPos = CurrentVisionObjectImpl.GetGlobalPosition();
 
-            if(globalPos == null)
+#if DEBUG
+            //Log($"globalPos = {globalPos}");
+#endif
+
+            if (globalPos == null)
             {
                 return ConcreteGetPropertyFromStorage(propertyKey);
             }

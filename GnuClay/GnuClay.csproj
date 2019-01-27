@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>GnuClay.Engine</PackageId>
+    <Version>0.0.4</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>C:\Users\Sergey\Documents\GitHub\GNUClay\GnuClay\GnuClay.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

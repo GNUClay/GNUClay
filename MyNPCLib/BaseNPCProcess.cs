@@ -149,7 +149,7 @@ namespace MyNPCLib
             var cancelationToken = GetCancellationToken();
             cancelationToken?.ThrowIfCancellationRequested();
 
-            StateChecker();
+            //StateChecker();
 
             if (command == null)
             {
@@ -175,7 +175,7 @@ namespace MyNPCLib
             var cancelationToken = GetCancellationToken();
             cancelationToken?.ThrowIfCancellationRequested();
 
-            StateChecker();
+            //StateChecker();
 
             if (command == null)
             {
@@ -498,7 +498,7 @@ namespace MyNPCLib
             catch (OperationCanceledException)
             {
 #if DEBUG
-                //Error("catch(OperationCanceledException)");
+                Error("catch(OperationCanceledException)");
 #endif
             }
             catch (Exception e)

@@ -334,7 +334,7 @@ namespace MyNPCLib
             }
             catch
             {
-            }          
+            }
         }
 
         protected void EmitOnCanceledChanged()

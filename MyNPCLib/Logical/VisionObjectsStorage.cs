@@ -30,7 +30,7 @@ namespace MyNPCLib.Logical
         private readonly SystemPropertiesDictionary mSystemPropertiesDictionary;
         private readonly object mLockObj = new object();
         private Dictionary<ulong, VisionObject> mVisibleObjectsDict = new Dictionary<ulong, VisionObject>();
-        private Dictionary<ulong, VisionObjectImpl> mVisibleObjectsImplDict = new Dictionary<ulong, VisionObjectImpl>();
+        private Dictionary<ulong, VisionObjectImpl> mVisibleObjectsImplDict { get; set; } = new Dictionary<ulong, VisionObjectImpl>();
         private StorageOfSpecialEntities mStorageOfSpecialEntities;
 
         [MethodForLoggingSupport]
@@ -67,78 +67,100 @@ namespace MyNPCLib.Logical
             }
         }
 
+        private List<VisionObject> mVisibleObjectsList = new List<VisionObject>();
+
+        private List<VisionObject> NVisibleObjectsList()
+        {
+            var hostVisibleObjectsList = mNPCHostContext.VisibleObjects;
+
+#if DEBUG
+            //Log($"hostVisibleObjectsList.Count = {hostVisibleObjectsList?.Count}");
+#endif
+
+            var result = new List<VisionObject>();
+
+            if (hostVisibleObjectsList.IsEmpty())
+            {
+                foreach (var item in mVisibleObjectsImplDict)
+                {
+                    item.Value.VisionItems = new List<IVisionItem>();
+                }
+
+                mStorageOfSpecialEntities.SetVisibleEntitiesId(new List<ulong>());
+
+                return result;
+            }
+
+            var visibleEntitiesIdList = new List<ulong>();
+
+            foreach (var hostVisibleObject in hostVisibleObjectsList)
+            {
+#if DEBUG
+                //Log($"hostVisibleObject = {hostVisibleObject}");
+#endif
+
+                var entityId = hostVisibleObject.EntityId;
+
+                visibleEntitiesIdList.Add(entityId);
+
+                VisionObject item = null;
+
+                if (mVisibleObjectsDict.ContainsKey(entityId))
+                {
+                    item = mVisibleObjectsDict[entityId];
+
+                    var impl = mVisibleObjectsImplDict[entityId];
+
+                    impl.VisionItems = hostVisibleObject.VisionItems;
+                }
+                else
+                {
+                    var impl = new VisionObjectImpl(entityId, hostVisibleObject.VisionItems);
+                    item = new VisionObject(mEntityLogger, entityId, impl, mEntityDictionary, mLogicalStorage, mSystemPropertiesDictionary);
+                    mVisibleObjectsDict[entityId] = item;
+                    mVisibleObjectsImplDict[entityId] = impl;
+                }
+
+                result.Add(item);
+            }
+
+            mStorageOfSpecialEntities.SetVisibleEntitiesId(visibleEntitiesIdList);
+
+            foreach (var item in mVisibleObjectsImplDict)
+            {
+                if (visibleEntitiesIdList.Contains(item.Key))
+                {
+                    continue;
+                }
+
+                item.Value.VisionItems = new List<IVisionItem>();
+            }
+
+            return result;
+        }
+
+        private void UpdateVisibleObjectsList()
+        {
+#if DEBUG
+            //Log("Begin");
+#endif
+
+            var result = NVisibleObjectsList();
+
+            lock (mLockObj)
+            {
+                mVisibleObjectsList = result;
+            }
+        }
+
         public IList<VisionObject> VisibleObjects
         {
             get
-            {
-                var hostVisibleObjectsList = mNPCHostContext.VisibleObjects;
-
-#if DEBUG
-                //Log($"hostVisibleObjectsList.Count = {hostVisibleObjectsList?.Count}");
-#endif
-                var result = new List<VisionObject>();
-                
+            {                
                 lock (mLockObj)
                 {
-                    if (hostVisibleObjectsList.IsEmpty())
-                    {
-                        foreach (var item in mVisibleObjectsImplDict)
-                        {
-                            item.Value.VisionItems = new List<IVisionItem>();
-                        }
-
-                        mStorageOfSpecialEntities.SetVisibleEntitiesId(new List<ulong>());
-
-                        return result;
-                    }
-
-                    var visibleEntitiesIdList = new List<ulong>();
-
-                    foreach (var hostVisibleObject in hostVisibleObjectsList)
-                    {
-#if DEBUG
-                        //Log($"hostVisibleObject = {hostVisibleObject}");
-#endif
-
-                        var entityId = hostVisibleObject.EntityId;
-
-                        visibleEntitiesIdList.Add(entityId);
-
-                        VisionObject item = null;
-
-                        if (mVisibleObjectsDict.ContainsKey(entityId))
-                        {
-                            item = mVisibleObjectsDict[entityId];
-
-                            var impl = mVisibleObjectsImplDict[entityId];
-
-                            impl.VisionItems = hostVisibleObject.VisionItems;
-                        }
-                        else
-                        {
-                            var impl = new VisionObjectImpl(entityId, hostVisibleObject.VisionItems);
-                            item = new VisionObject(mEntityLogger, entityId, impl, mEntityDictionary, mLogicalStorage, mSystemPropertiesDictionary);
-                            mVisibleObjectsDict[entityId] = item;
-                            mVisibleObjectsImplDict[entityId] = impl;
-                        }
-
-                        result.Add(item);
-                    }
-
-                    mStorageOfSpecialEntities.SetVisibleEntitiesId(visibleEntitiesIdList);
-
-                    foreach (var item in mVisibleObjectsImplDict)
-                    {
-                        if (visibleEntitiesIdList.Contains(item.Key))
-                        {
-                            continue;
-                        }
-
-                        item.Value.VisionItems = new List<IVisionItem>();
-                    }
+                    return mVisibleObjectsList.ToList();
                 }
-
-                return result;
             }
         }
 
@@ -164,7 +186,7 @@ namespace MyNPCLib.Logical
 
                 visibleEntitiesIdList.Add(entityId);
             }
-
+            
             mStorageOfSpecialEntities.SetVisibleEntitiesId(visibleEntitiesIdList);
             return;
         }
@@ -173,7 +195,15 @@ namespace MyNPCLib.Logical
         {
             lock (mLockObj)
             {
-                if(mVisibleObjectsImplDict.ContainsKey(entityId))
+#if DEBUG
+                //Log($"entityId = {entityId} mVisibleObjectsImplDict.Count = {mVisibleObjectsImplDict.Count}");
+                //foreach(var tmpKVPItem in mVisibleObjectsImplDict)
+                //{
+                //    Log($"tmpKVPItem.Key = {tmpKVPItem.Key}");
+                //}
+#endif
+
+                if (mVisibleObjectsImplDict.ContainsKey(entityId))
                 {
                     return mVisibleObjectsImplDict[entityId];
                 }
@@ -203,6 +233,7 @@ namespace MyNPCLib.Logical
                 }
 
                 UpdateVisibleEntitiesIdList();
+                UpdateVisibleObjectsList();
 
                 Thread.Sleep(500);
             }
