@@ -13,9 +13,8 @@ namespace GnuClay
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="appFileName">File name of application of the NPC.</param>
-        /// <param name="host">Reference to instance of host.</param>
-        public Engine(string appFileName, IHost host)
+        /// <param name="options">Options of the engine.</param>
+        public Engine(EngineOptions options)
         {
         }
     }

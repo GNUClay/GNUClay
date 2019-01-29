@@ -10,12 +10,26 @@
             Represents an NPC.
             </summary>
         </member>
-        <member name="M:GnuClay.Engine.#ctor(System.String,GnuClay.IHost)">
+        <member name="M:GnuClay.Engine.#ctor(GnuClay.EngineOptions)">
             <summary>
             Constructor
             </summary>
-            <param name="appFileName">File name of application of the NPC.</param>
-            <param name="host">Reference to instance of host.</param>
+            <param name="options">Options of the engine.</param>
+        </member>
+        <member name="T:GnuClay.EngineOptions">
+            <summary>
+            Options of the Engine.
+            </summary>
+        </member>
+        <member name="P:GnuClay.EngineOptions.AppFileName">
+            <summary>
+            File name of application of the NPC.
+            </summary>
+        </member>
+        <member name="P:GnuClay.EngineOptions.Host">
+            <summary>
+            Reference to instance of host.
+            </summary>
         </member>
         <member name="T:GnuClay.IHost">
             <summary>
