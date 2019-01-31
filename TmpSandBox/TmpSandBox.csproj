@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GnuClay\GnuClay.csproj" />
     <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
   </ItemGroup>
 

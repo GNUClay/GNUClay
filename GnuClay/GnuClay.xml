@@ -12,9 +12,19 @@
         </member>
         <member name="M:GnuClay.Engine.#ctor(GnuClay.EngineOptions)">
             <summary>
-            Constructor
+            Construct an instance of the class.
             </summary>
             <param name="options">Options of the engine.</param>
+        </member>
+        <member name="M:GnuClay.Engine.Start">
+            <summary>
+            Start code execution in the NPC.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Engine.Dispose">
+            <summary>
+            Dispose the NPC.
+            </summary>
         </member>
         <member name="T:GnuClay.EngineOptions">
             <summary>
@@ -35,6 +45,17 @@
             <summary>
             Represent host of the NPC.
             </summary>
+        </member>
+        <member name="T:GnuClay.Internal.BaseEngineComponent">
+            <summary>
+            Represents a base component of the engine. 
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.BaseEngineComponent.#ctor(GnuClay.Internal.CommonContext)">
+            <summary>
+            Construct an instance of the class.
+            </summary>
+            <param name="context">Context of the engine.</param>
         </member>
     </members>
 </doc>

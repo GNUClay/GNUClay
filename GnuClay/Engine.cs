@@ -11,7 +11,7 @@ namespace GnuClay
     public class Engine: IDisposable
     {
         /// <summary>
-        /// Constructor
+        /// Construct an instance of the class.
         /// </summary>
         /// <param name="options">Options of the engine.</param>
         public Engine(EngineOptions options)
