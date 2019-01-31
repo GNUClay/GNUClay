@@ -23,8 +23,29 @@
         </member>
         <member name="M:GnuClay.Engine.Dispose">
             <summary>
-            Dispose the NPC.
+            Release this instance.
             </summary>
+        </member>
+        <member name="M:GnuClay.Engine.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Engine.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Engine.IsDisposedLockObj">
+            <summary>
+            Reference to object for locking field `IsDisposed`.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Engine.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
         </member>
         <member name="T:GnuClay.EngineOptions">
             <summary>
@@ -55,7 +76,64 @@
             <summary>
             Construct an instance of the class.
             </summary>
-            <param name="context">Context of the engine.</param>
+            <param name="context">Common context of the engine.</param>
+        </member>
+        <member name="F:GnuClay.Internal.BaseEngineComponent.Context">
+            <summary>
+            Common context of the engine.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.BaseEngineComponent.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.BaseEngineComponent.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Internal.BaseEngineComponent.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Internal.BaseEngineComponent.IsDisposedLockObj">
+            <summary>
+            Reference to object for locking field `IsDisposed`.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.BaseEngineComponent.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="T:GnuClay.Internal.CommonContext">
+            <summary>
+            Common context of the engine.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.CommonContext.AddComponent(GnuClay.Internal.BaseEngineComponent)">
+            <summary>
+            Adds a component of GnuClay engine to the context for initialization and releasing.
+            </summary>
+            <param name="component"></param>
+        </member>
+        <member name="M:GnuClay.Internal.CommonContext.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.CommonContext.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Internal.CommonContext.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
         </member>
     </members>
 </doc>
