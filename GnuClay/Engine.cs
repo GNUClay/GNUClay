@@ -18,9 +18,16 @@ namespace GnuClay
         public Engine(EngineOptions options)
         {
             mContext = new CommonContext();
+
+            InitComponents();
         }
 
         private readonly CommonContext mContext;
+
+        private void InitComponents()
+        {
+
+        }
 
         /// <summary>
         /// Start code execution in the NPC.

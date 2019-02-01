@@ -23,6 +23,7 @@ namespace GnuClay.Internal
         /// Common context of the engine.
         /// </summary>
         protected readonly CommonContext Context;
+        public ILog Logger { get; set; }
 
         /// <summary>
         /// Release this instance.
