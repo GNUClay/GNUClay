@@ -1,4 +1,6 @@
 ﻿using GnuClay.Internal;
+using GnuClay.Internal.Compilling;
+using GnuClay.Internal.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,12 +19,27 @@ namespace GnuClay
         /// <param name="options">Options of the engine.</param>
         public Engine(EngineOptions options)
         {
-            mContext = new CommonContext();
+            OptionsChecker();
 
+            mContext = new CommonContext();
+            mContext.LoggerComponent = new Logger(mContext);
+            mLogger = mContext.LoggerComponent;
+
+            CreateComponents();
             InitComponents();
         }
 
         private readonly CommonContext mContext;
+        private readonly ILog mLogger;
+
+        private void OptionsChecker()
+        {
+        }
+
+        private void CreateComponents()
+        {           
+            mContext.CompilerComponent = new Compiler(mContext, mLogger);
+        }
 
         private void InitComponents()
         {
@@ -42,34 +59,6 @@ namespace GnuClay
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Finalizer for this instance.
-        /// </summary>
-        ~Engine()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Returns true if the instance was released, owerthise returns false.
-        /// </summary>
-        public bool IsDisposed { get; protected set; }
-
-        /// <summary>
-        /// Reference to object for locking field `IsDisposed`.
-        /// </summary>
-        protected readonly object IsDisposedLockObj = new object();
-
-        /// <summary>
-        ///  Dispose this instance.
-        /// </summary>
-        /// <param name="disposing">Is the instance released not in finalizer.</param>
-        protected virtual void Dispose(bool disposing)
-        {
             lock (IsDisposedLockObj)
             {
                 if (IsDisposed)
@@ -80,6 +69,35 @@ namespace GnuClay
                 IsDisposed = true;
             }
 
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Finalizer for this instance.
+        /// </summary>
+        ~Engine()
+        {
+            if (IsDisposed)
+            {
+                return;
+            }
+
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Returns true if the instance was released, owerthise returns false.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+        private readonly object IsDisposedLockObj = new object();
+
+        /// <summary>
+        ///  Dispose this instance.
+        /// </summary>
+        /// <param name="disposing">Is the instance released not in finalizer.</param>
+        protected virtual void Dispose(bool disposing)
+        {
             if(disposing)
             {
                 mContext?.Dispose();

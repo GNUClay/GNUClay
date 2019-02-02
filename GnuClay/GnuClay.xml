@@ -36,11 +36,6 @@
             Returns true if the instance was released, owerthise returns false.
             </summary>
         </member>
-        <member name="F:GnuClay.Engine.IsDisposedLockObj">
-            <summary>
-            Reference to object for locking field `IsDisposed`.
-            </summary>
-        </member>
         <member name="M:GnuClay.Engine.Dispose(System.Boolean)">
             <summary>
              Dispose this instance.
@@ -72,15 +67,21 @@
             Represents a base component of the engine. 
             </summary>
         </member>
-        <member name="M:GnuClay.Internal.BaseEngineComponent.#ctor(GnuClay.Internal.CommonContext)">
+        <member name="M:GnuClay.Internal.BaseEngineComponent.#ctor(GnuClay.Internal.CommonContext,GnuClay.ILog)">
             <summary>
             Construct an instance of the class.
             </summary>
             <param name="context">Common context of the engine.</param>
+            <param name="logger">Logger for the component.</param>
         </member>
         <member name="F:GnuClay.Internal.BaseEngineComponent.Context">
             <summary>
             Common context of the engine.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Internal.BaseEngineComponent.Logger">
+            <summary>
+            Logger for the component.
             </summary>
         </member>
         <member name="M:GnuClay.Internal.BaseEngineComponent.Dispose">
@@ -96,11 +97,6 @@
         <member name="P:GnuClay.Internal.BaseEngineComponent.IsDisposed">
             <summary>
             Returns true if the instance was released, owerthise returns false.
-            </summary>
-        </member>
-        <member name="F:GnuClay.Internal.BaseEngineComponent.IsDisposedLockObj">
-            <summary>
-            Reference to object for locking field `IsDisposed`.
             </summary>
         </member>
         <member name="M:GnuClay.Internal.BaseEngineComponent.Dispose(System.Boolean)">

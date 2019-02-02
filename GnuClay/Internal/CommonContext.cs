@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GnuClay.Internal.Compilling;
+using GnuClay.Internal.Logging;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,6 +21,9 @@ namespace GnuClay.Internal
         }
 
         private readonly List<BaseEngineComponent> mComponentList = new List<BaseEngineComponent>();
+
+        public Logger LoggerComponent { get; set; }
+        public Compiler CompilerComponent { get; set; }
 
         /// <summary>
         /// Release this instance.
