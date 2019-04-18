@@ -438,6 +438,11 @@
             Common context of the engine.
             </summary>
         </member>
+        <member name="P:GnuClay.Internal.CommonContext.EngineOptions">
+            <summary>
+            Options of the engine.
+            </summary>
+        </member>
         <member name="M:GnuClay.Internal.CommonContext.AddComponent(GnuClay.Internal.BaseEngineComponent)">
             <summary>
             Adds a component of GnuClay engine to the context for initialization and releasing.

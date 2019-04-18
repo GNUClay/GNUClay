@@ -24,6 +24,7 @@ namespace GnuClay
             OptionsChecker();
 
             mContext = new CommonContext();
+            mContext.EngineOptions = options;
             mContext.LoggerComponent = new Logger(mContext);
             mLogger = mContext.LoggerComponent;
 

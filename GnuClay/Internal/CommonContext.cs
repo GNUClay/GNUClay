@@ -12,6 +12,11 @@ namespace GnuClay.Internal
     public sealed class CommonContext: IDisposable
     {
         /// <summary>
+        /// Options of the engine.
+        /// </summary>
+        public EngineOptions EngineOptions { get; set; }
+
+        /// <summary>
         /// Adds a component of GnuClay engine to the context for initialization and releasing.
         /// </summary>
         /// <param name="component"></param>
