@@ -4,12 +4,12 @@ using System.Text;
 
 namespace GnuClay.Internal.Compilling
 {
-    public class Compiler: BaseEngineComponent
+    public class Compiler: BaseEngineLoggedComponent
     {
         public Compiler(CommonContext context, ILog logger)
             : base(context, logger)
         {
-
+            //Log("Start");
         }
     }
 }

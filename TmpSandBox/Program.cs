@@ -1,4 +1,5 @@
-﻿using MyNPCLib;
+﻿using GnuClay;
+using MyNPCLib;
 using MyNPCLib.CG;
 using MyNPCLib.CGStorage;
 using MyNPCLib.ConvertingCGToInternal;
@@ -53,7 +54,8 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTRoutes();
+            TSTNewEngine();
+            //TSTRoutes();
             //TSTRect();
             //TSTStack();
             //TSTSaveDict();
@@ -87,6 +89,12 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTNewEngine()
+        {
+            var options = new EngineOptions();
+            var engine = new Engine(options);
         }
 
         private static void TSTRoutes()
@@ -2729,7 +2737,7 @@ namespace TmpSandBox
             return ruleInstance;
         }
 
-        [MethodForLoggingSupport]
+        [MyNPCLib.MethodForLoggingSupport]
         private static string GetClassFullName()
         {
             var className = string.Empty;
@@ -2743,7 +2751,7 @@ namespace TmpSandBox
 
                 var method = frame.GetMethod();
 
-                var attribute = method?.GetCustomAttribute<MethodForLoggingSupportAttribute>();
+                var attribute = method?.GetCustomAttribute<MyNPCLib.MethodForLoggingSupportAttribute>();
 
                 declaringType = method?.DeclaringType;
 

@@ -13,4 +13,8 @@
     <DocumentationFile>GnuClay.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Internal\BaseEngineLoggedComponent.cs~RF623cbe.TMP" />
+  </ItemGroup>
+
 </Project>
