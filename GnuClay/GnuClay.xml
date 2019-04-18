@@ -449,6 +449,11 @@
             </summary>
             <param name="component"></param>
         </member>
+        <member name="P:GnuClay.Internal.CommonContext.LoggerComponent">
+            <summary>
+            Reference to component for logging.
+            </summary>
+        </member>
         <member name="M:GnuClay.Internal.CommonContext.Dispose">
             <summary>
             Release this instance.

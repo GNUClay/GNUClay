@@ -1,5 +1,8 @@
 ﻿using GnuClay.Internal.Compilling;
+using GnuClay.Internal.EntitiesStorages;
+using GnuClay.Internal.IdsStorages;
 using GnuClay.Internal.Logging;
+using GnuClay.Internal.LogicalStorages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,8 +30,14 @@ namespace GnuClay.Internal
 
         private readonly List<BaseEngineComponent> mComponentList = new List<BaseEngineComponent>();
 
+        /// <summary>
+        /// Reference to component for logging.
+        /// </summary>
         public Logger LoggerComponent { get; set; }
         public Compiler CompilerComponent { get; set; }
+        public IdsStorage IdsStorageComponent { get; set; }
+        public EntitiesStorage EntitiesStorageComponent { get; set; }
+        public LogicalStorage LogicalStorageComponent { get; set; }
 
         /// <summary>
         /// Release this instance.

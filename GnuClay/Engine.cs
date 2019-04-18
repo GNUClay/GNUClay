@@ -1,6 +1,9 @@
 ﻿using GnuClay.Internal;
 using GnuClay.Internal.Compilling;
+using GnuClay.Internal.EntitiesStorages;
+using GnuClay.Internal.IdsStorages;
 using GnuClay.Internal.Logging;
+using GnuClay.Internal.LogicalStorages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -57,6 +60,9 @@ namespace GnuClay
         private void CreateComponents()
         {           
             mContext.CompilerComponent = new Compiler(mContext, mLogger);
+            mContext.IdsStorageComponent = new IdsStorage(mContext, mLogger);
+            mContext.EntitiesStorageComponent = new EntitiesStorage(mContext, mLogger);
+            mContext.LogicalStorageComponent = new LogicalStorage(mContext, mLogger);
         }
 
         private void InitComponents()
