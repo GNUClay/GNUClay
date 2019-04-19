@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal.Compilling
+namespace GnuClay.Internal.CompillingSystem
 {
     public class Compiler: BaseEngineLoggedComponent
     {

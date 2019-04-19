@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal.IdsStorages
+namespace GnuClay.Internal.IdsStorageSystem
 {
     public class IdsStorage : BaseEngineLoggedComponent
     {

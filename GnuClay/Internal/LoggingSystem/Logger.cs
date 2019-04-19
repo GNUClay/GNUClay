@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal.Logging
+namespace GnuClay.Internal.LoggingSystem
 {
     public class Logger: BaseEngineComponent, ILog
     {

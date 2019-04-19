@@ -1,8 +1,8 @@
-﻿using GnuClay.Internal.Compilling;
-using GnuClay.Internal.EntitiesStorages;
-using GnuClay.Internal.IdsStorages;
-using GnuClay.Internal.Logging;
-using GnuClay.Internal.LogicalStorages;
+﻿using GnuClay.Internal.CompillingSystem;
+using GnuClay.Internal.EntitiesStorageSystem;
+using GnuClay.Internal.IdsStorageSystem;
+using GnuClay.Internal.LoggingSystem;
+using GnuClay.Internal.LogicalStorageSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;

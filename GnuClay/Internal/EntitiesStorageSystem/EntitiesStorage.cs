@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal.EntitiesStorages
+namespace GnuClay.Internal.EntitiesStorageSystem
 {
     public class EntitiesStorage : BaseEngineLoggedComponent
     {
