@@ -16,11 +16,6 @@
             </summary>
             <param name="options">Options of the engine.</param>
         </member>
-        <member name="M:GnuClay.Engine.Start">
-            <summary>
-            Start code execution in the NPC.
-            </summary>
-        </member>
         <member name="M:GnuClay.Engine.Dispose">
             <summary>
             Release this instance.

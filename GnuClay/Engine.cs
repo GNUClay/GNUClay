@@ -71,14 +71,6 @@ namespace GnuClay
         }
 
         /// <summary>
-        /// Start code execution in the NPC.
-        /// </summary>
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Release this instance.
         /// </summary>
         public void Dispose()

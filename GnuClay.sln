@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TmpSandBox", "TmpSandBox\Tm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTests", "XUnitTests\XUnitTests.csproj", "{D86ACE39-5B7A-48C0-B078-FB25CE74E0F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClay", "GnuClay\GnuClay.csproj", "{BF79CF37-4F05-4DF3-8EB5-A94358CF81E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnuClay", "GnuClay\GnuClay.csproj", "{BF79CF37-4F05-4DF3-8EB5-A94358CF81E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuClayUnity3DHost", "GnuClayUnity3DHost\GnuClayUnity3DHost.csproj", "{5B528F9F-3B23-40E9-ACDA-5B6040E4381D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{BF79CF37-4F05-4DF3-8EB5-A94358CF81E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF79CF37-4F05-4DF3-8EB5-A94358CF81E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF79CF37-4F05-4DF3-8EB5-A94358CF81E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B528F9F-3B23-40E9-ACDA-5B6040E4381D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B528F9F-3B23-40E9-ACDA-5B6040E4381D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B528F9F-3B23-40E9-ACDA-5B6040E4381D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B528F9F-3B23-40E9-ACDA-5B6040E4381D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

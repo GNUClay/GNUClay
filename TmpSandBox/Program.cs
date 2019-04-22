@@ -1,4 +1,6 @@
 ﻿using GnuClay;
+using GnuClayUnity3DHost.BipedHostSystem;
+using GnuClayUnity3DHost.BusSystem;
 using MyNPCLib;
 using MyNPCLib.CG;
 using MyNPCLib.CGStorage;
@@ -93,8 +95,21 @@ namespace TmpSandBox
 
         private static void TSTNewEngine()
         {
-            var options = new EngineOptions();
-            var engine = new Engine(options);
+            var contextOfHostOptions = new ContextOfHostOptions();
+
+            var context = new ContextOfHost(contextOfHostOptions);
+
+            var bipedHostOptions = new BipedHostOptions();
+            bipedHostOptions.Context = context;
+
+            var host = new BipedHost(bipedHostOptions);
+
+            var engineOptions = new EngineOptions();
+            engineOptions.Host = host;
+
+            var engine = new Engine(engineOptions);
+
+            context.Start();
         }
 
         private static void TSTRoutes()
