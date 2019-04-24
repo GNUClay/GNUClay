@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyNPCLib
+namespace GnuClay.DebugHelpers
 {
     public interface IShortObjectToString
     {
@@ -25,7 +25,7 @@ namespace MyNPCLib
 
         public string PropertiesToShortString(uint n)
         {
-            var spaces = DisplayHelper.Spaces(n);
+            var spaces = StringHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
             return sb.ToString();

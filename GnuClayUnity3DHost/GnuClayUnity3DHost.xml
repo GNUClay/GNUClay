@@ -4,5 +4,47 @@
         <name>GnuClayUnity3DHost</name>
     </assembly>
     <members>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.BusOfHosts.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.BaseHost.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
     </members>
 </doc>

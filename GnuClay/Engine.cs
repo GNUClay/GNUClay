@@ -51,10 +51,10 @@ namespace GnuClay
                 throw new NullReferenceException($"Host of the engine is null.");
             }
 
-            if (string.IsNullOrWhiteSpace(mOptions.AppFileName))
-            {
-                throw new NullReferenceException($"File name of application of the engine is null or empty.");
-            }
+            //if (string.IsNullOrWhiteSpace(mOptions.AppFileName))
+            //{
+            //    throw new NullReferenceException($"File name of application of the engine is null or empty.");
+            //}
         }
 
         private void CreateComponents()

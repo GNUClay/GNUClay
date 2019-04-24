@@ -1,12 +1,25 @@
-﻿using GnuClay;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.HostSystem
+namespace GnuClayUnity3DHost.BusSystem
 {
-    public abstract class BaseHost: IHost, IDisposable
+    public class BusOfHosts : IDisposable
     {
+        public BusOfHosts(BusOfHostsOptions options)
+        {
+        }
+
+        public void Start()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Release this instance.
         /// </summary>
@@ -29,7 +42,7 @@ namespace GnuClayUnity3DHost.HostSystem
         /// <summary>
         /// Finalizer for this instance.
         /// </summary>
-        ~BaseHost()
+        ~BusOfHosts()
         {
             if (IsDisposed)
             {

@@ -95,12 +95,15 @@ namespace TmpSandBox
 
         private static void TSTNewEngine()
         {
-            var contextOfHostOptions = new ContextOfHostOptions();
+            var busOfHostsOptions = new BusOfHostsOptions();
+            busOfHostsOptions.BaseDir = Environment.CurrentDirectory;
 
-            var context = new ContextOfHost(contextOfHostOptions);
+            LogInstance.Log($"busOfHostsOptions = {busOfHostsOptions}");
+
+            var busOfHosts = new BusOfHosts(busOfHostsOptions);
 
             var bipedHostOptions = new BipedHostOptions();
-            bipedHostOptions.Context = context;
+            bipedHostOptions.Bus = busOfHosts;
 
             var host = new BipedHost(bipedHostOptions);
 
@@ -109,7 +112,7 @@ namespace TmpSandBox
 
             var engine = new Engine(engineOptions);
 
-            context.Start();
+            busOfHosts.Start();
         }
 
         private static void TSTRoutes()

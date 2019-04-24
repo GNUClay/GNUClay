@@ -7,6 +7,6 @@ namespace GnuClayUnity3DHost.BipedHostSystem
 {
     public class BipedHostOptions
     {
-        public ContextOfHost Context { get; set; }
+        public BusOfHosts Bus { get; set; }
     }
 }
