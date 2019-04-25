@@ -7,7 +7,7 @@ namespace GnuClay
     /// <summary>
     /// Represent host of the NPC.
     /// </summary>
-    public interface IHost
+    public interface IHost: IDisposable
     {
     }
 }

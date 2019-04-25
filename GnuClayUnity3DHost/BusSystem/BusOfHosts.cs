@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GnuClayUnity3DHost.HostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
 {
-    public class BusOfHosts : IDisposable
+    public class BusOfHosts : IBusOfHostsInternalRef, IDisposable
     {
         public BusOfHosts(BusOfHostsOptions options)
         {
+        }
+
+        void IBusOfHostsInternalRef.AddHost(IHostInternalRef host)
+        {
+            throw new NotImplementedException();
         }
 
         public void Start()

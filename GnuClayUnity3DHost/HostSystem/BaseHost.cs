@@ -5,8 +5,13 @@ using System.Text;
 
 namespace GnuClayUnity3DHost.HostSystem
 {
-    public abstract class BaseHost: IHost, IDisposable
+    public abstract class BaseHost: IHost, IHostInternalRef, IDisposable
     {
+        protected BaseHost(BaseHostOptions options)
+        {
+
+        }
+
         /// <summary>
         /// Release this instance.
         /// </summary>

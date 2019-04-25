@@ -9,6 +9,10 @@ namespace GnuClayUnity3DHost.BusSystem
     {
         public string BaseDir { get; set; }
 
+        /// <summary>
+        /// Returns a string that represents the current instance.
+        /// </summary>
+        /// <returns>A string that represents the current instance.</returns>
         public override string ToString()
         {
             return ToString(0u);

@@ -1,12 +1,12 @@
 ﻿using GnuClayUnity3DHost.BusSystem;
+using GnuClayUnity3DHost.HostSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GnuClayUnity3DHost.BipedHostSystem
 {
-    public class BipedHostOptions
+    public class BipedHostOptions: BaseHostOptions
     {
-        public BusOfHosts Bus { get; set; }
     }
 }

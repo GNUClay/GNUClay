@@ -1,4 +1,5 @@
-﻿using GnuClayUnity3DHost.HostSystem;
+﻿using GnuClayUnity3DHost.BusSystem;
+using GnuClayUnity3DHost.HostSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,10 @@ namespace GnuClayUnity3DHost.BipedHostSystem
     public class BipedHost: BaseHost
     {
         public BipedHost(BipedHostOptions options)
+            : base(options)
         {
-
+            var internalRef = options.Bus as IBusOfHostsInternalRef;//tmp
+            internalRef.AddHost(this);//tmp
         }
     }
 }
