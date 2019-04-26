@@ -1,17 +1,16 @@
-﻿using System;
+﻿using GnuClay;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal
+namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
 {
-    /// <summary>
-    /// Represents a base logged component of the engine.
-    /// </summary>
-    public class BaseEngineLoggedComponent: BaseEngineComponent
+    public class Logger : BaseHostComponent, ILog
     {
-        protected BaseEngineLoggedComponent(CommonContext context, ILog logger)
-            : base(context, logger)
+        public Logger(CommonContextOfBaseHost context)
+            : base(context, null)
         {
+            Logger = this;
         }
 
         /// <summary>
@@ -19,9 +18,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        protected void Debug(string message)
+        public void Debug(string message)
         {
-            Logger.Debug(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -30,9 +29,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        protected void Debug(uint depth, string message)
+        public void Debug(uint depth, string message)
         {
-            Logger.Debug(depth, message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -40,9 +39,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Debug(Exception exception)
+        public void Debug(Exception exception)
         {
-            Logger.Debug(exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -51,9 +50,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Debug(string message, Exception exception)
+        public void Debug(string message, Exception exception)
         {
-            Logger.Debug(message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -62,9 +61,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Debug(uint depth, Exception exception)
+        public void Debug(uint depth, Exception exception)
         {
-            Logger.Debug(depth, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -74,9 +73,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Debug(uint depth, string message, Exception exception)
+        public void Debug(uint depth, string message, Exception exception)
         {
-            Logger.Debug(depth, message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -84,9 +83,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        protected void Log(string message)
+        public void Log(string message)
         {
-            Logger.Log(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -95,9 +94,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        protected void Log(uint depth, string message)
+        public void Log(uint depth, string message)
         {
-            Logger.Log(depth, message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -105,9 +104,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Log(Exception exception)
+        public void Log(Exception exception)
         {
-            Logger.Log(exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -116,9 +115,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Log(string message, Exception exception)
+        public void Log(string message, Exception exception)
         {
-            Logger.Log(message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -127,9 +126,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Log(uint depth, Exception exception)
+        public void Log(uint depth, Exception exception)
         {
-            Logger.Log(depth, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -139,9 +138,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Log(uint depth, string message, Exception exception)
+        public void Log(uint depth, string message, Exception exception)
         {
-            Logger.Log(depth, message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -149,9 +148,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        protected void Info(string message)
+        public void Info(string message)
         {
-            Logger.Info(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -160,9 +159,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        protected void Info(uint depth, string message)
+        public void Info(uint depth, string message)
         {
-            Logger.Info(depth, message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -170,9 +169,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception"></param>
         [MethodForLoggingSupport]
-        protected void Info(Exception exception)
+        public void Info(Exception exception)
         {
-            Logger.Info(exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -181,9 +180,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing description of .</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Info(string message, Exception exception)
+        public void Info(string message, Exception exception)
         {
-            Logger.Info(message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -192,9 +191,9 @@ namespace GnuClay.Internal
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Info(uint depth, Exception exception)
+        public void Info(uint depth, Exception exception)
         {
-            Logger.Info(depth, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -204,9 +203,9 @@ namespace GnuClay.Internal
         /// <param name="message">A string containing an information message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Info(uint depth, string message, Exception exception)
+        public void Info(uint depth, string message, Exception exception)
         {
-            Logger.Info(depth, message, exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -214,9 +213,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing description of a warning.</param>
         [MethodForLoggingSupport]
-        protected void Warn(string message)
+        public void Warn(string message)
         {
-            Logger.Warn(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -224,9 +223,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Warn(Exception exception)
+        public void Warn(Exception exception)
         {
-            Logger.Warn(exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -234,9 +233,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing description of error.</param>
         [MethodForLoggingSupport]
-        protected void Error(string message)
+        public void Error(string message)
         {
-            Logger.Error(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -244,9 +243,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Error(Exception exception)
+        public void Error(Exception exception)
         {
-            Logger.Error(exception);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -254,9 +253,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="message">A string containing description of fatal error.</param>
         [MethodForLoggingSupport]
-        protected void Fatal(string message)
+        public void Fatal(string message)
         {
-            Logger.Fatal(message);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -264,9 +263,9 @@ namespace GnuClay.Internal
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        protected void Fatal(Exception exception)
+        public void Fatal(Exception exception)
         {
-            Logger.Fatal(exception);
+            throw new NotImplementedException();
         }
     }
 }

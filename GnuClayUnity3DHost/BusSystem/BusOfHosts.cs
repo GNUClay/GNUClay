@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GnuClay;
+using GnuClayUnity3DHost.BusSystem.Internal;
+using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.HostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
@@ -9,11 +13,39 @@ namespace GnuClayUnity3DHost.BusSystem
     {
         public BusOfHosts(BusOfHostsOptions options)
         {
+            mOptions = options;
+
+            OptionsChecker();
+
+            mContext = new CommonContextOfBusOfHosts();
+            mContext.Options = options;
+            mContext.LoggerComponent = new Logger(mContext);
+            mLogger = mContext.LoggerComponent;
+
+            CreateComponents();
+            InitComponents();
+        }
+
+        private readonly BusOfHostsOptions mOptions;
+        private readonly CommonContextOfBusOfHosts mContext;       
+        private readonly ILog mLogger;
+
+        private void OptionsChecker()
+        {
+        }
+
+        private void CreateComponents()
+        {
+            mContext.RegistryOfHostComponent = new RegistryOfHost(mContext, mLogger);
+        }
+
+        private void InitComponents()
+        {
         }
 
         void IBusOfHostsInternalRef.AddHost(IHostInternalRef host)
         {
-            throw new NotImplementedException();
+            mContext.RegistryOfHostComponent.AddHost(host);
         }
 
         public void Start()
@@ -70,9 +102,7 @@ namespace GnuClayUnity3DHost.BusSystem
         /// <param name="disposing">Is the instance released not in finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-            }
+            mContext?.Dispose();
         }
     }
 }

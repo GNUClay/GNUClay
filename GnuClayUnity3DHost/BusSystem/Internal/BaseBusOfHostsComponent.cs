@@ -1,44 +1,37 @@
 ﻿using GnuClay;
-using GnuClayUnity3DHost.HostSystem.Internal;
-using GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.HostSystem
+namespace GnuClayUnity3DHost.BusSystem.Internal
 {
-    public abstract class BaseHost<T>: IHost, IHostInternalRef, IDisposable where T: CommonContextOfBaseHost, new()
+    /// <summary>
+    /// Represents a base component of the bus. 
+    /// </summary>
+    public abstract class BaseBusOfHostsComponent : IDisposable
     {
-        protected BaseHost(BaseHostOptions options)
+        /// <summary>
+        /// Construct an instance of the component.
+        /// </summary>
+        /// <param name="context">Common context of the bus.</param>
+        /// <param name="logger">Logger for the component.</param>
+        protected BaseBusOfHostsComponent(CommonContextOfBusOfHosts context, ILog logger)
         {
-            mOptions = options;
+            Context = context;
+            context.AddComponent(this);
 
-            OptionsChecker();
-
-            Context = new T();
-            Context.Options = options;
-            Context.LoggerComponent = new Logger(Context);
-            mLogger = Context.LoggerComponent;
-
-            CreateComponents();
-            InitComponents();
+            Logger = logger;
         }
 
-        protected readonly BaseHostOptions mOptions;
-        protected readonly T Context;
-        private readonly ILog mLogger;
+        /// <summary>
+        /// Common context of the bus.
+        /// </summary>
+        protected readonly CommonContextOfBusOfHosts Context;
 
-        private void OptionsChecker()
-        {
-        }
-
-        private void CreateComponents()
-        {
-        }
-
-        private void InitComponents()
-        {
-        }
+        /// <summary>
+        /// Logger for the component.
+        /// </summary>
+        public ILog Logger { get; protected set; }
 
         /// <summary>
         /// Release this instance.
@@ -62,7 +55,7 @@ namespace GnuClayUnity3DHost.HostSystem
         /// <summary>
         /// Finalizer for this instance.
         /// </summary>
-        ~BaseHost()
+        ~BaseBusOfHostsComponent()
         {
             if (IsDisposed)
             {
@@ -84,7 +77,6 @@ namespace GnuClayUnity3DHost.HostSystem
         /// <param name="disposing">Is the instance released not in finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            Context.Dispose();
         }
     }
 }

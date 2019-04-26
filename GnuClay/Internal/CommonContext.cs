@@ -17,12 +17,12 @@ namespace GnuClay.Internal
         /// <summary>
         /// Options of the engine.
         /// </summary>
-        public EngineOptions EngineOptions { get; set; }
+        public EngineOptions Options { get; set; }
 
         /// <summary>
         /// Adds a component of GnuClay engine to the context for initialization and releasing.
         /// </summary>
-        /// <param name="component"></param>
+        /// <param name="component">Reference to added component.</param>
         public void AddComponent(BaseEngineComponent component)
         {
             mComponentList.Add(component);
@@ -34,6 +34,10 @@ namespace GnuClay.Internal
         /// Reference to component for logging.
         /// </summary>
         public Logger LoggerComponent { get; set; }
+
+        /// <summary>
+        /// Reference to component for compiller.
+        /// </summary>
         public Compiler CompilerComponent { get; set; }
         public IdsStorage IdsStorageComponent { get; set; }
         public EntitiesStorage EntitiesStorageComponent { get; set; }
@@ -44,6 +48,16 @@ namespace GnuClay.Internal
         /// </summary>
         public void Dispose()
         {
+            lock (IsDisposedLockObj)
+            {
+                if (IsDisposed)
+                {
+                    return;
+                }
+
+                IsDisposed = true;
+            }
+
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -53,6 +67,14 @@ namespace GnuClay.Internal
         /// </summary>
         ~CommonContext()
         {
+            lock (IsDisposedLockObj)
+            {
+                if (IsDisposed)
+                {
+                    return;
+                }
+            }
+
             Dispose(false);
         }
 
@@ -65,22 +87,9 @@ namespace GnuClay.Internal
 
         private void Dispose(bool disposing)
         {
-            lock(IsDisposedLockObj)
+            foreach (var item in mComponentList)
             {
-                if(IsDisposed)
-                {
-                    return;
-                }
-
-                IsDisposed = true;
-            }
-
-            if(disposing)
-            {
-                foreach(var item in mComponentList)
-                {
-                    item.Dispose();
-                }
+                item.Dispose();
             }
         }
     }

@@ -4,6 +4,170 @@
         <name>GnuClay</name>
     </assembly>
     <members>
+        <member name="P:GnuClay.BaseScenario.Logger">
+            <summary>
+            Logger for the component.
+            </summary>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClay.BaseScenario.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
         <member name="M:GnuClay.DebugHelpers.IObjectToBriefString.ToBriefString">
             <summary>
             Returns a string that represents the current instance in very short way.
@@ -282,7 +446,7 @@
         </member>
         <member name="M:GnuClay.Internal.BaseEngineComponent.#ctor(GnuClay.Internal.CommonContext,GnuClay.ILog)">
             <summary>
-            Construct an instance of the class.
+            Construct an instance of the component.
             </summary>
             <param name="context">Common context of the engine.</param>
             <param name="logger">Logger for the component.</param>
@@ -487,7 +651,7 @@
             Common context of the engine.
             </summary>
         </member>
-        <member name="P:GnuClay.Internal.CommonContext.EngineOptions">
+        <member name="P:GnuClay.Internal.CommonContext.Options">
             <summary>
             Options of the engine.
             </summary>
@@ -496,11 +660,16 @@
             <summary>
             Adds a component of GnuClay engine to the context for initialization and releasing.
             </summary>
-            <param name="component"></param>
+            <param name="component">Reference to added component.</param>
         </member>
         <member name="P:GnuClay.Internal.CommonContext.LoggerComponent">
             <summary>
             Reference to component for logging.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Internal.CommonContext.CompilerComponent">
+            <summary>
+            Reference to component for compiller.
             </summary>
         </member>
         <member name="M:GnuClay.Internal.CommonContext.Dispose">

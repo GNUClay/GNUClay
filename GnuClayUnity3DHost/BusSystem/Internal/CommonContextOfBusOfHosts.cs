@@ -1,0 +1,62 @@
+﻿using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace GnuClayUnity3DHost.BusSystem.Internal
+{
+    public class CommonContextOfBusOfHosts: IDisposable
+    {
+        public BusOfHostsOptions Options { get; set; }
+
+        /// <summary>
+        /// Adds a component of bus to the context for initialization and releasing.
+        /// </summary>
+        /// <param name="component">Reference to added component.</param>
+        public void AddComponent(BaseBusOfHostsComponent component)
+        {
+            mComponentList.Add(component);
+        }
+
+        private readonly List<BaseBusOfHostsComponent> mComponentList = new List<BaseBusOfHostsComponent>();
+
+        /// <summary>
+        /// Reference to component for logging.
+        /// </summary>
+        public Logger LoggerComponent { get; set; }
+        public RegistryOfHost RegistryOfHostComponent { get; set; }
+
+        /// <summary>
+        /// Release this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Finalizer for this instance.
+        /// </summary>
+        ~CommonContextOfBusOfHosts()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Returns true if the instance was released, owerthise returns false.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        private readonly object IsDisposedLockObj = new object();
+
+        private void Dispose(bool disposing)
+        {
+            foreach (var item in mComponentList)
+            {
+                item.Dispose();
+            }
+        }
+    }
+}

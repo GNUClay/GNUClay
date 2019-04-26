@@ -27,7 +27,7 @@ namespace GnuClay
             OptionsChecker();
 
             mContext = new CommonContext();
-            mContext.EngineOptions = options;
+            mContext.Options = options;
             mContext.LoggerComponent = new Logger(mContext);
             mLogger = mContext.LoggerComponent;
 
@@ -114,10 +114,7 @@ namespace GnuClay
         /// <param name="disposing">Is the instance released not in finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if(disposing)
-            {
-                mContext?.Dispose();
-            }
+            mContext?.Dispose();
         }
     }
 }

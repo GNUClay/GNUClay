@@ -1,15 +1,13 @@
-﻿using System;
+﻿using GnuClay;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal
+namespace GnuClayUnity3DHost.HostSystem.Internal
 {
-    /// <summary>
-    /// Represents a base logged component of the engine.
-    /// </summary>
-    public class BaseEngineLoggedComponent: BaseEngineComponent
+    public class BaseHostLoggedComponent: BaseHostComponent
     {
-        protected BaseEngineLoggedComponent(CommonContext context, ILog logger)
+        protected BaseHostLoggedComponent(CommonContextOfBaseHost context, ILog logger)
             : base(context, logger)
         {
         }

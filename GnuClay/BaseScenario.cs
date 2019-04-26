@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Internal
+namespace GnuClay
 {
-    /// <summary>
-    /// Represents a base logged component of the engine.
-    /// </summary>
-    public class BaseEngineLoggedComponent: BaseEngineComponent
+    public abstract class BaseScenario
     {
-        protected BaseEngineLoggedComponent(CommonContext context, ILog logger)
-            : base(context, logger)
+        protected BaseScenario(ILog logger)
         {
+            Logger = logger;
         }
+
+        /// <summary>
+        /// Logger for the component.
+        /// </summary>
+        public ILog Logger { get; protected set; }
+
+        public abstract void Execute();
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.

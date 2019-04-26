@@ -10,7 +10,7 @@ namespace GnuClay.Internal
     public abstract class BaseEngineComponent: IDisposable
     {
         /// <summary>
-        /// Construct an instance of the class.
+        /// Construct an instance of the component.
         /// </summary>
         /// <param name="context">Common context of the engine.</param>
         /// <param name="logger">Logger for the component.</param>

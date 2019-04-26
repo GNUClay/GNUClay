@@ -4,6 +4,12 @@
         <name>GnuClayUnity3DHost</name>
     </assembly>
     <members>
+        <member name="M:GnuClayUnity3DHost.BipedHostSystem.Internal.CommonContextOfBipedHost.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
         <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Dispose">
             <summary>
             Release this instance.
@@ -31,22 +37,415 @@
             </summary>
             <returns>A string that represents the current instance.</returns>
         </member>
-        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Dispose">
+        <member name="T:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent">
+            <summary>
+            Represents a base component of the bus. 
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.#ctor(GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts,GnuClay.ILog)">
+            <summary>
+            Construct an instance of the component.
+            </summary>
+            <param name="context">Common context of the bus.</param>
+            <param name="logger">Logger for the component.</param>
+        </member>
+        <member name="F:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.Context">
+            <summary>
+            Common context of the bus.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.Logger">
+            <summary>
+            Logger for the component.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.Dispose">
             <summary>
             Release this instance.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Finalize">
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.Finalize">
             <summary>
             Finalizer for this instance.
             </summary>
         </member>
-        <member name="P:GnuClayUnity3DHost.HostSystem.BaseHost.IsDisposed">
+        <member name="P:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.IsDisposed">
             <summary>
             Returns true if the instance was released, owerthise returns false.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost.Dispose(System.Boolean)">
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsLoggedComponent.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.AddComponent(GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent)">
+            <summary>
+            Adds a component of bus to the context for initialization and releasing.
+            </summary>
+            <param name="component">Reference to added component.</param>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.LoggerComponent">
+            <summary>
+            Reference to component for logging.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem.RegistryOfHost.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost`1.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost`1.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.BaseHost`1.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.BaseHost`1.Dispose(System.Boolean)">
             <summary>
              Dispose this instance.
             </summary>
@@ -71,6 +470,399 @@
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="T:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent">
+            <summary>
+            Represents a base component of the host. 
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.#ctor(GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost,GnuClay.ILog)">
+            <summary>
+            Construct an instance of the component.
+            </summary>
+            <param name="context">Common context of the host.</param>
+            <param name="logger">Logger for the component.</param>
+        </member>
+        <member name="F:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.Context">
+            <summary>
+            Common context of the host.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.Logger">
+            <summary>
+            Logger for the component.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.BaseHostLoggedComponent.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.AddComponent(GnuClayUnity3DHost.HostSystem.Internal.BaseHostComponent)">
+            <summary>
+            Adds a component of host to the context for initialization and releasing.
+            </summary>
+            <param name="component">Reference to added component.</param>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.LoggerComponent">
+            <summary>
+            Reference to component for logging.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.CommonContextOfBaseHost.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem.Logger.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
         </member>
     </members>
 </doc>
