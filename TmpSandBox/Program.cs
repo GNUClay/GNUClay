@@ -97,6 +97,10 @@ namespace TmpSandBox
         {
             var busOfHostsOptions = new BusOfHostsOptions();
             busOfHostsOptions.BaseDir = Environment.CurrentDirectory;
+            busOfHostsOptions.Logging.EnableLogging = true;
+            busOfHostsOptions.Logging.UseLoggingToFile = true;
+            busOfHostsOptions.Logging.LoggingDir = "LogDir";
+            busOfHostsOptions.Logging.UseLoggingToConsole = true;
 
             LogInstance.Log($"busOfHostsOptions = {busOfHostsOptions}");
 

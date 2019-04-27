@@ -32,6 +32,10 @@ namespace GnuClayUnity3DHost.BusSystem
 
         private void OptionsChecker()
         {
+            if(string.IsNullOrWhiteSpace(mOptions.BaseDir))
+            {
+                throw new NullReferenceException($"Base directory of bus is null or empty.");
+            }
         }
 
         private void CreateComponents()
@@ -50,6 +54,10 @@ namespace GnuClayUnity3DHost.BusSystem
 
         public void Start()
         {
+#if DEBUG
+            mLogger.Info("Begin");
+#endif
+
             throw new NotImplementedException();
         }
 

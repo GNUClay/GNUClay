@@ -8,6 +8,7 @@ namespace GnuClayUnity3DHost.BusSystem
     public class BusOfHostsOptions: IObjectToString
     {
         public string BaseDir { get; set; }
+        public BusOfHostsLoggingOptions Logging { get; set; } = new BusOfHostsLoggingOptions();
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -29,6 +30,18 @@ namespace GnuClayUnity3DHost.BusSystem
             var nextN = n + 4;
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(BaseDir)} = {BaseDir}");
+            
+            if(Logging == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(Logging)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin{nameof(Logging)}");
+                sb.Append(Logging.ToString(nextN));
+                sb.AppendLine($"{spaces}End{nameof(Logging)}");
+            }
+
             return sb.ToString();
         }
     }

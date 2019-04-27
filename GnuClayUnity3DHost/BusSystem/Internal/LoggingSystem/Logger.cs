@@ -11,7 +11,43 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
             : base(context, null)
         {
             Logger = this;
+
+            mIsValid = Context.Options.Logging != null;
+
+            if(mIsValid)
+            {
+                OptionsChecker();
+                SetUp();
+            }
         }
+
+        private void OptionsChecker()
+        {
+            var loggingOptions = Context.Options.Logging;
+
+            if(loggingOptions.UseLoggingToFile)
+            {
+                if(string.IsNullOrWhiteSpace(loggingOptions.LoggingDir))
+                {
+                    throw new NullReferenceException($"Logging directory of bus is null or empty.");
+                }
+            }
+
+            if(loggingOptions.UseRemoteLogging)
+            {
+                if(string.IsNullOrWhiteSpace(loggingOptions.ContractName))
+                {
+                    throw new NullReferenceException("Contract name for remote logging of bus is null or empty.");
+                }
+            }
+        }
+
+        private void SetUp()
+        {
+
+        }
+
+        private readonly bool mIsValid;
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
@@ -150,6 +186,11 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(string message)
         {
+            if(!mIsValid)
+            {
+                return;
+            }
+
             throw new NotImplementedException();
         }
 
