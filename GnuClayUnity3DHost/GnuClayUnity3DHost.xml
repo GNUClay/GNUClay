@@ -444,6 +444,12 @@
             </summary>
             <param name="exception">An exception to be logged.</param>
         </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem.Logger.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
         <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem.RegistryOfHost.Dispose(System.Boolean)">
             <summary>
              Dispose this instance.

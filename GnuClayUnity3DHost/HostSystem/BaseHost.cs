@@ -11,9 +11,7 @@ namespace GnuClayUnity3DHost.HostSystem
     {
         protected BaseHost(BaseHostOptions options)
         {
-            mOptions = options;
-
-            OptionsChecker();
+            OptionsChecker(options);
 
             Context = new T();
             Context.Options = options;
@@ -24,11 +22,10 @@ namespace GnuClayUnity3DHost.HostSystem
             InitComponents();
         }
 
-        protected readonly BaseHostOptions mOptions;
         protected readonly T Context;
         private readonly ILog mLogger;
 
-        private void OptionsChecker()
+        private void OptionsChecker(BaseHostOptions options)
         {
         }
 

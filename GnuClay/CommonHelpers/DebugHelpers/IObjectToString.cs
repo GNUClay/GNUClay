@@ -1,21 +1,28 @@
-﻿using GnuClay.CommonHelpers.DebugHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.BusSystem
+namespace GnuClay.CommonHelpers.DebugHelpers
 {
-    public class BusOfHostsLoggingOptions: IObjectToString
+    public interface IObjectToString
     {
-        public bool EnableLogging { get; set; }
-        public bool UseLoggingToFile { get; set; }
-        public string LoggingDir { get; set; }
-        public RewritingModeOfLoggingToFileOnStartup RewritingModeOnStartup { get; set; } = RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate;
-        public bool UseRemoteLogging { get; set; }
-        public string ContractName { get; set; }
-        public bool UseLoggingToConsole { get; set; }
-        public bool UseLoggingToHostConsole { get; set; }
+        /// <summary>
+        /// Returns a string that represents the current instance.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance.</returns>
+        string ToString(uint n);
 
+        /// <summary>
+        /// Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        string PropertiesToString(uint n);
+    }
+}
+
+/*
         /// <summary>
         /// Returns a string that represents the current instance.
         /// </summary>
@@ -45,15 +52,6 @@ namespace GnuClayUnity3DHost.BusSystem
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(EnableLogging)} = {EnableLogging}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToFile)} = {UseLoggingToFile}");
-            sb.AppendLine($"{spaces}{nameof(LoggingDir)} = {LoggingDir}");
-            sb.AppendLine($"{spaces}{nameof(RewritingModeOnStartup)} = {RewritingModeOnStartup}");
-            sb.AppendLine($"{spaces}{nameof(UseRemoteLogging)} = {UseRemoteLogging}");
-            sb.AppendLine($"{spaces}{nameof(ContractName)} = {ContractName}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToConsole)} = {UseLoggingToConsole}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToHostConsole)} = {UseLoggingToHostConsole}");
             return sb.ToString();
         }
-    }
-}
+*/

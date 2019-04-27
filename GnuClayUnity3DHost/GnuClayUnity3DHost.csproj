@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusSystem\Internal\RemoteLoggingSystem\" />
+  </ItemGroup>
+
 </Project>

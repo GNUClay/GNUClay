@@ -1,28 +1,14 @@
-﻿using System;
+﻿using GnuClay.CommonHelpers.DebugHelpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.DebugHelpers
+namespace GnuClay.CommonHelpers.LoggingHelpers
 {
-    public interface IObjectToString
+    public sealed class NLogWrapperOptions: IObjectToString
     {
-        /// <summary>
-        /// Returns a string that represents the current instance.
-        /// </summary>
-        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
-        /// <returns>A string that represents the current instance.</returns>
-        string ToString(uint n);
 
-        /// <summary>
-        /// Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
-        /// </summary>
-        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
-        /// <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
-        string PropertiesToString(uint n);
-    }
-}
 
-/*
         /// <summary>
         /// Returns a string that represents the current instance.
         /// </summary>
@@ -54,4 +40,5 @@ namespace GnuClay.DebugHelpers
             var sb = new StringBuilder();
             return sb.ToString();
         }
-*/
+    }
+}

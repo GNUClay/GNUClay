@@ -22,9 +22,7 @@ namespace GnuClay
         /// <param name="options">Options of the engine.</param>
         public Engine(EngineOptions options)
         {
-            mOptions = options;
-
-            OptionsChecker();
+            OptionsChecker(options);
 
             mContext = new CommonContext();
             mContext.Options = options;
@@ -35,23 +33,22 @@ namespace GnuClay
             InitComponents();
         }
 
-        private readonly EngineOptions mOptions;
         private readonly CommonContext mContext;
         private readonly ILog mLogger;
 
-        private void OptionsChecker()
+        private void OptionsChecker(EngineOptions options)
         {
-            if(mOptions == null)
+            if(options == null)
             {
                 throw new NullReferenceException($"Options of the engine is null.");
             }
 
-            if(mOptions.Host == null)
+            if(options.Host == null)
             {
                 throw new NullReferenceException($"Host of the engine is null.");
             }
 
-            //if (string.IsNullOrWhiteSpace(mOptions.AppFileName))
+            //if (string.IsNullOrWhiteSpace(options.AppFileName))
             //{
             //    throw new NullReferenceException($"File name of application of the engine is null or empty.");
             //}

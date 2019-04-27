@@ -1,4 +1,5 @@
 ﻿using GnuClay;
+using GnuClay.CommonHelpers.LoggingHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,12 +13,13 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         {
             Logger = this;
 
-            mIsValid = Context.Options.Logging != null;
-
-            if(mIsValid)
+            if(Context.Options.Logging != null)
             {
                 OptionsChecker();
-                SetUp();
+
+                var logWrapperOptions = new NLogWrapperOptions();
+
+                mLogWrapper = new NLogWrapper(logWrapperOptions);
             }
         }
 
@@ -42,12 +44,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
             }
         }
 
-        private void SetUp()
-        {
-
-        }
-
-        private readonly bool mIsValid;
+        private readonly NLogWrapper mLogWrapper;
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
@@ -186,12 +183,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(string message)
         {
-            if(!mIsValid)
-            {
-                return;
-            }
-
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -202,6 +194,8 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(uint depth, string message)
         {
+            mLogWrapper.Info(depth, message);
+
             throw new NotImplementedException();
         }
 
@@ -307,6 +301,17 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         public void Fatal(Exception exception)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///  Dispose this instance.
+        /// </summary>
+        /// <param name="disposing">Is the instance released not in finalizer.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            mLogWrapper?.Dispose();
         }
     }
 }

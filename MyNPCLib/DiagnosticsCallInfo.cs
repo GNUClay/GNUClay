@@ -8,7 +8,7 @@ namespace MyNPCLib
     {
         public string FullClassName { get; set; }
         public string MethodName { get; set; }
-
+        
         public override string ToString()
         {
             return ToString(0u);

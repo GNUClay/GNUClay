@@ -168,59 +168,120 @@
             </summary>
             <param name="exception">An exception to be logged.</param>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IObjectToBriefString.ToBriefString">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IObjectToBriefString.ToBriefString">
             <summary>
             Returns a string that represents the current instance in very short way.
             </summary>
             <returns>A string that represents the current instance in very short way.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IObjectToBriefString.ToBriefString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IObjectToBriefString.ToBriefString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance in very short way.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in very short way.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IObjectToBriefString.PropertiesToBriefString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IObjectToBriefString.PropertiesToBriefString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance in very short way without additional information, only pair name of property - value.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in very short way without additional information, only pair name of property - value.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IObjectToString.ToString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IObjectToString.ToString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IObjectToString.PropertiesToString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IObjectToString.PropertiesToString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IShortObjectToString.ToShortString">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IShortObjectToString.ToShortString">
             <summary>
             Returns a string that represents the current instance in short way.
             </summary>
             <returns>A string that represents the current instance in short way.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IShortObjectToString.ToShortString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IShortObjectToString.ToShortString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance in short way.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way.</returns>
         </member>
-        <member name="M:GnuClay.DebugHelpers.IShortObjectToString.PropertiesToShortString(System.UInt32)">
+        <member name="M:GnuClay.CommonHelpers.DebugHelpers.IShortObjectToString.PropertiesToShortString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance in short way without additional information, only pair name of property - value.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.DiagnosticsCallInfo.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.DiagnosticsCallInfo.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.DiagnosticsCallInfo.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapper.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapper.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapper.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapper.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapperOptions.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapperOptions.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.LoggingHelpers.NLogWrapperOptions.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
         <member name="T:GnuClay.Engine">
             <summary>

@@ -1,4 +1,4 @@
-﻿using GnuClay.DebugHelpers;
+﻿using GnuClay.CommonHelpers.DebugHelpers;
 using GnuClayUnity3DHost.BusSystem;
 using System;
 using System.Collections.Generic;

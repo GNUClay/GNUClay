@@ -3,18 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.BusSystem
+namespace GnuClay.CommonHelpers.LoggingHelpers
 {
-    public class BusOfHostsLoggingOptions: IObjectToString
+    public class DiagnosticsCallInfo : IObjectToString
     {
-        public bool EnableLogging { get; set; }
-        public bool UseLoggingToFile { get; set; }
-        public string LoggingDir { get; set; }
-        public RewritingModeOfLoggingToFileOnStartup RewritingModeOnStartup { get; set; } = RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate;
-        public bool UseRemoteLogging { get; set; }
-        public string ContractName { get; set; }
-        public bool UseLoggingToConsole { get; set; }
-        public bool UseLoggingToHostConsole { get; set; }
+        public string FullClassName { get; set; }
+        public string MethodName { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -45,14 +39,8 @@ namespace GnuClayUnity3DHost.BusSystem
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(EnableLogging)} = {EnableLogging}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToFile)} = {UseLoggingToFile}");
-            sb.AppendLine($"{spaces}{nameof(LoggingDir)} = {LoggingDir}");
-            sb.AppendLine($"{spaces}{nameof(RewritingModeOnStartup)} = {RewritingModeOnStartup}");
-            sb.AppendLine($"{spaces}{nameof(UseRemoteLogging)} = {UseRemoteLogging}");
-            sb.AppendLine($"{spaces}{nameof(ContractName)} = {ContractName}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToConsole)} = {UseLoggingToConsole}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToHostConsole)} = {UseLoggingToHostConsole}");
+            sb.AppendLine($"{spaces}{nameof(FullClassName)} = {FullClassName}");
+            sb.AppendLine($"{spaces}{nameof(MethodName)} = {MethodName}");
             return sb.ToString();
         }
     }

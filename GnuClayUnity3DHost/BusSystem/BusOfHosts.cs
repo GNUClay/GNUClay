@@ -13,9 +13,7 @@ namespace GnuClayUnity3DHost.BusSystem
     {
         public BusOfHosts(BusOfHostsOptions options)
         {
-            mOptions = options;
-
-            OptionsChecker();
+            OptionsChecker(options);
 
             mContext = new CommonContextOfBusOfHosts();
             mContext.Options = options;
@@ -26,13 +24,12 @@ namespace GnuClayUnity3DHost.BusSystem
             InitComponents();
         }
 
-        private readonly BusOfHostsOptions mOptions;
-        private readonly CommonContextOfBusOfHosts mContext;       
+        private readonly CommonContextOfBusOfHosts mContext;
         private readonly ILog mLogger;
 
-        private void OptionsChecker()
+        private void OptionsChecker(BusOfHostsOptions options)
         {
-            if(string.IsNullOrWhiteSpace(mOptions.BaseDir))
+            if(string.IsNullOrWhiteSpace(options.BaseDir))
             {
                 throw new NullReferenceException($"Base directory of bus is null or empty.");
             }
