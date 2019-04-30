@@ -3,15 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.CommonHelpers.LoggingHelpers
+namespace GnuClayUnity3DHost.BusSystem.Internal
 {
-    public sealed class NLogWrapperOptions: IObjectToString
+    public class LoggingSettings : IObjectToString
     {
-        public bool UseLoggingToFile { get; set; }
-        public string FileName { get; set; }
-        public bool DeleteOldFileOnStartup { get; set; }
-        public bool UseLoggingToConsole { get; set; }
-        public bool UseLoggingToHostConsole { get; set; }
+        public string FullLoggingDir { get; set; }
+        public string FilePostfix { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -42,11 +39,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToFile)} = {UseLoggingToFile}");
-            sb.AppendLine($"{spaces}{nameof(FileName)} = {FileName}");
-            sb.AppendLine($"{spaces}{nameof(DeleteOldFileOnStartup)} = {DeleteOldFileOnStartup}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToConsole)} = {UseLoggingToConsole}");
-            sb.AppendLine($"{spaces}{nameof(UseLoggingToHostConsole)} = {UseLoggingToHostConsole}");
+            sb.AppendLine($"{spaces}{nameof(FullLoggingDir)} = {FullLoggingDir}");
+            sb.AppendLine($"{spaces}{nameof(FilePostfix)} = {FilePostfix}");
             return sb.ToString();
         }
     }

@@ -11,6 +11,8 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
     {
         public BusOfHostsOptions Options { get; set; }
 
+        public LoggingSettings LoggingSettings { get; set; } = new LoggingSettings();
+
         /// <summary>
         /// Adds a component of bus to the context for initialization and releasing.
         /// </summary>

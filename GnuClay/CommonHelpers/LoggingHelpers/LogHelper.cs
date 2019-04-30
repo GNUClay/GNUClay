@@ -10,5 +10,10 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         {
             return $"{className}|{methodName}|{message}";
         }
+
+        public static string BuildLogString(DateTime dateTime, string levelName, ulong messageId, int threadId, uint depth, string message)
+        {
+            return $"{dateTime}|{levelName}|>>{messageId}|{threadId}|{depth}<<|{message}";
+        }
     }
 }

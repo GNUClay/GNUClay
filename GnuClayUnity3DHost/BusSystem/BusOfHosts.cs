@@ -52,6 +52,19 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RegistryOfHostComponent.AddHost(host);
         }
 
+        public bool Enable
+        {
+            get
+            {
+                return mContext.LoggerComponent.Enable;
+            }
+
+            set
+            {
+                mContext.LoggerComponent.Enable = value;
+            }
+        }
+
         public void Start()
         {
 #if DEBUG

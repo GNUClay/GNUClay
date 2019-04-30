@@ -59,7 +59,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTLogger();
+            //TSTLogger();
             TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
@@ -120,9 +120,16 @@ namespace TmpSandBox
 
             logger.Info("Hi!");
 
-            LogInstance.Log("Ok!!!!");
+            var now = DateTime.Now;
 
-            //Thread.Sleep(10000);
+            LogInstance.Log($"Ok!!!! {now}");
+            LogInstance.Log($"Ok!!!! {now.ToString("yyyy-MM-dd HH:mm:ss:fffffff")}");
+
+            LogInstance.Log($"Ok!!!! IsPathRooted {Path.IsPathRooted("LogDir")}");
+            LogInstance.Log($"Ok!!!! IsPathRooted {Path.IsPathRooted("C://LogDir")}");
+            LogInstance.Log($"Ok!!!! {now}");
+
+            Thread.Sleep(10000);
         }
 
         private static void TSTNewEngine()

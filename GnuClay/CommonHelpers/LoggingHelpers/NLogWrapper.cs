@@ -25,6 +25,19 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
                 config.AddRuleForAllLevels(consoleTarget);
             }
 
+            if(options.UseLoggingToFile)
+            {
+                var fileTarget = new FileTarget();
+                fileTarget.Name = "logfile";
+                fileTarget.Layout = "${message}";
+                fileTarget.FileName = options.FileName;
+                fileTarget.DeleteOldFileOnStartup = options.DeleteOldFileOnStartup;
+                fileTarget.Encoding = Encoding.UTF8;
+
+                config.AddTarget(fileTarget);
+                config.AddRuleForAllLevels(fileTarget);
+            }
+
             var logFactory = new LogFactory(config);
 
             mNlogLogger = logFactory.GetCurrentClassLogger();
@@ -76,9 +89,9 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Info(DateTime dateTime, ulong messageId, int threadId, uint depth, string message)
         {
-            //throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.INFO.ToString(), messageId, threadId, depth, message);
 
-            mNlogLogger.Info(message);//tmp
+            mNlogLogger.Info(message);
         }
 
         /// <summary>

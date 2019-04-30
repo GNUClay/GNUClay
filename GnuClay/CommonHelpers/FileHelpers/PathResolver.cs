@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GnuClay.CommonHelpers.FileHelpers
@@ -13,7 +14,12 @@ namespace GnuClay.CommonHelpers.FileHelpers
 
         public string Resolve(string path, string basePath)
         {
-            return path;
+            if(Path.IsPathRooted(path))
+            {
+                return path;
+            }
+
+            return Path.Combine(basePath, path);
         }
     }
 }
