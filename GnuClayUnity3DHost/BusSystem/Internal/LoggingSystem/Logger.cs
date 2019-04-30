@@ -1,8 +1,11 @@
 ﻿using GnuClay;
 using GnuClay.CommonHelpers.LoggingHelpers;
+using GnuClayUnity3DHost.CommonHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 {
@@ -18,6 +21,11 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
                 OptionsChecker();
 
                 var logWrapperOptions = new NLogWrapperOptions();
+                logWrapperOptions.UseLoggingToFile = Context.Options.Logging.UseLoggingToFile;
+                logWrapperOptions.LoggingDir = Context.Options.Logging.LoggingDir;
+                logWrapperOptions.RewritingModeOnStartup = Context.Options.Logging.RewritingModeOnStartup;
+                logWrapperOptions.UseLoggingToConsole = Context.Options.Logging.UseLoggingToConsole;
+                logWrapperOptions.UseLoggingToHostConsole = Context.Options.Logging.UseLoggingToHostConsole;
 
                 mLogWrapper = new NLogWrapper(logWrapperOptions);
             }
@@ -44,7 +52,33 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
             }
         }
 
+        public override void InitStep1()
+        {
+            base.InitStep1();
+
+            mRemoteLogger = Context.RemoteLoggerComponent as ILoggingMessagesInRemoteLogger;
+        }
+
         private readonly NLogWrapper mLogWrapper;
+        private ILoggingMessagesInRemoteLogger mRemoteLogger;
+
+        private ulong mCurrentMessageId;
+        private readonly object mCurrentMessageIdLockObj = new object();
+
+        private ulong GetCurrentMessageId()
+        {
+            lock(mCurrentMessageIdLockObj)
+            {
+                if(mCurrentMessageId == ulong.MaxValue)
+                {
+                    mCurrentMessageId = 1;
+                    return mCurrentMessageId;
+                }
+
+                mCurrentMessageId++;
+                return mCurrentMessageId;
+            }
+        }
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
@@ -194,9 +228,15 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(uint depth, string message)
         {
-            mLogWrapper.Info(depth, message);
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
 
-            throw new NotImplementedException();
+            //Task.Run(() => {
+                mLogWrapper.Info(now, messageId, threadId, depth, message);
+
+                mRemoteLogger.Info(now, messageId, threadId, depth, message);
+            //});
         }
 
         /// <summary>

@@ -7,7 +7,11 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
 {
     public sealed class NLogWrapperOptions: IObjectToString
     {
-
+        public bool UseLoggingToFile { get; set; }
+        public string LoggingDir { get; set; }
+        public RewritingModeOfLoggingToFileOnStartup RewritingModeOnStartup { get; set; } = RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate;
+        public bool UseLoggingToConsole { get; set; }
+        public bool UseLoggingToHostConsole { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -38,6 +42,11 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToFile)} = {UseLoggingToFile}");
+            sb.AppendLine($"{spaces}{nameof(LoggingDir)} = {LoggingDir}");
+            sb.AppendLine($"{spaces}{nameof(RewritingModeOnStartup)} = {RewritingModeOnStartup}");
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToConsole)} = {UseLoggingToConsole}");
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToHostConsole)} = {UseLoggingToHostConsole}");
             return sb.ToString();
         }
     }

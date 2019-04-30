@@ -34,6 +34,13 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public ILog Logger { get; protected set; }
 
         /// <summary>
+        /// Gets references to other components. 
+        /// </summary>
+        public virtual void InitStep1()
+        {
+        }
+
+        /// <summary>
         /// Release this instance.
         /// </summary>
         public void Dispose()

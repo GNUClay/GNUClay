@@ -19,4 +19,8 @@
     <None Remove="Internal\BaseEngineLoggedComponent.cs~RF623cbe.TMP" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.5.9" />
+  </ItemGroup>
+
 </Project>

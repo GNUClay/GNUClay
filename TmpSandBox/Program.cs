@@ -23,6 +23,9 @@ using MyNPCLib.PersistLogicalData;
 using MyNPCLib.PersistLogicalDataStorage;
 using MyNPCLib.Serialization;
 using MyNPCLib.SimpleWordsDict;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using OpenNLP.Tools.PosTagger;
 using OpenNLP.Tools.SentenceDetect;
 using SharpWordNet;
@@ -56,6 +59,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
+            TSTLogger();
             TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
@@ -93,6 +97,34 @@ namespace TmpSandBox
             //CreateInfoOfConcreteProcess();
         }
 
+        private static void TSTLogger()
+        {
+            var consoleTarget = new ConsoleTarget();
+            consoleTarget.Name = "console";
+            consoleTarget.Layout = "${message}";
+
+            var fileTarget = new FileTarget();
+            fileTarget.Name = "logfile";
+            fileTarget.Layout = "${message}";
+            fileTarget.FileName = @"c:\Users\Sergey\Documents\GitHub\GNUClay\TmpSandBox\bin\Debug\netcoreapp2.0\Logging\Engine.log";
+
+            var config = new LoggingConfiguration();
+            config.AddTarget(consoleTarget);
+            config.AddRuleForAllLevels(consoleTarget);
+            config.AddTarget(fileTarget);
+            config.AddRuleForAllLevels(fileTarget);
+
+            var logFactory = new LogFactory(config);
+
+            var logger = logFactory.GetCurrentClassLogger();
+
+            logger.Info("Hi!");
+
+            LogInstance.Log("Ok!!!!");
+
+            //Thread.Sleep(10000);
+        }
+
         private static void TSTNewEngine()
         {
             var busOfHostsOptions = new BusOfHostsOptions();
@@ -117,6 +149,8 @@ namespace TmpSandBox
             var engine = new Engine(engineOptions);
 
             busOfHosts.Start();
+
+            Thread.Sleep(10000);
         }
 
         private static void TSTRoutes()

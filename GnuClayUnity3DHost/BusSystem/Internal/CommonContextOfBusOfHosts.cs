@@ -1,12 +1,13 @@
 ﻿using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GnuClayUnity3DHost.BusSystem.Internal
 {
-    public class CommonContextOfBusOfHosts: IDisposable
+    public sealed class CommonContextOfBusOfHosts: IDisposable
     {
         public BusOfHostsOptions Options { get; set; }
 
@@ -25,7 +26,19 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         /// Reference to component for logging.
         /// </summary>
         public Logger LoggerComponent { get; set; }
+        public RemoteLogger RemoteLoggerComponent { get; set; }
         public RegistryOfHost RegistryOfHostComponent { get; set; }
+
+        /// <summary>
+        /// Gets references to other components. 
+        /// </summary>
+        public void InitStep1()
+        {
+            foreach(var component in mComponentList)
+            {
+                component.InitStep1();
+            }
+        }
 
         /// <summary>
         /// Release this instance.

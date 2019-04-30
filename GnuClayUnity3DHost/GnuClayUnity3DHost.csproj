@@ -13,12 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GnuClay\GnuClay.csproj" />
-    <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
+    <PackageReference Include="NLog" Version="4.5.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusSystem\Internal\RemoteLoggingSystem\" />
+    <ProjectReference Include="..\GnuClay\GnuClay.csproj" />
+    <ProjectReference Include="..\MyNPCLib\MyNPCLib.csproj" />
   </ItemGroup>
 
 </Project>

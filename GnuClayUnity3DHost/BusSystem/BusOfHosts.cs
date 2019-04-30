@@ -5,6 +5,7 @@ using GnuClay;
 using GnuClayUnity3DHost.BusSystem.Internal;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
 using GnuClayUnity3DHost.HostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
@@ -37,11 +38,13 @@ namespace GnuClayUnity3DHost.BusSystem
 
         private void CreateComponents()
         {
+            mContext.RemoteLoggerComponent = new RemoteLogger(mContext, mLogger);
             mContext.RegistryOfHostComponent = new RegistryOfHost(mContext, mLogger);
         }
 
         private void InitComponents()
         {
+            mContext.InitStep1();
         }
 
         void IBusOfHostsInternalRef.AddHost(IHostInternalRef host)
@@ -55,7 +58,7 @@ namespace GnuClayUnity3DHost.BusSystem
             mLogger.Info("Begin");
 #endif
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Stop()
