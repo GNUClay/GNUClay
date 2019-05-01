@@ -155,7 +155,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Debug(string message)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Debug(Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Debug(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Debug(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(depth, exception.ToString());
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Debug(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Log(string message)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Log(Exception exception)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Log(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Log(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(depth, exception.ToString());
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Log(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(Exception exception)
         {
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(depth, exception.ToString());
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Info(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Warn(Exception exception)
         {
-            throw new NotImplementedException();
+            Warn(exception.ToString());
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Error(Exception exception)
         {
-            throw new NotImplementedException();
+            Error(exception.ToString());
         }
 
         /// <summary>
@@ -514,7 +514,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
         [MethodForLoggingSupport]
         public void Fatal(Exception exception)
         {
-            throw new NotImplementedException();
+            Fatal(exception.ToString());
         }
 
         /// <summary>

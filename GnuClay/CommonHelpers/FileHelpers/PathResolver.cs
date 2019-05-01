@@ -14,12 +14,32 @@ namespace GnuClay.CommonHelpers.FileHelpers
 
         public string Resolve(string path, string basePath)
         {
-            if(Path.IsPathRooted(path))
+            if(IsAbsolutePath(path))
             {
                 return path;
             }
 
             return Path.Combine(basePath, path);
+        }
+
+        private bool IsAbsolutePath(string path)
+        {
+            if(path.StartsWith("/"))
+            {
+                return true;
+            }
+
+            if(path.Contains(@":\"))
+            {
+                return true;
+            }
+
+            if (path.Contains(":/"))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
