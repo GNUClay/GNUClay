@@ -1,4 +1,5 @@
-﻿using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
+﻿using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
 using System;
@@ -11,6 +12,12 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
     {
         public BusOfHostsOptions Options { get; set; }
 
+        public string BaseDir { get; set; }
+        public string SharedPackagesDir { get; set; }
+        public string AppsDir { get; set; }
+        public string ParsedItemsDir { get; set; }
+        public string IndexedItemsDir { get; set; }
+        public string ImagesDir { get; set; }
         public LoggingSettings LoggingSettings { get; set; } = new LoggingSettings();
 
         /// <summary>
@@ -30,6 +37,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public Logger LoggerComponent { get; set; }
         public RemoteLogger RemoteLoggerComponent { get; set; }
         public RegistryOfHost RegistryOfHostComponent { get; set; }
+        public IdsStorage IdsStorageComponent { get; set; }
 
         /// <summary>
         /// Gets references to other components. 

@@ -8,6 +8,11 @@ namespace GnuClayUnity3DHost.BusSystem
     public class BusOfHostsOptions: IObjectToString
     {
         public string BaseDir { get; set; }
+        public string SharedPackagesDir { get; set; } = "SharedPackages";
+        public string AppsDir { get; set; } = "Apps";
+        public string ParsedItemsDir { get; set; } = "ParsedItems";
+        public string IndexedItemsDir { get; set; } = "IndexedItems";
+        public string ImagesDir { get; set; } = "Images";
         public BusOfHostsLoggingOptions Logging { get; set; } = new BusOfHostsLoggingOptions();
 
         /// <summary>
@@ -30,8 +35,12 @@ namespace GnuClayUnity3DHost.BusSystem
             var nextN = n + 4;
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(BaseDir)} = {BaseDir}");
-            
-            if(Logging == null)
+            sb.AppendLine($"{spaces}{nameof(SharedPackagesDir)} = {SharedPackagesDir}");
+            sb.AppendLine($"{spaces}{nameof(AppsDir)} = {AppsDir}");
+            sb.AppendLine($"{spaces}{nameof(ParsedItemsDir)} = {ParsedItemsDir}");
+            sb.AppendLine($"{spaces}{nameof(IndexedItemsDir)} = {IndexedItemsDir}");
+
+            if (Logging == null)
             {
                 sb.AppendLine($"{spaces}{nameof(Logging)} = null");
             }

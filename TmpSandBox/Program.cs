@@ -1,4 +1,5 @@
 ﻿using GnuClay;
+using GnuClay.CommonHelpers.FileHelpers;
 using GnuClayUnity3DHost.BipedHostSystem;
 using GnuClayUnity3DHost.BusSystem;
 using MyNPCLib;
@@ -59,6 +60,7 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
+            TSTPathResolver();
             //TSTLogger();
             TSTNewEngine();
             //TSTRoutes();
@@ -95,6 +97,28 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTPathResolver()
+        {
+            var pathResolver = new PathResolver();
+
+            var initPath = "%AppData%/TmpDir";
+
+            LogInstance.Log($"initPath = {initPath}");
+
+            var path = initPath.Substring(1);
+
+            LogInstance.Log($"path = '{path}'");
+
+            var pos = path.IndexOf("%");
+
+            LogInstance.Log($"path = '{path}'");
+
+            //var result = pathResolver.Resolve(initPath);
+
+
+            //LogInstance.Log($"result = '{result}'");
         }
 
         private static void TSTLogger()

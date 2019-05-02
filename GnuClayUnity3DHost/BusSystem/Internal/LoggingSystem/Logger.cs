@@ -36,7 +36,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
                     var pathResolver = new PathResolver();
 
-                    var loggingDir = pathResolver.Resolve(Context.Options.Logging.LoggingDir, Context.Options.BaseDir);
+                    var loggingDir = pathResolver.Resolve(Context.Options.Logging.LoggingDir, Context.BaseDir);
 
                     if(!Directory.Exists(loggingDir))
                     {
