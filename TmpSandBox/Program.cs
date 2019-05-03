@@ -37,12 +37,17 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using TmpSandBox.GnuClayEngine;
 using TmpSandBox.Navigation;
 using TmpSandBox.NPCBehaviour;
 using TmpSandBox.TSTConceptualGraphs;
 using TmpSandBox.VarOfSentences;
+using GnuClay.CommonHelpers.JsonSerializationHelpers;
+using System.Dynamic;
+using Newtonsoft.Json;
 
 namespace TmpSandBox
 {
@@ -55,14 +60,15 @@ namespace TmpSandBox
 
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException; 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
+            TSTSerializableHelper();
             TSTPathResolver();
             //TSTLogger();
-            TSTNewEngine();
+            //TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
             //TSTStack();
@@ -99,6 +105,60 @@ namespace TmpSandBox
             //CreateInfoOfConcreteProcess();
         }
 
+        private static void TSTSerializableHelper()
+        {
+            var item = CreateSerializabledItem();
+
+            LogInstance.Log($"item = '{item}'");
+
+            var fileName = "1.json";
+
+            var objectConvertor = new ObjectConvertor();
+
+            var convertedItem = objectConvertor.ConvertToPlaneTree(item);
+
+            var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            using (var fs = File.OpenWrite(fileName))
+            {
+                jsonSerializer.WriteObject(fs, convertedItem);
+                fs.Flush();
+            }
+
+            var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItemJson = {convertedItemJson}");
+#endif
+
+            var deserializabledItem = JsonConvert.DeserializeObject<PlaneObjectsTree>(convertedItemJson);
+
+            var i = 1;
+        }
+
+        private static TstClass1 CreateSerializabledItem()
+        {
+            var result = new TstClass1()
+            {
+                Id = "#1"
+            };
+
+            var child = new TstClass2()
+            {
+                Id = "#2",
+                Parent = result
+            };
+
+            result.Children.Add(child);
+
+            return result;
+        }
+
         private static void TSTPathResolver()
         {
             var pathResolver = new PathResolver();
@@ -112,6 +172,14 @@ namespace TmpSandBox
             LogInstance.Log($"path = '{path}'");
 
             var pos = path.IndexOf("%");
+
+            LogInstance.Log($"pos = {pos}");
+
+            var varName = path.Substring(0, pos);
+
+            LogInstance.Log($"varName = '{varName}'");
+
+            path = path.Substring(pos + 1);
 
             LogInstance.Log($"path = '{path}'");
 
