@@ -48,7 +48,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
                         case RewritingModeOfLoggingToFileOnStartup.RewriteExistingFile:
                             Context.LoggingSettings.FullLoggingDir = Path.Combine(loggingDir, "Default");
                             logWrapperOptions.DeleteOldFileOnStartup = true;
-                            logWrapperOptions.FileName = Path.Combine(Context.LoggingSettings.FullLoggingDir, $"engine.log");
+                            logWrapperOptions.FileName = Path.Combine(Context.LoggingSettings.FullLoggingDir, $"bus.log");
                             break;
 
                         case RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate:
@@ -57,7 +57,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
                             Context.LoggingSettings.FilePostfix = now.ToString("yyyy-MM-dd HH_mm_ss_fffffff");
                             Context.LoggingSettings.FullLoggingDir = Path.Combine(loggingDir, Context.LoggingSettings.FilePostfix);
                             logWrapperOptions.DeleteOldFileOnStartup = false;
-                            logWrapperOptions.FileName = Path.Combine(Context.LoggingSettings.FullLoggingDir, $"engine_{Context.LoggingSettings.FilePostfix}.log");
+                            logWrapperOptions.FileName = Path.Combine(Context.LoggingSettings.FullLoggingDir, $"bus_{Context.LoggingSettings.FilePostfix}.log");
                             break;
 
                         default:
@@ -183,8 +183,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Debug(now, messageId, threadId, depth, message);
-
-                mRemoteLogger.Debug(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Debug(now, messageId, threadId, depth, message);
             });
         }
 
@@ -267,8 +266,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Log(now, messageId, threadId, depth, message);
-
-                mRemoteLogger.Log(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Log(now, messageId, threadId, depth, message);
             });
         }
 
@@ -351,8 +349,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Info(now, messageId, threadId, depth, message);
-
-                mRemoteLogger.Info(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Info(now, messageId, threadId, depth, message);
             });
         }
 
@@ -424,8 +421,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Warn(now, messageId, threadId, message);
-
-                mRemoteLogger.Warn(now, messageId, threadId, message);
+                mRemoteLogger?.Warn(now, messageId, threadId, message);
             });
         }
 
@@ -463,8 +459,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Error(now, messageId, threadId, message);
-
-                mRemoteLogger.Error(now, messageId, threadId, message);
+                mRemoteLogger?.Error(now, messageId, threadId, message);
             });
         }
 
@@ -502,8 +497,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
             Task.Run(() => {
                 mLogWrapper.Fatal(now, messageId, threadId, message);
-
-                mRemoteLogger.Fatal(now, messageId, threadId, message);
+                mRemoteLogger?.Fatal(now, messageId, threadId, message);
             });
         }
 

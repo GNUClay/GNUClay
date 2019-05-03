@@ -9,6 +9,7 @@ using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
 using GnuClayUnity3DHost.HostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
@@ -91,6 +92,7 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RemoteLoggerComponent = new RemoteLogger(mContext, mLogger);
             mContext.RegistryOfHostComponent = new RegistryOfHost(mContext, mLogger);
             mContext.IdsStorageComponent = new IdsStorage(mContext, mLogger);
+            mContext.RunTimeSettingsStorageComponent = new RunTimeSettingsStorage(mContext, mLogger);
         }
 
         private void InitComponents()

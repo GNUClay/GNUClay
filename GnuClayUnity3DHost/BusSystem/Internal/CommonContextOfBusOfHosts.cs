@@ -2,6 +2,7 @@
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public RemoteLogger RemoteLoggerComponent { get; set; }
         public RegistryOfHost RegistryOfHostComponent { get; set; }
         public IdsStorage IdsStorageComponent { get; set; }
+        public RunTimeSettingsStorage RunTimeSettingsStorageComponent { get; set; }
 
         /// <summary>
         /// Gets references to other components. 

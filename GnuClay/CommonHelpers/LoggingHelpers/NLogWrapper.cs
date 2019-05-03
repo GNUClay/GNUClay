@@ -61,7 +61,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Debug(DateTime dateTime, ulong messageId, int threadId, uint depth, string message)
         {
-            throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.DEBUG.ToString(), messageId, threadId, depth, message);
+            mNlogLogger.Debug(message);
         }
 
         /// <summary>
@@ -75,7 +76,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Log(DateTime dateTime, ulong messageId, int threadId, uint depth, string message)
         {
-            throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.LOG.ToString(), messageId, threadId, depth, message);
+            mNlogLogger.Info(message);
         }
 
         /// <summary>
@@ -90,7 +92,6 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         public void Info(DateTime dateTime, ulong messageId, int threadId, uint depth, string message)
         {
             message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.INFO.ToString(), messageId, threadId, depth, message);
-
             mNlogLogger.Info(message);
         }
 
@@ -104,7 +105,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Warn(DateTime dateTime, ulong messageId, int threadId, string message)
         {
-            throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.WARNING.ToString(), messageId, threadId, ConstantsForLogging.DEFAULT_DEPTH, message);
+            mNlogLogger.Warn(message);
         }
 
         /// <summary>
@@ -117,7 +119,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Error(DateTime dateTime, ulong messageId, int threadId, string message)
         {
-            throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.ERROR.ToString(), messageId, threadId, ConstantsForLogging.DEFAULT_DEPTH, message);
+            mNlogLogger.Error(message);
         }
 
         /// <summary>
@@ -130,7 +133,8 @@ namespace GnuClay.CommonHelpers.LoggingHelpers
         [MethodForLoggingSupport]
         public void Fatal(DateTime dateTime, ulong messageId, int threadId, string message)
         {
-            throw new NotImplementedException();
+            message = LogHelper.BuildLogString(dateTime, KindOfLogLevel.FATAL.ToString(), messageId, threadId, ConstantsForLogging.DEFAULT_DEPTH, message);
+            mNlogLogger.Fatal(message);
         }
 
         /// <summary>
