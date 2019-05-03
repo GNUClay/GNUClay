@@ -479,7 +479,7 @@ namespace OpenNLP.Tools.Util
                 return Equals((ArrayCoreMap) obj);
             }
 
-            // TODO: make the general equality work in the situation of loops
+            // make the general equality work in the situation of loops
             // in the object graph
 
             // general equality
@@ -532,7 +532,7 @@ namespace OpenNLP.Tools.Util
             // some other key that causes the equality to fail.
             // We do not need to later put false, as the entire call to equals
             // will unwind with false if any one equality check returns false.
-            // TODO: since we only ever keep "true", we would rather use a
+            // since we only ever keep "true", we would rather use a
             // TwoDimensionalSet, but no such thing exists
             if (calledMap.ContainsKey(new Tuple<ICoreMap, ICoreMap>(this, other)))
             {
@@ -630,14 +630,14 @@ namespace OpenNLP.Tools.Util
                 // Remove the object after processing is complete so that if
                 // there are multiple instances of this CoreMap in the overall
                 // object graph, they each have their hash code calculated.
-                // TODO: can we cache this for later?
+                // can we cache this for later?
                 calledSet.Remove(this);
             }
             return keysCode*37 + valuesCode;
         }
 
 
-        // TODO: make prettyLog work in the situation of loops
+        // make prettyLog work in the situation of loops
         // in the object graph
 
         /**

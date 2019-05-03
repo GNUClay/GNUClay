@@ -23,7 +23,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly string TimeWordLotRegex =
             "/^(?i:Mondays?|Tuesdays?|Wednesdays?|Thursdays?|Fridays?|Saturdays?|Sundays?|years?|months?|weeks?|days?|mornings?|evenings?|nights?|January|Jan\\.|February|Feb\\.|March|Mar\\.|April|Apr\\.|May|June|July|August|Aug\\.|September|Sept\\.|October|Oct\\.|November|Nov\\.|December|Dec\\.|today|yesterday|tomorrow|spring|summer|fall|autumn|winter|lot)$/";
 
-        // TODO: remove everything but "to be".  Must do this carefully to
+        // remove everything but "to be".  Must do this carefully to
         // make sure we like all the dependency changes that happen
         public static readonly string CopularWordRegex =
             "/^(?i:" + string.Join("|", SemanticHeadFinder.CopulaVerbs) + ")$/";
@@ -66,7 +66,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly string CCompObjVerbRegex =
             "/^(?i:tell|tells|told|telling)$/";
 
-        // TODO: is there some better pattern to look for? We do not have tag information at this point
+        // is there some better pattern to look for? We do not have tag information at this point
         public static readonly string RelativizingWordRegex = "(?i:that|what|which|who|whom|whose)";
 
         public static readonly Regex RelativizingWordPattern = new Regex("^" + RelativizingWordRegex + "$", RegexOptions.Compiled);

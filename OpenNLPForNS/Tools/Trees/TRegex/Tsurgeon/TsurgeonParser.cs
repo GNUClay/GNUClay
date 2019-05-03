@@ -10,7 +10,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         private readonly ITreeFactory treeFactory = new LabeledScoredTreeFactory();
 
         
-        // TODO: this is wasteful in terms of creating TsurgeonPatternRoot.
+        // this is wasteful in terms of creating TsurgeonPatternRoot.
         // Should separate that out into another production
         public TsurgeonPatternRoot Root()
         {
@@ -490,7 +490,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             }
         }
 
-        // TODO: what does this next comment mean?
+        // what does this next comment mean?
         // we'll also put in a way to use a SELECTION with a list of nodes.
         public TsurgeonPattern NodeSelection()
         {

@@ -10,6 +10,81 @@
             </summary>
             <param name="disposing">Is the instance released not in finalizer.</param>
         </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.BusOfHosts.EnableLoggingOnBusOnly">
+            <summary>
+            Returns true if logging is enabled, otherwise returns false.
+            Set true for enable logging, otherwise set false.
+            It controls logging of bus only.
+            It doesn't control logging of hosts.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.BusOfHosts.CurentImage">
+            <summary>
+            Returns current image.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.BusOfHosts.IsRunning">
+            <summary>
+            Returns true if the bus and its hosts is running, otherwise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Load(System.String)">
+            <summary>
+            Loads the bus and its hosts based on target image called on image name.
+            The bus will not start after loading. 
+            You can make it later.
+            </summary>
+            <param name="imageName">Name of target image.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Start">
+            <summary>
+            Starts the bus and its hosts based on current image or source files (if still there are not images).
+            Creates new image if still there are not images.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Start(System.String)">
+            <summary>
+            Starts the bus and its hosts based on target image called on image name.
+            </summary>
+            <param name="imageName">Name of target image.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Stop">
+            <summary>
+            Stops the bus and its hosts without saving its states to current image.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Save">
+            <summary>
+            Saves state of the bus and its hosts to current image.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Save(System.String,System.Boolean)">
+            <summary>
+            Saves state of the bus and its hosts to target image called on image name.
+            If target image doesn't exist it will be created otherwise existing image will be rewritten.
+            </summary>
+            <param name="imageName">Name of target image.</param>
+            <param name="setNewImageAsCurrent">Set true if you need set new image as current, otherwise set false.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.StopAndSave">
+            <summary>
+            Stops the bus and its hosts and saves their to current image.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.StopAndSave(System.String,System.Boolean)">
+            <summary>
+            Stops the bus and its hosts and saves their to target image called on image name.
+            If target image doesn't exist it will be created otherwise existing image will be rewritten.
+            </summary>
+            <param name="imageName">Name of target image.</param>
+            <param name="setNewImageAsCurrent">Set true if you need set new image as current, otherwise set false.</param>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.GetAllImages">
+            <summary>
+            Returns all available images on the base directory.
+            </summary>
+            <returns>List of all available images on the base directory.</returns>
+        </member>
         <member name="M:GnuClayUnity3DHost.BusSystem.BusOfHosts.Dispose">
             <summary>
             Release this instance.
@@ -56,6 +131,26 @@
             Returns a string that represents the current instance.
             </summary>
             <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Image.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Image.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Image.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
         <member name="T:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent">
             <summary>

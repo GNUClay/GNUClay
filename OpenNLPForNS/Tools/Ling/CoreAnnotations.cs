@@ -51,7 +51,7 @@ namespace OpenNLP.Tools.Ling
         /// <summary>
         /// The CoreMap key for getting the lemma (morphological stem) of a token.
         /// This key is typically set on token annotations.
-        /// TODO: merge with StemAnnotation?
+        /// merge with StemAnnotation?
         /// </summary>
         public class LemmaAnnotation : ICoreAnnotation<string>
         {

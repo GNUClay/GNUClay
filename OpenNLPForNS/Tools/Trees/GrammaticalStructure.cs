@@ -86,7 +86,7 @@ namespace OpenNLP.Tools.Trees
             root.PercolateHeads(hf);
             if (root.Value() == null)
             {
-                root.SetValue(AbstractCollinsHeadFinder.ROOT); // todo: cdm: it doesn't seem like this line should be here
+                root.SetValue(AbstractCollinsHeadFinder.ROOT); // cdm: it doesn't seem like this line should be here
             }
             // add dependencies, using heads
             this.puncFilter = puncFilter;
@@ -323,7 +323,7 @@ namespace OpenNLP.Tools.Trees
                 tdeps.Add(tdep);
             }
 
-            // TODO add some elegant way to construct language
+            // add some elegant way to construct language
             // appropriate GrammaticalStructures (e.g., English, Chinese, etc.)
             return new GrammaticalStructure(tdeps, root);
         }
@@ -635,7 +635,7 @@ namespace OpenNLP.Tools.Trees
         {
             TreeGraphNode gov = GetNodeByIndex(govIndex);
             TreeGraphNode dep = GetNodeByIndex(depIndex);
-            // TODO: this is pretty ugly
+            // this is pretty ugly
             return GetGrammaticalRelation(new IndexedWord(gov.Label()), new IndexedWord(dep.Label()));
         }
 
@@ -793,7 +793,7 @@ namespace OpenNLP.Tools.Trees
             return TypedDependenciesCollapsed(false);
         }
 
-        // todo [cdm 2012]: The semantics of this method is the opposite of the others.
+        // The semantics of this method is the opposite of the others.
         // The other no argument methods correspond to includeExtras being
         // true, but for this one it is false.  This should probably be made uniform.
         
@@ -1368,7 +1368,7 @@ namespace OpenNLP.Tools.Trees
       private GrammaticalStructure next;
 
       public GsIterator() {
-        // TODO: this is very english specific
+        // this is very english specific
         if (keepPunct) {
           puncFilter = Filters.acceptFilter();
         } else {
@@ -1421,7 +1421,7 @@ namespace OpenNLP.Tools.Trees
   } // end static class TreebankGrammaticalStructureWrapper*/
 
 
-        // todo [cdm 2013]: Take this out and make it a trees class: TreeIterableByParsing
+        // Take this out and make it a trees class: TreeIterableByParsing
         /*/*static#1# class LazyLoadTreesByParsing : IEnumerable<Tree> {
     readonly Reader reader;
     readonly string filename;
@@ -1594,7 +1594,7 @@ namespace OpenNLP.Tools.Trees
             return typedDependenciesCollapsed(false);
         }
 
-        // todo [cdm 2012]: The semantics of this method is the opposite of the others.
+        // The semantics of this method is the opposite of the others.
         // The other no argument methods correspond to includeExtras being
         // true, but for this one it is false.  This should probably be made uniform.
         /**

@@ -12,7 +12,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
     /// This makes it easier to reset state between invocations and makes
     /// it easier to use in a threadsafe manner.
     /// 
-    /// TODO: it would be nice to go through all the patterns and make sure
+    /// it would be nice to go through all the patterns and make sure
     /// they update <code>newNodeNames</code> or look for appropriate nodes
     /// in <code>newNodeNames</code> when possible.
     /// 
@@ -34,7 +34,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         public TsurgeonMatcher[] ChildMatcher;
 
-        // TODO: ideally we should have the tree and the tregex matcher be part of this as well.
+        // ideally we should have the tree and the tregex matcher be part of this as well.
         // That would involve putting some of the functionality in Tsurgeon.java in this object
         public TsurgeonMatcher(TsurgeonPattern pattern, Dictionary<string, Tree> newNodeNames,
             CoindexationGenerator coindexer)

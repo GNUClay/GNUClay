@@ -24,7 +24,7 @@ namespace OpenNLP.Tools.Trees
 
         public override ILabel Label()
         {
-            // TODO: move this CoreLabel construction logic somewhere appropriate
+            // move this CoreLabel construction logic somewhere appropriate
             var cLabel = new CoreLabel();
             if (this.parse.IsLeaf)
             {

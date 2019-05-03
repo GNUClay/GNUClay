@@ -368,7 +368,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         {
             // In the assumption that there will usually be very few names in
             // the pattern, we use an ArrayMap instead of a hash map
-            // TODO: it would be even more efficient if we set this to be
+            // it would be even more efficient if we set this to be
             // exactly the right size
             return Matcher(t, t, null, new Dictionary<string, Tree>(), new VariableStrings(), null);
         }
@@ -517,7 +517,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         string[] handles;
         int numMatches;
         
-        // todo: add an option to only print each tree once, regardless.  Most useful in conjunction with -w
+        // add an option to only print each tree once, regardless.  Most useful in conjunction with -w
         public void visitTree(Tree t) {
             treeNumber++;
             if (printTree) {

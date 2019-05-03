@@ -38,7 +38,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         /// <summary>If this pattern is a link, this is the node linked to</summary>
         private readonly string linkedName;
         private readonly bool isLink;
-        // TODO: conceptually readonly, but we'd need to rewrite TregexParser to make it so.
+        // conceptually readonly, but we'd need to rewrite TregexParser to make it so.
         private TregexPattern child;
         /// <summary>also conceptually readonly, but it depends on the child</summary>
         private readonly List<Tuple<int, string>> variableGroups;
@@ -78,7 +78,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             if (desc != null)
             {
                 stringDesc = desc;
-                // TODO: factor out some of these blocks of code
+                // factor out some of these blocks of code
                 if (desc.Equals("__") || desc.Equals("/.*/") || desc.Equals("/^.*$/"))
                 {
                     descriptionMode = DescriptionMode.ANYTHING;
@@ -362,7 +362,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 namesToNodes, variableStrings, headFinder);
         }
 
-        // TODO: Why is this a static class with a pointer to the containing class?  There seems to be no reason for such a thing.
+        // Why is this a static class with a pointer to the containing class?  There seems to be no reason for such a thing.
         // cdm: agree: It seems like it should just be a non-static inner class.  Try this and check it works....
         private class DescriptionMatcher : TregexMatcher
         {

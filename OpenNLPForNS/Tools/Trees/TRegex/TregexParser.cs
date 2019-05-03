@@ -40,7 +40,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             this.headFinder = headFinder;
         }
 
-        // TODO: IDENTIFIER should not allow | after the first character, but it breaks some | queries to allow it.
+        // IDENTIFIER should not allow | after the first character, but it breaks some | queries to allow it.
 
         /// <summary>
         /// the grammar starts here

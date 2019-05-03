@@ -609,7 +609,7 @@ namespace OpenNLP.Tools.Ling
                     break;
                 }
                 case OutputFormat.WORD:
-                    // TODO: we should unify word() and value()
+                    // we should unify word() and value()
                     buf.Append(GetWord());
                     break;
                 case OutputFormat.WORD_INDEX:

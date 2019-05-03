@@ -121,16 +121,16 @@ namespace OpenNLP.Tools.Trees
         }
 
         private static readonly TregexPattern FindFlatConjpTregex =
-            // TODO: add more patterns, perhaps ignore case
+            // add more patterns, perhaps ignore case
             // for example, what should we do with "and not"?  Is it right to
             // generally add the "not" to the following tree with moveRB, or
             // should we make "and not" a CONJP?
             // also, perhaps look at ADVP
             TregexPattern.Compile("/^(S|PP|VP)/ < (/^(S|PP|VP)/ $++ (CC=start $+ (RB|ADVP $+ /^(S|PP|VP)/) " +
-                                  "[ (< and $+ (RB=end < yet)) | " + // TODO: what should be the head of "and yet"?
+                                  "[ (< and $+ (RB=end < yet)) | " + // what should be the head of "and yet"?
                                   "  (< and $+ (RB=end < so)) | " +
                                   "  (< and $+ (ADVP=end < (RB|IN < so))) ] ))");
-            // TODO: this structure needs a dependency
+            // this structure needs a dependency
 
         private static readonly TsurgeonPattern AddConjpTsurgeon =
             Tsurgeon.ParseOperation("createSubtree CONJP start end");
@@ -172,7 +172,7 @@ namespace OpenNLP.Tools.Trees
         // Matches to be questions if the question starts with WHNP, such as
         // Who, What, if there is an SQ after the WH question.
         //
-        // TODO: maybe we want to catch more complicated tree structures with something in between the WH and the actual question.
+        // maybe we want to catch more complicated tree structures with something in between the WH and the actual question.
         private static readonly TregexPattern FlattenSqTregex =
             TregexPattern.Compile("SBARQ < ((WHNP=what < WP) $+ (SQ=sq < (/^VB/=verb < " +
                                   EnglishPatterns.CopularWordRegex + ") " +
@@ -240,7 +240,7 @@ namespace OpenNLP.Tools.Trees
                                   " <, /^N/=np | ( <1 DT <2 /^N/=np ) | " +
                                   " <, /^ADVP/=advp ]");
 
-        // TODO: this turns UCP-TMP into ADVP instead of ADVP-TMP.  What do we actually want?
+        // this turns UCP-TMP into ADVP instead of ADVP-TMP.  What do we actually want?
         private static readonly TsurgeonPattern UcpRenameTsurgeon =
             Tsurgeon.ParseOperation(
                 "[if exists adjp relabel ucp /^UCP(.*)$/ADJP$1/] [if exists np relabel ucp /^UCP(.*)$/NP$1/] [if exists advp relabel ucp /^UCP(.*)$/ADVP/]");

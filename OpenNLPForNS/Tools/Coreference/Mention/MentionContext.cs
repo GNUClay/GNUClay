@@ -319,7 +319,7 @@ namespace OpenNLP.Tools.Coreference.Mention
 
         /*
         private static string[] getLemmas(MentionContext xec) {
-        //TODO: Try multi-word lemmas first.
+        //Try multi-word lemmas first.
         string word = xec.getHeadTokenText();
         return DictionaryFactory.getDictionary().getLemmas(word,PartsOfSpeech.NounSingularOrMass);
         }

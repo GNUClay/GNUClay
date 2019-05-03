@@ -100,7 +100,7 @@ namespace OpenNLP.Tools.Ling
         }
 
         /**
-   * TODO: would be nice to get rid of this.  Only used in two places in RTE.  
+   * would be nice to get rid of this.  Only used in two places in RTE.  
    */
         //public CoreLabel backingLabel() { return label; }
 

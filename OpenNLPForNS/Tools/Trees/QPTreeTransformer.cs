@@ -50,12 +50,12 @@ namespace OpenNLP.Tools.Trees
             Tsurgeon.ParseOperation("[createSubtree QP left right] [excise left left] [excise right right]");
 
         private static readonly TregexPattern MultiwordXsTregex =
-            // TODO: should add NN and $ to the numeric expressions captured
+            // should add NN and $ to the numeric expressions captured
             //   NN is for words such as "half" which are probably misparsed
-            // TODO: <3 (IN < as|than) is to avoid one weird case in PTB,
+            // <3 (IN < as|than) is to avoid one weird case in PTB,
             // "more than about".  Perhaps there is some way to generalize this
-            // TODO: "all but X"
-            // TODO: "all but about X"
+            // "all but X"
+            // "all but about X"
             TregexPattern.Compile(
                 "QP <1 /^RB|JJ|IN/=left [ ( <2 /^JJ|IN/=right <3 /^CD|DT/ ) | ( <2 /^JJ|IN/ <3 ( IN=right < /^(?i:as|than)$/ ) <4 /^CD|DT/ ) ] ");
 

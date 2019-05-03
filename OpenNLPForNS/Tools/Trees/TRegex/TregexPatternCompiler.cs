@@ -67,7 +67,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             this.basicCatFunction = basicCatFunction;
         }
 
-        // TODO [cdm 2013]: Provide an easy way to do Matcher.quoteReplacement(): This would be quite useful, since the replacement will often contain $ or \
+        // Provide an easy way to do Matcher.quoteReplacement(): This would be quite useful, since the replacement will often contain $ or \
         /// <summary>
         /// Define a macro for rewriting a pattern in any tregex expression compiled
         /// by this compiler. The semantics of this is that all instances of the

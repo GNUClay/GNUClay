@@ -69,7 +69,7 @@ namespace OpenNLP.Tools.Trees
     /// </summary>
     public static class EnglishGrammaticalRelations
     {
-        //todo: Things still to fix: comparatives, in order to clauses, automatic Vadas-like NP structure
+        //Things still to fix: comparatives, in order to clauses, automatic Vadas-like NP structure
 
         /// <summary>
         /// By setting the HeadFinder to null, we find out right away at runtime 
@@ -462,7 +462,7 @@ namespace OpenNLP.Tools.Trees
                     EnglishPatterns.CopularWordRegex + " $++ (VP < VBN|VBD)) !< (PP <: IN|TO) $-- (NP !< /^-NONE-$/))",
 
                     // matches direct object in relative clauses with relative pronoun "I saw the book that you bought". Seems okay. If this is changed, also change the pattern for "rel"
-                    // TODO: this can occasionally produce incorrect dependencies, such as the sentence
+                    // this can occasionally produce incorrect dependencies, such as the sentence
                     // "with the way which his split-fingered fastball is behaving"
                     // eg take a tree where the verb doesn't have an object
                     "SBAR < (WHNP=target !< WRB) < (S < NP < (VP !< SBAR !<+(VP) (PP <- IN|TO) !< (S < (VP < TO))))",
@@ -1003,7 +1003,7 @@ namespace OpenNLP.Tools.Trees
         /// elimination, since quite a lot of text such as
         /// "yesterday's widely published sequester" was misannotated as a
         /// VBZ instead of a POS.  
-        /// TODO: remove that if a revised PTB is ever released.
+        /// remove that if a revised PTB is ever released.
         /// 
         /// Example:
         /// "Oil price futures" -> <code>nn</code>(futures, oil), <code>nn</code>(futures, price)
@@ -1046,7 +1046,7 @@ namespace OpenNLP.Tools.Trees
                     "WHNP|WHNP-TMP|WHNP-ADV|NP|NP-TMP|NP-ADV < (PRN=target < (NP < /^(?:NN|CD)/ $-- /^-LRB-$/ $+ /^-RRB-$/))",
                     // NP-ADV is a npadvmod, NP-TMP is a tmod
                     "@WHNP|NP < (NP=target !<: CD <, /^-LRB-$/ <` /^-RRB-$/ $-- /^(?:WH)?NP/ !$ CC|CONJP)",
-                    // TODO: next pattern with NNP doesn't work because leftmost NNP is deemed head in a
+                    // next pattern with NNP doesn't work because leftmost NNP is deemed head in a
                     // structure like (NP (NNP Norway) (, ,) (NNP Verdens_Gang) (, ,))
                     "NP|NP-TMP|NP-ADV < (NNP $+ (/^,$/ $+ NNP=target)) !< CC|CONJP !< " + FwEtcPat + " !< " + EtcPat,
                     // find abbreviations
@@ -1134,7 +1134,7 @@ namespace OpenNLP.Tools.Trees
                     // avoids adverb conjunctions matching as advmod; added JJ to catch How long
                     // "!< no" so we can get neg instead for "no foo" when no is tagged as RB
                     // we allow CC|CONJP as long as it is not between the target and the head
-                    // TODO: perhaps remove that last clause if we transform
+                    // perhaps remove that last clause if we transform
                     // more and more, less and less, etc.
                     "ADVP|WHADVP < (RB|RBR|RBS|WRB|ADVP|WHADVP|JJ=target !< " + NotPat + " !< /^(?i:no)$/ !< " +
                     EtcPat +
@@ -1281,11 +1281,11 @@ namespace OpenNLP.Tools.Trees
                 {
                     "PP|XS < (IN|TO < as|of|at|to|in) < (JJ|IN|JJR|JJS|NN=target < such|because|Because|least|instead|due|Due|addition|to)",
                     "ADVP < (RB|IN < well) < (IN|RB|JJS=target < as)",
-                    // TODO: perhaps the phrase "all but" is more like "all" and should have that as the head
+                    // perhaps the phrase "all but" is more like "all" and should have that as the head
                     "ADVP < (DT=target < all) < (CC < but)",
                     "CONJP < (RB < rather|well|instead) < (RB|IN=target < as|than|of)",
                     "CONJP < (IN < in) < (NN|TO=target < addition|to)",
-                    // todo: note inconsistent head finding for "rather than"!
+                    // note inconsistent head finding for "rather than"!
                     "XS < JJR|JJS=target" // more than, fewer than, well over -- maybe change some of these?
                 });
 
@@ -1382,7 +1382,7 @@ namespace OpenNLP.Tools.Trees
                 new string[]
                 {
                     "/^(?:WH)?(?:NP|INTJ|ADJP|PRN|NAC|NX|NML)(?:-.*)?$/ < /^(?:WP\\$|PRP\\$)$/=target",
-                    // todo: possessive pronoun under ADJP needs more work for one case of (ADJP his or her own)
+                    // possessive pronoun under ADJP needs more work for one case of (ADJP his or her own)
                     // basic NP possessive: we want to allow little conjunctions in head noun (NP (NP ... POS) NN CC NN) but not falsely match when there are conjoined NPs.  See tests.
                     "/^(?:WH)?(?:NP|NML)(?:-.*)?$/ [ < (WHNP|WHNML|NP|NML=target [ < POS | < (VBZ < /^'s$/) ] ) !< (CC|CONJP $++ WHNP|WHNML|NP|NML) |  < (WHNP|WHNML|NP|NML=target < (CC|CONJP $++ WHNP|WHNML|NP|NML) < (WHNP|WHNML|NP|NML [ < POS | < (VBZ < /^'s$/) ] )) ]",
                     // handle a few too flat NPs
@@ -1511,7 +1511,7 @@ namespace OpenNLP.Tools.Trees
                 GrammaticalRelation.Dependent);
 
 
-        // TODO would be nice to have this set up automatically...
+        // would be nice to have this set up automatically...
         /// <summary>
         /// A list of GrammaticalRelation values.  New GrammaticalRelations must be
         /// added to this list (until we make this an enum!).
@@ -1757,7 +1757,7 @@ namespace OpenNLP.Tools.Trees
         {
             return GrammaticalRelation.ValueOf(s, Values());
 
-            //    // TODO does this need to be changed?
+            //    // does this need to be changed?
             //    // modification NOTE: do not commit until go-ahead
             //    // If this is a collapsed relation (indicated by a "_" separating
             //    // the type and the dependent, instantiate a collapsed version.

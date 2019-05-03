@@ -31,7 +31,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             return new LocationMatcher(newNodeNames, coindexer, this);
         }
 
-        /** TODO: it would be nice to refactor this with TsurgeonMatcher somehow */
+        /** it would be nice to refactor this with TsurgeonMatcher somehow */
 
         public class LocationMatcher
         {

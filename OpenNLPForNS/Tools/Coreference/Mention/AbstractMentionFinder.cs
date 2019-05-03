@@ -247,7 +247,7 @@ namespace OpenNLP.Tools.Coreference.Mention
 		
 		private void CollectPossessivePronouns(IParse nounPhrase, List<Mention> entities)
 		{
-			//TODO: Look at how training is done and examine whether this is needed or can be accomidated in a different way.
+			//Look at how training is done and examine whether this is needed or can be accomidated in a different way.
 			/*
 			List snps = np.getSubNounPhrases();
 			if (snps.size() != 0) {

@@ -266,7 +266,7 @@ namespace OpenNLP.Tools.Trees
 
         public abstract ILabelFactory LabelFactory();
 
-        // TODO: genericize this!
+        // genericize this!
         /// <summary>
         /// Print out as a string the subpart of a sentence covered
         /// by this <code>Constituent</code>.

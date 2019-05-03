@@ -2446,7 +2446,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 {
                     _basicCat = true;
                     this._basicCatFunction = basicCatFunction;
-                    // TODO -- this was missing a this. which must be testable in a unit test!!! Make one
+                    // -- this was missing a this. which must be testable in a unit test!!! Make one
                     arg = arg.Substring(1);
                 }
                 else

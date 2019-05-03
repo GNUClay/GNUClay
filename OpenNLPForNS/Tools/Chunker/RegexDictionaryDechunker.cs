@@ -65,7 +65,7 @@ namespace OpenNLP.Tools.Chunker
                 {
                     if (matchingRegexes.Count > 1)
                     {
-                        // TODO: log issue, should not happen
+                        // log issue, should not happen
                     }
                     var operation = matchingRegexes.First().Value;
 

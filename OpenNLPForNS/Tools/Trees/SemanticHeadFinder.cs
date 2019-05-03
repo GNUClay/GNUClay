@@ -125,7 +125,7 @@ namespace OpenNLP.Tools.Trees
                 copulars.AddAll(CopulaVerbs);
             }
 
-            // TODO: reverse the polarity of noCopulaHead
+            // reverse the polarity of noCopulaHead
             this.makeCopulaHead = !noCopulaHead;
 
             verbalTags = new Util.HashSet<string>(VerbTags);

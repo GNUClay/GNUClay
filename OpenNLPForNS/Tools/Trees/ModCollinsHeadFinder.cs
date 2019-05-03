@@ -126,7 +126,7 @@ namespace OpenNLP.Tools.Trees
                 new string[][] {new string[] {Right, PartsOfSpeech.ListItemMarker, PartsOfSpeech.ColonSemiColon}});
 
             // NML is head in: (NAC-LOC (NML San Antonio) (, ,) (NNP Texas))
-            // TODO: NNP should be head (rare cases, could be ignored):
+            // NNP should be head (rare cases, could be ignored):
             //   (NAC (NML New York) (NNP Court) (PP of Appeals))
             //   (NAC (NML Prudential Insurance) (NNP Co.) (PP Of America))
             // Chris: This could maybe still do with more thought, but NAC is rare.
@@ -230,7 +230,7 @@ namespace OpenNLP.Tools.Trees
                         AUXG, VP, SQ
                     }
                 });
-                // TODO: Should maybe put S before SQ for tag questions. Check.
+                // Should maybe put S before SQ for tag questions. Check.
             NonTerminalInfo.Add(UCP, new string[][] {new string[] {Right}});
             // below is weird!! Make 2 lists, one for good and one for bad heads??
             // VP: added AUX and AUXG to work with Charniak tags
@@ -296,7 +296,7 @@ namespace OpenNLP.Tools.Trees
                     }
                 });
             NonTerminalInfo.Add(NX, NonTerminalInfo[CoordinationTransformer.Noun]);
-            // TODO: seems JJ should be head of NML in this case:
+            // seems JJ should be head of NML in this case:
             // (NP (NML (JJ former) (NML Red Sox) (JJ great)) (NNP Luis) (NNP Tiant)),
             // (although JJ great is tagged wrong)
             NonTerminalInfo.Add(NML, NonTerminalInfo[CoordinationTransformer.Noun]);
@@ -356,7 +356,7 @@ namespace OpenNLP.Tools.Trees
                 // rule for new structure in QP, introduced by Stanford in QPTreeTransformer
             // NonTerminalInfo.Add(null, new string[][] {{Left}});  // rule for OntoNotes from Michel, but it would be better to fix this in TreeReader or to use a default rule?
 
-            // todo: Uncomment this line if we always want to take the leftmost if no head rule is defined for the mother category.
+            // Uncomment this line if we always want to take the leftmost if no head rule is defined for the mother category.
             // defaultRule = defaultLeftRule; // Don't exception, take leftmost if no rule defined for a certain parent category
         }
 

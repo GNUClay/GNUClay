@@ -150,7 +150,7 @@ namespace OpenNLP.Tools.Trees
                 : null);
             if (reln == null)
             {
-                // TODO this breaks the hierarchical structure of the classes,
+                // this breaks the hierarchical structure of the classes,
                 //      but it makes English relations that much likelier to work.
                 reln = EnglishGrammaticalRelations.ValueOf(s);
             }
@@ -237,8 +237,8 @@ namespace OpenNLP.Tools.Trees
         private readonly string specific;
             // to hold the specific prep or conjunction associated with the grammatical relation
 
-        // TODO document constructor
-        // TODO change to put specificString after longName, and then use string... for targetPatterns
+        // document constructor
+        // change to put specificString after longName, and then use string... for targetPatterns
         private GrammaticalRelation(Language language,
             string shortName,
             string longName,
@@ -304,7 +304,7 @@ namespace OpenNLP.Tools.Trees
                     /* We get here if we previously just built a fake relation from a string
          * we previously read in from a file.
          */
-                    // TODO is it worth copying all of the information from this real
+                    // is it worth copying all of the information from this real
                     //      relation into the old fake one?
                 }
                 sToR[ToString()] = this;
@@ -321,7 +321,7 @@ namespace OpenNLP.Tools.Trees
         /* We get here if we previously just built a fake relation from a string
          * we previously read in from a file.
          #1#
-        // TODO is it worth copying all of the information from this real
+        // is it worth copying all of the information from this real
         //      relation into the old fake one?
       }
     }*/
@@ -490,7 +490,7 @@ namespace OpenNLP.Tools.Trees
             if (this == o) return true;
             if (o is String)
             {
-                // TODO: Remove this. It's broken but was meant to cover legacy code. It would be correct to just return false.
+                // Remove this. It's broken but was meant to cover legacy code. It would be correct to just return false.
                 //new Throwable("Warning: comparing GrammaticalRelation to String").printStackTrace();
                 return this.ToString().Equals(o);
             }
@@ -539,7 +539,7 @@ namespace OpenNLP.Tools.Trees
    * When deserializing a GrammaticalRelation, it needs to be matched
    * up with the existing singleton relation of the same type.
    *
-   * TODO: there are a bunch of things wrong with this.  For one
+   * there are a bunch of things wrong with this.  For one
    * thing, it's crazy slow, since it goes through all the existing
    * relations in an array.  For another, it would be cleaner to have
    * subclasses for the English and Chinese relations
@@ -570,7 +570,7 @@ namespace OpenNLP.Tools.Trees
           case "prepc":
             return EnglishGrammaticalRelations.getPrepC(specific);
           default:
-            // TODO: we need to figure out what to do with relations
+            // we need to figure out what to do with relations
             // which were serialized and then deprecated.  Perhaps there
             // is a good way to make them singletons
             return this;
@@ -583,7 +583,7 @@ namespace OpenNLP.Tools.Trees
     case Chinese: {
       GrammaticalRelation rel = ChineseGrammaticalRelations.valueOf(ToString());
       if (rel == null) {
-        // TODO: we need to figure out what to do with relations
+        // we need to figure out what to do with relations
         // which were serialized and then deprecated.  Perhaps there
         // is a good way to make them singletons
         return this;

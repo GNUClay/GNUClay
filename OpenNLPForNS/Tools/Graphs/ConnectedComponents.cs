@@ -18,7 +18,7 @@ namespace OpenNLP.Tools.Graphs
         {
             var ccs = new List<Set<V>>();
             var todo = new List<V>();
-            // TODO: why not a set?
+            // why not a set?
             List<V> verticesLeft = graph.GetAllVertices().ToList();
             while (verticesLeft.Count > 0)
             {

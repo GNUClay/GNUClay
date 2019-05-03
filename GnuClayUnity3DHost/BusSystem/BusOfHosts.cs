@@ -26,8 +26,6 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.BaseDir = pathResolver.Resolve(options.BaseDir);
             mContext.SharedPackagesDir = pathResolver.Resolve(options.SharedPackagesDir, mContext.BaseDir);
             mContext.AppsDir = pathResolver.Resolve(options.AppsDir, mContext.BaseDir);
-            mContext.ParsedItemsDir = pathResolver.Resolve(options.ParsedItemsDir, mContext.BaseDir);
-            mContext.IndexedItemsDir = pathResolver.Resolve(options.IndexedItemsDir, mContext.BaseDir);
             mContext.ImagesDir = pathResolver.Resolve(options.ImagesDir, mContext.BaseDir);
 
             CreatePathsIfNotExist();
@@ -59,16 +57,6 @@ namespace GnuClayUnity3DHost.BusSystem
                 throw new NullReferenceException($"Apps directory of bus is null or empty.");
             }
 
-            if (string.IsNullOrWhiteSpace(options.ParsedItemsDir))
-            {
-                throw new NullReferenceException($"ParsedItems directory of bus is null or empty.");
-            }
-
-            if (string.IsNullOrWhiteSpace(options.IndexedItemsDir))
-            {
-                throw new NullReferenceException($"IndexedItems directory of bus is null or empty.");
-            }
-
             if (string.IsNullOrWhiteSpace(options.ImagesDir))
             {
                 throw new NullReferenceException($"Images directory of bus is null or empty.");
@@ -90,16 +78,6 @@ namespace GnuClayUnity3DHost.BusSystem
             if (!Directory.Exists(mContext.AppsDir))
             {
                 Directory.CreateDirectory(mContext.AppsDir);
-            }
-
-            if (!Directory.Exists(mContext.ParsedItemsDir))
-            {
-                Directory.CreateDirectory(mContext.ParsedItemsDir);
-            }
-
-            if (!Directory.Exists(mContext.IndexedItemsDir))
-            {
-                Directory.CreateDirectory(mContext.IndexedItemsDir);
             }
 
             if (!Directory.Exists(mContext.ImagesDir))
@@ -125,7 +103,13 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RegistryOfHostComponent.AddHost(host);
         }
 
-        public bool Enable
+        /// <summary>
+        /// Returns true if logging is enabled, otherwise returns false.
+        /// Set true for enable logging, otherwise set false.
+        /// It controls logging of bus only.
+        /// It doesn't control logging of hosts.
+        /// </summary>
+        public bool EnableLoggingOnBusOnly
         {
             get
             {
@@ -138,6 +122,46 @@ namespace GnuClayUnity3DHost.BusSystem
             }
         }
 
+        /// <summary>
+        /// Returns current image.
+        /// </summary>
+        // TODO: fix me!
+        public Image CurentImage
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the bus and its hosts is running, otherwise returns false.
+        /// </summary>
+        // TODO: fix me!
+        public bool IsRunning
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Loads the bus and its hosts based on target image called on image name.
+        /// The bus will not start after loading. 
+        /// You can make it later.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
+        // TODO: fix me!
+        public void Load(string imageName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Starts the bus and its hosts based on current image or source files (if still there are not images).
+        /// Creates new image if still there are not images.
+        /// </summary>
         // TODO: fix me!
         public void Start()
         {
@@ -148,12 +172,71 @@ namespace GnuClayUnity3DHost.BusSystem
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Starts the bus and its hosts based on target image called on image name.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
+        // TODO: fix me!
+        public void Start(string imageName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Stops the bus and its hosts without saving its states to current image.
+        /// </summary>
         // TODO: fix me!
         public void Stop()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Saves state of the bus and its hosts to current image.
+        /// </summary>
+        // TODO: fix me!
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves state of the bus and its hosts to target image called on image name.
+        /// If target image doesn't exist it will be created otherwise existing image will be rewritten.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
+        /// <param name="setNewImageAsCurrent">Set true if you need set new image as current, otherwise set false.</param>
+        // TODO: fix me!
+        public void Save(string imageName, bool setNewImageAsCurrent)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Stops the bus and its hosts and saves their to current image.
+        /// </summary>
+        // TODO: fix me!
+        public void StopAndSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Stops the bus and its hosts and saves their to target image called on image name.
+        /// If target image doesn't exist it will be created otherwise existing image will be rewritten.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
+        /// <param name="setNewImageAsCurrent">Set true if you need set new image as current, otherwise set false.</param>
+        // TODO: fix me!
+        public void StopAndSave(string imageName, bool setNewImageAsCurrent)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns all available images on the base directory.
+        /// </summary>
+        /// <returns>List of all available images on the base directory.</returns>
         // TODO: fix me!
         public IList<Image> GetAllImages()
         {

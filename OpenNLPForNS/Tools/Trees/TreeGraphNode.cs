@@ -93,7 +93,7 @@ namespace OpenNLP.Tools.Trees
             this.SetTreeGraph(graph);
         }
 
-        // TODO it's not really clear what graph the copy should be a part of
+        // it's not really clear what graph the copy should be a part of
         public TreeGraphNode(TreeGraphNode t) :
             this(t, t._parent)
         {
@@ -125,7 +125,7 @@ namespace OpenNLP.Tools.Trees
             this._label = (CoreLabel) Mlf.NewLabel(t.Label());
         }
 
-        // TODO: This should be changed via introducing a Tree interface with the current Tree and this class implementing it, since what is done here breaks the equals() contract.
+        // This should be changed via introducing a Tree interface with the current Tree and this class implementing it, since what is done here breaks the equals() contract.
         /// <summary>
         /// Implements equality for <code>TreeGraphNode</code>s.
         /// Unlike <code>Tree</code>s, <code>TreeGraphNode</code>s should be

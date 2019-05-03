@@ -202,7 +202,7 @@ namespace OpenNLP.Tools.Graphs
             {
                 throw new InvalidDataException("Edge found in incoming but not outgoing");
             }
-            // TODO: cut down the number of .get calls
+            // cut down the number of .get calls
             if (outgoingEdges.ContainsKey(source) &&
                 (!outgoingEdges[source].ContainsKey(dest) || outgoingEdges[source][dest].Count == 0))
             {
@@ -313,7 +313,7 @@ namespace OpenNLP.Tools.Graphs
         /// </summary>
         public Set<V> GetNeighbors(V v)
         {
-            // TODO: pity we have to copy the sets... is there a combination set?
+            // pity we have to copy the sets... is there a combination set?
             ReadOnlyCollection<V> children = GetChildren(v);
             ReadOnlyCollection<V> parents = GetParents(v);
 

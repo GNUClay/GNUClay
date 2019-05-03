@@ -17,7 +17,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         public readonly string label;
         public readonly TsurgeonPattern[] children;
 
-        private TsurgeonPattern root; // TODO: can remove?
+        private TsurgeonPattern root;
 
         public virtual void SetRoot(TsurgeonPatternRoot root)
         {

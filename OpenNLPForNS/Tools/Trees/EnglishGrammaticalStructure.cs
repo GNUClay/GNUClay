@@ -1349,7 +1349,7 @@ namespace OpenNLP.Tools.Trees
                     }
                 }
 
-                // TODO: could be made more efficient
+                // could be made more efficient
                 TypedDependency leftGrandchild = null;
                 foreach (TypedDependency child in list)
                 {

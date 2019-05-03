@@ -10,7 +10,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
     {
         private readonly TreeLocation location;
 
-        // TODO Does the item being inserted need to be deep-copied before insertion?
+        // Does the item being inserted need to be deep-copied before insertion?
         private readonly bool needsCopy = true;
 
         public InsertNode(TsurgeonPattern child, TreeLocation l) :

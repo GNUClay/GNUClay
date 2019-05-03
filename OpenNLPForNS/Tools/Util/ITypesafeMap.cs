@@ -20,7 +20,7 @@ namespace OpenNLP.Tools.Util
 
         /// <summary>
         /// Returns true if the map contains the given key.
-        /// TODO [cdm 2014]: This is synonymous with containsKey(), but used less, so we should just eliminate it.
+        /// This is synonymous with containsKey(), but used less, so we should just eliminate it.
         /// </summary>
         bool Has(Type key);
 

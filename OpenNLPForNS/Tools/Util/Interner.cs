@@ -90,7 +90,7 @@ namespace OpenNLP.Tools.Util
             return ref.get();*/
             T target;
             var success = map[o].TryGetTarget(out target);
-            // TODO: test if success
+            // test if success
             return target;
         }
 
