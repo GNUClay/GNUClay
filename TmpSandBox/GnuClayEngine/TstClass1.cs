@@ -11,6 +11,11 @@ namespace TmpSandBox.GnuClayEngine
         public string Id { get; set; }
 
         public List<TstClass2> Children { get; set; } = new List<TstClass2>();
+        public Dictionary<int, int> Dict1 { get; set; } = new Dictionary<int, int>();
+        public IDictionary<int, int> Dict2 { get; set; } = new Dictionary<int, int>();
+        public IList<string> List1 { get; set; } = new List<string>();
+        public int[] Arr1 { get; set; } = new int[] { 1, 2, 3 };
+        public int Val1 { get; set; } = 15;
 
         /// <summary>
         /// Returns a string that represents the current instance.

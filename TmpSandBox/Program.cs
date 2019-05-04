@@ -115,7 +115,7 @@ namespace TmpSandBox
 
             var objectConvertor = new ObjectConvertor();
 
-            var convertedItem = objectConvertor.ConvertToPlaneTree(item);
+            var convertedItem = objectConvertor.ConvertToPlaneTree(item, 5.1F);
 
             var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
 

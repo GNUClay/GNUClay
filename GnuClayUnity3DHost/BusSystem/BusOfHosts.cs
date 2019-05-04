@@ -235,6 +235,30 @@ namespace GnuClayUnity3DHost.BusSystem
             throw new NotImplementedException();
         }
 
+        // TODO: fix me!
+        public void ClearImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO: fix me!
+        public void ClearImage(string imageName)
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO: fix me!
+        public void RemoveImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO: fix me!
+        public void RemoveImage(string imageName)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Returns all available images on the base directory.
         /// </summary>
