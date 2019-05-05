@@ -20,9 +20,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             Class,
             ValueType,
             List,
-            Dictionary,
-            Array,
-            Enum
+            Dictionary
         }
 
         public PlaneObjectsTree ConvertToPlaneTree(object source, float version)
@@ -46,19 +44,8 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             return result;
         }
 
-        // TODO: fix me!
         private KindOfType GetKindOfType(Type type)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.FullName = {type.FullName}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsClass = {type.IsClass}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsArray = {type.IsArray}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsEnum = {type.IsEnum}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsValueType = {type.IsValueType}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsGenericType = {type.IsGenericType}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"GetKindOfType type.IsInterface = {type.IsInterface}");
-#endif
-
             if (type.IsValueType)
             {
                 return KindOfType.ValueType;
@@ -66,12 +53,12 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 
             if(type.IsEnum)
             {
-                return KindOfType.Enum;
+                return KindOfType.ValueType;
             }
 
             if(type.IsArray)
             {
-                return KindOfType.Array;
+                return KindOfType.List;
             }
 
             if(type.IsClass)
@@ -96,7 +83,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
                         }
                         else
                         {
-
+                            return KindOfType.Class;
                         }
                     }
                 }
@@ -114,17 +101,16 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
                 {
                     if(fullName.StartsWith("System.Collections.Generic.IList"))
                     {
-                        return KindOfType.Dictionary;
+                        return KindOfType.List;
                     }
                     else
                     {
-
+                        return KindOfType.Class;
                     }
                 }
             }
 
-            // TODO: fix me!
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         // TODO: fix me!
@@ -179,7 +165,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree kindOfType = {kindOfType}");
 
-                if (kindOfType == KindOfType.Array)
+                if (kindOfType == KindOfType.List)
                 {
                     var val = property.GetValue(source);
 
@@ -194,7 +180,11 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
                 }
 #endif
 
-
+                switch(kindOfType)
+                {
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(kindOfType), kindOfType, null);
+                }
             }
 
             return key;

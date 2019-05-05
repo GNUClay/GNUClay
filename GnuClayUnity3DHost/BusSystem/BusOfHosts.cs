@@ -195,6 +195,7 @@ namespace GnuClayUnity3DHost.BusSystem
 
         /// <summary>
         /// Saves state of the bus and its hosts to current image.
+        /// This image will be stopped before saving.
         /// </summary>
         // TODO: fix me!
         public void Save()
@@ -205,6 +206,7 @@ namespace GnuClayUnity3DHost.BusSystem
         /// <summary>
         /// Saves state of the bus and its hosts to target image called on image name.
         /// If target image doesn't exist it will be created otherwise existing image will be rewritten.
+        /// This image will be stopped before saving.
         /// </summary>
         /// <param name="imageName">Name of target image.</param>
         /// <param name="setNewImageAsCurrent">Set true if you need set new image as current, otherwise set false.</param>
@@ -235,24 +237,43 @@ namespace GnuClayUnity3DHost.BusSystem
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Clears all information into current image without its deleting.
+        /// This image will be stopped before cleaning.
+        /// After starting this image will be initialized from source files.
+        /// </summary>
         // TODO: fix me!
         public void ClearImage()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Clears all information into target image called on image name without its deleting.
+        /// This image will be stopped before cleaning.
+        /// After starting this image will be initialized from source files.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
         // TODO: fix me!
         public void ClearImage(string imageName)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Removes current image.
+        /// This image will be stopped before cleaning.
+        /// </summary>
         // TODO: fix me!
         public void RemoveImage()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Removes target image called on image name.
+        /// </summary>
+        /// <param name="imageName">Name of target image.</param>
         // TODO: fix me!
         public void RemoveImage(string imageName)
         {
