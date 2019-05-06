@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CommonHelpers\JsonSerializationHelpers\ObjectConvertor.cs~RF13f3458c.TMP" />
     <None Remove="Internal\BaseEngineLoggedComponent.cs~RF623cbe.TMP" />
   </ItemGroup>
 

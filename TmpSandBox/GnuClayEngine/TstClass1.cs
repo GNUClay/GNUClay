@@ -6,6 +6,7 @@ using System.Text;
 
 namespace TmpSandBox.GnuClayEngine
 {
+    [DataContract(Namespace = "TestData")]
     public class TstClass1 : IObjectToString, IObjectToBriefString
     {
         public string Id { get; set; }
@@ -48,6 +49,7 @@ namespace TmpSandBox.GnuClayEngine
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(Id)} = {Id}");
             sb.AppendLine($"{spaces}HashCode = {GetHashCode()}");
+            sb.AppendLine($"{spaces}Val1 = {Val1}");
 
             if (FirstChild == null)
             {
@@ -107,6 +109,7 @@ namespace TmpSandBox.GnuClayEngine
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(Id)} = {Id}");
             sb.AppendLine($"{spaces}HashCode = {GetHashCode()}");
+            sb.AppendLine($"{spaces}Val1 = {Val1}");
             return sb.ToString();
         }
     }

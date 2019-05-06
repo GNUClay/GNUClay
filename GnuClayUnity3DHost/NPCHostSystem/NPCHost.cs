@@ -1,15 +1,15 @@
-﻿using GnuClayUnity3DHost.BipedHostSystem.Internal;
+﻿using GnuClayUnity3DHost.NPCHostSystem.Internal;
 using GnuClayUnity3DHost.BusSystem;
 using GnuClayUnity3DHost.HostSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.BipedHostSystem
+namespace GnuClayUnity3DHost.NPCHostSystem
 {
-    public class BipedHost: BaseHost<CommonContextOfBipedHost>
+    public class NPCHost: BaseHost<CommonContextOfNPCHost>
     {
-        public BipedHost(BipedHostOptions options)
+        public NPCHost(NPCHostOptions options)
             : base(options)
         {
             var internalRef = options.Bus as IBusOfHostsInternalRef;//tmp

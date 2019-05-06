@@ -36,6 +36,23 @@ namespace GnuClay
         private readonly CommonContext mContext;
         private readonly ILog mLogger;
 
+        private readonly object mStateLockObj = new object();
+        private StateOfEngine mState = StateOfEngine.Created;
+
+        /// <summary>
+        /// Gets state of the engine.
+        /// </summary>
+        public StateOfEngine State
+        {
+            get
+            {
+                lock (mStateLockObj)
+                {
+                    return mState;
+                }
+            }
+        }
+
         private void OptionsChecker(EngineOptions options)
         {
             if(options == null)

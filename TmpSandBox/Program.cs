@@ -1,6 +1,6 @@
 ﻿using GnuClay;
 using GnuClay.CommonHelpers.FileHelpers;
-using GnuClayUnity3DHost.BipedHostSystem;
+using GnuClayUnity3DHost.NPCHostSystem;
 using GnuClayUnity3DHost.BusSystem;
 using MyNPCLib;
 using MyNPCLib.CG;
@@ -115,7 +115,7 @@ namespace TmpSandBox
 
             var objectConvertor = new ObjectConvertor();
 
-            var convertedItem = objectConvertor.ConvertToPlaneTree(item, 5.1F);
+            var convertedItem = objectConvertor.ConvertToPlaneTree(item);
 
             var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
 
@@ -134,11 +134,16 @@ namespace TmpSandBox
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"convertedItemJson = {convertedItemJson}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItemJson.Length = {convertedItemJson.Length}");
 #endif
 
-            var deserializabledItem = JsonConvert.DeserializeObject<PlaneObjectsTree>(convertedItemJson);
+            var deserializedPlaneObjectsTree = JsonConvert.DeserializeObject<PlaneObjectsTree>(convertedItemJson);
 
-            var i = 1;
+            var deserializedItem = objectConvertor.ConvertFromPlaneTree<TstClass1>(deserializedPlaneObjectsTree, new List<Type> { typeof(TstClass2) });
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"deserializedItem = {deserializedItem}");
+#endif
         }
 
         private static TstClass1 CreateSerializabledItem()
@@ -239,10 +244,10 @@ namespace TmpSandBox
 
             var busOfHosts = new BusOfHosts(busOfHostsOptions);
 
-            var bipedHostOptions = new BipedHostOptions();
+            var bipedHostOptions = new NPCHostOptions();
             bipedHostOptions.Bus = busOfHosts;
 
-            var host = new BipedHost(bipedHostOptions);
+            var host = new NPCHost(bipedHostOptions);
 
             var engineOptions = new EngineOptions();
             engineOptions.Host = host;

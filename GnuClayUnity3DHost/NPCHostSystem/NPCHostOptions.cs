@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.BipedHostSystem
+namespace GnuClayUnity3DHost.NPCHostSystem
 {
-    public class BipedHostOptions: BaseHostOptions
+    public class NPCHostOptions: BaseHostOptions
     {
     }
 }

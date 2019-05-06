@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.BipedHostSystem.Internal
+namespace GnuClayUnity3DHost.NPCHostSystem.Internal
 {
-    public class CommonContextOfBipedHost: CommonContextOfBaseHost
+    public class CommonContextOfNPCHost: CommonContextOfBaseHost
     {
         /// <summary>
         ///  Dispose this instance.

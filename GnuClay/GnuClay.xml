@@ -58,6 +58,46 @@
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
         </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObject.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObject.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObject.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectsTree.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectsTree.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectsTree.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        </member>
         <member name="M:GnuClay.CommonHelpers.LoggingHelpers.DiagnosticsCallInfo.ToString">
             <summary>
             Returns a string that represents the current instance.
@@ -188,6 +228,11 @@
             </summary>
             <param name="options">Options of the engine.</param>
         </member>
+        <member name="P:GnuClay.Engine.State">
+            <summary>
+            Gets state of the engine.
+            </summary>
+        </member>
         <member name="M:GnuClay.Engine.Dispose">
             <summary>
             Release this instance.
@@ -223,6 +268,26 @@
             <summary>
             Reference to instance of host.
             </summary>
+        </member>
+        <member name="M:GnuClay.EngineOptions.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.EngineOptions.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.EngineOptions.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
         <member name="T:GnuClay.IHost">
             <summary>

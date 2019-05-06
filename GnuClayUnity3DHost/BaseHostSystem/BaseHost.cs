@@ -22,6 +22,23 @@ namespace GnuClayUnity3DHost.HostSystem
             InitComponents();
         }
 
+        protected readonly object mStateLockObj = new object();
+        protected StateOfEngine mState = StateOfEngine.Created;
+
+        /// <summary>
+        /// Gets state of the host.
+        /// </summary>
+        public StateOfEngine State
+        {
+            get
+            {
+                lock (mStateLockObj)
+                {
+                    return mState;
+                }
+            }
+        }
+
         protected readonly T Context;
         private readonly ILog mLogger;
 

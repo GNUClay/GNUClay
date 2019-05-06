@@ -38,6 +38,23 @@ namespace GnuClayUnity3DHost.BusSystem
             InitComponents();
         }
 
+        private readonly object mStateLockObj = new object();
+        private StateOfEngine mState = StateOfEngine.Created;
+
+        /// <summary>
+        /// Gets state of the bus.
+        /// </summary>
+        public StateOfEngine State
+        {
+            get
+            {
+                lock(mStateLockObj)
+                {
+                    return mState;
+                }
+            }
+        }
+
         private readonly CommonContextOfBusOfHosts mContext;
         private readonly ILog mLogger;
 
