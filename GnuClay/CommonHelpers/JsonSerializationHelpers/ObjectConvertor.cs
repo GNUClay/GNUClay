@@ -374,11 +374,11 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             throw new NotSupportedException();
         }
 
-        private int ProcessObjectOnConvertingToPlaneTree(object source, ContextOfConvertToPlaneTree context)
+        private object ProcessObjectOnConvertingToPlaneTree(object source, ContextOfConvertToPlaneTree context)
         {
             if(context.ProcessedObjectsDict.ContainsKey(source))
             {
-                return context.ProcessedObjectsDict[source];
+                return new PlaneObjectRef { Key = context.ProcessedObjectsDict[source] }; 
             }
 
             var key = context.CurrIndex;
@@ -429,7 +429,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
                 planeObjectAsDict[property.Name] = savedValue;
             }
 
-            return key;
+            return new PlaneObjectRef { Key = key };
         }
 
         private object DispatchObjectOnConvertingToPlaneTree(object source, KindOfType kindOfType, ContextOfConvertToPlaneTree context)
