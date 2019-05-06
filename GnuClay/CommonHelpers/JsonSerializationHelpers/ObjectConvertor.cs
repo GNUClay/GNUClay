@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 {
@@ -165,29 +166,153 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree kindOfType = {kindOfType}");
 
-                if (kindOfType == KindOfType.List)
-                {
-                    var val = property.GetValue(source);
+                //if (kindOfType == KindOfType.List)
+                //{
+                //    var val = property.GetValue(source);
 
-                    var i = val as System.Collections.IEnumerable;
+                //    var i = val as System.Collections.IEnumerable;
 
-                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree (i != null) = {i != null}");
+                //    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree (i != null) = {i != null}");
 
-                    foreach(var d in i)
-                    {
-                        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree (d) = {d}");
-                    }
-                }
+                //    foreach(var d in i)
+                //    {
+                //        NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingToPlaneTree (d) = {d}");
+                //    }
+                //}
 #endif
 
-                switch(kindOfType)
-                {
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(kindOfType), kindOfType, null);
-                }
+                var val = property.GetValue(source);
+                var savedValue = DispatchObjectOnConvertingToPlaneTree(val, kindOfType, context);
+
+                planeObjectAsDict[property.Name] = savedValue;
             }
 
             return key;
+        }
+
+        private object DispatchObjectOnConvertingToPlaneTree(object source, KindOfType kindOfType, ContextOfConvertToPlaneTree context)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"DispatchObjectOnConvertingToPlaneTree source = {source}");
+#endif
+
+            if(source == null)
+            {
+                return null;
+            }
+
+            switch (kindOfType)
+            {
+                case KindOfType.Class:
+                    return ProcessObjectOnConvertingToPlaneTree(source, context);
+
+                case KindOfType.ValueType:
+                    return source;
+
+                case KindOfType.List:
+                    return ProcessListOnConvertingToPlaneTree(source, context);
+
+                case KindOfType.Dictionary:
+                    return ProcessDictionaryOnConvertingToPlaneTree(source, context);
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(kindOfType), kindOfType, null);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        // TODO: fix me!
+        private List<object> ProcessListOnConvertingToPlaneTree(object source, ContextOfConvertToPlaneTree context)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingToPlaneTree source = {source}");
+#endif
+
+            var result = new List<object>();
+
+            var sourceList = source as System.Collections.IEnumerable;
+
+            if(sourceList == null)
+            {
+                throw new ArgumentNullException(nameof(sourceList));
+            }
+
+            foreach(var item in sourceList)
+            {
+                if(item == null)
+                {
+                    result.Add(null);
+                    continue;
+                }
+
+                var type = item.GetType();
+                var kindOfType = GetKindOfType(type);
+                var savedValue = DispatchObjectOnConvertingToPlaneTree(item, kindOfType, context);
+                result.Add(savedValue);
+            }
+
+            return result;
+        }
+
+        private Dictionary<object, object> ProcessDictionaryOnConvertingToPlaneTree(object source, ContextOfConvertToPlaneTree context)
+        {
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree source = {source}");
+#endif
+
+            var result = new Dictionary<object, object>();
+
+            var sourceList = source as System.Collections.IEnumerable;
+
+            if (sourceList == null)
+            {
+                throw new ArgumentNullException(nameof(sourceList));
+            }
+
+            foreach (var item in sourceList)
+            {
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree item = {item}");
+#endif
+
+                var type = item.GetType();
+                var propertiesList = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                var propertiesDict = propertiesList.ToDictionary(p => p.Name, p => p);
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree type.FullName = {type.FullName}");
+                
+                foreach (var property in propertiesList)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree property.Name = {property.Name}");
+                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree property.PropertyType.FullName = {property.PropertyType.FullName}");
+                }
+#endif
+                var keyProp = propertiesDict["Key"];
+                var key = keyProp.GetValue(item);
+                type = key.GetType();
+                var kindOfType = GetKindOfType(type);
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree key = {key}");
+#endif
+
+                var savedKey = DispatchObjectOnConvertingToPlaneTree(item, kindOfType, context);
+
+                var valProp = propertiesDict["Value"];
+                var val = valProp.GetValue(item);
+                type = val.GetType();
+                kindOfType = GetKindOfType(type);
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingToPlaneTree val = {val}");
+#endif
+
+                var savedVal = DispatchObjectOnConvertingToPlaneTree(item, kindOfType, context);
+
+                result[savedKey] = savedVal;
+            }
+
+            return result;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TmpSandBox.GnuClayEngine
     public class TstClass1 : IObjectToString, IObjectToBriefString
     {
         public string Id { get; set; }
-
+        public TstClass2 FirstChild { get; set; }
         public List<TstClass2> Children { get; set; } = new List<TstClass2>();
         public Dictionary<int, int> Dict1 { get; set; } = new Dictionary<int, int>();
         public IDictionary<int, int> Dict2 { get; set; } = new Dictionary<int, int>();
@@ -48,6 +48,18 @@ namespace TmpSandBox.GnuClayEngine
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(Id)} = {Id}");
             sb.AppendLine($"{spaces}HashCode = {GetHashCode()}");
+
+            if (FirstChild == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(FirstChild)} == null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(FirstChild)}");
+                sb.Append(FirstChild.ToBriefString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(FirstChild)}");
+            }
+
             if (Children == null)
             {
                 sb.AppendLine($"{spaces}Children == null");

@@ -119,16 +119,16 @@ namespace TmpSandBox
 
             var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
 
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            //if (File.Exists(fileName))
+            //{
+            //    File.Delete(fileName);
+            //}
 
-            using (var fs = File.OpenWrite(fileName))
-            {
-                jsonSerializer.WriteObject(fs, convertedItem);
-                fs.Flush();
-            }
+            //using (var fs = File.OpenWrite(fileName))
+            //{
+            //    jsonSerializer.WriteObject(fs, convertedItem);
+            //    fs.Flush();
+            //}
 
             var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
 
@@ -155,6 +155,8 @@ namespace TmpSandBox
             };
 
             result.Children.Add(child);
+
+            result.Dict1.Add(16, 26);
 
             return result;
         }
