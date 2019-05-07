@@ -117,7 +117,9 @@ namespace TmpSandBox
 
             var convertedItem = objectConvertor.ConvertToPlaneTree(item);
 
-            var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
+            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItem = {convertedItem}");
+
+            //var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
 
             //if (File.Exists(fileName))
             //{
@@ -138,6 +140,8 @@ namespace TmpSandBox
 #endif
 
             var deserializedPlaneObjectsTree = JsonConvert.DeserializeObject<PlaneObjectsTree>(convertedItemJson);
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"deserializedPlaneObjectsTree = {deserializedPlaneObjectsTree}");
 
             var deserializedItem = objectConvertor.ConvertFromPlaneTree<TstClass1>(deserializedPlaneObjectsTree, new List<Type> { typeof(TstClass2) });
 

@@ -6,13 +6,15 @@ using System.Text;
 namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 {
     // TODO: fix me!
-    public class PlaneObject : IObjectToString
+    public class PlaneObjectProp: IObjectToString
     {
+        public string Name { get; set; }
         public string FullTypeName { get; set; }
-        public string TypeName { get; set; }
-        public string Namespace { get; set; }
+        public KindOfPlaneObjectPropType Kind { get; set; } = KindOfPlaneObjectPropType.Null;
+        public object Value { get; set; }
+        public PlaneObjectList List { get; set; }
+        public PlaneObjectDictionary Dict { get; set; }
         public int Key { get; set; }
-        public List<PlaneObjectProp> PropertiesList { get; set; } = new List<PlaneObjectProp>();
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -43,24 +45,32 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(FullTypeName)} = {FullTypeName}");
-            sb.AppendLine($"{spaces}{nameof(TypeName)} = {TypeName}");
-            sb.AppendLine($"{spaces}{nameof(Namespace)} = {Namespace}");
+            sb.AppendLine($"{spaces}{nameof(Name)} = {Name}");
+            sb.AppendLine($"{spaces}{nameof(FullTypeName)} = {FullTypeName}");         
+            sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
+            sb.AppendLine($"{spaces}{nameof(Value)} = {Value}");
             sb.AppendLine($"{spaces}{nameof(Key)} = {Key}");
 
-            if (PropertiesList == null)
+            if (List == null)
             {
-                sb.AppendLine($"{spaces}{nameof(PropertiesList)} = null");
+                sb.AppendLine($"{spaces}{nameof(List)} = null");
             }
             else
             {
-                sb.AppendLine($"{spaces}Begin {nameof(PropertiesList)}");
-                foreach (var item in PropertiesList)
-                {
-                    sb.Append(item.ToString(nextN));
-                    sb.AppendLine();
-                }
-                sb.AppendLine($"{spaces}End {nameof(PropertiesList)}");
+                sb.AppendLine($"{spaces}Begin {nameof(List)}");
+                sb.Append(List.ToString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(List)}");
+            }
+
+            if (Dict == null)
+            {
+                sb.AppendLine($"{spaces}{nameof(Dict)} = null");
+            }
+            else
+            {
+                sb.AppendLine($"{spaces}Begin {nameof(Dict)}");
+                sb.Append(Dict.ToString(nextN));
+                sb.AppendLine($"{spaces}End {nameof(Dict)}");
             }
 
             return sb.ToString();
