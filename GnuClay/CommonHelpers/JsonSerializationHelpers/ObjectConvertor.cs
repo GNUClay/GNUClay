@@ -121,6 +121,11 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree source = {source}");
 #endif
 
+            if(context.ProcessedObjectsDict.ContainsKey(source.Key))
+            {
+                return context.ProcessedObjectsDict[source.Key];
+            }
+
             var type = context.GetType(source);
 
 #if DEBUG
@@ -131,6 +136,9 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 
             context.ProcessedObjectsDict[source.Key] = result;
 
+            var propertiesList = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var propertiesDict = propertiesList.ToDictionary(p => p.Name, p => p);
+
             var sourcePropertiesList = source.PropertiesList;
 
             foreach (var sourcePropertyItem in sourcePropertiesList)
@@ -138,65 +146,60 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree sourcePropertyItem = {sourcePropertyItem}");
 #endif
+
+                var prop = propertiesDict[sourcePropertyItem.Name];
+
+                var restoredValue = DispatchObjectOnConvertingFromPlaneTree(sourcePropertyItem, prop.PropertyType, context);
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree restoredValue = {restoredValue}");
+#endif
+
+                prop.SetValue(result, restoredValue);
             }
-
-            //var propertiesList = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            //foreach (var property in propertiesList)
-            //{
-            //#if DEBUG
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree property.Name = {property.Name}");
-            //NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree property.PropertyType = {property.PropertyType}");
-            //#endif
-
-            //                if (!source.Values.ContainsKey(property.Name))
-            //                {
-            //                    continue;
-            //                }
-
-            //                var kindOfType = GetKindOfType(property.PropertyType);
-            //                var val = source.Values[property.Name];
-
-            //#if DEBUG
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree kindOfType = {kindOfType}");
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree val = {val}");
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree val?.GetType().FullName = {val?.GetType().FullName}");
-            //#endif
-
-            //                var restoredVal = DispatchObjectOnConvertingFromPlaneTree(val, kindOfType, property.PropertyType, context);
-
-            //#if DEBUG
-            //                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessObjectOnConvertingFromPlaneTree restoredVal = {restoredVal}");
-            //#endif
-
-            //                property.SetValue(result, restoredVal);
-            //}
 
             return result;
         }
 
         // TODO: fix me!
-        private object DispatchObjectOnConvertingFromPlaneTree(object source, KindOfPlaneObjectPropType kindOfType, Type type, ContextOfConvertFromPlaneTree context)
+        private object DispatchObjectOnConvertingFromPlaneTree(PlaneObjectProp source, Type targetType, ContextOfConvertFromPlaneTree context)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"DispatchObjectOnConvertingFromPlaneTree source = {source}");
 #endif
 
-            if (source == null)
-            {
-                return null;
-            }
+            var kindOfType = source.Kind;
 
-            switch (kindOfType)
+            switch(kindOfType)
             {
+                case KindOfPlaneObjectPropType.Null:
+                    return null;
+
+                case KindOfPlaneObjectPropType.Class:
+                    {
+                        var key = source.Key;
+
+#if DEBUG
+                        NLog.LogManager.GetCurrentClassLogger().Info($"DispatchObjectOnConvertingFromPlaneTree key = {key}");
+#endif
+                        var planeObject = context.ObjectsDict[key];
+
+#if DEBUG
+                        NLog.LogManager.GetCurrentClassLogger().Info($"DispatchObjectOnConvertingFromPlaneTree planeObject = {planeObject}");
+#endif
+
+                        return ProcessObjectOnConvertingFromPlaneTree(planeObject, context);
+                    }
+                    
+
                 case KindOfPlaneObjectPropType.ValueType:
-                    return Convert.ChangeType(source, type);
+                    return Convert.ChangeType(source.Value, targetType);
 
                 case KindOfPlaneObjectPropType.List:
-                    return ProcessListOnConvertingFromPlaneTree(source, type, context);
+                    return ProcessListOnConvertingFromPlaneTree(source.List, context);
 
                 case KindOfPlaneObjectPropType.Dictionary:
-                    return ProcessDictionaryOnConvertingFromPlaneTree(source, type, context);
+                    return ProcessDictionaryOnConvertingFromPlaneTree(source.Dict, context);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(kindOfType), kindOfType, null);
@@ -206,104 +209,77 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
         }
 
         // TODO: fix me!
-        private object ProcessListOnConvertingFromPlaneTree(object source, Type type, ContextOfConvertFromPlaneTree context)
+        private object ProcessListOnConvertingFromPlaneTree(PlaneObjectList source, ContextOfConvertFromPlaneTree context)
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree type.IsArray = {type.IsArray}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree type.IsGenericType = {type.IsGenericType}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree type.GenericTypeArguments.Length = {type.GenericTypeArguments.Length}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree type.GetElementType() = {type.GetElementType()}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree source = {source}");
 #endif
 
-            var sourceList = source as System.Collections.ICollection;
+            var type = Type.GetType(source.FullTypeName);
 
-            if (sourceList == null)
+            var result = Activator.CreateInstance(type, source.List.Count);
+
+            var resultAsList = result as System.Collections.IList;
+
+            Type elementType = null;
+
+            if(type.IsArray)
             {
-                throw new ArgumentNullException(nameof(sourceList));
-            }
-
-            object result = null;
-
-            if (type.IsInterface)
-            {
-                var fullName = type.FullName;
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree fullName = {fullName}");
-#endif
-
-                var genericPos = fullName.IndexOf("`");
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree genericPos = {genericPos}");
-#endif
-
-                var genericPart = fullName.Substring(genericPos);
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree genericPart = {genericPart}");
-#endif
-
-                fullName = $"System.Collections.Generic.List{genericPart}";
-
-                type = Type.GetType(fullName);
+                elementType = type.GetElementType();
             }
             else
             {
-                if(type.IsArray)
-                {
-#if DEBUG
-                    NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree sourceList.Count = {sourceList.Count}");
-#endif
-
-                    result = Activator.CreateInstance(type, sourceList.Count);
-                }
-                else
-                {
-                    result = Activator.CreateInstance(type);
-                }
+                elementType = type.GetGenericArguments()[0];
             }
 
-            foreach(var item in sourceList)
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree elementType = {elementType}");
+#endif
+
+            var i = -1;
+
+            foreach (var item in source.List)
             {
 #if DEBUG
                 NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree item = {item}");
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree item.GetType().FullName = {item.GetType().FullName}");
 #endif
+
+                var restoredValue = DispatchObjectOnConvertingFromPlaneTree(item, elementType, context);
+
+#if DEBUG
+                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessListOnConvertingFromPlaneTree restoredValue = {restoredValue}");
+#endif
+
+                if(type.IsArray)
+                {
+                    i++;
+                    resultAsList[i] = restoredValue;
+                }
+                else
+                {
+                    resultAsList.Add(restoredValue);
+                }
             }
 
             return result;
         }
 
         // TODO: fix me!
-        private object ProcessDictionaryOnConvertingFromPlaneTree(object source, Type type, ContextOfConvertFromPlaneTree context)
+        private object ProcessDictionaryOnConvertingFromPlaneTree(PlaneObjectDictionary source, ContextOfConvertFromPlaneTree context)
         {
-            if(type.IsInterface)
-            {
-                var fullName = type.FullName;
-
 #if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingFromPlaneTree fullName = {fullName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingFromPlaneTree source = {source}");
 #endif
 
-                var genericPos = fullName.IndexOf("`");
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingFromPlaneTree genericPos = {genericPos}");
-#endif
-
-                var genericPart = fullName.Substring(genericPos);
-
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingFromPlaneTree genericPart = {genericPart}");
-#endif
-
-                fullName = $"System.Collections.Generic.Dictionary{genericPart}";
-
-                type = Type.GetType(fullName);
-            }
+            var type = Type.GetType(source.FullTypeName);
 
             var result = Activator.CreateInstance(type);
+
+            var addMethod = type.GetMethod("Add");
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"ProcessDictionaryOnConvertingFromPlaneTree addMethod.GetParameters().Length = {addMethod.GetParameters().Length}");
+#endif
 
             return result;
         }

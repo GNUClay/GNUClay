@@ -138,26 +138,6 @@
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
-        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectRef.ToString">
-            <summary>
-            Returns a string that represents the current instance.
-            </summary>
-            <returns>A string that represents the current instance.</returns>
-        </member>
-        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectRef.ToString(System.UInt32)">
-            <summary>
-            Returns a string that represents the current instance.
-            </summary>
-            <param name="n">Count of spaces in the string for more comfortable representation.</param>
-            <returns>A string that represents the current instance.</returns>
-        </member>
-        <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectRef.PropertiesToString(System.UInt32)">
-            <summary>
-            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
-            </summary>
-            <param name="n">Count of spaces in the string for more comfortable representation.</param>
-            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
-        </member>
         <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObjectsTree.ToString">
             <summary>
             Returns a string that represents the current instance.

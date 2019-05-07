@@ -16,7 +16,7 @@ namespace TmpSandBox.GnuClayEngine
         public IDictionary<int, int> Dict2 { get; set; } = new Dictionary<int, int>();
         public IList<string> List1 { get; set; } = new List<string>();
         public int[] Arr1 { get; set; } = new int[] { 1, 2, 3 };
-        public int Val1 { get; set; } = 15;
+        public int Val1 { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.

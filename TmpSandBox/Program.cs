@@ -148,6 +148,11 @@ namespace TmpSandBox
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"deserializedItem = {deserializedItem}");
 #endif
+
+            if(deserializedItem.Dict1.ContainsKey(16))
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info("deserializedItem.Dict1.ContainsKey(16)");
+            }
         }
 
         private static TstClass1 CreateSerializabledItem()
@@ -166,6 +171,7 @@ namespace TmpSandBox
             result.Children.Add(child);
 
             result.Dict1.Add(16, 26);
+            result.Val1 = 15;
 
             return result;
         }
