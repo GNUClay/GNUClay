@@ -276,6 +276,18 @@
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
+        <member name="T:GnuClay.CommonHelpers.ReflectionHelpers.TypeHelper">
+            <summary>
+            Provides methods for more comfortable working with System.Type.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonHelpers.ReflectionHelpers.TypeHelper.RemoveLibInfoFromFullName(System.String)">
+            <summary>
+            Removes information about version, culture, PublicKeyToken and library name from type name.
+            </summary>
+            <param name="fullName">Initial type name.</param>
+            <returns>Typename without version, culture, PublicKeyToken and library name.</returns>
+        </member>
         <member name="T:GnuClay.Engine">
             <summary>
             The class of instance of GnuClayEngine.

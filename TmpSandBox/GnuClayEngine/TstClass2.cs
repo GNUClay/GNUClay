@@ -6,7 +6,6 @@ using System.Text;
 
 namespace TmpSandBox.GnuClayEngine
 {
-    [DataContract(Namespace = "TestData")]
     public class TstClass2: IObjectToString, IObjectToBriefString
     {
         public string Id { get; set; }

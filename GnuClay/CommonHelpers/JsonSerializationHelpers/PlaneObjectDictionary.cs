@@ -8,7 +8,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
     // TODO: fix me!
     public class PlaneObjectDictionary : IObjectToString
     {
-        public string FullTypeName { get; set; }
+        public string TypeName { get; set; }
         public List<KeyValuePair<PlaneObjectProp, PlaneObjectProp>> List { get; set; } = new List<KeyValuePair<PlaneObjectProp, PlaneObjectProp>>();
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             var nextNSpaces = DisplayHelper.Spaces(nextN);
             var nextNextN = nextN + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(FullTypeName)} = {FullTypeName}");
+            sb.AppendLine($"{spaces}{nameof(TypeName)} = {TypeName}");
 
             if(List == null)
             {

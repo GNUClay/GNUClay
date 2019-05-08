@@ -48,6 +48,7 @@ using TmpSandBox.VarOfSentences;
 using GnuClay.CommonHelpers.JsonSerializationHelpers;
 using System.Dynamic;
 using Newtonsoft.Json;
+using GnuClay.CommonHelpers.ReflectionHelpers;
 
 namespace TmpSandBox
 {
@@ -117,42 +118,96 @@ namespace TmpSandBox
 
             var convertedItem = objectConvertor.ConvertToPlaneTree(item);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItem = {convertedItem}");
-
-            //var jsonSerializer = new DataContractJsonSerializer(typeof(PlaneObjectsTree), new List<Type> { typeof(ExpandoObject) });
-
-            //if (File.Exists(fileName))
-            //{
-            //    File.Delete(fileName);
-            //}
-
-            //using (var fs = File.OpenWrite(fileName))
-            //{
-            //    jsonSerializer.WriteObject(fs, convertedItem);
-            //    fs.Flush();
-            //}
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper convertedItem = {convertedItem}");
 
             var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItemJson = {convertedItemJson}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"convertedItemJson.Length = {convertedItemJson.Length}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper convertedItemJson = {convertedItemJson}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper convertedItemJson.Length = {convertedItemJson.Length}");
 #endif
+
+            var typeFactory = new MapTypeFactory((name) => {
+                NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper name = {name}");
+
+                switch (name)
+                {
+                    case "TmpSandBox.GnuClayEngine.TstClass1":
+                        return typeof(TstClass1);
+
+                    case "TmpSandBox.GnuClayEngine.TstClass2":
+                        return typeof(TstClass2);
+
+                    case "System.Collections.Generic.List`1[[TmpSandBox.GnuClayEngine.TstClass2]]":
+                        return typeof(List<TstClass2>);
+
+                    case "System.Collections.Generic.Dictionary`2[[System.Int32],[System.String]]":
+                        return typeof(Dictionary<int, string>);
+
+                    case "System.Collections.Generic.Dictionary`2[[System.Int32],[System.Int32]]":
+                        return typeof(Dictionary<int, int>);
+
+                    case "System.Collections.Generic.List`1[[System.String]]":
+                        return typeof(List<string>);
+
+                    case "System.Int32[]":
+                        return typeof(int[]);
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(name), name, null);
+                }
+            });
 
             var deserializedPlaneObjectsTree = JsonConvert.DeserializeObject<PlaneObjectsTree>(convertedItemJson);
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"deserializedPlaneObjectsTree = {deserializedPlaneObjectsTree}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper deserializedPlaneObjectsTree = {deserializedPlaneObjectsTree}");
 
-            var deserializedItem = objectConvertor.ConvertFromPlaneTree<TstClass1>(deserializedPlaneObjectsTree, new List<Type> { typeof(TstClass2) });
+            var deserializedItem = objectConvertor.ConvertFromPlaneTree<TstClass1>(deserializedPlaneObjectsTree, typeFactory);
 
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"deserializedItem = {deserializedItem}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper deserializedItem = {deserializedItem}");
 #endif
 
             if(deserializedItem.Dict1.ContainsKey(16))
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("deserializedItem.Dict1.ContainsKey(16)");
+                NLog.LogManager.GetCurrentClassLogger().Info("TSTSerializableHelper deserializedItem.Dict1.ContainsKey(16)");
             }
+
+            var dict = new Dictionary<int, Dictionary<string, object>>();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper dict.GetType().FullName = {dict.GetType().FullName}");
+#endif
+
+            var newFullName = TypeHelper.RemoveLibInfoFromFullName(dict.GetType().FullName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper newFullName = {newFullName}");
+#endif
+
+            var dictType = Type.GetType(newFullName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper dictType.FullName = {dictType.FullName}");
+#endif
+
+            var list = new List<int>();
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper list.GetType().FullName = {list.GetType().FullName}");
+#endif
+
+            newFullName = TypeHelper.RemoveLibInfoFromFullName(list.GetType().FullName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper newFullName = {newFullName}");
+#endif
+
+            var listType = Type.GetType(newFullName);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper listType.FullName = {listType.FullName}");
+#endif
         }
 
         private static TstClass1 CreateSerializabledItem()
@@ -170,7 +225,7 @@ namespace TmpSandBox
 
             result.Children.Add(child);
 
-            result.Dict1.Add(16, 26);
+            result.Dict1.Add(16, "go!");
             result.Val1 = 15;
 
             return result;

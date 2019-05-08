@@ -9,7 +9,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
     public class PlaneObjectProp: IObjectToString
     {
         public string Name { get; set; }
-        public string FullTypeName { get; set; }
+        public string TypeName { get; set; }
         public KindOfPlaneObjectPropType Kind { get; set; } = KindOfPlaneObjectPropType.Null;
         public object Value { get; set; }
         public PlaneObjectList List { get; set; }
@@ -46,7 +46,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             var nextN = n + 4;
             var sb = new StringBuilder();
             sb.AppendLine($"{spaces}{nameof(Name)} = {Name}");
-            sb.AppendLine($"{spaces}{nameof(FullTypeName)} = {FullTypeName}");         
+            sb.AppendLine($"{spaces}{nameof(TypeName)} = {TypeName}");         
             sb.AppendLine($"{spaces}{nameof(Kind)} = {Kind}");
             sb.AppendLine($"{spaces}{nameof(Value)} = {Value}");
             sb.AppendLine($"{spaces}{nameof(Key)} = {Key}");
