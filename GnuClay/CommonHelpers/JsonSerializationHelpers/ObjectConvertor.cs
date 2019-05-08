@@ -62,7 +62,6 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             }
         }
 
-        // TODO: fix me!
         private ContextOfConvertFromPlaneTree CreateContext(PlaneObjectsTree source, ITypeFactory typeFactory)
         {
             var context = new ContextOfConvertFromPlaneTree

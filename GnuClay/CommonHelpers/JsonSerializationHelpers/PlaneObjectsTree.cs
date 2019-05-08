@@ -5,7 +5,6 @@ using System.Text;
 
 namespace GnuClay.CommonHelpers.JsonSerializationHelpers
 {
-    // TODO: fix me!
     public class PlaneObjectsTree: IObjectToString
     {
         public float Version { get; set; }
