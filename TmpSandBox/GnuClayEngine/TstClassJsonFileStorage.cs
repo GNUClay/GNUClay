@@ -8,7 +8,7 @@ namespace TmpSandBox.GnuClayEngine
     public class TstClassJsonFileStorage: BaseJsonFileStorage<TstClass1>
     {
         public TstClassJsonFileStorage()
-            : base(new TstClassTypeFactory())
+            : base(new TstClassTypeFactory(), 5.2F)
         {
         }
 

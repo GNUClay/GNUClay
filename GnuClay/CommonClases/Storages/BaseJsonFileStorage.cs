@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonHelpers.JsonSerializationHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace GnuClay.CommonClases.Storages
     {
         // TODO: fix me!
         protected BaseJsonFileStorage(string fullFileName, ITypeFactory typeFactory, float version)
-            : this(typeFactory)
+            : this(typeFactory, version)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(1) fullFileName = {fullFileName}");
@@ -21,12 +22,13 @@ namespace GnuClay.CommonClases.Storages
         }
 
         // TODO: fix me!
-        protected BaseJsonFileStorage(string fileName, string directoryName, ITypeFactory typeFactory)
-            : this(typeFactory)
+        protected BaseJsonFileStorage(string fileName, string directoryName, ITypeFactory typeFactory, float version)
+            : this(typeFactory, version)
         {
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) fileName = {fileName}");
             NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) directoryName = {directoryName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) version = {version}");
 #endif
 
             FileName = fileName;
@@ -172,12 +174,60 @@ namespace GnuClay.CommonClases.Storages
         public virtual void Save()
         {
 #if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Save");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save mFullFileName = {mFullFileName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save mVersion = {mVersion}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save Instance = {Instance}");
 #endif
 
+            if (string.IsNullOrWhiteSpace(mFullFileName))
+            {
+                throw new NullReferenceException("File name can not be null or empty.");
+            }
 
+            if (Instance == null)
+            {
+                if (File.Exists(mFullFileName))
+                {
+                    File.Delete(mFullFileName);
+                }
 
-            throw new NotImplementedException();
+                using (var fs = File.Create(mFullFileName))
+                {
+                    using (var sw = new StreamWriter(fs))
+                    {
+                        sw.Write("null");
+                        fs.Flush();
+                    }
+                }
+
+                return;
+            }
+
+            var convertedItem = mObjectConvertor.ConvertToPlaneTree(Instance, mVersion);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save convertedItem = {convertedItem}");
+#endif
+
+            var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
+
+#if DEBUG
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save convertedItemJson = {convertedItemJson}");
+#endif
+
+            if (File.Exists(mFullFileName))
+            {
+                File.Delete(mFullFileName);
+            }
+
+            using (var fs = File.Create(mFullFileName))
+            {
+                using (var sw = new StreamWriter(fs))
+                {
+                    sw.Write(convertedItemJson);
+                    fs.Flush();
+                }
+            }
         }
 
         public abstract void Clear();
