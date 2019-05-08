@@ -12,7 +12,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
     public class ObjectConvertor
     {
         #region public members
-        public PlaneObjectsTree ConvertToPlaneTree(object source)
+        public PlaneObjectsTree ConvertToPlaneTree(object source, float version)
         {
             if(!source.GetType().IsClass)
             {
@@ -22,6 +22,8 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             var context = new ContextOfConvertToPlaneTree();
 
             var result = new PlaneObjectsTree();
+            result.Version = version;
+
             ProcessObjectOnConvertingToPlaneTree(source, context);
 
             result.ObjectsDict = context.ObjectsDict;
@@ -112,14 +114,9 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
                     return null;
 
                 case KindOfPlaneObjectPropType.Class:
-                    {
-                        var key = source.Key;
-
-                        var planeObject = context.ObjectsDict[key];
-
-                        return ProcessObjectOnConvertingFromPlaneTree(planeObject, context);
-                    }
-                    
+                    var key = source.Key;
+                    var planeObject = context.ObjectsDict[key];
+                    return ProcessObjectOnConvertingFromPlaneTree(planeObject, context);
 
                 case KindOfPlaneObjectPropType.ValueType:
                     return Convert.ChangeType(source.Value, targetType);

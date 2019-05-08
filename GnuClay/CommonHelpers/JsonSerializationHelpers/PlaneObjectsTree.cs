@@ -8,6 +8,7 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
     // TODO: fix me!
     public class PlaneObjectsTree: IObjectToString
     {
+        public float Version { get; set; }
         public Dictionary<int, PlaneObject> ObjectsDict { get; set; }
 
         /// <summary>
@@ -43,7 +44,9 @@ namespace GnuClay.CommonHelpers.JsonSerializationHelpers
             var nextNextNSpaces = DisplayHelper.Spaces(nextNextN);
             var sb = new StringBuilder();
 
-            if(ObjectsDict == null)
+            sb.AppendLine($"{spaces}{nameof(Version)} = {Version}");
+
+            if (ObjectsDict == null)
             {
                 sb.AppendLine($"{spaces}{nameof(ObjectsDict)} = null");
             }

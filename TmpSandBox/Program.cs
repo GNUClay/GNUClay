@@ -116,7 +116,7 @@ namespace TmpSandBox
 
             var objectConvertor = new ObjectConvertor();
 
-            var convertedItem = objectConvertor.ConvertToPlaneTree(item);
+            var convertedItem = objectConvertor.ConvertToPlaneTree(item, 5.2F);
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper convertedItem = {convertedItem}");
 
