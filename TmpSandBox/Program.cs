@@ -115,7 +115,7 @@ namespace TmpSandBox
             var fileName = "1.json";
 
             var storage = new TstClassJsonFileStorage();
-            storage.Instance = item;
+            storage.SetData(ref item);
             storage.FileName = fileName;
             storage.DirectoryName = Environment.CurrentDirectory;
 
@@ -124,6 +124,16 @@ namespace TmpSandBox
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper fullName = {fullName}");
 
             storage.Save();
+
+            var tmpData = storage.GetData();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper tmpData = {tmpData}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper item = {item}");
+
+            tmpData = null;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper tmpData (2) = {tmpData}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper item (2) = {item}");
 
             //            var objectConvertor = new ObjectConvertor();
 

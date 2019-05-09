@@ -18,7 +18,7 @@ namespace TmpSandBox.GnuClayEngine
             NLog.LogManager.GetCurrentClassLogger().Info("Clear");
 #endif
 
-            Instance = new TstClass1();
+            mData = new TstClass1();
         }
     }
 }

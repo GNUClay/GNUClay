@@ -148,7 +148,17 @@ namespace GnuClay.CommonClases.Storages
             }
         }
 
-        public T Instance { get; set; }
+        public ref T GetData()
+        {
+            return ref mData;
+        }
+
+        public void SetData(ref T value)
+        {
+            mData = value;
+        }
+
+        protected T mData = default(T);
 
         // TODO: fix me!
         public virtual void Load()
@@ -176,7 +186,7 @@ namespace GnuClay.CommonClases.Storages
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Save mFullFileName = {mFullFileName}");
             NLog.LogManager.GetCurrentClassLogger().Info($"Save mVersion = {mVersion}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save Instance = {Instance}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"Save mData = {mData}");
 #endif
 
             if (string.IsNullOrWhiteSpace(mFullFileName))
@@ -184,7 +194,7 @@ namespace GnuClay.CommonClases.Storages
                 throw new NullReferenceException("File name can not be null or empty.");
             }
 
-            if (Instance == null)
+            if (mData == null)
             {
                 if (File.Exists(mFullFileName))
                 {
@@ -203,7 +213,7 @@ namespace GnuClay.CommonClases.Storages
                 return;
             }
 
-            var convertedItem = mObjectConvertor.ConvertToPlaneTree(Instance, mVersion);
+            var convertedItem = mObjectConvertor.ConvertToPlaneTree(mData, mVersion);
 
 #if DEBUG
             NLog.LogManager.GetCurrentClassLogger().Info($"Save convertedItem = {convertedItem}");
