@@ -6,5 +6,6 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem
 {
     public class RuntimeSettingsDataTypeFactory
     {
+
     }
 }
