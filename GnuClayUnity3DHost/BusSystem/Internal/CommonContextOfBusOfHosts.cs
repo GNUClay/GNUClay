@@ -37,7 +37,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public RemoteLogger RemoteLoggerComponent { get; set; }
         public RegistryOfHost RegistryOfHostComponent { get; set; }
         public IdsStorage IdsStorageComponent { get; set; }
-        public RunTimeSettingsStorage RunTimeSettingsStorageComponent { get; set; }
+        public RuntimeSettingsStorage RunTimeSettingsStorageComponent { get; set; }
 
         /// <summary>
         /// Gets references to other components. 

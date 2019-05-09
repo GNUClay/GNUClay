@@ -109,7 +109,7 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RemoteLoggerComponent = new RemoteLogger(mContext, mLogger);
             mContext.RegistryOfHostComponent = new RegistryOfHost(mContext, mLogger);
             mContext.IdsStorageComponent = new IdsStorage(mContext, mLogger);
-            mContext.RunTimeSettingsStorageComponent = new RunTimeSettingsStorage(mContext, mLogger);
+            mContext.RunTimeSettingsStorageComponent = new RuntimeSettingsStorage(mContext, mLogger);
         }
 
         private void InitComponents()
