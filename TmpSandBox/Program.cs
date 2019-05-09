@@ -108,14 +108,14 @@ namespace TmpSandBox
 
         private static void TSTSerializableHelper()
         {
-            var item = CreateSerializabledItem();
+            //var item = CreateSerializabledItem();
 
-            LogInstance.Log($"item = '{item}'");
+            //LogInstance.Log($"item = '{item}'");
 
             var fileName = "1.json";
 
             var storage = new TstClassJsonFileStorage();
-            storage.SetData(ref item);
+            //storage.Data = item;
             storage.FileName = fileName;
             storage.DirectoryName = Environment.CurrentDirectory;
 
@@ -123,17 +123,31 @@ namespace TmpSandBox
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper fullName = {fullName}");
 
-            storage.Save();
+            //storage.Save();
+            storage.Load();
 
-            var tmpData = storage.GetData();
+            var tmpData = storage.Data;
 
             NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper tmpData = {tmpData}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper item = {item}");
+            //NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper item = {item}");
 
-            tmpData = null;
+            var versionFromFile = storage.ReadVersionFromFile();
 
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper tmpData (2) = {tmpData}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper item (2) = {item}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper versionFromFile = {versionFromFile}");
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper storage = {storage}");
+
+            var newfileName = @"C:\Users\Sergey\Documents\GitHub\GNUClay\TmpSandBox\bin\Debug\netcoreapp2.0\2.json";
+
+            storage.FullFileName = newfileName;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper storage.FullFileName = {storage.FullFileName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper storage.FileName = {storage.FileName}");
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper storage.DirectoryName = {storage.DirectoryName}");
+
+            storage.Save();
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTSerializableHelper storage = {storage}");
 
             //            var objectConvertor = new ObjectConvertor();
 

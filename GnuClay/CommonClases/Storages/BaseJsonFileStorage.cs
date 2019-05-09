@@ -1,4 +1,5 @@
-﻿using GnuClay.CommonHelpers.JsonSerializationHelpers;
+﻿using GnuClay.CommonHelpers.DebugHelpers;
+using GnuClay.CommonHelpers.JsonSerializationHelpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,30 +8,18 @@ using System.Text;
 
 namespace GnuClay.CommonClases.Storages
 {
-    public abstract class BaseJsonFileStorage<T> where T: class, new()
+    public abstract class BaseJsonFileStorage<T>: IObjectToString, IShortObjectToString, IObjectToBriefString where T: class, new()
     {
-        // TODO: fix me!
+        #region constructors
         protected BaseJsonFileStorage(string fullFileName, ITypeFactory typeFactory, float version)
             : this(typeFactory, version)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(1) fullFileName = {fullFileName}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(1) version = {version}");
-#endif
-
             FullFileName = fullFileName;
         }
 
-        // TODO: fix me!
         protected BaseJsonFileStorage(string fileName, string directoryName, ITypeFactory typeFactory, float version)
             : this(typeFactory, version)
         {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) fileName = {fileName}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) directoryName = {directoryName}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"BaseJsonFileStorage(2) version = {version}");
-#endif
-
             FileName = fileName;
             DirectoryName = directoryName;
         }
@@ -41,14 +30,9 @@ namespace GnuClay.CommonClases.Storages
             mVersion = version;
             mObjectConvertor = new ObjectConvertor();
         }
+        #endregion
 
-        private readonly ITypeFactory mTypeFactory;
-        private readonly ObjectConvertor mObjectConvertor;
-        private readonly float mVersion;
-
-        private string mFullFileName = string.Empty;
-
-        // TODO: fix me!
+        #region public members
         public string FullFileName
         {
             get
@@ -58,22 +42,25 @@ namespace GnuClay.CommonClases.Storages
 
             set
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"set FullFileName value = {value}");
-#endif
-
-                if(mFullFileName == value)
+                if (mFullFileName == value)
                 {
                     return;
                 }
 
                 mFullFileName = value;
 
-                throw new NotImplementedException();
+                if(string.IsNullOrWhiteSpace(mFullFileName))
+                {
+                    mFileName = string.Empty;
+                    mDirectoryName = string.Empty;
+                }
+
+                var fileInfo = new FileInfo(mFullFileName);
+
+                mFileName = fileInfo.Name;
+                mDirectoryName = fileInfo.DirectoryName;
             }
         }
-
-        private string mFileName = string.Empty;
 
         public string FileName
         {
@@ -84,11 +71,7 @@ namespace GnuClay.CommonClases.Storages
 
             set
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"set FileName value = {value}");
-#endif
-
-                if(mFileName == value)
+                if (mFileName == value)
                 {
                     return;
                 }
@@ -99,31 +82,6 @@ namespace GnuClay.CommonClases.Storages
             }
         }
 
-        private void CreateFullFileName()
-        {
-            if(string.IsNullOrWhiteSpace(mFileName))
-            {
-                mFullFileName = string.Empty;
-            }
-            else
-            {
-                if(string.IsNullOrWhiteSpace(mDirectoryName))
-                {
-                    mFullFileName = mFileName;
-                }
-                else
-                {
-                    mFullFileName = Path.Combine(mDirectoryName, mFileName);
-                }
-            }
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"CreateFullFileName mFullFileName = {mFullFileName}");
-#endif
-        }
-
-        private string mDirectoryName = string.Empty;
-
         public string DirectoryName
         {
             get
@@ -133,11 +91,7 @@ namespace GnuClay.CommonClases.Storages
 
             set
             {
-#if DEBUG
-                NLog.LogManager.GetCurrentClassLogger().Info($"set DirectoryName value = {value}");
-#endif
-
-                if(mDirectoryName == value)
+                if (mDirectoryName == value)
                 {
                     return;
                 }
@@ -148,53 +102,52 @@ namespace GnuClay.CommonClases.Storages
             }
         }
 
-        public ref T GetData()
+        public T Data { get; set; } = default(T);
+
+        public float? ReadVersionFromFile()
         {
-            return ref mData;
-        }
+            CheckFullFileName();
 
-        public void SetData(ref T value)
-        {
-            mData = value;
-        }
-
-        protected T mData = default(T);
-
-        // TODO: fix me!
-        public virtual void Load()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("Load");
-#endif
-
-            throw new NotImplementedException();
-        }
-
-        // TODO: fix me!
-        public virtual void LoadOrCreate()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info("LoadOrCreate");
-#endif
-
-            throw new NotImplementedException();
-        }
-
-        // TODO: fix me!
-        public virtual void Save()
-        {
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save mFullFileName = {mFullFileName}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save mVersion = {mVersion}");
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save mData = {mData}");
-#endif
-
-            if (string.IsNullOrWhiteSpace(mFullFileName))
+            if (!File.Exists(mFullFileName))
             {
-                throw new NullReferenceException("File name can not be null or empty.");
+                throw new FileNotFoundException(null, mFullFileName);
             }
 
-            if (mData == null)
+            var deserializedPlaneObjectsTree = LoadPlaneObjectsTree();
+
+            return deserializedPlaneObjectsTree?.Version;
+        }
+
+        public virtual void Load()
+        {
+            CheckFullFileName();
+
+            if (!File.Exists(mFullFileName))
+            {
+                throw new FileNotFoundException(null, mFullFileName);
+            }
+
+            NLoad();
+        }
+
+        public virtual void LoadOrCreate()
+        {
+            CheckFullFileName();
+
+            if (!File.Exists(mFullFileName))
+            {
+                Data = new T();
+                return;
+            }
+
+            NLoad();
+        }
+
+        public virtual void Save()
+        {
+            CheckFullFileName();
+
+            if (Data == null)
             {
                 if (File.Exists(mFullFileName))
                 {
@@ -213,17 +166,9 @@ namespace GnuClay.CommonClases.Storages
                 return;
             }
 
-            var convertedItem = mObjectConvertor.ConvertToPlaneTree(mData, mVersion);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save convertedItem = {convertedItem}");
-#endif
+            var convertedItem = mObjectConvertor.ConvertToPlaneTree(Data, mVersion);
 
             var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
-
-#if DEBUG
-            NLog.LogManager.GetCurrentClassLogger().Info($"Save convertedItemJson = {convertedItemJson}");
-#endif
 
             if (File.Exists(mFullFileName))
             {
@@ -241,5 +186,182 @@ namespace GnuClay.CommonClases.Storages
         }
 
         public abstract void Clear();
+
+        /// <summary>
+        /// Returns a string that represents the current instance.
+        /// </summary>
+        /// <returns>A string that represents the current instance.</returns>
+        public override string ToString()
+        {
+            return ToString(0u);
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current instance.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance.</returns>
+        public string ToString(uint n)
+        {
+            return this.GetDefaultToStringInformation(n);
+        }
+
+        /// <summary>
+        /// Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        public string PropertiesToString(uint n)
+        {
+            var spaces = DisplayHelper.Spaces(n);
+            var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(FullFileName)} = {FullFileName}");
+            sb.AppendLine($"{spaces}{nameof(FileName)} = {FileName}");
+            sb.AppendLine($"{spaces}{nameof(DirectoryName)} = {DirectoryName}");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current instance in short way.
+        /// </summary>
+        /// <returns>A string that represents the current instance in short way.</returns>
+        public string ToShortString()
+        {
+            return ToShortString(0u);
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current instance in short way.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance in short way.</returns>
+        public string ToShortString(uint n)
+        {
+            return this.GetDefaultToShortStringInformation(n);
+        }
+
+        /// <summary>
+        /// Internal method which returns a string that represents the current instance in short way without additional information, only pair name of property - value.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
+        public string PropertiesToShortString(uint n)
+        {
+            var spaces = DisplayHelper.Spaces(n);
+            var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(FullFileName)} = {FullFileName}");
+            sb.AppendLine($"{spaces}{nameof(FileName)} = {FileName}");
+            sb.AppendLine($"{spaces}{nameof(DirectoryName)} = {DirectoryName}");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current instance in very short way.
+        /// </summary>
+        /// <returns>A string that represents the current instance in very short way.</returns>
+        public string ToBriefString()
+        {
+            return ToBriefString(0u);
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current instance in very short way.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance in very short way.</returns>
+        public string ToBriefString(uint n)
+        {
+            return this.GetDefaultToBriefStringInformation(n);
+        }
+
+        /// <summary>
+        /// Internal method which returns a string that represents the current instance in very short way without additional information, only pair name of property - value.
+        /// </summary>
+        /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
+        /// <returns>A string that represents the current instance in very short way without additional information, only pair name of property - value.</returns>
+        public string PropertiesToBriefString(uint n)
+        {
+            var spaces = DisplayHelper.Spaces(n);
+            var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(FullFileName)} = {FullFileName}");
+            sb.AppendLine($"{spaces}{nameof(FileName)} = {FileName}");
+            sb.AppendLine($"{spaces}{nameof(DirectoryName)} = {DirectoryName}");
+            return sb.ToString();
+        }
+        #endregion
+
+        #region private members
+        private readonly ITypeFactory mTypeFactory;
+        private readonly ObjectConvertor mObjectConvertor;
+        private readonly float mVersion;
+
+        private string mFullFileName = string.Empty;
+        private string mFileName = string.Empty;
+
+        private string mDirectoryName = string.Empty;
+
+        private void CreateFullFileName()
+        {
+            if (string.IsNullOrWhiteSpace(mFileName))
+            {
+                mFullFileName = string.Empty;
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(mDirectoryName))
+                {
+                    mFullFileName = mFileName;
+                }
+                else
+                {
+                    mFullFileName = Path.Combine(mDirectoryName, mFileName);
+                }
+            }
+        }
+
+        private void NLoad()
+        {
+            var deserializedPlaneObjectsTree = LoadPlaneObjectsTree();
+
+            if(deserializedPlaneObjectsTree == null)
+            {
+                Data = null;
+                return;
+            }
+
+            if(mVersion > deserializedPlaneObjectsTree.Version)
+            {
+                throw new NotSupportedException($"Version {deserializedPlaneObjectsTree.Version} of content in file '{mFullFileName}' doesn't support.");
+            }
+
+            Data = mObjectConvertor.ConvertFromPlaneTree<T>(deserializedPlaneObjectsTree, mTypeFactory);
+        }
+
+        private PlaneObjectsTree LoadPlaneObjectsTree()
+        {
+            using (var fs = File.OpenRead(mFullFileName))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    var content = sr.ReadToEnd();
+
+                    if(string.IsNullOrWhiteSpace(content) || content == "null")
+                    {
+                        return null;
+                    }
+
+                    return JsonConvert.DeserializeObject<PlaneObjectsTree>(content);
+                }
+            }
+        }
+
+        private void CheckFullFileName()
+        {
+            if (string.IsNullOrWhiteSpace(mFullFileName))
+            {
+                throw new NullReferenceException("File name can not be null or empty.");
+            }
+        }
+        #endregion
     }
 }

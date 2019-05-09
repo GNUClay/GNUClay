@@ -55,7 +55,7 @@ namespace GnuClay.CommonHelpers.DebugHelpers
         /// <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
         public string PropertiesToShortString(uint n)
         {
-            var spaces = StringHelper.Spaces(n);
+            var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
             return sb.ToString();
