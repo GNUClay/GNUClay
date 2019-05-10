@@ -188,7 +188,11 @@ namespace GnuClayUnity3DHost.BusSystem
             mLogger.Info("Begin");
 #endif
 
-            //throw new NotImplementedException();
+            switch(mState)
+            {
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
+            }
         }
 
         /// <summary>
@@ -361,5 +365,9 @@ namespace GnuClayUnity3DHost.BusSystem
         {
             mContext?.Dispose();
         }
+
+        #region private members
+
+        #endregion
     }
 }
