@@ -17,6 +17,9 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public string SharedPackagesDir { get; set; }
         public string AppsDir { get; set; }
         public string ImagesDir { get; set; }
+        public string CurrentImageName { get; set; }
+        public string CurrentImageDir { get; set; }
+
         public LoggingSettings LoggingSettings { get; set; } = new LoggingSettings();
 
         /// <summary>

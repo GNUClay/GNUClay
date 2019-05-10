@@ -5,6 +5,7 @@ using System.Text;
 using GnuClay;
 using GnuClay.CommonHelpers.FileHelpers;
 using GnuClayUnity3DHost.BusSystem.Internal;
+using GnuClayUnity3DHost.BusSystem.Internal.CommonScenarios;
 using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
@@ -28,6 +29,11 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.SharedPackagesDir = pathResolver.Resolve(options.SharedPackagesDir, mContext.BaseDir);
             mContext.AppsDir = pathResolver.Resolve(options.AppsDir, mContext.BaseDir);
             mContext.ImagesDir = pathResolver.Resolve(options.ImagesDir, mContext.BaseDir);
+
+            if(!string.IsNullOrWhiteSpace(options.CurrentImage))
+            {
+                throw new NotImplementedException();
+            }
 
             CreatePathsIfNotExist();
 
@@ -188,11 +194,8 @@ namespace GnuClayUnity3DHost.BusSystem
             mLogger.Info("Begin");
 #endif
 
-            switch(mState)
-            {
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
-            }
+            var scenario = new StartScenario(mLogger, mContext);
+            scenario.Execute(ref mState, mStateLockObj);
         }
 
         /// <summary>

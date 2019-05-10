@@ -7,7 +7,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem
 {
     public class RuntimeSettingsData: IObjectToString
     {
-
+        public string NameOfCurrentImage { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -38,6 +38,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{NameOfCurrentImage} = {NameOfCurrentImage}");
             return sb.ToString();
         }
     }
