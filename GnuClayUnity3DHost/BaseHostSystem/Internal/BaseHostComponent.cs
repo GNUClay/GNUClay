@@ -40,12 +40,12 @@ namespace GnuClayUnity3DHost.HostSystem.Internal
         {
             lock (IsDisposedLockObj)
             {
-                if (IsDisposed)
+                if (mIsDisposed)
                 {
                     return;
                 }
 
-                IsDisposed = true;
+                mIsDisposed = true;
             }
 
             Dispose(true);
@@ -57,7 +57,7 @@ namespace GnuClayUnity3DHost.HostSystem.Internal
         /// </summary>
         ~BaseHostComponent()
         {
-            if (IsDisposed)
+            if (mIsDisposed)
             {
                 return;
             }
@@ -68,7 +68,18 @@ namespace GnuClayUnity3DHost.HostSystem.Internal
         /// <summary>
         /// Returns true if the instance was released, owerthise returns false.
         /// </summary>
-        public bool IsDisposed { get; private set; }
+        public bool IsDisposed
+        {
+            get
+            {
+                lock (IsDisposedLockObj)
+                {
+                    return mIsDisposed;
+                }
+            }
+        }
+
+        private bool mIsDisposed;
         private readonly object IsDisposedLockObj = new object();
 
         /// <summary>

@@ -49,6 +49,7 @@ using GnuClay.CommonHelpers.JsonSerializationHelpers;
 using System.Dynamic;
 using Newtonsoft.Json;
 using GnuClay.CommonHelpers.ReflectionHelpers;
+using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
 
 namespace TmpSandBox
 {
@@ -66,10 +67,11 @@ namespace TmpSandBox
             var logProxy = new LogProxyForNLog();
             LogInstance.SetLogProxy(logProxy);
 
-            TSTSerializableHelper();
-            TSTPathResolver();
+            //TSTRuntimeSettingsDataStorage();
+            //TSTSerializableHelper();
+            //TSTPathResolver();
             //TSTLogger();
-            //TSTNewEngine();
+            TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
             //TSTStack();
@@ -104,6 +106,22 @@ namespace TmpSandBox
             //TSTActivatorOfNPCProcessEntryPointInfo();
             //CreateContextAndProcessesCase1();
             //CreateInfoOfConcreteProcess();
+        }
+
+        private static void TSTRuntimeSettingsDataStorage()
+        {
+            var storage = new RuntimeSettingsDataStorage();
+            var fileName = "runtimeStorage.json";
+            storage.FileName = fileName;
+            storage.DirectoryName = Environment.CurrentDirectory;
+
+            storage.LoadOrCreate();
+
+            var item = storage.Data;
+
+            NLog.LogManager.GetCurrentClassLogger().Info($"TSTRuntimeSettingsDataStorage item = {item}");
+
+            storage.Save();
         }
 
         private static void TSTSerializableHelper()
@@ -241,15 +259,15 @@ namespace TmpSandBox
         {
             var pathResolver = new PathResolver();
 
-            var initPath = "%AppData%/TmpDir";
+            var initPath = "$(AppData)/TmpDir";
 
             LogInstance.Log($"initPath = {initPath}");
 
-            var path = initPath.Substring(1);
+            var path = initPath.Substring(2);
 
             LogInstance.Log($"path = '{path}'");
 
-            var pos = path.IndexOf("%");
+            var pos = path.IndexOf(")");
 
             LogInstance.Log($"pos = {pos}");
 
@@ -261,10 +279,9 @@ namespace TmpSandBox
 
             LogInstance.Log($"path = '{path}'");
 
-            //var result = pathResolver.Resolve(initPath);
+            var result = pathResolver.Resolve(initPath);
 
-
-            //LogInstance.Log($"result = '{result}'");
+            LogInstance.Log($"result = '{result}'");
         }
 
         private static void TSTLogger()

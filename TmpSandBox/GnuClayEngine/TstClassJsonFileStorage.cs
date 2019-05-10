@@ -1,4 +1,4 @@
-﻿using GnuClay.CommonClases.Storages;
+﻿using GnuClay.CommonClasses.Storages;
 using System;
 using System.Collections.Generic;
 using System.Text;

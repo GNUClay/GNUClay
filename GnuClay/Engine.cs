@@ -89,14 +89,14 @@ namespace GnuClay
         /// </summary>
         public void Dispose()
         {
-            lock (IsDisposedLockObj)
+            lock (mStateLockObj)
             {
-                if (IsDisposed)
+                if (mState == StateOfEngine.Destroyed)
                 {
                     return;
                 }
 
-                IsDisposed = true;
+                mState = StateOfEngine.Destroyed;
             }
 
             Dispose(true);
@@ -108,7 +108,7 @@ namespace GnuClay
         /// </summary>
         ~Engine()
         {
-            if (IsDisposed)
+            if (mState == StateOfEngine.Destroyed)
             {
                 return;
             }
@@ -119,8 +119,16 @@ namespace GnuClay
         /// <summary>
         /// Returns true if the instance was released, owerthise returns false.
         /// </summary>
-        public bool IsDisposed { get; private set; }
-        private readonly object IsDisposedLockObj = new object();
+        public bool IsDisposed
+        {
+            get
+            {
+                lock (mStateLockObj)
+                {
+                    return mState == StateOfEngine.Destroyed;
+                }
+            }
+        }
 
         /// <summary>
         ///  Dispose this instance.

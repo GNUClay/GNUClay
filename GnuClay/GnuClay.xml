@@ -4,60 +4,75 @@
         <name>GnuClay</name>
     </assembly>
     <members>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToString">
+        <member name="T:GnuClay.CommonClasses.Constants">
+            <summary>
+            Common constants of GnuClay.
+            </summary>
+        </member>
+        <member name="F:GnuClay.CommonClasses.Constants.ImageFileVersion">
+            <summary>
+            Current version of image files.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.Clear">
+            <summary>
+            Clears all data in the storage.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToString">
             <summary>
             Returns a string that represents the current instance.
             </summary>
             <returns>A string that represents the current instance.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.PropertiesToString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.PropertiesToString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToShortString">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToShortString">
             <summary>
             Returns a string that represents the current instance in short way.
             </summary>
             <returns>A string that represents the current instance in short way.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToShortString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToShortString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance in short way.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.PropertiesToShortString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.PropertiesToShortString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance in short way without additional information, only pair name of property - value.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToBriefString">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToBriefString">
             <summary>
             Returns a string that represents the current instance in very short way.
             </summary>
             <returns>A string that represents the current instance in very short way.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.ToBriefString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.ToBriefString(System.UInt32)">
             <summary>
             Returns a string that represents the current instance in very short way.
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in very short way.</returns>
         </member>
-        <member name="M:GnuClay.CommonClases.Storages.BaseJsonFileStorage`1.PropertiesToBriefString(System.UInt32)">
+        <member name="M:GnuClay.CommonClasses.Storages.BaseJsonFileStorage`1.PropertiesToBriefString(System.UInt32)">
             <summary>
             Internal method which returns a string that represents the current instance in very short way without additional information, only pair name of property - value.
             </summary>
@@ -117,6 +132,11 @@
             </summary>
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance in short way without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="T:GnuClay.CommonHelpers.FileHelpers.PathResolver">
+            <summary>
+            It helps to convert a path to canonical view.
+            </summary>
         </member>
         <member name="M:GnuClay.CommonHelpers.JsonSerializationHelpers.PlaneObject.ToString">
             <summary>

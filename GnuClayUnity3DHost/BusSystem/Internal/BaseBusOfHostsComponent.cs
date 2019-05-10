@@ -47,12 +47,12 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         {
             lock (IsDisposedLockObj)
             {
-                if (IsDisposed)
+                if (mIsDisposed)
                 {
                     return;
                 }
 
-                IsDisposed = true;
+                mIsDisposed = true;
             }
 
             Dispose(true);
@@ -64,7 +64,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         /// </summary>
         ~BaseBusOfHostsComponent()
         {
-            if (IsDisposed)
+            if (mIsDisposed)
             {
                 return;
             }
@@ -75,7 +75,18 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         /// <summary>
         /// Returns true if the instance was released, owerthise returns false.
         /// </summary>
-        public bool IsDisposed { get; private set; }
+        public bool IsDisposed
+        {
+            get
+            {
+                lock (IsDisposedLockObj)
+                {
+                    return mIsDisposed;
+                }
+            }
+        }
+
+        private bool mIsDisposed;
         private readonly object IsDisposedLockObj = new object();
 
         /// <summary>

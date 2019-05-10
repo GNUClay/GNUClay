@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GnuClay.CommonClases.Storages
+namespace GnuClay.CommonClasses.Storages
 {
     public abstract class BaseJsonFileStorage<T>: IObjectToString, IShortObjectToString, IObjectToBriefString where T: class, new()
     {
@@ -185,6 +185,9 @@ namespace GnuClay.CommonClases.Storages
             }
         }
 
+        /// <summary>
+        /// Clears all data in the storage.
+        /// </summary>
         public abstract void Clear();
 
         /// <summary>

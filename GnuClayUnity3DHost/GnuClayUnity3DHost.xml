@@ -1105,6 +1105,31 @@
             <param name="threadId">Id of the thread in which was generated the message.</param>
             <param name="message">A string containing description of fatal error.</param>
         </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem.RuntimeSettingsData.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem.RuntimeSettingsData.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem.RuntimeSettingsData.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem.RuntimeSettingsDataStorage.Clear">
+            <summary>
+            Clears all data in the storage.
+            </summary>
+        </member>
         <member name="M:GnuClayUnity3DHost.CommonHelpers.ILoggingMessagesInRemoteLogger.Debug(System.DateTime,System.UInt64,System.Int32,System.UInt32,System.String)">
             <summary>
             Writes the diagnostic message at the Debug level.

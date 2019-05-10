@@ -7,6 +7,8 @@ namespace GnuClay
     public enum StateOfEngine
     {
         Created,
+        Compiling,
+        Compiled,
         Loading,
         Loaded,
         Starting,
