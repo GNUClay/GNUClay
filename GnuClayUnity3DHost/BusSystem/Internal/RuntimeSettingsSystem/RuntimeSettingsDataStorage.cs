@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem
 {
-    public class RuntimeSettingsDataStorage: BaseJsonFileStorage<RuntimeSettingsData>
+    public class RuntimeSettingsDataStorage: BaseSimpleJsonFileStorage<RuntimeSettingsData>
     {
         public RuntimeSettingsDataStorage()
             : base(new RuntimeSettingsDataTypeFactory(), Constants.ImageFileVersion)

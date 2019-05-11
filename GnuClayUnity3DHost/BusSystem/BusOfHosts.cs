@@ -7,6 +7,7 @@ using GnuClay.CommonHelpers.FileHelpers;
 using GnuClayUnity3DHost.BusSystem.Internal;
 using GnuClayUnity3DHost.BusSystem.Internal.CommonScenarios;
 using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
@@ -29,11 +30,6 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.SharedPackagesDir = pathResolver.Resolve(options.SharedPackagesDir, mContext.BaseDir);
             mContext.AppsDir = pathResolver.Resolve(options.AppsDir, mContext.BaseDir);
             mContext.ImagesDir = pathResolver.Resolve(options.ImagesDir, mContext.BaseDir);
-
-            if(!string.IsNullOrWhiteSpace(options.CurrentImage))
-            {
-                throw new NotImplementedException();
-            }
 
             CreatePathsIfNotExist();
 
@@ -116,6 +112,7 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RegistryOfHostComponent = new RegistryOfHost(mContext, mLogger);
             mContext.IdsStorageComponent = new IdsStorage(mContext, mLogger);
             mContext.RunTimeSettingsStorageComponent = new RuntimeSettingsStorage(mContext, mLogger);
+            mContext.ImagesStorageComponent = new ImagesStorage(mContext, mLogger);
         }
 
         private void InitComponents()
@@ -150,12 +147,11 @@ namespace GnuClayUnity3DHost.BusSystem
         /// <summary>
         /// Returns current image.
         /// </summary>
-        // TODO: fix me!
         public Image CurentImage
         {
             get
             {
-                throw new NotImplementedException();
+                return mContext.ImagesStorageComponent.CurentImage;
             }
         }
 
@@ -308,10 +304,9 @@ namespace GnuClayUnity3DHost.BusSystem
         /// Returns all available images on the base directory.
         /// </summary>
         /// <returns>List of all available images on the base directory.</returns>
-        // TODO: fix me!
         public IList<Image> GetAllImages()
         {
-            throw new NotImplementedException();
+            return mContext.ImagesStorageComponent.GetAllImages();
         }
 
         /// <summary>
