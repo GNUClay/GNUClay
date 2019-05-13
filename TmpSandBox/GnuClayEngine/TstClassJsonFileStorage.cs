@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TmpSandBox.GnuClayEngine
 {
-    public class TstClassJsonFileStorage: BaseJsonFileStorage<TstClass1>
+    public class TstClassJsonFileStorage: BaseComplexJsonFileStorage<TstClass1>
     {
         public TstClassJsonFileStorage()
             : base(new TstClassTypeFactory(), 5.2F)

@@ -344,6 +344,19 @@ namespace TmpSandBox
 
             busOfHosts.Start();
 
+            //var currImage = busOfHosts.CurentImage;
+
+            //LogInstance.Log($"currImage = {currImage}");
+
+            //var imagesList = busOfHosts.GetAllImages();
+
+            //LogInstance.Log($"imagesList.Count = {imagesList.Count}");
+
+            //foreach (var image in imagesList)
+            //{
+            //    LogInstance.Log($"image = {image}");
+            //}
+
             Thread.Sleep(10000);
         }
 

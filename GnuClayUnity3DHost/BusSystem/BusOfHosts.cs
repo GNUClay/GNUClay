@@ -6,8 +6,10 @@ using GnuClay;
 using GnuClay.CommonHelpers.FileHelpers;
 using GnuClayUnity3DHost.BusSystem.Internal;
 using GnuClayUnity3DHost.BusSystem.Internal.CommonScenarios;
+using GnuClayUnity3DHost.BusSystem.Internal.CommonScriptExecutingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.LoadingFromSourceCode;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
@@ -29,6 +31,9 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.BaseDir = pathResolver.Resolve(options.BaseDir);
             mContext.SharedPackagesDir = pathResolver.Resolve(options.SharedPackagesDir, mContext.BaseDir);
             mContext.AppsDir = pathResolver.Resolve(options.AppsDir, mContext.BaseDir);
+
+            mContext.BusAppDir = Path.Combine(mContext.AppsDir, "Bus");
+
             mContext.ImagesDir = pathResolver.Resolve(options.ImagesDir, mContext.BaseDir);
 
             CreatePathsIfNotExist();
@@ -100,6 +105,11 @@ namespace GnuClayUnity3DHost.BusSystem
                 Directory.CreateDirectory(mContext.AppsDir);
             }
 
+            if(!Directory.Exists(mContext.BusAppDir))
+            {
+                Directory.CreateDirectory(mContext.BusAppDir);
+            }
+
             if (!Directory.Exists(mContext.ImagesDir))
             {
                 Directory.CreateDirectory(mContext.ImagesDir);
@@ -113,6 +123,8 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.IdsStorageComponent = new IdsStorage(mContext, mLogger);
             mContext.RunTimeSettingsStorageComponent = new RuntimeSettingsStorage(mContext, mLogger);
             mContext.ImagesStorageComponent = new ImagesStorage(mContext, mLogger);
+            mContext.LoaderFromSourceCodeComponent = new LoaderFromSourceCode(mContext, mLogger);
+            mContext.CommonScriptExecutorComponent = new CommonScriptExecutor(mContext, mLogger);
         }
 
         private void InitComponents()
@@ -183,15 +195,35 @@ namespace GnuClayUnity3DHost.BusSystem
         /// Starts the bus and its hosts based on current image or source files (if still there are not images).
         /// Creates new image if still there are not images.
         /// </summary>
-        // TODO: fix me!
         public void Start()
         {
 #if DEBUG
             mLogger.Info("Begin");
 #endif
 
-            var scenario = new StartScenario(mLogger, mContext);
-            scenario.Execute(ref mState, mStateLockObj);
+            switch(mState)
+            {
+                case StateOfEngine.Created:
+                    NLoad();
+                    NStart();
+                    break;
+
+                case StateOfEngine.Loaded:
+                    NStart();
+                    break;
+
+                case StateOfEngine.Started:
+                case StateOfEngine.Starting:
+                case StateOfEngine.Stopping:
+                case StateOfEngine.Stopped:
+                case StateOfEngine.Destroyed:
+                case StateOfEngine.Compiling:
+                case StateOfEngine.Compiled:
+                    return;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mState), mState, null);
+            }
         }
 
         /// <summary>
@@ -365,7 +397,52 @@ namespace GnuClayUnity3DHost.BusSystem
         }
 
         #region private members
+        private void NLoad()
+        {
+            mContext.ImagesStorageComponent.InitFromOptions();
 
+            var nameOfCurrentImage = mContext.CurrentImageName;
+
+#if DEBUG
+            mLogger.Debug($"nameOfCurrentImage = {nameOfCurrentImage}");
+#endif
+
+            var needCompiling = false;
+
+            if (string.IsNullOrWhiteSpace(nameOfCurrentImage))
+            {
+                mContext.ImagesStorageComponent.CreateNewImageAndSetAsCurrent();
+                needCompiling = true;
+            }
+            else
+            {
+                mContext.ImagesStorageComponent.InitDirectoriesOfImages();
+            }
+
+            mContext.OnInitedImageDirs();
+
+#if DEBUG
+            mLogger.Debug($"needCompiling = {needCompiling}");
+#endif
+
+            if(needCompiling)
+            {
+                mContext.LoaderFromSourceCodeComponent.Load();
+            }
+            else
+            {
+                mContext.OnLoading();
+                mContext.OnLoaded();
+            }
+
+            mContext.RegistryOfHostComponent.Load();
+        }
+
+        private void NStart()
+        {
+            mContext.RegistryOfHostComponent.PrepareForStarting();
+            mContext.CommonScriptExecutorComponent.Start();
+        }
         #endregion
     }
 }

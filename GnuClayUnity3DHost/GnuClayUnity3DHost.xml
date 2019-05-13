@@ -857,6 +857,22 @@
             Returns true if the instance was released, owerthise returns false.
             </summary>
         </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem.ImagesStorage.GetCurrentImageName">
+            <summary>
+            Returns current image name.
+            </summary>
+        </member>
+        <member name="P:GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem.ImagesStorage.CurentImage">
+            <summary>
+            Returns current image.
+            </summary>
+        </member>
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem.ImagesStorage.GetAllImages">
+            <summary>
+            Returns all available images on the base directory.
+            </summary>
+            <returns>List of all available images on the base directory.</returns>
+        </member>
         <member name="M:GnuClayUnity3DHost.BusSystem.Internal.LoggingSettings.ToString">
             <summary>
             Returns a string that represents the current instance.

@@ -1,5 +1,7 @@
-﻿using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
+﻿using GnuClayUnity3DHost.BusSystem.Internal.CommonScriptExecutingSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.IdsStorageSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem;
+using GnuClayUnity3DHost.BusSystem.Internal.LoadingFromSourceCode;
 using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
@@ -17,9 +19,13 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public string BaseDir { get; set; }
         public string SharedPackagesDir { get; set; }
         public string AppsDir { get; set; }
+        public string BusAppDir { get; set; }
         public string ImagesDir { get; set; }
         public string CurrentImageName { get; set; }
         public string CurrentImageDir { get; set; }
+        public string CurrentImageBusDir { get; set; }
+        public string CurrentImageBusParsedFilesDir { get; set; }
+        public string CurrentImageBusIndexFilesDir { get; set; }
 
         public LoggingSettings LoggingSettings { get; set; } = new LoggingSettings();
 
@@ -43,6 +49,8 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public RegistryOfHost RegistryOfHostComponent { get; set; }
         public IdsStorage IdsStorageComponent { get; set; }
         public RuntimeSettingsStorage RunTimeSettingsStorageComponent { get; set; }
+        public LoaderFromSourceCode LoaderFromSourceCodeComponent { get; set; }
+        public CommonScriptExecutor CommonScriptExecutorComponent { get; set; }
 
         /// <summary>
         /// Gets references to other components. 
@@ -52,6 +60,94 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
             foreach(var component in mComponentList)
             {
                 component.InitStep1();
+            }
+        }
+
+        public void OnInitedImageDirs()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnInitedImageDirs();
+            }
+        }
+
+        public void OnLoading()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnLoading();
+            }
+        }
+
+        public void OnLoaded()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnLoaded();
+            }
+        }
+
+        public void OnSaving()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnSaving();
+            }
+        }
+
+        public void OnSaved()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnSaved();
+            }
+        }
+
+        public void OnClearing()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnClearing();
+            }
+        }
+
+        public void OnCleared()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnCleared();
+            }
+        }
+
+        public void OnStarting()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnStarting();
+            }
+        }
+
+        public void OnStarted()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnStarted();
+            }
+        }
+
+        public void OnStopping()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnStopping();
+            }
+        }
+
+        public void OnStopped()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.OnStopped();
             }
         }
 

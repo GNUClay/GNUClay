@@ -9,7 +9,6 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem
     public class RuntimeSettingsDataStorage: BaseSimpleJsonFileStorage<RuntimeSettingsData>
     {
         public RuntimeSettingsDataStorage()
-            : base(new RuntimeSettingsDataTypeFactory(), Constants.ImageFileVersion)
         {
         }
 

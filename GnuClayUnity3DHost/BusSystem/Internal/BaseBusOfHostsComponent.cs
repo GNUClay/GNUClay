@@ -96,5 +96,51 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         protected virtual void Dispose(bool disposing)
         {
         }
+
+        #region protected members
+        public virtual void OnInitedImageDirs()
+        {
+        }
+
+        public virtual void OnLoading()
+        {
+        }
+
+        public virtual void OnLoaded()
+        {
+        }
+
+        public virtual void OnSaving()
+        {
+        }
+
+        public virtual void OnSaved()
+        {
+        }
+
+        public virtual void OnClearing()
+        {
+        }
+
+        public virtual void OnCleared()
+        {
+        }
+
+        public virtual void OnStarting()
+        {
+        }
+
+        public virtual void OnStarted()
+        {
+        }
+
+        public virtual void OnStopping()
+        {
+        }
+
+        public virtual void OnStopped()
+        {
+        }
+        #endregion
     }
 }

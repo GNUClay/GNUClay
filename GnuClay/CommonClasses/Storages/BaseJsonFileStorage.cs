@@ -11,24 +11,19 @@ namespace GnuClay.CommonClasses.Storages
     public abstract class BaseJsonFileStorage<T>: IObjectToString, IShortObjectToString, IObjectToBriefString where T: class, new()
     {
         #region constructors
-        protected BaseJsonFileStorage(string fullFileName, ITypeFactory typeFactory, float version)
-            : this(typeFactory, version)
+        protected BaseJsonFileStorage(string fullFileName)
         {
             FullFileName = fullFileName;
         }
 
-        protected BaseJsonFileStorage(string fileName, string directoryName, ITypeFactory typeFactory, float version)
-            : this(typeFactory, version)
+        protected BaseJsonFileStorage(string fileName, string directoryName)
         {
             FileName = fileName;
             DirectoryName = directoryName;
         }
 
-        protected BaseJsonFileStorage(ITypeFactory typeFactory, float version)
+        protected BaseJsonFileStorage()
         {
-            mTypeFactory = typeFactory;
-            mVersion = version;
-            mObjectConvertor = new ObjectConvertor();
         }
         #endregion
 
@@ -104,20 +99,6 @@ namespace GnuClay.CommonClasses.Storages
 
         public T Data { get; set; } = default(T);
 
-        public float? ReadVersionFromFile()
-        {
-            CheckFullFileName();
-
-            if (!File.Exists(mFullFileName))
-            {
-                throw new FileNotFoundException(null, mFullFileName);
-            }
-
-            var deserializedPlaneObjectsTree = LoadPlaneObjectsTree();
-
-            return deserializedPlaneObjectsTree?.Version;
-        }
-
         public virtual void Load()
         {
             CheckFullFileName();
@@ -127,7 +108,7 @@ namespace GnuClay.CommonClasses.Storages
                 throw new FileNotFoundException(null, mFullFileName);
             }
 
-            NLoad();
+            ProcessLoading();
         }
 
         public virtual void LoadOrCreate()
@@ -140,7 +121,7 @@ namespace GnuClay.CommonClasses.Storages
                 return;
             }
 
-            NLoad();
+            ProcessLoading();
         }
 
         public virtual void Save()
@@ -166,23 +147,12 @@ namespace GnuClay.CommonClasses.Storages
                 return;
             }
 
-            var convertedItem = mObjectConvertor.ConvertToPlaneTree(Data, mVersion);
-
-            var convertedItemJson = JsonConvert.SerializeObject(convertedItem);
-
-            if (File.Exists(mFullFileName))
+            if (File.Exists(FullFileName))
             {
-                File.Delete(mFullFileName);
+                File.Delete(FullFileName);
             }
 
-            using (var fs = File.Create(mFullFileName))
-            {
-                using (var sw = new StreamWriter(fs))
-                {
-                    sw.Write(convertedItemJson);
-                    fs.Flush();
-                }
-            }
+            ProcessSaving();
         }
 
         /// <summary>
@@ -293,11 +263,43 @@ namespace GnuClay.CommonClasses.Storages
         }
         #endregion
 
-        #region private members
-        private readonly ITypeFactory mTypeFactory;
-        private readonly ObjectConvertor mObjectConvertor;
-        private readonly float mVersion;
+        #region protected members
+        protected void CheckFullFileName()
+        {
+            if (string.IsNullOrWhiteSpace(mFullFileName))
+            {
+                throw new NullReferenceException("File name can not be null or empty.");
+            }
+        }
 
+        protected abstract void ProcessLoading();
+        protected abstract void ProcessSaving();
+
+        protected void SaveContentToStringFile(string content)
+        {
+            using (var fs = File.Create(mFullFileName))
+            {
+                using (var sw = new StreamWriter(fs))
+                {
+                    sw.Write(content);
+                    fs.Flush();
+                }
+            }
+        }
+
+        protected string LoadContentFromStringFile()
+        {
+            using (var fs = File.OpenRead(FullFileName))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+        }
+        #endregion
+
+        #region private members
         private string mFullFileName = string.Empty;
         private string mFileName = string.Empty;
 
@@ -319,50 +321,6 @@ namespace GnuClay.CommonClasses.Storages
                 {
                     mFullFileName = Path.Combine(mDirectoryName, mFileName);
                 }
-            }
-        }
-
-        private void NLoad()
-        {
-            var deserializedPlaneObjectsTree = LoadPlaneObjectsTree();
-
-            if(deserializedPlaneObjectsTree == null)
-            {
-                Data = null;
-                return;
-            }
-
-            if(mVersion > deserializedPlaneObjectsTree.Version)
-            {
-                throw new NotSupportedException($"Version {deserializedPlaneObjectsTree.Version} of content in file '{mFullFileName}' doesn't support.");
-            }
-
-            Data = mObjectConvertor.ConvertFromPlaneTree<T>(deserializedPlaneObjectsTree, mTypeFactory);
-        }
-
-        private PlaneObjectsTree LoadPlaneObjectsTree()
-        {
-            using (var fs = File.OpenRead(mFullFileName))
-            {
-                using (var sr = new StreamReader(fs))
-                {
-                    var content = sr.ReadToEnd();
-
-                    if(string.IsNullOrWhiteSpace(content) || content == "null")
-                    {
-                        return null;
-                    }
-
-                    return JsonConvert.DeserializeObject<PlaneObjectsTree>(content);
-                }
-            }
-        }
-
-        private void CheckFullFileName()
-        {
-            if (string.IsNullOrWhiteSpace(mFullFileName))
-            {
-                throw new NullReferenceException("File name can not be null or empty.");
             }
         }
         #endregion

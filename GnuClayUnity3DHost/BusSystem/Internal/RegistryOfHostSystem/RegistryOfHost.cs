@@ -25,6 +25,22 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem
 
         private List<IHostInternalRef> mHostsList = new List<IHostInternalRef>();
 
+        // TODO: fix me!
+        public void Load()
+        {
+#if DEBUG
+            Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        public void PrepareForStarting()
+        {
+#if DEBUG
+            Debug("Begin");
+#endif
+        }
+
         /// <summary>
         ///  Dispose this instance.
         /// </summary>

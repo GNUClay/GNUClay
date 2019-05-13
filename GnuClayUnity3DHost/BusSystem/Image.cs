@@ -7,7 +7,8 @@ namespace GnuClayUnity3DHost.BusSystem
 {
     public class Image: IObjectToString
     {
-
+        public string Name { get; set; }
+        public bool IsCurrent { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -36,8 +37,9 @@ namespace GnuClayUnity3DHost.BusSystem
         public string PropertiesToString(uint n)
         {
             var spaces = DisplayHelper.Spaces(n);
-            var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(Name)} = {Name}");
+            sb.AppendLine($"{spaces}{nameof(IsCurrent)} = {IsCurrent}");
             return sb.ToString();
         }
     }
