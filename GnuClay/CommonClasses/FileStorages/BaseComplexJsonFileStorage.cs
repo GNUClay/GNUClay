@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GnuClay.CommonClasses.Storages
+namespace GnuClay.CommonClasses.FileStorages
 {
     public abstract class BaseComplexJsonFileStorage<T>: BaseJsonFileStorage<T> where T : class, new()
     {

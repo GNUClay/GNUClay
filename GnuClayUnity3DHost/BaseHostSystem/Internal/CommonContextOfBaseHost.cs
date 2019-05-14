@@ -1,4 +1,5 @@
-﻿using GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem;
+﻿using GnuClayUnity3DHost.BusSystem;
+using GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,8 @@ namespace GnuClayUnity3DHost.HostSystem.Internal
     public class CommonContextOfBaseHost: IDisposable
     {
         public BaseHostOptions Options { get; set; }
+
+        public IBusOfHostsControllingRef BusOfHostsControllingRef { get; set; }
 
         /// <summary>
         /// Adds a component of host to the context for initialization and releasing.

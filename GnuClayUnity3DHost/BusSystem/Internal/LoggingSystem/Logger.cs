@@ -70,8 +70,8 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
                     }
                 }
 
-                logWrapperOptions.UseLoggingToConsole = Context.Options.Logging.UseLoggingToConsole;
-                logWrapperOptions.UseLoggingToHostConsole = Context.Options.Logging.UseLoggingToHostConsole;
+                logWrapperOptions.UseLoggingToConsole = loggingOptions.UseLoggingToConsole;
+                logWrapperOptions.UseLoggingToHostConsole = loggingOptions.UseLoggingToHostConsole;
 
                 mLogWrapper = new NLogWrapper(logWrapperOptions);
             }

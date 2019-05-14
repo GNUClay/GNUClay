@@ -9,6 +9,7 @@ namespace GnuClayUnity3DHost.BusSystem
     {
         public string BaseDir { get; set; }
         public string SharedPackagesDir { get; set; } = "SharedPackages";
+        public string DevSharedPackagesDir { get; set; } = "DevSharedPackagesDir";
         public string AppsDir { get; set; } = "Apps";
         public string ImagesDir { get; set; } = "Images";
         public string CurrentImage { get; set; }

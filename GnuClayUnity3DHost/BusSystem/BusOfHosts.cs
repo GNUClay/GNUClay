@@ -18,7 +18,7 @@ using GnuClayUnity3DHost.HostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
 {
-    public class BusOfHosts : IBusOfHostsInternalRef, IDisposable
+    public class BusOfHosts : IBusOfHostsInternalRef, IBusOfHostsControllingRef, IDisposable
     {
         public BusOfHosts(BusOfHostsOptions options)
         {
@@ -26,10 +26,12 @@ namespace GnuClayUnity3DHost.BusSystem
 
             mContext = new CommonContextOfBusOfHosts();
             mContext.Options = options;
+            mContext.BusOfHostsControllingRef = this;
 
             var pathResolver = new PathResolver();
             mContext.BaseDir = pathResolver.Resolve(options.BaseDir);
             mContext.SharedPackagesDir = pathResolver.Resolve(options.SharedPackagesDir, mContext.BaseDir);
+            mContext.DevSharedPackagesDir = pathResolver.Resolve(options.DevSharedPackagesDir, mContext.BaseDir);
             mContext.AppsDir = pathResolver.Resolve(options.AppsDir, mContext.BaseDir);
 
             mContext.BusAppDir = Path.Combine(mContext.AppsDir, "Bus");
@@ -77,6 +79,11 @@ namespace GnuClayUnity3DHost.BusSystem
                 throw new NullReferenceException($"SharedPackages directory of bus is null or empty.");
             }
 
+            if (string.IsNullOrWhiteSpace(options.DevSharedPackagesDir))
+            {
+                throw new NullReferenceException($"DevSharedPackages directory of bus is null or empty.");
+            }
+
             if (string.IsNullOrWhiteSpace(options.AppsDir))
             {
                 throw new NullReferenceException($"Apps directory of bus is null or empty.");
@@ -98,6 +105,11 @@ namespace GnuClayUnity3DHost.BusSystem
             if (!Directory.Exists(mContext.SharedPackagesDir))
             {
                 Directory.CreateDirectory(mContext.SharedPackagesDir);
+            }
+
+            if (!Directory.Exists(mContext.DevSharedPackagesDir))
+            {
+                Directory.CreateDirectory(mContext.DevSharedPackagesDir);
             }
 
             if (!Directory.Exists(mContext.AppsDir))
@@ -440,6 +452,7 @@ namespace GnuClayUnity3DHost.BusSystem
 
         private void NStart()
         {
+            mContext.CommonScriptExecutorComponent.Stop();
             mContext.RegistryOfHostComponent.PrepareForStarting();
             mContext.CommonScriptExecutorComponent.Start();
         }

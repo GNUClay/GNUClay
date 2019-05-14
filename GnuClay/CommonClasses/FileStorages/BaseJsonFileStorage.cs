@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GnuClay.CommonClasses.Storages
+namespace GnuClay.CommonClasses.FileStorages
 {
     public abstract class BaseJsonFileStorage<T>: IObjectToString, IShortObjectToString, IObjectToBriefString where T: class, new()
     {

@@ -1,4 +1,5 @@
 ﻿using GnuClay;
+using GnuClay.CommonHelpers.LoggingHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,49 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
             : base(context, null)
         {
             Logger = this;
+
+            var loggingOptions = Context.Options.Logging;
+
+            if (loggingOptions != null)
+            {
+                OptionsChecker();
+
+                mEnable = loggingOptions.EnableLogging;
+
+                var logWrapperOptions = new NLogWrapperOptions();
+
+                if (loggingOptions.UseLoggingToFile)
+                {
+                    throw new NotImplementedException();
+                }
+
+                logWrapperOptions.UseLoggingToConsole = loggingOptions.UseLoggingToConsole;
+                logWrapperOptions.UseLoggingToHostConsole = loggingOptions.UseLoggingToHostConsole;
+
+                mLogWrapper = new NLogWrapper(logWrapperOptions);
+            }
+        }
+
+        private bool mEnable;
+        private readonly object mEnableLockObj = new object();
+
+        public bool Enable
+        {
+            get
+            {
+                lock (mEnableLockObj)
+                {
+                    return mEnable;
+                }
+            }
+
+            set
+            {
+                lock (mEnableLockObj)
+                {
+                    mEnable = value;
+                }
+            }
         }
 
         /// <summary>

@@ -1,16 +1,18 @@
 ﻿using GnuClay.CommonHelpers.DebugHelpers;
-using GnuClayUnity3DHost.BusSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GnuClayUnity3DHost.BaseHostSystem
 {
-    public class BaseHostOptions: IObjectToString
+    public class BaseHostLoggingOptions: IObjectToString
     {
-        public string Name { get; set; }
-        public BusOfHosts Bus { get; set; }
-        public BaseHostLoggingOptions Logging { get; set; } = new BaseHostLoggingOptions();
+        public bool EnableLogging { get; set; }
+        public bool UseLoggingToFile { get; set; }
+        public bool UseRemoteLogging { get; set; }
+        public string ContractName { get; set; }
+        public bool UseLoggingToConsole { get; set; }
+        public bool UseLoggingToHostConsole { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current instance.
@@ -36,24 +38,17 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         /// </summary>
         /// <param name="n">Count of spaces in the string for more comfortable representation.</param>
         /// <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
-        public virtual string PropertiesToString(uint n)
+        public string PropertiesToString(uint n)
         {
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
-            sb.AppendLine($"{spaces}{nameof(Name)} = {Name}");
-
-            if (Logging == null)
-            {
-                sb.AppendLine($"{spaces}{nameof(Logging)} = null");
-            }
-            else
-            {
-                sb.AppendLine($"{spaces}Begin{nameof(Logging)}");
-                sb.Append(Logging.ToString(nextN));
-                sb.AppendLine($"{spaces}End{nameof(Logging)}");
-            }
-
+            sb.AppendLine($"{spaces}{nameof(EnableLogging)} = {EnableLogging}");
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToFile)} = {UseLoggingToFile}");
+            sb.AppendLine($"{spaces}{nameof(UseRemoteLogging)} = {UseRemoteLogging}");
+            sb.AppendLine($"{spaces}{nameof(ContractName)} = {ContractName}");
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToConsole)} = {UseLoggingToConsole}");
+            sb.AppendLine($"{spaces}{nameof(UseLoggingToHostConsole)} = {UseLoggingToHostConsole}");
             return sb.ToString();
         }
     }

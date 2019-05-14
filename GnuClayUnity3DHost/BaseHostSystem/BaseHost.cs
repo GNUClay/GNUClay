@@ -1,11 +1,12 @@
 ﻿using GnuClay;
+using GnuClayUnity3DHost.BusSystem;
 using GnuClayUnity3DHost.HostSystem.Internal;
 using GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.HostSystem
+namespace GnuClayUnity3DHost.BaseHostSystem
 {
     public abstract class BaseHost<T>: IHost, IHostInternalRef, IDisposable where T: CommonContextOfBaseHost, new()
     {
@@ -15,6 +16,10 @@ namespace GnuClayUnity3DHost.HostSystem
 
             Context = new T();
             Context.Options = options;
+
+            var internalRef = options.Bus as IBusOfHostsInternalRef;
+            internalRef.AddHost(this);
+
             Context.LoggerComponent = new Logger(Context);
             mLogger = Context.LoggerComponent;
 
@@ -52,6 +57,59 @@ namespace GnuClayUnity3DHost.HostSystem
 
         private void InitComponents()
         {
+        }
+
+        void IHostInternalRef.SetBusOfHostsControllingRef(IBusOfHostsControllingRef busOfHostsControllingRef)
+        {
+            Context.BusOfHostsControllingRef = busOfHostsControllingRef;
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.OnInitedImageDirs()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.Load()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.Clear()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.PrepareForStarting()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.ProcessStopping()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
+        }
+
+        // TODO: fix me!
+        void IHostInternalRef.Save()
+        {
+#if DEBUG
+            //mLogger.Debug("Begin");
+#endif
         }
 
         /// <summary>

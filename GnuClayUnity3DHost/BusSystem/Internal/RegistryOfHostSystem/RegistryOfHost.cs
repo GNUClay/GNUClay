@@ -15,30 +15,91 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem
 
         public void AddHost(IHostInternalRef host)
         {
-            if(mHostsList.Contains(host))
+            lock(mHostsListLockObj)
             {
-                return;
-            }
+                if (mHostsList.Contains(host))
+                {
+                    return;
+                }
 
-            mHostsList.Add(host);
+                mHostsList.Add(host);
+                host.SetBusOfHostsControllingRef(Context.BusOfHostsControllingRef);
+            }
         }
 
+        private readonly object mHostsListLockObj = new object();
         private List<IHostInternalRef> mHostsList = new List<IHostInternalRef>();
 
-        // TODO: fix me!
-        public void Load()
+        public override void OnInitedImageDirs()
         {
-#if DEBUG
-            Debug("Begin");
-#endif
+            base.OnInitedImageDirs();
+            EmitOnInitedImageDirs();
         }
 
-        // TODO: fix me!
+        public void EmitOnInitedImageDirs()
+        {
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.OnInitedImageDirs();
+                }
+            }
+        }
+
+        public void Load()
+        {
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.Load();
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.Clear();
+                }
+            }
+        }
+
         public void PrepareForStarting()
         {
-#if DEBUG
-            Debug("Begin");
-#endif
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.PrepareForStarting();
+                }
+            }
+        }
+
+        public void ProcessStopping()
+        {
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.ProcessStopping();
+                }
+            }
+        }
+
+        public void Save()
+        {
+            lock (mHostsListLockObj)
+            {
+                foreach (var host in mHostsList)
+                {
+                    host.Save();
+                }
+            }
         }
 
         /// <summary>

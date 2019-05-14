@@ -18,6 +18,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
 
         public string BaseDir { get; set; }
         public string SharedPackagesDir { get; set; }
+        public string DevSharedPackagesDir { get; set; }
         public string AppsDir { get; set; }
         public string BusAppDir { get; set; }
         public string ImagesDir { get; set; }
@@ -28,6 +29,8 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         public string CurrentImageBusIndexFilesDir { get; set; }
 
         public LoggingSettings LoggingSettings { get; set; } = new LoggingSettings();
+
+        public IBusOfHostsControllingRef BusOfHostsControllingRef { get; set; }
 
         /// <summary>
         /// Adds a component of bus to the context for initialization and releasing.

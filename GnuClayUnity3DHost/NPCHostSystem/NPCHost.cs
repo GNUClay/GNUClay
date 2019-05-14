@@ -12,8 +12,6 @@ namespace GnuClayUnity3DHost.NPCHostSystem
         public NPCHost(NPCHostOptions options)
             : base(options)
         {
-            var internalRef = options.Bus as IBusOfHostsInternalRef;//tmp
-            internalRef.AddHost(this);//tmp
         }
     }
 }
