@@ -1,10 +1,14 @@
 ﻿using GnuClay;
 using GnuClay.CommonHelpers.LoggingHelpers;
+using GnuClayUnity3DHost.CommonHelpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
+namespace GnuClayUnity3DHost.BaseHostSystem.Internal.LoggingSystem
 {
     public class Logger : BaseHostComponent, ILog
     {
@@ -25,7 +29,26 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
 
                 if (loggingOptions.UseLoggingToFile)
                 {
-                    throw new NotImplementedException();
+                    logWrapperOptions.UseLoggingToFile = loggingOptions.UseLoggingToFile;
+
+                    var busLoggingSettings = Context.BusOfHostsControllingRef.LoggindOptions;
+                    var rewritingModeOnStartup = busLoggingSettings.RewritingModeOnStartup;
+
+                    switch (rewritingModeOnStartup)
+                    {
+                        case RewritingModeOfLoggingToFileOnStartup.RewriteExistingFile:
+                            logWrapperOptions.DeleteOldFileOnStartup = true;
+                            logWrapperOptions.FileName = Path.Combine(busLoggingSettings.FullLoggingDir, $"{Context.Name}.log");
+                            break;
+
+                        case RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate:
+                            logWrapperOptions.DeleteOldFileOnStartup = false;
+                            logWrapperOptions.FileName = Path.Combine(busLoggingSettings.FullLoggingDir, $"{Context.Name}_{busLoggingSettings.FilePostfix}.log");
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(rewritingModeOnStartup), rewritingModeOnStartup, null);
+                    }
                 }
 
                 logWrapperOptions.UseLoggingToConsole = loggingOptions.UseLoggingToConsole;
@@ -34,6 +57,21 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
                 mLogWrapper = new NLogWrapper(logWrapperOptions);
             }
         }
+
+        private void OptionsChecker()
+        {
+
+        }
+
+        public override void InitStep1()
+        {
+            base.InitStep1();
+
+            mRemoteLogger = Context.RemoteLoggerComponent as ILoggingMessagesInRemoteLogger;
+        }
+
+        private readonly NLogWrapper mLogWrapper;
+        private ILoggingMessagesInRemoteLogger mRemoteLogger;
 
         private bool mEnable;
         private readonly object mEnableLockObj = new object();
@@ -57,15 +95,32 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
             }
         }
 
+        private ulong mCurrentMessageId;
+        private readonly object mCurrentMessageIdLockObj = new object();
+
+        private ulong GetCurrentMessageId()
+        {
+            lock (mCurrentMessageIdLockObj)
+            {
+                if (mCurrentMessageId == ulong.MaxValue)
+                {
+                    mCurrentMessageId = 1;
+                    return mCurrentMessageId;
+                }
+
+                mCurrentMessageId++;
+                return mCurrentMessageId;
+            }
+        }
+
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
         /// </summary>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(string message)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -74,10 +129,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Debug(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Debug(now, messageId, threadId, depth, message);
+            });
         }
 
         /// <summary>
@@ -85,10 +157,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -97,10 +168,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -109,10 +179,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(depth, exception.ToString());
         }
 
         /// <summary>
@@ -122,10 +191,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Debug(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -133,10 +201,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(string message)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -145,10 +212,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Log(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Log(now, messageId, threadId, depth, message);
+            });
         }
 
         /// <summary>
@@ -156,10 +240,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(Exception exception)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -168,10 +251,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -180,10 +262,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(depth, exception.ToString());
         }
 
         /// <summary>
@@ -193,10 +274,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Log(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -204,10 +284,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(string message)
         {
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, message);
         }
 
         /// <summary>
@@ -216,10 +295,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Info(now, messageId, threadId, depth, message);
+                mRemoteLogger?.Info(now, messageId, threadId, depth, message);
+            });
         }
 
         /// <summary>
@@ -227,10 +323,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception"></param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(Exception exception)
         {
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, exception.ToString());
         }
 
         /// <summary>
@@ -239,10 +334,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing description of .</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(ConstantsForLogging.DEFAULT_DEPTH, $"{message} {exception}");
         }
 
         /// <summary>
@@ -251,10 +345,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(depth, exception.ToString());
         }
 
         /// <summary>
@@ -264,10 +357,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// <param name="message">A string containing an information message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Info(depth, $"{message} {exception}");
         }
 
         /// <summary>
@@ -275,10 +367,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of a warning.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Warn(string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Warn(now, messageId, threadId, message);
+                mRemoteLogger?.Warn(now, messageId, threadId, message);
+            });
         }
 
         /// <summary>
@@ -286,10 +395,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Warn(Exception exception)
         {
-            throw new NotImplementedException();
+            Warn(exception.ToString());
         }
 
         /// <summary>
@@ -297,10 +405,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of error.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Error(string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Error(now, messageId, threadId, message);
+                mRemoteLogger?.Error(now, messageId, threadId, message);
+            });
         }
 
         /// <summary>
@@ -308,10 +433,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Error(Exception exception)
         {
-            throw new NotImplementedException();
+            Error(exception.ToString());
         }
 
         /// <summary>
@@ -319,10 +443,27 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of fatal error.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Fatal(string message)
         {
-            throw new NotImplementedException();
+            lock (mEnableLockObj)
+            {
+                if (!mEnable)
+                {
+                    return;
+                }
+            }
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
+            var messageId = GetCurrentMessageId();
+            var now = DateTime.Now;
+
+            var callInfo = DiagnosticsHelper.GetNotLoggingSupportCallInfo();
+            message = LogHelper.BuildLogString(callInfo.FullClassName, callInfo.MethodName, message);
+
+            Task.Run(() => {
+                mLogWrapper.Fatal(now, messageId, threadId, message);
+                mRemoteLogger?.Fatal(now, messageId, threadId, message);
+            });
         }
 
         /// <summary>
@@ -330,10 +471,9 @@ namespace GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Fatal(Exception exception)
         {
-            throw new NotImplementedException();
+            Fatal(exception.ToString());
         }
     }
 }

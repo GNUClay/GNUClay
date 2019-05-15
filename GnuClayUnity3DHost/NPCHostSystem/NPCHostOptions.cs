@@ -1,5 +1,5 @@
 ﻿using GnuClayUnity3DHost.BusSystem;
-using GnuClayUnity3DHost.HostSystem;
+using GnuClayUnity3DHost.BaseHostSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;

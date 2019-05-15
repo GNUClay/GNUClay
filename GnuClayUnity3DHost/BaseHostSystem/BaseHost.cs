@@ -1,10 +1,11 @@
 ﻿using GnuClay;
 using GnuClayUnity3DHost.BusSystem;
-using GnuClayUnity3DHost.HostSystem.Internal;
-using GnuClayUnity3DHost.HostSystem.Internal.LoggingSystem;
+using GnuClayUnity3DHost.BaseHostSystem.Internal;
+using GnuClayUnity3DHost.BaseHostSystem.Internal.LoggingSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using GnuClayUnity3DHost.BaseHostSystem.Internal.RemoteLoggingSystem;
 
 namespace GnuClayUnity3DHost.BaseHostSystem
 {
@@ -16,6 +17,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
 
             Context = new T();
             Context.Options = options;
+            Context.Name = options.Name;
 
             var internalRef = options.Bus as IBusOfHostsInternalRef;
             internalRef.AddHost(this);
@@ -49,14 +51,20 @@ namespace GnuClayUnity3DHost.BaseHostSystem
 
         private void OptionsChecker(BaseHostOptions options)
         {
+            if (string.IsNullOrWhiteSpace(options.Name))
+            {
+                throw new NullReferenceException($"Name of host is null or empty.");
+            }
         }
 
         private void CreateComponents()
         {
+            Context.RemoteLoggerComponent = new RemoteLogger(Context, mLogger);
         }
 
         private void InitComponents()
         {
+            Context.InitStep1();
         }
 
         void IHostInternalRef.SetBusOfHostsControllingRef(IBusOfHostsControllingRef busOfHostsControllingRef)
@@ -64,11 +72,29 @@ namespace GnuClayUnity3DHost.BaseHostSystem
             Context.BusOfHostsControllingRef = busOfHostsControllingRef;
         }
 
+        /// <summary>
+        /// Returns true if logging is enabled, otherwise returns false.
+        /// Set true for enable logging, otherwise set false.
+        /// It controls logging of the host only.
+        /// </summary>
+        public bool EnableLoggingOfHostOnly
+        {
+            get
+            {
+                return Context.LoggerComponent.Enable;
+            }
+
+            set
+            {
+                Context.LoggerComponent.Enable = value;
+            }
+        }
+
         // TODO: fix me!
         void IHostInternalRef.OnInitedImageDirs()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 
@@ -76,7 +102,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         void IHostInternalRef.Load()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 
@@ -84,7 +110,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         void IHostInternalRef.Clear()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 
@@ -92,7 +118,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         void IHostInternalRef.PrepareForStarting()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 
@@ -100,7 +126,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         void IHostInternalRef.ProcessStopping()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 
@@ -108,7 +134,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
         void IHostInternalRef.Save()
         {
 #if DEBUG
-            //mLogger.Debug("Begin");
+            mLogger.Debug("Begin");
 #endif
         }
 

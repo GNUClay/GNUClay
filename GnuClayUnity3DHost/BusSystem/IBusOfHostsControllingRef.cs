@@ -6,5 +6,6 @@ namespace GnuClayUnity3DHost.BusSystem
 {
     public interface IBusOfHostsControllingRef
     {
+        IBusOfHostsLoggingControllingRef LoggindOptions { get; }
     }
 }

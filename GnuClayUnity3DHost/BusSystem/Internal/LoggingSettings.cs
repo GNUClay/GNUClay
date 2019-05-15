@@ -1,4 +1,5 @@
 ﻿using GnuClay.CommonHelpers.DebugHelpers;
+using GnuClay.CommonHelpers.LoggingHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
 {
     public class LoggingSettings : IObjectToString
     {
+        public RewritingModeOfLoggingToFileOnStartup RewritingModeOnStartup { get; set; } = RewritingModeOfLoggingToFileOnStartup.WritingToNewDirMarkedByDate;
         public string FullLoggingDir { get; set; }
         public string FilePostfix { get; set; }
 
@@ -39,6 +41,7 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
             var spaces = DisplayHelper.Spaces(n);
             var nextN = n + 4;
             var sb = new StringBuilder();
+            sb.AppendLine($"{spaces}{nameof(RewritingModeOnStartup)} = {RewritingModeOnStartup}");
             sb.AppendLine($"{spaces}{nameof(FullLoggingDir)} = {FullLoggingDir}");
             sb.AppendLine($"{spaces}{nameof(FilePostfix)} = {FilePostfix}");
             return sb.ToString();

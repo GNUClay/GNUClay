@@ -14,7 +14,7 @@ namespace GnuClay
     /// The class of instance of GnuClayEngine.
     /// Represents an NPC.
     /// </summary>
-    public class Engine: IDisposable
+    public class Engine: IEngineInternalRef, IDisposable
     {
         /// <summary>
         /// Construct an instance of the class.
@@ -26,6 +26,11 @@ namespace GnuClay
 
             mContext = new CommonContext();
             mContext.Options = options;
+
+            var host = options.Host;
+            var internalHostRef = host as IHostControllingRef;
+            internalHostRef.SetEngine(this);
+
             mContext.LoggerComponent = new Logger(mContext);
             mLogger = mContext.LoggerComponent;
 

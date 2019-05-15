@@ -30,13 +30,14 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem
 
                 if(loggingOptions.UseLoggingToFile)
                 {
-                    logWrapperOptions.UseLoggingToFile = Context.Options.Logging.UseLoggingToFile;
+                    logWrapperOptions.UseLoggingToFile = loggingOptions.UseLoggingToFile;
 
                     var rewritingModeOnStartup = loggingOptions.RewritingModeOnStartup;
+                    Context.LoggingSettings.RewritingModeOnStartup = rewritingModeOnStartup;
 
                     var pathResolver = new PathResolver();
 
-                    var loggingDir = pathResolver.Resolve(Context.Options.Logging.LoggingDir, Context.BaseDir);
+                    var loggingDir = pathResolver.Resolve(loggingOptions.LoggingDir, Context.BaseDir);
 
                     if(!Directory.Exists(loggingDir))
                     {

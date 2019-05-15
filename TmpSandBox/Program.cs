@@ -334,6 +334,10 @@ namespace TmpSandBox
 
             var bipedHostOptions = new NPCHostOptions();
             bipedHostOptions.Bus = busOfHosts;
+            bipedHostOptions.Logging.EnableLogging = true;
+            bipedHostOptions.Logging.UseLoggingToFile = true;
+            bipedHostOptions.Logging.UseLoggingToConsole = true;
+            bipedHostOptions.Name = Guid.NewGuid().ToString("D");
 
             var host = new NPCHost(bipedHostOptions);
 

@@ -14,7 +14,7 @@ using GnuClayUnity3DHost.BusSystem.Internal.LoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RegistryOfHostSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RemoteLoggingSystem;
 using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
-using GnuClayUnity3DHost.HostSystem;
+using GnuClayUnity3DHost.BaseHostSystem;
 
 namespace GnuClayUnity3DHost.BusSystem
 {
@@ -27,6 +27,7 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext = new CommonContextOfBusOfHosts();
             mContext.Options = options;
             mContext.BusOfHostsControllingRef = this;
+            mLoggingControllingRef = new BusOfHostsLoggingControllingRefImpl(mContext);
 
             var pathResolver = new PathResolver();
             mContext.BaseDir = pathResolver.Resolve(options.BaseDir);
@@ -65,6 +66,7 @@ namespace GnuClayUnity3DHost.BusSystem
         }
 
         private readonly CommonContextOfBusOfHosts mContext;
+        private readonly BusOfHostsLoggingControllingRefImpl mLoggingControllingRef;
         private readonly ILog mLogger;
 
         private void OptionsChecker(BusOfHostsOptions options)
@@ -149,13 +151,15 @@ namespace GnuClayUnity3DHost.BusSystem
             mContext.RegistryOfHostComponent.AddHost(host);
         }
 
+        IBusOfHostsLoggingControllingRef IBusOfHostsControllingRef.LoggindOptions => mLoggingControllingRef;
+        
         /// <summary>
         /// Returns true if logging is enabled, otherwise returns false.
         /// Set true for enable logging, otherwise set false.
-        /// It controls logging of bus only.
+        /// It controls logging of the bus only.
         /// It doesn't control logging of hosts.
         /// </summary>
-        public bool EnableLoggingOnBusOnly
+        public bool EnableLoggingOfBusOnly
         {
             get
             {

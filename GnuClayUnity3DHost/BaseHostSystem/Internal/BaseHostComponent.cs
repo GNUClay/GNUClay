@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClayUnity3DHost.HostSystem.Internal
+namespace GnuClayUnity3DHost.BaseHostSystem.Internal
 {
     /// <summary>
     /// Represents a base component of the host. 
@@ -32,6 +32,13 @@ namespace GnuClayUnity3DHost.HostSystem.Internal
         /// Logger for the component.
         /// </summary>
         public ILog Logger { get; protected set; }
+
+        /// <summary>
+        /// Gets references to other components. 
+        /// </summary>
+        public virtual void InitStep1()
+        {
+        }
 
         /// <summary>
         /// Release this instance.
