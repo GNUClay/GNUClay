@@ -143,7 +143,7 @@ namespace GnuClayUnity3DHost.BusSystem
 
         private void InitComponents()
         {
-            mContext.InitStep1();
+            mContext.InitRefs();
         }
 
         void IBusOfHostsInternalRef.AddHost(IHostInternalRef host)

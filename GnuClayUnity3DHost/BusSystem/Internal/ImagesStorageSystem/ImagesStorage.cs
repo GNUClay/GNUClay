@@ -16,9 +16,9 @@ namespace GnuClayUnity3DHost.BusSystem.Internal.ImagesStorageSystem
         }
 
         #region public members
-        public override void InitStep1()
+        public override void InitRefs()
         {
-            base.InitStep1();
+            base.InitRefs();
             mRuntimeSettingsStorage = Context.RunTimeSettingsStorageComponent;
         }
 

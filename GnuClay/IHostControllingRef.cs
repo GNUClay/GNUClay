@@ -7,5 +7,6 @@ namespace GnuClay
     public interface IHostControllingRef
     {
         void SetEngine(IEngineInternalRef engine);
+        ILog Logger { get; }
     }
 }

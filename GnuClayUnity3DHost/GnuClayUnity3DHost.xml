@@ -99,7 +99,7 @@
             Logger for the component.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.BaseHostSystem.Internal.BaseHostComponent.InitStep1">
+        <member name="M:GnuClayUnity3DHost.BaseHostSystem.Internal.BaseHostComponent.InitRefs">
             <summary>
             Gets references to other components. 
             </summary>
@@ -295,7 +295,7 @@
             Reference to component for logging.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.BaseHostSystem.Internal.CommonContextOfBaseHost.InitStep1">
+        <member name="M:GnuClayUnity3DHost.BaseHostSystem.Internal.CommonContextOfBaseHost.InitRefs">
             <summary>
             Gets references to other components. 
             </summary>
@@ -735,7 +735,7 @@
             Logger for the component.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.InitStep1">
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.BaseBusOfHostsComponent.InitRefs">
             <summary>
             Gets references to other components. 
             </summary>
@@ -931,7 +931,7 @@
             Reference to component for logging.
             </summary>
         </member>
-        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.InitStep1">
+        <member name="M:GnuClayUnity3DHost.BusSystem.Internal.CommonContextOfBusOfHosts.InitRefs">
             <summary>
             Gets references to other components. 
             </summary>

@@ -36,7 +36,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem.Internal
         /// <summary>
         /// Gets references to other components. 
         /// </summary>
-        public virtual void InitStep1()
+        public virtual void InitRefs()
         {
         }
 

@@ -26,9 +26,10 @@ namespace GnuClay
 
             mContext = new CommonContext();
             mContext.Options = options;
-
+            
             var host = options.Host;
             var internalHostRef = host as IHostControllingRef;
+            mContext.HostControllingRef = internalHostRef;
             internalHostRef.SetEngine(this);
 
             mContext.LoggerComponent = new Logger(mContext);
@@ -86,7 +87,7 @@ namespace GnuClay
 
         private void InitComponents()
         {
-
+            mContext.InitRefs();
         }
 
         /// <summary>

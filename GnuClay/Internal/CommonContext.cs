@@ -19,6 +19,8 @@ namespace GnuClay.Internal
         /// </summary>
         public EngineOptions Options { get; set; }
 
+        public IHostControllingRef HostControllingRef { get; set; }
+
         /// <summary>
         /// Adds a component of GnuClay engine to the context for initialization and releasing.
         /// </summary>
@@ -42,6 +44,17 @@ namespace GnuClay.Internal
         public IdsStorage IdsStorageComponent { get; set; }
         public EntitiesStorage EntitiesStorageComponent { get; set; }
         public LogicalStorage LogicalStorageComponent { get; set; }
+
+        /// <summary>
+        /// Gets references to other components. 
+        /// </summary>
+        public void InitRefs()
+        {
+            foreach (var component in mComponentList)
+            {
+                component.InitRefs();
+            }
+        }
 
         /// <summary>
         /// Release this instance.

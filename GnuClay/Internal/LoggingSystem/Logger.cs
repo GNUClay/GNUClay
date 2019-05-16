@@ -10,17 +10,19 @@ namespace GnuClay.Internal.LoggingSystem
             : base(context, null)
         {
             Logger = this;
+            mHostLogger = context.HostControllingRef.Logger;
         }
+
+        private ILog mHostLogger;
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
         /// </summary>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(message);
         }
 
         /// <summary>
@@ -29,10 +31,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing debug message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(depth, message);
         }
 
         /// <summary>
@@ -40,10 +41,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(exception);
         }
 
         /// <summary>
@@ -52,10 +52,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(message, exception);
         }
 
         /// <summary>
@@ -64,10 +63,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(depth, exception);
         }
 
         /// <summary>
@@ -77,10 +75,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing debug message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Debug(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Debug(depth, message, exception);
         }
 
         /// <summary>
@@ -88,10 +85,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(message);
         }
 
         /// <summary>
@@ -100,10 +96,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing log message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(depth, message);
         }
 
         /// <summary>
@@ -111,10 +106,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(exception);
         }
 
         /// <summary>
@@ -123,10 +117,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(message, exception);
         }
 
         /// <summary>
@@ -135,10 +128,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(depth, exception);
         }
 
         /// <summary>
@@ -148,10 +140,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing log message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Log(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Log(depth, message, exception);
         }
 
         /// <summary>
@@ -159,10 +150,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(message);
         }
 
         /// <summary>
@@ -171,10 +161,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="message">A string containing an information message.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(depth, message);
         }
 
         /// <summary>
@@ -182,10 +171,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception"></param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(exception);
         }
 
         /// <summary>
@@ -194,10 +182,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing description of .</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(message, exception);
         }
 
         /// <summary>
@@ -206,10 +193,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(depth, exception);
         }
 
         /// <summary>
@@ -219,10 +205,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// <param name="message">A string containing an information message.</param>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Info(uint depth, string message, Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Info(depth, message, exception);
         }
 
         /// <summary>
@@ -230,10 +215,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of a warning.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Warn(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Warn(message);
         }
 
         /// <summary>
@@ -241,10 +225,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Warn(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Warn(exception);
         }
 
         /// <summary>
@@ -252,10 +235,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of error.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Error(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Error(message);
         }
 
         /// <summary>
@@ -263,10 +245,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Error(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Error(exception);
         }
 
         /// <summary>
@@ -274,10 +255,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="message">A string containing description of fatal error.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Fatal(string message)
         {
-            throw new NotImplementedException();
+            mHostLogger.Fatal(message);
         }
 
         /// <summary>
@@ -285,10 +265,9 @@ namespace GnuClay.Internal.LoggingSystem
         /// </summary>
         /// <param name="exception">An exception to be logged.</param>
         [MethodForLoggingSupport]
-        // TODO: fix me!
         public void Fatal(Exception exception)
         {
-            throw new NotImplementedException();
+            mHostLogger.Fatal(exception);
         }
     }
 }

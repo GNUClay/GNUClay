@@ -58,11 +58,11 @@ namespace GnuClayUnity3DHost.BusSystem.Internal
         /// <summary>
         /// Gets references to other components. 
         /// </summary>
-        public void InitStep1()
+        public void InitRefs()
         {
             foreach(var component in mComponentList)
             {
-                component.InitStep1();
+                component.InitRefs();
             }
         }
 

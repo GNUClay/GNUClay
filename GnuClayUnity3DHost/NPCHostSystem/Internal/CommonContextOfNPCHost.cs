@@ -1,4 +1,5 @@
-﻿using GnuClayUnity3DHost.BaseHostSystem;
+﻿using GnuClay;
+using GnuClayUnity3DHost.BaseHostSystem;
 using GnuClayUnity3DHost.BaseHostSystem.Internal;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace GnuClayUnity3DHost.NPCHostSystem.Internal
 {
     public class CommonContextOfNPCHost: CommonContextOfBaseHost
     {
+        public IEngineInternalRef Engine { get; set; }
+
         /// <summary>
         ///  Dispose this instance.
         /// </summary>

@@ -15,10 +15,11 @@ namespace GnuClayUnity3DHost.NPCHostSystem
         {
         }
 
-        //TODO fix me
         void IHostControllingRef.SetEngine(IEngineInternalRef engine)
         {
-            throw new NotImplementedException();
+            Context.Engine = engine;
         }
+
+        ILog IHostControllingRef.Logger => Context.LoggerComponent;
     }
 }

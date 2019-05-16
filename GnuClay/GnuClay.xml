@@ -632,6 +632,11 @@
             Logger for the component.
             </summary>
         </member>
+        <member name="M:GnuClay.Internal.BaseEngineComponent.InitRefs">
+            <summary>
+            Gets references to other components. 
+            </summary>
+        </member>
         <member name="M:GnuClay.Internal.BaseEngineComponent.Dispose">
             <summary>
             Release this instance.
@@ -841,6 +846,11 @@
         <member name="P:GnuClay.Internal.CommonContext.CompilerComponent">
             <summary>
             Reference to component for compiller.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Internal.CommonContext.InitRefs">
+            <summary>
+            Gets references to other components. 
             </summary>
         </member>
         <member name="M:GnuClay.Internal.CommonContext.Dispose">

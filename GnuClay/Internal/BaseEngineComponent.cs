@@ -33,6 +33,13 @@ namespace GnuClay.Internal
         public ILog Logger { get; protected set; }
 
         /// <summary>
+        /// Gets references to other components. 
+        /// </summary>
+        public virtual void InitRefs()
+        {
+        }
+
+        /// <summary>
         /// Release this instance.
         /// </summary>
         public void Dispose()

@@ -64,7 +64,7 @@ namespace GnuClayUnity3DHost.BaseHostSystem
 
         private void InitComponents()
         {
-            Context.InitStep1();
+            Context.InitRefs();
         }
 
         void IHostInternalRef.SetBusOfHostsControllingRef(IBusOfHostsControllingRef busOfHostsControllingRef)

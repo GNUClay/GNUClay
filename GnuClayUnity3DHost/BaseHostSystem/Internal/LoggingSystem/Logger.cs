@@ -63,9 +63,9 @@ namespace GnuClayUnity3DHost.BaseHostSystem.Internal.LoggingSystem
 
         }
 
-        public override void InitStep1()
+        public override void InitRefs()
         {
-            base.InitStep1();
+            base.InitRefs();
 
             mRemoteLogger = Context.RemoteLoggerComponent as ILoggingMessagesInRemoteLogger;
         }
