@@ -166,7 +166,33 @@ namespace GnuClay.Core.Implementations
 
         private void CheckExistingOfAllRequiredComponents()
         {
-            throw new NotImplementedException();
+            CheckExistingOfRequiredComponent(mCoreLogicalStorage, KindOfCoreComponent.CoreLogicalStorage);
+            CheckExistingOfRequiredComponent(mCoreExecutingSystem, KindOfCoreComponent.CoreExecutingSystem);
+            CheckExistingOfRequiredComponent(mCoreObjectsRegistry, KindOfCoreComponent.CoreObjectsRegistry);
+            CheckExistingOfRequiredComponent(mCoreScopesRegistry, KindOfCoreComponent.CoreScopesRegistry);
+            CheckExistingOfRequiredComponent(mCoreFunctionsRegistry, KindOfCoreComponent.CoreFunctionsRegistry);
+            CheckExistingOfRequiredComponent(mCoreTriggersRegistry, KindOfCoreComponent.CoreTriggersRegistry);
+            CheckExistingOfRequiredComponent(mCoreProcessesRegistry, KindOfCoreComponent.CoreProcessesRegistry);
+            CheckExistingOfRequiredComponent(mCoreExternalResources, KindOfCoreComponent.CoreExternalResources);
+            CheckExistingOfRequiredComponent(mCoreCompiler, KindOfCoreComponent.CoreCompiler);
+
+            if(Logger == null)
+            {
+                throw new NullReferenceException("Core component Logger is null.");
+            }
+
+            if(RemoteDebugger == null)
+            {
+                throw new NullReferenceException("Core component RemoteDebugger is null.");
+            }
+        }
+
+        private void CheckExistingOfRequiredComponent(ICoreComponent component, KindOfCoreComponent kindOfComponent)
+        {
+            if(component == null)
+            {
+                throw new NullReferenceException($"Core component {kindOfComponent} is null.");
+            }
         }
 
         /// <summary>
