@@ -6,5 +6,7 @@ namespace GnuClay.Core.Interfaces
 {
     public interface ICoreComponent: IDisposable
     {
+        KindOfCoreComponent KindOfComponent { get; }
+        void InitRefsToOtherComponents();
     }
 }

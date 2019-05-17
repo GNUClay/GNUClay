@@ -50,6 +50,8 @@ using System.Dynamic;
 using Newtonsoft.Json;
 using GnuClay.CommonHelpers.ReflectionHelpers;
 using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
+using GnuClay.Core.Implementations;
+using GnuClay.Core.Implementations.CoreLogicalStorageSystem;
 
 namespace TmpSandBox
 {
@@ -71,7 +73,8 @@ namespace TmpSandBox
             //TSTSerializableHelper();
             //TSTPathResolver();
             //TSTLogger();
-            TSTNewEngine();
+            TSTCore();
+            //TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
             //TSTStack();
@@ -317,6 +320,15 @@ namespace TmpSandBox
             LogInstance.Log($"Ok!!!! {now}");
 
             Thread.Sleep(10000);
+        }
+
+        private static void TSTCore()
+        {
+            var context = new CoreContext(null, null);
+
+            var coreLogicalStorageComponent = new CoreLogicalStorageComponent(context);
+
+            context.InitRefsToOtherComponents();
         }
 
         private static void TSTNewEngine()

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace GnuClay.Core.Interfaces
 {
-    public interface ICoreClassRegistryComponent : ICoreComponent
+    public interface ICoreContextInternalRef
     {
+        void AddComponent(ICoreComponent component);
     }
 }

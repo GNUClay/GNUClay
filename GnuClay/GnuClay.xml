@@ -368,6 +368,48 @@
             <param name="fullName">Initial type name.</param>
             <returns>Typename without version, culture, PublicKeyToken and library name.</returns>
         </member>
+        <member name="M:GnuClay.Core.Implementations.BaseCoreComponent.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.BaseCoreComponent.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Core.Implementations.BaseCoreComponent.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.BaseCoreComponent.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.Core.Implementations.CoreContext.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
         <member name="T:GnuClay.Engine">
             <summary>
             The class of instance of GnuClayEngine.
@@ -1026,6 +1068,11 @@
             Writes the diagnostic message at the Fatal level.
             </summary>
             <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="T:GnuClay.IRemoteDebug">
+            <summary>
+            Provades remote logging interface.
+            </summary>
         </member>
         <member name="P:GnuClay.LoggedObject.Logger">
             <summary>
