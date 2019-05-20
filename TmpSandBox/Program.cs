@@ -52,6 +52,14 @@ using GnuClay.CommonHelpers.ReflectionHelpers;
 using GnuClayUnity3DHost.BusSystem.Internal.RuntimeSettingsSystem;
 using GnuClay.Core.Implementations;
 using GnuClay.Core.Implementations.CoreLogicalStorageSystem;
+using GnuClay.Core.Implementations.CoreExecutingSystem;
+using GnuClay.Core.Implementations.CoreObjectsRegistry;
+using GnuClay.Core.Implementations.CoreScopesRegistry;
+using GnuClay.Core.Implementations.CoreFunctionsRegistry;
+using GnuClay.Core.Implementations.CoreTriggersRegistry;
+using GnuClay.Core.Implementations.CoreProcessesRegistry;
+using GnuClay.Core.Implementations.CoreExternalResources;
+using GnuClay.Core.Implementations.CoreCompiler;
 
 namespace TmpSandBox
 {
@@ -324,9 +332,22 @@ namespace TmpSandBox
 
         private static void TSTCore()
         {
-            var context = new CoreContext(null, null);
+            var remoteDebug = new RemoteDebugImpl();
+
+            var logger = new LogImplForNLog();
+            logger.Enable = true;
+
+            var context = new CoreContext(logger, remoteDebug);
 
             var coreLogicalStorageComponent = new CoreLogicalStorageComponent(context);
+            var coreExecutingSystemComponent = new CoreExecutingSystemComponent(context);
+            var coreObjectsRegistryComponent = new CoreObjectsRegistryComponent(context);
+            var coreScopesRegistryComponent = new CoreScopesRegistryComponent(context);
+            var coreFunctionsRegistryComponent = new CoreFunctionsRegistryComponent(context);
+            var coreTriggersRegistryComponent = new CoreTriggersRegistryComponent(context);
+            var coreProcessesRegistryComponent = new CoreProcessesRegistryComponent(context);
+            var coreExternalResourcesComponent = new CoreExternalResourcesComponent(context);
+            var coreCompilerComponent = new CoreCompilerComponent(context);
 
             context.InitRefsToOtherComponents();
         }
