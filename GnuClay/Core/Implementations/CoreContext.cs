@@ -62,6 +62,10 @@ namespace GnuClay.Core.Implementations
                     mCoreCompiler = component as ICoreCompilerComponent;
                     break;
 
+                case KindOfCoreComponent.CoreLoaderFromSourceCode:
+                    mCoreLoaderFromSourceCode = component as ICoreLoaderFromSourceCodeComponent;
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(kindOfComponent), kindOfComponent, null);
             }
@@ -151,6 +155,16 @@ namespace GnuClay.Core.Implementations
             }
         }
 
+        private ICoreLoaderFromSourceCodeComponent mCoreLoaderFromSourceCode;
+
+        public ICoreLoaderFromSourceCodeComponent CoreLoaderFromSourceCode
+        {
+            get
+            {
+                return mCoreLoaderFromSourceCode;
+            }
+        }
+
         public ILog Logger { get; private set; }
         public IRemoteDebug RemoteDebugger { get; private set; }
 
@@ -175,8 +189,9 @@ namespace GnuClay.Core.Implementations
             CheckExistingOfRequiredComponent(mCoreProcessesRegistry, KindOfCoreComponent.CoreProcessesRegistry);
             CheckExistingOfRequiredComponent(mCoreExternalResources, KindOfCoreComponent.CoreExternalResources);
             CheckExistingOfRequiredComponent(mCoreCompiler, KindOfCoreComponent.CoreCompiler);
+            CheckExistingOfRequiredComponent(mCoreLoaderFromSourceCode, KindOfCoreComponent.CoreLoaderFromSourceCode);
 
-            if(Logger == null)
+            if (Logger == null)
             {
                 throw new NullReferenceException("Core component Logger is null.");
             }

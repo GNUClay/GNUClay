@@ -31,6 +31,7 @@ namespace GnuClay.Core.Implementations
         protected ICoreProcessesRegistryComponent CoreProcessesRegistry { get; private set; }
         protected ICoreExternalResourcesComponent CoreExternalResources { get; private set; }
         protected ICoreCompilerComponent CoreCompiler { get; private set; }
+        protected ICoreLoaderFromSourceCodeComponent CoreLoaderFromSourceCode { get; private set; }
 
         protected ILog Logger { get; private set; }
         protected IRemoteDebug RemoteDebugger { get; private set; }
@@ -46,6 +47,7 @@ namespace GnuClay.Core.Implementations
             CoreProcessesRegistry = Context.CoreProcessesRegistry;
             CoreExternalResources = Context.CoreExternalResources;
             CoreCompiler = Context.CoreCompiler;
+            CoreLoaderFromSourceCode = Context.CoreLoaderFromSourceCode;
         }
 
         /// <summary>

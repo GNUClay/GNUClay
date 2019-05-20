@@ -14,6 +14,7 @@ namespace GnuClay.Core.Interfaces
         CoreTriggersRegistry,
         CoreProcessesRegistry,
         CoreExternalResources,
-        CoreCompiler
+        CoreCompiler,
+        CoreLoaderFromSourceCode
     }
 }

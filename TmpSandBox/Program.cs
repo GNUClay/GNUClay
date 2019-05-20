@@ -60,6 +60,7 @@ using GnuClay.Core.Implementations.CoreTriggersRegistry;
 using GnuClay.Core.Implementations.CoreProcessesRegistry;
 using GnuClay.Core.Implementations.CoreExternalResources;
 using GnuClay.Core.Implementations.CoreCompiler;
+using GnuClay.Core.Implementations.CoreLoaderFromSourceCode;
 
 namespace TmpSandBox
 {
@@ -348,6 +349,7 @@ namespace TmpSandBox
             var coreProcessesRegistryComponent = new CoreProcessesRegistryComponent(context);
             var coreExternalResourcesComponent = new CoreExternalResourcesComponent(context);
             var coreCompilerComponent = new CoreCompilerComponent(context);
+            var coreLoaderFromSourceCodeComponent = new CoreLoaderFromSourceCodeComponent(context);
 
             context.InitRefsToOtherComponents();
         }
