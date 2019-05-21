@@ -8,5 +8,9 @@ namespace GnuClay.Core.Interfaces
     {
         KindOfCoreComponent KindOfComponent { get; }
         void InitRefsToOtherComponents();
+        void Clear();
+        void Load();
+        void Save();
+        void PrepareForStarting();
     }
 }

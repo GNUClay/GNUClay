@@ -548,6 +548,27 @@
             </summary>
             <param name="disposing">Is the instance released not in finalizer.</param>
         </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Clear">
+            <summary>
+            Clears state of all components of the context.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Load">
+            <summary>
+            Loads state of all components of the context from source files.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.Save">
+            <summary>
+            Saves state of all components of the context to source files.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreContext.PrepareForStarting">
+            <summary>
+            Starts executing of all needed processes in clear system.
+            This method do nothing if some processes is still executing.
+            </summary>
+        </member>
         <member name="M:GnuClay.Core.Implementations.CoreContext.Debug(System.String)">
             <summary>
             Writes the diagnostic message at the Debug level.

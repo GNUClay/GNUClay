@@ -168,6 +168,9 @@ namespace GnuClay.Core.Implementations
         public ILog Logger { get; private set; }
         public IRemoteDebug RemoteDebugger { get; private set; }
 
+        public string ParsedFilesPath { get; set; }
+        public string IndexFilesPath { get; set; }
+
         public void InitRefsToOtherComponents()
         {
             CheckExistingOfAllRequiredComponents();
@@ -207,6 +210,51 @@ namespace GnuClay.Core.Implementations
             if(component == null)
             {
                 throw new NullReferenceException($"Core component {kindOfComponent} is null.");
+            }
+        }
+
+        /// <summary>
+        /// Clears state of all components of the context.
+        /// </summary>
+        public void Clear()
+        {
+            foreach (var component in mComponentsList)
+            {
+                component.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Loads state of all components of the context from source files.
+        /// </summary>
+        public void Load()
+        {
+            foreach (var component in mComponentsList)
+            {
+                component.Load();
+            }
+        }
+
+        /// <summary>
+        /// Saves state of all components of the context to source files.
+        /// </summary>
+        public void Save()
+        {
+            foreach (var component in mComponentsList)
+            {
+                component.Save();
+            }
+        }
+
+        /// <summary>
+        /// Starts executing of all needed processes in clear system.
+        /// This method do nothing if some processes is still executing.
+        /// </summary>
+        public void PrepareForStarting()
+        {
+            foreach (var component in mComponentsList)
+            {
+                component.PrepareForStarting();
             }
         }
 

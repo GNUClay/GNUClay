@@ -50,6 +50,22 @@ namespace GnuClay.Core.Implementations
             CoreLoaderFromSourceCode = Context.CoreLoaderFromSourceCode;
         }
 
+        public virtual void Clear()
+        {
+        }
+
+        public virtual void Load()
+        {
+        }
+
+        public virtual void Save()
+        {
+        }
+
+        public virtual void PrepareForStarting()
+        {
+        }
+
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
         /// </summary>
