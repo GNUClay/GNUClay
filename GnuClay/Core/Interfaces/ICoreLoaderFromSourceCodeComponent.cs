@@ -6,5 +6,6 @@ namespace GnuClay.Core.Interfaces
 {
     public interface ICoreLoaderFromSourceCodeComponent: ICoreComponent
     {
+        void LoadFromFile(string fileName);
     }
 }

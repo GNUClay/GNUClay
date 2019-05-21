@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Apps\A554146A-6D53-45E5-8F4E-D19650679C05\A554146A-6D53-45E5-8F4E-D19650679C05.app.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="main.dict">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

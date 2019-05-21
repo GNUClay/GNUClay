@@ -352,6 +352,12 @@ namespace TmpSandBox
             var coreLoaderFromSourceCodeComponent = new CoreLoaderFromSourceCodeComponent(context);
 
             context.InitRefsToOtherComponents();
+
+            var fileName = Path.Combine(Environment.CurrentDirectory, "Apps/A554146A-6D53-45E5-8F4E-D19650679C05/A554146A-6D53-45E5-8F4E-D19650679C05.app.txt");
+
+            LogInstance.Log($"fileName = {fileName}");
+
+            coreLoaderFromSourceCodeComponent.LoadFromFile(fileName);
         }
 
         private static void TSTNewEngine()
