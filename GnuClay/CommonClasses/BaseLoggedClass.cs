@@ -1,72 +1,17 @@
-﻿using GnuClay.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GnuClay.Core.Implementations
+namespace GnuClay.CommonClasses
 {
-    public abstract class BaseCoreComponent : ICoreComponent
+    public abstract class BaseLoggedClass: IDisposable
     {
-        protected BaseCoreComponent(ICoreContext context, KindOfCoreComponent kindOfComponent)
+        protected BaseLoggedClass(ILog logger)
         {
-            KindOfComponent = kindOfComponent;
-            Context = context;
-
-            var internalRefOfContext = context as ICoreContextInternalRef;
-            internalRefOfContext.AddComponent(this);
-
-            Logger = context.Logger;
-            RemoteDebugger = context.RemoteDebugger;
+            mLogger = logger;
         }
 
-        protected ICoreContext Context { get; private set; }
-        public KindOfCoreComponent KindOfComponent { get; private set; }
-
-        protected ICoreLogicalStorageComponent CoreLogicalStorage { get; private set; }
-        protected ICoreExecutingSystemComponent CoreExecutingSystem { get; private set; }
-        protected ICoreObjectsRegistryComponent CoreObjectsRegistry { get; private set; }
-        protected ICoreScopesRegistryComponent CoreScopesRegistry { get; private set; }
-        protected ICoreFunctionsRegistryComponent CoreFunctionsRegistry { get; private set; }
-        protected ICoreTriggersRegistryComponent CoreTriggersRegistry { get; private set; }
-        protected ICoreProcessesRegistryComponent CoreProcessesRegistry { get; private set; }
-        protected ICoreExternalResourcesComponent CoreExternalResources { get; private set; }
-        protected ICoreCompilerComponent CoreCompiler { get; private set; }
-        protected ICoreLoaderFromSourceCodeComponent CoreLoaderFromSourceCode { get; private set; }
-        protected ICoreLoaderFromSharedLibraryComponent CoreLoaderFromSharedLibrary { get; private set; }
-
-        protected ILog Logger { get; private set; }
-        protected IRemoteDebug RemoteDebugger { get; private set; }
-
-        public virtual void InitRefsToOtherComponents()
-        {
-            CoreLogicalStorage = Context.CoreLogicalStorage;
-            CoreExecutingSystem = Context.CoreExecutingSystem;
-            CoreObjectsRegistry = Context.CoreObjectsRegistry;
-            CoreScopesRegistry = Context.CoreScopesRegistry;
-            CoreFunctionsRegistry = Context.CoreFunctionsRegistry;
-            CoreTriggersRegistry = Context.CoreTriggersRegistry;
-            CoreProcessesRegistry = Context.CoreProcessesRegistry;
-            CoreExternalResources = Context.CoreExternalResources;
-            CoreCompiler = Context.CoreCompiler;
-            CoreLoaderFromSourceCode = Context.CoreLoaderFromSourceCode;
-            CoreLoaderFromSharedLibrary = Context.CoreLoaderFromSharedLibrary;
-        }
-
-        public virtual void Clear()
-        {
-        }
-
-        public virtual void Load()
-        {
-        }
-
-        public virtual void Save()
-        {
-        }
-
-        public virtual void PrepareForStarting()
-        {
-        }
+        private ILog mLogger;
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
@@ -75,7 +20,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(string message)
         {
-            Logger?.Debug(message);
+            mLogger.Debug(message);
         }
 
         /// <summary>
@@ -86,7 +31,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(uint depth, string message)
         {
-            Logger?.Debug(depth, message);
+            mLogger.Debug(depth, message);
         }
 
         /// <summary>
@@ -96,7 +41,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(Exception exception)
         {
-            Logger?.Debug(exception);
+            mLogger.Debug(exception);
         }
 
         /// <summary>
@@ -107,7 +52,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(string message, Exception exception)
         {
-            Logger?.Debug(message, exception);
+            mLogger.Debug(message, exception);
         }
 
         /// <summary>
@@ -118,7 +63,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(uint depth, Exception exception)
         {
-            Logger?.Debug(depth, exception);
+            mLogger.Debug(depth, exception);
         }
 
         /// <summary>
@@ -130,7 +75,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Debug(uint depth, string message, Exception exception)
         {
-            Logger?.Debug(depth, message, exception);
+            mLogger.Debug(depth, message, exception);
         }
 
         /// <summary>
@@ -140,7 +85,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(string message)
         {
-            Logger?.Log(message);
+            mLogger.Log(message);
         }
 
         /// <summary>
@@ -151,7 +96,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(uint depth, string message)
         {
-            Logger?.Log(depth, message);
+            mLogger.Log(depth, message);
         }
 
         /// <summary>
@@ -161,7 +106,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(Exception exception)
         {
-            Logger?.Log(exception);
+            mLogger.Log(exception);
         }
 
         /// <summary>
@@ -172,7 +117,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(string message, Exception exception)
         {
-            Logger?.Log(message, exception);
+            mLogger.Log(message, exception);
         }
 
         /// <summary>
@@ -183,7 +128,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(uint depth, Exception exception)
         {
-            Logger?.Log(depth, exception);
+            mLogger.Log(depth, exception);
         }
 
         /// <summary>
@@ -195,7 +140,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Log(uint depth, string message, Exception exception)
         {
-            Logger?.Log(depth, message, exception);
+            mLogger.Log(depth, message, exception);
         }
 
         /// <summary>
@@ -205,7 +150,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(string message)
         {
-            Logger?.Info(message);
+            mLogger.Info(message);
         }
 
         /// <summary>
@@ -216,7 +161,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(uint depth, string message)
         {
-            Logger?.Info(depth, message);
+            mLogger.Info(depth, message);
         }
 
         /// <summary>
@@ -226,7 +171,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(Exception exception)
         {
-            Logger?.Info(exception);
+            mLogger.Info(exception);
         }
 
         /// <summary>
@@ -237,7 +182,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(string message, Exception exception)
         {
-            Logger?.Info(message, exception);
+            mLogger.Info(message, exception);
         }
 
         /// <summary>
@@ -248,7 +193,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(uint depth, Exception exception)
         {
-            Logger?.Info(depth, exception);
+            mLogger.Info(depth, exception);
         }
 
         /// <summary>
@@ -260,7 +205,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Info(uint depth, string message, Exception exception)
         {
-            Logger?.Info(depth, message, exception);
+            mLogger.Info(depth, message, exception);
         }
 
         /// <summary>
@@ -270,7 +215,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Warn(string message)
         {
-            Logger?.Warn(message);
+            mLogger.Warn(message);
         }
 
         /// <summary>
@@ -280,7 +225,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Warn(Exception exception)
         {
-            Logger?.Warn(exception);
+            mLogger.Warn(exception);
         }
 
         /// <summary>
@@ -290,7 +235,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Error(string message)
         {
-            Logger?.Error(message);
+            mLogger.Error(message);
         }
 
         /// <summary>
@@ -300,7 +245,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Error(Exception exception)
         {
-            Logger?.Error(exception);
+            mLogger.Error(exception);
         }
 
         /// <summary>
@@ -310,7 +255,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Fatal(string message)
         {
-            Logger?.Fatal(message);
+            mLogger.Fatal(message);
         }
 
         /// <summary>
@@ -320,7 +265,7 @@ namespace GnuClay.Core.Implementations
         [MethodForLoggingSupport]
         protected void Fatal(Exception exception)
         {
-            Logger?.Fatal(exception);
+            mLogger.Fatal(exception);
         }
 
         /// <summary>
@@ -345,7 +290,7 @@ namespace GnuClay.Core.Implementations
         /// <summary>
         /// Finalizer for this instance.
         /// </summary>
-        ~BaseCoreComponent()
+        ~BaseLoggedClass()
         {
             if (IsDisposed)
             {

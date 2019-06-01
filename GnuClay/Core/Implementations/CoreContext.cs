@@ -66,6 +66,10 @@ namespace GnuClay.Core.Implementations
                     mCoreLoaderFromSourceCode = component as ICoreLoaderFromSourceCodeComponent;
                     break;
 
+                case KindOfCoreComponent.CoreLoaderFromSharedLibrary:
+                    mCoreLoaderFromSharedLibrary = component as ICoreLoaderFromSharedLibraryComponent;
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(kindOfComponent), kindOfComponent, null);
             }
@@ -165,6 +169,16 @@ namespace GnuClay.Core.Implementations
             }
         }
 
+        private ICoreLoaderFromSharedLibraryComponent mCoreLoaderFromSharedLibrary;
+
+        public ICoreLoaderFromSharedLibraryComponent CoreLoaderFromSharedLibrary
+        {
+            get
+            {
+                return mCoreLoaderFromSharedLibrary;
+            }
+        }
+
         public ILog Logger { get; private set; }
         public IRemoteDebug RemoteDebugger { get; private set; }
 
@@ -193,6 +207,7 @@ namespace GnuClay.Core.Implementations
             CheckExistingOfRequiredComponent(mCoreExternalResources, KindOfCoreComponent.CoreExternalResources);
             CheckExistingOfRequiredComponent(mCoreCompiler, KindOfCoreComponent.CoreCompiler);
             CheckExistingOfRequiredComponent(mCoreLoaderFromSourceCode, KindOfCoreComponent.CoreLoaderFromSourceCode);
+            CheckExistingOfRequiredComponent(mCoreLoaderFromSharedLibrary, KindOfCoreComponent.CoreLoaderFromSharedLibrary);
 
             if (Logger == null)
             {

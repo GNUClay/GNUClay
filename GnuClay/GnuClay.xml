@@ -4,6 +4,186 @@
         <name>GnuClay</name>
     </assembly>
     <members>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Debug(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Debug level.
+            </summary>
+            <param name="depth">Depth of Debug level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing debug message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Log(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Log level.
+            </summary>
+            <param name="depth">Depth of Log level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing log message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.UInt32,System.String)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="message">A string containing description of .</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.UInt32,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Info(System.UInt32,System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Info level.
+            </summary>
+            <param name="depth">Depth of Info level. It needs for controlling level of detailing for more comfortable showing and debugging.</param>
+            <param name="message">A string containing an information message.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Warn(System.String)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="message">A string containing description of a warning.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Warn(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Warn level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Error(System.String)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="message">A string containing description of error.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Error(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Error level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Fatal(System.String)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="message">A string containing description of fatal error.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Fatal(System.Exception)">
+            <summary>
+            Writes the diagnostic message at the Fatal level.
+            </summary>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Dispose">
+            <summary>
+            Release this instance.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Finalize">
+            <summary>
+            Finalizer for this instance.
+            </summary>
+        </member>
+        <member name="P:GnuClay.CommonClasses.BaseLoggedClass.IsDisposed">
+            <summary>
+            Returns true if the instance was released, owerthise returns false.
+            </summary>
+        </member>
+        <member name="M:GnuClay.CommonClasses.BaseLoggedClass.Dispose(System.Boolean)">
+            <summary>
+             Dispose this instance.
+            </summary>
+            <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
         <member name="T:GnuClay.CommonClasses.Constants">
             <summary>
             Common constants of GnuClay.
@@ -368,6 +548,12 @@
             <param name="fullName">Initial type name.</param>
             <returns>Typename without version, culture, PublicKeyToken and library name.</returns>
         </member>
+        <member name="M:GnuClay.Core.CommonInterfaces.CoreScopesRegistry.IScope.AddFromCompiledResult(GnuClay.Core.CommonInterfaces.CoreCompiler.ICompiledResult)">
+            <summary>
+            Adds information from compiled result.
+            </summary>
+            <param name="compiledResult">Added compiled result.</param>
+        </member>
         <member name="M:GnuClay.Core.Implementations.BaseCoreComponent.Debug(System.String)">
             <summary>
             Writes the diagnostic message at the Debug level.
@@ -547,6 +733,26 @@
              Dispose this instance.
             </summary>
             <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreCompiler.CompiledResult.ToString">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreCompiler.CompiledResult.ToString(System.UInt32)">
+            <summary>
+            Returns a string that represents the current instance.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance.</returns>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreCompiler.CompiledResult.PropertiesToString(System.UInt32)">
+            <summary>
+            Internal method which returns a string that represents the current instance without additional information, only pair name of property - value.
+            </summary>
+            <param name="n">Count of spaces in the string for more comfortable representation.</param>
+            <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
         <member name="M:GnuClay.Core.Implementations.CoreContext.Clear">
             <summary>
@@ -748,6 +954,22 @@
              Dispose this instance.
             </summary>
             <param name="disposing">Is the instance released not in finalizer.</param>
+        </member>
+        <member name="T:GnuClay.Core.Implementations.CoreLoaderFromSharedLibrary.CoreLoaderFromSharedLibraryComponent">
+            <summary>
+            Loads and caches shared libraries.
+            </summary>
+        </member>
+        <member name="T:GnuClay.Core.Implementations.CoreLoaderFromSharedLibrary.ProxyCoreLoaderFromSharedLibraryComponent">
+            <summary>
+            Just gets shared libraries from common storage.
+            </summary>
+        </member>
+        <member name="M:GnuClay.Core.Implementations.CoreScopesRegistry.BaseScope.AddFromCompiledResult(GnuClay.Core.CommonInterfaces.CoreCompiler.ICompiledResult)">
+            <summary>
+            Adds information from compiled result.
+            </summary>
+            <param name="compiledResult">Added compiled result.</param>
         </member>
         <member name="T:GnuClay.Engine">
             <summary>

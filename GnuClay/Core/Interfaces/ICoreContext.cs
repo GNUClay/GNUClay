@@ -16,6 +16,7 @@ namespace GnuClay.Core.Interfaces
         ICoreExternalResourcesComponent CoreExternalResources { get; }
         ICoreCompilerComponent CoreCompiler { get; }
         ICoreLoaderFromSourceCodeComponent CoreLoaderFromSourceCode { get; }
+        ICoreLoaderFromSharedLibraryComponent CoreLoaderFromSharedLibrary { get; }
 
         ILog Logger { get; }
         IRemoteDebug RemoteDebugger { get; }

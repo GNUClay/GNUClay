@@ -1,4 +1,6 @@
 ﻿using GnuClay.CommonHelpers.FileHelpers;
+using GnuClay.Core.CommonInterfaces.CoreCompiler;
+using GnuClay.Core.Implementations.CoreCompiler;
 using GnuClay.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,13 @@ namespace GnuClay.Core.Implementations.CoreLoaderFromSourceCode
             Debug($"contents = {contents}");
 #endif
 
-            throw new NotImplementedException();
+            var compiledResult = new CompiledResult();
+
+#if DEBUG
+            Debug($"compiledResult = {compiledResult}");
+#endif
+
+            CoreScopesRegistry.BaseScope.AddFromCompiledResult(compiledResult);
         }
     }
 }
