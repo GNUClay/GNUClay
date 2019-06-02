@@ -8,8 +8,15 @@ namespace GnuClay.Core.Implementations.CoreCompiler.Parsers
     public class Parser: BaseParser
     {
         public Parser(IParserContext context)
-            : base(context)
+            : base(context, null)
         {
+        }
+
+        protected override void OnRun()
+        {
+#if DEBUG
+            Debug($"CurrToken = {CurrToken}");
+#endif
         }
 
         public ICompiledResult Result => throw new NotImplementedException();

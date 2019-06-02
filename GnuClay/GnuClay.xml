@@ -754,6 +754,201 @@
             <param name="n">Count of spaces in the string for more comfortable representation.</param>
             <returns>A string that represents the current instance without additional information, only pair name of property - value.</returns>
         </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Number">
+            <summary>
+            Represents a number.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Var">
+            <summary>
+            Represents a variable.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.QuestionParam">
+            <summary>
+            Represents a param with question, like '?x'.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.BindedParam">
+            <summary>
+            Represents a value from program.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Entity">
+            <summary>
+            Represents word which starts by #. Like '#some_entity'
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.OpenFigureBracket">
+            <summary>
+            Represents symbol `{`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.CloseFigureBracket">
+            <summary>
+            Represents symbol `}`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.OpenRoundBracket">
+            <summary>
+            Represents symbol `(`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.CloseRoundBracket">
+            <summary>
+            Represents symbol `)`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.OpenSquareBracket">
+            <summary>
+            Represents symbol `[`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.CloseSquareBracket">
+            <summary>
+            Represents symbol `]`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Comma">
+            <summary>
+            Represents symbol `,`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Point">
+            <summary>
+            Represents symbol `.`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Plus">
+            <summary>
+            Represents symbol `+`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Minus">
+            <summary>
+            Represents symbol `-`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Mul">
+            <summary>
+            Represents symbol `*`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Div">
+            <summary>
+            Represents symbol `/`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Colon">
+            <summary>
+            Represents symbol `:`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.And">
+            <summary>
+            Represents symbol `&amp;`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Or">
+            <summary>
+            Represents symbol `|`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Not">
+            <summary>
+            Represents symbol `!`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.More">
+            <summary>
+            Represents symbol `&gt;`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Less">
+            <summary>
+            Represents symbol `&lt;`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.QuestionMark">
+            <summary>
+            Represents symbol `?`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Assing">
+            <summary>
+            Represents symbol `=`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.AtSign">
+            <summary>
+            Represents symbol `@`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.DoubleAtSign">
+            <summary>
+            Represents symbols `@@`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.AtSignDollar">
+            <summary>
+            Represents symbols `@$`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.Sharp">
+            <summary>
+            Represents symbol `#`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.DoubleSharp">
+            <summary>
+            Represents symbols `##`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.SharpAtSign">
+            <summary>
+            Represents symbols `#@`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.BeginFact">
+            <summary>
+            Represents symbols `{:`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.EndFact">
+            <summary>
+            Represents symbols `:}`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.BeginAnnotaion">
+            <summary>
+            Represents symbols `[:`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.EndAnnotation">
+            <summary>
+            Represents symbols `:]`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.RightwardArrow">
+            <summary>
+            Represents symbols `-&gt;`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.LeftwardArrow">
+            <summary>
+            Represents symbols `&lt;-`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.LeftRightArrow">
+            <summary>
+            Represents symbols `&lt;-&gt;`.
+            </summary>
+        </member>
+        <member name="F:GnuClay.Core.Implementations.CoreCompiler.Parsers.TokenKind.BeginAccessPolicy">
+            <summary>
+            Represents symbols `!:`.
+            </summary>
+        </member>
         <member name="M:GnuClay.Core.Implementations.CoreContext.Clear">
             <summary>
             Clears state of all components of the context.
@@ -965,7 +1160,7 @@
             Just gets shared libraries from common storage.
             </summary>
         </member>
-        <member name="M:GnuClay.Core.Implementations.CoreScopesRegistry.BaseScope.AddFromCompiledResult(GnuClay.Core.CommonInterfaces.CoreCompiler.ICompiledResult)">
+        <member name="M:GnuClay.Core.Implementations.CoreScopesRegistry.BasicScope.AddFromCompiledResult(GnuClay.Core.CommonInterfaces.CoreCompiler.ICompiledResult)">
             <summary>
             Adds information from compiled result.
             </summary>

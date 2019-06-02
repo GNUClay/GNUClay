@@ -1,12 +1,14 @@
-﻿using System;
+﻿using GnuClay.CommonClasses;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GnuClay.Core.Implementations.CoreCompiler.Parsers
 {
-    public abstract class BaseParser
+    public abstract class BaseParser: BaseLoggedClass
     {
         protected BaseParser(IParserContext context, TokenKind? terminateTokenKind)
+            : base(context.Logger)
         {
             TerminateTokenKind = terminateTokenKind;
             Context = context;

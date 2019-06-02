@@ -20,7 +20,7 @@ namespace GnuClay.Core.Implementations.CoreCompiler
             Debug($"contents = {contents}");
 #endif
 
-            var parserContext = new ParserContext();
+            var parserContext = new ParserContext(contents, Logger);
 
             var parser = new Parser(parserContext);
             parser.Run();

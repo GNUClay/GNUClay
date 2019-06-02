@@ -27,7 +27,7 @@ namespace GnuClay.Core.Implementations.CoreLoaderFromSourceCode
             Debug($"contents = {contents}");
 #endif
 
-            var compiledResult = new CompiledResult();
+            var compiledResult = CoreCompiler.Compile(contents);
 
 #if DEBUG
             Debug($"compiledResult = {compiledResult}");
