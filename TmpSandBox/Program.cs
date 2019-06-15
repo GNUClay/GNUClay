@@ -359,7 +359,7 @@ namespace TmpSandBox
 
             LogInstance.Log($"fileName = {fileName}");
 
-            coreLoaderFromSourceCodeComponent.LoadFromFile(fileName);
+            coreLoaderFromSourceCodeComponent.LoadAppFromFile(fileName);
         }
 
         private static void TSTNewEngine()

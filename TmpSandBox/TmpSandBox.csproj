@@ -18,7 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Apps\A554146A-6D53-45E5-8F4E-D19650679C05\A554146A-6D53-45E5-8F4E-D19650679C05.app.txt">
+    <None Update="Apps\A554146A-6D53-45E5-8F4E-D19650679C05\A554146A-6D53-45E5-8F4E-D19650679C05.gcapp.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Apps\A554146A-6D53-45E5-8F4E-D19650679C05\subDir\class1.gc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Apps\A554146A-6D53-45E5-8F4E-D19650679C05\subDir\example_txt.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="main.dict">

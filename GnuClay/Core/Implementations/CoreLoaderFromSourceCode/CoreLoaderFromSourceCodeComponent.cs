@@ -4,6 +4,7 @@ using GnuClay.Core.Implementations.CoreCompiler;
 using GnuClay.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GnuClay.Core.Implementations.CoreLoaderFromSourceCode
@@ -13,6 +14,16 @@ namespace GnuClay.Core.Implementations.CoreLoaderFromSourceCode
         public CoreLoaderFromSourceCodeComponent(ICoreContext context)
             : base(context, KindOfCoreComponent.CoreLoaderFromSourceCode)
         {
+        }
+
+        private readonly List<string> mSuppotedExtensions = new List<string> { "gc.txt", "gcapp.txt" };
+
+        public void LoadAppFromFile(string fileName)
+        {
+            var fileInfo = new FileInfo(fileName);
+            var rootDir = fileInfo.Directory;
+
+            ProcessDir(rootDir);
         }
 
         public void LoadFromFile(string fileName)
@@ -34,6 +45,37 @@ namespace GnuClay.Core.Implementations.CoreLoaderFromSourceCode
 #endif
 
             CoreScopesRegistry.BaseScope.AddFromCompiledResult(compiledResult);
+        }
+
+        private void ProcessDir(DirectoryInfo directory)
+        {
+            foreach(var file in directory.GetFiles())
+            {
+                if (!HasTargetExtension(file.FullName))
+                {
+                    continue;
+                }
+
+                LoadFromFile(file.FullName);
+            }
+
+            foreach(var subDirectory in directory.GetDirectories())
+            {
+                ProcessDir(subDirectory);
+            }
+        }
+
+        private bool HasTargetExtension(string fileName)
+        {
+            foreach (var ext in mSuppotedExtensions)
+            {
+                if(fileName.EndsWith(ext))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
