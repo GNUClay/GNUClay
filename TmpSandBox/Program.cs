@@ -83,7 +83,7 @@ namespace TmpSandBox
             //TSTSerializableHelper();
             //TSTPathResolver();
             //TSTLogger();
-            TSTCore();
+            TSTCore();//<<<I am here
             //TSTNewEngine();
             //TSTRoutes();
             //TSTRect();
@@ -1710,25 +1710,48 @@ namespace TmpSandBox
             var context = new ContextOfCGStorage(globalEntityDictionary);
             
             var smokeFact = CreateSimpleFact(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             smokeFact = CreateSimpleRule(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             smokeFact = CreateSimpleFact_2(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             smokeFact = CreateSimpleFact_2_2(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             smokeFact = CreateSimpleFact_3(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             smokeFact = CreateSimpleFact_3_2(globalEntityDictionary);
+
+            LogInstance.Log($"smokeFact = {DebugHelperForRuleInstance.ToString(smokeFact)}");
+
             AddSmokeFact(smokeFact, context.GlobalCGStorage);
 
             var annotatedFactsPackage = CreateAnnotaredFact(globalEntityDictionary);
 
+            foreach(var tmpItems in annotatedFactsPackage.AllRuleInstances)
+            {
+                LogInstance.Log($"tmpItems = {DebugHelperForRuleInstance.ToString(tmpItems)}");
+            }
+            
             var annotatedFactList = annotatedFactsPackage.AllRuleInstances;
             LogInstance.Log($"annotatedFactList.Count = {annotatedFactList.Count}");
 
@@ -1818,13 +1841,20 @@ namespace TmpSandBox
 
         private static void AddSmokeFact(RuleInstance smokeFact, BaseRealStorage storage)
         {
-            storage.Append(smokeFact);
+            //try
+            //{
+                storage.Append(smokeFact);
 
-            var indexedSmokeFact = ConvertorToIndexed.ConvertRuleInstance(smokeFact);
-            //indexedSmokeFact.FillIndexedDataAsStorage();
-            //storage.NSetIndexedRuleInstanceToIndexData(indexedSmokeFact);
-            var debugStr = DebugHelperForRuleInstance.ToString(smokeFact);
-            LogInstance.Log($"debugStr = {debugStr}");
+                var indexedSmokeFact = ConvertorToIndexed.ConvertRuleInstance(smokeFact);
+                //indexedSmokeFact.FillIndexedDataAsStorage();
+                //storage.NSetIndexedRuleInstanceToIndexData(indexedSmokeFact);
+                var debugStr = DebugHelperForRuleInstance.ToString(smokeFact);
+                LogInstance.Log($"debugStr = {debugStr}");
+            //}
+            //catch
+            //{
+
+            //}
         }
 
         private static RuleInstancePackage CreateAnnotatedQuery(IEntityDictionary globalEntityDictionary)
@@ -2377,7 +2407,7 @@ namespace TmpSandBox
             param_2.Name = "?Y";
             param_2.Key = globalEntityDictionary.GetKey(param_2.Name);
 
-            //konw(?X,?Y)
+            //know(?X,?Y)
 
             return ruleInstance;
         }
