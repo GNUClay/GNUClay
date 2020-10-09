@@ -105,7 +105,7 @@ namespace TmpSandBox
             //TSTWordNet();
             //TSTTextCGParserRunner();
             //TSTParseNLText();
-            //TSTRuleInstance();
+            TSTRuleInstance();
             //TSTEntityLogging();
             //TSTConceptualGraph_2();
             //TSTConceptualGraphs();

@@ -7,9 +7,9 @@ namespace MyNPCLib.IndexedPersistLogicalData
 {
     public class ContextOfConvertingExpressionNode : IObjectToString, IShortObjectToString
     {
-        public IList<ResolverForRelationExpressionNode> RelationsList = new List<ResolverForRelationExpressionNode>();
-        public IList<VarExpressionNode> VarsList = new List<VarExpressionNode>();
-        public IList<QuestionVarExpressionNode> QuestionVarsList = new List<QuestionVarExpressionNode>();
+        public IList<ResolverForRelationExpressionNode> RelationsList { get; set; } = new List<ResolverForRelationExpressionNode>();
+        public IList<VarExpressionNode> VarsList { get; set; } = new List<VarExpressionNode>();
+        public IList<QuestionVarExpressionNode> QuestionVarsList { get; set; } = new List<QuestionVarExpressionNode>();
 
         public override string ToString()
         {
